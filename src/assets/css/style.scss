@@ -1,0 +1,404 @@
+// 常量
+  // 长度
+    $main_width:1180px;
+  // 颜色
+    $white:#fff;
+    $light_white:#cbcbcb;
+    $dark_white:#f9f9f9;
+    $text:#333;
+    $light_text:#666;
+    $black:#444;
+    $border:#e8e8e8;
+    $blue:#327fff;
+    $light_blue:#75b7f3;
+    $blue_border:#b1c4e5;
+    $red:#ea2c2c;
+    $light_red:#e65c65;
+// 内外边距
+  @mixin gap($value:5,$item:all,$type:padding) {
+    @if $item == all {
+      #{$type}: #{$value}px;
+    } @else if $item == h {
+      #{$type}-left: #{$value}px;
+      #{$type}-right: #{$value}px;
+    } @else if $item == v {
+      #{$type}-top: #{$value}px;
+      #{$type}-bottom: #{$value}px;
+    } @else {
+      #{$type}-#{$item}: #{$value}px;
+    }
+  }
+// flex
+  @mixin flex($h:flex-start,$v:center,$direction:row,$wrap:nowrap) {
+    display: flex;
+    justify-content: $h;
+    align-items: $v;
+    flex-direction: $direction;
+    flex-wrap: $wrap;
+  }
+// 全部
+  @mixin all($w:100%,$h:100%){
+    width: $w;
+    height: $h;
+  }
+// pos_value
+  @mixin position($top:0,$left:0,$bottom:0,$right:0) {
+    position: absolute;
+    top: #{$top}px;
+    right: #{$right}px;
+    bottom: #{$bottom}px;
+    left: #{$left}px;
+  }
+// center
+  @mixin center($value:auto) {
+    @if $value == auto {
+      margin-left: auto;
+      margin-right: auto;
+    } @else {
+      vertical-align: $value;
+    }
+  }
+// block
+  @mixin block($value:20,$radius:0) {
+    display: inline-block;
+    width: #{$value}px;
+    height: #{$value}px;
+    line-height: #{$value}px;
+    border-radius: $radius
+  }
+// 省略
+  @mixin ellipsis($line:0) {
+    @if $line != 0 {
+      display: -webkit-box;
+      -webkit-line-clamp: $line;
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    } @else {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+// 图片自适应
+  @mixin fitimg($w:70,$h:70,$v:middle,$type:cover) {
+    width: #{$w}px;
+    height: #{$h}px;
+    img{
+      width: 100%;
+      height: 100%;
+      object-fit: $type
+    }
+  }
+// 边框
+  @mixin border($type:bottom,$color:$light,$value:1) {
+    position: absolute;
+    background-color: #{$color};
+    content: '';
+    #{$type}: 0;
+    @if $type == 'left' or $type == 'right'{
+      top: 0;
+      width: #{$value}px;
+      height: 100%;
+    } @else {
+      left: 0;
+      width: 100%;
+      height: #{$value}px;
+    }
+    z-index: -1;
+  }
+// 三角形
+  @mixin triangle($type:right,$color:#dbdee5,$value:10) {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    @if $type == 'right' or $type == 'left'{
+      border-top: #{$value/1.8}px solid transparent;
+      border-bottom: #{$value/1.8}px solid transparent;
+      @if $type == 'right'{
+        border-left: #{$value}px solid $color;
+      } @else if $type == 'left'{
+        border-right: #{$value}px solid $color;
+      }
+    } @else if $type == 'top' or $type == 'bottom'{
+      border-left: #{$value/1.8}px solid transparent;
+      border-right: #{$value/1.8}px solid transparent;
+      @if $type == 'top'{
+        border-bottom: #{$value}px solid $color;
+      } @else if $type == 'bottom'{
+        border-top: #{$value}px solid $color;
+      }
+    }
+  }
+// 箭头
+  @mixin arrow($type:right,$color:#dbdee5,$value:2) {
+    border: #{$value}px solid $color;
+    border-top: none;
+    border-right: none;
+    @if $type == 'left'{
+      transform: rotate(45deg);
+    } @else if $type == 'right'{
+      transform: rotate(-135deg);
+    } @else if $type == 'up'{
+      transform: rotate(135deg);
+    } @else if $type == 'down'{
+      transform: rotate(-45deg);
+    }
+  }
+// 块状排列
+  @mixin row($v:3,$gap:2%){
+    display: flex;
+    flex-wrap: wrap;
+    .item{
+      width: 100%/$v - ($gap * ($v - 1) / $v);
+      &:not(:nth-child(#{$v}n)){
+        margin-right: $gap;
+      }
+    }
+  }
+// 宽度
+  @function leave($value){
+    @return calc(100% - #{$value}px)
+  }
+// 对号
+  @mixin right($w:8,$h:5,$color:$white){
+    position: absolute;
+    width: #{$w}px;
+    height: #{$h}px;
+    top: calc(50% - #{$h/2 + 2}px);
+    left: calc(50% - #{$w/2}px);
+    border: solid $color;
+    border-width: 0 0 1px 1px;
+    transform: rotate(-45deg)
+  }
+// input
+  @mixin input{
+    position:relative;
+    font-size: 16px;
+    margin-bottom:30px;
+    line-height:2;
+    span{
+      @include position(9,0,5,0)
+      right:auto;
+      &:first-child{
+        width:70px;
+        left:20px;
+      }
+      &:nth-child(2){
+        top:10px;
+        bottom:10px;
+        left:90px;
+        @include gap(15,h)
+        color:$red;
+        border-right:1px solid $border
+      }
+    }
+    input{
+      line-height:2;
+      border: 1px solid $blue_border;
+      border-radius: 5px;
+      flex:1;
+      padding:8px;
+      padding-left:150px;
+      font-size: 16px;
+      &:focus{
+        border-color:$blue
+      }
+    }
+    .btn{
+      @include position(5,auto,5,5)
+      width:90px;
+      background:$blue;
+      text-align: center;
+      color: $white;
+      font-size: 14px;
+      line-height: 40px;
+      cursor: pointer
+    }
+    img{
+      height:100%
+    }
+    &.addon{
+      input{
+        padding-right:100px;
+      }
+    }
+  }
+// checkbox
+  @mixin checkbox($w:16,$radius:50%){
+    position: relative;
+    vertical-align: middle;
+    border: 1px solid $border;
+    -webkit-transition: all 0.2s linear;
+    width: #{$w}px;
+    height: #{$w}px;
+    border-radius: $radius;
+    &:before{
+      content: '';
+      @include right
+    }
+    &:checked{
+      background-color: $blue;
+      border: solid 1px $blue;
+    }
+    &:disabled{
+      background-color: $border;
+      border: solid 1px $border;
+    }
+  }
+// form
+  @mixin form{
+    width:420px;
+    h2{
+      font-size: 24px;
+      text-align:center;
+      color:$blue;
+      @include gap(35,v,margin)
+    }
+    .input{
+      @include input
+    }
+    label input{
+      @include checkbox(18,0)
+    }
+    button{
+      width:100%;
+      font-size: 18px;
+      background:$blue;
+      border-color:$blue;
+      color:$white;
+      line-height:2.6;
+      @include gap(25,v,margin)
+    }
+  }
+// good_table
+  @mixin table{
+    width:100%;
+    tr{
+      th{
+        font-size: 16px;
+      }
+      td{
+        line-height: 2.75;
+        color: $light_text;
+        &:nth-child(1){
+          color: $active
+        }
+        &:nth-child(6){
+          color: $red
+        }
+        a{
+          display: inline-block;
+          @include gap(10,h)
+          line-height: 2
+        }
+      }
+      &:hover td:last-child a{
+        background:$red;
+        color: $white;
+        border-radius:15px;
+      }
+    }
+  }
+// navigator
+  @mixin navigator{
+    @include gap(15,top)
+    a{
+      color:$text
+    }
+    span:nth-child(2n){
+      display: inline-block;
+      @include block(5)
+      color: $light_text;
+      vertical-align: middle;
+      @include gap(10,h,margin)
+      @include arrow(right,#CBCBCB,1)
+    }
+    span:last-child{
+      color:$light_text
+    }
+  }
+// pager
+  @mixin pager{
+    @include flex(center)
+    @include gap(20,top)
+    span{
+      text-align: center;
+      border:1px solid #ececec;
+      color: $light_text;
+      cursor: pointer;
+      @include block(28)
+      &:not(:last-child){
+        @include gap(10,right,margin)
+      }
+      &.active,&:not(:last-child,:first-child):hover{
+        background:$active;
+        border:1px solid $active;
+        color: $white
+      }
+      &.disabled{
+        color: #ececec
+      }
+    }
+  }
+// time_icon
+  @mixin time{
+    img{
+      width:12px
+    }
+    span{
+      flex:1;
+      padding-left:10px;
+      color: $light_dark;
+      font-size: 12px;
+    }
+  }
+// item
+  @mixin item($value:10,$type:solid){
+    &:not(:first-child){
+      @include gap($value,top)
+    }
+    &:not(:last-child){
+      @include gap($value,bottom)
+      border-bottom: 1px $type $border
+    }
+  }
+// btn_block
+  @mixin btnBlock{
+    width:100%;
+    color: $white;
+    background: $active;
+    font-size: 16px;
+    @include gap(10,v)
+    @include gap(15,v,margin)
+  }
+// title
+  @mixin title{
+    h1{
+      position:relative;
+      font-size: 22px;
+      margin-bottom: 15px;
+      padding-left: 15px;
+      &:before{
+        @include position
+        content:'';
+        top:8px;
+        width:4px;
+        height: 20px;
+        background:$active
+      }
+    }
+  }
+// mian_width
+  @mixin main($w:$main_width){
+    width:$w;
+    @include center
+    @media screen and (max-width: 1178px) and (min-width: 340px){
+      width:100%;
+      @include gap(20,h)
+    }
+    @media screen and (max-width: 340px){
+      width:100%;
+      @include gap(15,h)
+    }
+  }

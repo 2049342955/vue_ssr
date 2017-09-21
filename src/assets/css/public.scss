@@ -1,0 +1,60 @@
+@import './style.scss';
+body {
+  line-height: 1.5;
+  font-size: 14px;
+  font-family: "Microsoft Yahei";
+  color: $text;
+}
+body,div,aside,section,article,h1,h2,h3,h4,h5,h6,p,span,input,textarea,button,ul,li{
+  margin:0;
+  padding:0;
+  box-sizing: border-box
+}
+h1,h2,h3,h4,h5,h6{
+  font-weight:normal
+}
+ul, li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: $light_text;
+  font-style:normal;
+}
+input,textarea,button{
+  font-family: "Microsoft Yahei";
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-appearance: none;
+  outline: none;
+}
+input,textarea{
+  width:100%;
+  border: none;
+  background: none;
+  box-shadow: none;
+  -webkit-user-select: text;
+}
+textarea {
+  resize: none;
+}
+button{
+  border:1px solid;
+  border-radius:5px;
+}
+button:focus,input:focus,a:hover{
+  outline: 0;
+}
+img{
+  width:100%;
+  vertical-align: bottom;
+}
+.body{
+  min-height: calc(100vh - 227px)
+}
+.active + .body{
+  min-height: calc(100vh - 191px)
+}
+.body:only-child{
+  min-height: 100vh
+}
