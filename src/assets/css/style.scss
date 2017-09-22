@@ -192,6 +192,27 @@
         color:$red;
         border-right:1px solid $border
       }
+      &:last-child{
+        &:before{
+          @include position(2,0,auto,auto)
+          @include block(20)
+          background:#e65c65;
+          color:$white;
+          text-align: center;
+          font-size: 16px;
+          border-radius:5px;
+          content:'!'
+        }
+        padding-left:25px;
+        font-size: 12px;
+        color:$red;
+        top:13px;
+        left:110%;
+        width:300px;
+        &:after{
+          content:attr(tips)
+        }
+      }
     }
     input{
       line-height:2;
@@ -204,19 +225,43 @@
       &:focus{
         border-color:$blue
       }
+      &,&[data-status='valid']{
+        & ~ span{
+          display:none
+        }
+      }
+      &[data-status='invalid'],&[data-status='null'],&[data-status='error']{
+        border-color:$red;
+        & ~ span{
+          display:block
+        }
+      }
+      &[data-status='error']{
+        & ~ span{
+          &:after{
+            content:attr(error)
+          }
+        }
+      }
+      &[data-status='invalid']{
+        & ~ span{
+          &:after{
+            content:attr(title)
+          }
+        }
+      }
     }
-    .btn{
+    canvas,.btn{
       @include position(5,auto,5,5)
       width:90px;
+      cursor: pointer
+    }
+    .btn{
       background:$blue;
       text-align: center;
       color: $white;
       font-size: 14px;
-      line-height: 40px;
-      cursor: pointer
-    }
-    img{
-      height:100%
+      line-height: 40px
     }
     &.addon{
       input{
