@@ -74,6 +74,9 @@
         background:$blue;
         border:1px solid transparent;
       }
+      .nav_list select{
+        background: rgba(0,0,0,.8);
+      }
     }
     .nav_list{
       @include main
@@ -84,6 +87,9 @@
       }
       a,select{
         color:$white
+      }
+      select{
+        background: #1342ac;
       }
       a:hover{
         border-bottom:1px solid $white

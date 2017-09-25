@@ -14,6 +14,7 @@
     $blue_border:#b1c4e5;
     $red:#ea2c2c;
     $light_red:#e65c65;
+    $orange:#ff721f;
 // 内外边距
   @mixin gap($value:5,$item:all,$type:padding) {
     @if $item == all {

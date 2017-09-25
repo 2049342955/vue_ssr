@@ -44,12 +44,15 @@ button{
   border:1px solid;
   border-radius:5px;
 }
-button:focus,input:focus,a:hover{
+button:focus,select:focus,input:focus,a:hover{
   outline: 0;
 }
 img{
   width:100%;
   vertical-align: bottom;
+}
+table{
+  border-collapse: collapse
 }
 .body{
   min-height: calc(100vh - 191px)
