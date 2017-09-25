@@ -1,23 +1,25 @@
 <template>
-  <header class="header">
-    <section>
-      <aside class="info">
-        <span>客服电话：</span>
-        <span class="active">400-888-6666</span>
-        <span>工作日(9:00-18:00)</span>
-      </aside>
+  <header class="header active">
+    <section class="nav_list">
+      <div class="logo">
+        <router-link to="/"><img :src="logo"></router-link>
+      </div>
       <nav>
-        <template v-if="!token">
-          <router-link to="/auth/login">登录</router-link>
-          <span class="line"></span>
-          <router-link to="/auth/regist">注册</router-link>
-        </template>
-        <template v-if="token">
-          <span class="active">您好！{{info.userName}}（{{info.mob?info.mob.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2'):''}}）</span>
-          <span class="line"></span>
-          <span class="out"  @click="logout">[退出]</span>
-        </template>
+        <div class="item" v-for="(i,k) in nav">
+          <router-link :to="i">{{ k }}</router-link>
+        </div>
       </nav>
+      <div class="side_nav">
+        <select name="" id="">
+          <option value="0">chinese</option>
+          <option value="1" selected>English</option>
+        </select>
+        <router-link to="/helpSupport/safeGuarantee">支撑</router-link>
+        <router-link to="/helpSupport/aboutUs">关于</router-link>
+        <router-link class="btn" to="/auth/regist" v-if="!token">注册</router-link>
+        <router-link class="btn" to="/auth/regist" v-else>退出</router-link>
+        <router-link class="border" to="/user/index">管理中心</router-link>
+      </div>
     </section>
   </header>
 </template>
@@ -28,11 +30,13 @@
     name: 'header',
     data () {
       return {
-        location: ''
+        nav: {'云矿机': '/cloudCompute/shop', '算力转让': '/computeTransfer/List', '矿机市场': '/mine', 'BDC展示区': '/bdc/list'},
+        logo: require('@/assets/images/login_logo.png')
       }
     },
     created () {
       this.$store.dispatch('getInfo')
+      window.addEventListener('scroll', this.test, false)
     },
     computed: {
       ...mapState({
@@ -43,6 +47,16 @@
     methods: {
       logout () {
         this.$store.commit('LOGOUT')
+      },
+      test (e) {
+        var ele = document.querySelector('.header')
+        if ((ele.classList.contains('active') && e.target.scrollingElement.scrollTop > 0) || this.showNav) {
+          ele.classList.add('bg_opacity')
+          this.scroll = true
+        } else {
+          ele.classList.remove('bg_opacity')
+          this.scroll = false
+        }
       }
     }
   }
@@ -51,40 +65,59 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .header{
-    background: $text;
-    section{
-      color:$light_white;
-      line-height: 36px;
+    @include position(0,0,auto,0)
+    position: fixed;
+    z-index: 2;
+    &.bg_opacity{
+      background: rgba(0,0,0,.8);
+      a.border{
+        background:$blue;
+        border:1px solid transparent;
+      }
+    }
+    .nav_list{
       @include main
-      font-size: 12px;
-      @include flex(space-between)
-      .info{
-        .active{
-          font-size: 14px;
-          @include gap(15,right)
-          font-weight: bold;
-          color:$dark_white
-        }
+      @include flex
+      @include gap(20,v)
+      .logo{
+        @include fitimg(139,51)
+      }
+      a,select{
+        color:$white
+      }
+      a:hover{
+        border-bottom:1px solid $white
       }
       nav{
+        flex:1;
         @include flex
-        a{
-          color:$light_white;
-          &:hover{
-            color:$white
+        padding-left:60px;
+        .item{
+          @include gap(20,h)
+          a{
+            font-size: 16px
           }
         }
-        .active{
-          color: $dark_white
+      }
+      .side_nav{
+        a{
+          @include gap(10,h)
         }
-        .line{
-          width: 1px;
-          height: 11px;
-          @include gap(10,h,margin)
-          background:$light_text
+        a.btn,a.border{
+          @include gap(0,h)
+          display: inline-block;
+          width:70px;
+          text-align: center;
+          @include gap(5,h,margin)
+          border-radius:3px
         }
-        .out{
-          cursor: pointer
+        a.btn{
+          background:$white;
+          border:1px solid transparent;
+          color:$blue
+        }
+        a.border{
+          border:1px solid $blue
         }
       }
     }
