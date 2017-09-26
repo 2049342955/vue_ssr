@@ -5,12 +5,20 @@
     </Swiper>
     <div class="title">
       <div class="text">
-        <select name="" id="" @change="changeCoin">
-          <option value="0" selected>Bitcoin</option>
-          <option value="1">BCC</option>
-          <option value="2">Ethereum</option>
-          <option value="3">ETC</option>
-        </select>
+        <div class="select_coin" ref="select">
+          <div class="now">
+            <img :src="coin[no].img" alt="">
+            <span class="text" @click="openSelect" title="0">{{coin[no].title}}</span>
+            <span class="arrow"></span>
+          </div>
+          <div class="other">
+            <div :class="['item', {active: k==no}]" v-for="c,k in coin">
+              <img :src="c.img" alt="">
+              <span class="text" @click="selectCoin" :title="k">{{coin[k].title}}</span>
+              <span class="arrow" v-if="k===0"></span>
+            </div>
+          </div>
+        </div>
         <div v-for="i in info">{{i}}</div>
       </div>
       <div class="chart_show">
@@ -18,15 +26,15 @@
           <div class="myChart"></div>
           <div class="myText">
             <h1>
-              <span>{{text[no].title}}</span>
-              <span>{{text[no].value}}</span>
+              <span>{{coin[no].title}}</span>
+              <span>{{coin[no].value}}</span>
             </h1>
             <div class="address">
               <p>挖矿服务地址：</p>
-              <p v-for="a in text[no].address">{{a}}</p>
+              <p v-for="a in coin[no].address">{{a}}</p>
             </div>
             <div class="data">
-              <div class="item" v-for="d,k in text[no].data">
+              <div class="item" v-for="d,k in coin[no].data">
                 <span>{{k}}</span>
                 <span>{{d}}</span>
               </div>
@@ -86,7 +94,7 @@
             <span class="more">查看更多 ></span>
           </h3>
           <div class="list">
-            <router-link to="" class="item" v-for="a in activity">
+            <router-link to="" class="item" v-for="a,k in activity" :key="k">
               <span class="icon"></span>
               <span class="line"></span>
               <span class="text">{{a.title}}</span>
@@ -101,7 +109,7 @@
             <span class="more">查看更多 ></span>
           </h3>
           <div class="list">
-            <router-link to="" class="item" v-for="a in notice">
+            <router-link to="" class="item" v-for="a,k in notice" :key="k">
               <span class="icon"></span>
               <span class="line"></span>
               <span class="text">{{a.title}}</span>
@@ -138,7 +146,7 @@
       return {
         banners: [require('@/assets/images/banner.jpg'), require('@/assets/images/banner.jpg')],
         info: {transfer: '1bt=22704.98元', dayProfit: '今日每日预计收入：5058元', yearProfit: '推算年化收益≈10%', difficulty: 1103400932964},
-        text: [{title: 'Bitcoin', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'BCC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'Ethereum', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}],
+        coin: [{title: 'Bitcoin', img: require('@/assets/images/icons/bit.png'), value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'BCC', img: require('@/assets/images/icons/bcc.png'), value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'Ethereum', img: require('@/assets/images/icons/eth.png'), value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETC', img: require('@/assets/images/icons/etc.png'), value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}],
         no: 0,
         ad: {title: '全国首家算力产业链综合服务平台', desc: '算力网是中国信息化推进联盟区块链实验室的推进项目，为区块链算力产业链提供全系列服务', items: [{title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon1.png')}, {title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon2.png')}, {title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon3.png')}, {title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon4.png')}, {title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon5.png')}]},
         nav: ['项目名称', '出售总数', '购买单价', '最小购买单位', '每台算力', '算力类型', '项目进度', '操作'],
@@ -158,6 +166,9 @@
     methods: {
       drawLine () {
         let myChart = echarts.init(document.querySelector('.myChart'))
+        var now = +new Date(2010, 9, 3)
+        var oneDay = 24 * 3600 * 1000
+        var value = Math.random() * 1000
         function randomData () {
           now = new Date(+now + oneDay)
           value = value + Math.random() * 21 - 10
@@ -169,12 +180,12 @@
             ]
           }
         }
-        var data = []
-        var now = +new Date(1997, 9, 3)
-        var oneDay = 24 * 3600 * 1000
-        var value = Math.random() * 1000
-        for (var i = 0; i < 1000; i++) {
-          data.push(randomData())
+        function getData () {
+          var data = []
+          for (var i = 0; i < 1000; i++) {
+            data.push(randomData())
+          }
+          return data
         }
         myChart.setOption({
           color: '#fff',
@@ -232,7 +243,7 @@
             type: 'line',
             showSymbol: false,
             hoverAnimation: false,
-            data: data,
+            data: getData(),
             lineStyle: {
               normal: {
                 color: '#518abb'
@@ -252,8 +263,23 @@
         //   })
         // }, 1000)
       },
-      changeCoin (e) {
-        this.no = e.target.value
+      openSelect (e) {
+        var ele = this.$refs['select'].classList
+        if (ele.contains('active')) {
+          ele.remove('active')
+        } else {
+          ele.add('active')
+        }
+      },
+      selectCoin (e) {
+        this.no = e.target.title
+        var ele = this.$refs['select'].classList
+        if (ele.contains('active')) {
+          ele.remove('active')
+        } else {
+          ele.add('active')
+        }
+        this.drawLine()
       }
     },
     filters: {
@@ -272,13 +298,61 @@
     .text{
       @include main
       @include flex(space-between)
-      &,select{
-        color:$white;
-        line-height:60px;
-        font-size: 16px;
-      }
-      select{
-        background: #183473
+      color:$white;
+      line-height:60px;
+      font-size: 16px;
+      .select_coin{
+        position: relative;
+        img{
+          @include block(18)
+        }
+        .now{
+          position: relative;
+          width:140px;
+          @include flex
+          @include gap(10,h)
+          cursor: pointer;
+          .text{
+            flex:1;
+            padding-left:10px
+          }
+          .arrow{
+            @include triangle(bottom)
+          }
+        }
+        .other{
+          @include position
+          display: none;
+          z-index: 10;
+          transition: all 1s;
+          .item{
+            @include flex
+            @include gap(10,h)
+            cursor: pointer;
+            background:#232428;
+            .text{
+              flex:1;
+              padding-left:10px
+            }
+            &:hover,&.active{
+              background:#44444f
+            }
+            .arrow{
+              @include triangle(bottom)
+            }
+          }
+        }
+        &.active{
+          .now{
+            background:#232428;
+            &:hover{
+              background:#44444f
+            }
+          }
+          .other{
+            display: block;
+          }
+        }
       }
     }
     .chart_show{
@@ -286,6 +360,7 @@
       top:100%;
       bottom:auto;
       background: #2e2e3d;
+      z-index: 3;
       display: none;
       .chart_main{
         @include main

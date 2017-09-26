@@ -10,10 +10,10 @@
         </div>
       </nav>
       <div class="side_nav">
-        <select name="" id="">
+        <!-- <select name="" id="">
           <option value="0">chinese</option>
           <option value="1" selected>English</option>
-        </select>
+        </select> -->
         <router-link to="/helpSupport/safeGuarantee">支撑</router-link>
         <router-link to="/helpSupport/aboutUs">关于</router-link>
         <router-link class="btn" to="/auth/regist" v-if="!token">注册</router-link>
