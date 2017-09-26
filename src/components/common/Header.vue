@@ -1,5 +1,5 @@
 <template>
-  <header class="header active">
+  <header class="frame_header active">
     <section class="nav_list">
       <div class="logo">
         <router-link to="/"><img :src="logo"></router-link>
@@ -64,7 +64,7 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  .header{
+  .frame_header{
     @include position(0,0,auto,0)
     position: fixed;
     z-index: 2;
