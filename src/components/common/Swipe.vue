@@ -193,7 +193,7 @@
 <style type="text/css">
   .swiper {
     position: relative;
-    height: 500px;
+    height: 550px;
     overflow: hidden
   }
   .swiper-wrap {
@@ -230,7 +230,7 @@
     transition: all .5s ease;
   }
   .swiper-pagination .swiper-pagination-bullet.active {
-    background: #007aff;
+    background: #fff;
     opacity: 1;
   }
   .vertical .swiper-pagination {
@@ -242,7 +242,7 @@
     margin: 6px 0;
   }
   .horizontal .swiper-pagination {
-    bottom: 10px;
+    bottom: 80px;
     width: 100%;
     text-align: center;
   }

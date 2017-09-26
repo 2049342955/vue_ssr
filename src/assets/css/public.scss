@@ -5,7 +5,7 @@ body {
   font-family: "Microsoft Yahei";
   color: $text;
 }
-body,div,aside,section,article,h1,h2,h3,h4,h5,h6,p,span,input,textarea,button,ul,li{
+body,div,aside,section,article,h1,h2,h3,h4,h5,h6,p,span,input,textarea,button,ul,li,a{
   margin:0;
   padding:0;
   box-sizing: border-box
@@ -28,12 +28,14 @@ input,textarea,button{
   -webkit-appearance: none;
   outline: none;
 }
-input,textarea{
-  width:100%;
+input,select,textarea{
   border: none;
   background: none;
   box-shadow: none;
   -webkit-user-select: text;
+}
+input,textarea{
+  width:100%;
 }
 textarea {
   resize: none;
@@ -42,15 +44,18 @@ button{
   border:1px solid;
   border-radius:5px;
 }
-button:focus,input:focus,a:hover{
+button:focus,select:focus,input:focus,a:hover{
   outline: 0;
 }
 img{
   width:100%;
   vertical-align: bottom;
 }
+table{
+  border-collapse: collapse
+}
 .body{
-  min-height: calc(100vh - 227px)
+  min-height: calc(100vh - 191px)
 }
 .active + .body{
   min-height: calc(100vh - 191px)

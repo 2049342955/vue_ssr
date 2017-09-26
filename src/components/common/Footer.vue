@@ -2,10 +2,11 @@
   <footer class="footer">
     <div class="box">
       <aside>
-        <h3>帮助与支持</h3>
-        <div class="list" v-for="(t,k) in link">
-          <router-link :to="t">{{ k }}</router-link>
-        </div>
+        <p>联系我们</p>
+        <h3>杭州总部</h3>
+        <p>咨询电话：<span class="active">0571-28221076</span>工作日（9:00~18:00）</p>
+        <p>客服邮箱：V@suanli.com</p>
+        <p>公司地址：浙江省杭州市学院路77号黄龙国际中心G座-907</p>
       </aside>
       <aside>
         <h3>联系我们</h3>
@@ -24,8 +25,9 @@
     data () {
       return {
         qrcode: require('@/assets/images/qrcode.jpg'),
-        link: {'关于我们': '/helpSupport/aboutUs', '安全保障': '/helpSupport/safeGuarantee', '常见问题': '/helpSupport/issues'},
-        text: {'公司地址': '杭州市学院路77号黄龙国际中心G座907', '公司电话': '0571-28221076', '客服邮箱': 'V@suanli.com'}
+        link: {'关于我们': '/helpSupport/aboutUs', '安全保障': '/helpSupport/safeGuarantee', '法律声明': '/helpSupport/lawyer', '帮助中心': '/helpSupport/issues'},
+        service: {'BDC展示': '/bdc/list', '云矿机商城': '/cloudCompute/shop', '算力转让区': '/computeTransfer/List', '二手矿机市场': '/mine'},
+        partner: {'BDC展示': '/bdc/list', '云矿机商城': '/cloudCompute/shop', '算力转让区': '/computeTransfer/List', '二手矿机市场': '/mine'}
       }
     }
   }
