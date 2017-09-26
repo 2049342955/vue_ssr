@@ -2,7 +2,7 @@ import axios from 'axios'
 import qs from 'qs'
 
 let api = axios.create({
-  baseURL: 'http://ico.baoquan.com/background/api/',
+  baseURL: 'http://suanli.baoquan.com/background/api',
   headers: {'Content-Type': 'application/x-www-form-urlencoded'},
   responseType: 'json'
 })
@@ -27,9 +27,9 @@ api.interceptors.response.use(res => {
 })
 
 api.interceptors.request.use(config => {
-  // if (config.data['sign']) {
-  //   config.data['sign'] = btoa(config.data['sign'])
-  // }
+  if (config.data['sign']) {
+    config.data['sign'] = btoa(config.data['sign'])
+  }
   config.data = qs.stringify(config.data)
   return config
 }, error => {

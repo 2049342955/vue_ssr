@@ -58,8 +58,11 @@ table{
   min-height: calc(100vh - 351px)
 }
 .active + .body{
-  min-height: calc(100vh - 351px)
+  padding-top:91px
 }
 .body:only-child{
   min-height: 100vh
+}
+input::-webkit-input-placeholder {
+  color:#bfbfbf;
 }

@@ -3,7 +3,7 @@
     <header :class="{login_box:$route.path.includes('login')}">
       <div class="box" v-if="$route.path.includes('login')">
         <div class="logo">
-          <img :src="loginLogo" alt="logo">
+          <router-link to="/"><img :src="loginLogo" alt="logo"></router-link>
         </div>
         <div class="text">
           <router-link to="/">返回首页</router-link>
@@ -11,7 +11,7 @@
       </div>
       <div class="box" v-else>
         <div class="logo">
-          <img :src="logo" alt="logo">
+          <router-link to="/"><img :src="logo" alt="logo"></router-link>
           <span v-if="$route.path.includes('regist')">用户注册</span>
           <span v-if="$route.path.includes('passwordRetrieval')">找回密码</span>
         </div>

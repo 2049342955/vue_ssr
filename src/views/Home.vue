@@ -19,7 +19,10 @@
             </div>
           </div>
         </div>
-        <div v-for="i in info">{{i}}</div>
+        <div v-for="i,k in info">
+          <template v-if="k === 'difficulty'">挖矿难度：{{i|format}}</template>
+          <template v-else>挖矿难度：{{i}}</template>
+        </div>
       </div>
       <div class="chart_show">
         <div class="chart_main">
@@ -91,7 +94,7 @@
           <h3>
             <span class="icon"></span>
             <span class="text">网站动态</span>
-            <span class="more">查看更多 ></span>
+            <router-link to="">查看更多 ></router-link>
           </h3>
           <div class="list">
             <router-link to="" class="item" v-for="a,k in activity" :key="k">
@@ -106,7 +109,7 @@
           <h3>
             <span class="icon"></span>
             <span class="text">产品公告</span>
-            <span class="more">查看更多 ></span>
+            <router-link to="">查看更多 ></router-link>
           </h3>
           <div class="list">
             <router-link to="" class="item" v-for="a,k in notice" :key="k">
@@ -148,7 +151,7 @@
         info: {transfer: '1bt=22704.98元', dayProfit: '今日每日预计收入：5058元', yearProfit: '推算年化收益≈10%', difficulty: 1103400932964},
         coin: [{title: 'Bitcoin', img: require('@/assets/images/icons/bit.png'), value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'BCC', img: require('@/assets/images/icons/bcc.png'), value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'Ethereum', img: require('@/assets/images/icons/eth.png'), value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETC', img: require('@/assets/images/icons/etc.png'), value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}],
         no: 0,
-        ad: {title: '全国首家算力产业链综合服务平台', desc: '算力网是中国信息化推进联盟区块链实验室的推进项目，为区块链算力产业链提供全系列服务', items: [{title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon1.png')}, {title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon2.png')}, {title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon3.png')}, {title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon4.png')}, {title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon5.png')}]},
+        ad: {title: '全国首家算力产业链综合服务平台', desc: '算力网是中国信息化推进联盟区块链实验室的推进项目，为区块链算力产业链提供全系列服务', items: [{title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon1.png')}, {title: '用电合规', desc: '项目为政府招商引资项目，全部国网供电，电力稳定持久', img: require('@/assets/images/icons/icon2.png')}, {title: '透明收益', desc: '全流程产业链对接，信息透明，避免踩坑', img: require('@/assets/images/icons/icon3.png')}, {title: '全程存证', desc: '对接保全网区块链电子凭证技术，实现全部在线协议的合规有效', img: require('@/assets/images/icons/icon4.png')}, {title: '算力管家', desc: '为用户投资的每一份算力，提供贴心的远程管家服务', img: require('@/assets/images/icons/icon5.png')}]},
         nav: ['项目名称', '出售总数', '购买单价', '最小购买单位', '每台算力', '算力类型', '项目进度', '操作'],
         list: [{name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购', status: 'hot'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购', status: 'hot'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购', status: 'hot'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购'}],
         fire: require('@/assets/images/fire.png'),
@@ -323,7 +326,7 @@
         .other{
           @include position
           display: none;
-          z-index: 10;
+          z-index: 4;
           transition: all 1s;
           .item{
             @include flex
@@ -428,7 +431,6 @@
           height: 150px;
           flex:1;
           padding:20px;
-          padding-right:50px;
           &:not(:last-child){
             border-right:1px solid $border;
           }
@@ -487,7 +489,10 @@
         font-size: 16px;
         flex:1;
         text-align: right;
-        color:#999
+        color:#999;
+        &:hover{
+          color:$blue
+        }
       }
     }
     table{
@@ -588,9 +593,12 @@
             font-size: 24px;
             padding-left:20px;
           }
-          .more{
+          a{
             color:#999;
             font-size: 14px;
+            &:hover{
+              color:$blue
+            }
           }
         }
         .list{

@@ -27,7 +27,6 @@ api.serialize = data => {
     str.push(k + '=' + v)
   }
   str = str.join('&')
-  console.log(str)
   return str
 }
 api.decimal = (f, n) => {
@@ -107,5 +106,20 @@ api.checkFrom = (form, obj) => {
   } else {
     return data
   }
+}
+api.checkOne = (form, obj) => {
+  var data = {}
+  for (var i = 0; i <= form.length - 2; i++) {
+    if (form[i].value) {
+      if (obj.check(form[i])) {
+        data[form[i].name] = form[i].value
+      } else {
+        return {status: 'invalid', n: i}
+      }
+    } else {
+      return {status: 'null', n: i}
+    }
+  }
+  return data
 }
 export default api

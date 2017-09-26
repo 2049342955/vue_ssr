@@ -1,5 +1,5 @@
 <template>
-  <header class="frame_header active">
+  <header :class="['frame_header', {active: $route.path.includes('bdc')}]">
     <section class="nav_list">
       <div class="logo">
         <router-link to="/"><img :src="logo"></router-link>
@@ -14,11 +14,12 @@
           <option value="0">chinese</option>
           <option value="1" selected>English</option>
         </select> -->
-        <router-link to="/helpSupport/safeGuarantee">支撑</router-link>
-        <router-link to="/helpSupport/aboutUs">关于</router-link>
+        <!-- <router-link to="/helpSupport/safeGuarantee">支持</router-link>
+        <router-link to="/helpSupport/aboutUs">关于</router-link> -->
         <router-link class="btn" to="/auth/regist" v-if="!token">注册</router-link>
         <router-link class="btn" to="/auth/regist" v-else>退出</router-link>
-        <router-link class="border" to="/user/index">管理中心</router-link>
+        <!-- <router-link class="border" to="/user/index">个人中心</router-link> -->
+        <router-link class="border" to="/auth/login">登录</router-link>
       </div>
     </section>
   </header>
@@ -30,7 +31,8 @@
     name: 'header',
     data () {
       return {
-        nav: {'云矿机': '/cloudCompute/shop', '算力转让': '/computeTransfer/List', '矿机市场': '/mine', 'BDC展示区': '/bdc/list'},
+        // nav: {'云矿机': '/cloudCompute/shop', '算力转让': '/computeTransfer/List', '矿机市场': '/mine', 'BDC展示区': '/bdc/list'},
+        nav: {'BDC展示区': '/bdc/list'},
         logo: require('@/assets/images/login_logo.png')
       }
     },
@@ -50,7 +52,7 @@
       },
       test (e) {
         var ele = document.querySelector('.frame_header')
-        if ((ele.classList.contains('active') && e.target.scrollingElement.scrollTop > 0) || this.showNav) {
+        if (e.target.scrollingElement.scrollTop > 0 || this.showNav) {
           ele.classList.add('bg_opacity')
           this.scroll = true
         } else {
@@ -67,16 +69,22 @@
   .frame_header{
     @include position(0,0,auto,0)
     position: fixed;
-    z-index: 2;
+    z-index: 5;
     &.bg_opacity{
       background: rgba(0,0,0,.8);
       a.border{
-        background:$blue;
+        // background:$blue;
         border:1px solid transparent;
       }
       .nav_list select{
         background: rgba(0,0,0,.8);
       }
+      &.active{
+        border-bottom:0;
+      }
+    }
+    &.active{
+      border-bottom:1px solid $light_text;
     }
     .nav_list{
       @include main
@@ -91,9 +99,6 @@
       select{
         background: #1342ac;
       }
-      a:hover{
-        border-bottom:1px solid $white
-      }
       nav{
         flex:1;
         @include flex
@@ -102,6 +107,9 @@
           @include gap(20,h)
           a{
             font-size: 16px
+          }
+          a:hover{
+            border-bottom:1px solid $white
           }
         }
       }
@@ -123,7 +131,7 @@
           color:$blue
         }
         a.border{
-          border:1px solid $blue
+          border:1px solid $white
         }
       }
     }
