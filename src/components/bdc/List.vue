@@ -12,8 +12,8 @@
           <div><span class="service">客服：</span><span class="tel">0571- 28221076</span><span class="time">工作日（9:00~18:00）</span></div>
         </div>
         <div class="float-right form-box">
-          <form class="data_form" @submit.prevent="submit" novalidate>
-            <div class="form-header">提交托管矿机申请</div>
+          <div class="form-header">提交托管矿机申请</div>
+          <form class="data_form" @submit.prevent="submit" novalidate v-if="!success">
             <div class="form-line"><span class="label">申请人</span><input type="text" v-model.trim="depName" placeholder="请输入您的姓名" @blur="test"></div>
             <div class="form-line"><span class="label">手机号码</span><input type="text" v-model.trim="depTel" pattern="^1[3578][0-9]{9}$" placeholder="请输入手机号码" @blur="test" title="请输入11位手机号"></div>
             <div class="form-line"><span class="label">选择BDC</span>
@@ -26,6 +26,12 @@
             <div class="tips">{{tips}}</div>
             <button class="btn">提交申请</button>
           </form>
+          <div class="success" v-else>
+            <div>
+              <div class="icon"></div>
+              <p>提交成功，稍后工作人员会与您联系</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -58,7 +64,8 @@
         depBdc: '',
         depType: '',
         depNumber: '',
-        tips: ''
+        tips: '',
+        success: false
       }
     },
     methods: {
@@ -77,10 +84,7 @@
         }
         api.post('/depositMessage', {sign: func.serialize({token: '0', dep_name: encodeURIComponent(this.depName), dep_tel: this.depTel, dep_bdc: encodeURIComponent(this.depBdc), dep_type: encodeURIComponent(this.depType), dep_number: this.depNumber})}).then(function (res) {
           if (res) {
-            self.tips = '提交成功，稍后工作人员会与您联系'
-            setTimeout(() => {
-              self.tips = ''
-            }, 3000)
+            self.success = true
           }
         })
       },
@@ -186,6 +190,7 @@
   .form-box{
     background-color: #15121c;
     width: 410px;
+    height: 448px;
     padding: 20px 45px;
     .tips{
       height:40px;
@@ -204,6 +209,23 @@
       border-radius: 5px;
       cursor: pointer;
       border:0
+    }
+    .success{
+      height:calc(100% - 52px);
+      @include flex(center)
+      .icon{
+        position: relative;
+        width:50px;
+        height:50px;
+        margin:0 auto 20px auto;
+        border-radius:50%;
+        background:$white;
+        &:before{
+          content:'';
+          @include right(22,12,#15121c)
+          border-width: 0 0 3px 3px;
+        }
+      }
     }
   }
   .form-header{
