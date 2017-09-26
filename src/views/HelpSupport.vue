@@ -8,7 +8,7 @@
 export default {
   data () {
     return {
-      banner: require('@/assets/images/banner.png')
+      banner: require('@/assets/images/banner.jpg')
     }
   }
 }

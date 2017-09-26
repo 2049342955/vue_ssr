@@ -36,9 +36,17 @@
       </div>
     </div>
     <div class="ad">
-      <div class="item" v-for="a in ad">
-        <h1>{{a.title}}</h1>
-        <p>{{a.desc}}</p>
+      <div class="main">
+        <h1>{{ad.title}}</h1>
+        <p>{{ad.desc}}</p>
+        <div class="list">
+          <div class="item" v-for="a,k in ad.items">
+            <img :src="a.img" alt="">
+            <h3>{{a.title}}</h3>
+            <div class="line"></div>
+            <p>{{a.desc}}</p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="cloud_list">
@@ -62,6 +70,58 @@
         </tr>
       </table>
     </div>
+    <div class="ad_img">
+      <img :src="adImg" alt="">
+      <div class="text">
+        <h2>算力服务器一站式服务平台</h2>
+        <p>通过设备集群式部署，为用户提供一站式算力服务器挖矿服务<br>包括矿场投资，算力服务器托管，算力服务器采购、算力租赁等，让用户轻松体验挖矿乐趣</p>
+      </div>
+    </div>
+    <div class="web_info">
+      <div class="main">
+        <div class="box">
+          <h3>
+            <span class="icon"></span>
+            <span class="text">网站动态</span>
+            <span class="more">查看更多 ></span>
+          </h3>
+          <div class="list">
+            <router-link to="" class="item" v-for="a in activity">
+              <span class="icon"></span>
+              <span class="line"></span>
+              <span class="text">{{a.title}}</span>
+              <span class="date">{{a.date}}</span>
+            </router-link>
+          </div>
+        </div>
+        <div class="box">
+          <h3>
+            <span class="icon"></span>
+            <span class="text">产品公告</span>
+            <span class="more">查看更多 ></span>
+          </h3>
+          <div class="list">
+            <router-link to="" class="item" v-for="a in notice">
+              <span class="icon"></span>
+              <span class="line"></span>
+              <span class="text">{{a.title}}</span>
+              <span class="date">{{a.date}}</span>
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="partner">
+      <div class="box">
+        <h3>战略合作伙伴</h3>
+        <div class="list">
+          <div class="item" v-for="i in 12">
+            <img class="img" :src="partner[0].img" alt="">
+            <img class="img_hover" :src="partner[0].imgHover" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
   </article>
 </template>
 
@@ -80,10 +140,14 @@
         info: {transfer: '1bt=22704.98元', dayProfit: '今日每日预计收入：5058元', yearProfit: '推算年化收益≈10%', difficulty: 1103400932964},
         text: [{title: 'Bitcoin', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'BCC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'Ethereum', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}],
         no: 0,
-        ad: [{title: '便捷与优惠的云算力租赁服务平台', desc: '算力网致力于为用户打造便捷的云算力租赁服务流程通过设备集群式部署，为用户提供专业全面的云算力维护，让用户轻松体验挖矿乐趣'}],
+        ad: {title: '全国首家算力产业链综合服务平台', desc: '算力网是中国信息化推进联盟区块链实验室的推进项目，为区块链算力产业链提供全系列服务', items: [{title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon1.png')}, {title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon2.png')}, {title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon3.png')}, {title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon4.png')}, {title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon5.png')}]},
         nav: ['项目名称', '出售总数', '购买单价', '最小购买单位', '每台算力', '算力类型', '项目进度', '操作'],
         list: [{name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购', status: 'hot'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购', status: 'hot'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购', status: 'hot'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购'}],
-        fire: require('@/assets/images/fire.png')
+        fire: require('@/assets/images/fire.png'),
+        adImg: require('@/assets/images/ad.jpg'),
+        activity: [{title: '算力网关于比特币分叉处理方案的公告', date: '2017-07-19'}, {title: '算力网关于比特币分叉处理方案的公告', date: '2017-07-19'}, {title: '算力网关于比特币分叉处理方案的公告', date: '2017-07-19'}, {title: '算力网关于比特币分叉处理方案的公告', date: '2017-07-19'}, {title: '算力网关于比特币分叉处理方案的公告', date: '2017-07-19'}],
+        notice: [{title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}],
+        partner: [{img: require('@/assets/images/partner/partner_grey1.jpg'), imgHover: require('@/assets/images/partner/partner1.jpg')}]
       }
     },
     mounted () {
@@ -262,23 +326,74 @@
     }
   }
   .ad{
-    @include gap(20,v)
-    @include main
-    height:400px;
-    line-height: 2;
-    .item{
-      text-align: center;
+    background:#f7f8fa;
+    border-bottom:1px solid $border;
+    margin-bottom:65px;
+    .main{
+      @include gap(20,v)
+      @include main
+      height:293px;
+      line-height: 2;
+      h1,p{
+        text-align: center
+      }
       h1{
-        font-size: 30px;
+        font-size: 30px
       }
       p{
-        font-size: 16px;
+        font-size: 16px
       }
+      .list{
+        @include flex
+        border:1px solid $border;
+        border-bottom:0;
+        margin-top:30px;
+        .item{
+          position: relative;
+          height: 150px;
+          flex:1;
+          padding:20px;
+          padding-right:50px;
+          &:not(:last-child){
+            border-right:1px solid $border;
+          }
+          h3{
+            font-size: 20px;
+          }
+          .line{
+            width:45px;
+            border-bottom:2px solid $blue;
+            margin-top:5px;
+            margin-bottom:7px;
+          }
+          p{
+            position: relative;
+            text-align: left;
+            line-height: 1.5;
+            font-size: 14px;
+            color:$light_text;
+            z-index: 2;
+          }
+          img{
+            position: absolute;
+            top:calc(50% - 35px);
+            right:20px;
+            @include block(70)
+          }
+          &:hover{
+            background: $white;
+            h3{
+              color:$blue
+            }
+          }
+        }
+      }
+        
     }
   }
   .cloud_list{
     @include main
-    margin-bottom:100px;
+    margin-bottom:60px;
     h2{
       @include flex
       @include gap(15,v,margin)
@@ -338,6 +453,137 @@
         &:hover a{
           background:$orange;
           color:$white
+        }
+      }
+    }
+  }
+  .ad_img{
+    position: relative;
+    height:315px;
+    margin-bottom:60px;
+    @include flex(flex-start,center)
+    img{
+      @include position
+      height:100%;
+      object-fit:cover;
+      z-index: -1;
+    }
+    .text{
+      @include main
+      h2{
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom:20px;
+        color:$white
+      }
+      p{
+        font-size: 16px;
+        color:#d7d8d9
+      }
+    }
+  }
+  .web_info{
+    border-top:1px solid $border;
+    border-bottom:1px solid $border;
+    margin-bottom:60px;
+    .main{
+      @include flex
+      @include main
+      .box{
+        flex:1;
+        padding-bottom:5px;
+        &:first-child{
+          padding-right:60px;
+          border-right: 1px solid $border;
+        }
+        &:last-child{
+          padding-left:60px;
+        }
+        h3{
+          @include flex(space-between,center)
+          padding-top:25px;
+          margin-bottom:20px;
+          .icon{
+            width:3px;
+            height:20px;
+            background: $blue;
+          }
+          .text{
+            flex:1;
+            font-size: 24px;
+            padding-left:20px;
+          }
+          .more{
+            color:#999;
+            font-size: 14px;
+          }
+        }
+        .list{
+          .item{
+            position: relative;
+            color:$light_text;
+            padding-bottom:25px;
+            @include flex(space-between)
+            .icon{
+              @include block(10,50%)
+              border:1px solid #e8e8e8;
+              background:#f2f2f2
+            }
+            .line{
+              @include position(15,5,-6,auto)
+              width:1px;
+              background:#eaeaea;
+              z-index: -1;
+            }
+            .text{
+              flex:1;
+              padding-left:14px;
+            }
+            .date{
+              color:#999
+            }
+            &:hover{
+              .icon{
+                border-color:$orange;
+                background:$white
+              }
+              .text{
+                color:$orange
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .partner{
+    .box{
+      @include main
+      text-align: center;
+      margin-bottom:60px;
+      h3{
+        font-size: 24px;
+        margin-bottom:30px
+      }
+      .list{
+        @include row(6,0)
+        border-left:1px solid $border;
+        border-top:1px solid $border;
+        .item{
+          height:70px;
+          border-right:1px solid $border;
+          border-bottom:1px solid $border;
+          @include flex(center)
+          img{
+            width:81px;
+            height:32px
+          }
+          .img,&:hover .img_hover{
+            display: inline;
+          }
+          .img_hover,&:hover img{
+            display: none;
+          }
         }
       }
     }
