@@ -49,7 +49,7 @@
         this.$store.commit('LOGOUT')
       },
       test (e) {
-        var ele = document.querySelector('.header')
+        var ele = document.querySelector('.frame_header')
         if ((ele.classList.contains('active') && e.target.scrollingElement.scrollTop > 0) || this.showNav) {
           ele.classList.add('bg_opacity')
           this.scroll = true
