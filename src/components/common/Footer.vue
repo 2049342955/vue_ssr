@@ -1,13 +1,13 @@
 <template>
-  <footer class="footer">
-    <div class="box">
+  <footer :class="['footer', {auth_footer:$route.path.includes('auth')}]">
+    <div class="box" v-if="!$route.path.includes('auth')">
       <aside>
         <h4>联系我们</h4>
         <h3>杭州总部</h3>
         <p>咨询电话：<span class="active">0571-28221076</span>工作日（9:00~18:00）</p>
         <p>客服邮箱：V@suanli.com</p>
         <p>公司地址：浙江省杭州市学院路77号黄龙国际中心G座-907</p>
-        <img :src="img.copyright">
+        <div class="copyright_img"></div>
       </aside>
       <aside>
         <div class="help_support">
@@ -27,7 +27,7 @@
       <div class="follow">
         <h4>关注我们</h4>
         <router-link :to="i" v-for="i,k in info" :key="k">{{k}}</router-link>
-        <img :src="img.qrcode">
+        <div class="qrcode"></div>
         <div class="active">最新区块链资讯</div>
       </div>
     </div>
@@ -38,7 +38,6 @@
   export default {
     data () {
       return {
-        img: {qrcode: require('@/assets/images/qrcode.jpg'), copyright: require('@/assets/images/copyright.jpg')},
         link: {'关于我们': '/helpSupport/aboutUs', '安全保障': '/helpSupport/safeGuarantee', '法律声明': '/helpSupport/lawyer', '帮助中心': '/helpSupport/issues'},
         service: {'BDC展示': '/bdc/list', '云矿机商城': '/cloudCompute/shop', '算力转让区': '/computeTransfer/List', '二手矿机市场': '/mine'},
         partner: {'保全网': 'https://baoquan.com/', '亚欧大数据': 'http://dsj.baoquan.com', '千信网': 'http://www.eqianxin.com/', '数秦区块链': ''},
@@ -60,11 +59,13 @@
       border-bottom:1px solid $light_text;
       line-height: 2.4;
       aside{
-        img{
-          width:85px;
+        .copyright_img{
+          width: 92px;
+          height: 35px;
           border-radius:5px;
           margin-top:35px;
-          margin-bottom:10px
+          margin-bottom:10px;
+          background: url('../../assets/images/css_sprites.png') -152px -152px;
         }
         .help_support{
           margin-bottom:25px;
@@ -105,9 +106,11 @@
       }
       .follow{
         text-align: center;
-        img{
-          width:80px;
-          margin-top:15px
+        .qrcode{
+          width: 80px;
+          height: 80px;
+          margin-top:15px;
+          background: url('../../assets/images/css_sprites.png') -175px -10px;
         }
         div{
           font-size: 12px
@@ -117,30 +120,37 @@
           line-height: 2;
         }
       }
-    }
-    h3,span.active{
-      font-size: 18px
-    }
-    h4{
-      color:#d7d8d9
-    }
-    h3,.help_support a,.partner span{
-      color:$light_black
-    }
-    span.active{
-      font-weight: bold;
-      margin-right:10px
-    }
-    a:hover{
-      color:$white
-    }
-    .active{
-      color:$white
+      h3,span.active{
+        font-size: 18px
+      }
+      h4{
+        color:#d7d8d9
+      }
+      h3,.help_support a,.partner span{
+        color:$light_black
+      }
+      span.active{
+        font-weight: bold;
+        margin-right:10px
+      }
+      a:hover{
+        color:$white
+      }
+      .active{
+        color:$white
+      }
     }
     .copyright{
       font-size: 12px;
       text-align: center;
       padding: 15px 0
+    }
+    &.auth_footer{
+      position: fixed;
+      bottom:50px;
+      left:0;
+      width:100%;
+      background: transparent;
     }
   }
 </style>

@@ -58,13 +58,13 @@ table{
   border-collapse: collapse
 }
 .body{
-  min-height: calc(100vh - 351px)
+  min-height: calc(100vh - 354px)
 }
-.active + .body{
-  padding-top:91px
+.user_box + .body{
+  min-height: calc(100vh - 434px)
 }
-.body:only-child{
-  min-height: 100vh
+.bdc_box + .body{
+  padding-top:80px
 }
 input::-webkit-input-placeholder {
   color:#bfbfbf;

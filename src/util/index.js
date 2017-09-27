@@ -27,10 +27,13 @@ api.interceptors.response.use(res => {
 })
 
 api.interceptors.request.use(config => {
-  if (config.data['sign']) {
-    config.data['sign'] = btoa(config.data['sign'])
+  if (config.data) {
+    if (config.data['sign']) {
+      config.data['sign'] = btoa(config.data['sign'])
+    }
+    config.data = qs.stringify(config.data)
   }
-  config.data = qs.stringify(config.data)
+  console.log(config)
   return config
 }, error => {
   return Promise.reject(error)

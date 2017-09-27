@@ -1,25 +1,33 @@
 <template>
-  <header :class="['frame_header', {active: $route.path.includes('bdc')}]">
-    <section class="nav_list">
-      <div class="logo">
-        <router-link to="/"><img :src="logo"></router-link>
-      </div>
+  <header :class="[{frame_header: !$route.path.includes('user')}, {bdc_box: $route.path.includes('bdc')}, {login_box:$route.path.includes('login')}, {auth_box:$route.path.includes('auth')}, {user_box:$route.path.includes('user')}]">
+    <section class="box">
+      <router-link class="logo" to="/"></router-link>
       <nav>
-        <div class="item" v-for="(i,k) in nav">
+        <span v-if="$route.path.includes('regist')">用户注册</span>
+        <span v-else-if="$route.path.includes('passwordRetrieval')">找回密码</span>
+        <div class="item" v-for="(i,k) in nav" v-else>
           <router-link :to="i">{{ k }}</router-link>
         </div>
       </nav>
       <div class="side_nav">
-        <!-- <select name="" id="">
-          <option value="0">chinese</option>
-          <option value="1" selected>English</option>
-        </select> -->
-        <!-- <router-link to="/helpSupport/safeGuarantee">支持</router-link>
-        <router-link to="/helpSupport/aboutUs">关于</router-link> -->
-        <router-link class="btn" to="/auth/regist" v-if="!token">注册</router-link>
-        <router-link class="btn" to="/auth/regist" v-else>退出</router-link>
-        <!-- <router-link class="border" to="/user/index">个人中心</router-link> -->
-        <router-link class="border" to="/auth/login">登录</router-link>
+        <template v-if="$route.path.includes('auth')">
+          <router-link to="/" v-if="$route.path.includes('login')">返回首页</router-link>
+          <div class="text" v-else>
+            <span>已经拥有账号,</span>
+            <router-link to="/auth/login">直接登录</router-link>
+          </div>
+        </template>
+        <template v-else>
+          <!-- <router-link to="/helpSupport/safeGuarantee">支持</router-link>
+          <router-link to="/helpSupport/aboutUs">关于</router-link> -->
+          <router-link class="btn" to="/auth/regist" v-if="token">注册</router-link>
+          <template v-else>
+            <span>188****1234</span>
+            <router-link to="/auth/regist">退出</router-link>
+          </template>
+          <router-link class="border" to="/user/index" v-if="!$route.path.includes('user')">个人中心</router-link>
+          <!-- <router-link class="border" to="/auth/login">登录</router-link> -->
+        </template>
       </div>
     </section>
   </header>
@@ -32,8 +40,7 @@
     data () {
       return {
         // nav: {'云矿机': '/cloudCompute/shop', '算力转让': '/computeTransfer/List', '矿机市场': '/mine', 'BDC展示区': '/bdc/list'},
-        nav: {'BDC展示区': '/bdc/list'},
-        logo: require('@/assets/images/login_logo.png')
+        nav: {'BDC展示区': '/bdc/list'}
       }
     },
     created () {
@@ -52,6 +59,7 @@
       },
       test (e) {
         var ele = document.querySelector('.frame_header')
+        if (!ele) return false
         if (e.target.scrollingElement.scrollTop > 0 || this.showNav) {
           ele.classList.add('bg_opacity')
           this.scroll = true
@@ -66,72 +74,99 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
+  .logo{
+    display: block;
+    width: 145px;
+    height: 51px;
+  }
   .frame_header{
     @include position(0,0,auto,0)
     position: fixed;
     z-index: 5;
     &.bg_opacity{
       background: rgba(0,0,0,.8);
-      a.border{
-        // background:$blue;
-        border:1px solid transparent;
+    }
+    .box .logo{
+      background: url('../../assets/images/css_sprites.png') -10px -81px
+    }
+    a{
+      color:$white
+    }
+  }
+  .bdc_box,.login_box{
+    border-bottom:1px solid $light_text;
+  }
+  .auth_box:not(.login_box),.user_box{
+    position: relative;
+    box-shadow:0px 4px 7px 0px rgba(138, 126, 126, 0.21);
+    z-index: 2;
+    .box{
+      .logo{
+        background: url('../../assets/images/css_sprites.png') -10px -10px;
       }
-      .nav_list select{
-        background: rgba(0,0,0,.8);
+      nav .item a{
+        color:$text;
+        &:hover{
+          border-bottom:1px solid $text
+        }
       }
-      &.active{
-        border-bottom:0;
+      .side_nav{
+        a{
+          color:$text;
+        }
+        .text{
+          color:$light_text;
+          a{
+            color:$blue
+          }
+        }
       }
     }
-    &.active{
-      border-bottom:1px solid $light_text;
-    }
-    .nav_list{
+  }
+  header{
+    .box{
       @include main
       @include flex
-      @include gap(20,v)
-      .logo{
-        @include fitimg(139,51)
-      }
-      a,select{
-        color:$white
-      }
-      select{
-        background: #1342ac;
-      }
+      height:80px;
       nav{
         flex:1;
         @include flex
-        padding-left:60px;
+        margin-left:60px;
         .item{
           @include gap(20,h)
           a{
-            font-size: 16px
+            font-size: 16px;
+            &:hover{
+              border-bottom:1px solid $white
+            }
           }
-          a:hover{
-            border-bottom:1px solid $white
-          }
+        }
+        span{
+          color:$light_text;
+          margin-left:-45px;
+          padding-left:15px;
+          border-left:1px solid $border
         }
       }
       .side_nav{
         a{
           @include gap(10,h)
-        }
-        a.btn,a.border{
-          @include gap(0,h)
-          display: inline-block;
-          width:70px;
-          text-align: center;
-          @include gap(5,h,margin)
-          border-radius:3px
-        }
-        a.btn{
-          background:$white;
-          border:1px solid transparent;
-          color:$blue
-        }
-        a.border{
-          border:1px solid $white
+          &.btn,&.border{
+            @include gap(0,h)
+            display: inline-block;
+            width:70px;
+            text-align: center;
+            @include gap(5,h,margin)
+            border-radius:3px
+          }
+          &.btn{
+            background:$white;
+            border:1px solid transparent;
+            color:$blue
+          }
+          &.border{
+            border:1px solid $white
+          }
         }
       }
     }

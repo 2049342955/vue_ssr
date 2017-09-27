@@ -7,13 +7,13 @@
       <div class="text">
         <div class="select_coin" ref="select">
           <div class="now">
-            <img :src="coin[no].img" alt="">
+            <div class="icon_img icon_img0"></div>
             <span class="text" @click="openSelect" title="0">{{coin[no].title}}</span>
             <span class="arrow"></span>
           </div>
           <div class="other">
             <div :class="['item', {active: k==no}]" v-for="c,k in coin">
-              <img :src="c.img" alt="">
+              <div :class="'icon_img icon_img'+k"></div>
               <span class="text" @click="selectCoin" :title="k">{{coin[k].title}}</span>
               <span class="arrow" v-if="k===0"></span>
             </div>
@@ -52,10 +52,10 @@
         <p>{{ad.desc}}</p>
         <div class="list">
           <div class="item" v-for="a,k in ad.items">
-            <img :src="a.img" alt="">
+            <span :class="['iconfont', 'icon'+k]"></span>
             <h3>{{a.title}}</h3>
             <div class="line"></div>
-            <p>{{a.desc}}</p>
+            <p v-html="a.desc"></p>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@
         </tr>
         <tr v-for="l in list">
           <td v-for="v,k in l" v-if="k!=='status'">
-            <template v-if="k==='name'"><img :src="fire" alt="hot" v-if="l.status">{{v}}</template>
+            <template v-if="k==='name'"><i class="iconfont" v-if="l.status">&#xe605;</i><i class="zhanwei" v-else></i>{{v}}</template>
             <template v-else-if="k==='num'">{{v}}台</template>
             <template v-else-if="k==='price'">{{v|format}}元</template>
             <template v-else-if="k==='opr'"><a href="">{{v}}</a></template>
@@ -127,8 +127,8 @@
         <h3>战略合作伙伴</h3>
         <div class="list">
           <div class="item" v-for="i in 12">
-            <img class="img" :src="partner[0].img" alt="">
-            <img class="img_hover" :src="partner[0].imgHover" alt="">
+            <div class="img"></div>
+            <div class="img_hover"></div>
           </div>
         </div>
       </div>
@@ -149,16 +149,14 @@
       return {
         banners: [require('@/assets/images/banner.jpg'), require('@/assets/images/banner.jpg')],
         info: {transfer: '1bt=22704.98元', dayProfit: '今日每日预计收入：5058元', yearProfit: '推算年化收益≈10%', difficulty: 1103400932964},
-        coin: [{title: 'Bitcoin', img: require('@/assets/images/icons/bit.png'), value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'BCC', img: require('@/assets/images/icons/bcc.png'), value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'Ethereum', img: require('@/assets/images/icons/eth.png'), value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETC', img: require('@/assets/images/icons/etc.png'), value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}],
+        coin: [{title: 'Bitcoin', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'BCC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'Ethereum', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}],
         no: 0,
-        ad: {title: '全国首家算力产业链综合服务平台', desc: '算力网是中国信息化推进联盟区块链实验室的推进项目，为区块链算力产业链提供全系列服务', items: [{title: '项目合规', desc: '所有项目出具法律意见书并公开法律意见书', img: require('@/assets/images/icons/icon1.png')}, {title: '用电合规', desc: '项目为政府招商引资项目，全部国网供电，电力稳定持久', img: require('@/assets/images/icons/icon2.png')}, {title: '透明收益', desc: '全流程产业链对接，信息透明，避免踩坑', img: require('@/assets/images/icons/icon3.png')}, {title: '全程存证', desc: '对接保全网区块链电子凭证技术，实现全部在线协议的合规有效', img: require('@/assets/images/icons/icon4.png')}, {title: '算力管家', desc: '为用户投资的每一份算力，提供贴心的远程管家服务', img: require('@/assets/images/icons/icon5.png')}]},
+        ad: {title: '全国首家算力产业链综合服务平台', desc: '算力网是中国信息化推进联盟区块链实验室的推进项目，为区块链算力产业链提供全系列服务', items: [{title: '项目合规', desc: '所有项目出具法律意见书<br>并公开法律意见书'}, {title: '用电合规', desc: '项目为政府招商引资项目<br>全部国网供电，电力稳定持久'}, {title: '透明收益', desc: '全流程产业链对接，信息透明<br>避免踩坑'}, {title: '全程存证', desc: '对接保全网区块链电子凭证技术<br>实现全部在线协议的合规有效'}, {title: '算力管家', desc: '为用户投资的每一份算力<br>提供贴心的远程管家服务'}]},
         nav: ['项目名称', '出售总数', '购买单价', '最小购买单位', '每台算力', '算力类型', '项目进度', '操作'],
         list: [{name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购', status: 'hot'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购', status: 'hot'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购', status: 'hot'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购'}],
-        fire: require('@/assets/images/fire.png'),
         adImg: require('@/assets/images/ad.jpg'),
         activity: [{title: '算力网关于比特币分叉处理方案的公告', date: '2017-07-19'}, {title: '算力网关于比特币分叉处理方案的公告', date: '2017-07-19'}, {title: '算力网关于比特币分叉处理方案的公告', date: '2017-07-19'}, {title: '算力网关于比特币分叉处理方案的公告', date: '2017-07-19'}, {title: '算力网关于比特币分叉处理方案的公告', date: '2017-07-19'}],
-        notice: [{title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}],
-        partner: [{img: require('@/assets/images/partner/partner_grey1.jpg'), imgHover: require('@/assets/images/partner/partner1.jpg')}]
+        notice: [{title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}]
       }
     },
     mounted () {
@@ -293,6 +291,7 @@
 
 <style type="text/css" lang="scss">
   @import '../assets/css/style.scss';
+  @import '../assets/fonts/iconfont.css';
   .title{
     @include position(490)
     bottom:auto;
@@ -306,8 +305,20 @@
       font-size: 16px;
       .select_coin{
         position: relative;
-        img{
+        .icon_img{
           @include block(18)
+        }
+        .icon_img0{
+          background: url('../assets/images/css_sprites.png') -152px -209px;
+        }
+        .icon_img1{
+          background: url('../assets/images/css_sprites.png') -215px -110px;
+        }
+        .icon_img2{
+          background: url('../assets/images/css_sprites.png') -190px -209px;
+        }
+        .icon_img3{
+          background: url('../assets/images/css_sprites.png') -175px -110px;
         }
         .now{
           position: relative;
@@ -431,6 +442,7 @@
           height: 150px;
           flex:1;
           padding:20px;
+          padding-right:18px;
           &:not(:last-child){
             border-right:1px solid $border;
           }
@@ -451,11 +463,30 @@
             color:$light_text;
             z-index: 2;
           }
-          img{
+          span{
             position: absolute;
             top:calc(50% - 35px);
             right:20px;
             @include block(70)
+            &:before{
+              font-size: 70px;
+              color:#e6e6e6
+            }
+          }
+          .icon0:before{
+            content: "\e60a"
+          }
+          .icon1:before{
+            content: "\e60b"
+          }
+          .icon2:before{
+            content: "\e606"
+          }
+          .icon3:before{
+            content: "\e604"
+          }
+          .icon4:before{
+            content: "\e608"
           }
           &:hover{
             background: $white;
@@ -465,7 +496,6 @@
           }
         }
       }
-        
     }
   }
   .cloud_list{
@@ -509,11 +539,12 @@
         color:$light_text;
         line-height: 75px;
         border-bottom: 1px solid $border;
-        img{
-          width:13px;
-          height:20px;
-          vertical-align: middle;
-          margin-right:5px
+        .iconfont{
+          color:$orange;
+          font-size: 24px
+        }
+        .zhanwei{
+          padding-left:24px
         }
       }
       tr:not(:first-child){
@@ -661,10 +692,19 @@
             width:81px;
             height:32px
           }
-          .img,&:hover .img_hover{
-            display: inline;
+          .img,.img_hover{
+            width: 81px; height: 32px;
           }
-          .img_hover,&:hover img{
+          .img{
+            background: url('../assets/images/partner.png') -111px -10px;
+          }
+          .img_hover{
+            background: url('../assets/images/partner.png') -10px -10px;
+          }
+          .img,&:hover .img_hover{
+            display: block;
+          }
+          .img_hover,&:hover .img{
             display: none;
           }
         }

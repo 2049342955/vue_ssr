@@ -1,8 +1,8 @@
 <template>
   <article id="app">
-    <MyHead v-if="!$route.path.includes('auth')"></MyHead>
+    <MyHead></MyHead>
     <router-view class="body"></router-view>
-    <MyFoot v-if="!$route.path.includes('auth')"></MyFoot>
+    <MyFoot></MyFoot>
   </article>
 </template>
 

@@ -330,7 +330,7 @@
     &:before{
       content: '';
       display: inline-block;
-      background: url('../../assets/images/title-left.png') no-repeat;
+      background: url('../../assets/images/css_sprites.png') -10px -209px;
       width: 122px;
       height: 36px;
       vertical-align: middle;
@@ -339,7 +339,7 @@
     &:after{
       content: '';
       display: inline-block;
-      background: url('../../assets/images/title-right.png') no-repeat;
+      background: url('../../assets/images/css_sprites.png') -10px -152px;
       width: 122px;
       height: 37px;
       vertical-align: middle;
