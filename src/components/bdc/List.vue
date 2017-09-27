@@ -241,7 +241,7 @@
     background-color: #fff;
     font-size: 16px;
     line-height: 40px;
-    &:not(:nth-child(6)){
+    &:not(:nth-child(5)){
       margin-bottom: 19px;
     }
     & .tip{

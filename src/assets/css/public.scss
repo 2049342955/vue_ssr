@@ -37,6 +37,9 @@ input,select,textarea{
 input,textarea{
   width:100%;
 }
+select{
+  -webkit-appearance: none;
+}
 textarea {
   resize: none;
 }

@@ -113,7 +113,7 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  form{
+  form.password{
     @include form
   }
 </style>

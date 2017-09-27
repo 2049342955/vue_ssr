@@ -83,7 +83,7 @@
         font-size: 18px;
       }
     }
-    form{
+    .form{
       color:$light_text;
       background:$white;
       padding:35px;
