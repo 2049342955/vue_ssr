@@ -80,7 +80,7 @@
         if (!ele.checkValidity()) {
           ele.setAttribute('data-status', 'invalid')
         } else {
-          if (ele.value && (ele.name === 'imgCode' && ele.value !== this.code) || (ele.name === 'repwd' && ele.value !== ff[0].value)) {
+          if (ele.value && (ele.name === 'imgCode' && ele.value.toLowerCase() !== this.code.toLowerCase()) || (ele.name === 'repwd' && ele.value !== ff[0].value)) {
             ele.setAttribute('data-status', 'error')
           } else {
             ele.setAttribute('data-status', 'valid')
@@ -113,7 +113,7 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  form.password{
+  form.password,form.next_form{
     @include form
   }
 </style>

@@ -1,0 +1,312 @@
+<template>
+  <div class="chart">
+    <div class="text">
+      <div class="select_coin" ref="select">
+        <div class="now">
+          <div class="icon_img icon_img0"></div>
+          <span class="text" @click="openSelect" title="0">{{coin[no].title}}</span>
+          <span class="arrow"></span>
+        </div>
+        <div class="other">
+          <div :class="['item', {active: k==no}]" v-for="c,k in coin">
+            <div :class="'icon_img icon_img'+k"></div>
+            <span class="text" @click="selectCoin" :title="k">{{coin[k].title}}</span>
+            <span class="arrow" v-if="k===0"></span>
+          </div>
+        </div>
+      </div>
+      <div v-for="i,k in info">
+        <template v-if="k === 'difficulty'">挖矿难度：{{i|format}}</template>
+        <template v-else>{{i}}</template>
+      </div>
+    </div>
+    <div class="chart_show">
+      <div class="chart_main">
+        <div class="myChart"></div>
+        <div class="myText">
+          <h1>
+            <span>{{coin[no].title}}</span>
+            <span>{{coin[no].value}}</span>
+          </h1>
+          <div class="address">
+            <p>挖矿服务地址：</p>
+            <p v-for="a in coin[no].address">{{a}}</p>
+          </div>
+          <div class="data">
+            <div class="item" v-for="d,k in coin[no].data">
+              <span>{{k}}</span>
+              <span>{{d}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import api from '../../util/function'
+  import echarts from 'echarts/lib/echarts'
+  import 'echarts/lib/chart/line'
+  export default {
+    name: 'chart',
+    data () {
+      return {
+        info: {transfer: '1bt=22704.98元', dayProfit: '今日每日预计收入：5058元', yearProfit: '推算年化收益≈10%', difficulty: 1103400932964},
+        coin: [{title: 'Bitcoin', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'BCC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'Ethereum', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}],
+        no: 0
+      }
+    },
+    methods: {
+      drawLine () {
+        let myChart = echarts.init(document.querySelector('.myChart'))
+        var now = +new Date(2010, 9, 3)
+        var oneDay = 24 * 3600 * 1000
+        var value = Math.random() * 1000
+        function randomData () {
+          now = new Date(+now + oneDay)
+          value = value + Math.random() * 21 - 10
+          return {
+            name: now.toString(),
+            value: [
+              [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+              Math.round(value)
+            ]
+          }
+        }
+        function getData () {
+          var data = []
+          for (var i = 0; i < 1000; i++) {
+            data.push(randomData())
+          }
+          return data
+        }
+        myChart.setOption({
+          color: '#fff',
+          title: {
+            text: '动态数据 + 时间坐标轴'
+          },
+          grid: {
+            show: true,
+            borderColor: '#3c3c49',
+            left: '7%',
+            bottom: 80
+          },
+          tooltip: {
+            trigger: 'axis',
+            formatter: function (params) {
+              params = params[0]
+              var date = new Date(params.name)
+              return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1]
+            },
+            axisPointer: {
+              animation: false
+            }
+          },
+          xAxis: {
+            type: 'time',
+            splitLine: {
+              lineStyle: {
+                color: '#3c3c49'
+              }
+            },
+            axisLabel: {
+              color: '#e9e9eb'
+            },
+            axisTick: {
+              length: 0
+            }
+          },
+          yAxis: {
+            type: 'value',
+            boundaryGap: [0, '100%'],
+            splitLine: {
+              lineStyle: {
+                color: '#3c3c49'
+              }
+            },
+            axisLabel: {
+              color: '#e9e9eb'
+            },
+            axisTick: {
+              length: 0
+            }
+          },
+          series: [{
+            name: '模拟数据',
+            type: 'line',
+            showSymbol: false,
+            hoverAnimation: false,
+            data: getData(),
+            lineStyle: {
+              normal: {
+                color: '#518abb'
+              }
+            }
+          }]
+        })
+        // setInterval(function () {
+        //   for (var i = 0; i < 5; i++) {
+        //     data.shift()
+        //     data.push(randomData())
+        //   }
+        //   myChart.setOption({
+        //     series: [{
+        //       data: data
+        //     }]
+        //   })
+        // }, 1000)
+      },
+      openSelect (e) {
+        var ele = this.$refs['select'].classList
+        if (ele.contains('active')) {
+          ele.remove('active')
+        } else {
+          ele.add('active')
+        }
+      },
+      selectCoin (e) {
+        this.no = e.target.title
+        var ele = this.$refs['select'].classList
+        if (ele.contains('active')) {
+          ele.remove('active')
+        } else {
+          ele.add('active')
+        }
+        this.drawLine()
+      }
+    },
+    mounted () {
+      this.drawLine()
+    },
+    filters: {
+      format: api.readable
+    }
+  }
+</script>
+
+<style type="text/css" lang="scss">
+  @import '../../assets/css/style.scss';
+  .chart{
+    @include position(490)
+    bottom:auto;
+    height:60px;
+    background:#183473;
+    .text{
+      @include main
+      @include flex(space-between)
+      color:$white;
+      line-height:60px;
+      font-size: 16px;
+      .select_coin{
+        position: relative;
+        .icon_img{
+          @include block(18)
+        }
+        .icon_img0{
+          background: url('../../assets/images/css_sprites.png') -152px -209px;
+        }
+        .icon_img1{
+          background: url('../../assets/images/css_sprites.png') -215px -110px;
+        }
+        .icon_img2{
+          background: url('../../assets/images/css_sprites.png') -190px -209px;
+        }
+        .icon_img3{
+          background: url('../../assets/images/css_sprites.png') -175px -110px;
+        }
+        .now{
+          position: relative;
+          width:140px;
+          @include flex
+          @include gap(10,h)
+          cursor: pointer;
+          .text{
+            flex:1;
+            padding-left:10px
+          }
+          .arrow{
+            @include triangle(bottom)
+          }
+        }
+        .other{
+          @include position
+          display: none;
+          z-index: 4;
+          transition: all 1s;
+          .item{
+            @include flex
+            @include gap(10,h)
+            cursor: pointer;
+            background:#232428;
+            .text{
+              flex:1;
+              padding-left:10px
+            }
+            &:hover,&.active{
+              background:#44444f
+            }
+            .arrow{
+              @include triangle(bottom)
+            }
+          }
+        }
+        &.active{
+          .now{
+            background:#232428;
+            &:hover{
+              background:#44444f
+            }
+          }
+          .other{
+            display: block;
+          }
+        }
+      }
+    }
+    .chart_show{
+      @include position()
+      top:100%;
+      bottom:auto;
+      background: #2e2e3d;
+      z-index: 3;
+      display: none;
+      .chart_main{
+        @include main
+        @include flex
+        .myChart{
+          width:640px;
+          height:400px;
+        }
+        .myText{
+          width:leave(640);
+          padding-left:100px;
+          color:$white;
+          font-size: 16px;
+          line-height: 1.6;
+          h1{
+            @include flex(space-between)
+            font-size: 30px;
+            font-weight: bold;
+            padding-bottom: 10px
+          }
+          h1,.address{
+            border-bottom: 1px solid #59a1d9;
+            margin-bottom: 13px
+          }
+          .address{
+            padding-bottom: 30px
+          }
+          .data{
+            .item{
+              @include flex(space-between)
+            }
+          }
+        }
+      }
+    }
+    &:hover .chart_show{
+      display: block;
+    }
+  }
+</style>

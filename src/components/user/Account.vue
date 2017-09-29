@@ -4,13 +4,13 @@
     <div class="con">
       <div :class="['item', {fail: !n.status}, {success: n.status}]" v-for="n,k in nav">
         <div class="icon"></div>
-        <div class="title">{{n.title}}</div>
+        <div class="con_title">{{n.title}}</div>
         <div class="desc">{{n.desc}}</div>
         <div class="val">
           <template v-if="n.text">{{n.text}}:<span>{{n.value}}</span></template>
         </div>
         <div class="opr" @click="setEdit(n.name,n.title)" v-if="n.name!=='test'">{{n.opr}}</div>
-        <router-link class="opr" to="" v-else>{{n.opr}}</router-link>
+        <router-link class="opr" to="/user/accountEvaluate" v-else>{{n.opr}}</router-link>
       </div>
     </div>
     <div class="mask" v-if="edit">
@@ -20,13 +20,28 @@
           <span>关闭</span>
         </div>
         <h2>{{title}}</h2>
-        <form class="form_content">
+        <form class="form_content" @submit.prevent="submit" novalidate>
           <div :class="['input', {addon: f.addon}]" v-for="f in form[edit]">
             <span>{{f.title}}</span>
             <span>*</span>
-            <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="">
+            <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" v-if="f.type!=='select'">
+            <select name="" id="" v-else-if="f.option">
+              <option :value="k" v-for="v,k in f.option">{{v}}</option>
+            </select>
+            <div class="select" v-else>
+              <select name="" id="">
+                <option value="">浙江省</option>
+              </select>
+              <select name="" id="">
+                <option value="">西湖区</option>
+              </select>
+              <select name="" id="">
+                <option value="">文三路</option>
+                <option value="">西溪</option>
+              </select>
+            </div>
             <template v-if="f.addon">
-              <div class="btn" @click="getCode">发送验证码</div>
+              <div class="btn" @click="getCode">{{f.con}}</div>
             </template>
             <span :title="f.tips" :tips="f.placeholder" :error="f.error"></span>
           </div>
@@ -37,6 +52,8 @@
   </section>
 </template>
 <script>
+  import doSubmit from '@/util/index'
+  import api from '@/util/function'
   export default {
     data () {
       return {
@@ -49,56 +66,56 @@
         ],
         form: {
           tel: [{name: 'tel', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, con: '发送验证码', pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取'}],
-          auth: [{name: 'tel', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, con: '发送验证码', pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取'}],
-          card: [{name: 'tel', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, con: '发送验证码', pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取'}],
-          address: [{name: 'type', type: 'select', title: '算力类型'}, {name: 'imgCode', type: 'text', title: '算力地址', placeholder: '请输入对应算力地址'}, {name: 'tel', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, con: '发送验证码', pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取'}]
+          auth: [{name: 'name', type: 'text', title: '姓名', placeholder: '请输入姓名'}, {name: 'type', type: 'select', title: '证件类型', placeholder: '', option: ['身份证', '军官证', '护照']}, {name: 'number', type: 'text', title: '证件号码', placeholder: '请输入您的证件号码', pattern: '^([0-9]{15}$|^[0-9]{18}$|^[0-9]{17}([0-9]|X|x))$', tips: '身份证号应是18位'}],
+          card: [{name: 'name', type: 'text', title: '开户银行', placeholder: '请输入开户银行名称'}, {name: 'number', type: 'text', title: '银行卡号', placeholder: '请输入银行卡号', pattern: '^([1-9]{1})([0-9]{14}|[0-9]{18})$', tips: '请输入19位的银行卡号'}, {name: 'where', type: 'text', title: '开户支行', placeholder: '请输入开户支行名称'}, {name: 'address', type: 'select', title: '开户行地址'}, {name: 'tel', type: 'text', title: '银行预留手机号', placeholder: '请输入银行预留手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'code', type: 'text', title: '手机验证码', placeholder: '请输入短信验证码', addon: 2, con: '获取验证码', pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取'}],
+          address: [{name: 'type', type: 'select', title: '算力类型', option: ['BIT', 'ETH', 'ETC', 'BCC']}, {name: 'imgCode', type: 'text', title: '算力地址', placeholder: '请输入对应算力地址'}, {name: 'tel', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, con: '发送验证码', pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取'}]
         },
         edit: '',
         title: ''
       }
     },
     methods: {
-      test (e) {
-        console.log(11)
-      },
-      check (ele) {
-        var ff = document.querySelector('.regist')
-        if (!ele.checkValidity()) {
-          ele.setAttribute('data-status', 'invalid')
-        } else {
-          if (ele.value && (ele.name === 'imgCode' && ele.value !== this.code) || (ele.name === 'repwd' && ele.value !== ff[3].value)) {
-            ele.setAttribute('data-status', 'error')
-          } else {
-            ele.setAttribute('data-status', 'valid')
-            return true
-          }
+      submit () {
+        var data = api.checkFrom(document.querySelector('.form_content'))
+        var url = ''
+        switch (this.edit) {
+          case 'tel':
+            url = '1'
+            break
+          case 'auth':
+            url = '2'
+            break
+          case 'card':
+            url = '3'
+            break
+          case 'address':
+            url = '4'
+            break
         }
+        if (!data) return false
+        doSubmit(url, data).then(res => {
+          alert(res)
+        })
+      },
+      test (e) {
+        api.checkFiled(e.target)
       },
       getCode () {
-        var ff = document.querySelector('.regist')
-        var c = true
-        for (var i = 0; i <= 1; i++) {
-          if (ff[i].value) {
-            if (!this.check(ff[i])) {
-              c = false
-            }
-          } else {
-            ff[i].setAttribute('data-status', 'null')
-            c = false
-          }
-        }
-        if (!c) return false
+        if (api.checkCode(document.querySelector('.form_content'))) return false
       },
       setEdit (str, title) {
         this.edit = str
         this.title = title
+        document.body.style.overflow = 'hidden'
       },
       closeEdit () {
         this.edit = ''
+        document.body.style.overflow = 'auto'
       }
     }
   }
 </script>
+
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .account{
@@ -123,7 +140,7 @@
               @include right
             }
           }
-          .title{
+          .con_title{
             color: $green;
           }
         }
@@ -138,7 +155,7 @@
               content:'!'
             }
           }
-          .title{
+          .con_title{
             color: $fail;
           }
         }
@@ -149,7 +166,7 @@
           @include block(18,50%)
           margin-right:10px
         }
-        .title{
+        .con_title{
           width: 140px;
           font-size: 16px;
           font-weight: bold;
@@ -171,46 +188,38 @@
       }
     }
     .mask{
-      @include position
-      @include flex(center)
-      background: rgba(0,0,0,.5);
-      z-index: 10;
+      @include mask
       .form_box{
-        position: relative;
-        background: $white;
-        .close{
-          color: $white;
-          @include position(-30,auto,auto,10)
-          .icon{
-            @include block(20,50%)
-            background: $white;
-            vertical-align: sub;
-            &:before,&:after{
-              @include position(10,3)
-              display: inline-block;
-              content:'';
-              width:14px;
-              height:1px;
-              background:$text;
-            }
-            &:before{
-              // top:10px
-              transform:rotate(45deg)
-            }
-            &:after{
-              // top:10px
-              transform:rotate(-45deg)
-            }
-          }
-          cursor: pointer;
-        }
-        h2{
-          text-align: center;
-          background: #f3f9ff;
-        }
         .form_content{
           padding:40px 130px;
-          @include form
+          @include form(v)
+          width:450px;
+          .input{
+            span{
+              &:first-child {
+                width: 115px;
+                text-align: right;
+              }
+              &:nth-child(2) {
+                left: 135px
+              }
+            }
+            input,select{
+              padding-left:185px
+            }
+            .select{
+              padding-left:185px;
+              @include flex
+              select{
+                flex:1;
+                padding:0;
+                border:none;
+                & + select{
+                  margin-left:3px
+                }
+              }
+            }
+          }
         }
       }
     }

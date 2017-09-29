@@ -21,7 +21,7 @@
     <section class="main">
       <div class="box">
         <aside>
-          <router-link class="item" :to="n" v-for="n,k in nav" :key="k">{{k}}</router-link>
+          <router-link :class="['item', {active:$route.path.includes(n.name)}]" :to="n.path" v-for="n,k in nav" :key="k">{{n.title}}</router-link>
         </aside>
         <router-view class="content"></router-view>
       </div>
@@ -30,14 +30,14 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      titleBg: require('@/assets/images/user_bg1.jpg'),
-      nav: {'个人中心': '/user/index', '账户管理': '/user/account', '订单管理': '/user/order', 'LP中心': '/user/lpCenter'}
+  export default {
+    data () {
+      return {
+        titleBg: require('@/assets/images/user_bg1.jpg'),
+        nav: [{name: 'account', title: '账户管理', path: '/user/account'}, {name: 'order', title: '订单管理', path: '/user/order/0'}, {name: 'lp', title: 'LP中心', path: '/user/lpCenter'}]
+      }
     }
   }
-}
 </script>
 
 <style type="text/css" lang="scss">
@@ -59,7 +59,8 @@ export default {
             color:$white
           }
           .line{
-            border-bottom:1px solid #5c6474;
+            height: 1px;
+            background: linear-gradient(to right, #5c6474 40%, transparent 80%);
             margin:15px 0
           }
           .icons{
@@ -93,7 +94,7 @@ export default {
             }
             span:last-child{
               padding-left:25px;
-              color: $light_text;
+              color: #aaaaaa;
             }
           }
         }
@@ -136,7 +137,7 @@ export default {
             border-top:1px solid #eaf1f5;
             border-left:2px solid transparent;
             border-radius:5px;
-            &:hover,&.router-link-active{
+            &:hover,&.router-link-active,&.active{
               position: relative;
               background: #f5f8ff;
               border-left-color:$blue;
@@ -152,13 +153,24 @@ export default {
         .content{
           background: $white;
           flex:1;
-          height: 500px;
+          min-height: 500px;
           border-radius:5px;
         }
       }
     }
     h2{
       font-size: 18px;
+    }
+    h3{
+      background: #f7f8fa;
+      border-top: 1px solid $border;
+      @include gap(15)
+      &:before{
+        content:'|';
+        padding-right:10px;
+        color:#000;
+        font-weight: bold;
+      }
     }
   }
 </style>

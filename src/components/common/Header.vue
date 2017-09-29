@@ -22,10 +22,10 @@
           <router-link to="/helpSupport/aboutUs">关于</router-link> -->
           <router-link class="btn" to="/auth/regist" v-if="token">注册</router-link>
           <template v-else>
-            <span>188****1234</span>
+            <span class="tel">188****1234</span>
             <router-link to="/auth/regist">退出</router-link>
           </template>
-          <router-link class="border" to="/user/index" v-if="!$route.path.includes('user')">个人中心</router-link>
+          <router-link class="border" to="/user/account" v-if="!$route.path.includes('user')">个人中心</router-link>
           <!-- <router-link class="border" to="/auth/login">登录</router-link> -->
         </template>
       </div>
@@ -92,6 +92,9 @@
     a{
       color:$white
     }
+    .tel{
+      color:$white
+    }
   }
   .bdc_box,.login_box{
     border-bottom:1px solid $light_text;
@@ -119,6 +122,10 @@
           a{
             color:$blue
           }
+        }
+        .tel{
+          color: $blue;
+          font-weight: bold;
         }
       }
     }

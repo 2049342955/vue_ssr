@@ -4,6 +4,8 @@ import Home from '@/views/Home'
 import Auth from '@/views/Auth'
 import Login from '@/components/auth/Login'
 import Regist from '@/components/auth/Regist'
+import ServiceTerms from '@/components/auth/ServiceTerms'
+import UserAgreement from '@/components/auth/UserAgreement'
 import PasswordRetrieval from '@/components/auth/PasswordRetrieval'
 import Bdc from '@/views/Bdc'
 import BdcList from '@/components/bdc/List'
@@ -23,6 +25,8 @@ import MoneyFlow from '@/components/user/MoneyFlow'
 import VirtualCurrencyFlow from '@/components/user/VirtualCurrencyFlow'
 import Password from '@/components/user/Password'
 import Order from '@/components/user/Order'
+import OrderDetail from '@/components/user/OrderDetail'
+import AccountEvaluate from '@/components/user/AccountEvaluate'
 import HelpSupport from '@/views/HelpSupport'
 import AboutUs from '@/components/help/AboutUs'
 import Issues from '@/components/help/Issues'
@@ -58,6 +62,14 @@ export default new Router({
       path: 'passwordRetrieval',
       name: 'passwordRetrieval',
       component: PasswordRetrieval
+    }, {
+      path: 'serviceTerms',
+      name: 'serviceTerms',
+      component: ServiceTerms
+    }, {
+      path: 'userAgreement',
+      name: 'userAgreement',
+      component: UserAgreement
     }]
   }, {
     path: '/bdc',
@@ -123,9 +135,17 @@ export default new Router({
       name: 'password',
       component: Password
     }, {
-      path: 'order',
+      path: 'order/:status',
       name: 'order',
       component: Order
+    }, {
+      path: 'orderDetail/:id',
+      name: 'orderDetail',
+      component: OrderDetail
+    }, {
+      path: 'accountEvaluate',
+      name: 'accountEvaluate',
+      component: AccountEvaluate
     }]
   }, {
     path: '/mine',

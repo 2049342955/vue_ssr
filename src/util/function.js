@@ -86,12 +86,12 @@ api.line = () => {
   line.y = Math.floor(Math.random() * 40)
   return line
 }
-api.checkFrom = (form, obj) => {
+api.checkFrom = (form) => {
   var data = {}
   var c = true
   for (var i = 0; i <= form.length - 2; i++) {
     if (form[i].value) {
-      if (obj.check(form[i])) {
+      if (api.checkFiled(form[i])) {
         data[form[i].name] = form[i].value
       } else {
         c = false
@@ -121,5 +121,29 @@ api.checkOne = (form, obj) => {
     }
   }
   return data
+}
+api.checkFiled = (ele) => {
+  if (!ele.checkValidity()) {
+    ele.setAttribute('data-status', 'invalid')
+  } else {
+    ele.setAttribute('data-status', 'valid')
+    return true
+  }
+}
+api.checkCode = (form) => {
+  var c = true
+  var i = 0
+  while (form[i].name !== 'code') {
+    if (form[i].value) {
+      if (!api.checkFiled(form[i])) {
+        c = false
+      }
+    } else {
+      form[i].setAttribute('data-status', 'null')
+      c = false
+    }
+    i++
+  }
+  return c
 }
 export default api

@@ -21,6 +21,9 @@ a {
   color: $light_text;
   font-style:normal;
 }
+i{
+  font-style: normal
+}
 input,textarea,button{
   font-family: "Microsoft Yahei";
   font-size: 14px;
@@ -34,11 +37,8 @@ input,select,textarea{
   box-shadow: none;
   -webkit-user-select: text;
 }
-input,textarea{
+input,textarea,select{
   width:100%;
-}
-select{
-  -webkit-appearance: none;
 }
 textarea {
   resize: none;
@@ -46,6 +46,7 @@ textarea {
 button{
   border:1px solid;
   border-radius:5px;
+  cursor: pointer
 }
 button:focus,select:focus,input:focus,a:hover{
   outline: 0;

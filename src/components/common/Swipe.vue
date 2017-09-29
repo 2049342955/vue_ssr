@@ -1,15 +1,16 @@
 <template>
-  <section class="swiper" :class="[direction?'horizontal':'vertical',{'dragging':dragging}]" @touchstart="onTouchStart" @mousedown="onTouchStart" @wheel="onWheel">
-    <div class="swiper-wrap" ref="swiper-wrap" :style="{'transform':'translate3d('+translateX+'px,'+translateY+'px,0','transition-duration':transitionDuration+'ms'}" @transitionend="onTransitionEnd">
-      <slot></slot>
+  <section class="swiper" :class="[direction?'horizontal':'vertical',{'dragging':dragging}]" @touchstart="onTouchStart" @mousedown="onTouchStart" @wheel="onWheel" ref="swiper-wrap">
+    <div class="swiper-wrap" :style="{'transform':'translate3d('+translateX+'px,'+translateY+'px,0','transition-duration':transitionDuration+'ms'}" @transitionend="onTransitionEnd">
+      <img class="swiper_one" :src="n.image" v-for="n,k in slideEls">
     </div>
     <div class="swiper-pagination" v-show="paginationVisiable">
-      <span class="swiper-pagination-bullet" :class="{'active':k+1===currentPage}" v-for="(slide,k) in slideEls" @click="paginationClickable && setPage(k+1)"></span>
+      <span class="swiper-pagination-bullet" :class="{'active':k+1===currentPage}" v-for="(slide,k) in banners" @click="paginationClickable && setPage(k+1)"></span>
     </div>
   </section>
 </template>
 
 <script>
+  import api from '../../util'
   export default {
     name: 'swiper',
     props: {
@@ -43,10 +44,10 @@
     },
     data () {
       return {
+        banners: [],
         slideEls: [],
         currentPage: 1,
         lastPage: 1,
-        sledeEls: [],
         delta: 0,
         dragging: false,
         transitioning: false,
@@ -55,14 +56,24 @@
         translateOffset: 0,
         translateX: 0,
         translateY: 0,
-        transitionDuration: 0
+        transitionDuration: 0,
+        offset: 0
       }
     },
     mounted () {
-      this.onTouchMove = this.onTouchMove.bind(this)
-      this.onTouchEnd = this.onTouchEnd.bind(this)
-      this.slideEls = [].map.call(this.$refs['swiper-wrap'].children, el => el)
-      if (this.loop) this.createLoop()
+      var self = this
+      api.post('/banner', {sign: 'token=0'}).then(function (data) {
+        self.banners = data
+        self.offset = self.$refs['swiper-wrap'][self.direction ? 'offsetWidth' : 'offsetHeight']
+        self.onTouchMove = self.onTouchMove.bind(self)
+        self.onTouchEnd = self.onTouchEnd.bind(self)
+        var arr = self.banners
+        self.slideEls = [arr[arr.length - 1], ...arr, arr[0]]
+        self.translateOffset = -self.offset
+        if (self.loop) {
+          self.setTranslate(self.getTranslateOfPage(self.currentPage))
+        }
+      })
     },
     methods: {
       onTouchStart (e) {
@@ -118,14 +129,14 @@
         } else if (this.delta > 100 || (isQuickAction && this.delta > 50)) {
           this.prev()
         } else {
-          this.revert()
+          this.setPage(this.currentPage)
         }
       },
       setPage (page, e) {
         this.lastPage = this.currentPage
         if (page === 0) {
-          this.currentPage = this.slideEls.length
-        } else if (page === this.slideEls.length + 1) {
+          this.currentPage = this.banners.length
+        } else if (page === this.banners.length + 1) {
           this.currentPage = 1
         } else {
           this.currentPage = page
@@ -133,16 +144,12 @@
         this.setTranslate(this.getTranslateOfPage(page))
         this.onTransitionStart()
       },
-      getTouchPos (e) {
-        var key = this.direction ? 'pageX' : 'pageY'
-        return e.changedTouches ? e.changedTouches[0][key] : e[key]
-      },
       next () {
         var page = this.currentPage
-        if (page < this.slideEls.length || this.loop) {
+        if (page < this.banners.length || this.loop) {
           this.setPage(page + 1)
         } else {
-          this.revert()
+          this.setPage(this.currentPage)
         }
       },
       prev () {
@@ -150,11 +157,8 @@
         if (page > 1 || this.loop) {
           this.setPage(page - 1)
         } else {
-          this.revert()
+          this.setPage(this.currentPage)
         }
-      },
-      revert () {
-        this.setPage(this.currentPage)
       },
       onTransitionStart () {
         this.transitioning = false
@@ -169,22 +173,15 @@
         var translateName = this.direction ? 'translateX' : 'translateY'
         this[translateName] = value
       },
+      getTouchPos (e) {
+        var key = this.direction ? 'pageX' : 'pageY'
+        return e.changedTouches ? e.changedTouches[0][key] : e[key]
+      },
       getTranslateOfPage (page) {
         if (page === 0) return 0
-        var propName = this.direction ? 'clientWidth' : 'clientHeight'
-        return -[].reduce.call(this.slideEls, (total, el, i) => {
-          return i > page - 2 ? total : total + el[propName]
+        return -[].reduce.call(this.banners, (total, el, i) => {
+          return i > page - 2 ? total : total + this.offset
         }, 0) + this.translateOffset
-      },
-      createLoop () {
-        var propName = this.direction ? 'clientWidth' : 'clientHeight'
-        var swiperWrapEl = this.$refs['swiper-wrap']
-        var duplicateFirstChild = swiperWrapEl.firstElementChild.cloneNode(true)
-        var duplicateLastChild = swiperWrapEl.lastElementChild.cloneNode(true)
-        swiperWrapEl.insertBefore(duplicateLastChild, swiperWrapEl.firstElementChild)
-        swiperWrapEl.appendChild(duplicateFirstChild)
-        this.translateOffset = -duplicateLastChild[propName]
-        this.setTranslate(this.getTranslateOfPage(this.currentPage))
       }
     }
   }

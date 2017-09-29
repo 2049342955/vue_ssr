@@ -2,7 +2,7 @@ import axios from 'axios'
 import qs from 'qs'
 
 let api = axios.create({
-  baseURL: 'http://suanli.baoquan.com/background/api',
+  baseURL: 'http://test.suanli.baoquan.com/background/api',
   headers: {'Content-Type': 'application/x-www-form-urlencoded'},
   responseType: 'json'
 })
@@ -33,7 +33,6 @@ api.interceptors.request.use(config => {
     }
     config.data = qs.stringify(config.data)
   }
-  console.log(config)
   return config
 }, error => {
   return Promise.reject(error)

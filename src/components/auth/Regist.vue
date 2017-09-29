@@ -7,13 +7,13 @@
       <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="">
       <template v-if="f.addon">
         <canvas id="code" width="90" height="40" v-if="f.addon===1" @click="changeCode"></canvas>
-        <div class="btn" v-if="f.addon===2" @click="getCode">发送验证码</div>
+        <div class="btn" v-if="f.addon===2" @click="getCode">{{f.con}}</div>
       </template>
       <span :title="f.tips" :tips="f.placeholder" :error="f.error"></span>
     </div>
     <label for="accept">
       <input type="checkbox" id="accept" name="accept" checked>
-      <span>阅读并接受《用户协议》及《算力网服务条款》</span>
+      <span>阅读并接受<router-link to="/auth/userAgreement">《用户协议》</router-link>及<router-link to="/auth/serviceTerms">《算力网服务条款》</router-link></span>
     </label>
     <button>注册</button>
   </form>
@@ -36,7 +36,7 @@
     methods: {
       regist () {
         var ff = document.querySelector('.regist')
-        var data = api.checkFrom(ff, this)
+        var data = api.checkFrom(ff)
         if (!data) return false
         doregist('/user/regist', data).then(res => {
           alert(res)
@@ -51,35 +51,17 @@
       },
       check (ele) {
         var ff = document.querySelector('.regist')
-        if (!ele.checkValidity()) {
-          ele.setAttribute('data-status', 'invalid')
-        } else {
-          if (ele.value && (ele.name === 'imgCode' && ele.value !== this.code) || (ele.name === 'repwd' && ele.value !== ff[3].value)) {
-            ele.setAttribute('data-status', 'error')
-          } else {
-            ele.setAttribute('data-status', 'valid')
-            return true
-          }
+        if (ele.value && (ele.name === 'imgCode' && ele.value.toLowerCase() !== this.code.toLowerCase()) || (ele.name === 'repwd' && ele.value !== ff[3].value)) {
+          ele.setAttribute('data-status', 'error')
         }
+        api.checkFiled(ele)
       },
       changeCode () {
         var ele = document.querySelector('#code')
         this.code = api.createCode(ele)
       },
       getCode () {
-        var ff = document.querySelector('.regist')
-        var c = true
-        for (var i = 0; i <= 1; i++) {
-          if (ff[i].value) {
-            if (!this.check(ff[i])) {
-              c = false
-            }
-          } else {
-            ff[i].setAttribute('data-status', 'null')
-            c = false
-          }
-        }
-        if (!c) return false
+        if (api.checkCode(document.querySelector('.regist'))) return false
       }
     }
   }

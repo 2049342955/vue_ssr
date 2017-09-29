@@ -38,7 +38,7 @@
     methods: {
       login () {
         var ff = document.querySelector('.form')
-        var data = api.checkFrom(ff, this)
+        var data = api.checkFrom(ff)
         if (!data) return false
         dologin('/user/login', data).then(res => {
           if (res.bjt) {
@@ -50,16 +50,7 @@
         })
       },
       test (e) {
-        var ele = e.target
-        this.check(ele)
-      },
-      check (ele) {
-        if (!ele.checkValidity()) {
-          ele.setAttribute('data-status', 'invalid')
-        } else {
-          ele.setAttribute('data-status', 'valid')
-          return true
-        }
+        api.checkFiled(e.target)
       }
     }
   }
@@ -87,7 +78,7 @@
       color:$light_text;
       background:$white;
       padding:35px;
-      @include form
+      @include form(v)
       h3{
         @include flex(space-between,flex-end)
         span{
@@ -107,7 +98,6 @@
         }
       }
       .input{
-        margin-bottom:40px;
         input{
           padding-left:134px;
         }
@@ -115,11 +105,6 @@
           @include gap(10,h)
           top:15px;
           bottom:15px
-        }
-        span:last-child{
-          top:58px;
-          left:10px;
-          width:400px
         }
       }
       button{
