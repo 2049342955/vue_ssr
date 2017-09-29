@@ -6,8 +6,11 @@ import mutations from './mutations'
 Vue.use(Vuex)
 
 const state = {
-  token: '',
-  info: {}
+  info: {
+    user_id: '',
+    mobile: '',
+    token: ''
+  }
 }
 
 export default new Vuex.Store({

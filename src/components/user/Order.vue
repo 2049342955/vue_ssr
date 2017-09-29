@@ -4,7 +4,7 @@
       <div class="text">
         <span>订单管理</span>
         <select name="" id="">
-          <option value="">云矿机</option>
+          <option value="">基金</option>
         </select>
       </div>
       <nav>
@@ -16,14 +16,16 @@
         <tr>
           <th v-for="t,k in th">{{t}}</th>
         </tr>
-        <tr v-for="i in 6">
-          <td v-for="d,k in data[0]" v-if="k!=='type'&&k!=='id'">
-            <template v-if="k==='name'">{{d}}<i></i></template>
-            <template v-else-if="k!=='opr'">{{d}}</template>
-            <template v-else>
-              <button>出售矿机</button>
-              <router-link :to="'/user/orderDetail/'+data[0].id">查看详情</router-link>
-            </template>
+        <tr v-for="d,k in data">
+          <td>{{d.hash_miner.name}}<i></i></td>
+          <td>{{d.hash_miner.hash}}</td>
+          <td>{{d.hold_amount}}</td>
+          <td>{{d.pay_value}}</td>
+          <td>{{d.hash_miner.price}}</td>
+          <td>{{d.hold_amount}}</td>
+          <td>
+            <button>出租算力</button>
+            <router-link :to="'/user/orderDetail/'+d.hash_miner.id">查看详情</router-link>
           </td>
         </tr>
       </table>
@@ -32,18 +34,37 @@
 </template>
 
 <script>
+  import util from '@/util'
+  import api from '@/util/function'
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
-        nav: ['已购买', '转让中', '已转让', '已结束'],
-        th: ['算力服务器', '总算力', '购买数量', '购买金额', '购买时间', '剩余可售', '剩余可出租', '操作'],
-        data: [{id: 0, name: '阿瓦隆', type: 'bit', compute: '9T', num: '1台', pay: '10000元', time: '2017-09-21', leftSell: '1台', leftRent: '9T', opr: ''}]
+        nav: {'8': '运行中', '7': '待运行', '6': '已结束', '9': '预收订单'},
+        th: ['算力服务器', '每台算力', '购买数量', '购买金额', '购买时间', '剩余可出租', '操作'],
+        data: []
       }
     },
     methods: {
-      test (e) {
-        console.log(11)
+      fetchData () {
+        var self = this
+        util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id, staus: this.$route.params.status})}).then(function (res) {
+          self.data = res
+          console.log(self.data)
+        })
       }
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token,
+        user_id: state => state.info.user_id
+      })
+    },
+    watch: {
+      '$route': 'fetchData'
+    },
+    mounted () {
+      this.fetchData()
     }
   }
 </script>

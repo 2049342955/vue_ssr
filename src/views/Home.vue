@@ -40,6 +40,7 @@
 </template>
 
 <script>
+  import api from '../util'
   import Swiper from '../components/common/Swipe'
   import Chart from '../components/home/Chart'
   import MyData from '../components/home/DataList'
@@ -53,6 +54,13 @@
         ad: {title: '全国首家算力产业链综合服务平台', desc: '算力网是中国信息化推进联盟区块链实验室的推进项目，为区块链算力产业链提供全系列服务', items: [{title: '项目合规', desc: '所有项目出具法律意见书<br>并公开法律意见书'}, {title: '用电合规', desc: '项目为政府招商引资项目<br>全部国网供电，电力稳定持久'}, {title: '透明收益', desc: '全流程产业链对接，信息透明<br>避免踩坑'}, {title: '全程存证', desc: '对接保全网区块链电子凭证技术<br>实现全部在线协议的合规有效'}, {title: '算力管家', desc: '为用户投资的每一份算力<br>提供贴心的远程管家服务'}]},
         adImg: require('@/assets/images/ad.jpg')
       }
+    },
+    mounted () {
+      // var self = this
+      api.post('/partner', {sign: 'token=0'}).then(function (data) {
+        console.log(data)
+        // self.activity = data
+      })
     }
   }
 </script>

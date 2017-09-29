@@ -26,13 +26,13 @@
 </template>
 
 <script>
-  import dologin from '@/util/index'
+  import util from '@/util/index'
   import api from '@/util/function'
   export default {
     name: 'login',
     data () {
       return {
-        form: [{name: 'tel', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'pwd', type: 'password', title: '登录密码', placeholder: '请输入您的登录密码', pattern: '^.{6,16}$', tips: '密码应在6-16位之间'}]
+        form: [{name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'password', type: 'password', title: '登录密码', placeholder: '请输入您的登录密码', pattern: '^.{6,16}$', tips: '密码应在6-16位之间'}]
       }
     },
     methods: {
@@ -40,12 +40,10 @@
         var ff = document.querySelector('.form')
         var data = api.checkFrom(ff)
         if (!data) return false
-        dologin('/user/login', data).then(res => {
-          if (res.bjt) {
-            this.$router.push({name: 'home', params: {token: res.bjt}})
-            this.$store.commit('setToken', res.bjt)
-          } else {
-            alert(res)
+        util.post('/login', {sign: api.serialize(Object.assign(data, {token: 0, ip: '192.168.3.131'}))}).then(res => {
+          if (res) {
+            this.$router.push({name: 'home'})
+            this.$store.commit('SET_TOKEN', Object.assign(res, {mobile: data.mobile}))
           }
         })
       },

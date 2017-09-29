@@ -44,6 +44,9 @@ api.readable = (num, n) => {
   }
   return result
 }
+api.telReadable = (tel) => {
+  return tel.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
+}
 api.currency = (num, n) => {
   var result = ''
   num = api.decimal(num, 2)
@@ -92,7 +95,11 @@ api.checkFrom = (form) => {
   for (var i = 0; i <= form.length - 2; i++) {
     if (form[i].value) {
       if (api.checkFiled(form[i])) {
-        data[form[i].name] = form[i].value
+        if (form[i].getAttribute('isChange')) {
+          data[form[i].name] = encodeURIComponent(form[i].value)
+        } else {
+          data[form[i].name] = form[i].value
+        }
       } else {
         c = false
       }

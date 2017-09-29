@@ -106,6 +106,14 @@ export default new Router({
   }, {
     path: '/user',
     component: User,
+    beforeEnter: (to, from, next) => {
+      var data = localStorage.getItem('info')
+      if (!data) {
+        next({ name: 'login' })
+      } else {
+        next()
+      }
+    },
     children: [{
       path: 'index',
       name: 'userCenter',
@@ -142,11 +150,11 @@ export default new Router({
       path: 'orderDetail/:id',
       name: 'orderDetail',
       component: OrderDetail
-    }, {
-      path: 'accountEvaluate',
-      name: 'accountEvaluate',
-      component: AccountEvaluate
     }]
+  }, {
+    path: '/accountEvaluate',
+    name: 'accountEvaluate',
+    component: AccountEvaluate
   }, {
     path: '/mine',
     component: Mine

@@ -20,13 +20,13 @@
 </template>
 
 <script>
-  import doregist from '@/util/index'
+  import util from '@/util/index'
   import api from '@/util/function'
   export default {
     name: 'regist',
     data () {
       return {
-        form: [{name: 'tel', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'imgCode', type: 'text', title: '图形验证', placeholder: '请输入图形验证码', addon: 1, pattern: '^.{4}$', tips: '图形验证码应是4位', error: '图形验证码错误，请重新输入'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, con: '发送验证码', pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取'}, {name: 'pwd', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: '^.{6,16}$', tips: '密码应是6到16位'}, {name: 'repwd', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: '^.{6,16}$', tips: '密码应是6到16位', error: '两次密码不一致'}],
+        form: [{name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'imgCode', type: 'text', title: '图形验证', placeholder: '请输入图形验证码', addon: 1, pattern: '^.{4}$', tips: '图形验证码应是4位', error: '图形验证码错误，请重新输入'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, con: '发送验证码', pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取'}, {name: 'password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: '^.{6,16}$', tips: '密码应是6到16位'}, {name: 'password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: '^.{6,16}$', tips: '密码应是6到16位', error: '两次密码不一致'}],
         code: ''
       }
     },
@@ -38,9 +38,9 @@
         var ff = document.querySelector('.regist')
         var data = api.checkFrom(ff)
         if (!data) return false
-        doregist('/user/regist', data).then(res => {
-          alert(res)
-          if (res === '注册成功') {
+        util.post('/register', {sign: api.serialize(Object.assign(data, {token: 0, ip: '192.168.3.131'}))}).then(res => {
+          console.log(res)
+          if (res.msg) {
             this.$router.push({name: 'login'})
           }
         })
@@ -51,7 +51,7 @@
       },
       check (ele) {
         var ff = document.querySelector('.regist')
-        if (ele.value && (ele.name === 'imgCode' && ele.value.toLowerCase() !== this.code.toLowerCase()) || (ele.name === 'repwd' && ele.value !== ff[3].value)) {
+        if (ele.value && (ele.name === 'imgCode' && ele.value.toLowerCase() !== this.code.toLowerCase()) || (ele.name === 'password1' && ele.value !== ff.password.value)) {
           ele.setAttribute('data-status', 'error')
         }
         api.checkFiled(ele)
@@ -61,7 +61,11 @@
         this.code = api.createCode(ele)
       },
       getCode () {
-        if (api.checkCode(document.querySelector('.regist'))) return false
+        var form = document.querySelector('.regist')
+        if (!api.checkCode(form)) return false
+        util.post('/send_code', {sign: api.serialize({token: 0, mobile: form[0].value, ip: '192.168.3.131'})}).then(res => {
+          console.log(res)
+        })
       }
     }
   }

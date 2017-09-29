@@ -34,8 +34,8 @@
           <div class="input">
             <span>S码</span>
             <span>*</span>
-            <input type="text" name="sCode" autocomplete="off" placeholder="请输入S码" @blur="test" pattern="^[0-9]{9}$" data-status="">
-            <span title="请输入11位手机号" tips="请输入S码"></span>
+            <input type="text" name="scode" autocomplete="off" placeholder="请输入S码" @blur="test" pattern="^[0-9a-zA-Z]{6}$" data-status="" maxlength="6">
+            <span title="请输入6位字符串" tips="请输入S码"></span>
           </div>
           <button>确认提交</button>
         </form>
@@ -45,8 +45,9 @@
 </template>
 
 <script>
-  import doSubmit from '@/util/index'
   import api from '@/util/function'
+  import util from '@/util'
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
@@ -56,14 +57,23 @@
     },
     methods: {
       submit () {
-        var data = api.checkFrom(document.querySelector('.form_content'))
+        var form = document.querySelector('.form_content')
+        var data = api.checkFrom(form)
+        var self = this
         if (!data) return false
-        doSubmit('', data).then(res => {
-          alert(res)
+        util.post('/ScodeVerify', {sign: api.serialize({token: this.token, user_id: this.user_id, scode: form.scode.value})}).then(function (data) {
+          if (data) {
+            self.edit = false
+            document.body.style.overflow = 'auto'
+            util.post('/scode_info', {sign: 'token=' + self.token}).then(function (res) {
+              console.log(res)
+            })
+          }
         })
       },
       open () {
         this.edit = true
+        window.scroll(0, 0)
         document.body.style.overflow = 'hidden'
       },
       closeEdit () {
@@ -73,6 +83,23 @@
       test (e) {
         api.checkFiled(e.target)
       }
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token,
+        user_id: state => state.info.user_id
+      })
+    },
+    mounted () {
+      var self = this
+      util.post('/scode_info', {sign: 'token=' + this.token}).then(function (data) {
+        if (!data) {
+          self.edit = true
+          document.body.style.overflow = 'hidden'
+        } else {
+          console.log(data)
+        }
+      })
     }
   }
 </script>

@@ -1,8 +1,8 @@
 export default {
   getInfo ({commit, state}) {
-    if (!state.token) return false
-    // api.get('/user/detail', state.token).then((res) => {
-    //   commit('setInfo', res.data)
-    // })
+    var data = localStorage.getItem('info')
+    if (data) {
+      state.info = JSON.parse(data)
+    }
   }
 }

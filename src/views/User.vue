@@ -3,7 +3,7 @@
     <div class="info">
       <div class="box">
         <div class="welcome">
-          <h2>早上好，188****9654</h2>
+          <h2>早上好，{{mobile|format}}</h2>
           <div class="line"></div>
           <div class="icons">
             <span class="iconfont"></span>
@@ -30,12 +30,22 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+  import api from '../util/function'
   export default {
     data () {
       return {
         titleBg: require('@/assets/images/user_bg1.jpg'),
         nav: [{name: 'account', title: '账户管理', path: '/user/account'}, {name: 'order', title: '订单管理', path: '/user/order/0'}, {name: 'lp', title: 'LP中心', path: '/user/lpCenter'}]
       }
+    },
+    computed: {
+      ...mapState({
+        mobile: state => state.info.mobile
+      })
+    },
+    filters: {
+      format: api.telReadable
     }
   }
 </script>
@@ -46,9 +56,9 @@
   .user{
     overflow:hidden;
     .info{
-      width:100%;
-      height:140px;
-      background: url('../assets/images/user_bg1.jpg');
+      width: 100%;
+      height: 140px;
+      background: #1d2433 url('../assets/images/user_bg1.jpg') repeat-x 50%;
       .box{
         @include main
         @include flex(space-between)
@@ -121,11 +131,10 @@
       background: #f7f8fa;
       padding:35px 0;
       .box{
-        @include flex(flex-start,flex-start)
+        @include flex(flex-start,stretch)
         @include main
         aside{
           width:210px;
-          height: 500px;
           background: $white;
           margin-right:25px;
           border-radius:5px;
@@ -153,7 +162,7 @@
         .content{
           background: $white;
           flex:1;
-          min-height: 500px;
+          min-height: 600px;
           border-radius:5px;
         }
       }

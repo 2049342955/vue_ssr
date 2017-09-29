@@ -1,5 +1,5 @@
 <template>
-  <header :class="[{frame_header: !$route.path.includes('user')}, {bdc_box: $route.path.includes('bdc')}, {login_box:$route.path.includes('login')}, {auth_box:$route.path.includes('auth')}, {user_box:$route.path.includes('user')}]">
+  <header :class="[{frame_header: !$route.path.includes('user')&&!$route.path.includes('account')}, {bdc_box: $route.path.includes('bdc')}, {login_box:$route.path.includes('login')}, {auth_box:$route.path.includes('auth')}, {user_box:$route.path.includes('user')||$route.path.includes('account')}]">
     <section class="box">
       <router-link class="logo" to="/"></router-link>
       <nav>
@@ -20,10 +20,10 @@
         <template v-else>
           <!-- <router-link to="/helpSupport/safeGuarantee">支持</router-link>
           <router-link to="/helpSupport/aboutUs">关于</router-link> -->
-          <router-link class="btn" to="/auth/regist" v-if="token">注册</router-link>
+          <router-link class="btn" to="/auth/regist" v-if="token===''">注册</router-link>
           <template v-else>
-            <span class="tel">188****1234</span>
-            <router-link to="/auth/regist">退出</router-link>
+            <span class="tel">{{mobile|format}}</span>
+            <a href="javascript:;" @click="logout">退出</a>
           </template>
           <router-link class="border" to="/user/account" v-if="!$route.path.includes('user')">个人中心</router-link>
           <!-- <router-link class="border" to="/auth/login">登录</router-link> -->
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+  import api from '../../util/function'
   import { mapState } from 'vuex'
   export default {
     name: 'header',
@@ -44,17 +45,20 @@
       }
     },
     created () {
-      this.$store.dispatch('getInfo')
       window.addEventListener('scroll', this.test, false)
+      if (this.token === '') {
+        this.$store.dispatch('getInfo')
+      }
     },
     computed: {
       ...mapState({
-        token: state => state.token,
-        info: state => state.info
+        token: state => state.info.token,
+        mobile: state => state.info.mobile
       })
     },
     methods: {
       logout () {
+        this.$router.push({name: 'home'})
         this.$store.commit('LOGOUT')
       },
       test (e) {
@@ -68,6 +72,9 @@
           this.scroll = false
         }
       }
+    },
+    filters: {
+      format: api.telReadable
     }
   }
 </script>
@@ -99,10 +106,12 @@
   .bdc_box,.login_box{
     border-bottom:1px solid $light_text;
   }
-  .auth_box:not(.login_box),.user_box{
+  .auth_box:not(.login_box){
     position: relative;
-    box-shadow:0px 4px 7px 0px rgba(138, 126, 126, 0.21);
     z-index: 2;
+    box-shadow:0px 4px 7px 0px rgba(138, 126, 126, 0.21);
+  }
+  .auth_box:not(.login_box),.user_box{
     .box{
       .logo{
         background: url('../../assets/images/css_sprites.png') -10px -10px;
@@ -172,7 +181,7 @@
             color:$blue
           }
           &.border{
-            border:1px solid $white
+            border:1px solid hsla(0,0%,100%,.4)
           }
         }
       }

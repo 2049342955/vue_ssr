@@ -80,7 +80,7 @@
         if (!ele.checkValidity()) {
           ele.setAttribute('data-status', 'invalid')
         } else {
-          if (ele.value && (ele.name === 'imgCode' && ele.value.toLowerCase() !== this.code.toLowerCase()) || (ele.name === 'repwd' && ele.value !== ff[0].value)) {
+          if (ele.value && (ele.name === 'imgCode' && ele.value.toLowerCase() !== this.code.toLowerCase()) || (ele.name === 'repwd' && ele.value !== ff.pwd.value)) {
             ele.setAttribute('data-status', 'error')
           } else {
             ele.setAttribute('data-status', 'valid')

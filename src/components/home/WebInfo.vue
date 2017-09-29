@@ -27,7 +27,7 @@
             <span class="icon"></span>
             <span class="line"></span>
             <span class="text">{{a.title}}</span>
-            <span class="date">{{a.date}}</span>
+            <span class="date">{{a.dateline}}</span>
           </router-link>
         </div>
       </div>
@@ -50,6 +50,9 @@
       api.post('/webDynamic', {sign: 'token=0'}).then(function (data) {
         self.activity = data
       })
+      api.post('/webAnnouncoment', {sign: 'token=0'}).then(function (data) {
+        self.notice = data
+      })
     }
   }
 </script>
@@ -61,7 +64,7 @@
     border-bottom:1px solid $border;
     margin-bottom:60px;
     .main{
-      @include flex(flex-start,flex-start)
+      @include flex(flex-start,stretch)
       @include main
       .box{
         flex:1;
