@@ -20,7 +20,7 @@
         <template v-else>
           <!-- <router-link to="/helpSupport/safeGuarantee">支持</router-link>
           <router-link to="/helpSupport/aboutUs">关于</router-link> -->
-          <router-link class="btn" to="/auth/regist" v-if="token===''">注册</router-link>
+          <router-link class="btn" to="/auth/login" v-if="token===''">登录</router-link>
           <template v-else>
             <span class="tel">{{mobile|format}}</span>
             <a href="javascript:;" @click="logout">退出</a>
@@ -46,7 +46,7 @@
     },
     created () {
       window.addEventListener('scroll', this.test, false)
-      if (this.token === '') {
+      if (this.token === 0) {
         this.$store.dispatch('getInfo')
       }
     },

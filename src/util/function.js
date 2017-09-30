@@ -47,6 +47,9 @@ api.readable = (num, n) => {
 api.telReadable = (tel) => {
   return tel.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
 }
+api.cardReadable = (tel) => {
+  return tel.replace(/(\d{4})\d{10}(\d{4})/, '$1****$2')
+}
 api.currency = (num, n) => {
   var result = ''
   num = api.decimal(num, 2)
@@ -94,7 +97,7 @@ api.checkFrom = (form) => {
   var c = true
   for (var i = 0; i <= form.length - 2; i++) {
     if (form[i].value) {
-      if (api.checkFiled(form[i])) {
+      if (api.checkFiled(form[i], form)) {
         if (form[i].getAttribute('isChange')) {
           data[form[i].name] = encodeURIComponent(form[i].value)
         } else {
@@ -104,7 +107,7 @@ api.checkFrom = (form) => {
         c = false
       }
     } else {
-      form[i].setAttribute('data-status', 'null')
+      api.setTips(form[i], 'null')
       c = false
     }
   }
@@ -129,11 +132,13 @@ api.checkOne = (form, obj) => {
   }
   return data
 }
-api.checkFiled = (ele) => {
+api.checkFiled = (ele, form) => {
   if (!ele.checkValidity()) {
-    ele.setAttribute('data-status', 'invalid')
+    api.setTips(ele, 'invalid')
+  } else if ((ele.name === 'imgCode' && ele.value.toLowerCase() !== localStorage.getItem('code').toLowerCase()) || (ele.name === 'password1' && ele.value !== form.password.value)) {
+    api.setTips(ele, 'error')
   } else {
-    ele.setAttribute('data-status', 'valid')
+    api.setTips(ele, 'valid')
     return true
   }
 }
@@ -146,11 +151,17 @@ api.checkCode = (form) => {
         c = false
       }
     } else {
-      form[i].setAttribute('data-status', 'null')
+      api.setTips(form[i], 'null')
       c = false
     }
     i++
   }
   return c
+}
+api.setTips = (ele, str) => {
+  ele.setAttribute('data-status', str)
+  setTimeout(() => {
+    ele.setAttribute('data-status', '')
+  }, 2000)
 }
 export default api

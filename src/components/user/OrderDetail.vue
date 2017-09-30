@@ -13,8 +13,8 @@
       <div class="detailinfo">
         <template v-for="i,k in info">
           <div class="item">
-            <p>{{i.title}}</p>
-            <div class="profit"><span>{{i.value}}</span>Btc</div>
+            <p>{{i}}</p>
+            <div class="profit"><span>{{data[k]}}</span>Btc</div>
           </div>
           <div class="line" v-if="k!==2"></div>
         </template>
@@ -23,9 +23,13 @@
     <h3>基本信息</h3>
     <div class="detail_box">
       <div class="detail_table">
-        <div class="item" v-for="d,k in data">
-          <div class="item_title">{{k}}</div>
-          <div class="item_value">{{d}}</div>
+        <div class="item" v-for="d,k in type">
+          <div class="item_title">{{d}}</div>
+          <div class="item_value">{{data[k]}}</div>
+        </div>
+        <div class="item" v-if="Object.keys(data).length%2">
+          <div class="item_title"></div>
+          <div class="item_value"></div>
         </div>
       </div>
       <div class="detail_btn">
@@ -37,18 +41,33 @@
 </template>
 
 <script>
+  import util from '@/util'
+  import api from '@/util/function'
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
         process: [{title: '订单下达', status: 1}, {title: '矿场确认', status: 1}, {title: '矿机上架', status: 0}, {title: '回报计算', status: 0}],
-        info: [{name: 'totalProfit', title: '累计已获得BTC', value: 0.44345589}, {name: 'todayProfit', title: '今日BTC收益', value: 0.14345589}, {name: 'pay', title: '今日支付电费', value: 0.14345589}],
-        data: {'算力类型': 'BTC', '购买数量': '100*1台=10台', '购买日期': '2017-09-12 18:00', '购买金额': '10*9000.00=90000.00', '收益方式': '每日结算，次日发放', '总算力': '90T', '服务器类型': '阿瓦隆', '所在区域': ''}
+        info: {realized_income_value: '累计已获得BTC', today_income: '今日BTC收益', total_realized_power_fee_value: '今日支付电费'},
+        data: {},
+        type: {hash_type: '算力类型', miner_name: '矿机名称', buy_amount: '购买数量', create_time: '购买日期', pay_value: '购买金额', income_type: '收益方式', total_hash: '总算力'}
       }
     },
     methods: {
       test (e) {
         console.log(11)
       }
+    },
+    mounted () {
+      var self = this
+      util.post('showOrderDetail', {sign: api.serialize({token: this.token, order_id: this.$route.params.id})}).then(function (res) {
+        self.data = res
+      })
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token
+      })
     }
   }
 </script>
