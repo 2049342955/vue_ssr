@@ -7,11 +7,11 @@
         <div class="con_title">{{n.title}}</div>
         <div class="desc">{{n.desc}}</div>
         <div class="val">
-          <template v-if="n.status&&n.name==='tel'">{{n.text}}:<span>{{mobile|format}}</span></template>
-          <template v-if="n.status&&n.name==='auth'">{{n.text}}:<span>{{idcard|format}}</span></template>
-          <template v-if="n.status&&n.name==='test'">{{n.text}}:<span>{{testResult}}</span></template>
-          <template v-if="n.status&&n.name==='card'">{{n.text}}:<span>{{cardNo}}</span></template>
-          <template v-if="n.status&&n.name==='address'">{{n.text}}:<span>{{mobile|format}}</span></template>
+          <template v-if="n.status&&n.name==='tel'">{{n.text}}：<span>{{mobile|format}}</span></template>
+          <template v-if="n.status&&n.name==='auth'">{{true_name.truename}}：<span>{{true_name.idcard|cardformat}}</span></template>
+          <template v-if="n.status&&n.name==='test'">风险分数：<span>{{testResult}}</span></template>
+          <template v-if="n.status&&n.name==='card'">{{bankCard.open_bank}}：<span>{{bankCard.card_no|cardformat}}</span></template>
+          <template v-if="n.status&&n.name==='address'">{{n.text}}：<span>{{mobile|format}}</span></template>
         </div>
         <div class="opr" @click="setEdit(n.name,n.title)" v-if="n.name!=='test'">{{n.opr}}</div>
         <router-link class="opr" to="/accountEvaluate" v-else>{{n.opr}}</router-link>
@@ -24,30 +24,8 @@
           <span>关闭</span>
         </div>
         <h2>{{title}}</h2>
-        <form class="form_content" @submit.prevent="submit" novalidate>
-          <div :class="['input', {addon: f.addon}]" v-for="f in form[edit]">
-            <span>{{f.title}}</span>
-            <span>*</span>
-            <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" v-if="f.type!=='select'" :isChange="f.isChange">
-            <select name="" id="" v-else-if="f.option">
-              <option :value="k" v-for="v,k in f.option">{{v}}</option>
-            </select>
-            <div class="select" v-else>
-              <select name="province_name" id="" @change="changeCity">
-                <option :value="v.name" v-for="v,k in province" :selected="p===v.name">{{v.name}}</option>
-              </select>
-              <select name="city_name" id="" @change="changeCounty">
-                <option :value="v.name" v-for="v,k in city" :selected="c===v.name">{{v.name}}</option>
-              </select>
-              <select name="area_name" id="">
-                <option :value="v.name" v-for="v,k in county" :selected="n===v.name">{{v.name}}</option>
-              </select>
-            </div>
-            <template v-if="f.addon">
-              <div class="btn" @click="getCode">{{f.con}}</div>
-            </template>
-            <span :title="f.tips" :tips="f.placeholder" :error="f.error"></span>
-          </div>
+        <form class="form form_content" @submit.prevent="submit" novalidate>
+          <FormField :form="form[edit]"></FormField>
           <button>确认提交</button>
         </form>
       </div>
@@ -56,36 +34,36 @@
 </template>
 <script>
   import api from '@/util/function'
-  import city from '@/util/city'
   import util from '@/util'
   import { mapState } from 'vuex'
+  import FormField from '@/components/common/FormField'
   export default {
+    components: {
+      FormField
+    },
     data () {
       return {
         nav: [
           {title: '手机认证', desc: '手机号码是在算力网进行操作的重要凭证。', text: '手机号码', opr: '修改', status: 1, name: 'tel'},
           {title: '实名认证', desc: '完成实名认证，认证后可以获得更多权限', text: '身份证号', opr: '认证', status: 0, name: 'auth'},
           {title: '风险测评', desc: '完成风险测评才可以充值、交易等操作。', text: '', opr: '测评', status: 0, name: 'test'},
-          {title: '绑定银行卡', desc: '绑定银行卡才能进行提现。', text: '', opr: '绑定', status: 0, name: 'card'},
-          {title: '计算算力地址', desc: '请选择算力类型并设置算力地址', text: '', opr: '设置', status: 0, name: 'address'}
+          {title: '绑定银行卡', desc: '绑定银行卡才能进行提现。', text: '', opr: '绑定', status: 0, name: 'card'}
+          // {title: '计算算力地址', desc: '请选择算力类型并设置算力地址', text: '', opr: '设置', status: 0, name: 'address'}
         ],
+        tipInfo: ['正在审核', '认证成功', '认证不一致'],
         form: {
-          tel: [{name: 'tel', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, con: '发送验证码', pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取'}],
-          auth: [{name: 'truename', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'idcard', type: 'text', title: '证件号码', placeholder: '请输入您的证件号码', pattern: '^([0-9]{15}$|^[0-9]{18}$|^[0-9]{17}([0-9]|X|x))$', tips: '身份证号应是18位'}],
-          card: [{name: 'card_no', type: 'text', title: '银行卡号', placeholder: '请输入银行卡号', pattern: '^([1-9]{1})([0-9]{14}|[0-9]{18})$', tips: '请输入19位的银行卡号'}, {name: 'open_bank', type: 'text', title: '开户银行', placeholder: '请输入开户银行名称', isChange: true}, {name: 'bank_branch', type: 'text', title: '开户支行', placeholder: '请输入开户支行名称', isChange: true}, {name: 'bank', type: 'select', title: '开户行地址', isChange: true}, {name: 'mobile', type: 'text', title: '银行预留手机号', placeholder: '请输入银行预留手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'code', type: 'text', title: '手机验证码', placeholder: '请输入短信验证码', addon: 2, con: '获取验证码', pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取'}],
-          address: [{name: 'type', type: 'select', title: '算力类型', option: ['BIT', 'ETH', 'ETC', 'BCC']}, {name: 'imgCode', type: 'text', title: '算力地址', placeholder: '请输入对应算力地址'}, {name: 'tel', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, con: '发送验证码', pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取'}]
+          tel: [{name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取', success: '发送成功'}],
+          auth: [{name: 'truename', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'idcard', type: 'text', title: '证件号码', placeholder: '请输入您的证件号码', pattern: '^([0-9]{15}$|^[0-9]{18}$|^[0-9]{17}([0-9]|X|x))$', tips: '身份证号应是18位'}, {name: 'mobile', type: 'text', title: '手机号码', edit: 'disabled'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取', success: '发送成功'}],
+          card: [{name: 'card_no', type: 'text', title: '银行卡号', placeholder: '请输入银行卡号', pattern: '^([1-9]{1})([0-9]{14}|[0-9]{18})$', tips: '请输入19位的银行卡号'}, {name: 'open_bank', type: 'text', title: '开户银行', placeholder: '请输入开户银行名称', isChange: true}, {name: 'bank_branch', type: 'text', title: '开户支行', placeholder: '请输入开户支行名称', isChange: true}, {name: 'bank', type: 'select', title: '开户行地址', isChange: true}, {name: 'mobile', type: 'text', title: '银行预留手机号', placeholder: '请输入银行预留手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'code', type: 'text', title: '手机验证码', placeholder: '请输入短信验证码', addon: 2, pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取', success: '发送成功'}],
+          address: [{name: 'type', type: 'select', title: '算力类型', option: ['BIT', 'ETH', 'ETC', 'BCC']}, {name: 'imgCode', type: 'text', title: '算力地址', placeholder: '请输入对应算力地址'}, {name: 'tel', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取'}]
         },
         edit: '',
         title: '',
-        province: [],
-        city: [],
-        county: [],
-        p: '',
-        c: '',
-        n: '',
         idcard: '',
-        testResult: '',
-        cardNo: ''
+        cardNo: '',
+        true_name: {idcard: '', truename: ''},
+        bankCard: {open_bank: '', card_no: ''},
+        testResult: 0
       }
     },
     methods: {
@@ -93,30 +71,41 @@
         var form = document.querySelector('.form_content')
         var data = api.checkFrom(form)
         var url = ''
+        var callbackUrl = ''
+        var no = -1
+        var val = ''
+        var sendData = {token: this.token, user_id: this.user_id}
         switch (this.edit) {
           case 'tel':
             url = '1'
             break
           case 'auth':
             url = 'user_truename'
+            callbackUrl = 'show_user_truename'
+            no = 1
+            val = 'true_name'
             break
           case 'card':
             url = 'BankCard'
+            callbackUrl = 'show_bankcard'
+            no = 3
+            val = 'bankCard'
             break
           case 'address':
             url = '4'
             break
         }
         if (!data) return false
-        util.post(url, {sign: api.serialize(Object.assign(data, {token: this.token, user_id: this.user_id}))}).then(function (data) {
-          console.log(data)
+        var self = this
+        util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (data) {
+          if (data) {
+            self.closeEdit()
+            util.post(callbackUrl, {sign: api.serialize(sendData)}).then(function (res) {
+              self.nav[no].status = 1
+              self[val] = res
+            })
+          }
         })
-      },
-      test (e) {
-        api.checkFiled(e.target)
-      },
-      getCode () {
-        if (api.checkCode(document.querySelector('.form_content'))) return false
       },
       setEdit (str, title) {
         this.edit = str
@@ -127,26 +116,6 @@
       closeEdit () {
         this.edit = ''
         document.body.style.overflow = 'auto'
-      },
-      selectCity (arr, value) {
-        return arr.filter((v) => v.name === value)
-      },
-      changeCity (e) {
-        this.setCity(e.target.value)
-        this.setCounty(this.city[0].name)
-      },
-      changeCounty (e) {
-        this.setCounty(e.target.value)
-      },
-      setCity (v) {
-        var cities = this.selectCity(city, v)
-        cities = cities.length ? cities[0] : city[0]
-        this.city = cities.city
-      },
-      setCounty (v) {
-        var counties = this.selectCity(this.city, v)
-        counties = counties.length ? counties[0] : this.city[0]
-        this.county = counties.county
       }
     },
     computed: {
@@ -157,18 +126,26 @@
       })
     },
     mounted () {
-      this.province = city
-      this.setCity(this.p)
-      this.setCounty(this.c)
-      util.post('show_user_truename', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (data) {
-        console.log(data)
-      })
-      util.post('show_bankcard', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (data) {
-        console.log(data)
+      var self = this
+      util.post('getAll', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (data) {
+        if (data.true_name) {
+          self.nav[1].status = 1
+          self.nav[1].opr = self.tipInfo[data.true_name.status]
+          self.true_name = data.true_name
+        }
+        if (data.bank_card) {
+          self.nav[3].status = 1
+          self.bankCard = data.bank_card
+        }
+        if (data.risk.user_risk_score > 0) {
+          self.nav[2].status = 1
+          self.testResult = data.risk.user_risk_score
+        }
       })
     },
     filters: {
-      format: api.telReadable
+      format: api.telReadable,
+      cardformat: api.cardReadable
     }
   }
 </script>

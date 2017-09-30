@@ -10,12 +10,7 @@
         <span>账户登录</span>
         <router-link to="/auth/passwordRetrieval">忘记密码</router-link>
       </h3>
-      <div class="input" v-for="f in form">
-        <span>{{f.title}}</span>
-        <span></span>
-        <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="">
-        <span :title="f.tips" :tips="f.placeholder"></span>
-      </div>
+      <FormField :form="form"></FormField>
       <button>登录</button>
       <div class="go_regist">
         <span>还没有账号？</span>
@@ -28,8 +23,12 @@
 <script>
   import util from '@/util/index'
   import api from '@/util/function'
+  import FormField from '@/components/common/FormField'
   export default {
     name: 'login',
+    components: {
+      FormField
+    },
     data () {
       return {
         form: [{name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'password', type: 'password', title: '登录密码', placeholder: '请输入您的登录密码', pattern: '^.{6,16}$', tips: '密码应在6-16位之间'}]
@@ -40,15 +39,12 @@
         var ff = document.querySelector('.form')
         var data = api.checkFrom(ff)
         if (!data) return false
-        util.post('/login', {sign: api.serialize(Object.assign(data, {token: 0, ip: '192.168.3.131'}))}).then(res => {
+        util.post('/login', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
           if (res) {
             this.$router.push({name: 'home'})
             this.$store.commit('SET_TOKEN', Object.assign(res, {mobile: data.mobile}))
           }
         })
-      },
-      test (e) {
-        api.checkFiled(e.target)
       }
     }
   }

@@ -20,7 +20,9 @@
 </template>
 
 <script>
-  // import api from '@/util/function'
+  import api from '@/util/function'
+  import util from '@/util'
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
@@ -45,8 +47,19 @@
         var score = data.reduce((s, v, k) => {
           return parseInt(s) + parseInt(v)
         })
-        console.log(score)
+        var self = this
+        util.post('risk_score', {sign: api.serialize({user_risk_score: score, token: this.token, user_id: this.user_id})}).then(function (data) {
+          if (data) {
+            self.$router.push({name: 'account'})
+          }
+        })
       }
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token,
+        user_id: state => state.info.user_id
+      })
     }
   }
 </script>

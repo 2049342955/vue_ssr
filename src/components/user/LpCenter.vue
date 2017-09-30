@@ -1,26 +1,24 @@
 <template>
   <section class="lp_center">
     <h2>LP中心<button @click="open">添加基金</button></h2>
-    <h3>电场基金</h3>
-    <div class="detail_table">
-      <div class="item" v-for="d,k in data">
-        <div class="item_title">{{k}}</div>
-        <div class="item_value">
-          <template v-if="k!=='所在区域'">{{d}}</template>
-          <template v-else>{{d}}<span>查看明细</span></template>
+    <template v-if="data.fund_invest_id">
+      <h3>{{data.fund_invest_id===1?'电厂基金':'矿场基金'}}</h3>
+      <div class="detail_table">
+        <div class="item" v-for="d,k in nav">
+          <div class="item_title">{{d}}</div>
+          <div class="item_value">
+            <template v-if="k==='start_end_time'">{{data.fund_start_time}}-{{data.fund_end_time}}</template>
+            <!-- <template v-else-if="data.fund_invest_id===1&&d==='累积电费'">{{data[k]}}<span>查看明细</span></template>
+            <template v-else-if="data.fund_invest_id===2&&d==='累计获得收益'">{{data[k]}}<span>查看明细</span></template> -->
+            <template v-else>{{data[k]}}</template>
+          </div>
+        </div>
+        <div class="item" v-if="Object.keys(nav).length%2">
+          <div class="item_title"></div>
+          <div class="item_value"></div>
         </div>
       </div>
-    </div>
-    <h3>矿场基金</h3>
-    <div class="detail_table">
-      <div class="item" v-for="d,k in data">
-        <div class="item_title">{{k}}</div>
-        <div class="item_value">
-          <template v-if="k!=='收益方式' && k!=='服务器类型'">{{d}}</template>
-          <template v-else>{{d}}<span>查看明细</span></template>
-        </div>
-      </div>
-    </div>
+    </template>
     <div class="mask" v-if="edit">
       <div class="form_box">
         <div class="close" @click="closeEdit()">
@@ -51,7 +49,10 @@
   export default {
     data () {
       return {
-        data: {'算力类型': 'BTC', '购买数量': '100*1台=10台', '购买日期': '2017-09-12 18:00', '购买金额': '10*9000.00=90000.00', '收益方式': '每日结算，次日发放', '总算力': '90T', '服务器类型': '阿瓦隆', '所在区域': ''},
+        electric: {fund_name: '基金名称', fund_manager: '基金管理人', invest_money: '投资金额', start_end_time: '投资时间', fund_time: '投资期限', electric_amount: '累计用电力量', electric_total_price: '累积电费'},
+        miner: {fund_name: '基金名称', fund_manager: '基金管理人', invest_money: '投资金额', start_end_time: '投资时间', fund_time: '投资期限', miner_num: '云矿机', miner_hash: '运算力', hash_income: '累计获得收益'},
+        data: {},
+        nav: {},
         edit: false
       }
     },
@@ -67,6 +68,8 @@
             document.body.style.overflow = 'auto'
             util.post('/scode_info', {sign: 'token=' + self.token}).then(function (res) {
               console.log(res)
+              self.nav = res.fund_invest_id === 1 ? self.electric : self.miner
+              self.data = res
             })
           }
         })
@@ -98,6 +101,8 @@
           document.body.style.overflow = 'hidden'
         } else {
           console.log(data)
+          self.nav = data.fund_invest_id === 1 ? self.electric : self.miner
+          self.data = data
         }
       })
     }

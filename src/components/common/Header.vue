@@ -46,7 +46,7 @@
     },
     created () {
       window.addEventListener('scroll', this.test, false)
-      if (this.token === '') {
+      if (this.token === 0) {
         this.$store.dispatch('getInfo')
       }
     },

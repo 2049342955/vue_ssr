@@ -17,15 +17,15 @@
           <th v-for="t,k in th">{{t}}</th>
         </tr>
         <tr v-for="d,k in data">
-          <td>{{d.hash_miner.name}}<i></i></td>
-          <td>{{d.hash_miner.hash}}</td>
-          <td>{{d.hold_amount}}</td>
-          <td>{{d.pay_value}}</td>
-          <td>{{d.hash_miner.price}}</td>
-          <td>{{d.hold_amount}}</td>
+          <td>{{d.product_name}}<i></i></td>
+          <td>{{d.remain_hash}}</td>
+          <td>{{d.buy_amount}}</td>
+          <td>{{d.total_price}}</td>
+          <td>{{d.create_time}}</td>
+          <td>{{d.buy_amount}}</td>
           <td>
-            <button>出租算力</button>
-            <router-link :to="'/user/orderDetail/'+d.hash_miner.id">查看详情</router-link>
+            <!-- <button>出租算力</button> -->
+            <router-link :to="'/user/orderDetail/'+d.id">查看详情</router-link>
           </td>
         </tr>
       </table>
@@ -48,8 +48,9 @@
     methods: {
       fetchData () {
         var self = this
-        util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id, staus: this.$route.params.status})}).then(function (res) {
+        util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
           self.data = res
+          // , staus: this.$route.params.status
           console.log(self.data)
         })
       }

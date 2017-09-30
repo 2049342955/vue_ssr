@@ -185,6 +185,12 @@
     font-size: 16px;
     margin-bottom:30px;
     line-height:2;
+    &.disabled{
+      background: #f7f8fa;
+      span:nth-child(2){
+        color: #ddd
+      }
+    }
     span{
       @include position(9,0,5,0)
       right:auto;
@@ -238,11 +244,14 @@
           display:none
         }
       }
-      &[data-status='invalid'],&[data-status='null'],&[data-status='error']{
+      &[data-status='invalid'],&[data-status='null'],&[data-status='error'],&[data-status='success']{
         border-color:$red;
         & ~ span{
           display:block
         }
+      }
+      &[data-status='success']{
+        border-color:$blue_border;
       }
       &[data-status='error']{
         & ~ span{
@@ -255,6 +264,18 @@
         & ~ span{
           &:after{
             content:attr(title)
+          }
+        }
+      }
+      &[data-status='success']{
+        & ~ span{
+          color:green;
+          &:before{
+            background:green;
+            content:'\2713'
+          }
+          &:after{
+            content:attr(success)
           }
         }
       }
