@@ -110,6 +110,9 @@
     position: relative;
     z-index: 2;
     box-shadow:0px 4px 7px 0px rgba(138, 126, 126, 0.21);
+    &.bg_opacity{
+      background: transparent
+    }
   }
   .auth_box:not(.login_box),.user_box{
     .box{

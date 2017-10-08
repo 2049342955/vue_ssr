@@ -1,6 +1,6 @@
 <template>
-  <footer :class="['footer', {auth_footer:$route.path.includes('auth')}]">
-    <div class="box" v-if="!$route.path.includes('auth')">
+  <footer class="footer" v-if="!$route.path.includes('auth')">
+    <div class="box">
       <aside>
         <h4>联系我们</h4>
         <h3>杭州总部</h3>
@@ -31,7 +31,6 @@
         <div class="active">最新区块链资讯</div>
       </div>
     </div>
-    <p class="copyright">Copyright © 2013-2017 Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. 算力网 版权所有</p>
   </footer>
 </template>
 <script>
@@ -139,18 +138,6 @@
       .active{
         color:$white
       }
-    }
-    .copyright{
-      font-size: 12px;
-      text-align: center;
-      padding: 15px 0
-    }
-    &.auth_footer{
-      position: fixed;
-      bottom:50px;
-      left:0;
-      width:100%;
-      background: transparent;
     }
   }
 </style>

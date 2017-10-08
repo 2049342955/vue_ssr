@@ -21,7 +21,7 @@
         </div>
         <template v-if="f.addon">
           <canvas id="code" width="90" height="40" v-if="f.addon===1" @click="changeCode"></canvas>
-          <div class="btn" v-if="f.addon===2" @click="getCode">{{str}}</div>
+          <div ref="btn" class="btn" v-if="f.addon===2" @click="getCode">{{str}}</div>
         </template>
         <span :title="f.tips" :tips="f.placeholder" :error="f.error" :success="f.success"></span>
       </template>
@@ -74,15 +74,15 @@
         var ele = document.querySelector('#code')
         localStorage.setItem('code', api.createCode(ele))
       },
-      getCode (e) {
+      getCode () {
         var self = this
         var form = document.querySelector('.form')
         if (!api.checkCode(form)) return false
+        if (self.$refs['btn'][0].getAttribute('disabled') === 'true') return false
         util.post('/send_code', {sign: api.serialize({token: this.token, mobile: form.mobile.value})}).then(res => {
           api.setTips(form.code, 'success')
           self.conntDown()
-          console.log(e.target)
-          e.target.setAttribute('disabled', true)
+          self.$refs['btn'][0].setAttribute('disabled', true)
         })
       },
       conntDown () {
@@ -92,6 +92,7 @@
           if (t === 0) {
             self.str = '重新获取验'
             clearInterval(tt)
+            self.$refs['btn'][0].setAttribute('disabled', false)
           } else {
             self.str = t + 's'
             t--

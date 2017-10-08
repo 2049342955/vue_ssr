@@ -1,10 +1,9 @@
 <template>
   <section :class="['auth', {login_box:$route.path.includes('login')}]">
-    <img class="bg" :src="bg" alt="" v-if="$route.path.includes('login')">
-    <img class="bg" :src="banner" alt="" v-else>
     <div class="box">
       <router-view></router-view>
     </div>
+    <p class="copyright">Copyright © 2013-2017 Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. 算力网 版权所有</p>
   </section>
 </template>
 
@@ -23,33 +22,28 @@
   @import '../assets/css/style.scss';
   .auth{
     color:$light_text;
-    height:calc(100vh - 80px);
-    position: relative;
-    .bg{
-      height:100%;
-      object-fit:cover
-    }
-    .box{
-      @include position(40)
-      @include flex(center,flex-start)
-      bottom:auto;
-      height:700px;
-      @include main
-      background:$white
-    }
+    min-height:calc(100vh - 80px);
+    background:$white url(../assets/images/auth_bg.jpg) no-repeat;
     &.login_box{
-      height:100vh;
-      .box .text a{
-        color:$white
-      }
-      background: #181a1c;
-      .bg{
-        height: 800px;
-      }
+      min-height: 100vh;
+      background:#181a1c url(../assets/images/login_bg.jpg) no-repeat;
       .box{
-        top:160px;
-        background:transparent
+        padding-top:160px;
+        background:transparent;
+        .text a{
+          color:$white
+        }
       }
+    }
+    background-size: cover;
+    .box{
+      @include flex(center,flex-start)
+      @include main
+    }
+    .copyright{
+      font-size: 12px;
+      text-align: center;
+      padding: 15px 0
     }
   }
 </style>
