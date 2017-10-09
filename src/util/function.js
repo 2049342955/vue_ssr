@@ -29,10 +29,10 @@ api.serialize = data => {
   str = str.join('&')
   return str
 }
-api.decimal = (f, n) => {
-  return f.toFixed(n)
+api.decimal = (f) => {
+  return f.toFixed(2)
 }
-api.readable = (num, n) => {
+api.readable = (num) => {
   var result = ''
   num = (num || 0).toString()
   while (num.length > 3) {
@@ -52,7 +52,7 @@ api.cardReadable = (tel) => {
 }
 api.currency = (num, n) => {
   var result = ''
-  num = api.decimal(num, 2)
+  num = api.decimal(num)
   result = api.readable(num.slice(0, num.length - 3)) + num.slice(-3)
   return result
 }

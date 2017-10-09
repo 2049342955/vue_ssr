@@ -68,10 +68,8 @@
       }
     }
     table{
-      width:100%;
-      text-align: center;
+      @include table
       th{
-        font-weight: normal;
         font-size: 18px;
         line-height: 65px;
         background: #ecf3ff

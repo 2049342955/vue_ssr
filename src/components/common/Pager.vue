@@ -7,9 +7,9 @@
 </template>
 
 <script>
-  import getList from '@/util/index'
+  // import util from '@/util'
   export default {
-    name: 'nav',
+    name: 'pager',
     props: {
       type: {
         type: String
@@ -20,18 +20,10 @@
         if (p <= 0 || p > this.$parent.len) return false
         this.$parent.now = p
         switch (this.type) {
-          case 'goods':
-            getList('/goods/list', {page: p, pageSize: 8, categoryType: this.$route.params.categoryNo}).then(res => {
-              this.$parent.goods = res.list
-            })
-            break
-          case 'new':
-            getList('/news/list', {page: p, pageSize: 6}).then(res => {
-              this.$parent.news = res.list
-            })
-            break
-          case 'collection':
-            this.$store.dispatch('collection', {n: p})
+          case 'message':
+            // util('/goods/list', {page: p, pageSize: 8, categoryType: this.$route.params.categoryNo}).then(res => {
+            //   this.$parent.goods = res.list
+            // })
             break
         }
       }

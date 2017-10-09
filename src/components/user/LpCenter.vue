@@ -111,15 +111,15 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .lp_center{
-    padding:15px;
+    padding:0 15px;
     h2{
-      margin-bottom:15px;
-      padding-left:15px;
+      padding:0 15px !important;
       button{
         float: right;
         background: $blue;
         color: $white;
         padding:5px 15px;
+        margin-top:10px;
       }
     }
     .detail_table{

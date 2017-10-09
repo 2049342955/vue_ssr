@@ -39,7 +39,7 @@
       return {
         link: {'关于我们': '/helpSupport/aboutUs', '安全保障': '/helpSupport/safeGuarantee', '法律声明': '/helpSupport/lawyer', '帮助中心': '/helpSupport/issues'},
         service: {'BDC展示': '/bdc/list', '云矿机商城': '/cloudCompute/shop', '算力转让区': '/computeTransfer/List', '二手矿机市场': '/mine'},
-        partner: {'保全网': 'https://baoquan.com/', '亚欧大数据': 'http://dsj.baoquan.com', '千信网': 'http://www.eqianxin.com/', '数秦区块链': ''},
+        partner: {'保全网': 'https://baoquan.com/', '千信网': 'http://www.eqianxin.com/', '数秦区块链': ''},
         info: {'网站公告': '/webInfo/notice', '产品公告': '/webInfo/notice'}
       }
     }

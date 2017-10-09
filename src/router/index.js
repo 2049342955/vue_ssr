@@ -17,7 +17,7 @@ import ComputeTransfer from '@/views/ComputeTransfer'
 import TransferList from '@/components/transfer/List'
 import TransferDetail from '@/components/transfer/Detail'
 import User from '@/views/User'
-import UserCenter from '@/components/user/Index'
+import Message from '@/components/user/Message'
 import Account from '@/components/user/Account'
 import LpCenter from '@/components/user/LpCenter'
 import ComputeProperty from '@/components/user/ComputeProperty'
@@ -115,10 +115,6 @@ export default new Router({
       }
     },
     children: [{
-      path: 'index',
-      name: 'userCenter',
-      component: UserCenter
-    }, {
       path: 'lpCenter',
       name: 'lpCenter',
       component: LpCenter
@@ -143,13 +139,17 @@ export default new Router({
       name: 'password',
       component: Password
     }, {
-      path: 'order/:status',
+      path: 'order/:type/:status',
       name: 'order',
       component: Order
     }, {
       path: 'orderDetail/:id',
       name: 'orderDetail',
       component: OrderDetail
+    }, {
+      path: 'message',
+      name: 'message',
+      component: Message
     }]
   }, {
     path: '/accountEvaluate',

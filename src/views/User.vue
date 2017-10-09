@@ -20,7 +20,7 @@
     </div>
     <section class="main">
       <div class="box">
-        <aside>
+        <aside class="con">
           <router-link :class="['item', {active:$route.path.includes(n.name)}]" :to="n.path" v-for="n,k in nav" :key="k">{{n.title}}</router-link>
         </aside>
         <router-view class="content"></router-view>
@@ -36,7 +36,7 @@
     data () {
       return {
         titleBg: require('@/assets/images/user_bg1.jpg'),
-        nav: [{name: 'account', title: '账户管理', path: '/user/account'}, {name: 'order', title: '订单管理', path: '/user/order/0'}, {name: 'lp', title: 'LP中心', path: '/user/lpCenter'}]
+        nav: [{name: 'computeProperty', title: '算力资产', path: '/user/computeProperty'}, {name: 'account', title: '账户管理', path: '/user/account'}, {name: 'password', title: '密码管理', path: '/user/password'}, {name: 'order', title: '订单管理', path: '/user/order/0/0'}, {name: 'virtualCurrencyFlow', title: '币流水', path: '/user/virtualCurrencyFlow'}, {name: 'moneyFlow', title: '资金流水', path: '/user/moneyFlow'}, {name: 'lp', title: 'LP中心', path: '/user/lpCenter'}, {name: 'message', title: '消息中心', path: '/user/message'}]
       }
     },
     computed: {
@@ -133,7 +133,7 @@
       .box{
         @include flex(flex-start,stretch)
         @include main
-        aside{
+        .con{
           width:210px;
           background: $white;
           margin-right:25px;
@@ -161,25 +161,29 @@
         }
         .content{
           background: $white;
-          flex:1;
+          width:leave(235);
           min-height: 600px;
           border-radius:5px;
+          h2{
+            line-height: 52px;
+            padding:0 28px;
+            border-bottom: 1px solid $border;
+          }
+          h3{
+            background: #f7f8fa;
+            padding: 12px 15px;
+            &:before{
+              content:'|';
+              padding-right:10px;
+              color:#000;
+              font-weight: bold;
+            }
+          }
         }
       }
     }
     h2{
-      font-size: 18px;
-    }
-    h3{
-      background: #f7f8fa;
-      border-top: 1px solid $border;
-      @include gap(15)
-      &:before{
-        content:'|';
-        padding-right:10px;
-        color:#000;
-        font-weight: bold;
-      }
+      font-size: 18px
     }
   }
 </style>
