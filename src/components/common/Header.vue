@@ -20,7 +20,7 @@
         <template v-else>
           <!-- <router-link to="/helpSupport/safeGuarantee">支持</router-link>
           <router-link to="/helpSupport/aboutUs">关于</router-link> -->
-          <router-link class="btn" to="/auth/login" v-if="token===''">登录</router-link>
+          <router-link class="btn" to="/auth/login" v-if="token===0">登录</router-link>
           <template v-else>
             <span class="tel">{{mobile|format}}</span>
             <a href="javascript:;" @click="logout">退出</a>
