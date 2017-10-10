@@ -48,6 +48,7 @@
   import api from '../../util/function'
   import echarts from 'echarts/lib/echarts'
   import 'echarts/lib/chart/line'
+  import 'echarts/lib/component/tooltip'
   export default {
     name: 'chart',
     data () {

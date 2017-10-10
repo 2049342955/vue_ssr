@@ -4,14 +4,14 @@
       <div class="text">
         <span class="text_title">订单管理</span>
         <div class="title_content">
-          <span class="title_now" @click="openList">{{title[edit]}}</span>
+          <span class="title_now" @click="openList">{{title[now]}}</span>
           <div class="title_list" v-if="show">
             <router-link :to="'/user/order/'+k+'/0'" v-for="n,k in title" :key="k">{{n}}</router-link>
           </div>
         </div>
       </div>
       <nav>
-        <router-link :to="'/user/order/'+edit+'/'+k" v-for="n,k in nav[edit]" :key="k">{{n}}</router-link>
+        <router-link :to="'/user/order/'+now+'/'+k" v-for="n,k in nav[now]" :key="k">{{n}}</router-link>
       </nav>
     </div>
     <div class="order_box">
@@ -22,11 +22,11 @@
           <th>购买数量</th>
           <th>购买金额</th>
           <th>购买时间</th>
-          <template v-if="edit==0">
+          <template v-if="now==0">
             <th>剩余可出售</th>
             <th>剩余可出租</th>
           </template>
-          <template v-if="edit==2">
+          <template v-if="now==2">
             <th>剩余可出租</th>
           </template>
           <th>操作</th>
@@ -37,26 +37,30 @@
           <td>{{d.buy_amount}}</td>
           <td>{{d.total_price}}</td>
           <td>{{d.create_time}}</td>
-          <template v-if="edit==0">
+          <template v-if="now==0">
             <td>{{d.buy_amount}}</td>
             <td>{{d.buy_amount}}</td>
           </template>
-          <template v-if="edit==2">
+          <template v-if="now==2">
             <td>{{d.buy_amount}}</td>
           </template>
           <td>
-            <template v-if="edit==0">
-              <button class="sold">出售云矿机</button>
-              <button>出租算力</button>
+            <template v-if="now==0">
+              <button class="sold" @click="openMask('sold', '出售云矿机')">出售云矿机</button>
+              <button @click="openMask('rent', '出租算力')">出租算力</button>
             </template>
-            <template v-if="edit==2">
-              <button>转租算力</button>
+            <template v-if="now==1">
+              <button @click="openMask('rent', '转租算力')">转租算力</button>
             </template>
-            <router-link :to="'/user/orderDetail/'+d.id">查看详情</router-link>
+            <template v-if="now==2">
+              <button @click="openMask('rent', '出租算力')">出租算力</button>
+            </template>
+            <router-link :to="'/user/orderDetail/'+now+'/'+d.id">查看详情</router-link>
           </td>
         </tr>
       </table>
     </div>
+    <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
   </section>
 </template>
 
@@ -64,30 +68,45 @@
   import util from '@/util'
   import api from '@/util/function'
   import { mapState } from 'vuex'
+  import MyMask from '@/components/common/Mask'
   export default {
+    components: {
+      MyMask
+    },
     data () {
       return {
         title: ['云矿机', '算力', '基金'],
         nav: [{'0': '已购买', '1': '转让中', '2': '已转让', '3': '已结束'}, {'0': '已租赁', '1': '出租中', '2': '已出租', '3': '已结束'}, {'0': '预收订单', '1': '运行中', '2': '待运行', '3': '已结束'}],
         data: [],
-        edit: 0,
-        show: false
+        now: 0,
+        show: false,
+        edit: '',
+        form: {
+          sold: [{name: 'soldNum', type: 'text', title: '出售数量', placeholder: '请输入出售数量'}, {name: 'price', type: 'text', title: '出售价格', placeholder: '请输入出售价格', pattern: '', tips: '身份证号应是18位'}, {name: 'password', type: 'text', title: '交易密码'}],
+          rent: [{name: 'rentNmu', type: 'text', title: '出租数量', placeholder: '请输入出租数量'}, {name: 'period', type: 'select', title: '出租时长', option: ['20天', '40天', '60天', '80天']}, {name: 'totalPrice', type: 'text', title: '出租总价', placeholder: '请输入出租总价'}, {name: 'password', type: 'text', title: '交易密码'}]
+        },
+        editText: ''
       }
     },
     methods: {
       fetchData () {
         var self = this
-        this.edit = this.$route.params.type
+        this.now = this.$route.params.type
         this.show = false
         // console.log(this.$route.params.type)
         // console.log(this.$route.params.status)
         util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
           self.data = res
-          console.log(self.data)
         })
       },
       openList () {
         this.show = !this.show
+      },
+      openMask (str, title) {
+        window.scroll(0, 0)
+        document.body.style.overflow = 'hidden'
+        this.editText = title
+        this.edit = str
       }
     },
     computed: {
@@ -197,12 +216,10 @@
               @include gap(10,v)
               button,a{
                 line-height: 32px;
-                border-color: $blue;
                 @include gap(15,h)
               }
               button{
-                background: $blue;
-                color:$white;
+                @include button($blue)
                 margin-right:5px;
                 &.sold{
                   margin-bottom:8px
@@ -210,8 +227,7 @@
               }
               a{
                 display: inline-block;
-                color: $blue;
-                border:1px solid;
+                @include button($blue,border)
                 border-radius: 5px;
               }
             }

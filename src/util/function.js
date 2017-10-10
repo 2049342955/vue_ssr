@@ -135,7 +135,7 @@ api.checkOne = (form, obj) => {
 api.checkFiled = (ele, form) => {
   if (!ele.checkValidity()) {
     api.setTips(ele, 'invalid')
-  } else if ((ele.name === 'imgCode' && ele.value.toLowerCase() !== localStorage.getItem('code').toLowerCase()) || (ele.name === 'password1' && ele.value !== form.password.value)) {
+  } else if ((ele.name === 'imgCode' && ele.value.toLowerCase() !== localStorage.getItem('code').toLowerCase()) || (ele.name === 'password1' && ele.value !== form.password.value) || (ele.name === 'trade_password1' && ele.value !== form.trade_password.value)) {
     api.setTips(ele, 'error')
   } else {
     api.setTips(ele, 'valid')

@@ -21,6 +21,7 @@ import Message from '@/components/user/Message'
 import Account from '@/components/user/Account'
 import LpCenter from '@/components/user/LpCenter'
 import ComputeProperty from '@/components/user/ComputeProperty'
+import IncomeChart from '@/components/user/IncomeChart'
 import MoneyFlow from '@/components/user/MoneyFlow'
 import VirtualCurrencyFlow from '@/components/user/VirtualCurrencyFlow'
 import Password from '@/components/user/Password'
@@ -127,6 +128,10 @@ export default new Router({
       name: 'computeProperty',
       component: ComputeProperty
     }, {
+      path: 'incomeChart',
+      name: 'incomeChart',
+      component: IncomeChart
+    }, {
       path: 'moneyFlow',
       name: 'moneyFlow',
       component: MoneyFlow
@@ -143,7 +148,7 @@ export default new Router({
       name: 'order',
       component: Order
     }, {
-      path: 'orderDetail/:id',
+      path: 'orderDetail/:type/:id',
       name: 'orderDetail',
       component: OrderDetail
     }, {

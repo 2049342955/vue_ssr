@@ -114,8 +114,7 @@
           text-align: center;
           button{
             padding:10px 50px;
-            background: $blue;
-            color: $white;
+            @include button($blue)
             font-size: 16px;
           }
         }

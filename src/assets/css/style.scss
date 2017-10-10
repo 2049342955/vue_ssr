@@ -179,6 +179,16 @@
     border-width: 0 0 1px 1px;
     transform: rotate(-45deg)
   }
+// button
+  @mixin button($color:$blue,$type:bg,$color2:$white){
+    border:1px solid $color;
+    @if $type == border {
+      color:$color
+    } @else {
+      background: $color;
+      color:$color2
+    }
+  }
 // input
   @mixin input{
     position:relative;
@@ -210,8 +220,8 @@
         &:before{
           @include position(2,0,auto,auto)
           @include block(20)
-          background:#e65c65;
-          color:$white;
+          background: #e65c65;
+          color: $white;
           text-align: center;
           font-size: 16px;
           border-radius:5px;
@@ -280,17 +290,19 @@
         }
       }
     }
+    .sel{
+      @include gap(14,v)
+    }
     canvas,.btn{
       @include position(5,auto,5,5)
       width:90px;
       cursor: pointer
     }
     .btn{
-      background:$blue;
       text-align: center;
-      color: $white;
+      @include button($blue)
       font-size: 14px;
-      line-height: 40px
+      line-height: 38px
     }
     &.addon{
       input{
@@ -345,9 +357,7 @@
     button{
       width:100%;
       font-size: 18px;
-      background:$blue;
-      border-color:$blue;
-      color:$white;
+      @include button($blue)
       line-height:2.6;
       @include gap(20,v,margin)
     }
@@ -611,7 +621,7 @@
       }
     }
   }
-// mian_width
+// main_width
   @mixin main($w:$main_width){
     width:$w;
     @include center
@@ -634,9 +644,10 @@
   }
 // detail_box
   @mixin detail_data{
-    @include gap(30,h)
-    @include flex(space-between)
+    @include flex
     .item{
+      flex:1;
+      padding-left:40px;
       span{
         color:$light_black;
         &.currency{
@@ -649,23 +660,23 @@
       width:1px;
       height:40px;
       background: $border;
+      &:last-child{
+        display: none
+      }
     }
   }
 // detail_btn
   @mixin detail_btn{
-    width:90px;
-    @include gap(30,h,margin)
-    button{
+    width:185px;
+    a{
+      display: block;
+      text-align: center;
+      border-radius:5px
+    }
+    button,a{
       width:100%;
-      color: $white;
-      line-height: 2;
-      &:first-child{
-        background: $orange
-      }
-      &:not(:first-child){
-        background: $blue;
-      }
-      & + button{
+      line-height: 2.5;
+      & + button,& + a{
         margin-top:10px
       }
     }

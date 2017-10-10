@@ -2,7 +2,8 @@ import axios from 'axios'
 import qs from 'qs'
 
 let api = axios.create({
-  baseURL: 'http://suanli.baoquan.com/background/api',
+  // baseURL: 'http://suanli.baoquan.com/background/api',
+  baseURL: 'http://192.168.3.201/admin.suanli.com/background/api/',
   headers: {'Content-Type': 'application/x-www-form-urlencoded'},
   responseType: 'json'
 })

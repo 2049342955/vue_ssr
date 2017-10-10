@@ -6,10 +6,10 @@
       <div class="desc">{{n.desc}}</div>
       <div class="val">
         <template v-if="n.status&&n.name==='tel'">{{n.text}}：<span>{{mobile|format}}</span></template>
-        <template v-if="n.status&&n.name==='auth'">{{true_name.truename}}：<span>{{true_name.idcard|cardformat}}</span></template>
-        <template v-if="n.status&&n.name==='test'">风险分数：<span>{{testResult}}</span></template>
-        <template v-if="n.status&&n.name==='card'">{{bankCard.open_bank}}：<span>{{bankCard.card_no|cardformat}}</span></template>
-        <template v-if="n.status&&n.name==='address'">{{n.text}}：<span>{{mobile|format}}</span></template>
+        <template v-if="n.status&&n.name==='auth'">{{$parent.true_name.truename}}：<span>{{$parent.true_name.idcard|cardformat}}</span></template>
+        <template v-if="n.status&&n.name==='test'">风险分数：<span>{{$parent.testResult}}</span></template>
+        <template v-if="n.status&&n.name==='card'">{{$parent.bankCard.open_bank}}：<span>{{$parent.bankCard.card_no|cardformat}}</span></template>
+        <template v-if="n.status&&n.name==='address'">{{n.text}}：<span>{{$parent.bindAddress.product_hash_type}}</span></template>
       </div>
       <div class="opr" @click="setEdit(n.name,n.title,n.setting)" v-if="n.name!=='test'">{{n.opr}}</div>
       <router-link class="opr" to="/accountEvaluate" v-else>{{n.opr}}</router-link>
@@ -33,9 +33,6 @@
     },
     data () {
       return {
-        true_name: {idcard: '', truename: ''},
-        bankCard: {open_bank: '', card_no: ''},
-        testResult: 0,
         tipInfo: ['正在审核', '认证成功', '认证不一致']
       }
     },
@@ -63,15 +60,19 @@
           self.$parent.nav[1].status = 1
           self.$parent.nav[1].opr = self.tipInfo[data.true_name.status]
           self.$parent.nav[1].setting = data.true_name.status === 1
-          self.true_name = data.true_name
+          self.$parent.true_name = data.true_name
         }
         if (data.bank_card) {
           self.$parent.nav[3].status = 1
-          self.bankCard = data.bank_card
+          self.$parent.bankCard = data.bank_card
         }
         if (data.risk.user_risk_score > 0) {
           self.$parent.nav[2].status = 1
-          self.testResult = data.risk.user_risk_score
+          self.$parent.testResult = data.risk.user_risk_score
+        }
+        if (data.bindAddress) {
+          self.$parent.nav[4].status = 1
+          self.$parent.bindAddress = data.bindAddress
         }
       })
     },
