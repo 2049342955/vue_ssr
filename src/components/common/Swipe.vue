@@ -12,8 +12,8 @@
 <script>
   import api from '../../util'
   export default {
-    name: 'swiper',
-    props: {
+    name: 'swiper', // Swiper
+    props: { // 父组件数据流向子组件 轮播图属性
       direction: {
         type: Number,
         default: 1,
@@ -61,7 +61,7 @@
       }
     },
     mounted () {
-      var self = this
+      var self = this // ?
       api.post('/banner', {sign: 'token=0'}).then(function (data) {
         self.banners = data
         self.offset = self.$refs['swiper-wrap'][self.direction ? 'offsetWidth' : 'offsetHeight']
