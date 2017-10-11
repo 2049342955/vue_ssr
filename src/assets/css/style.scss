@@ -179,6 +179,20 @@
     border-width: 0 0 1px 1px;
     transform: rotate(-45deg)
   }
+// bg
+  @mixin bg($w:1920,$h:580px,$color:$white){
+    position: relative;
+    overflow: hidden;
+    background: $color;
+    padding-top:$h;
+    .bg{
+      position: absolute;
+      top: 0;
+      left: calc(50% - #{$w/2}px);
+      width: #{$w}px;
+      height: $h
+    }
+  }
 // button
   @mixin button($color:$blue,$type:bg,$color2:$white){
     border:1px solid $color;

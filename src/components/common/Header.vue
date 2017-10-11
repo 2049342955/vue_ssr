@@ -18,15 +18,16 @@
           </div>
         </template>
         <template v-else>
-          <!-- <router-link to="/helpSupport/safeGuarantee">支持</router-link>
-          <router-link to="/helpSupport/aboutUs">关于</router-link> -->
-          <router-link class="btn" to="/auth/login" v-if="token===0">登录</router-link>
+          <router-link to="/helpSupport/safeGuarantee">支持</router-link>
+          <router-link to="/helpSupport/aboutUs">关于</router-link>
+          <template v-if="token===''">
+            <router-link class="btn" to="/auth/login">登录</router-link>
+            <router-link class="border" to="/auth/regist">注册</router-link>
+          </template>
           <template v-else>
-            <span class="tel">{{mobile|format}}</span>
+            <router-link class="tel" to="/user/computeProperty">{{mobile|format}}</router-link>
             <a href="javascript:;" @click="logout">退出</a>
           </template>
-          <router-link class="border" to="/user/computeProperty" v-if="!$route.path.includes('user')">个人中心</router-link>
-          <!-- <router-link class="border" to="/auth/login">登录</router-link> -->
         </template>
       </div>
     </section>
@@ -40,13 +41,12 @@
     name: 'header',
     data () {
       return {
-        // nav: {'云矿机': '/cloudCompute/shop', '算力转让': '/computeTransfer/List', '矿机市场': '/mine', 'BDC展示区': '/bdc/list'},
-        nav: {'BDC展示区': '/bdc/list'}
+        nav: {'云矿机商城': '/cloudCompute/shop/1/all', '算力转让区': '/computeTransfer/List', 'BDC展示区': '/bdc/list'}
       }
     },
     created () {
       window.addEventListener('scroll', this.test, false)
-      if (this.token === 0) {
+      if (this.token === '') {
         this.$store.dispatch('getInfo')
       }
     },
@@ -121,7 +121,7 @@
       }
       nav .item a{
         color:$text;
-        &:hover{
+        &:hover,&.router-link-active{
           border-bottom:1px solid $text
         }
       }

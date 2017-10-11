@@ -1,5 +1,6 @@
 <template>
   <article class="home">
+  	<router-view class="content"></router-view>
   </article>
 </template>
 
