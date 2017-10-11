@@ -104,7 +104,8 @@
         totalPrice: 0,
         totalHash: 0,
         number: '',
-        leftNum: 0
+        leftNum: 0,
+        account: {balance: 10000}
       }
     },
     methods: {
