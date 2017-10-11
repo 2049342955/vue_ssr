@@ -47,7 +47,7 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   form.regist{
-    @include form
+    @include form;
     .select_accept{
       color:$red;
       font-size: 12px;
