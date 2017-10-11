@@ -47,18 +47,24 @@
           批次所在区域：
           <span class="value">{{orderDetail.area}}</span>
         </p>
-
+        <div class="text">
+          * {{orderDetail.detail}}
+        </div>
       </div>
-      <form class="form" action="" @submit.prevent="login" novalidate>
+      <form class="form pay" action="" @submit.prevent="pay" novalidate>
         <p class="sum">
           应付金额：
-          <span class="value">{{orderDetail.purchase.unitPrice * orderDetail.purchase.number}}</span>
+          <span class="value"><span>{{orderDetail.purchase.unitPrice * orderDetail.purchase.number}}</span> 元</span>
         </p>
         <p class="account">
+          <span>
           账户余额：
-          <span></span>
+            <span class="value"><span>{{$parent.account.balance}}</span> 元</span>
+          </span>
+          <!-- <router-link >充值</router-link> -->
+          <a>充值</a>
         </p>
-        <FormField :form="form"></FormField>
+        <FormField :form="form" class="form"></FormField>
         <label for="accept">
           <input type="checkbox" id="accept" name="accept" checked>
           <span>阅读并接受<router-link to="/auth/serviceTerms">《算力网服务条款》</router-link></span>
@@ -71,8 +77,14 @@
 </template>
 
 <script>
+  import util from '@/util/index'
+  import api from '@/util/function'
+  import FormField from '@/components/common/FormField'
   export default {
     name: 'pay',
+    components: {
+      util, api, FormField
+    },
     data () {
       return {
         orderDetail:
@@ -86,6 +98,7 @@
           power: '9.00',
           area: '1号楼A区',
           detail: 'BTC挖矿阿瓦隆001号算力矿机来源嘉楠智A741矿机BTC挖矿阿瓦隆001号算力矿机来源嘉楠智A741矿机',
+          logoImg: '',
           purchase:
           {
             state: '预售',
@@ -100,15 +113,38 @@
             name: 'payPsd',
             type: 'password',
             title: '交易密码',
-            placeholder: '请输入手机号',
-            pattern: '^1[3578][0-9]{9}$',
-            tips: '请输入11位手机号'
+            placeholder: '',
+            pattern: '^.{6,16}$',
+            tips: '密码应是6到16位'
           }
         ]
       }
     },
     methods: {
-      // 确认支付
+      pay () {
+        var ff = document.querySelector('.pay')
+        var data = api.checkFrom(ff)
+        var account = this.orderDetail.purchase.number * this.orderDetail.purchase.unitPrice
+        var balance = this.$parent.account.balance
+        if (account > balance) {
+          this.form.tips = '余额不足'
+          return false
+        }
+        if (!data) {
+          this.form.tips = '请输入密码'
+          return false
+        }
+        if (!ff.accept.checked) {
+          ff.accept.setAttribute('data-status', 'invalid')
+          return false
+        }
+        // 确认支付
+        // util.post('/register', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
+        //   if (res) {
+        //     this.$router.push({name: 'login'})
+        //   }
+        // })
+      }
     }
   }
 </script>
@@ -117,10 +153,10 @@
   .pay{
     width: 1180px;
     margin: 20px auto;
-    color: #333;
+    color: #999;
     .orderMsg{
       background: #fff;
-      padding: 0 30px 25px;
+      padding: 0 30px 15px;
       h3.title{
         font-size: 18px;
         font-weight: bold;
@@ -151,43 +187,91 @@
           }
         }
         .detailF{
-          @include flex(space-between);
+          @include flex(flex-start);
           margin: 20px 0;
           border: 1px solid #eee;
-          padding: 20px;
+          padding: 20px 25px;
+          p{
+            padding: 0 48px 0 42px;
+          }
         }
       }
-      .orderPay{
-        @include flex(space-between);
-        .form{
-          color:$light_text;
-          background:$white;
-          padding:35px;
-          @include form(v);
-          .go_regist{
-            border-top:1px dashed $border;
-            padding-top:15px;
-            text-align: center;
-            a{
-              color:$blue
-            }
-            &,a{
-              font-size: 16px;
+    }
+    .orderPay{
+      margin-top: 20px;
+      height: 288px;
+      border: 5px solid #ffe6d7;
+      background:$white;
+      padding: 20px 25px;
+      @include flex(space-between);
+      .detail{
+        background: #f7f8fa;
+        width: 642px;
+        height: 235px;
+        padding: 0 30px 0 318px;
+        .title{
+          margin: 53px 0 25px;
+          padding-left: 20px;
+          .value{
+            font-size: 18px;
+            font-weight: bold;
+            color:#333;
+          }
+        }
+        .text{
+          color: #666;
+        }
+      }
+      form{
+        @include form(v);
+        p{
+          margin-bottom: 20px;
+        }
+        .sum{
+          .value{
+            color: #c80009;
+            span{
+              font-size: 24px;
+              font-weight: bold;
             }
           }
-          .input{
-            input{
-              padding-left:134px;
-            }
-            span:nth-child(2){
-              @include gap(10,h);
-              top:15px;
-              bottom:15px
+        }
+        .account{
+          @include flex(space-between);
+          span{
+            .value{
+              color: #333;
+              span{
+                font-weight: bold;
+              }
             }
           }
-          button{
-            margin-top:0
+          a{
+            color: #327fff;
           }
+        }
+        label{
+          display:block;
+          margin: -15px 0 0;
+          color: #666;
+          input{
+            &:checked{
+              background: #ff721f;
+              border-color: #ff721f;
+            }
+            .select_accept{
+              color: #ff721f;
+              font-size: 12px;
+            }
+            &[data-status='invalid'] ~ span.select_accept{
+              display: inline;
+            }
+          }
+        }
+        button{
+          background: #ff721f;
+          border-color: #ff721f;
+          margin: 15px 0;
         }
       }
     }
