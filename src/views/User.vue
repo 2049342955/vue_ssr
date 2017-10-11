@@ -44,7 +44,7 @@
         mobile: state => state.info.mobile
       })
     },
-    filters: { //vue2
+    filters: { // vue2
       format: api.telReadable
     }
   }
