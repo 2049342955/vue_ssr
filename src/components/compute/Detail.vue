@@ -28,6 +28,8 @@ export default {
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .compute_detail{
-
+    margin-top: 80px;
+    padding-top: 10px;
+    background: #f7f8fa;
   }
 </style>

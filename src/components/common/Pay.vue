@@ -17,11 +17,11 @@
             <p>每台服务器数量</p>
           </div>
           <div class="borderR">
-            <p class="value"><span>{{orderDetail.income}}</span btc</p>
+            <p class="value"><span>{{orderDetail.income}}</span> btc</p>
             <p>今日每T预计收益</p>
           </div>
-          <div class="borderR">
-            <p class="value"><span>{{orderDetail.electricityFees}}</span btc</p>
+          <div>
+            <p class="value"><span>{{orderDetail.electricityFees}}</span> btc</p>
             <p>每日电费约</p>
           </div>
         </div>
@@ -77,7 +77,7 @@
       return {
         orderDetail:
         {
-          name: '阿瓦隆1👌矿机',
+          name: '阿瓦隆1号矿机',
           price: '10000.00',
           amount: '100',
           income: '0.12441251',
@@ -116,6 +116,80 @@
   @import '../../assets/css/style.scss';
   .pay{
     width: 1180px;
-    background: red;
+    margin: 20px auto;
+    color: #333;
+    .orderMsg{
+      background: #fff;
+      padding: 0 30px 25px;
+      h3.title{
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+      }
+      .orderDetail{
+        margin-top: 20px;
+        color: #999;
+        .value{
+          color:#333;
+        }
+        .detailH{
+          @include flex(space-between);
+          background: #fff9f3;
+          padding: 25px;
+          text-align: center;
+          div{
+            width: 20%;
+            // text-align: left;
+            .value span{
+              font-size: 20px;
+            }
+          }
+          .borderR{
+            border-right: 1px solid #e5e5e5;
+          }
+        }
+        .detailF{
+          @include flex(space-between);
+          margin: 20px 0;
+          border: 1px solid #eee;
+          padding: 20px;
+        }
+      }
+      .orderPay{
+        @include flex(space-between);
+        .form{
+          color:$light_text;
+          background:$white;
+          padding:35px;
+          @include form(v);
+          .go_regist{
+            border-top:1px dashed $border;
+            padding-top:15px;
+            text-align: center;
+            a{
+              color:$blue
+            }
+            &,a{
+              font-size: 16px;
+            }
+          }
+          .input{
+            input{
+              padding-left:134px;
+            }
+            span:nth-child(2){
+              @include gap(10,h);
+              top:15px;
+              bottom:15px
+            }
+          }
+          button{
+            margin-top:0
+          }
+        }
+      }
+    }
   }
 </style>
