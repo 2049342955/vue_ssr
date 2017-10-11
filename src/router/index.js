@@ -31,6 +31,7 @@ import AccountEvaluate from '@/components/user/AccountEvaluate'
 import HelpSupport from '@/views/HelpSupport'
 import AboutUs from '@/components/help/AboutUs'
 import Issues from '@/components/help/Issues'
+import Lawyer from '@/components/help/Lawyer'
 import SafeGuarantee from '@/components/help/SafeGuarantee'
 import WebInfo from '@/views/WebInfo'
 import Activity from '@/components/info/Activity'
@@ -84,7 +85,7 @@ export default new Router({
     path: '/cloudCompute',
     component: CloudCompute,
     children: [{
-      path: 'shop',
+      path: 'shop/:type/:sort',
       name: 'computeShop',
       component: ComputeShop
     }, {
@@ -178,6 +179,10 @@ export default new Router({
       path: 'safeGuarantee',
       name: 'safeGuarantee',
       component: SafeGuarantee
+    }, {
+      path: 'lawyer',
+      name: 'lawyer',
+      component: Lawyer
     }]
   }, {
     path: '/webInfo',
