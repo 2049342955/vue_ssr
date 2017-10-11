@@ -1,26 +1,33 @@
 <template>
   <section class="compute_detail">
-    
+    <Pay></Pay>
   </section>
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        nav: ''
-      }
-    },
-    methods: {
-      test (e) {
-        console.log(11)
+import Pay from '../common/Pay'
+export default {
+  components: {
+    Pay
+  },
+  data () {
+    return {
+      account:
+      {
+        balance: 80000.00
       }
     }
+  },
+  methods: {
+    test (e) {
+      console.log(11)
+    }
   }
+}
 </script>
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .compute_detail{
-    
+
   }
 </style>
