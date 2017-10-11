@@ -1,7 +1,7 @@
 <template>
   <section class="mask">
     <div class="form_box">
-      <div class="close" @click="closeEdit()">
+      <div class="close" @click="$parent.closeEdit()">
         <span class="icon"></span>
         <span>关闭</span>
       </div>
@@ -26,12 +26,6 @@
       },
       title: {
         type: String
-      }
-    },
-    methods: {
-      closeEdit () {
-        this.$parent.edit = ''
-        document.body.style.overflow = 'auto'
       }
     }
   }

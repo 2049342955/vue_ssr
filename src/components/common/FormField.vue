@@ -5,8 +5,8 @@
         <span>{{f.title}}</span>
         <span>*</span>
         <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" v-if="f.type!=='select'" :isChange="f.isChange">
-        <select name="" id="" v-else-if="f.option">
-          <option :value="k" v-for="v,k in f.option">{{v}}</option>
+        <select class="sel" :name="f.name" id="" v-else-if="f.option">
+          <option :value="v.value" v-for="v,k in f.option">{{v.title}}</option>
         </select>
         <div class="select" v-else>
           <select name="province_name" id="" @change="changeCity" :isChange="true">

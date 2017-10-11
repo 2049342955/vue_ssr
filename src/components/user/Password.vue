@@ -12,6 +12,7 @@
   import { mapState } from 'vuex'
   import MyMask from '@/components/common/Mask'
   import Setting from '@/components/common/Setting'
+  import md5 from 'js-md5'
   export default {
     components: {
       MyMask, Setting
@@ -24,7 +25,7 @@
         ],
         form: {
           login: [{name: 'mobile', type: 'text', title: '手机号码', edit: 'disabled'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取', success: '发送成功'}, {name: 'password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: '^.{6,16}$', tips: '密码应是6到16位'}, {name: 'password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: '^.{6,16}$', tips: '密码应是6到16位', error: '两次密码不一致'}],
-          trade: [{name: 'mobile', type: 'text', title: '手机号码', edit: 'disabled'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取', success: '发送成功'}, {name: 'password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: '^.{6,16}$', tips: '密码应是6到16位'}, {name: 'password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: '^.{6,16}$', tips: '密码应是6到16位', error: '两次密码不一致'}]
+          trade: [{name: 'mobile', type: 'text', title: '手机号码', edit: 'disabled'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取', success: '发送成功'}, {name: 'trade_password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: '^.{6,16}$', tips: '密码应是6到16位'}, {name: 'trade_password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: '^.{6,16}$', tips: '密码应是6到16位', error: '两次密码不一致'}]
         },
         edit: false,
         title: ''
@@ -34,20 +35,19 @@
       submit () {
         var form = document.querySelector('.form_content')
         var data = api.checkFrom(form)
+        data.trade_password = md5(data.trade_password)
+        data.trade_password1 = md5(data.trade_password1)
         var url = ''
-        var callbackUrl = ''
         var no = -1
-        var val = ''
         var sendData = {token: this.token, user_id: this.user_id}
         switch (this.edit) {
           case 'login':
-            url = '1'
+            url = 'forgitPwd'
+            no = 0
             break
           case 'trade':
-            url = 'user_truename'
-            callbackUrl = 'show_user_truename'
+            url = 'tradePassword'
             no = 1
-            val = 'true_name'
             break
         }
         if (!data) return false
@@ -55,12 +55,14 @@
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (data) {
           if (data) {
             self.closeEdit()
-            util.post(callbackUrl, {sign: api.serialize(sendData)}).then(function (res) {
-              self.nav[no].status = 1
-              self[val] = res
-            })
+            self.nav[no].status = 1
+            console.log(data)
           }
         })
+      },
+      closeEdit () {
+        this.edit = ''
+        document.body.style.overflow = 'auto'
       }
     },
     computed: {

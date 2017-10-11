@@ -25,7 +25,7 @@
             <span class="tel">{{mobile|format}}</span>
             <a href="javascript:;" @click="logout">退出</a>
           </template>
-          <router-link class="border" to="/user/account" v-if="!$route.path.includes('user')">个人中心</router-link>
+          <router-link class="border" to="/user/computeProperty" v-if="!$route.path.includes('user')">个人中心</router-link>
           <!-- <router-link class="border" to="/auth/login">登录</router-link> -->
         </template>
       </div>

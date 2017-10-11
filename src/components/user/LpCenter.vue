@@ -116,8 +116,7 @@
       padding:0 15px !important;
       button{
         float: right;
-        background: $blue;
-        color: $white;
+        @include button($blue)
         padding:5px 15px;
         margin-top:10px;
       }
