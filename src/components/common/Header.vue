@@ -1,5 +1,5 @@
 <template>
-  <header :class="[{frame_header: !$route.path.includes('user')&&!$route.path.includes('account')}, {bdc_box: $route.path.includes('bdc')}, {login_box:$route.path.includes('login')}, {auth_box:$route.path.includes('auth')}, {user_box:$route.path.includes('user')||$route.path.includes('account')}]">
+  <header :class="[{frame_header: !$route.path.includes('user')&&!$route.path.includes('cloudCompute/detail')&&!$route.path.includes('account')}, {border_box: $route.path.includes('bdc')||$route.path.includes('login')}, {auth_box:$route.path.includes('auth')&&!$route.path.includes('login')}, {user_box:$route.path.includes('user')||$route.path.includes('account')||$route.path.includes('cloudCompute/detail')}]">
     <section class="box">
       <router-link class="logo" to="/"></router-link>
       <nav>
@@ -103,10 +103,10 @@
       color:$white
     }
   }
-  .bdc_box,.login_box{
+  .border_box{
     border-bottom:1px solid $light_text;
   }
-  .auth_box:not(.login_box){
+  .auth_box{
     position: relative;
     z-index: 2;
     box-shadow:0px 4px 7px 0px rgba(138, 126, 126, 0.21);
@@ -114,7 +114,7 @@
       background: transparent
     }
   }
-  .auth_box:not(.login_box),.user_box{
+  .auth_box,.user_box{
     .box{
       .logo{
         background: url('../../assets/images/css_sprites.png') -10px -10px;

@@ -1,5 +1,5 @@
 <template>
-  <article class="home">
+  <article class="cloud_compute">
   	<router-view class="content"></router-view>
   </article>
 </template>
