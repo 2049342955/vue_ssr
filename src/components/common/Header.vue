@@ -1,5 +1,5 @@
 <template>
-  <header :class="[{frame_header: !$route.path.includes('user')&&!$route.path.includes('cloudCompute/detail')&&!$route.path.includes('account')&&!$route.path.includes('helpSupport')&&!$route.path.includes('webInfo')}, {border_box: $route.path.includes('bdc')||$route.path.includes('login')}, {auth_box:$route.path.includes('auth')&&!$route.path.includes('login')}, {user_box:$route.path.includes('user')||$route.path.includes('account')||$route.path.includes('cloudCompute/detail')||$route.path.includes('helpSupport')||$route.path.includes('webInfo')}]">
+  <header :class="[{frame_header: !$route.path.includes('user')&&!$route.path.includes('cloudCompute/detail')&&!$route.path.includes('account')&&!$route.path.includes('other')}, {border_box: $route.path.includes('bdc')||$route.path.includes('login')}, {auth_box:$route.path.includes('auth')&&!$route.path.includes('login')}, {user_box:$route.path.includes('user')||$route.path.includes('account')||$route.path.includes('cloudCompute/detail')||$route.path.includes('other')}]">
     <section class="box">
       <router-link class="logo" to="/"></router-link>
       <nav>
@@ -18,8 +18,8 @@
           </div>
         </template>
         <template v-else>
-          <router-link to="/helpSupport/safeGuarantee">支持</router-link>
-          <router-link to="/helpSupport/aboutUs">关于</router-link>
+          <router-link to="/other/safeGuarantee">支持</router-link>
+          <router-link to="/other/aboutUs">关于</router-link>
           <template v-if="token===''">
             <router-link class="btn" to="/auth/login">登录</router-link>
             <router-link class="border" to="/auth/regist">注册</router-link>

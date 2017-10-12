@@ -1,11 +1,12 @@
 <template>
   <section class="safe">
-    
+    <h3>安全保障</h3>
   </section>
 </template>
 
 <script>
   export default {
+    name: 'safeGuarantee',
     data () {
       return {
         nav: ''
@@ -21,6 +22,6 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .safe{
-    
+
   }
 </style>

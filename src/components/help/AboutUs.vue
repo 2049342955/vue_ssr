@@ -1,14 +1,73 @@
 <template>
   <section class="about_us">
-    
+    <div class="summarize">
+        <h3>关于我们</h3>
+        <p>算力网（www.suanLi.com）是由浙江数秦科技有限公司开发的云算力租赁平台，公司成立于2017年，由浙江数秦科技有限公司及多家上市公司、独立基金共同打造，并由浙江数秦科技有限公司独立运营，目前算力网以出售云矿机，云算力租赁为主营业务。</p>
+        <p>目前算力网以云算力和云矿机租赁为主营业务。算力网将IDC服务提供商主板上市企业高升控股（000971）、全球最大比特币矿机生产商嘉楠耘智、全球最大的比特币交易所及钱包服务商OKCoin、矿池等资源进行打通和整合，让用户通过网络即可实现远程挖矿，体验科技同时享受算力产生的比特币。</p>
+    </div>
+    <div class="site">
+      <h3>公司地址</h3>
+      <div class="mapImg">
+        <div class="mark"></div>
+      </div>
+    </div>
+    <div class="site">
+      <h3>客服电话</h3>
+      <p>如果您在使用suanli.com平台的过程中有任何疑问请您与客服人员联系。</p>
+      <div>
+        <p>
+          客服电话：
+          <span>0571-288221076</span>
+        </p>
+        <p>
+          工作时间：9:00 — 21:00
+        </p>
+      </div>
+    </div>
+    <div class="site" v-for="data in datas">
+      <h3>{{data.title}}</h3>
+      <p>{{data.text}}</p>
+    </div>
+    <!-- <div class="media">
+      <h3>媒体采访</h3>
+      <p>如果有媒体采访需求，请将您的媒体名称、采访提纲、联系方式发至： lzy@baoquan.com ，我们会尽快与您联系。</p>
+    </div>
+    <div class="cooperate">
+      <h3>商务合作</h3>
+      <p>如果贵公司希望与我们建立商务合作关系，形成优势互补，请将合作意向进行简要描述并发送邮件至： BD@suanli.com ，我们会尽快与您联系。</p>
+    </div> -->
   </section>
 </template>
 
 <script>
   export default {
+    name: 'aboutUs',
     data () {
       return {
-        nav: ''
+        datas:
+        [
+          {
+            title: '媒体采访',
+            text: '如果有媒体采访需求，请将您的媒体名称、采访提纲、联系方式发至： lzy@baoquan.com ，我们会尽快与您联系。'
+          },
+          {
+            title: '商务合作',
+            text: '如果贵公司希望与我们建立商务合作关系，形成优势互补，请将合作意向进行简要描述并发送邮件至： BD@suanli.com ，我们会尽快与您联系。'
+          }
+        ],
+        distribute:
+        [
+          {
+            name: '杭州总部',
+            address: '浙江省杭州市学院路77号黄龙国际中心G座-907',
+            telNumber: '0571-28221076'
+          },
+          {
+            name: '北京分部',
+            address: '北京市学院路77号黄龙国际中心G座',
+            telNumber: '011-28221076'
+          }
+        ]
       }
     },
     methods: {
@@ -21,6 +80,53 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .about_us{
-    
+    background: #fff;
+    .summarize{
+      height: 300px;
+      margin-bottom: 30px;
+      background: url(../../assets/images/aboutBg.png);
+      color: #ffffff;
+      padding: 40px 65px;
+      h3{
+        font-size: 24px;
+      }
+      p{
+        font-weight: normal;
+        margin-top: 40px;
+        font-size: 14px;
+      }
+    }
+    .site{
+      padding: 40px;
+      h3{
+        font-size: 24px;
+        font-weight: 400;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e5e5e5;
+        margin-bottom: 20px;
+      }
+      p{
+          margin: 0 110px 20px 0;
+      }
+      div{
+        @include flex(flex-start,stretch);
+        p{
+          span{
+            color: #1687ee;
+          }
+        }
+      }
+      .mapImg{
+        height:470px;
+        position: relative;
+        display: block;
+        background: url(../../assets/images/address.png);
+        .mark{
+          position: absolute;
+          top: 70px;
+          left: 35px;
+        }
+      }
+    }
   }
 </style>
