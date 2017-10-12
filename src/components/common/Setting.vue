@@ -12,7 +12,7 @@
         <template v-if="n.status&&n.name==='address'">{{n.text}}：<span>{{$parent.bindAddress.product_hash_type}}</span></template>
       </div>
       <div class="opr" @click="setEdit(n.name,n.title,n.setting)" v-if="n.name!=='test'">{{n.opr}}</div>
-      <router-link class="opr" to="/accountEvaluate" v-else>{{n.opr}}</router-link>
+      <div class="opr" @click="test(n.setting)" v-else>{{n.opr}}</div>
     </div>
   </div>
 </template>
@@ -43,6 +43,10 @@
         this.$parent.title = title
         window.scroll(0, 0)
         document.body.style.overflow = 'hidden'
+      },
+      test (n) {
+        if (n) return false
+        this.$router.push({name: 'accountEvaluate'})
       }
     },
     computed: {
@@ -58,21 +62,25 @@
       util.post('getAll', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (data) {
         if (data.true_name) {
           self.$parent.nav[1].status = 1
-          self.$parent.nav[1].opr = self.tipInfo[data.true_name.status]
-          self.$parent.nav[1].setting = data.true_name.status === 1
+          self.$parent.nav[1].opr = data.true_name.status > 1 ? '重新认证' : self.tipInfo[data.true_name.status]
+          self.$parent.nav[1].setting = data.true_name.status > 1
           self.$parent.true_name = data.true_name
         }
         if (data.bank_card) {
           self.$parent.nav[3].status = 1
           self.$parent.bankCard = data.bank_card
+          self.$parent.nav[3].opr = '重新绑定'
         }
         if (data.risk.user_risk_score > 0) {
           self.$parent.nav[2].status = 1
           self.$parent.testResult = data.risk.user_risk_score
+          self.$parent.nav[2].opr = '已测评'
+          self.$parent.nav[2].setting = true
         }
         if (data.bindAddress) {
           self.$parent.nav[4].status = 1
           self.$parent.bindAddress = data.bindAddress
+          self.$parent.nav[3].opr = '重新设置'
         }
       })
     },

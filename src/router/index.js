@@ -85,7 +85,7 @@ export default new Router({
     path: '/cloudCompute',
     component: CloudCompute,
     children: [{
-      path: 'shop/:type/:sort',
+      path: 'list/:type/:sort',
       name: 'computeShop',
       component: ComputeShop
     }, {
@@ -97,7 +97,7 @@ export default new Router({
     path: '/computeTransfer',
     component: ComputeTransfer,
     children: [{
-      path: 'list',
+      path: 'list/:type/:sort',
       name: 'transferList',
       component: TransferList
     }, {

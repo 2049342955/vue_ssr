@@ -1,5 +1,5 @@
 <template>
-  <header :class="[{frame_header: !$route.path.includes('user')&&!$route.path.includes('cloudCompute/detail')&&!$route.path.includes('account')&&!$route.path.includes('helpSupport')&&!$route.path.includes('webInfo')}, {border_box: $route.path.includes('bdc')||$route.path.includes('login')}, {auth_box:$route.path.includes('auth')&&!$route.path.includes('login')}, {user_box:$route.path.includes('user')||$route.path.includes('account')||$route.path.includes('cloudCompute/detail')||$route.path.includes('helpSupport')||$route.path.includes('webInfo')}]">
+  <header :class="[{frame_header: !$route.path.includes('user')&&!$route.path.includes('/detail')&&!$route.path.includes('account')&&!$route.path.includes('helpSupport')&&!$route.path.includes('webInfo')}, {border_box: $route.path.includes('bdc')||$route.path.includes('login')}, {auth_box:$route.path.includes('auth')&&!$route.path.includes('login')}, {user_box:$route.path.includes('user')||$route.path.includes('account')||$route.path.includes('/detail')||$route.path.includes('helpSupport')||$route.path.includes('webInfo')}]">
     <section class="box">
       <router-link class="logo" to="/"></router-link>
       <nav>
@@ -41,7 +41,7 @@
     name: 'header',
     data () {
       return {
-        nav: {'云矿机商城': '/cloudCompute/shop/1/all', '算力转让区': '/computeTransfer/List', 'BDC展示区': '/bdc/list'}
+        nav: {'云矿机商城': '/cloudCompute/list/1/all', '算力转让区': '/computeTransfer/list/1/all', 'BDC展示区': '/bdc/list'}
       }
     },
     created () {

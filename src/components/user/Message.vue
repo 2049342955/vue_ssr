@@ -23,7 +23,9 @@
       return {
         data: [{title: '认证审核已经通过', content: '如果你无法通过上面按钮验证电子邮箱，请点击下面的链接', time: '2017-02-03 18:00', isread: false}, {title: '认证审核已经通过', content: '如果你无法通过上面按钮验证电子邮箱，请点击下面的链接', time: '2017-02-03 18:00', isread: false}, {title: '认证审核已经通过', content: '如果你无法通过上面按钮验证电子邮箱，请点击下面的链接', time: '2017-02-03 18:00', isread: false}, {title: '认证审核已经通过', content: '如果你无法通过上面按钮验证电子邮箱，请点击下面的链接', time: '2017-02-03 18:00', isread: false}],
         len: 0,
-        now: 0
+        now: 1,
+        leftSibling: 0,
+        rightSibling: 0
       }
     },
     methods: {

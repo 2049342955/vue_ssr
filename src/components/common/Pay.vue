@@ -5,42 +5,54 @@
       <div class="orderDetail">
         <div class="detailH">
           <div class="borderR" v-for="d,k in proData">
-            <p class="value"><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
+            <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
+            <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
+            <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
             <p>{{d.title}}</p>
           </div>
         </div>
         <div class="detailF">
           <p v-for="t,k in proText">{{t}}：
-            <span class="value">{{$parent.detail[k]}}</span>
+            <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
+            <span class="value" v-else>{{$parent.detail[k]}}</span>
           </p>
         </div>
       </div>
     </div>
     <div class="orderPay">
       <div class="detail">
-        <p class="title">
-          批次所在区域：
-          <span class="value">{{$parent.detail.address}}</span>
-        </p>
-        <div class="text">{{$parent.detail.desc}}</div>
+        <div class="img">
+          <img :src="$parent.detail.imgurl" alt="">
+        </div>
+        <div class="text">
+          <p>
+            <span class="title">批次所在区域：</span>
+            <span class="value">{{$parent.detail.address}}</span>
+          </p>
+          <p>{{$parent.detail.desc}}</p>
+        </div>
       </div>
       <form class="form payForm" action="" @submit.prevent="pay" novalidate>
-        <p class="sum">
-          应付金额：
-          <span class="value"><span>{{$parent.detail.price * $parent.number}}</span> 元</span>
-        </p>
-        <p class="account">
-          <span>
-          账户余额：
-            <span class="value"><span>{{$parent.account.balance}}</span> 元</span>
-          </span>
+        <div class="pay_text">
+          <div class="pay_value">
+            应付金额：
+            <span class="value">{{totalPrice|format}}</span>
+            <span>元</span>
+          </div>
+        </div>
+        <div class="pay_text">
+          <div class="pay_money">
+            账户余额：
+            <span class="money">{{balance}}</span>
+            <span>元</span>
+          </div>
           <router-link to="/user/moneyFlow">充值</router-link>
-        </p>
+        </div>
         <FormField :form="form" class="form"></FormField>
         <label for="accept">
           <input type="checkbox" id="accept" name="accept" checked>
           <span>阅读并接受<router-link to="/auth/serviceTerms">《算力网服务条款》</router-link></span>
-          <span class="select_accept">请选择</span>
+          <span class="select_accept">{{tips}}</span>
         </label>
         <button>确认支付</button>
       </form>
@@ -53,14 +65,22 @@
   import api from '@/util/function'
   import FormField from '@/components/common/FormField'
   export default {
-    name: 'pay',
+    props: {
+      page: {
+        type: String
+      },
+      proData: {
+        type: Object
+      },
+      proText: {
+        type: Object
+      }
+    },
     components: {
       FormField
     },
     data () {
       return {
-        proData: {title: {title: '矿机名称', unit: ''}, price: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '每日电费约', unit: 'btc'}},
-        proText: {hashType: '算力类型', hash: '每台矿机算力', buyType: '购买类型', incomeType: '结算方式'},
         form:
         [
           {
@@ -72,23 +92,31 @@
             tips: '密码应是6到16位,请输入密码'
           }
         ],
-        tips: ''
+        tips: '请同意服务条款',
+        balance: 10000,
+        totalPrice: 0
       }
     },
     methods: {
       pay () {
         var ff = document.querySelector('.payForm')
-        var account = this.orderDetail.purchase.number * this.orderDetail.purchase.unitPrice
-        var balance = this.$parent.account.balance
-        if (account > balance) { // 余额不足验证
-          this.tips = '余额不足'
-          alert(this.tips)
+        var account = this.$parent.number * this.$parent.detail.price
+        if (account > this.balance) { // 余额不足验证
+          this.tips = '余额不足，请充值'
+          ff.accept.setAttribute('data-status', 'invalid')
+          setTimeout(() => {
+            ff.accept.setAttribute('data-status', '')
+          }, 2000)
           return false
         }
         var data = api.checkFrom(ff)
         if (!data) return false
         if (!ff.accept.checked) {
+          this.tips = '请同意服务条款'
           ff.accept.setAttribute('data-status', 'invalid')
+          setTimeout(() => {
+            ff.accept.setAttribute('data-status', '')
+          }, 2000)
           return false
         }
         // 确认支付
@@ -98,9 +126,20 @@
         //   }
         // })
       }
+    },
+    mounted () {
+      if (this.page === 'cloudCompute') {
+        this.totalPrice = this.$parent.detail.price * this.$parent.number
+      } else {
+        this.totalPrice = this.$parent.detail.price * this.$parent.detail.hash
+      }
+    },
+    filters: {
+      format: api.decimal
     }
   }
 </script>
+
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .pay{
@@ -113,7 +152,7 @@
         font-size: 18px;
         font-weight: bold;
         color: #333;
-        padding: 8px 0;
+        padding: 10px 0;
         border-bottom: 1px solid #eee;
       }
       .orderDetail{
@@ -129,12 +168,11 @@
           text-align: center;
           div{
             width: 20%;
-            // text-align: left;
             .value span{
               font-size: 20px;
             }
           }
-          .borderR{
+          .borderR:not(:last-child){
             border-right: 1px solid #e5e5e5;
           }
         }
@@ -151,56 +189,77 @@
     }
     .orderPay{
       margin-top: 20px;
-      height: 288px;
+      outline: 1px solid #ff975a;
       border: 5px solid #ffe6d7;
-      box-shadow: 0 0 5px 5px #ffe6d7 inset;
       background:$white;
       padding: 20px 25px;
       @include flex(space-between);
       .detail{
+        flex:1;
         background: #f7f8fa;
-        width: 642px;
-        height: 235px;
-        padding: 0 30px 0 318px;
-        .title{
-          margin: 53px 0 25px;
-          padding-left: 20px;
-          .value{
-            font-size: 18px;
-            font-weight: bold;
-            color:#333;
-          }
+        height: 290px;
+        margin-right: 115px;
+        @include flex
+        .img{
+          @include fitimg(295,235)
         }
         .text{
-          color: #666;
+          flex:1;
+          padding:25px;
+          p{
+            color:$light_text;
+            .title{
+              color: $light_black;
+            }
+            .value{
+              font-size: 18px;
+              font-weight: bold;
+              color:$text;
+            }
+            & + p{
+              margin-top:30px
+            }
+          }
         }
       }
       form{
         @include form(v);
-        p{
+        width:360px;
+        .pay_text{
           margin-bottom: 20px;
-        }
-        .sum{
-          .value{
-            color: #c80009;
+          @include flex(space-between);
+          color: $light_black;
+          .pay_value{
             span{
-              font-size: 24px;
-              font-weight: bold;
+              color: #c80009;
+              &.value{
+                font-size: 24px;
+                font-weight: bold;
+              }
             }
           }
-        }
-        .account{
-          @include flex(space-between);
-          span{
-            .value{
-              color: #333;
-              span{
+          .pay_money{
+            span{
+              color: $text;
+              &.money{
                 font-weight: bold;
               }
             }
           }
           a{
             color: #327fff;
+          }
+        }
+        .input,.input input{
+          line-height: 1.5;
+        }
+        .input{
+          margin-bottom: 25px;
+          & span:last-child{
+            top: 44px;
+            &:before{
+              top:0px
+            }
           }
         }
         label{
