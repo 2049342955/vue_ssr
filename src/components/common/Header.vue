@@ -18,8 +18,8 @@
           </div>
         </template>
         <template v-else>
-          <router-link to="/helpSupport/safeGuarantee">支持</router-link>
-          <router-link to="/helpSupport/aboutUs">关于</router-link>
+          <router-link to="/other/safeGuarantee">支持</router-link>
+          <router-link to="/other/aboutUs">关于</router-link>
           <template v-if="token===''">
             <router-link class="btn" to="/auth/login">登录</router-link>
             <router-link class="border" to="/auth/regist">注册</router-link>

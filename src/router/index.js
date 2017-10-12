@@ -28,14 +28,14 @@ import Password from '@/components/user/Password'
 import Order from '@/components/user/Order'
 import OrderDetail from '@/components/user/OrderDetail'
 import AccountEvaluate from '@/components/user/AccountEvaluate'
-import HelpSupport from '@/views/HelpSupport'
+import Other from '@/views/Other'
 import AboutUs from '@/components/help/AboutUs'
 import Issues from '@/components/help/Issues'
 import Lawyer from '@/components/help/Lawyer'
 import SafeGuarantee from '@/components/help/SafeGuarantee'
-import WebInfo from '@/views/WebInfo'
-import Activity from '@/components/info/Activity'
+// import WebInfo from '@/views/WebInfo'
 import Notice from '@/components/info/Notice'
+import NoticeDetail from '@/components/info/NoticeDetail'
 
 Vue.use(Router)
 
@@ -165,8 +165,8 @@ export default new Router({
     path: '/mine',
     component: Mine
   }, {
-    path: '/helpSupport',
-    component: HelpSupport,
+    path: '/other',
+    component: Other,
     children: [{
       path: 'aboutUs',
       name: 'aboutUs',
@@ -183,18 +183,30 @@ export default new Router({
       path: 'lawyer',
       name: 'lawyer',
       component: Lawyer
-    }]
-  }, {
-    path: '/webInfo',
-    component: WebInfo,
-    children: [{
-      path: 'activity',
-      name: 'activity',
-      component: Activity
     }, {
-      path: 'notice',
+      path: 'notice/:sort',
       name: 'notice',
       component: Notice
+    }, {
+      // path: 'noticeDetail/:sort/:id',
+      path: 'noticeDetail/:id',
+      name: 'noticeDetail',
+      component: NoticeDetail
     }]
-  }]
-})
+  }
+  // , {
+  //   path: '/webInfo',
+  //   component: WebInfo,
+  //   children: [{
+  //     path: 'noticeDetail/:type/:id',
+  //     name: 'noticeDetail',
+  //     component: NoticeDetail
+  //   }, {
+  //     path: 'notice/:sort/:id',
+  //     name: 'notice',
+  //     component: Notice
+  //   }]
+  // }
+  ]
+}
+)
