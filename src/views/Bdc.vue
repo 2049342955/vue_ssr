@@ -13,3 +13,8 @@ export default {
   }
 }
 </script>
+<style type="text/css" lang="scss">
+	.bdc{
+		padding-top:80px;
+	}
+</style>

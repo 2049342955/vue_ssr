@@ -30,7 +30,7 @@ api.serialize = data => {
   return str
 }
 api.decimal = (f) => {
-  return f.toFixed(2)
+  return (+f).toFixed(2)
 }
 api.readable = (num) => {
   var result = ''
