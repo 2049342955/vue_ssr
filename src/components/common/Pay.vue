@@ -53,8 +53,6 @@
   import api from '@/util/function'
   import FormField from '@/components/common/FormField'
   export default {
-    // props: ['detail'], // 获取父组件数据，不修改父组件数据
-    name: 'pay',
     components: {
       FormField
     },
