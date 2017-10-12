@@ -1,5 +1,5 @@
 <template>
-  <header :class="[{frame_header: !$route.path.includes('user')&&!$route.path.includes('cloudCompute/detail')&&!$route.path.includes('account')&&!$route.path.includes('other')}, {border_box: $route.path.includes('bdc')||$route.path.includes('login')}, {auth_box:$route.path.includes('auth')&&!$route.path.includes('login')}, {user_box:$route.path.includes('user')||$route.path.includes('account')||$route.path.includes('cloudCompute/detail')||$route.path.includes('other')}]">
+  <header :class="[{frame_header: !$route.path.includes('user')&&!$route.path.includes('/detail')&&!$route.path.includes('account')&&!$route.path.includes('helpSupport')&&!$route.path.includes('webInfo')}, {border_box: $route.path.includes('bdc')||$route.path.includes('login')}, {auth_box:$route.path.includes('auth')&&!$route.path.includes('login')}, {user_box:$route.path.includes('user')||$route.path.includes('account')||$route.path.includes('/detail')||$route.path.includes('helpSupport')||$route.path.includes('webInfo')}]">
     <section class="box">
       <router-link class="logo" to="/"></router-link>
       <nav>
