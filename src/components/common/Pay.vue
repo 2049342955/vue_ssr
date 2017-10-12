@@ -202,6 +202,7 @@
       margin-top: 20px;
       height: 288px;
       border: 5px solid #ffe6d7;
+      box-shadow: 0 0 5px 5px #ffe6d7 inset;
       background:$white;
       padding: 20px 25px;
       @include flex(space-between);
