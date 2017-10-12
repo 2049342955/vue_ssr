@@ -51,7 +51,7 @@
           * {{orderDetail.detail}}
         </div>
       </div>
-      <form class="form pay" action="" @submit.prevent="pay" novalidate>
+      <form class="form payForm" action="" @submit.prevent="pay" novalidate>
         <p class="sum">
           应付金额：
           <span class="value"><span>{{orderDetail.purchase.unitPrice * orderDetail.purchase.number}}</span> 元</span>
@@ -66,6 +66,7 @@
         </p>
         <FormField :form="form" class="form"></FormField>
         <label for="accept">
+          <span class="tips">0000000{{tips.text}}</span>
           <input type="checkbox" id="accept" name="accept" checked>
           <span>阅读并接受<router-link to="/auth/serviceTerms">《算力网服务条款》</router-link></span>
           <span class="select_accept">请选择</span>
@@ -115,25 +116,25 @@
             title: '交易密码',
             placeholder: '',
             pattern: '^.{6,16}$',
-            tips: '密码应是6到16位'
+            tips: '密码应是6到16位,请输入密码'
           }
-        ]
+        ],
+        tips: ''
       }
     },
     methods: {
       pay () {
-        var ff = document.querySelector('.pay')
-        var data = api.checkFrom(ff)
+        var ff = document.querySelector('.payForm')
+        var tips = document.querySelector('.tips')
         var account = this.orderDetail.purchase.number * this.orderDetail.purchase.unitPrice
         var balance = this.$parent.account.balance
-        if (account > balance) {
-          this.form.tips = '余额不足'
+        if (account > balance) { // 余额不足验证
+          this.tips = '余额不足'
+          tips.setAttribute('display', 'block')
           return false
         }
-        if (!data) {
-          this.form.tips = '请输入密码'
-          return false
-        }
+        var data = api.checkFrom(ff)
+        if (!data) return false
         if (!ff.accept.checked) {
           ff.accept.setAttribute('data-status', 'invalid')
           return false
@@ -252,8 +253,9 @@
         }
         label{
           display:block;
-          margin: -15px 0 0;
+          // margin: -10px 0 0;
           color: #666;
+          position: relative;
           input{
             &:checked{
               background: #ff721f;
@@ -266,6 +268,12 @@
             &[data-status='invalid'] ~ span.select_accept{
               display: inline;
             }
+          }
+          .tips{
+            position: absolute;
+            top: -20px;
+            color: #ea2c2c;
+            display: none;
           }
         }
         button{

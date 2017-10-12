@@ -14,7 +14,7 @@ export default {
     return {
       account:
       {
-        balance: 80000.00
+        balance: 800.00
       }
     }
   },
