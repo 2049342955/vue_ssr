@@ -53,6 +53,17 @@
   import api from '@/util/function'
   import FormField from '@/components/common/FormField'
   export default {
+    props: {
+      page: {
+        type: String
+      },
+      proData: {
+        type: Object
+      },
+      proText: {
+        type: Object
+      }
+    },
     components: {
       FormField
     },
