@@ -1,6 +1,5 @@
 <template>
   <article class="home">
-    <img :src="banner" alt="">
   </article>
 </template>
 

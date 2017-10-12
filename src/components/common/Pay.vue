@@ -4,39 +4,14 @@
       <h3 class="title">确认订单信息</h3>
       <div class="orderDetail">
         <div class="detailH">
-          <div class="borderR">
-            <p class="value"><span>{{orderDetail.name}}</span></p>
-            <p>每台服务器价格</p>
-          </div>
-          <div class="borderR">
-            <p class="value"><span>{{orderDetail.price}}</span> 元</p>
-            <p>每台服务器价格</p>
-          </div>
-          <div class="borderR">
-            <p class="value"><span>{{orderDetail.amount}}</span> 台</p>
-            <p>每台服务器数量</p>
-          </div>
-          <div class="borderR">
-            <p class="value"><span>{{orderDetail.income}}</span> btc</p>
-            <p>今日每T预计收益</p>
-          </div>
-          <div>
-            <p class="value"><span>{{orderDetail.electricityFees}}</span> btc</p>
-            <p>每日电费约</p>
+          <div class="borderR" v-for="d,k in proData">
+            <p class="value"><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
+            <p>{{d.title}}</p>
           </div>
         </div>
         <div class="detailF">
-          <p>算力类型：
-            <span class="value">{{orderDetail.types}}</span>
-          </p>
-          <p>每台矿机算力：
-            <span class="value">{{orderDetail.power}}</span>
-          </p>
-          <p>购买类型：
-            <span class="value">{{orderDetail.purchase.state}}</span>
-          </p>
-          <p>结算方式：
-            <span class="value">{{orderDetail.purchase.settleMethod}}</span>
+          <p v-for="t,k in proText">{{t}}：
+            <span class="value">{{$parent.detail[k]}}</span>
           </p>
         </div>
       </div>
@@ -45,28 +20,24 @@
       <div class="detail">
         <p class="title">
           批次所在区域：
-          <span class="value">{{orderDetail.area}}</span>
+          <span class="value">{{$parent.detail.address}}</span>
         </p>
-        <div class="text">
-          * {{orderDetail.detail}}
-        </div>
+        <div class="text">{{$parent.detail.desc}}</div>
       </div>
       <form class="form payForm" action="" @submit.prevent="pay" novalidate>
         <p class="sum">
           应付金额：
-          <span class="value"><span>{{orderDetail.purchase.unitPrice * orderDetail.purchase.number}}</span> 元</span>
+          <span class="value"><span>{{$parent.detail.price * $parent.number}}</span> 元</span>
         </p>
         <p class="account">
           <span>
           账户余额：
             <span class="value"><span>{{$parent.account.balance}}</span> 元</span>
           </span>
-          <!-- <router-link >充值</router-link> -->
-          <a>充值</a>
+          <router-link to="/user/moneyFlow">充值</router-link>
         </p>
         <FormField :form="form" class="form"></FormField>
         <label for="accept">
-          <span class="tips">0000000{{tips.text}}</span>
           <input type="checkbox" id="accept" name="accept" checked>
           <span>阅读并接受<router-link to="/auth/serviceTerms">《算力网服务条款》</router-link></span>
           <span class="select_accept">请选择</span>
@@ -78,43 +49,25 @@
 </template>
 
 <script>
-  import util from '@/util/index'
+  // import util from '@/util/index'
   import api from '@/util/function'
   import FormField from '@/components/common/FormField'
   export default {
     name: 'pay',
     components: {
-      util, api, FormField
+      FormField
     },
     data () {
       return {
-        orderDetail:
-        {
-          name: '阿瓦隆1号矿机',
-          price: '10000.00',
-          amount: '100',
-          income: '0.12441251',
-          electricityFees: '0.12441251',
-          types: 'BTC',
-          power: '9.00',
-          area: '1号楼A区',
-          detail: 'BTC挖矿阿瓦隆001号算力矿机来源嘉楠智A741矿机BTC挖矿阿瓦隆001号算力矿机来源嘉楠智A741矿机',
-          logoImg: '',
-          purchase:
-          {
-            state: '预售',
-            settleMethod: '每日结算，次日发放',
-            number: 5,
-            unitPrice: 1900.00
-          }
-        },
+        proData: {title: {title: '矿机名称', unit: ''}, price: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '每日电费约', unit: 'btc'}},
+        proText: {hashType: '算力类型', hash: '每台矿机算力', buyType: '购买类型', incomeType: '结算方式'},
         form:
         [
           {
             name: 'payPsd',
             type: 'password',
             title: '交易密码',
-            placeholder: '',
+            placeholder: '请输入交易密码',
             pattern: '^.{6,16}$',
             tips: '密码应是6到16位,请输入密码'
           }
@@ -125,12 +78,11 @@
     methods: {
       pay () {
         var ff = document.querySelector('.payForm')
-        var tips = document.querySelector('.tips')
         var account = this.orderDetail.purchase.number * this.orderDetail.purchase.unitPrice
         var balance = this.$parent.account.balance
         if (account > balance) { // 余额不足验证
           this.tips = '余额不足'
-          tips.setAttribute('display', 'block')
+          alert(this.tips)
           return false
         }
         var data = api.checkFrom(ff)
@@ -152,8 +104,7 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .pay{
-    width: 1180px;
-    margin: 20px auto;
+    @include main
     color: #999;
     .orderMsg{
       background: #fff;
@@ -252,28 +203,20 @@
           }
         }
         label{
-          display:block;
-          // margin: -10px 0 0;
           color: #666;
-          position: relative;
           input{
             &:checked{
               background: #ff721f;
               border-color: #ff721f;
             }
-            .select_accept{
+            & ~ span.select_accept{
+              display: none;
               color: #ff721f;
               font-size: 12px;
             }
             &[data-status='invalid'] ~ span.select_accept{
               display: inline;
             }
-          }
-          .tips{
-            position: absolute;
-            top: -20px;
-            color: #ea2c2c;
-            display: none;
           }
         }
         button{
