@@ -20,9 +20,9 @@
     },
     data () {
       return {
-        computeDate: [{id: 1, title: '阿瓦隆001号', type: 'btc', price: 1200, yPrice: 868, hash: '9.0', number: 6, useNum: 85}, {id: 1, title: '阿瓦隆001号', type: 'btc', price: 1200, yPrice: 868, hash: '9.0', number: 6, useNum: 85}, {id: 1, title: '阿瓦隆001号', type: 'btc', price: 1200, yPrice: 868, hash: '9.0', number: 6, useNum: 85}, {id: 1, title: '阿瓦隆001号', type: 'btc', price: 1200, yPrice: 868, hash: '9.0', number: 6, useNum: 85}, {id: 1, title: '阿瓦隆001号', type: 'btc', price: 1200, yPrice: 868, hash: '9.0', number: 6, useNum: 85}, {id: 1, title: '阿瓦隆001号', type: 'btc', price: 1200, yPrice: 868, hash: '9.0', number: 6, useNum: 85}],
-        sort: [{title: '价格', option: ['transfer_price-asc', 'transfer_price-desc'], value: 0}, {title: '数量', option: ['transfer_amount-asc', 'transfer_amount-desc'], value: 0}, {title: '期限', option: ['transfer_time-asc', 'transfer_time-desc'], value: 0}, {title: '已使用时长', option: ['num_asc', 'num_desc'], value: 0}],
-        dataNav: {'price': {title: '转让每T算力价格', unit: '元'}, 'hash': {title: '转让数量', unit: 'T'}, 'number': {title: '转让时长', unit: '天'}, 'yPrice': {title: '原始算力价格', unit: '元'}, 'useNum': {title: '已使用时长', unit: '天'}}
+        computeDate: [],
+        sort: [{title: '价格', option: ['transfer_price-asc', 'transfer_price-desc'], value: 0}, {title: '数量', option: ['transfer_amount-asc', 'transfer_amount-desc'], value: 0}, {title: '期限', option: ['transfer_time-asc', 'transfer_time-desc'], value: 0}, {title: '已使用时长', option: ['birth_time-asc', 'birth_time-desc'], value: 0}],
+        dataNav: {'transfer_price': {title: '转让每T算力价格', unit: '元'}, 'transfer_amount': {title: '转让数量', unit: 'T'}, 'transfer_time': {title: '转让时长', unit: '天'}, 'original_rice': {title: '原始算力价格', unit: '元'}, 'birth_time': {title: '已使用时长', unit: '天'}}
       }
     },
     methods: {
@@ -30,10 +30,15 @@
         var self = this
         this.now = this.$route.params.type
         this.show = false
-        // console.log(this.$route.params.type)
-        // console.log(this.$route.params.sort)
-        util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
-          self.data = res
+        var obj = {}
+        if (this.$route.params.sort === 'all') {
+          obj = {token: this.token, product_hash_type: this.$route.params.type, page: 1}
+        } else {
+          obj = {token: this.token, product_hash_type: this.$route.params.type, order_type: this.$route.params.sort, page: 1}
+        }
+        util.post('getHashrates', {sign: api.serialize(obj)}).then(function (res) {
+          console.log(res)
+          self.computeDate = res.list
         })
       }
     },

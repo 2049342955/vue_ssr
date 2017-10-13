@@ -11,7 +11,6 @@ let api = axios.create({
 // 修改返回数据格式
 api.defaults.transformResponse = (res) => {
   if (res.code === '2000') {
-    alert(res.msg)
     return false
   }
   return res.msg

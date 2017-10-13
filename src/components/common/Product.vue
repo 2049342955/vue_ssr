@@ -33,7 +33,7 @@
                 <span>{{$parent.detail[k]}}</span>
               </div>
             </div>
-            <h4>{{$parent.detail.desc}}</h4>
+            <h4>{{$parent.detail.machine_intro}}</h4>
           </div>
         </div>
       </div>
@@ -59,8 +59,8 @@
       <div class="price transfer" v-else>
         <div class="price_title tips">转让算力服务器</div>
         <div class="price_input">
-          <div class="price_text">需支付：<span class="money">{{$parent.detail.price*$parent.detail.hash|format}}元</span></div>
-          <div class="price_text">总算力：<span class="money">{{$parent.detail.hash|format}}T</span></div>
+          <div class="price_text">需支付：<span class="money">{{$parent.detail.total_price|format}}元</span></div>
+          <div class="price_text">总算力：<span class="money">{{$parent.detail.transfer_amount|format}}T</span></div>
           <button class="btn" v-if="!$parent.detail.transfer" @click="$parent.goPay">立即支付</button>
           <button class="btn" disabled v-else>已转让</button>
         </div>
@@ -69,17 +69,11 @@
     <div class="info">
       <div class="info_item">
         <h3>产品优势</h3>
-        <div class="box">
-          <div class="item" v-for="a,k in $parent.detail.advantage">{{a}}</div>
-        </div>
+        <div class="box" v-html="$parent.detail.machine_agreement"></div>
       </div>
       <div class="info_item">
         <h3>协议说明</h3>
-        <div class="box">
-          <div class="item" v-for="p,k in $parent.detail.Protocol">
-            <p>{{p}}</p>
-          </div>
-        </div>
+        <div class="box" v-html="$parent.detail.machine_advantage"></div>
       </div>
       <div class="info_item">
         <h3>矿场相册</h3>
@@ -104,6 +98,9 @@
         type: Object
       },
       proText: {
+        type: Object
+      },
+      text: {
         type: Object
       }
     },
@@ -271,10 +268,7 @@
         }
         .box{
           padding:30px 0;
-          font-size: 16px;
-          .item{
-            margin-bottom:30px
-          }
+          font-size: 16px
         }
         &:first-child{
           .box{

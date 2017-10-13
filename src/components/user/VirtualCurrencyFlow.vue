@@ -4,12 +4,12 @@
     <h3>流水详情</h3>
     <div class="detail_box">
       <div class="data">
-        <template v-for="d,k in data">
+        <template v-for="d,k in dataNav">
           <div class="item">
-            <p>{{d.text}}</p>
+            <p>{{d}}</p>
             <div>
-              <span class="currency">{{d.value}}</span>
-              <span class="">元</span>
+              <span class="currency">{{data[k]}}</span>
+              <span class="">btc</span>
             </div>
           </div>
           <div class="line" v-if="k!==1"></div>
@@ -27,7 +27,7 @@
           <th v-for="n in nav">{{n}}</th>
         </tr>
         <tr v-for="l in list">
-          <td v-for="v,k in l">{{v}}</td>
+          <td v-for="v,k in nav">{{l[k]}}</td>
         </tr>
       </table>
     </div>
@@ -35,18 +35,39 @@
 </template>
 
 <script>
+  import util from '@/util'
+  import api from '@/util/function'
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
-        data: [{name: 'totalProfit', value: 0.44345589, text: '累积已获得BTC'}, {name: 'totalRecharge', text: '累计支付电费', value: 0.14345589}],
-        nav: ['算力服务器', '购买时间', '总算力', '获得BTC', '支付电费', '状态'],
-        list: [{server: '阿瓦隆001', time: '2017-09-21', totalCompute: '9T', profit: '-0.0000926687 BTC', ElectricityFees: '-0.0000926687 BTC', status: '成功'}, {server: '阿瓦隆001', time: '2017-09-21', totalCompute: '9T', profit: '-0.0000926687 BTC', ElectricityFees: '-0.0000926687 BTC', status: '成功'}, {server: '阿瓦隆001', time: '2017-09-21', totalCompute: '9T', profit: '-0.0000926687 BTC', ElectricityFees: '-0.0000926687 BTC', status: '成功'}, {server: '阿瓦隆001', time: '2017-09-21', totalCompute: '9T', profit: '-0.0000926687 BTC', ElectricityFees: '-0.0000926687 BTC', status: '成功'}]
+        dataNav: {total_income: '累积已获得BTC', total_electric_fee: '累计支付电费'},
+        data: {total_income: 0, total_electric_fee: 0},
+        nav: {product_name: '算力服务器', paid_time: '购买时间', hold_amound: '总算力', paid_amound: '获得BTC', electric_fee: '支付电费', status: '状态'},
+        list: [{product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}]
       }
     },
     methods: {
       test (e) {
         console.log(11)
       }
+    },
+    mounted () {
+      var self = this
+      util.post('userCoin', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: '1'})}).then(function (res) {
+        console.log(res)
+        self.data = res
+      })
+      util.post('userCoinList', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: '1', page: 1, sort: ''})}).then(function (res) {
+        console.log(res)
+        self.list = res.value_list
+      })
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token,
+        user_id: state => state.info.user_id
+      })
     }
   }
 </script>

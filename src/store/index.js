@@ -9,7 +9,11 @@ const state = {
   info: {
     user_id: '',
     mobile: '',
-    token: ''
+    token: 0,
+    true_name: '',
+    bank_card: '',
+    risk: '',
+    bindAddress: ''
   }
 }
 

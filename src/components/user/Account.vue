@@ -3,6 +3,7 @@
     <h2>账户管理</h2>
     <Setting :nav="nav"></Setting>
     <MyMask :form="form[edit]" :title="title" v-if="edit"></MyMask>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -32,11 +33,7 @@
           address: [{name: 'product_hash_type', type: 'select', title: '算力类型', option: [{title: 'BTC', value: '1'}]}, {name: 'address', type: 'text', title: '算力地址', placeholder: '请输入对应算力地址', pattern: '^[0-9a-zA-Z]{34}$', tips: '请输入34位的字符串'}, {name: 'mobile', type: 'text', title: '手机号码', edit: 'disabled'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取', success: '发送成功'}]
         },
         edit: '',
-        title: '',
-        true_name: {idcard: '', truename: ''},
-        bankCard: {open_bank: '', card_no: ''},
-        testResult: 0,
-        bindAddress: {address: '', product_hash_type: ''}
+        title: ''
       }
     },
     methods: {
@@ -76,6 +73,7 @@
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (data) {
           if (data) {
             self.closeEdit()
+            api.tips(this.$refs.tips, '实名认证已提交')
             util.post(callbackUrl, {sign: api.serialize(sendData)}).then(function (res) {
               self.nav[no].status = 1
               self[val] = res

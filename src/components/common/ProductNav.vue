@@ -1,13 +1,16 @@
 <template>
   <section class="product_nav">
     <router-link class="item" :to="'/'+page+'/list/'+(k+1)+'/'+$route.params.sort" v-for="n,k in nav" :key="k">
-      <span :class="['iconfont', 'icon'+k]"></span>
-      <span>{{n}}</span>
+      <span :class="['iconfont', 'icon'+n.name]"></span>
+      <span>{{n.name}}挖矿</span>
     </router-link>
   </section>
 </template>
 
 <script>
+  import util from '@/util'
+  import api from '@/util/function'
+  import { mapState } from 'vuex'
   export default {
     props: {
       page: {
@@ -16,8 +19,19 @@
     },
     data () {
       return {
-        nav: ['BTC挖矿', 'BCC挖矿', 'ETH挖矿', 'ETC挖矿']
+        nav: [{name: 'BTC'}, {name: 'BCC'}, {name: 'ETH'}, {name: 'ETC'}]
       }
+    },
+    mounted () {
+      var self = this
+      util.post('getCurrencys', {sign: api.serialize({token: this.token})}).then(function (res) {
+        self.nav = res
+      })
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token
+      })
     }
   }
 </script>
@@ -50,16 +64,16 @@
         &:before{
           font-size: 36px
         }
-        &.icon0:before{
+        &.iconBTC:before{
           content: "\e62d"
         }
-        &.icon1:before{
+        &.iconBCC:before{
           content: "\e6ad"
         }
-        &.icon2:before{
+        &.iconETH:before{
           content: "\e60f"
         }
-        &.icon3:before{
+        &.iconETC:before,&.iconLTC:before{
           content: "\e60d"
         }
       }

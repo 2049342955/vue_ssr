@@ -727,3 +727,17 @@
       }
     }
   }
+// 提示
+  .web_tips{
+    @include position
+    position: fixed;
+    bottom:auto;
+    line-height:50px;
+    text-align: center;
+    background: $blue;
+    color:$white;
+    transition:all .5s;
+    opacity:0;
+    height: 0;
+    z-index: 10
+  }

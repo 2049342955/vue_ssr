@@ -43,7 +43,7 @@
         <div class="pay_text">
           <div class="pay_money">
             账户余额：
-            <span class="money">{{balance}}</span>
+            <span class="money">{{$parent.balance}}</span>
             <span>元</span>
           </div>
           <router-link to="/user/moneyFlow">充值</router-link>
@@ -93,15 +93,14 @@
           }
         ],
         tips: '请同意服务条款',
-        balance: 10000,
         totalPrice: 0
       }
     },
     methods: {
       pay () {
         var ff = document.querySelector('.payForm')
-        var account = this.$parent.number * this.$parent.detail.price
-        if (account > this.balance) { // 余额不足验证
+        var account = this.$parent.number * this.$parent.detail.one_amount_value
+        if (account > this.$parent.balance) { // 余额不足验证
           this.tips = '余额不足，请充值'
           ff.accept.setAttribute('data-status', 'invalid')
           setTimeout(() => {
@@ -129,7 +128,7 @@
     },
     mounted () {
       if (this.page === 'cloudCompute') {
-        this.totalPrice = this.$parent.detail.price * this.$parent.number
+        this.totalPrice = this.$parent.detail.one_amount_value * this.$parent.number
       } else {
         this.totalPrice = this.$parent.detail.price * this.$parent.detail.hash
       }

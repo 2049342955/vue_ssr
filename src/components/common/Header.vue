@@ -20,7 +20,7 @@
         <template v-else>
           <router-link to="/other/safeGuarantee">支持</router-link>
           <router-link to="/other/aboutUs">关于</router-link>
-          <template v-if="token===''">
+          <template v-if="token===0">
             <router-link class="btn" to="/auth/login">登录</router-link>
             <router-link class="border" to="/auth/regist">注册</router-link>
           </template>
@@ -36,6 +36,7 @@
 
 <script>
   import api from '../../util/function'
+  import util from '@/util'
   import { mapState } from 'vuex'
   export default {
     name: 'header',
@@ -46,13 +47,18 @@
     },
     created () {
       window.addEventListener('scroll', this.test, false)
-      if (this.token === '') {
+      if (this.token === 0) {
         this.$store.dispatch('getInfo')
       }
+      var self = this
+      util.post('getAll', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (data) {
+        self.$store.commit('SET_INFO', data)
+      })
     },
     computed: {
       ...mapState({
         token: state => state.info.token,
+        user_id: state => state.info.user_id,
         mobile: state => state.info.mobile
       })
     },

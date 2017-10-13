@@ -39,6 +39,7 @@
         </form>
       </div>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -90,11 +91,25 @@
     computed: {
       ...mapState({
         token: state => state.info.token,
-        user_id: state => state.info.user_id
+        user_id: state => state.info.user_id,
+        true_name: state => state.info.true_name,
+        risk: state => state.info.risk
       })
     },
     mounted () {
       var self = this
+      if (!this.true_name) {
+        api.tips(this.$refs.tips, '请先实名认证', () => {
+          self.$router.push({name: 'account'})
+        })
+        return false
+      }
+      if (this.risk.user_risk_score < 0) {
+        api.tips(this.$refs.tips, '请先进行风险测评', () => {
+          self.$router.push({name: 'account'})
+        })
+        return false
+      }
       util.post('/scode_info', {sign: 'token=' + this.token}).then(function (data) {
         if (!data) {
           self.edit = true

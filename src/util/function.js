@@ -29,8 +29,9 @@ api.serialize = data => {
   str = str.join('&')
   return str
 }
-api.decimal = (f) => {
-  return (+f).toFixed(2)
+api.decimal = (f, n) => {
+  n = n || 2
+  return (+f).toFixed(n)
 }
 api.readable = (num) => {
   var result = ''
@@ -52,7 +53,7 @@ api.cardReadable = (tel) => {
 }
 api.currency = (num, n) => {
   var result = ''
-  num = api.decimal(num)
+  num = api.decimal(num, n)
   result = api.readable(num.slice(0, num.length - 3)) + num.slice(-3)
   return result
 }
@@ -162,6 +163,16 @@ api.setTips = (ele, str) => {
   ele.setAttribute('data-status', str)
   setTimeout(() => {
     ele.setAttribute('data-status', '')
+  }, 2000)
+}
+api.tips = (ele, str, callback) => {
+  ele.innerHTML = str
+  ele.style.height = '50px'
+  ele.style.opacity = 1
+  setTimeout(() => {
+    ele.style.opacity = 0
+    ele.style.height = 0
+    callback()
   }, 2000)
 }
 export default api

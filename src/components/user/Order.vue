@@ -107,6 +107,10 @@
         document.body.style.overflow = 'hidden'
         this.editText = title
         this.edit = str
+      },
+      closeEdit () {
+        this.edit = ''
+        document.body.style.overflow = 'auto'
       }
     },
     computed: {

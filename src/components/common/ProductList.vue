@@ -7,10 +7,17 @@
       </div>
       <div class="data">
         <div class="item" v-for="d,k in $parent.computeDate">
-          <h3>{{d.title}}<span class="icon_img"></span></h3>
+          <h3>{{d.name}}<span class="icon_img"></span></h3>
           <div class="info_box">
             <template v-for="n,i in dataNav">
-              <div class="info">
+              <div class="info" v-if="i==='leftNum'">
+                <div class="text">
+                  <span class="num">{{d.amount-d.sell_amount}}</span>
+                  <span>{{n.unit}}</span>
+                </div>
+                <p>{{n.title}}</p>
+              </div>
+              <div class="info" v-else>
                 <div class="text">
                   <span class="num">{{d[i]}}</span>
                   <span>{{n.unit}}</span>
@@ -19,15 +26,18 @@
               </div>
               <div class="line"></div>
             </template>
-            <router-link class="btn" :to="'/'+page+'/detail/'+d.id">立即购买</router-link>
+            <div class="btn" @click="goPay(d.id)">立即购买</div>
           </div>
         </div>
       </div>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+  // import api from '@/util/function'
   export default {
     props: {
       sort: {
@@ -62,7 +72,35 @@
           str = 'all'
         }
         this.$router.push({path: '/' + this.page + '/list/' + this.$route.params.type + '/' + str})
+      },
+      goPay (id) {
+        // if (this.token === 0) {
+        //   api.tips(this.$refs.tips, '请先登录', () => {
+        //     this.$router.push({name: 'login'})
+        //   })
+        //   return false
+        // }
+        // if (!this.true_name) {
+        //   api.tips(this.$refs.tips, '请先实名认证', () => {
+        //     this.$router.push({name: 'account'})
+        //   })
+        //   return false
+        // }
+        // if (this.risk.user_risk_score < 0) {
+        //   api.tips(this.$refs.tips, '请先进行风险测评', () => {
+        //     this.$router.push({name: 'account'})
+        //   })
+        //   return false
+        // }
+        this.$router.push({path: '/' + this.page + '/detail/' + id})
       }
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token,
+        true_name: state => state.info.true_name,
+        risk: state => state.info.risk
+      })
     }
   }
 </script>
@@ -156,6 +194,7 @@
             background: #f4f4f4;
             .btn{
               @include button($orange)
+              cursor: pointer;
             }
           }
         }

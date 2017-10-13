@@ -9,6 +9,9 @@
 </template>
 
 <script>
+  import util from '@/util'
+  import api from '@/util/function'
+  import { mapState } from 'vuex'
   import echarts from 'echarts/lib/echarts'
   import 'echarts/lib/chart/line'
   import 'echarts/lib/component/tooltip'
@@ -17,21 +20,20 @@
   export default {
     data () {
       return {
-        data: [{name: 'totalProfit', value: 0.44345589, text: '累积已获得BTC'}, {name: 'totalRecharge', text: '累计支付电费', value: 0.14345589}]
+        val: [],
+        date: []
       }
     },
     methods: {
       drawLine () {
         let myChart = echarts.init(document.querySelector('.myChart'))
-        var now = +new Date(2017, 8, 30)
-        var oneDay = 24 * 3600 * 1000
-        var val = []
-        var date = []
-        for (var i = 0; i < 10; i++) {
-          now = new Date(+now + oneDay)
-          date.push([now.getMonth() + 1, now.getDate()].join('-'))
-          val.push(Math.round(Math.random() * 5) / 10000)
-        }
+        // var now = +new Date(2017, 8, 30)
+        // var oneDay = 24 * 3600 * 1000
+        // for (var i = 0; i < 10; i++) {
+        //   now = new Date(+now + oneDay)
+        //   this.date.push([now.getMonth() + 1, now.getDate()].join('-'))
+        //   this.val.push(Math.round(Math.random() * 5) / 10000)
+        // }
         myChart.setOption({
           tooltip: {
             trigger: 'axis'
@@ -65,7 +67,7 @@
                 color: '#327fff'
               }
             },
-            data: date
+            data: this.date
           },
           yAxis: {
             type: 'value',
@@ -93,7 +95,7 @@
             type: 'line',
             showSymbol: true,
             hoverAnimation: true,
-            data: val,
+            data: this.val,
             lineStyle: {
               normal: {
                 color: '#ff721f'
@@ -104,7 +106,19 @@
       }
     },
     mounted () {
-      this.drawLine()
+      var self = this
+      util.post('showIncome', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: 1})}).then(function (res) {
+        console.log(res)
+        self.date = res.time
+        self.val = res.data
+        self.drawLine()
+      })
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token,
+        user_id: state => state.info.user_id
+      })
     }
   }
 </script>

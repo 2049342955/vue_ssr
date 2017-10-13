@@ -4,10 +4,10 @@
     <h3>流水详情</h3>
     <div class="detail_box">
       <div class="data">
-        <template v-for="d,k in data">
+        <template v-for="d,k in dataNav">
           <div class="item">
-            <p>{{d.text}}</p>
-            <span class="currency">{{d.value|currency}}</span>
+            <p>{{d}}</p>
+            <span class="currency">{{data[k]|currency}}</span>
             <span class="">元</span>
           </div>
           <div class="line"></div>
@@ -29,19 +29,22 @@
           <th v-for="n in nav">{{n}}</th>
         </tr>
         <tr v-for="l in list">
-          <td v-for="v,k in l">
-            <template v-if="k==='amount'">{{v|currency}}元</template>
-            <template v-else>{{v}}</template>
+          <td v-for="v,k in nav">
+            <template v-if="k==='value'">{{l[k]|currency}}元</template>
+            <template v-else>{{l[k]}}</template>
           </td>
         </tr>
       </table>
     </div>
     <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
 <script>
+  import util from '@/util'
   import api from '@/util/function'
+  import { mapState } from 'vuex'
   import MyMask from '@/components/common/Mask'
   export default {
     components: {
@@ -49,9 +52,10 @@
     },
     data () {
       return {
-        data: [{name: 'totalBuy', value: 422558, text: '累积购买总金额'}, {name: 'totalRecharge', text: '累积充值总金额', value: 500558}, {name: 'balance', text: '账户余额', value: 500558}],
-        nav: ['时间', '交易类型', '交易内容', '交易金额', '备注', '状态'],
-        list: [{time: '2017-09-12', type: '购买算力', content: '阿瓦隆1号100T', amount: -90000, remark: '', status: '成功'}, {time: '2017-09-12', type: '充值', content: '账户充值', amount: +90000, remark: '', status: '成功'}, {time: '2017-09-12', type: '出售云矿机', content: '云矿机出售', amount: +90000, remark: '', status: '成功'}],
+        dataNav: {total_buy: '累积购买总金额', total_recharge: '累积充值总金额', balance_account: '账户余额'},
+        data: {total_buy: 0, total_recharge: 0, balance_account: 0},
+        nav: {create_time: '时间', type_name: '交易类型', trade_content: '交易内容', value: '交易金额', remark: '备注', status: '状态'},
+        list: [{create_time: '2017-09-12', type_name: '购买算力', trade_content: '阿瓦隆1号100T', value: -90000, remark: '', status: '成功'}, {create_time: '2017-09-12', type_name: '充值', trade_content: '账户充值', value: +90000, remark: '', status: '成功'}, {create_time: '2017-09-12', type_name: '出售云矿机', trade_content: '云矿机出售', value: +90000, remark: '', status: '成功'}],
         edit: '',
         form: {
           Withdrawals: [{name: 'money', type: 'text', title: '提现金额', placeholder: '请输入提现金额'}, {name: 'password', type: 'text', title: '交易密码', placeholder: '请输入交易密码'}],
@@ -62,6 +66,12 @@
     },
     methods: {
       openMask (str, title) {
+        if (str === 'Withdrawals' && !this.bank_card) {
+          api.tips(this.$refs.tips, '请先绑定银行卡', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
         window.scroll(0, 0)
         document.body.style.overflow = 'hidden'
         this.editText = title
@@ -74,6 +84,24 @@
     },
     filters: {
       currency: api.currency
+    },
+    mounted () {
+      var self = this
+      util.post('userCapital', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
+        console.log(res)
+        self.data = res
+      })
+      util.post('userCapitalList', {sign: api.serialize({token: this.token, user_id: this.user_id, page: 1, sort: ''})}).then(function (res) {
+        console.log(res)
+        self.list = res.value_list
+      })
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token,
+        user_id: state => state.info.user_id,
+        bank_card: state => state.info.bank_card
+      })
     }
   }
 </script>

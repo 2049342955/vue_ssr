@@ -1,12 +1,12 @@
 <template>
   <section class="message">
     <h2>消息中心</h2>
-    <h3>通知消息<span class="read">全部标为已读</span></h3>
+    <h3>通知消息<span class="read" v-if="data.length">全部标为已读</span></h3>
     <div class="data">
-      <div :class="['item', {isread: d.isread}]" v-for="d,k in data" @click="setRead(k)">
+      <div :class="['item', {isread: d.is_read}]" v-for="d,k in data" @click="setRead(k)">
         <div class="title">{{d.title}}</div>
-        <div class="text">{{d.content}}</div>
-        <div class="time">{{d.time}}</div>
+        <div class="text">{{d.dealtContent}}</div>
+        <div class="time">{{d.created_at}}</div>
       </div>
       <Pager type="message"></Pager>
     </div>
@@ -14,6 +14,9 @@
 </template>
 
 <script>
+  import util from '@/util'
+  import api from '@/util/function'
+  import { mapState } from 'vuex'
   import Pager from '@/components/common/Pager'
   export default {
     components: {
@@ -21,20 +24,37 @@
     },
     data () {
       return {
-        data: [{title: '认证审核已经通过', content: '如果你无法通过上面按钮验证电子邮箱，请点击下面的链接', time: '2017-02-03 18:00', isread: false}, {title: '认证审核已经通过', content: '如果你无法通过上面按钮验证电子邮箱，请点击下面的链接', time: '2017-02-03 18:00', isread: false}, {title: '认证审核已经通过', content: '如果你无法通过上面按钮验证电子邮箱，请点击下面的链接', time: '2017-02-03 18:00', isread: false}, {title: '认证审核已经通过', content: '如果你无法通过上面按钮验证电子邮箱，请点击下面的链接', time: '2017-02-03 18:00', isread: false}],
-        len: 0,
+        data: [],
         now: 1,
         leftSibling: 0,
-        rightSibling: 0
+        rightSibling: 0,
+        len: 0
       }
     },
     methods: {
       setRead (i) {
         this.data[i].isread = true
+      },
+      fetchData () {
+        var self = this
+        util.post('MessageList', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
+          console.log(res)
+          self.data = res
+          self.len = Math.ceil(res.length / 3)
+        })
       }
     },
+    watch: {
+      '$route': 'fetchData'
+    },
     mounted () {
-      this.len = Math.ceil(this.data.length / 3)
+      this.fetchData()
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token,
+        user_id: state => state.info.user_id
+      })
     }
   }
 </script>

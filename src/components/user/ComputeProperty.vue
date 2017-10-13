@@ -4,10 +4,16 @@
     <h3>资金账户</h3>
     <div class="compute_box money_box">
       <div class="data">
-        <template v-for="d,k in moneyData">
+        <div class="item">
+          <p>总资金</p>
+          <span class="currency">{{(+moneyData.freeze_account+moneyData.balance_account)|currency}}</span>
+          <span class="">元</span>
+        </div>
+        <div class="line"></div>
+        <template v-for="d,k in moneyNav">
           <div class="item">
-            <p>{{d.text}}</p>
-            <span class="currency">{{d.value|currency}}</span>
+            <p>{{d}}</p>
+            <span class="currency">{{moneyData[k]|currency}}</span>
             <span class="">元</span>
           </div>
           <div class="line"></div>
@@ -21,10 +27,10 @@
     <h3>算力账户</h3>
     <div class="compute_box compute_account">
       <div class="data">
-        <template v-for="d,k in computeData">
+        <template v-for="d,k in computeNav">
           <div class="item">
-            <p>{{d.text}}</p>
-            <span class="currency">{{d.value}}</span>
+            <p>{{d}}</p>
+            <span class="currency">{{computeData[k]|format(8)}}</span>
             <span class="">btc</span>
           </div>
           <div class="line"></div>
@@ -38,8 +44,8 @@
     <h3>算力资产</h3>
     <div class="detail_table">
       <div class="item" v-for="d,k in computeProperty">
-        <div class="item_title">{{d}}</div>
-        <div class="item_value">{{data[k]}}</div>
+        <div class="item_title">{{d[0]}}</div>
+        <div class="item_value">{{dataProperty[k]}}{{d[1]}}</div>
       </div>
       <div class="item" v-if="7%2">
         <div class="item_title"></div>
@@ -49,8 +55,8 @@
     <h4>算力产业基金</h4>
     <div class="detail_table fund_table">
       <div class="item" v-for="d,k in computeFund">
-        <div class="item_title">{{d}}</div>
-        <div class="item_value">{{data[k]}}</div>
+        <div class="item_title">{{d[0]}}</div>
+        <div class="item_value">{{dataFund[k]}}{{d[1]}}</div>
       </div>
       <div class="item" v-if="4%2">
         <div class="item_title"></div>
@@ -63,11 +69,14 @@
       <router-link to="/user/order/0/0">查看订单</router-link>
     </div>
     <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
 <script>
+  import util from '@/util'
   import api from '@/util/function'
+  import { mapState } from 'vuex'
   import MyMask from '@/components/common/Mask'
   export default {
     components: {
@@ -75,11 +84,14 @@
     },
     data () {
       return {
-        moneyData: [{name: 'totalMoney', value: 10000, text: '总资金'}, {name: 'frozenMoney', text: '冻结资金', value: 10000}, {name: 'leftMoney', text: '账户余额', value: 10000}],
-        computeData: [{name: 'todayProfit', value: 0.14345589, text: '今日收益'}, {name: 'accountMoney', text: '账户余额', value: 1.14345589}, {name: 'totalProfit', text: '累积已获得收益', value: 1.14345589}],
-        computeProperty: {buy_miner: '已购入矿机', total_hash: '算力总和', rented_conmute: '已租赁算力', sold_miner: '已出售矿机', selling_miner: '出售中云矿机', rented_miner: '已出租云矿机', renting_miner: '出租中云矿机'},
-        computeFund: {miner: '云矿机', total_hash: '云算力总和', rented_miner: '已出租云矿机', renting_miner: '出租中云矿机'},
-        data: {buy_miner: '10台', total_hash: '90T', rented_conmute: '100T', sold_miner: '0台', selling_miner: '0台', rented_miner: '0台', renting_miner: '0台', miner: '10台'},
+        moneyNav: {freeze_account: '冻结资金', balance_account: '账户余额'},
+        moneyData: {freeze_account: 0, balance_account: 0},
+        computeNav: {today_hash: '今日收益', balance_account: '账户余额', total_hash: '累积已获得收益'},
+        computeData: {today_hash: 0, balance_account: 0, total_hash: 0},
+        computeProperty: {total_miner: ['已购入矿机', '台'], total_hash: ['算力总和', 'T'], buy_transfer_hash: ['已租赁算力', 'T'], selled_miner: ['已出售矿机', '台'], selling_miner: ['出售中云矿机', '台'], selled_hash: ['已出租云矿机', '台'], selling_hash: ['出租中云矿机', '台']},
+        dataProperty: {total_miner: '10台', total_hash: '90T', buy_transfer_hash: '100T', selled_miner: '0台', selling_miner: '0台', selled_hash: '0台', selling_hash: '0台'},
+        computeFund: {total_miner: ['云矿机', '台'], total_hash: ['云算力总和', '台'], selled_miner: ['已出租云矿机', '台'], selling_miner: ['出租中云矿机', '台']},
+        dataFund: {total_miner: '10台', total_hash: '90T', selled_miner: '0台', selling_miner: '0台'},
         edit: '',
         form: {
           Withdrawals: [{name: 'money', type: 'text', title: '提现金额', placeholder: '请输入提现金额'}, {name: 'password', type: 'text', title: '交易密码', placeholder: '请输入交易密码'}],
@@ -91,6 +103,18 @@
     },
     methods: {
       openMask (str, title) {
+        if (str === 'Withdrawals' && !this.bank_card) {
+          api.tips(this.$refs.tips, '请先绑定银行卡', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
+        if (str === 'GetIncome' && !this.bindAddress) {
+          api.tips(this.$refs.tips, '请先绑定算力地址', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
         window.scroll(0, 0)
         document.body.style.overflow = 'hidden'
         this.editText = title
@@ -101,8 +125,36 @@
         document.body.style.overflow = 'auto'
       }
     },
+    mounted () {
+      var self = this
+      util.post('myAccount', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
+        console.log(res)
+        self.moneyData = res
+      })
+      util.post('myHashAccount', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: 1})}).then(function (res) {
+        console.log(res)
+        self.computeData = res
+      })
+      util.post('hashAsset', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: 1})}).then(function (res) {
+        console.log(res)
+        self.dataProperty = res
+      })
+      util.post('hashFund', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: 1})}).then(function (res) {
+        console.log(res)
+        self.dataFund = res
+      })
+    },
     filters: {
-      currency: api.currency
+      currency: api.currency,
+      format: api.decimal
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token,
+        user_id: state => state.info.user_id,
+        bank_card: state => state.info.bank_card,
+        bindAddress: state => state.info.bindAddress
+      })
     }
   }
 </script>
