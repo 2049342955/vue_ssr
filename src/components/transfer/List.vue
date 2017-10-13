@@ -21,7 +21,7 @@
     data () {
       return {
         computeDate: [{id: 1, title: '阿瓦隆001号', type: 'btc', price: 1200, yPrice: 868, hash: '9.0', number: 6, useNum: 85}, {id: 1, title: '阿瓦隆001号', type: 'btc', price: 1200, yPrice: 868, hash: '9.0', number: 6, useNum: 85}, {id: 1, title: '阿瓦隆001号', type: 'btc', price: 1200, yPrice: 868, hash: '9.0', number: 6, useNum: 85}, {id: 1, title: '阿瓦隆001号', type: 'btc', price: 1200, yPrice: 868, hash: '9.0', number: 6, useNum: 85}, {id: 1, title: '阿瓦隆001号', type: 'btc', price: 1200, yPrice: 868, hash: '9.0', number: 6, useNum: 85}, {id: 1, title: '阿瓦隆001号', type: 'btc', price: 1200, yPrice: 868, hash: '9.0', number: 6, useNum: 85}],
-        sort: [{title: '价格', option: ['price_asc', 'price_desc'], value: 0}, {title: '算力', option: ['base_asc', 'base_desc'], value: 0}, {title: '出售总数', option: ['num_asc', 'num_desc'], value: 0}],
+        sort: [{title: '价格', option: ['transfer_price-asc', 'transfer_price-desc'], value: 0}, {title: '数量', option: ['transfer_amount-asc', 'transfer_amount-desc'], value: 0}, {title: '期限', option: ['transfer_time-asc', 'transfer_time-desc'], value: 0}, {title: '已使用时长', option: ['num_asc', 'num_desc'], value: 0}],
         dataNav: {'price': {title: '转让每T算力价格', unit: '元'}, 'hash': {title: '转让数量', unit: 'T'}, 'number': {title: '转让时长', unit: '天'}, 'yPrice': {title: '原始算力价格', unit: '元'}, 'useNum': {title: '已使用时长', unit: '天'}}
       }
     },

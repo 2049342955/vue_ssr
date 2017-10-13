@@ -1,5 +1,5 @@
 <template>
-  <article class="home">
+  <article class="other">
     <div class="box">
       <div class="swip">
         <router-link :class="['tab',{active : $route.path.includes(navi.name)}]" :to="navi.path" v-for="navi in navis" :key="navi.id">{{navi.title}}</router-link>
@@ -35,7 +35,7 @@ export default {
     width:1180px;
     margin: 0 auto;
   }
-  .home{
+  .other{
     width: 100%;
     background: #f7f8fa;
     padding-bottom: 60px;
