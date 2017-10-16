@@ -3,7 +3,7 @@
     <div class="items">
       <div class="text">
         <div class="product_title">
-          <h3>{{$parent.detail.title}}<span class="icon_img"></span></h3>
+          <h3>{{page==='cloudCompute'?$parent.detail.name:$parent.detail.product_name}}<span class="icon_img"></span></h3>
           <div>
             <span class="tips">批次所在区域：</span>
             <span>{{$parent.detail.address}}</span>
@@ -15,7 +15,7 @@
           </div>
           <div class="product_text">
             <div class="product_data">
-              <template v-for="d,k in proData">
+              <template v-for="d,k in proData" v-if="k!=='product_name'">
                 <div class="item">
                   <div class="item_word">
                     <span class="num" v-if="k==='price'">{{$parent.detail[k]|format}}</span>
@@ -52,8 +52,8 @@
           </div>
           <div class="price_text">需支付：<span class="money">{{$parent.totalPrice|format}}元</span></div>
           <div class="price_text">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
-          <button class="btn" v-if="$parent.leftNum" @click="$parent.goPay">立即支付</button>
-          <button class="btn" disabled v-else>已售罄</button>
+         <button class="btn" disabled v-if="$parent.leftStatus">已售罄</button>
+         <button class="btn" v-else @click="$parent.goPay">立即支付</button>
         </div>
       </div>
       <div class="price transfer" v-else>

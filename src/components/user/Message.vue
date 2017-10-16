@@ -1,13 +1,13 @@
 <template>
   <section class="message">
     <h2>消息中心</h2>
-    <h3>通知消息<span class="read" v-if="data.length">全部标为已读</span></h3>
+    <h3>通知消息<span class="read" v-if="data.length" @click="setRead()">全部标为已读</span></h3>
     <div class="data">
-      <div :class="['item', {isread: d.is_read}]" v-for="d,k in data" @click="setRead(k)">
+      <router-link :to="'/user/messageDetail/'+d.id" :class="['item', {isread: d.is_read}]" v-for="d,k in data" :key="k">
         <div class="title">{{d.title}}</div>
         <div class="text">{{d.dealtContent}}</div>
         <div class="time">{{d.created_at}}</div>
-      </div>
+      </router-link>
       <Pager type="message"></Pager>
     </div>
   </section>
@@ -33,7 +33,10 @@
     },
     methods: {
       setRead (i) {
-        this.data[i].isread = true
+        var self = this
+        util.post('isRead', {sign: api.serialize({token: this.token, user_id: this.user_id, is_read: 0})}).then(function (res) {
+          self.$router.push({name: 'message'})
+        })
       },
       fetchData () {
         var self = this
@@ -81,15 +84,22 @@
         @include flex(space-between)
         @include gap(15,h)
         cursor: pointer;
+        color: $text;
         .title,.time{
+          font-weight: bold
+        }
+        .time{
           width:160px;
-          font-weight: bold;
+        }
+        .title{
+          width:320px;
+          @include ellipsis
         }
         .time{
           text-align: right;
         }
         .text{
-          width:leave(320);
+          width:leave(480);
           @include ellipsis
           color:#bfbfbf
         }

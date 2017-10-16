@@ -172,7 +172,9 @@ api.tips = (ele, str, callback) => {
   setTimeout(() => {
     ele.style.opacity = 0
     ele.style.height = 0
-    callback()
+    if (callback) {
+      callback()
+    }
   }, 2000)
 }
 export default api

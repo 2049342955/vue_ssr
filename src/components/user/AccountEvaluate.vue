@@ -16,6 +16,7 @@
         <div class="btn"><button>确认提交</button></div>
       </form>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -48,9 +49,17 @@
           return parseInt(s) + parseInt(v)
         })
         var self = this
-        util.post('risk_score', {sign: api.serialize({user_risk_score: score, token: this.token, user_id: this.user_id})}).then(function (data) {
+        var sendData = {token: this.token, user_id: this.user_id}
+        util.post('risk_score', {sign: api.serialize(Object.assign({user_risk_score: score}, sendData))}).then(function (data) {
           if (data) {
-            self.$router.push({name: 'account'})
+            util.post('show_risk_score', {sign: api.serialize(sendData)}).then(function (res) {
+              if (res) {
+                self.$store.commit('SET_ITEM', {risk: res})
+                api.tips(self.$refs.tips, '测评成功', () => {
+                  self.$router.push({name: 'account'})
+                })
+              }
+            })
           }
         })
       }

@@ -36,7 +36,7 @@
         <div class="pay_text">
           <div class="pay_value">
             应付金额：
-            <span class="value">{{totalPrice|format}}</span>
+            <span class="value">{{(page==='cloudCompute'?totalPrice:$parent.detail.total_price)|format}}</span>
             <span>元</span>
           </div>
         </div>
@@ -57,13 +57,15 @@
         <button>确认支付</button>
       </form>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
 <script>
-  // import util from '@/util/index'
+  import util from '@/util/index'
   import api from '@/util/function'
   import FormField from '@/components/common/FormField'
+  import md5 from 'js-md5'
   export default {
     props: {
       page: {
@@ -84,7 +86,7 @@
         form:
         [
           {
-            name: 'payPsd',
+            name: 'password',
             type: 'password',
             title: '交易密码',
             placeholder: '请输入交易密码',
@@ -99,8 +101,7 @@
     methods: {
       pay () {
         var ff = document.querySelector('.payForm')
-        var account = this.$parent.number * this.$parent.detail.one_amount_value
-        if (account > this.$parent.balance) { // 余额不足验证
+        if (this.totalPrice > this.$parent.balance) {
           this.tips = '余额不足，请充值'
           ff.accept.setAttribute('data-status', 'invalid')
           setTimeout(() => {
@@ -118,19 +119,33 @@
           }, 2000)
           return false
         }
-        // 确认支付
-        // util.post('/register', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
-        //   if (res) {
-        //     this.$router.push({name: 'login'})
-        //   }
-        // })
+        var self = this
+        if (this.page === 'cloudCompute') {
+          util.post('productMall', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, order_id: this.$parent.order_id, trade_password: md5(data.password)})}).then(function (res) {
+            console.log(res)
+            // if (res) {
+            api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
+              self.$router.push({path: '/user/order/0/1'})
+            })
+            // }
+          })
+        } else {
+          util.post('doTransfer_Hashrate', {sign: api.serialize({token: this.$parent.token, user_id: this.$parent.user_id, transfer_order_id: this.$route.params.id, trade_password: md5(data.password)})}).then(function (res) {
+            console.log(res)
+            // if (res) {
+            api.tips(self.$refs.tips, '恭喜您租赁成功！', () => {
+              self.$router.push({path: '/user/order/1/1'})
+            })
+            // }
+          })
+        }
       }
     },
     mounted () {
       if (this.page === 'cloudCompute') {
         this.totalPrice = this.$parent.detail.one_amount_value * this.$parent.number
       } else {
-        this.totalPrice = this.$parent.detail.price * this.$parent.detail.hash
+        this.totalPrice = this.$parent.detail.total_price
       }
     },
     filters: {

@@ -1,12 +1,15 @@
 <template>
   <div class="form_field">
-    <div :class="['input', {addon: f.addon}, {disabled: f.edit==='disabled'}]" v-for="f in form">
-      <template v-if="f.edit!=='disabled'">
+    <div :class="['input', {addon: f.addon}, {disabled: f.edit}]" v-for="f in form">
+      <template v-if="!f.edit">
         <span>{{f.title}}</span>
         <span>*</span>
-        <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" v-if="f.type!=='select'" :isChange="f.isChange">
+        <template v-if="f.type!=='select'">
+          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" :isChange="f.isChange" v-if="f.changeEvent" @change="$parent.$parent.onChange" :value="$parent.$parent[f.name]">
+          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" :isChange="f.isChange" v-else>
+        </template>
         <select class="sel" :name="f.name" id="" v-else-if="f.option">
-          <option :value="v.value" v-for="v,k in f.option">{{v.title}}</option>
+          <option :value="v" v-for="v,k in f.option">{{v}}天</option>
         </select>
         <div class="select" v-else>
           <select name="province_name" id="" @change="changeCity" :isChange="true">
@@ -25,10 +28,15 @@
         </template>
         <span :title="f.tips" :tips="f.placeholder" :error="f.error" :success="f.success"></span>
       </template>
-      <template v-else>
+      <template v-else-if="f.edit==='disabled'">
         <span>{{f.title}}</span>
         <span>*</span>
         <input :type="f.type" :name="f.name" :value="mobile" disabled>
+      </template>
+      <template v-else>
+        <span>{{f.title}}</span>
+        <span>*</span>
+        <input :type="f.type" :name="f.name" :value="$parent.$parent[f.name]" disabled>
       </template>
     </div>
   </div>

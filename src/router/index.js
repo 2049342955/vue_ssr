@@ -18,6 +18,7 @@ import TransferList from '@/components/transfer/List'
 import TransferDetail from '@/components/transfer/Detail'
 import User from '@/views/User'
 import Message from '@/components/user/Message'
+import MessageDetail from '@/components/user/MessageDetail'
 import Account from '@/components/user/Account'
 import LpCenter from '@/components/user/LpCenter'
 import ComputeProperty from '@/components/user/ComputeProperty'
@@ -156,6 +157,10 @@ export default new Router({
       path: 'message',
       name: 'message',
       component: Message
+    }, {
+      path: 'messageDetail/:id',
+      name: 'messageDetail',
+      component: MessageDetail
     }]
   }, {
     path: '/accountEvaluate',

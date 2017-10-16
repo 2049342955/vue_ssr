@@ -19,7 +19,7 @@
     },
     data () {
       return {
-        nav: [{name: 'BTC'}, {name: 'BCC'}, {name: 'ETH'}, {name: 'ETC'}]
+        nav: [{name: 'BTC'}, {name: 'BCC'}, {name: 'ETH'}, {name: 'ETC'}, {name: 'LTC'}]
       }
     },
     mounted () {
@@ -73,8 +73,12 @@
         &.iconETH:before{
           content: "\e60f"
         }
-        &.iconETC:before,&.iconLTC:before{
+        &.iconETC:before{
           content: "\e60d"
+        }
+        &.iconLTC:before{
+          font-size: 26px;
+          content: "\e612"
         }
       }
     }

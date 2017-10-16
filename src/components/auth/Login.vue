@@ -17,6 +17,7 @@
         <router-link to="/auth/regist">免费注册</router-link>
       </div>
     </form>
+    <div class="web_tips" ref="tips"></div>
   </div>
 </template>
 
@@ -39,10 +40,13 @@
         var ff = document.querySelector('.form')
         var data = api.checkFrom(ff)
         if (!data) return false
+        var self = this
         util.post('/login', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
           if (res) {
-            this.$router.push({name: 'home'})
-            this.$store.commit('SET_TOKEN', Object.assign(res, {mobile: data.mobile}))
+            self.$router.push({name: 'home'})
+            self.$store.commit('SET_TOKEN', Object.assign(res, {mobile: data.mobile}))
+          } else {
+            api.tips(self.$refs.tips, '登录失败，请重新输入')
           }
         })
       }

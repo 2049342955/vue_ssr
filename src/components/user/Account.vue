@@ -1,7 +1,7 @@
 <template>
   <section class="account">
     <h2>账户管理</h2>
-    <Setting :nav="nav"></Setting>
+    <Setting :nav="nav" type="account"></Setting>
     <MyMask :form="form[edit]" :title="title" v-if="edit"></MyMask>
     <div class="web_tips" ref="tips"></div>
   </section>
@@ -20,11 +20,11 @@
     data () {
       return {
         nav: [
-          {title: '手机认证', desc: '手机号码是在算力网进行操作的重要凭证。', text: '手机号码', opr: '已认证', status: 1, name: 'tel', setting: false},
-          {title: '实名认证', desc: '完成实名认证，认证后可以获得更多权限', text: '身份证号', opr: '认证', status: 0, name: 'auth', setting: true},
-          {title: '风险测评', desc: '完成风险测评才可以充值、交易等操作。', text: '', opr: '测评', status: 0, name: 'test', setting: true},
-          {title: '绑定银行卡', desc: '绑定银行卡才能进行提现。', text: '', opr: '绑定', status: 0, name: 'card', setting: true},
-          {title: '计算算力地址', desc: '请选择算力类型并设置算力地址', text: '', opr: '设置', status: 0, name: 'address', setting: true}
+          {title: '手机认证', desc: '手机号码是在算力网进行操作的重要凭证。', text: '手机号码', name: 'tel'},
+          {title: '实名认证', desc: '完成实名认证，认证后可以获得更多权限', text: '身份证号', name: 'auth'},
+          {title: '风险测评', desc: '完成风险测评才可以充值、交易等操作。', text: '', name: 'test'},
+          {title: '绑定银行卡', desc: '绑定银行卡才能进行提现。', text: '', name: 'card'},
+          {title: '计算算力地址', desc: '请选择算力类型并设置算力地址', text: '', name: 'address'}
         ],
         form: {
           tel: [{name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取', success: '发送成功'}],
@@ -45,40 +45,51 @@
         var no = -1
         var val = ''
         var sendData = {token: this.token, user_id: this.user_id}
+        var tipsStr = ''
+        var tipsStr2 = ''
         switch (this.edit) {
           case 'tel':
-            url = '1'
             break
           case 'auth':
             url = 'user_truename'
             callbackUrl = 'show_user_truename'
             no = 1
             val = 'true_name'
+            tipsStr = '实名认证已提交'
+            tipsStr2 = '实名认证失败，请输入正确信息'
             break
           case 'card':
             url = 'BankCard'
             callbackUrl = 'show_bankcard'
             no = 3
-            val = 'bankCard'
+            val = 'bank_card'
+            tipsStr = '绑定成功'
+            tipsStr2 = '绑定失败，请输入正确信息'
             break
           case 'address':
             url = 'bindAddress'
             callbackUrl = 'show_Address'
             no = 4
             val = 'bindAddress'
+            tipsStr = '设置成功'
+            tipsStr2 = '设置失败，请输入正确信息'
             break
         }
         if (!data) return false
         var self = this
-        util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (data) {
-          if (data) {
+        util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (back) {
+          if (back) {
             self.closeEdit()
-            api.tips(this.$refs.tips, '实名认证已提交')
+            api.tips(self.$refs.tips, tipsStr)
             util.post(callbackUrl, {sign: api.serialize(sendData)}).then(function (res) {
-              self.nav[no].status = 1
-              self[val] = res
               console.log(res)
+              if (res) {
+                self.nav[no].status = 1
+                self.$store.commit('SET_ITEM', {[val]: res})
+              }
             })
+          } else {
+            api.tips(self.$refs.tips, tipsStr2)
           }
         })
       },
@@ -90,7 +101,12 @@
     computed: {
       ...mapState({
         token: state => state.info.token,
-        user_id: state => state.info.user_id
+        user_id: state => state.info.user_id,
+        mobile: state => state.info.mobile,
+        true_name: state => state.info.true_name,
+        bank_card: state => state.info.bank_card,
+        risk: state => state.info.risk,
+        bindAddress: state => state.info.bindAddress
       })
     }
   }

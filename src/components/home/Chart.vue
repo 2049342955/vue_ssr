@@ -3,13 +3,13 @@
     <div class="text">
       <div class="select_coin" ref="select">
         <div class="now">
-          <div class="icon_img icon_img0"></div>
+          <div :class="'icon_currency '+coin[no].title"></div>
           <span class="text" @click="openSelect" title="0">{{coin[no].title}}</span>
           <span class="arrow"></span>
         </div>
         <div class="other">
           <div :class="['item', {active: k==no}]" v-for="c,k in coin">
-            <div :class="'icon_img icon_img'+k"></div>
+            <div :class="'icon_currency '+coin[k].title"></div>
             <span class="text" @click="selectCoin" :title="k">{{coin[k].title}}</span>
             <span class="arrow" v-if="k===0"></span>
           </div>
@@ -54,7 +54,7 @@
     data () {
       return {
         info: {transfer: '1bt=22704.98元', dayProfit: '今日每日预计收入：5058元', yearProfit: '推算年化收益≈10%', difficulty: 1103400932964},
-        coin: [{title: 'Bitcoin', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'BCC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'Ethereum', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}],
+        coin: [{title: 'BTC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'BCC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETH', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'LTC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}],
         no: 0
       }
     },
@@ -201,21 +201,6 @@
       font-size: 16px;
       .select_coin{
         position: relative;
-        .icon_img{
-          @include block(18)
-        }
-        .icon_img0{
-          background: url('../../assets/images/css_sprites.png') -152px -209px;
-        }
-        .icon_img1{
-          background: url('../../assets/images/css_sprites.png') -215px -110px;
-        }
-        .icon_img2{
-          background: url('../../assets/images/css_sprites.png') -190px -209px;
-        }
-        .icon_img3{
-          background: url('../../assets/images/css_sprites.png') -175px -110px;
-        }
         .now{
           position: relative;
           width:140px;

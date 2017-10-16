@@ -7,7 +7,7 @@
       </div>
       <div class="data">
         <div class="item" v-for="d,k in $parent.computeDate">
-          <h3>{{d.name}}<span class="icon_img"></span></h3>
+          <h3>{{page==='computeTransfer'?d.product_name:d.name}}<span :class="'icon_currency '+d.hashtype.name"></span></h3>
           <div class="info_box">
             <template v-for="n,i in dataNav">
               <div class="info" v-if="i==='leftNum'">
@@ -37,7 +37,7 @@
 
 <script>
   import { mapState } from 'vuex'
-  // import api from '@/util/function'
+  import api from '@/util/function'
   export default {
     props: {
       sort: {
@@ -74,24 +74,24 @@
         this.$router.push({path: '/' + this.page + '/list/' + this.$route.params.type + '/' + str})
       },
       goPay (id) {
-        // if (this.token === 0) {
-        //   api.tips(this.$refs.tips, '请先登录', () => {
-        //     this.$router.push({name: 'login'})
-        //   })
-        //   return false
-        // }
-        // if (!this.true_name) {
-        //   api.tips(this.$refs.tips, '请先实名认证', () => {
-        //     this.$router.push({name: 'account'})
-        //   })
-        //   return false
-        // }
-        // if (this.risk.user_risk_score < 0) {
-        //   api.tips(this.$refs.tips, '请先进行风险测评', () => {
-        //     this.$router.push({name: 'account'})
-        //   })
-        //   return false
-        // }
+        if (this.token === 0) {
+          api.tips(this.$refs.tips, '请先登录', () => {
+            this.$router.push({name: 'login'})
+          })
+          return false
+        }
+        if (!this.true_name) {
+          api.tips(this.$refs.tips, '请先实名认证', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
+        if (this.risk.user_risk_score < 0) {
+          api.tips(this.$refs.tips, '请先进行风险测评', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
         this.$router.push({path: '/' + this.page + '/detail/' + id})
       }
     },
@@ -153,10 +153,8 @@
           h3{
             font-size: 18px;
             margin-bottom:10px;
-            .icon_img{
-              @include block(18)
+            .icon_currency{
               margin-left:5px;
-              background: url('../../assets/images/css_sprites.png') -152px -209px;
             }
           }
           .info_box{

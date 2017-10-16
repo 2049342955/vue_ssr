@@ -12,9 +12,9 @@
             <span>上次登录时间：2017-09-26 09:19:24</span>
           </div>
         </div>
-        <div class="message">
+        <div class="message" v-if="messageLen">
           <span class="iconfont"></span>
-          <span>未读信息：12</span>
+          <span>未读信息：{{messageLen}}</span>
         </div>
       </div>
     </div>
@@ -36,15 +36,16 @@
     data () {
       return {
         titleBg: require('@/assets/images/user_bg1.jpg'),
-        nav: [{name: 'computeProperty', title: '算力资产', path: '/user/computeProperty'}, {name: 'account', title: '账户管理', path: '/user/account'}, {name: 'password', title: '密码管理', path: '/user/password'}, {name: 'order', title: '订单管理', path: '/user/order/0/0'}, {name: 'virtualCurrencyFlow', title: '币流水', path: '/user/virtualCurrencyFlow'}, {name: 'moneyFlow', title: '资金流水', path: '/user/moneyFlow'}, {name: 'lp', title: 'LP中心', path: '/user/lpCenter'}, {name: 'message', title: '消息中心', path: '/user/message'}]
+        nav: [{name: 'computeProperty', title: '算力资产', path: '/user/computeProperty'}, {name: 'account', title: '账户管理', path: '/user/account'}, {name: 'password', title: '密码管理', path: '/user/password'}, {name: 'order', title: '订单管理', path: '/user/order/0/1'}, {name: 'virtualCurrencyFlow', title: '币流水', path: '/user/virtualCurrencyFlow'}, {name: 'moneyFlow', title: '资金流水', path: '/user/moneyFlow'}, {name: 'lp', title: 'LP中心', path: '/user/lpCenter'}, {name: 'message', title: '消息中心', path: '/user/message'}]
       }
     },
-    computed: { // computed VS method ?
+    computed: {
       ...mapState({
-        mobile: state => state.info.mobile
+        mobile: state => state.info.mobile,
+        messageLen: state => state.messageLen
       })
     },
-    filters: { // vue2
+    filters: {
       format: api.telReadable
     }
   }

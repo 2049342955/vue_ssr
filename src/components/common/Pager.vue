@@ -57,5 +57,6 @@
   @import '../../assets/css/style.scss';
   .pager{
     @include pager
+    margin-bottom:50px
   }
 </style>

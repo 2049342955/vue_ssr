@@ -67,3 +67,25 @@ table{
 input::-webkit-input-placeholder {
   color:#bfbfbf;
 }
+// 币种
+  .icon_currency{
+    @include block(18)
+    &.ETC,&.LTC{
+      @include block(20)
+    }
+    &.BTC{
+      background: url('./assets/images/css_sprites.png') -190px -209px;
+    }
+    &.BCC{
+      background: url('./assets/images/css_sprites.png') -152px -209px;
+    }
+    &.ETH{
+      background: url('./assets/images/css_sprites.png') -228px -209px;
+    }
+    &.ETC{
+      background: url('./assets/images/css_sprites.png') -215px -110px;
+    }
+    &.LTC{
+      background: url('./assets/images/css_sprites.png') -175px -110px;
+    }
+  }
