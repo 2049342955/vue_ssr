@@ -45,6 +45,7 @@
           return false
         }
         var self = this
+        // 100002:参数缺失，200009：不能购买自己发布的订单
         util.post('productOrder', {sign: api.serialize({token: this.token, product_id: this.$route.params.id, num: this.number})}).then(function (res) {
           if (res) {
             self.next = true

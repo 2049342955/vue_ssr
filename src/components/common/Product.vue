@@ -61,8 +61,9 @@
         <div class="price_input">
           <div class="price_text">需支付：<span class="money">{{$parent.detail.total_price|format}}元</span></div>
           <div class="price_text">总算力：<span class="money">{{$parent.detail.transfer_amount|format}}T</span></div>
-          <button class="btn" v-if="!$parent.detail.transfer" @click="$parent.goPay">立即支付</button>
-          <button class="btn" disabled v-else>已转让</button>
+          <button class="btn" v-if="$parent.detail.transfer===1" @click="$parent.goPay">立即支付</button>
+          <button class="btn" disabled v-else-if="$parent.detail.transfer===2">已转让</button>
+          <button class="btn" disabled v-else-if="$parent.detail.transfer===3">产品撤销</button>
         </div>
       </div>
     </div>

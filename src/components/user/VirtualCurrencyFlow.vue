@@ -30,6 +30,7 @@
           <td v-for="v,k in nav">{{l[k]}}</td>
         </tr>
       </table>
+      <Pager :len="len"></Pager>
     </div>
   </section>
 </template>
@@ -38,18 +39,29 @@
   import util from '@/util'
   import api from '@/util/function'
   import { mapState } from 'vuex'
+  import Pager from '@/components/common/Pager'
   export default {
+    components: {
+      Pager
+    },
     data () {
       return {
         dataNav: {total_income: '累积已获得BTC', total_electric_fee: '累计支付电费'},
         data: {total_income: 0, total_electric_fee: 0},
         nav: {product_name: '算力服务器', paid_time: '购买时间', hold_amound: '总算力', paid_amound: '获得BTC', electric_fee: '支付电费', status: '状态'},
-        list: [{product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}]
+        list: [{product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}],
+        len: 0,
+        now: 1
       }
     },
     methods: {
-      test (e) {
-        console.log(11)
+      getList () {
+        var self = this
+        util.post('userCoinList', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: '1', page: this.now, sort: ''})}).then(function (res) {
+          self.list = res.value_list
+          if (self.now > 1) return false
+          self.len = Math.ceil(res.total_num / 15)
+        })
       }
     },
     mounted () {
@@ -58,10 +70,7 @@
         console.log(res)
         self.data = res
       })
-      util.post('userCoinList', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: '1', page: 1, sort: ''})}).then(function (res) {
-        console.log(res)
-        self.list = res.value_list
-      })
+      this.getList()
     },
     computed: {
       ...mapState({

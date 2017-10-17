@@ -14,9 +14,9 @@ const state = {
     bank_card: '',
     risk: {user_risk_score: -1},
     bindAddress: '',
-    trade_password: ''
-  },
-  messageLen: 0
+    trade_password: '',
+    message_len: 2
+  }
 }
 
 const getters = {

@@ -43,7 +43,20 @@
       padding:0 15px !important;
     }
     .data{
-      
+      padding:20px;
+      .title{
+        font-size: 18px;
+        font-weight: bold;
+        margin: 15px 0;
+      }
+      .time{
+        color:$light_text;
+        margin-bottom:15px;
+        font-size: 12px;
+      }
+      .text{
+        font-size: 16px;
+      }
     }
   }
 </style>

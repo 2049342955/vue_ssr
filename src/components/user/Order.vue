@@ -89,6 +89,7 @@
           </td>
         </tr>
       </table>
+      <Pager :len="len"></Pager>
     </div>
     <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
     <div class="web_tips" ref="tips"></div>
@@ -100,17 +101,18 @@
   import api from '@/util/function'
   import { mapState } from 'vuex'
   import MyMask from '@/components/common/Mask'
+  import Pager from '@/components/common/Pager'
   import md5 from 'js-md5'
   export default {
     components: {
-      MyMask
+      MyMask, Pager
     },
     data () {
       return {
         title: ['云矿机', '算力', '基金'],
         nav: [{'0': '已购买', '1': '出售中', '2': '已出售', '3': '已结束'}, {'0': '已租赁', '1': '出租中', '2': '已出租', '3': '已结束'}, {'0': '持有', '1': '出租中', '2': '已出租', '3': '已结束'}],
         data: [],
-        now: 0,
+        nowEdit: 0,
         status: 1,
         show: false,
         edit: '',
@@ -122,18 +124,26 @@
         amount: 0,
         transfer_price: 0,
         total_price: 0,
-        order_id: ''
+        order_id: '',
+        len: 0,
+        now: 1
       }
     },
     methods: {
       fetchData () {
         var self = this
-        this.now = this.$route.params.type
+        this.nowEdit = this.$route.params.type
         this.status = this.$route.params.status
         this.show = false
-        util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id, type: this.$route.params.type, status: this.$route.params.status, page: 1})}).then(function (res) {
+        util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id, type: this.$route.params.type, status: this.$route.params.status, page: this.now})}).then(function (res) {
           self.data = res.list
+          if (self.now > 1) return false
+          self.len = Math.ceil(res.total_num / 15)
+          console.log(self.len)
         })
+      },
+      getList () {
+        this.fetchData()
       },
       openList () {
         this.show = !this.show

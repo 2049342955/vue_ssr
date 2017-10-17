@@ -12,10 +12,10 @@
             <span>上次登录时间：2017-09-26 09:19:24</span>
           </div>
         </div>
-        <div class="message" v-if="messageLen">
+        <router-link class="message" to="/user/message" v-if="message_len">
           <span class="iconfont"></span>
-          <span>未读信息：{{messageLen}}</span>
-        </div>
+          <span>未读信息：{{message_len}}</span>
+        </router-link>
       </div>
     </div>
     <section class="main">
@@ -42,7 +42,7 @@
     computed: {
       ...mapState({
         mobile: state => state.info.mobile,
-        messageLen: state => state.messageLen
+        message_len: state => state.info.message_len
       })
     },
     filters: {

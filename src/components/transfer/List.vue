@@ -5,6 +5,7 @@
     </div>
     <ProductNav page="computeTransfer"></ProductNav>
     <ProductList :sort="sort" :dataNav="dataNav" page="computeTransfer"></ProductList>
+    <Pager :len="len"></Pager>
   </section>
 </template>
 
@@ -14,32 +15,39 @@
   import { mapState } from 'vuex'
   import ProductList from '../common/ProductList'
   import ProductNav from '../common/ProductNav'
+  import Pager from '@/components/common/Pager'
   export default {
     components: {
-      ProductList, ProductNav
+      ProductList, ProductNav, Pager
     },
     data () {
       return {
         computeDate: [],
         sort: [{title: '价格', option: ['transfer_price-asc', 'transfer_price-desc'], value: 0}, {title: '数量', option: ['transfer_amount-asc', 'transfer_amount-desc'], value: 0}, {title: '期限', option: ['transfer_time-asc', 'transfer_time-desc'], value: 0}, {title: '已使用时长', option: ['birth_time-asc', 'birth_time-desc'], value: 0}],
-        dataNav: {'transfer_price': {title: '转让每T算力价格', unit: '元'}, 'transfer_amount': {title: '转让数量', unit: 'T'}, 'transfer_time': {title: '转让时长', unit: '天'}, 'original_price': {title: '原始算力价格', unit: '元'}, 'birth_time': {title: '已使用时长', unit: '天'}}
+        dataNav: {'transfer_price': {title: '转让每T算力价格', unit: '元'}, 'transfer_amount': {title: '转让数量', unit: 'T'}, 'transfer_time': {title: '转让时长', unit: '天'}, 'original_price': {title: '原始算力价格', unit: '元'}, 'birth_time': {title: '已使用时长', unit: '天'}},
+        len: 0,
+        now: 1
       }
     },
     methods: {
       fetchData () {
         var self = this
-        this.now = this.$route.params.type
         this.show = false
         var obj = {}
         if (this.$route.params.sort === 'all') {
-          obj = {token: this.token, product_hash_type: this.$route.params.type, page: 1}
+          obj = {token: this.token, product_hash_type: this.$route.params.type, page: this.now}
         } else {
-          obj = {token: this.token, product_hash_type: this.$route.params.type, order_type: this.$route.params.sort, page: 1}
+          obj = {token: this.token, product_hash_type: this.$route.params.type, order_type: this.$route.params.sort, page: this.now}
         }
         util.post('getHashrates', {sign: api.serialize(obj)}).then(function (res) {
           console.log(res)
           self.computeDate = res.list
+          if (self.now > 1) return false
+          self.len = res.total_page
         })
+      },
+      getList () {
+        this.fetchData()
       }
     },
     watch: {

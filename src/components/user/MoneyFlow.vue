@@ -30,11 +30,12 @@
         </tr>
         <tr v-for="l in list">
           <td v-for="v,k in nav">
-            <template v-if="k==='value'">{{l[k]|currency}}元</template>
+            <template v-if="k==='value'">{{l[k]|currency(2,1)}}元</template>
             <template v-else>{{l[k]}}</template>
           </td>
         </tr>
       </table>
+      <Pager :len="len"></Pager>
     </div>
     <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
     <div class="web_tips" ref="tips"></div>
@@ -46,22 +47,25 @@
   import api from '@/util/function'
   import { mapState } from 'vuex'
   import MyMask from '@/components/common/Mask'
+  import Pager from '@/components/common/Pager'
   export default {
     components: {
-      MyMask
+      MyMask, Pager
     },
     data () {
       return {
         dataNav: {total_buy: '累积购买总金额', total_recharge: '累积充值总金额', balance_account: '账户余额'},
         data: {total_buy: 0, total_recharge: 0, balance_account: 0},
         nav: {create_time: '时间', type_name: '交易类型', trade_content: '交易内容', value: '交易金额', remark: '备注', status: '状态'},
-        list: [{create_time: '2017-09-12', type_name: '购买算力', trade_content: '阿瓦隆1号100T', value: -90000, remark: '', status: '成功'}, {create_time: '2017-09-12', type_name: '充值', trade_content: '账户充值', value: +90000, remark: '', status: '成功'}, {create_time: '2017-09-12', type_name: '出售云矿机', trade_content: '云矿机出售', value: +90000, remark: '', status: '成功'}],
+        list: [],
         edit: '',
         form: {
           Withdrawals: [{name: 'money', type: 'text', title: '提现金额', placeholder: '请输入提现金额'}, {name: 'password', type: 'text', title: '交易密码', placeholder: '请输入交易密码'}],
           Recharge: [{name: 'money', type: 'text', title: '充值金额', placeholder: '请输入充值金额'}]
         },
-        editText: ''
+        editText: '',
+        len: 0,
+        now: 1
       }
     },
     methods: {
@@ -80,6 +84,14 @@
       closeEdit () {
         this.edit = ''
         document.body.style.overflow = 'auto'
+      },
+      getList () {
+        var self = this
+        util.post('userCapitalList', {sign: api.serialize({token: this.token, user_id: this.user_id, page: this.now, sort: ''})}).then(function (res) {
+          self.list = res.value_list
+          if (self.now > 1) return false
+          self.len = Math.ceil(res.total_num / 15)
+        })
       }
     },
     filters: {
@@ -91,10 +103,7 @@
         console.log(res)
         self.data = res
       })
-      util.post('userCapitalList', {sign: api.serialize({token: this.token, user_id: this.user_id, page: 1, sort: ''})}).then(function (res) {
-        console.log(res)
-        self.list = res.value_list
-      })
+      this.getList()
     },
     computed: {
       ...mapState({

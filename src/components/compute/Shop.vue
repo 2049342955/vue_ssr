@@ -5,6 +5,7 @@
     </div>
     <ProductNav page="cloudCompute"></ProductNav>
     <ProductList :sort="sort" :dataNav="dataNav" page="cloudCompute"></ProductList>
+    <Pager :len="len"></Pager>
   </section>
 </template>
 
@@ -14,32 +15,39 @@
   import { mapState } from 'vuex'
   import ProductList from '../common/ProductList'
   import ProductNav from '../common/ProductNav'
+  import Pager from '@/components/common/Pager'
   export default {
     components: {
-      ProductList, ProductNav
+      ProductList, ProductNav, Pager
     },
     data () {
       return {
         computeDate: [],
         sort: [{title: '价格', option: ['price_asc', 'price_desc'], value: 0}, {title: '算力', option: ['base_asc', 'base_desc'], value: 0}, {title: '出售总数', option: ['num_asc', 'num_desc'], value: 0}],
-        dataNav: {'one_amount_value': {title: '每台服务器价格', unit: '元'}, 'hash': {title: '每台服务器算力', unit: 'T'}, 'amount': {title: '出售服务器总数', unit: '台'}, 'leftNum': {title: '剩余可售服务器', unit: '台'}}
+        dataNav: {'one_amount_value': {title: '每台服务器价格', unit: '元'}, 'hash': {title: '每台服务器算力', unit: 'T'}, 'amount': {title: '出售服务器总数', unit: '台'}, 'leftNum': {title: '剩余可售服务器', unit: '台'}},
+        len: 0,
+        now: 1
       }
     },
     methods: {
       fetchData () {
         var self = this
-        this.now = this.$route.params.type
         this.show = false
         var obj = {}
         if (this.$route.params.sort === 'all') {
-          obj = {token: this.token, product_type: this.$route.params.type}
+          obj = {token: this.token, product_type: this.$route.params.type, page: this.now}
         } else {
-          obj = {token: this.token, product_type: this.$route.params.type, sort: this.$route.params.sort}
+          obj = {token: this.token, product_type: this.$route.params.type, sort: this.$route.params.sort, page: this.now}
         }
         util.post('productList', {sign: api.serialize(obj)}).then(function (res) {
           console.log(res)
           self.computeDate = res.data
+          if (self.now > 1) return false
+          self.len = res.page.total_page
         })
+      },
+      getList () {
+        this.fetchData()
       }
     },
     watch: {

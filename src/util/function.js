@@ -51,10 +51,17 @@ api.telReadable = (tel) => {
 api.cardReadable = (tel) => {
   return tel.replace(/(\d{4})\d{10}(\d{4})/, '$1****$2')
 }
-api.currency = (num, n) => {
+api.currency = (num, n, i) => {
+  if (i) {
+    var sign = (num + '').includes('-')
+    num = sign ? num.slice(1) : num
+  }
   var result = ''
   num = api.decimal(num, n)
   result = api.readable(num.slice(0, num.length - 3)) + num.slice(-3)
+  if (i) {
+    result = sign ? '-' + result : '+' + result
+  }
   return result
 }
 api.createCode = (mycanvas) => {
