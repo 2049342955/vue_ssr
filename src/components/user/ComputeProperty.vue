@@ -72,9 +72,9 @@
       </div>
     </div>
     <div class="fund_btn">
-      <router-link to="/user/order/0/0">出售云矿机</router-link>
-      <router-link to="/user/order/1/0">出租算力</router-link>
-      <router-link to="/user/order/0/0">查看订单</router-link>
+      <router-link to="/user/order/0/1">出售云矿机</router-link>
+      <router-link to="/user/order/1/1">出租算力</router-link>
+      <router-link to="/user/order/0/1">查看订单</router-link>
     </div>
     <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
     <div class="web_tips" ref="tips"></div>
@@ -99,9 +99,9 @@
         computeNav: {today_hash: '今日收益', balance_account: '账户余额', total_hash: '累积已获得收益'},
         computeData: {today_hash: 0, balance_account: 0, total_hash: 0},
         computeProperty: {total_miner: ['已购入矿机', '台'], total_hash: ['算力总和', 'T'], buy_transfer_hash: ['已租赁算力', 'T'], selled_miner: ['已出售矿机', '台'], selling_miner: ['出售中云矿机', '台'], selled_hash: ['已出租云矿机', '台'], selling_hash: ['出租中云矿机', '台']},
-        dataProperty: {total_miner: '10台', total_hash: '90T', buy_transfer_hash: '100T', selled_miner: '0台', selling_miner: '0台', selled_hash: '0台', selling_hash: '0台'},
+        dataProperty: {total_miner: 0, total_hash: 0, buy_transfer_hash: 0, selled_miner: 0, selling_miner: 0, selled_hash: 0, selling_hash: 0},
         computeFund: {total_miner: ['云矿机', '台'], total_hash: ['云算力总和', '台'], selled_miner: ['已出租云矿机', '台'], selling_miner: ['出租中云矿机', '台']},
-        dataFund: {total_miner: '10台', total_hash: '90T', selled_miner: '0台', selling_miner: '0台'},
+        dataFund: {total_miner: 0, total_hash: 0, selled_miner: 0, selling_miner: 0},
         edit: '',
         form: {
           Withdrawals: [{name: 'amount', type: 'text', title: '提现金额', placeholder: '请输入提现金额'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}],
