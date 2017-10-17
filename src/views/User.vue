@@ -32,6 +32,7 @@
 <script>
   import { mapState } from 'vuex'
   import api from '../util/function'
+  import util from '@/util'
   export default {
     data () {
       return {
@@ -39,8 +40,16 @@
         nav: [{name: 'computeProperty', title: '算力资产', path: '/user/computeProperty'}, {name: 'account', title: '账户管理', path: '/user/account'}, {name: 'password', title: '密码管理', path: '/user/password'}, {name: 'order', title: '订单管理', path: '/user/order/0/1'}, {name: 'virtualCurrencyFlow', title: '币流水', path: '/user/virtualCurrencyFlow'}, {name: 'moneyFlow', title: '资金流水', path: '/user/moneyFlow'}, {name: 'lp', title: 'LP中心', path: '/user/lpCenter'}, {name: 'message', title: '消息中心', path: '/user/message'}]
       }
     },
+    mounted () {
+      var self = this
+      util.post('getAll', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (data) {
+        self.$store.commit('SET_INFO', data)
+      })
+    },
     computed: {
       ...mapState({
+        token: state => state.info.token,
+        user_id: state => state.info.user_id,
         mobile: state => state.info.mobile,
         unread_num: state => state.info.unread_num
       })

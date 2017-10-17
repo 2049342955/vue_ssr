@@ -45,9 +45,6 @@
           if (res) {
             self.$router.push({name: 'home'})
             self.$store.commit('SET_TOKEN', Object.assign(res, {mobile: data.mobile}))
-            util.post('getAll', {sign: api.serialize(res)}).then(function (data) {
-              self.$store.commit('SET_INFO', data)
-            })
           } else {
             api.tips(self.$refs.tips, '登录失败，请重新输入')
           }

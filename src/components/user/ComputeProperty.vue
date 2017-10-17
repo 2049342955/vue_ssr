@@ -104,8 +104,8 @@
         dataFund: {total_miner: '10台', total_hash: '90T', selled_miner: '0台', selling_miner: '0台'},
         edit: '',
         form: {
-          Withdrawals: [{name: 'money', type: 'text', title: '提现金额', placeholder: '请输入提现金额'}, {name: 'password', type: 'text', title: '交易密码', placeholder: '请输入交易密码'}],
-          GetIncome: [{name: 'computeType', type: 'select', title: '算力类型', option: ['BTC', 'BCC', 'ETC']}, {name: 'money', type: 'text', title: '提取额度', placeholder: '请输入提取额度'}, {name: 'address', type: 'text', title: '提取地址', placeholder: '请输入提取地址'}]
+          Withdrawals: [{name: 'amount', type: 'text', title: '提现金额', placeholder: '请输入提现金额'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}],
+          GetIncome: [{name: 'product_hash_type', type: 'select', title: '算力类型', option: ['BTC', 'BCC', 'ETC']}, {name: 'amount', type: 'text', title: '提取额度', placeholder: '请输入提取额度'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}]
         },
         editText: '',
         show: false
@@ -140,6 +140,36 @@
       setList (n) {
         this.show = !this.show
         this.nowEdit = n
+      },
+      submit () {
+        var form = document.querySelector('.form_content')
+        var data = api.checkFrom(form)
+        var url = ''
+        var sendData = {token: this.token, user_id: this.user_id, order_id: this.order_id}
+        var tipsStr = ''
+        switch (this.edit) {
+          case 'Withdrawals':
+            url = 'withdraw'
+            tipsStr = '提现成功'
+            break
+          case 'GetIncome':
+            url = 'withdrawCoin'
+            tipsStr = '提币成功'
+            break
+        }
+        if (!data) return false
+        var self = this
+        util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (back) {
+          console.log(back)
+          if (back.code) {
+            api.tips(self.$refs.tips, back.msg)
+          } else {
+            self.closeEdit()
+            api.tips(self.$refs.tips, tipsStr, () => {
+              self.$router.push({path: '/user/order/1/1'})
+            })
+          }
+        })
       }
     },
     mounted () {

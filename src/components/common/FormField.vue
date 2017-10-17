@@ -14,7 +14,7 @@
           </div>
         </template>
         <select class="sel" :name="f.name" id="" v-else-if="f.option">
-          <option :value="v" v-for="v,k in f.option">{{v}}天</option>
+          <option :value="v" v-for="v,k in f.option">{{v}}{{f.unit}}</option>
         </select>
         <div class="select" v-else>
           <select name="province_name" id="" @change="changeCity" :isChange="true">
