@@ -36,7 +36,6 @@
 
 <script>
   import api from '../../util/function'
-  import util from '@/util'
   import { mapState } from 'vuex'
   export default {
     name: 'header',
@@ -50,10 +49,6 @@
       if (this.token === 0) {
         this.$store.dispatch('getInfo')
       }
-      var self = this
-      util.post('getAll', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (data) {
-        self.$store.commit('SET_INFO', data)
-      })
     },
     computed: {
       ...mapState({
