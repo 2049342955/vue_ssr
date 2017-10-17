@@ -19,7 +19,7 @@
     },
     data () {
       return {
-        nav: [{name: 'BTC'}, {name: 'BCC'}, {name: 'ETH'}, {name: 'ETC'}, {name: 'LTC'}]
+        nav: []
       }
     },
     mounted () {
