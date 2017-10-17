@@ -14,7 +14,7 @@
         </template>
       </div>
       <div class="btn">
-        <button @click="openMask('Recharge', '资金充值')">充值</button>
+        <router-link to="/user/recharge">充值</router-link>
         <button @click="openMask('Withdrawals', '资金提现')">提现</button>
       </div>
     </div>
@@ -60,8 +60,7 @@
         list: [],
         edit: '',
         form: {
-          Withdrawals: [{name: 'money', type: 'text', title: '提现金额', placeholder: '请输入提现金额'}, {name: 'password', type: 'text', title: '交易密码', placeholder: '请输入交易密码'}],
-          Recharge: [{name: 'money', type: 'text', title: '充值金额', placeholder: '请输入充值金额'}]
+          Withdrawals: [{name: 'money', type: 'text', title: '提现金额', placeholder: '请输入提现金额'}, {name: 'password', type: 'text', title: '交易密码', placeholder: '请输入交易密码'}]
         },
         editText: '',
         len: 0,
@@ -138,13 +137,11 @@
       .btn{
         @include detail_btn
         @include gap(50,h)
+        a{
+          @include button($orange)
+        }
         button{
-          &:first-child{
-            @include button($orange)
-          }
-          &:not(:first-child){
-            @include button($blue)
-          }
+          @include button($blue)
         }
       }
     }

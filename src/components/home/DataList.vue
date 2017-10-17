@@ -3,37 +3,76 @@
     <h2>
       <span>云矿机推荐</span>
       <span>由保全网提供存证、保全服务</span>
-      <router-link to="/cloudCompute/shop">更多云矿机 ></router-link>
+      <router-link to="/cloudCompute/list/1/all">更多云矿机 ></router-link>
     </h2>
     <table>
       <tr>
-        <th v-for="n in nav">{{n}}</th>
+        <th v-for="n in nav">{{n.title}}</th>
+        <th>操作</th>
       </tr>
-      <tr v-for="l in list">
-        <td v-for="v,k in l" v-if="k!=='status'">
-          <template v-if="k==='name'"><i class="iconfont" v-if="l.status">&#xe605;</i><i class="zhanwei" v-else></i>{{v}}</template>
-          <template v-else-if="k==='num'">{{v}}台</template>
-          <template v-else-if="k==='price'">{{v|format}}元</template>
-          <template v-else-if="k==='opr'"><a href="">{{v}}</a></template>
-          <template v-else>{{v}}</template>
+      <tr v-for="l,i in list">
+        <td v-for="v,k in nav">
+          <template v-if="k==='name'"><i class="iconfont">&#xe605;</i>{{l[k]}}</template>
+          <template v-else>{{l[k]+[v.unit]}}</template>
         </td>
+        <td><a href="javascript:;" @click="goPay(l.product_id)">申购</a></td>
       </tr>
     </table>
+    <div class="web_tips" ref="tips"></div>
   </div>
 </template>
 
 <script>
   import api from '../../util/function'
+  import util from '../../util'
+  import { mapState } from 'vuex'
   export default {
     name: 'chart',
     data () {
       return {
-        nav: ['项目名称', '出售总数', '购买单价', '最小购买单位', '每台算力', '算力类型', '项目进度', '操作'],
-        list: [{name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购', status: 'hot'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购', status: 'hot'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购', status: 'hot'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购'}, {name: 'Avalon(阿瓦隆A6)', num: 100, price: 12000, unit: '1台', compute: '9T', computeType: 'BTC', progress: '80%', opr: '申购'}]
+        nav: {'name': {title: '矿机名称', unit: ''}, 'sell_amount': {title: '出售数量', unit: '台'}, 'one_amount_value': {title: '单价', unit: '元'}, 'buy_step_amount': {title: '最小购买单位', unit: '台'}, 'hash': {title: '算力', unit: 'T'}, 'type_name': {title: '算力类型', unit: ''}, 'plan': {title: '项目进度', unit: ''}},
+        list: [{product_id: 1, name: 'Avalon(阿瓦隆A6)', sell_amount: 100, one_amount_value: 12000, buy_step_amount: 1, hash: 9, type_name: 'BTC', plan: '80%'}, {product_id: 1, name: 'Avalon(阿瓦隆A6)', sell_amount: 100, one_amount_value: 12000, buy_step_amount: 1, hash: 9, type_name: 'BTC', plan: '80%'}, {product_id: 1, name: 'Avalon(阿瓦隆A6)', sell_amount: 100, one_amount_value: 12000, buy_step_amount: 1, hash: 9, type_name: 'BTC', plan: '80%'}, {product_id: 1, name: 'Avalon(阿瓦隆A6)', sell_amount: 100, one_amount_value: 12000, buy_step_amount: 1, hash: 9, type_name: 'BTC', plan: '80%'}, {product_id: 1, name: 'Avalon(阿瓦隆A6)', sell_amount: 100, one_amount_value: 12000, buy_step_amount: 1, hash: 9, type_name: 'BTC', plan: '80%'}]
       }
+    },
+    methods: {
+      goPay (id) {
+        if (this.token === 0) {
+          api.tips(this.$refs.tips, '请先登录', () => {
+            this.$router.push({name: 'login'})
+          })
+          return false
+        }
+        if (!this.true_name) {
+          api.tips(this.$refs.tips, '请先实名认证', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
+        if (this.risk.user_risk_score < 0) {
+          api.tips(this.$refs.tips, '请先进行风险测评', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
+        this.$router.push({path: '/cloudCompute/detail/' + id})
+      }
+    },
+    mounted () {
+      var self = this
+      util.post('product_top_list', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
+        console.log(res)
+        self.list = res
+      })
     },
     filters: {
       format: api.readable
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token,
+        true_name: state => state.info.true_name,
+        risk: state => state.info.risk
+      })
     }
   }
 </script>
@@ -82,9 +121,6 @@
         .iconfont{
           color:$orange;
           font-size: 24px
-        }
-        .zhanwei{
-          padding-left:24px
         }
       }
       tr:not(:first-child){

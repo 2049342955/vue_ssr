@@ -1,6 +1,14 @@
 <template>
   <section class="vcurrency_flow">
-    <h2>币流水</h2>
+    <div class="vcurrency_title">
+      <span class="text_title">币流水</span>
+      <div class="title_content">
+        <span class="title_now" @click="openList">{{title[nowEdit]}}</span>
+        <div class="title_list" v-if="show">
+          <a href="javascript:;" @click="setList(k)" v-for="n,k in title">{{n}}</a>
+        </div>
+      </div>
+    </div>
     <h3>流水详情</h3>
     <div class="detail_box">
       <div class="data">
@@ -46,12 +54,15 @@
     },
     data () {
       return {
+        title: ['BTC', 'ETH', 'LTC'],
+        nowEdit: 0,
         dataNav: {total_income: '累积已获得BTC', total_electric_fee: '累计支付电费'},
         data: {total_income: 0, total_electric_fee: 0},
         nav: {product_name: '算力服务器', paid_time: '购买时间', hold_amound: '总算力', paid_amound: '获得BTC', electric_fee: '支付电费', status: '状态'},
         list: [{product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}],
         len: 0,
-        now: 1
+        now: 1,
+        show: false
       }
     },
     methods: {
@@ -62,6 +73,13 @@
           if (self.now > 1) return false
           self.len = Math.ceil(res.total_num / 15)
         })
+      },
+      openList () {
+        this.show = !this.show
+      },
+      setList (n) {
+        this.show = !this.show
+        this.nowEdit = n
       }
     },
     mounted () {
@@ -85,8 +103,10 @@
   @import '../../assets/css/style.scss';
   .vcurrency_flow{
     padding:0 15px;
-    h2{
-      padding:0 15px !important;
+    .vcurrency_title{
+      padding:15px;
+      @include select_list
+      border-bottom:1px solid $border
     }
     .detail_box{
       @include gap(25,v)

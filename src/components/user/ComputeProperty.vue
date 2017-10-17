@@ -20,11 +20,19 @@
         </template>
       </div>
       <div class="btn">
-        <button @click="openMask('Recharge', '资金充值')">充值</button>
+        <router-link to="/user/recharge">充值</router-link>
         <button @click="openMask('Withdrawals', '资金提现')">提现</button>
       </div>
     </div>
-    <h3>算力账户</h3>
+    <div class="compute_title">
+      <span class="text_title">算力账户</span>
+      <div class="title_content">
+        <span class="title_now" @click="openList">{{title[nowEdit]}}</span>
+        <div class="title_list" v-if="show">
+          <a href="javascript:;" @click="setList(k)" v-for="n,k in title">{{n}}</a>
+        </div>
+      </div>
+    </div>
     <div class="compute_box compute_account">
       <div class="data">
         <template v-for="d,k in computeNav">
@@ -84,6 +92,8 @@
     },
     data () {
       return {
+        title: ['BTC', 'ETH', 'LTC'],
+        nowEdit: 0,
         moneyNav: {freeze_account: '冻结资金', balance_account: '账户余额'},
         moneyData: {freeze_account: 0, balance_account: 0},
         computeNav: {today_hash: '今日收益', balance_account: '账户余额', total_hash: '累积已获得收益'},
@@ -95,10 +105,10 @@
         edit: '',
         form: {
           Withdrawals: [{name: 'money', type: 'text', title: '提现金额', placeholder: '请输入提现金额'}, {name: 'password', type: 'text', title: '交易密码', placeholder: '请输入交易密码'}],
-          Recharge: [{name: 'money', type: 'text', title: '充值金额', placeholder: '请输入充值金额'}],
           GetIncome: [{name: 'computeType', type: 'select', title: '算力类型', option: ['BTC', 'BCC', 'ETC']}, {name: 'money', type: 'text', title: '提取额度', placeholder: '请输入提取额度'}, {name: 'address', type: 'text', title: '提取地址', placeholder: '请输入提取地址'}]
         },
-        editText: ''
+        editText: '',
+        show: false
       }
     },
     methods: {
@@ -123,6 +133,13 @@
       closeEdit () {
         this.edit = ''
         document.body.style.overflow = 'auto'
+      },
+      openList () {
+        this.show = !this.show
+      },
+      setList (n) {
+        this.show = !this.show
+        this.nowEdit = n
       }
     },
     mounted () {
@@ -177,6 +194,9 @@
       .btn{
         @include detail_btn
         @include gap(25,h)
+        a{
+          @include button($orange)
+        }
       }
       &.money_box{
         .data{
@@ -207,6 +227,20 @@
           button,a{
             @include button(#c2d9ff,bg,$blue)
           }
+        }
+      }
+    }
+    .compute_title{
+      background: #f7f8fa;
+      padding:15px;
+      @include select_list
+      .text_title{
+        font-size: 16px;
+        &:before{
+          content: '|';
+          padding-right: 10px;
+          color: #000;
+          font-weight: bold;
         }
       }
     }

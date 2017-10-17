@@ -15,7 +15,7 @@ const state = {
     risk: {user_risk_score: -1},
     bindAddress: '',
     trade_password: '',
-    message_len: 2
+    unread_num: 0
   }
 }
 

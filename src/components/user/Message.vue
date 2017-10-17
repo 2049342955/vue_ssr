@@ -8,7 +8,7 @@
         <div class="text">{{d.dealtContent}}</div>
         <div class="time">{{d.created_at}}</div>
       </router-link>
-      <Pager type="message"></Pager>
+      <Pager :len="len"></Pager>
     </div>
   </section>
 </template>
@@ -40,11 +40,15 @@
       },
       fetchData () {
         var self = this
-        util.post('MessageList', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
+        util.post('MessageList', {sign: api.serialize({token: this.token, user_id: this.user_id, page: this.now})}).then(function (res) {
           console.log(res)
-          self.data = res
-          self.len = Math.ceil(res.length / 3)
+          self.data = res.list
+          if (self.now > 1) return false
+          self.len = Math.ceil(res.total_num / 15)
         })
+      },
+      getList () {
+        this.fetchData()
       }
     },
     watch: {

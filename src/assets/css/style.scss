@@ -211,11 +211,11 @@
     line-height:2;
     &.disabled{
       background: #f7f8fa;
-      span:nth-child(2){
+      & > span:nth-child(2){
         color: #ddd
       }
     }
-    span{
+    & > span{
       @include position(9,0,5,0)
       right:auto;
       &:first-child{
@@ -323,6 +323,13 @@
         padding-right:100px;
       }
     }
+    .tips_info{
+      @include position(10,auto,0,10)
+      color: $light_black;
+      span:last-child{
+        font-size: 12px
+      }
+    }
   }
 // checkbox
   @mixin checkbox($w:16,$radius:50%){
@@ -359,7 +366,7 @@
       @include input
       @if $type == v {
         margin-bottom:35px;
-        span:last-child{
+        & > span:last-child{
           top:56px;
           left:10px
         }
@@ -740,4 +747,90 @@
     opacity:0;
     height: 0;
     z-index: 10
+  }
+// process
+  @mixin process{
+    padding:25px 30px;
+    @include flex
+    .item{
+      &:not(:last-child){
+        flex:1;
+      }
+      @include flex
+      color:$blue;
+      i{
+        position: relative;
+        @include block(20,50%)
+        border: 1px solid $blue;
+        text-align: center;
+        margin-right:5px;
+        &:empty:before{
+          content:'';
+          @include right(8,5,$blue)
+        }
+      }
+      &.active{
+        i{
+          background: $blue;
+          color:$white
+        }
+        span{
+          font-weight: bold;
+        }
+        & ~ .item{
+          i{
+            border-color: $border;
+            color:#ccc
+          }
+          span{
+            color:$light_black
+          }
+        }
+      }
+      .line{
+        margin:0 15px;
+        flex:1;
+        height: 1px;
+        background: $border;
+      }
+    }
+  }
+// select
+  @mixin select_list{
+    @include flex
+    .text_title{
+      font-size: 18px;
+      padding-right:35px
+    }
+    .title_content{
+      position: relative;
+      width:80px;
+      @include gap(10,h)
+      .title_now{
+        font-size: 16px;
+        font-weight: bold;
+        height: 27px;
+        line-height: 27px;
+        color:$blue;
+        cursor: pointer;
+        &:after{
+          content:'';
+          @include position(10,auto,auto,0)
+          @include triangle(bottom,$light_black)
+        }
+      }
+      .title_list{
+        @include position(27)
+        height:84px;
+        z-index: 2;
+        background: #fff;
+        border:1px solid $blue_border;
+        border-top:0;
+        a{
+          display: block;
+          line-height: 2;
+          @include gap(10,h)
+        }
+      }
+    }
   }

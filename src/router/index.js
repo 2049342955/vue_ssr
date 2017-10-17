@@ -19,6 +19,7 @@ import TransferDetail from '@/components/transfer/Detail'
 import User from '@/views/User'
 import Message from '@/components/user/Message'
 import MessageDetail from '@/components/user/MessageDetail'
+import Recharge from '@/components/user/Recharge'
 import Account from '@/components/user/Account'
 import LpCenter from '@/components/user/LpCenter'
 import ComputeProperty from '@/components/user/ComputeProperty'
@@ -161,6 +162,10 @@ export default new Router({
       path: 'messageDetail/:id',
       name: 'messageDetail',
       component: MessageDetail
+    }, {
+      path: 'recharge',
+      name: 'recharge',
+      component: Recharge
     }]
   }, {
     path: '/accountEvaluate',
@@ -198,20 +203,5 @@ export default new Router({
       name: 'noticeDetail',
       component: NoticeDetail
     }]
-  }
-  // , {
-  //   path: '/webInfo',
-  //   component: WebInfo,
-  //   children: [{
-  //     path: 'noticeDetail/:type/:id',
-  //     name: 'noticeDetail',
-  //     component: NoticeDetail
-  //   }, {
-  //     path: 'notice/:sort/:id',
-  //     name: 'notice',
-  //     component: Notice
-  //   }]
-  // }
-  ]
-}
-)
+  }]
+})

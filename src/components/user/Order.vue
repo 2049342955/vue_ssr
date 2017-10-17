@@ -4,14 +4,14 @@
       <div class="text">
         <span class="text_title">订单管理</span>
         <div class="title_content">
-          <span class="title_now" @click="openList">{{title[now]}}</span>
+          <span class="title_now" @click="openList">{{title[nowEdit]}}</span>
           <div class="title_list" v-if="show">
             <router-link :to="'/user/order/'+k+'/1'" v-for="n,k in title" :key="k">{{n}}</router-link>
           </div>
         </div>
       </div>
       <nav>
-        <router-link :to="'/user/order/'+now+'/'+(+k+1)" v-for="n,k in nav[now]" :key="k">{{n}}</router-link>
+        <router-link :to="'/user/order/'+nowEdit+'/'+(+k+1)" v-for="n,k in nav[nowEdit]" :key="k">{{n}}</router-link>
       </nav>
     </div>
     <div class="order_box">
@@ -19,12 +19,12 @@
         <tr>
           <th>算力服务器</th>
           <th>总算力</th>
-          <template v-if="now==0&&(status==2||status==3)">
+          <template v-if="nowEdit==0&&(status==2||status==3)">
             <th>出售数量</th>
             <th>出售金额</th>
             <th>出售时间</th>
           </template>
-          <template v-if="now!=0&&(status==2||status==3)">
+          <template v-if="nowEdit!=0&&(status==2||status==3)">
             <th>转让数量</th>
             <th>转让金额</th>
             <th>转让时间</th>
@@ -34,23 +34,23 @@
             <th>购买金额</th>
             <th>购买时间</th>
           </template>
-          <template v-if="now==0&&(status==1||status==4)">
+          <template v-if="nowEdit==0&&(status==1||status==4)">
             <th>剩余可出售</th>
             <th>剩余可出租</th>
           </template>
-          <template v-if="now==2&&status==1">
+          <template v-if="nowEdit==2&&status==1">
             <th>剩余可出租</th>
           </template>
           <th>操作</th>
         </tr>
         <tr v-for="d,k in data">
           <td>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
-          <template v-if="now==0&&(status==2||status==3)">
+          <template v-if="nowEdit==0&&(status==2||status==3)">
             <td>{{d.total_hash}}T</td>
             <td>{{d.selling_amount}}台</td>
             <td>{{d.total_price}}元</td>
           </template>
-          <template v-else-if="(now==1||now==2)&&(status==2||status==3)">
+          <template v-else-if="(nowEdit==1||nowEdit==2)&&(status==2||status==3)">
             <td>{{d.total_price}}元</td>
             <td>{{d.transfer_amount}}T</td>
             <td>{{d.transfer_price}}元</td>
@@ -61,31 +61,31 @@
             <td>{{d.total_price}}元</td>
           </template>
           <td>{{d.create_time}}</td>
-          <template v-if="now==0&&(status==1||status==4)">
+          <template v-if="nowEdit==0&&(status==1||status==4)">
             <td>{{d.remain_miner}}台</td>
             <td>{{d.remain_hash}}T</td>
           </template>
-          <template v-if="now==2&&status==1">
+          <template v-if="nowEdit==2&&status==1">
             <td>{{d.remain_hash}}T</td>
           </template>
           <td>
-            <template v-if="now==0&&status==1">
+            <template v-if="nowEdit==0&&status==1">
               <button class="sold" @click="openMask('sold', '出售云矿机', d.id)">出售云矿机</button>
               <button @click="openMask('rent', '出租算力', d.id)">出租算力</button>
             </template>
-            <template v-if="now==0&&status==2">
+            <template v-if="nowEdit==0&&status==2">
               <button class="sold" @click="quit('sold')">撤销出售</button>
             </template>
-            <template v-if="now==1&&status==1">
-              <button @click="openMask('rent', '转租算力', d.id)">转租算力</button>
+            <template v-if="nowEdit==1&&status==1">
+              <button @click="openMask('againRent', '转租算力', d.id)">转租算力</button>
             </template>
-            <template v-if="(now==1||now==2)&&status==2">
-              <button @click="quit('rent')">撤销转让</button>
+            <template v-if="(nowEdit==1||nowEdit==2)&&status==2">
+              <button @click="quit('rent')">撤销转租</button>
             </template>
-            <template v-if="now==2&&status==1">
+            <template v-if="nowEdit==2&&status==1">
               <button @click="openMask('rent', '出租算力', d.id)">出租算力</button>
             </template>
-            <router-link :to="'/user/orderDetail/'+now+'/'+d.id">查看详情</router-link>
+            <router-link :to="'/user/orderDetail/'+nowEdit+'/'+d.id">查看详情</router-link>
           </td>
         </tr>
       </table>
@@ -117,13 +117,17 @@
         show: false,
         edit: '',
         form: {
-          sold: [{name: 'amount', type: 'text', title: '出售数量', placeholder: '请输入出售数量'}, {name: 'one_amount_value', type: 'text', title: '出售价格', placeholder: '请输入出售价格'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}],
-          rent: [{name: 'amount', type: 'text', title: '出租数量', placeholder: '请输入出租数量', changeEvent: true}, {name: 'transfer_time', type: 'select', title: '出租时长', option: ['30', '90', '180', '360']}, {name: 'transfer_price', type: 'text', title: '出租单价', placeholder: '请输入出租单价', changeEvent: true}, {name: 'total_price', type: 'text', title: '出租总价', edit: 'price'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}]
+          sold: [{name: 'amount', type: 'text', title: '出售数量', placeholder: '请输入出售数量', tipsInfo: '最大可出售数量', tipsUnit: '台'}, {name: 'one_amount_value', type: 'text', title: '出售价格', placeholder: '请输入出售价格', tipsInfo: '购入价格', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}],
+          rent: [{name: 'amount', type: 'text', title: '出租数量', placeholder: '请输入出租数量', changeEvent: true, tipsInfo: '最大可出租数量', tipsUnit: 'T'}, {name: 'transfer_time', type: 'select', title: '出租时长', option: ['30', '90', '180', '360']}, {name: 'transfer_price', type: 'text', title: '出租单价', placeholder: '请输入出租单价', changeEvent: true, tipsInfo: 'show', tipsUnit: '元'}, {name: 'total_price', type: 'text', title: '出租总价', edit: 'price', tipsInfo: 'show', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}],
+          againRent: [{name: 'amount', type: 'text', title: '转租数量', placeholder: '请输入出租数量', edit: 'price', tipsInfo: true, tipsUnit: 'T'}, {name: 'transfer_time', type: 'text', title: '转租时长', edit: 'price', tipsInfo: true, tipsUnit: '天'}, {name: 'transfer_price', type: 'text', title: '转租单价', placeholder: '请输入出租单价', edit: 'price', tipsInfo: 'show', tipsUnit: '元'}, {name: 'total_price', type: 'text', title: '转租总价', changeEvent: true, tipsInfo: 'show', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}]
         },
         editText: '',
         amount: 0,
+        inputAmount: 0,
         transfer_price: 0,
+        one_amount_value: 0,
         total_price: 0,
+        transfer_time: 0,
         order_id: '',
         len: 0,
         now: 1
@@ -139,7 +143,6 @@
           self.data = res.list
           if (self.now > 1) return false
           self.len = Math.ceil(res.total_num / 15)
-          console.log(self.len)
         })
       },
       getList () {
@@ -154,14 +157,30 @@
         document.body.style.overflow = 'hidden'
         this.editText = title
         this.edit = str
+        var data = {}
         var requestUrl = ''
         if (str === 'rent') {
           requestUrl = 'showRentHash'
+          data = {order_id: id}
+        } else if (str === 'againRent') {
+          requestUrl = 'showSubletHash'
+          data = {transfer_record_id: id}
         } else {
           requestUrl = 'showSellMiner'
+          data = {order_id: id}
         }
-        util.post(requestUrl, {sign: api.serialize({token: this.token, user_id: this.user_id, order_id: id})}).then(function (res) {
+        var self = this
+        util.post(requestUrl, {sign: api.serialize(Object.assign({token: this.token, user_id: this.user_id}, data))}).then(function (res) {
           console.log(res)
+          if (str === 'sold') {
+            self.one_amount_value = res.one_amount_value
+            self.amount = res.show_miner
+          } else if (str === 'againRent') {
+            self.amount = res.show_hash
+            self.transfer_time = res.rent_time - res.have_use_time
+          } else {
+            self.amount = res.show_hash
+          }
         })
       },
       quit (str, id) {
@@ -171,8 +190,9 @@
         } else {
           requestUrl = 'backOutSellMiner'
         }
+        var self = this
         util.post(requestUrl, {sign: api.serialize({token: this.token, user_id: this.user_id, order_id: id})}).then(function (res) {
-          console.log(res)
+          api.tips(self.$refs.tips, '操作成功')
         })
       },
       closeEdit () {
@@ -194,6 +214,11 @@
             url = 'saveRentHash'
             tipsStr = '出租成功'
             break
+          case 'againRent':
+            url = 'saveSubletHash'
+            tipsStr = '转租成功'
+            sendData = {token: this.token, user_id: this.user_id, transfer_record_id: this.order_id}
+            break
         }
         if (!data) return false
         data.trade_password = md5(data.trade_password)
@@ -206,9 +231,18 @@
           }
         })
       },
-      onChange (e) {
-        this[e.target.name] = e.target.value
-        this.total_price = this.amount * this.transfer_price
+      onChange (e, i) {
+        if (i === 'total_price') {
+          this.total_price = e.target.value
+          this.transfer_price = api.decimal(this.total_price / this.amount)
+        } else {
+          if (i === 'amount') {
+            this.inputAmount = e.target.value
+          } else {
+            this[e.target.name] = e.target.value
+          }
+          this.total_price = api.decimal(this.inputAmount * this.transfer_price)
+        }
       }
     },
     computed: {
@@ -225,6 +259,7 @@
     }
   }
 </script>
+
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .order{
@@ -233,43 +268,8 @@
       padding-top:15px;
       border-bottom: 1px solid $border;
       .text{
-        @include flex
+        @include select_list
         margin-bottom:30px;
-        .text_title{
-          font-size: 18px;
-          padding-right:35px
-        }
-        .title_content{
-          position: relative;
-          width:80px;
-          @include gap(10,h)
-          .title_now{
-            font-size: 16px;
-            font-weight: bold;
-            height: 27px;
-            line-height: 27px;
-            color:$blue;
-            cursor: pointer;
-            &:after{
-              content:'';
-              @include position(10,auto,auto,0)
-              @include triangle(bottom,$light_black)
-            }
-          }
-          .title_list{
-            @include position(27)
-            height:84px;
-            z-index: 2;
-            background: #fff;
-            border:1px solid $blue_border;
-            border-top:0;
-            a{
-              display: block;
-              line-height: 2;
-              @include gap(10,h)
-            }
-          }
-        }
       }
       nav{
         a{

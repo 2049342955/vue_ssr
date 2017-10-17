@@ -123,11 +123,13 @@
         if (this.page === 'cloudCompute') {
           util.post('productMall', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, order_id: this.$parent.order_id, trade_password: md5(data.password)})}).then(function (res) {
             console.log(res)
-            // if (res) {
-            api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
-              self.$router.push({path: '/user/order/0/1'})
-            })
-            // }
+            if (res.code) {
+              api.tips(self.$refs.tips, res.msg)
+            } else {
+              api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
+                self.$router.push({path: '/user/order/0/1'})
+              })
+            }
           })
         } else {
           // 100002:参数缺失，200004：账户余额不足，1000：交易成功，800007：交易失败，800003：禁止交易，200006：交易密码错误，800004：转让已结束，800005：产品已撤销,800008:不能购买自己的产品
@@ -136,7 +138,7 @@
             if (res.code) {
               api.tips(self.$refs.tips, res.msg)
             } else {
-              api.tips(self.$refs.tips, '恭喜您租赁成功！', () => {
+              api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
                 self.$router.push({path: '/user/order/1/1'})
               })
             }

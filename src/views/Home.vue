@@ -58,7 +58,7 @@
     mounted () {
       // var self = this
       api.post('/partner', {sign: 'token=0'}).then(function (data) {
-        console.log(data)
+        // console.log(data)
         // self.activity = data
       })
     }

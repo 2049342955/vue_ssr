@@ -3,7 +3,7 @@
     <h2>订单详情</h2>
     <h3>运行状况</h3>
     <div class="detail_box">
-      <div class="process" v-if="$route.params.type !== '1'">
+      <div class="process" v-if="$route.params.type != '1'">
         <div :class="['item', {active: k===processStatus}]" v-for="p,k in processText">
           <i><template v-if="k>=processStatus">{{k+1}}</template></i>
           <span>{{p}}</span>
@@ -85,50 +85,7 @@
     }
     .detail_box{
       .process{
-        padding:25px 30px;
-        @include flex
-        .item{
-          &:not(:last-child){
-            flex:1;
-          }
-          @include flex
-          color:$blue;
-          i{
-            position: relative;
-            @include block(20,50%)
-            border: 1px solid $blue;
-            text-align: center;
-            margin-right:5px;
-            &:empty:before{
-              content:'';
-              @include right(8,5,$blue)
-            }
-          }
-          &.active{
-            i{
-              background: $blue;
-              color:$white
-            }
-            span{
-              font-weight: bold;
-            }
-            & ~ .item{
-              i{
-                border-color: $border;
-                color:#ccc
-              }
-              span{
-                color:$light_black
-              }
-            }
-          }
-          .line{
-            margin:0 15px;
-            flex:1;
-            height: 1px;
-            background: $border;
-          }
-        }
+        @include process
       }
       .detailinfo{
         padding:25px 30px;

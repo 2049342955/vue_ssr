@@ -5,8 +5,13 @@
         <span>{{f.title}}</span>
         <span>*</span>
         <template v-if="f.type!=='select'">
-          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" :isChange="f.isChange" v-if="f.changeEvent" @change="$parent.$parent.onChange" :value="$parent.$parent[f.name]">
+          <input type="text" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" v-if="f.type==='password'" @focus="$event.target.type='password'">
+          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" :isChange="f.isChange" v-else-if="f.changeEvent" @change="$parent.$parent.onChange($event,f.name)">
           <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" :isChange="f.isChange" v-else>
+          <div class="tips_info" v-if="f.tipsInfo">
+            <span>{{f.tipsUnit}}</span>
+            <span v-if="f.tipsInfo!=='show'">{{f.tipsInfo}}：{{$parent.$parent[f.name]}}{{f.tipsUnit}}</span>
+          </div>
         </template>
         <select class="sel" :name="f.name" id="" v-else-if="f.option">
           <option :value="v" v-for="v,k in f.option">{{v}}天</option>
@@ -36,7 +41,10 @@
       <template v-else>
         <span>{{f.title}}</span>
         <span>*</span>
-        <input :type="f.type" :name="f.name" :value="$parent.$parent[f.name]" disabled>
+        <input :type="f.type" :name="f.name" :value="$parent[f.name]||$parent.$parent[f.name]" disabled>
+        <div class="tips_info" v-if="f.tipsInfo">
+          <span>{{f.tipsUnit}}</span>
+        </div>
       </template>
     </div>
   </div>
