@@ -30,6 +30,7 @@
     }
   }
 </script>
+
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .mask{
@@ -38,7 +39,34 @@
       .form_content{
         padding:40px 130px;
         @include form(v)
-        width:450px
+        width:450px;
+        .input{
+          span{
+            &:first-child {
+              width: 115px;
+              text-align: right;
+            }
+            &:nth-child(2) {
+              left: 135px
+            }
+          }
+          input,.sel{
+            padding-left:185px
+          }
+          .select{
+            padding-left:185px;
+            @include flex
+            select{
+              flex:1;
+              height:32px;
+              line-height: 32px;
+              border:none;
+              & + select{
+                margin-left:3px
+              }
+            }
+          }
+        }
       }
     }
   }

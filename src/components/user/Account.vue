@@ -46,7 +46,6 @@
         var val = ''
         var sendData = {token: this.token, user_id: this.user_id}
         var tipsStr = ''
-        var tipsStr2 = ''
         switch (this.edit) {
           case 'tel':
             break
@@ -56,7 +55,6 @@
             no = 1
             val = 'true_name'
             tipsStr = '实名认证已提交'
-            tipsStr2 = '实名认证失败，请输入正确信息'
             break
           case 'card':
             url = 'BankCard'
@@ -64,7 +62,6 @@
             no = 3
             val = 'bank_card'
             tipsStr = '绑定成功'
-            tipsStr2 = '绑定失败，请输入正确信息'
             break
           case 'address':
             url = 'bindAddress'
@@ -72,13 +69,12 @@
             no = 4
             val = 'bindAddress'
             tipsStr = '设置成功'
-            tipsStr2 = '设置失败，请输入正确信息'
             break
         }
         if (!data) return false
         var self = this
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (back) {
-          if (back) {
+          if (!back.code) {
             self.closeEdit()
             api.tips(self.$refs.tips, tipsStr)
             util.post(callbackUrl, {sign: api.serialize(sendData)}).then(function (res) {
@@ -89,7 +85,7 @@
               }
             })
           } else {
-            api.tips(self.$refs.tips, tipsStr2)
+            api.tips(self.$refs.tips, back.msg)
           }
         })
       },
@@ -111,45 +107,3 @@
     }
   }
 </script>
-
-<style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
-  .account{
-    .mask{
-      @include mask
-      .form_box{
-        .form_content{
-          padding:40px 130px;
-          @include form(v)
-          width:450px;
-          .input{
-            span{
-              &:first-child {
-                width: 115px;
-                text-align: right;
-              }
-              &:nth-child(2) {
-                left: 135px
-              }
-            }
-            input,select{
-              padding-left:185px
-            }
-            .select{
-              padding-left:185px;
-              @include flex
-              select{
-                flex:1;
-                padding:6px 0;
-                border:none;
-                & + select{
-                  margin-left:3px
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-</style>

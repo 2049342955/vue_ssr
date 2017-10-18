@@ -13,9 +13,11 @@
             <span v-if="f.tipsInfo!=='show'">{{f.tipsInfo}}：{{$parent.$parent[f.name]}}{{f.tipsUnit}}</span>
           </div>
         </template>
-        <select class="sel" :name="f.name" id="" v-else-if="f.option">
-          <option :value="v" v-for="v,k in f.option">{{v}}{{f.unit}}</option>
-        </select>
+        <div class="sel" v-else-if="f.option">
+          <select :name="f.name" id="">
+            <option :value="v" v-for="v,k in f.option">{{v}}{{f.unit}}</option>
+          </select>
+        </div>
         <div class="select" v-else>
           <select name="province_name" id="" @change="changeCity" :isChange="true">
             <option :value="v.name" v-for="v,k in province" :selected="p===v.name">{{v.name}}</option>
@@ -41,7 +43,8 @@
       <template v-else>
         <span>{{f.title}}</span>
         <span>*</span>
-        <input :type="f.type" :name="f.name" :value="$parent[f.name]||$parent.$parent[f.name]" disabled>
+        <input :type="f.type" :name="f.name" :value="$parent[f.name]||$parent.$parent[f.name]" disabled v-if="f.name!=='bank_card'">
+        <input :type="f.type" :name="f.name" :value="$parent[f.name]&&$parent[f.name].card_no&&$parent[f.name].card_no|cardformat" disabled v-else>
         <div class="tips_info" v-if="f.tipsInfo">
           <span>{{f.tipsUnit}}</span>
         </div>
@@ -142,6 +145,9 @@
         user_id: state => state.info.user_id,
         mobile: state => state.info.mobile
       })
+    },
+    filters: {
+      cardformat: api.cardReadable
     }
   }
 </script>

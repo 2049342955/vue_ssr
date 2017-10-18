@@ -21,8 +21,8 @@
           <router-link to="/other/safeGuarantee">支持</router-link>
           <router-link to="/other/aboutUs">关于</router-link>
           <template v-if="token===0">
-            <router-link class="btn" to="/auth/login">登录</router-link>
-            <router-link class="border" to="/auth/regist">注册</router-link>
+            <router-link to="/auth/login">登录</router-link>
+            <router-link class="btn" to="/auth/regist">注册</router-link>
           </template>
           <template v-else>
             <router-link class="tel" to="/user/computeProperty">{{mobile|format}}</router-link>
@@ -36,6 +36,7 @@
 
 <script>
   import api from '../../util/function'
+  import util from '../../util'
   import { mapState } from 'vuex'
   export default {
     name: 'header',
@@ -49,12 +50,17 @@
       if (this.token === 0) {
         this.$store.dispatch('getInfo')
       }
+      var self = this
+      util.post('getAll', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (data) {
+        self.$store.commit('SET_INFO', data)
+      })
     },
     computed: {
       ...mapState({
         token: state => state.info.token,
         user_id: state => state.info.user_id,
-        mobile: state => state.info.mobile
+        mobile: state => state.info.mobile,
+        true_name: state => state.info.true_name
       })
     },
     methods: {
@@ -171,21 +177,16 @@
       .side_nav{
         a{
           @include gap(10,h)
-          &.btn,&.border{
+          &.btn{
+            line-height: 1.8;
             @include gap(0,h)
             display: inline-block;
             width:70px;
             text-align: center;
-            @include gap(5,h,margin)
-            border-radius:3px
-          }
-          &.btn{
+            margin-left:10px;
+            border-radius:3px;
             background:$white;
-            border:1px solid transparent;
             color:$blue
-          }
-          &.border{
-            border:1px solid hsla(0,0%,100%,.4)
           }
         }
       }

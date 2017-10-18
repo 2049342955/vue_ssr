@@ -29,6 +29,7 @@ import VirtualCurrencyFlow from '@/components/user/VirtualCurrencyFlow'
 import Password from '@/components/user/Password'
 import Order from '@/components/user/Order'
 import OrderDetail from '@/components/user/OrderDetail'
+import Article from '@/views/Article'
 import AccountEvaluate from '@/components/user/AccountEvaluate'
 import Other from '@/views/Other'
 import AboutUs from '@/components/help/AboutUs'
@@ -66,14 +67,6 @@ export default new Router({
       path: 'passwordRetrieval',
       name: 'passwordRetrieval',
       component: PasswordRetrieval
-    }, {
-      path: 'serviceTerms',
-      name: 'serviceTerms',
-      component: ServiceTerms
-    }, {
-      path: 'userAgreement',
-      name: 'userAgreement',
-      component: UserAgreement
     }]
   }, {
     path: '/bdc',
@@ -135,11 +128,11 @@ export default new Router({
       name: 'incomeChart',
       component: IncomeChart
     }, {
-      path: 'moneyFlow',
+      path: 'moneyFlow/:sort',
       name: 'moneyFlow',
       component: MoneyFlow
     }, {
-      path: 'virtualCurrencyFlow',
+      path: 'virtualCurrencyFlow/:sort',
       name: 'virtualCurrencyFlow',
       component: VirtualCurrencyFlow
     }, {
@@ -168,9 +161,21 @@ export default new Router({
       component: Recharge
     }]
   }, {
-    path: '/accountEvaluate',
-    name: 'accountEvaluate',
-    component: AccountEvaluate
+    path: '/article',
+    component: Article,
+    children: [{
+      path: 'accountEvaluate',
+      name: 'accountEvaluate',
+      component: AccountEvaluate
+    }, {
+      path: 'userAgreement',
+      name: 'userAgreement',
+      component: UserAgreement
+    }, {
+      path: 'serviceTerms',
+      name: 'serviceTerms',
+      component: ServiceTerms
+    }]
   }, {
     path: '/mine',
     component: Mine

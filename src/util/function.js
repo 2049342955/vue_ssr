@@ -49,7 +49,9 @@ api.telReadable = (tel) => {
   return tel.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
 }
 api.cardReadable = (tel) => {
-  return tel.replace(/(\d{4})\d{10}(\d{4})/, '$1****$2')
+  if (tel) {
+    return tel.replace(/(\d{4})\d{10}(\d{4})/, '$1****$2')
+  }
 }
 api.currency = (num, n, i) => {
   if (i) {
@@ -67,10 +69,10 @@ api.currency = (num, n, i) => {
 api.createCode = (mycanvas) => {
   var str = api.rand()
   var cxt = mycanvas.getContext('2d')
-  cxt.fillStyle = '#000'
+  cxt.fillStyle = '#eee'
   cxt.fillRect(0, 0, 90, 40)
   for (var j = 0; j < 20; j++) {
-    cxt.strokeStyle = '#fff'
+    cxt.strokeStyle = '#609cff'
     cxt.beginPath()
     cxt.moveTo(api.line().x, api.line().y)
     cxt.lineTo(api.line().x, api.line().y)
@@ -78,9 +80,9 @@ api.createCode = (mycanvas) => {
     cxt.closePath()
     cxt.stroke()
   }
-  cxt.fillStyle = 'red'
-  cxt.font = 'bold 20px Arial'
-  cxt.fillText(str, 20, 25)
+  cxt.fillStyle = '#387c91'
+  cxt.font = 'bold 24px Arial'
+  cxt.fillText(str, 20, 30)
   return str
 }
 api.rand = () => {

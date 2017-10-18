@@ -25,11 +25,7 @@
       </div>
     </div>
     <div class="detail_table">
-      <div class="detail_title">
-        <span>筛选条件</span>
-        <span>默认</span>
-        <span>时间</span>
-      </div>
+      <Sort :sort="sort" page="virtualCurrencyFlow"></Sort>
       <table>
         <tr>
           <th v-for="n in nav">{{n}}</th>
@@ -48,9 +44,10 @@
   import api from '@/util/function'
   import { mapState } from 'vuex'
   import Pager from '@/components/common/Pager'
+  import Sort from '@/components/common/Sort'
   export default {
     components: {
-      Pager
+      Pager, Sort
     },
     data () {
       return {
@@ -62,13 +59,14 @@
         list: [{product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}],
         len: 0,
         now: 1,
-        show: false
+        show: false,
+        sort: [{title: '时间', option: ['asc', 'desc'], value: 0}]
       }
     },
     methods: {
       getList () {
         var self = this
-        util.post('userCoinList', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: '1', page: this.now, sort: ''})}).then(function (res) {
+        util.post('userCoinList', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: '1', page: this.now, sort: this.$route.params.sort})}).then(function (res) {
           self.list = res.value_list
           if (self.now > 1) return false
           self.len = Math.ceil(res.total_num / 15)
@@ -81,6 +79,9 @@
         this.show = !this.show
         this.nowEdit = n
       }
+    },
+    watch: {
+      '$route': 'getList'
     },
     mounted () {
       var self = this

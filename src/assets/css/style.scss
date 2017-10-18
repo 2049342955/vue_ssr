@@ -252,7 +252,7 @@
         }
       }
     }
-    input,select,.select{
+    input,.sel,.select{
       line-height:2;
       border: 1px solid $blue_border;
       border-radius: 5px;
@@ -304,8 +304,9 @@
         }
       }
     }
-    .sel{
-      @include gap(14,v)
+    select{
+      height:29px;
+      line-height: 29px
     }
     canvas,.btn{
       @include position(5,auto,5,5)
@@ -490,11 +491,9 @@
 // title
   @mixin menu{
     @include flex
-    border:1px solid;
+    border:1px solid #e5e5e5;
     padding:15px;
     &.success{
-      border-color:$green_border;
-      background: $green_bg;
       .icon{
         position: relative;
         background: $green;
@@ -508,8 +507,6 @@
       }
     }
     &.fail{
-      border-color:$fail_border;
-      background: $fail_bg;
       .icon{
         text-align: center;
         background: $fail;
@@ -538,14 +535,15 @@
       flex:1
     }
     .val{
-      width: 240px;
+      width: 200px;
       color: $light_text;
+      text-align: center;
       span{
         color: $text;
       }
     }
     .opr{
-      width: 60px;
+      width: 150px;
       text-align: right;
       color: $blue;
       cursor: pointer;
@@ -709,11 +707,15 @@
   }
 // data_table
   @mixin data_table{
-    .detail_title{
-      line-height: 48px;
+    .sort{
       background: #f5f8ff;
       margin-bottom:10px;
       @include gap(15,h)
+      border:0;
+      .item{
+        background: #f5f8ff;
+        line-height: 30px;
+      }
     }
     table{
       @include table
@@ -738,7 +740,7 @@
   .web_tips{
     @include position
     position: fixed;
-    bottom:auto;
+    top:auto;
     line-height:50px;
     text-align: center;
     background: $blue;

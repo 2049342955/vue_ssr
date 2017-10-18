@@ -11,13 +11,10 @@ let api = axios.create({
 // 修改返回数据格式
 api.defaults.transformResponse = (res) => {
   if (res.code !== '1000') {
-    if (res.code === '2000') {
-      return false
-    } else {
-      return res
-    }
+    return res
+  } else {
+    return res.msg
   }
-  return res.msg
 }
 
 api.defaults.validateStatus = (status) => {

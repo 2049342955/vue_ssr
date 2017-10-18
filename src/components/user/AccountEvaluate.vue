@@ -1,21 +1,19 @@
 <template>
   <section class="account_evaluate">
-    <div class="box">
-      <h2>风险测评</h2>
-      <form class="test" @submit.prevent="submit" novalidate>
-        <h4>欢迎参加本次调查</h4>
-        <aside v-for="d,i in data">
-          <div class="question" :ref="'question'+i">{{d.question}}<span>请选择</span></div>
-          <div class="answer">
-            <label :for="'answer'+i+k" v-for="q,k in d.options">
-              <input type="radio" :id="'answer'+i+k" :name="'question'+i" :value="k">
-              <span>{{q}}</span>
-            </label>
-          </div>
-        </aside>
-        <div class="btn"><button>确认提交</button></div>
-      </form>
-    </div>
+    <h2>风险测评</h2>
+    <form class="box_content" @submit.prevent="submit" novalidate>
+      <h4>欢迎参加本次调查</h4>
+      <aside v-for="d,i in data">
+        <div class="question" :ref="'question'+i">{{d.question}}<span>请选择</span></div>
+        <div class="answer">
+          <label :for="'answer'+i+k" v-for="q,k in d.options">
+            <input type="radio" :id="'answer'+i+k" :name="'question'+i" :value="k">
+            <span>{{q}}</span>
+          </label>
+        </div>
+      </aside>
+      <div class="btn"><button>确认提交</button></div>
+    </form>
     <div class="web_tips" ref="tips"></div>
   </section>
 </template>
@@ -32,7 +30,7 @@
     },
     methods: {
       submit () {
-        var form = document.querySelector('.test')
+        var form = document.querySelector('.box_content')
         var data = []
         for (var i = 0; i <= 6; i++) {
           var ele = this.$refs['question' + i][0]
@@ -72,59 +70,33 @@
     }
   }
 </script>
+
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .account_evaluate{
-    background: #f7f8fa;
-    padding:40px 0;
-    .box{
-      @include main
-      background: $white;
-      min-height:800px;
-      h2{
-        font-size: 18px;
-        font-weight: bold;
-        text-align: center;
-        padding:18px 0;
-        border-bottom:1px solid $border
-      }
-      .test{
-        padding:40px 50px;
-        font-size: 16px;
-        h4{
-          margin-bottom:30px;
-        }
-        aside{
-          margin-bottom:15px;
-          .question{
-            span{
-              color: $red;
-              font-size: 12px;
-              padding-left:10px;
-              display: none;
-            }
-            &.active span{
-              display: inline;
-            }
-          }
-          .answer{
+    .box_content{
+      aside{
+        margin-bottom:15px;
+        .question{
+          span{
+            color: $red;
+            font-size: 12px;
             padding-left:10px;
-            label{
-              display: block;
-              margin-top:10px;
-              input{
-                @include checkbox(18)
-                margin-right:5px;
-              }
-            }
+            display: none;
+          }
+          &.active span{
+            display: inline;
           }
         }
-        .btn{
-          text-align: center;
-          button{
-            padding:10px 50px;
-            @include button($blue)
-            font-size: 16px;
+        .answer{
+          padding-left:10px;
+          label{
+            display: block;
+            margin-top:10px;
+            input{
+              @include checkbox(18)
+              margin-right:5px;
+            }
           }
         }
       }

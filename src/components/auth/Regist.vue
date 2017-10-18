@@ -4,10 +4,11 @@
     <FormField :form="form"></FormField>
     <label for="accept">
       <input type="checkbox" id="accept" name="accept" checked>
-      <span>阅读并接受<router-link to="/auth/userAgreement">《用户协议》</router-link>及<router-link to="/auth/serviceTerms">《算力网服务条款》</router-link></span>
+      <span>阅读并接受<router-link to="/article/userAgreement">《用户使用协议》</router-link></span>
       <span class="select_accept">请选择</span>
     </label>
     <button>注册</button>
+    <div class="web_tips" ref="tips"></div>
   </form>
 </template>
 
@@ -34,9 +35,14 @@
           ff.accept.setAttribute('data-status', 'invalid')
           return false
         }
+        var self = this
         util.post('/register', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
           if (res) {
-            this.$router.push({name: 'login'})
+            api.tips(self.$refs.tips, '注册成功', () => {
+              self.$router.push({name: 'login'})
+            })
+          } else {
+            api.tips(self.$refs.tips, '注册失败，请重新注册')
           }
         })
       }

@@ -1,10 +1,7 @@
 <template>
   <section class="product_list">
     <div class="box">
-      <div class="sort">
-        <div class="item" @click="setSort('all',$event)">默认</div>
-        <div :class="['item', {active: edit==k}, {up: !s.value}]" v-for="s,k in sort" @click="setSort(k,$event)">{{s.title}}<span class="iconfont"></span></div>
-      </div>
+      <Sort :page="page" :sort="sort"></Sort>
       <div class="data">
         <div class="item" v-for="d,k in $parent.computeDate">
           <h3>{{page==='computeTransfer'?d.product_name:d.name}}<span :class="'icon_currency '+d.hashtype.name"></span></h3>
@@ -12,7 +9,7 @@
             <template v-for="n,i in dataNav">
               <div class="info" v-if="i==='leftNum'">
                 <div class="text">
-                  <span class="num">{{d.amount-d.sell_amount}}</span>
+                  <span class="num">{{d.amount-d.buyed_amount}}</span>
                   <span>{{n.unit}}</span>
                 </div>
                 <p>{{n.title}}</p>
@@ -38,7 +35,11 @@
 <script>
   import { mapState } from 'vuex'
   import api from '@/util/function'
+  import Sort from '@/components/common/Sort'
   export default {
+    components: {
+      Sort
+    },
     props: {
       sort: {
         type: Array
@@ -56,23 +57,6 @@
       }
     },
     methods: {
-      setSort (n, e) {
-        this.edit = n
-        var obj = this.sort[n]
-        var str = ''
-        for (let ele of this.sort) {
-          if (obj !== ele) {
-            ele.value = 0
-          }
-        }
-        if (obj) {
-          obj.value = +(!obj.value)
-          str = obj.option[obj.value]
-        } else {
-          str = 'all'
-        }
-        this.$router.push({path: '/' + this.page + '/list/' + this.$route.params.type + '/' + str})
-      },
       goPay (id) {
         if (this.token === 0) {
           api.tips(this.$refs.tips, '请先登录', () => {
@@ -80,7 +64,7 @@
           })
           return false
         }
-        if (!this.true_name) {
+        if (!(this.true_name && this.true_name.status === 1)) {
           api.tips(this.$refs.tips, '请先实名认证', () => {
             this.$router.push({name: 'account'})
           })
@@ -104,6 +88,7 @@
     }
   }
 </script>
+
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .product_list{
@@ -113,39 +98,6 @@
     padding-bottom:50px;
     .box{
       @include main
-      .sort{
-        background: $white;
-        padding:10px 25px;
-        color:$light_text;
-        @include flex
-        border: 1px solid $border;
-        .item{
-          cursor: pointer;
-          padding:0 30px;
-          line-height: 40px;
-          background: #f7f8fa;
-          & + .item{
-            margin-left:50px
-          }
-          .iconfont{
-            @include block(24)
-            vertical-align: middle;
-            transition:all .3s;
-            &:before{
-              font-size: 24px;
-              content:'\e60e'
-            }
-          }
-          &.active{
-            color:$blue
-          }
-          &.up{
-            .iconfont{
-              transform:rotate(180deg)
-            }
-          }
-        }
-      }
       .data{
         .item{
           padding:30px 50px;

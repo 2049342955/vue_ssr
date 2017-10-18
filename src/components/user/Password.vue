@@ -69,7 +69,7 @@
       var self = this
       util.post('judgeSetPassword', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (data) {
         console.log(data)
-        if (data) {
+        if (!data.code) {
           self.$store.commit('SET_ITEM', {'trade_password': true})
         }
       })

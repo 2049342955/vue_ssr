@@ -33,7 +33,7 @@
                 <span>{{$parent.detail[k]}}</span>
               </div>
             </div>
-            <h4>{{$parent.detail.machine_intro}}</h4>
+            <h4 v-html="$parent.detail.machine_intro"></h4>
           </div>
         </div>
       </div>

@@ -19,11 +19,7 @@
       </div>
     </div>
     <div class="detail_table">
-      <div class="detail_title">
-        <span>筛选条件</span>
-        <span>默认</span>
-        <span>时间</span>
-      </div>
+      <Sort :sort="sort" page="moneyFlow"></Sort>
       <table>
         <tr>
           <th v-for="n in nav">{{n}}</th>
@@ -48,9 +44,10 @@
   import { mapState } from 'vuex'
   import MyMask from '@/components/common/Mask'
   import Pager from '@/components/common/Pager'
+  import Sort from '@/components/common/Sort'
   export default {
     components: {
-      MyMask, Pager
+      MyMask, Pager, Sort
     },
     data () {
       return {
@@ -64,7 +61,8 @@
         },
         editText: '',
         len: 0,
-        now: 1
+        now: 1,
+        sort: [{title: '时间', option: ['asc', 'desc'], value: 0}]
       }
     },
     methods: {
@@ -95,6 +93,9 @@
     },
     filters: {
       currency: api.currency
+    },
+    watch: {
+      '$route': 'getList'
     },
     mounted () {
       var self = this
