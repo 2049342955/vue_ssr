@@ -4,6 +4,7 @@
       <Pay v-if="next" page="cloudCompute" :proData="proData2" :proText="proText2"></Pay>
       <Product v-else page="cloudCompute" :proData="proData" :proText="proText"></Product>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -37,6 +38,12 @@
     },
     methods: {
       goPay (e) {
+        // if (this.trade_password === '') {
+        //   api.tips(this.$refs.tips, '请先设置交易密码', () => {
+        //     this.$router.push({name: 'password'})
+        //   })
+        //   return false
+        // }
         if (this.number < 1) {
           e.target.classList.add('error')
           setTimeout(() => {
@@ -47,10 +54,12 @@
         var self = this
         // 100002:参数缺失，200009：不能购买自己发布的订单
         util.post('productOrder', {sign: api.serialize({token: this.token, product_id: this.$route.params.id, num: this.number})}).then(function (res) {
-          if (res) {
+          if (!res.code) {
             self.next = true
             self.balance = res.balance
             self.order_id = res.order_id
+          } else {
+            api.tips(self.$refs.tips, res.msg)
           }
         })
       },
@@ -78,7 +87,8 @@
     computed: {
       ...mapState({
         token: state => state.info.token,
-        user_id: state => state.info.user_id
+        user_id: state => state.info.user_id,
+        trade_password: state => state.info.trade_password
       })
     }
   }

@@ -4,6 +4,7 @@
       <Pay v-if="next" page="computeTransfer" :proData="proData" :proText="proText"></Pay>
       <Product v-else page="computeTransfer" :proData="proData" :proText="proText"></Product>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -28,13 +29,21 @@
     },
     methods: {
       goPay () {
+        // if (this.trade_password === '') {
+        //   api.tips(this.$refs.tips, '请先设置交易密码', () => {
+        //     this.$router.push({name: 'password'})
+        //   })
+        //   return false
+        // }
         var self = this
         console.log(this.user_id)
         util.post('doTransfer_Hashrate_show', {sign: api.serialize({token: this.token, user_id: this.user_id, transfer_order_id: this.$route.params.id})}).then(function (res) {
           console.log(res)
-          if (res) {
+          if (!res.code) {
             self.next = true
             self.balance = res.balance_account
+          } else {
+            api.tips(self.$refs.tips, res.msg)
           }
         })
       }
@@ -51,7 +60,8 @@
     computed: {
       ...mapState({
         token: state => state.info.token,
-        user_id: state => state.info.user_id
+        user_id: state => state.info.user_id,
+        trade_password: state => state.info.trade_password
       })
     }
   }

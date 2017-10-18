@@ -74,13 +74,13 @@
               <button @click="openMask('rent', '出租算力', d.id)">出租算力</button>
             </template>
             <template v-if="nowEdit==0&&status==2">
-              <button class="sold" @click="quit('sold')">撤销出售</button>
+              <button class="sold" @click="quit('sold', d.id)">撤销出售</button>
             </template>
             <template v-if="nowEdit==1&&status==1">
               <button @click="openMask('againRent', '转租算力', d.id)">转租算力</button>
             </template>
             <template v-if="(nowEdit==1||nowEdit==2)&&status==2">
-              <button @click="quit('rent')">撤销转租</button>
+              <button @click="quit('rent', d.id)">撤销转租</button>
             </template>
             <template v-if="nowEdit==2&&status==1">
               <button @click="openMask('rent', '出租算力', d.id)">出租算力</button>
@@ -192,7 +192,9 @@
         }
         var self = this
         util.post(requestUrl, {sign: api.serialize({token: this.token, user_id: this.user_id, order_id: id})}).then(function (res) {
-          api.tips(self.$refs.tips, '操作成功')
+          if (!res.code) {
+            api.tips(self.$refs.tips, '操作成功')
+          }
         })
       },
       closeEdit () {

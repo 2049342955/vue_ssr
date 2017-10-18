@@ -84,7 +84,14 @@
       },
       getList () {
         var self = this
-        util.post('userCapitalList', {sign: api.serialize({token: this.token, user_id: this.user_id, page: this.now, sort: ''})}).then(function (res) {
+        var sendData = {}
+        var data = {token: this.token, user_id: this.user_id, page: this.now}
+        if (this.$route.params.sort === 'default') {
+          sendData = {sort: ''}
+        } else {
+          sendData = {sort: this.$route.params.sort}
+        }
+        util.post('userCapitalList', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           self.list = res.value_list
           if (self.now > 1) return false
           self.len = Math.ceil(res.total_num / 15)

@@ -38,21 +38,24 @@
         var data = api.checkFrom(form)
         var url = ''
         var sendData = {token: this.token, user_id: this.user_id}
+        var tipStr = ''
         switch (this.edit) {
           case 'login':
             url = 'changeLoginPassword'
+            tipStr = '修改成功'
             break
           case 'trade':
             url = 'tradePassword'
             data.trade_password = md5(data.trade_password)
             data.trade_password1 = md5(data.trade_password1)
+            tipStr = '设置成功'
             break
         }
         if (!data) return false
         var self = this
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           if (res) {
-            api.tips(self.$refs.tips, '修改成功')
+            api.tips(self.$refs.tips, tipStr)
             self.closeEdit()
             self.$store.commit('SET_ITEM', {'trade_password': true})
           } else {
