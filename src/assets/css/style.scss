@@ -331,6 +331,13 @@
         font-size: 12px
       }
     }
+    .show_link{
+      @include position(12,auto,0,-85)
+      font-size: 14px;
+      a{
+        color: $blue;
+      }
+    }
   }
 // checkbox
   @mixin checkbox($w:16,$radius:50%){

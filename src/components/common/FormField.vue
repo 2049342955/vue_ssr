@@ -10,7 +10,7 @@
           <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" :isChange="f.isChange" v-else>
           <div class="tips_info" v-if="f.tipsInfo">
             <span>{{f.tipsUnit}}</span>
-            <span v-if="f.tipsInfo!=='show'">{{f.tipsInfo}}：{{$parent.$parent[f.name]}}{{f.tipsUnit}}</span>
+            <span v-if="f.tipsInfo!=='show'">{{f.tipsInfo}}：{{$parent.$parent[f.name]|decimal}}{{f.tipsUnit}}</span>
           </div>
         </template>
         <div class="sel" v-else-if="f.option">
@@ -47,6 +47,9 @@
         <input :type="f.type" :name="f.name" :value="$parent[f.name]&&$parent[f.name].card_no&&$parent[f.name].card_no|cardformat" disabled v-else>
         <div class="tips_info" v-if="f.tipsInfo">
           <span>{{f.tipsUnit}}</span>
+        </div>
+        <div class="show_link" v-if="f.showLink">
+          <router-link :to="f.showLink">更换银行卡</router-link>
         </div>
       </template>
     </div>
@@ -98,7 +101,7 @@
         var form = document.querySelector('.form')
         if (!api.checkCode(form)) return false
         if (self.$refs['btn'][0].getAttribute('disabled') === 'true') return false
-        util.post('/send_code', {sign: api.serialize({token: this.token, mobile: form.mobile.value})}).then(res => {
+        util.post('send_code', {sign: api.serialize({token: this.token, mobile: form.mobile.value})}).then(res => {
           api.setTips(form.code, 'success')
           self.conntDown()
           self.$refs['btn'][0].setAttribute('disabled', true)
@@ -147,7 +150,8 @@
       })
     },
     filters: {
-      cardformat: api.cardReadable
+      cardformat: api.cardReadable,
+      decimal: api.decimal
     }
   }
 </script>

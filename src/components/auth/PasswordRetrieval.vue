@@ -46,16 +46,23 @@
         var self = this
         if (n === 1) {
           util.post('valid_code', {sign: api.serialize(Object.assign(data, {token: this.token}))}).then(res => {
-            console.log(res)
-            self.mobile = data.mobile
-            self.code_id = res.id
-            self.valid_code = res.valid_code
-            self.next = true
+            if (!res.code) {
+              self.mobile = data.mobile
+              self.code_id = res.id
+              self.valid_code = res.valid_code
+              self.next = true
+            } else {
+              api.tips(self.$refs.tips, res.msg)
+            }
           })
         } else {
           util.post('forgitPwd', {sign: api.serialize(Object.assign(data, {token: this.token, valid_code: this.valid_code, code_id: this.code_id, mobile: this.mobile}))}).then(res => {
-            if (res === '修改成功') {
-              this.$router.push({name: 'login'})
+            if (!res.code) {
+              api.tips(self.$refs.tips, '重置密码成功', () => {
+                self.$router.push({name: 'login'})
+              })
+            } else {
+              api.tips(self.$refs.tips, res.msg)
             }
           })
         }

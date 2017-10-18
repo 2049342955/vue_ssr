@@ -40,7 +40,7 @@
 </template>
 
 <script>
-  import api from '../util'
+  // import util from '../util'
   import Swiper from '../components/common/Swipe'
   import Chart from '../components/home/Chart'
   import MyData from '../components/home/DataList'
@@ -57,10 +57,10 @@
     },
     mounted () {
       // var self = this
-      api.post('/partner', {sign: 'token=0'}).then(function (data) {
+      // util.post('/partner', {sign: 'token=0'}).then(function (data) {
         // console.log(data)
         // self.activity = data
-      })
+      // })
     }
   }
 </script>

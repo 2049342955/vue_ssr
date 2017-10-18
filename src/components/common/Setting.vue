@@ -34,7 +34,7 @@
     methods: {
       setEdit (str, title, setting) {
         if (str === 'card' || str === 'address' || str === 'trade') {
-          if (!this.true_name || this.true_name.status !== 1) {
+          if (!(this.true_name && this.true_name.status === 1)) {
             api.tips(this.$refs.tips, '请先实名认证')
             return false
           }
@@ -50,7 +50,7 @@
         document.body.style.overflow = 'hidden'
       },
       test (n) {
-        if (!this.true_name || this.true_name.status !== 1) {
+        if (!(this.true_name && this.true_name.status === 1)) {
           api.tips(this.$refs.tips, '请先实名认证')
           return false
         }

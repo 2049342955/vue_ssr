@@ -81,7 +81,7 @@
               console.log(res)
               if (res) {
                 self.nav[no].status = 1
-                self.$store.commit('SET_ITEM', {[val]: res})
+                self.$store.commit('SET_INFO', {[val]: res})
               }
             })
           } else {

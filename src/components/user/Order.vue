@@ -46,32 +46,32 @@
         <tr v-for="d,k in data">
           <td>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
           <template v-if="nowEdit==0&&(status==2||status==3)">
-            <td>{{d.total_hash}}T</td>
+            <td>{{d.total_hash|format}}T</td>
             <td>{{d.selling_amount}}台</td>
             <td>{{d.total_price}}元</td>
           </template>
           <template v-else-if="(nowEdit==1||nowEdit==2)&&(status==2||status==3)">
             <td>{{d.total_price}}元</td>
-            <td>{{d.transfer_amount}}T</td>
+            <td>{{d.transfer_amount|format}}T</td>
             <td>{{d.transfer_price}}元</td>
           </template>
           <template v-else>
-            <td>{{d.total_hash}}T</td>
+            <td>{{d.total_hash|format}}T</td>
             <td>{{d.buy_amount}}台</td>
             <td>{{d.total_price}}元</td>
           </template>
           <td>{{d.create_time}}</td>
           <template v-if="nowEdit==0&&(status==1||status==4)">
             <td>{{d.remain_miner}}台</td>
-            <td>{{d.remain_hash}}T</td>
+            <td>{{d.remain_hash|format}}T</td>
           </template>
           <template v-if="nowEdit==2&&status==1">
-            <td>{{d.remain_hash}}T</td>
+            <td>{{d.remain_hash|format}}T</td>
           </template>
           <td>
             <template v-if="nowEdit==0&&status==1">
-              <button class="sold" @click="openMask('sold', '出售云矿机', d.id)">出售云矿机</button>
-              <button @click="openMask('rent', '出租算力', d.id)">出租算力</button>
+              <button class="sold" @click="openMask('sold', '出售云矿机', d.id)" :disabled="!d.remain_miner">出售云矿机</button>
+              <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash">出租算力</button>
             </template>
             <template v-if="nowEdit==0&&status==2">
               <button class="sold" @click="quit('sold', d.id)">撤销出售</button>
@@ -80,18 +80,18 @@
               <button @click="openMask('againRent', '转租算力', d.id)">转租算力</button>
             </template>
             <template v-if="(nowEdit==1||nowEdit==2)&&status==2">
-              <button @click="quit('rent', d.id)">撤销转租</button>
+              <button @click="quit('rent', d.id)">撤销出租</button>
             </template>
             <template v-if="nowEdit==2&&status==1">
               <button @click="openMask('rent', '出租算力', d.id)">出租算力</button>
             </template>
-            <router-link :to="'/user/orderDetail/'+nowEdit+'/'+d.id">查看详情</router-link>
+            <router-link :to="'/user/orderDetail/'+nowEdit+'/'+d.id"  v-if="status!=2&&status!=3">查看详情</router-link>
           </td>
         </tr>
       </table>
       <Pager :len="len"></Pager>
     </div>
-    <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
+    <MyMask :form="form[edit]" :title="editText" v-if="edit" :fee="fee"></MyMask>
     <div class="web_tips" ref="tips"></div>
   </section>
 </template>
@@ -130,7 +130,8 @@
         transfer_time: 0,
         order_id: '',
         len: 0,
-        now: 1
+        now: 1,
+        fee: 0.06
       }
     },
     methods: {
@@ -193,7 +194,9 @@
         var self = this
         util.post(requestUrl, {sign: api.serialize({token: this.token, user_id: this.user_id, order_id: id})}).then(function (res) {
           if (!res.code) {
-            api.tips(self.$refs.tips, '操作成功')
+            api.tips(self.$refs.tips, '操作成功', () => {
+              self.fetchData()
+            })
           }
         })
       },
@@ -229,7 +232,9 @@
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (back) {
           if (back) {
             self.closeEdit()
-            api.tips(self.$refs.tips, tipsStr)
+            api.tips(self.$refs.tips, tipsStr, () => {
+              self.fetchData()
+            })
           }
         })
       },
@@ -258,6 +263,9 @@
     },
     mounted () {
       this.fetchData()
+    },
+    filters: {
+      format: api.decimal
     }
   }
 </script>
@@ -325,6 +333,11 @@
                 margin-right:5px;
                 &.sold{
                   margin-bottom:8px
+                }
+                &:disabled{
+                  background: #759fe4;
+                  border-color:#759fe4;
+                  cursor: no-drop;
                 }
               }
               a{

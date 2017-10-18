@@ -37,12 +37,12 @@
         }
         var self = this
         util.post('/register', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
-          if (res) {
-            api.tips(self.$refs.tips, '注册成功', () => {
+          if (!res.code) {
+            api.tips(self.$refs.tips, '恭喜您注册成功！', () => {
               self.$router.push({name: 'login'})
             })
           } else {
-            api.tips(self.$refs.tips, '注册失败，请重新注册')
+            api.tips(self.$refs.tips, res.msg)
           }
         })
       }

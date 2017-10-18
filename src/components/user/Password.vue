@@ -54,12 +54,13 @@
         if (!data) return false
         var self = this
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
-          if (res) {
+          if (!res.code) {
             api.tips(self.$refs.tips, tipStr)
             self.closeEdit()
-            self.$store.commit('SET_ITEM', {'trade_password': true})
+            if (this.edit === 'login') return false
+            self.$store.commit('SET_INFO', {'trade_password': 1})
           } else {
-            api.tips(self.$refs.tips, '验证码错误')
+            api.tips(self.$refs.tips, res.msg)
           }
         })
       },
@@ -67,15 +68,6 @@
         this.edit = ''
         document.body.style.overflow = 'auto'
       }
-    },
-    mounted () {
-      var self = this
-      util.post('judgeSetPassword', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (data) {
-        console.log(data)
-        if (!data.code) {
-          self.$store.commit('SET_ITEM', {'trade_password': true})
-        }
-      })
     },
     computed: {
       ...mapState({

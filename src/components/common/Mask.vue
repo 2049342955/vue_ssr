@@ -8,6 +8,7 @@
       <h2>{{title}}</h2>
       <form class="form form_content" @submit.prevent="$parent.submit" novalidate>
         <FormField :form="form"></FormField>
+        <p v-if="fee">手续费：{{$parent.total_price*$parent.fee}}元</p>
         <button>确认提交</button>
       </form>
     </div>
@@ -26,6 +27,9 @@
       },
       title: {
         type: String
+      },
+      fee: {
+        type: Number
       }
     }
   }

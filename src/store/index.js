@@ -14,7 +14,7 @@ const state = {
     bank_card: '',
     risk: {user_risk_score: -1},
     bindAddress: '',
-    trade_password: '',
+    trade_password: 0,
     unread_num: 0
   }
 }

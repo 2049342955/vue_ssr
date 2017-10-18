@@ -82,8 +82,8 @@
           ff[data.n].focus()
           return false
         }
-        api.post('/depositMessage', {sign: func.serialize({token: '0', dep_name: encodeURIComponent(this.depName), dep_tel: this.depTel, dep_bdc: encodeURIComponent(this.depBdc), dep_type: encodeURIComponent(this.depType), dep_number: this.depNumber})}).then(function (res) {
-          if (res) {
+        api.post('depositMessage', {sign: func.serialize({token: '0', dep_name: encodeURIComponent(this.depName), dep_tel: this.depTel, dep_bdc: encodeURIComponent(this.depBdc), dep_type: encodeURIComponent(this.depType), dep_number: this.depNumber})}).then(function (res) {
+          if (!res.code) {
             self.success = true
           }
         })
@@ -103,7 +103,7 @@
     },
     beforeMount () {
       let self = this
-      api.post('/bdcinfoList', {sign: 'token=0'}).then(function (data) {
+      api.post('bdcinfoList', {sign: 'token=0'}).then(function (data) {
         self.list = data
         self.depBdc = data[0].bdc_name
       })

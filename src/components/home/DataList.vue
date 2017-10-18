@@ -42,7 +42,7 @@
           })
           return false
         }
-        if (!this.true_name) {
+        if (!(this.true_name && this.true_name.status === 1)) {
           api.tips(this.$refs.tips, '请先实名认证', () => {
             this.$router.push({name: 'account'})
           })

@@ -46,7 +46,7 @@
       return {
         processText: ['银行转账', '提交申请', '审核通过'],
         processStatus: 2,
-        form: [{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', pattern: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, {name: 'bank_card', type: 'text', title: '充值银行卡', edit: 'bank_card'}, {name: 'request_id', type: 'text', title: '充值流水号', placeholder: '请输入充值流水号', pattern: '^[0-9]*$', tips: '请输入多位数字'}]
+        form: [{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', pattern: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, {name: 'bank_card', type: 'text', title: '充值银行卡', edit: 'bank_card', showLink: '/user/account'}, {name: 'request_id', type: 'text', title: '充值流水号', placeholder: '请输入充值流水号', pattern: '^[0-9]*$', tips: '请输入多位数字'}]
       }
     },
     methods: {

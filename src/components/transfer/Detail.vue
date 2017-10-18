@@ -29,12 +29,12 @@
     },
     methods: {
       goPay () {
-        // if (this.trade_password === '') {
-        //   api.tips(this.$refs.tips, '请先设置交易密码', () => {
-        //     this.$router.push({name: 'password'})
-        //   })
-        //   return false
-        // }
+        if (!this.trade_password) {
+          api.tips(this.$refs.tips, '请先设置交易密码', () => {
+            this.$router.push({name: 'password'})
+          })
+          return false
+        }
         var self = this
         console.log(this.user_id)
         util.post('doTransfer_Hashrate_show', {sign: api.serialize({token: this.token, user_id: this.user_id, transfer_order_id: this.$route.params.id})}).then(function (res) {

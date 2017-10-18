@@ -63,15 +63,17 @@
         var data = api.checkFrom(form)
         var self = this
         if (!data) return false
-        util.post('/ScodeVerify', {sign: api.serialize({token: this.token, user_id: this.user_id, scode: form.scode.value})}).then(function (data) {
-          if (data) {
+        util.post('ScodeVerify', {sign: api.serialize({token: this.token, user_id: this.user_id, scode: form.scode.value})}).then(function (data) {
+          if (!data.code) {
             self.edit = false
             document.body.style.overflow = 'auto'
-            util.post('/scode_info', {sign: 'token=' + self.token}).then(function (res) {
+            util.post('scode_info', {sign: 'token=' + self.token}).then(function (res) {
               console.log(res)
               self.nav = res.fund_invest_id === 1 ? self.electric : self.miner
               self.data = res
             })
+          } else {
+            api.tips(this.$refs.tips, data.msg)
           }
         })
       },
@@ -97,29 +99,30 @@
       })
     },
     mounted () {
-      var self = this
-      if (!this.true_name) {
-        api.tips(this.$refs.tips, '请先实名认证', () => {
-          self.$router.push({name: 'account'})
-        })
-        return false
-      }
-      if (this.risk.user_risk_score < 0) {
-        api.tips(this.$refs.tips, '请先进行风险测评', () => {
-          self.$router.push({name: 'account'})
-        })
-        return false
-      }
-      util.post('/scode_info', {sign: 'token=' + this.token}).then(function (data) {
-        if (!data) {
-          self.edit = true
-          document.body.style.overflow = 'hidden'
-        } else {
-          console.log(data)
-          self.nav = data.fund_invest_id === 1 ? self.electric : self.miner
-          self.data = data
+      setTimeout(() => {
+        if (!(this.true_name && this.true_name.status === 1)) {
+          api.tips(this.$refs.tips, '请先实名认证', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
         }
-      })
+        if (this.risk.user_risk_score < 0) {
+          api.tips(this.$refs.tips, '请先进行风险测评', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
+        var self = this
+        util.post('scode_info', {sign: 'token=' + this.token}).then(function (data) {
+          if (data.code) {
+            self.edit = true
+            document.body.style.overflow = 'hidden'
+          } else {
+            self.nav = data.fund_invest_id === 1 ? self.electric : self.miner
+            self.data = data
+          }
+        })
+      }, 500)
     }
   }
 </script>

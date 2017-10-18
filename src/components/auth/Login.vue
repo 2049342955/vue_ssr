@@ -41,12 +41,17 @@
         var data = api.checkFrom(ff)
         if (!data) return false
         var self = this
-        util.post('/login', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
-          if (res) {
-            self.$router.push({name: 'home'})
+        util.post('login', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
+          if (!res.code) {
             self.$store.commit('SET_TOKEN', Object.assign(res, {mobile: data.mobile}))
+            util.post('getAll', {sign: api.serialize(res)}).then(function (data) {
+              self.$store.commit('SET_INFO', data)
+            })
+            api.tips(self.$refs.tips, '欢迎来到算力网！', () => {
+              self.$router.push({name: 'home'})
+            })
           } else {
-            api.tips(self.$refs.tips, '登录失败，请重新输入')
+            api.tips(self.$refs.tips, res.msg)
           }
         })
       }
