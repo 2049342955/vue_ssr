@@ -7,14 +7,16 @@
     </div>
     <div class="site">
       <h3>公司地址</h3>
-      <div class="mapImg">
-        <div class="mark"></div>
-      </div>
+      <baidu-map class="mapImg" :center="center" :zoom="zoom" @ready="handler" :scroll-wheel-zoom="true">
+        <bm-marker :position="center" animation="BMAP_ANIMATION_BOUNCE" :markerStyle="{width:'20px'}">
+          <bm-label content="黄龙万科中心G座" :labelStyle="{borderColor: '#327fff', color: '#327fff', fontSize : '18px',padding: '5px 10px'}" :offset="{width: -78, height: 30}"/>
+        </bm-marker>
+      </baidu-map>
     </div>
     <div class="site">
       <h3>客服电话</h3>
       <p>如果您在使用suanli.com平台的过程中有任何疑问请您与客服人员联系。</p>
-      <div>
+      <div class="site_con">
         <p>
           客服电话：
           <span>0571-288221076</span>
@@ -40,43 +42,29 @@
 </template>
 
 <script>
+  import Vue from 'vue'
+  import BaiduMap from 'vue-baidu-map'
+  Vue.use(BaiduMap, {
+    ak: 'GKTGV62UVGc1FZb4wUBdWG8w'
+  })
   export default {
     name: 'aboutUs',
     data () {
       return {
-        datas:
-        [
-          {
-            title: '媒体采访',
-            text: '如果有媒体采访需求，请将您的媒体名称、采访提纲、联系方式发至： lzy@baoquan.com ，我们会尽快与您联系。'
-          },
-          {
-            title: '商务合作',
-            text: '如果贵公司希望与我们建立商务合作关系，形成优势互补，请将合作意向进行简要描述并发送邮件至： BD@suanli.com ，我们会尽快与您联系。'
-          }
-        ],
-        distribute:
-        [
-          {
-            name: '杭州总部',
-            address: '浙江省杭州市学院路77号黄龙国际中心G座-907',
-            telNumber: '0571-28221076'
-          },
-          {
-            name: '北京分部',
-            address: '北京市学院路77号黄龙国际中心G座',
-            telNumber: '011-28221076'
-          }
-        ]
+        datas: [{title: '媒体采访', text: '如果有媒体采访需求，请将您的媒体名称、采访提纲、联系方式发至： lzy@baoquan.com ，我们会尽快与您联系。'}, {title: '商务合作', text: '如果贵公司希望与我们建立商务合作关系，形成优势互补，请将合作意向进行简要描述并发送邮件至： BD@suanli.com ，我们会尽快与您联系。'}],
+        distribute: [{name: '杭州总部', address: '浙江省杭州市学院路77号黄龙国际中心G座-907', telNumber: '0571-28221076'}, {name: '北京分部', address: '北京市学院路77号黄龙国际中心G座', telNumber: '011-28221076'}],
+        center: {lng: 120.13255, lat: 30.281902},
+        zoom: 16
       }
     },
     methods: {
-      test (e) {
-        console.log(11)
+      handler ({BMap, map}) {
+        console.log(BMap, map)
       }
     }
   }
 </script>
+
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .about_us{
@@ -106,9 +94,9 @@
         margin-bottom: 20px;
       }
       p{
-          margin: 0 110px 20px 0;
+        margin: 0 110px 20px 0;
       }
-      div{
+      .site_con{
         @include flex(flex-start,stretch);
         p{
           span{
@@ -117,14 +105,11 @@
         }
       }
       .mapImg{
+        width:100%;
         height:470px;
-        position: relative;
-        display: block;
-        background: url(../../assets/images/address.png);
-        .mark{
-          position: absolute;
-          top: 70px;
-          left: 35px;
+        // background: url(../../assets/images/address.png);
+        .anchorBL{
+          display: none;
         }
       }
     }
