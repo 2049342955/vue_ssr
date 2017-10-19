@@ -52,6 +52,7 @@
         <input :type="f.type" :name="f.name" :value="$parent[f.name]&&$parent[f.name].card_no&&$parent[f.name].card_no|cardformat" disabled v-else>
         <div class="tips_info" v-if="f.tipsInfo">
           <span>{{f.tipsUnit}}</span>
+          <span v-if="f.showUse">{{f.tipsInfo+':'+$parent.$parent.have_use_time+f.tipsUnit}}</span>
         </div>
         <div class="show_link" v-if="f.showLink">
           <router-link :to="f.showLink">更换银行卡</router-link>
