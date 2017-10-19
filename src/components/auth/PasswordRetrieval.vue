@@ -15,6 +15,7 @@
       </div>
       <button>提交</button>
     </form>
+    <div class="web_tips" ref="tips"></div>
   </div>
 </template>
 
