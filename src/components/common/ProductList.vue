@@ -4,7 +4,7 @@
       <Sort :page="page" :sort="sort"></Sort>
       <div class="data">
         <div class="item" v-for="d,k in $parent.computeDate">
-          <h3>{{page==='computeTransfer'?d.product_name:d.name}}<span :class="'icon_currency '+d.hashtype.name"></span></h3>
+          <h3>{{page==='computeTransfer'?d.product_name:d.name}}<span :class="'icon_currency '+d.hashtype.name"></span><span class="sell_type">{{d.sell_type&&d.sell_type===1?'预售':'转售'}}</span></h3>
           <div class="info_box">
             <template v-for="n,i in dataNav">
               <div class="info" v-if="i==='leftNum'">
@@ -23,7 +23,15 @@
               </div>
               <div class="line"></div>
             </template>
-            <div class="btn" @click="goPay(d.id)">立即购买</div>
+            <template v-if="page==='computeTransfer'">
+              <button class="btn" v-if="d.status===1" @click="goPay(d.id)">立即购买</button>
+              <button class="btn" disabled v-else-if="d.status===2">已转让</button>
+              <button class="btn" disabled v-else-if="d.status===3">产品撤销</button>
+            </template>
+            <template v-else>
+              <button class="btn" v-if="d.amount-d.buyed_amount>0" @click="goPay(d.id)">立即购买</button>
+              <button class="btn" disabled v-else>已售罄</button>
+            </template>
           </div>
         </div>
       </div>
@@ -31,7 +39,6 @@
     <div class="web_tips" ref="tips"></div>
   </section>
 </template>
-
 <script>
   import { mapState } from 'vuex'
   import api from '@/util/function'
@@ -57,7 +64,7 @@
       }
     },
     methods: {
-      goPay (id) {
+      goPay (id, status) {
         if (this.token === 0) {
           api.tips(this.$refs.tips, '请先登录', () => {
             this.$router.push({name: 'login'})
@@ -108,6 +115,13 @@
             .icon_currency{
               margin-left:5px;
             }
+            .sell_type{
+              font-size: 14px;
+              margin-left:8px;
+              padding:1px 7px;
+              border-radius:5px;
+              @include button($blue)
+            }
           }
           .info_box{
             @include flex(space-between)
@@ -130,11 +144,16 @@
               background: $border
             }
             .btn{
+              border:0;
               width:145px;
               color: $orange;
               text-align: center;
               line-height: 48px;
               border-radius:5px;
+              background: transparent;
+              &:disabled{
+                cursor: no-drop;
+              }
             }
           }
           &:not(:last-child){
@@ -142,7 +161,7 @@
           }
           &:hover{
             background: #f4f4f4;
-            .btn{
+            .btn:not(:disabled){
               @include button($orange)
               cursor: pointer;
             }

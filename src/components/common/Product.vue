@@ -4,9 +4,9 @@
       <div class="text">
         <div class="product_title">
           <h3>{{page==='cloudCompute'?$parent.detail.name:$parent.detail.product_name}}<span class="icon_img"></span></h3>
-          <div>
+          <div v-if="$parent.detail.batch_area">
             <span class="tips">批次所在区域：</span>
-            <span>{{$parent.detail.address}}</span>
+            <span>{{$parent.detail.batch_area}}</span>
           </div>
         </div>
         <div class="product_con">
@@ -53,7 +53,7 @@
           <div class="price_text">需支付：<span class="money">{{$parent.totalPrice|format}}元</span></div>
           <div class="price_text">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
          <button class="btn" disabled v-if="$parent.leftStatus">已售罄</button>
-         <button class="btn" v-else @click="$parent.goPay">立即支付</button>
+         <button :class="['btn', {over: $parent.overStatus}]" v-else @click="$parent.goPay">立即支付</button>
         </div>
       </div>
       <div class="price transfer" v-else>
@@ -61,9 +61,9 @@
         <div class="price_input">
           <div class="price_text">需支付：<span class="money">{{$parent.detail.total_price|format}}元</span></div>
           <div class="price_text">总算力：<span class="money">{{$parent.detail.transfer_amount|format}}T</span></div>
-          <button class="btn" v-if="$parent.detail.transfer===1" @click="$parent.goPay">立即支付</button>
-          <button class="btn" disabled v-else-if="$parent.detail.transfer===2">已转让</button>
-          <button class="btn" disabled v-else-if="$parent.detail.transfer===3">产品撤销</button>
+          <button class="btn" v-if="$parent.detail.status===1" @click="$parent.goPay">立即支付</button>
+          <button class="btn" disabled v-else-if="$parent.detail.status===2">已转让</button>
+          <button class="btn" disabled v-else-if="$parent.detail.status===3">产品撤销</button>
         </div>
       </div>
     </div>
@@ -229,6 +229,11 @@
             &.error:before{
               @include position(-40)
               content:'请输入或添加至少1台矿机';
+              color: $orange;
+            }
+            &.over:before{
+              @include position(-40)
+              content:'剩余可售量不足您所需求的量';
               color: $orange;
             }
             &:disabled{

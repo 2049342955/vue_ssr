@@ -53,7 +53,8 @@
     <div class="detail_table">
       <div class="item" v-for="d,k in computeProperty">
         <div class="item_title">{{d[0]}}</div>
-        <div class="item_value">{{dataProperty[k]}}{{d[1]}}</div>
+        <div class="item_value" v-if="k==='total_hash'">{{dataProperty[k]|format}}{{d[1]}}</div>
+        <div class="item_value" v-else>{{dataProperty[k]}}{{d[1]}}</div>
       </div>
       <div class="item" v-if="7%2">
         <div class="item_title"></div>
@@ -119,7 +120,7 @@
           })
           return false
         }
-        if (str === 'GetIncome' && !this.bindAddress) {
+        if (str === 'GetIncome' && !this.address.length) {
           api.tips(this.$refs.tips, '请先绑定算力地址', () => {
             this.$router.push({name: 'account'})
           })
@@ -200,7 +201,7 @@
         token: state => state.info.token,
         user_id: state => state.info.user_id,
         bank_card: state => state.info.bank_card,
-        bindAddress: state => state.info.bindAddress
+        address: state => state.info.address
       })
     }
   }
