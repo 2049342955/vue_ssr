@@ -14,7 +14,7 @@
         </template>
       </div>
       <div class="btn">
-        <router-link to="/user/recharge">充值</router-link>
+        <button @click="openMask('recharge')">充值</button>
         <button @click="openMask('Withdrawals', '资金提现')">提现</button>
       </div>
     </div>
@@ -68,11 +68,14 @@
     },
     methods: {
       openMask (str, title) {
-        if (str === 'Withdrawals' && !this.bank_card) {
+        if ((str === 'Withdrawals' || str === 'recharge') && !this.bank_card) {
           api.tips(this.$refs.tips, '请先绑定银行卡', () => {
             this.$router.push({name: 'account'})
           })
           return false
+        }
+        if (str === 'recharge') {
+          this.$router.push({name: 'recharge'})
         }
         window.scroll(0, 0)
         document.body.style.overflow = 'hidden'
@@ -146,7 +149,7 @@
       .btn{
         @include detail_btn
         @include gap(50,h)
-        a{
+        button:first-child{
           @include button($orange)
         }
         button{

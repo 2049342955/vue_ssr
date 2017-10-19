@@ -15,13 +15,17 @@
         <div class="opr" @click="test(menu[k].setting)" v-else>{{menu[k].opr}}</div>
       </template>
       <template v-else>
-        <div class="icon"></div>
-        <div class="con_title">{{n.title}}</div>
-        <div class="desc">{{n.desc}}</div>
-        <div class="val">
-          <span v-for="a,k in address">{{a.product_hash_type+':'+a.address}}</span>
+        <div class="item">
+          <div class="icon"></div>
+          <div class="con_title">{{n.title}}</div>
+          <div class="desc">{{n.desc}}</div>
+          <div class="val"></div>
+          <div class="opr" @click="setEdit(n.name,n.title,menu[k].setting)">{{menu[k].opr}}</div>
         </div>
-        <div class="opr" @click="setEdit(n.name,n.title,menu[k].setting)">{{menu[k].opr}}</div>
+        <div class="item" v-for="a in address">
+          <div class="val">{{hashType[a.product_hash_type-1]&&hashType[a.product_hash_type-1].name+'地址: '+a.address}}</div>
+          <div class="opr" @click="setEdit(n.name,n.title,menu[k].setting,a.product_hash_type)">修改</div>
+        </div>
       </template>
     </div>
     <div class="web_tips" ref="tips"></div>
@@ -42,7 +46,7 @@
       }
     },
     methods: {
-      setEdit (str, title, setting) {
+      setEdit (str, title, setting, n) {
         if (str === 'card' || str === 'address' || str === 'trade') {
           if (!(this.true_name && this.true_name.status === 1)) {
             api.tips(this.$refs.tips, '请先实名认证')
@@ -56,6 +60,11 @@
         if (!setting) return false
         this.$parent.edit = str
         this.$parent.title = title
+        if (n) {
+          this.$parent.product_hash_type = this.hashType[n - 1] && this.hashType[n - 1].name
+          this.$parent.form[this.$parent.edit][0].type = 'text'
+          this.$parent.form[this.$parent.edit][0].edit = 'address'
+        }
         window.scroll(0, 0)
         document.body.style.overflow = 'hidden'
       },
@@ -76,7 +85,8 @@
         true_name: state => state.info.true_name,
         bank_card: state => state.info.bank_card,
         risk: state => state.info.risk,
-        address: state => state.info.address
+        address: state => state.info.address,
+        hashType: state => state.hashType
       }),
       ...mapGetters([
         'menu'

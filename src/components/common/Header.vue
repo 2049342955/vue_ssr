@@ -54,6 +54,9 @@
       util.post('getAll', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (data) {
         self.$store.commit('SET_INFO', data)
       })
+      util.post('getCurrencys', {sign: api.serialize({token: this.token})}).then(function (res) {
+        self.$store.commit('SET_HASH_TYPE', res)
+      })
     },
     computed: {
       ...mapState({

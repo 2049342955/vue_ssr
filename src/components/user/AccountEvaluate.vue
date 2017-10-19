@@ -65,7 +65,7 @@
           if (data) {
             util.post('show_risk_score', {sign: api.serialize(sendData)}).then(function (res) {
               if (res) {
-                self.$store.commit('SET_INFO', {risk: res})
+                self.$store.commit('SET_INFO', {risk: res, risk_type: rickType})
                 api.tips(self.$refs.tips, '测评成功', () => {
                   self.$router.push({name: 'account'})
                 })

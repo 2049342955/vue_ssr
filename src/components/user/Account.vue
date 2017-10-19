@@ -33,7 +33,8 @@
           address: [{name: 'product_hash_type', type: 'select', title: '算力类型', option: ['BTC'], unit: ''}, {name: 'address', type: 'text', title: '算力地址', placeholder: '请输入对应算力地址', pattern: '^[0-9a-zA-Z]{34}$', tips: '请输入34位的字符串'}, {name: 'mobile', type: 'text', title: '手机号码', edit: 'disabled'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取', success: '发送成功'}]
         },
         edit: '',
-        title: ''
+        title: '',
+        product_hash_type: ''
       }
     },
     methods: {
@@ -97,12 +98,7 @@
     computed: {
       ...mapState({
         token: state => state.info.token,
-        user_id: state => state.info.user_id,
-        mobile: state => state.info.mobile,
-        true_name: state => state.info.true_name,
-        bank_card: state => state.info.bank_card,
-        risk: state => state.info.risk,
-        bindAddress: state => state.info.bindAddress
+        user_id: state => state.info.user_id
       })
     }
   }

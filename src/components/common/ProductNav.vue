@@ -8,8 +8,6 @@
 </template>
 
 <script>
-  import util from '@/util'
-  import api from '@/util/function'
   import { mapState } from 'vuex'
   export default {
     props: {
@@ -17,20 +15,10 @@
         type: String
       }
     },
-    data () {
-      return {
-        nav: []
-      }
-    },
-    mounted () {
-      var self = this
-      util.post('getCurrencys', {sign: api.serialize({token: this.token})}).then(function (res) {
-        self.nav = res
-      })
-    },
     computed: {
       ...mapState({
-        token: state => state.info.token
+        token: state => state.info.token,
+        nav: state => state.hashType
       })
     }
   }

@@ -495,11 +495,13 @@
       }
     }
   }
-// title
+// menu
   @mixin menu{
-    @include flex
-    border:1px solid #e5e5e5;
-    padding:15px;
+    &:not(.address_item){
+      @include flex
+      padding:15px;
+      border:1px solid #e5e5e5;
+    }
     &.success{
       .icon{
         position: relative;
@@ -528,6 +530,19 @@
     }
     &:not(:last-child){
       margin-bottom:25px;
+    }
+    &.address_item{
+      .item:not(:last-child){
+        margin-bottom: 0;
+        border-bottom:0
+      }
+      .item:not(:first-child){
+        .val{
+          text-align: left;
+          padding-left:167px;
+          flex:1
+        }
+      }
     }
     .icon{
       @include block(18,50%)
