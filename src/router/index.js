@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home'
+import NotFound from '@/views/NotFound'
 import Auth from '@/views/Auth'
 import Login from '@/components/auth/Login'
 import Regist from '@/components/auth/Regist'
@@ -47,7 +48,7 @@ export default new Router({
   routes: [{
     path: '*',
     name: 'notFound',
-    component: Home
+    component: NotFound
   }, {
     path: '/',
     name: 'home',

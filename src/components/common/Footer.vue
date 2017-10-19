@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer" v-if="!$route.path.includes('auth')">
+  <footer class="footer" v-if="!$route.path.includes('auth')" :disabled="$route.name==='notFound'">
     <div class="box">
       <aside>
         <h4>联系我们</h4>
@@ -138,6 +138,9 @@
       .active{
         color:$white
       }
+    }
+    &[disabled]{
+      display: none;
     }
   }
 </style>
