@@ -61,7 +61,7 @@
         console.log(rickType)
         var self = this
         var sendData = {token: this.token, user_id: this.user_id}
-        util.post('risk_score', {sign: api.serialize(Object.assign({user_risk_score: score}, sendData))}).then(function (data) {
+        util.post('risk_score', {sign: api.serialize(Object.assign({user_risk_score: score, risk_type: rickType}, sendData))}).then(function (data) {
           if (data) {
             util.post('show_risk_score', {sign: api.serialize(sendData)}).then(function (res) {
               if (res) {
