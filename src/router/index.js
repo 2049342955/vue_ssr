@@ -32,14 +32,15 @@ import Order from '@/components/user/Order'
 import OrderDetail from '@/components/user/OrderDetail'
 import Article from '@/views/Article'
 import AccountEvaluate from '@/components/user/AccountEvaluate'
-import Other from '@/views/Other'
-import AboutUs from '@/components/help/AboutUs'
-import Issues from '@/components/help/Issues'
-import Lawyer from '@/components/help/Lawyer'
-import SafeGuarantee from '@/components/help/SafeGuarantee'
-// import WebInfo from '@/views/WebInfo'
-import Notice from '@/components/info/Notice'
-import NoticeDetail from '@/components/info/NoticeDetail'
+import WebInfo from '@/views/WebInfo'
+import AboutUs from '@/components/info/AboutUs'
+import Issues from '@/components/info/Issues'
+import IssuesList from '@/components/info/IssuesList'
+import IssuesItem from '@/components/info/IssuesItem'
+import Lawyer from '@/components/info/Lawyer'
+import SafeGuarantee from '@/components/info/SafeGuarantee'
+import WebInfoList from '@/components/info/List'
+import WebInfoDetail from '@/components/info/Detail'
 
 Vue.use(Router)
 
@@ -181,16 +182,24 @@ export default new Router({
     path: '/mine',
     component: Mine
   }, {
-    path: '/other',
-    component: Other,
+    path: '/webInfo',
+    component: WebInfo,
     children: [{
       path: 'aboutUs',
       name: 'aboutUs',
       component: AboutUs
     }, {
       path: 'issues',
-      name: 'issues',
-      component: Issues
+      component: Issues,
+      children: [{
+        path: 'list/:type',
+        name: 'issuesList',
+        component: IssuesList
+      }, {
+        path: 'item/:id',
+        name: 'issuesItem',
+        component: IssuesItem
+      }]
     }, {
       path: 'safeGuarantee',
       name: 'safeGuarantee',
@@ -200,14 +209,13 @@ export default new Router({
       name: 'lawyer',
       component: Lawyer
     }, {
-      path: 'notice/:sort',
-      name: 'notice',
-      component: Notice
+      path: 'list/:type',
+      name: 'list',
+      component: WebInfoList
     }, {
-      // path: 'noticeDetail/:sort/:id',
-      path: 'noticeDetail/:id',
-      name: 'noticeDetail',
-      component: NoticeDetail
+      path: 'detail/:id',
+      name: 'webInfoDetail',
+      component: WebInfoDetail
     }]
   }]
 })

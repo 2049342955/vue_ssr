@@ -30,7 +30,7 @@
             <th>转让时间</th>
           </template>
           <template v-if="status!=2&&status!=3">
-            <th>购买数量</th>
+            <th v-if="nowEdit!=1">购买数量</th>
             <th>购买金额</th>
             <th>购买时间</th>
           </template>
@@ -57,7 +57,7 @@
           </template>
           <template v-else>
             <td>{{d.total_hash|format}}T</td>
-            <td>{{d.buy_amount}}台</td>
+            <td v-if="nowEdit!=1">{{d.buy_amount}}台</td>
             <td>{{d.total_price}}元</td>
           </template>
           <td>{{d.create_time}}</td>
@@ -77,7 +77,7 @@
               <button class="sold" @click="quit('sold', d.id)">撤销出售</button>
             </template>
             <template v-if="nowEdit==1&&status==1">
-              <button @click="openMask('againRent', '转租算力', d.id)">转租算力</button>
+              <button @click="openMask('againRent', '转租算力', d.id)" :disabled="!d.remain_hash">转租算力</button>
             </template>
             <template v-if="(nowEdit==1||nowEdit==2)&&status==2">
               <button @click="quit('rent', d.id)">撤销出租</button>
@@ -351,6 +351,10 @@
                 display: inline-block;
                 @include button($blue,border)
                 border-radius: 5px;
+                .btn:not(:disabled){
+                  @include button($orange)
+                  cursor: pointer;
+                }
               }
             }
           }

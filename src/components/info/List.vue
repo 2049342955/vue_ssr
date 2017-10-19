@@ -47,27 +47,27 @@
         [
           {
             title: '保全网获数千万融资 欲借助区块链技术打造连接现实与虚拟的平台',
-            path: '/other/noticeDetail/1',
+            path: '/webInfo/detail/1',
             time: '2017-05-11    08:12:59'
           },
           {
             title: '保全网获数千万融资 欲借助区块链技术打造连接现实与虚拟的平台',
-            path: '/other/noticeDetail/3',
+            path: '/webInfo/detail/3',
             time: '2017-05-11    08:12:59'
           },
           {
             title: '保全网获数千万融资 欲借助区块链技术打造连接现实与虚拟的平台',
-            path: '/other/noticeDetail/4',
+            path: '/webInfo/detail/4',
             time: '2017-05-11    08:12:59'
           },
           {
             title: '保全网获数千万融资 欲借助区块链技术打造连接现实与虚拟的平台',
-            path: '/other/noticeDetail/5',
+            path: '/webInfo/detail/5',
             time: '2017-05-11    08:12:59'
           },
           {
             title: '保全网获数千万融资 欲借助区块链技术打造连接现实与虚拟的平台',
-            path: '/other/noticeDetail/6',
+            path: '/webInfo/detail/6',
             time: '2017-05-11    08:12:59'
           }
         ],
@@ -75,27 +75,27 @@
         [
           {
             title: '保全网获数千万融资 网站动态',
-            path: '/other/noticeDetail/05',
+            path: '/webInfo/detail/05',
             time: '2017-05-11    08:12:59'
           },
           {
             title: '保全网获数千万融资 网站动态',
-            path: '/other/noticeDetail/04',
+            path: '/webInfo/detail/04',
             time: '2017-05-11    08:12:59'
           },
           {
             title: '保全网获数千万融资 网站动态',
-            path: '/other/noticeDetail/03',
+            path: '/webInfo/detail/03',
             time: '2017-05-11    08:12:59'
           },
           {
             title: '保全网获数千万融资 网站动态',
-            path: '/other/noticeDetail/02',
+            path: '/webInfo/detail/02',
             time: '2017-05-11    08:12:59'
           },
           {
             title: '保全网获数千万融资 网站动态',
-            path: '/other/noticeDetail/01',
+            path: '/webInfo/detail/01',
             time: '2017-05-11    08:12:59'
           }
         ]

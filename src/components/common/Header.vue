@@ -1,5 +1,5 @@
 <template>
-  <header :class="[{frame_header: !$route.path.includes('user')&&!$route.path.includes('/detail')&&!$route.path.includes('account')&&!$route.path.includes('other')}, {border_box: $route.path.includes('bdc')||$route.path.includes('login')}, {auth_box:$route.path.includes('auth')&&!$route.path.includes('login')}, {user_box:$route.path.includes('user')||$route.path.includes('account')||$route.path.includes('/detail')||$route.path.includes('other')}]" :disabled="$route.name==='notFound'">
+  <header :class="[{frame_header: !$route.path.includes('user')&&!$route.path.includes('/detail')&&!$route.path.includes('account')&&!$route.path.includes('webInfo')}, {border_box: $route.path.includes('bdc')||$route.path.includes('login')}, {auth_box:$route.path.includes('auth')&&!$route.path.includes('login')}, {user_box:$route.path.includes('user')||$route.path.includes('account')||$route.path.includes('/detail')||$route.path.includes('webInfo')}, {web_box:$route.path.includes('webInfo')}]" :disabled="$route.name==='notFound'">
     <section class="box">
       <router-link class="logo" to="/"></router-link>
       <nav>
@@ -18,8 +18,8 @@
           </div>
         </template>
         <template v-else>
-          <router-link to="/other/safeGuarantee">支持</router-link>
-          <router-link to="/other/aboutUs">关于</router-link>
+          <router-link to="/webInfo/safeGuarantee">支持</router-link>
+          <router-link to="/webInfo/aboutUs">关于</router-link>
           <template v-if="token===0">
             <router-link to="/auth/login">登录</router-link>
             <router-link class="btn" to="/auth/regist">注册</router-link>
@@ -150,6 +150,15 @@
           font-weight: bold;
         }
       }
+    }
+  }
+  .web_box{
+    background: #242528;
+    .box .logo{
+      background: url('../../assets/images/css_sprites.png') -10px -81px
+    }
+    .box nav .item a,.box .side_nav a,.box .side_nav a.tel{
+      color:#fff
     }
   }
   header{

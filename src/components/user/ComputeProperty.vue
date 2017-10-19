@@ -87,6 +87,7 @@
   import api from '@/util/function'
   import { mapState } from 'vuex'
   import MyMask from '@/components/common/Mask'
+  import md5 from 'js-md5'
   export default {
     components: {
       MyMask
@@ -168,6 +169,7 @@
         var url = ''
         var sendData = {token: this.token, user_id: this.user_id, order_id: this.order_id}
         var tipsStr = ''
+        data.trade_password = md5(data.trade_password)
         switch (this.edit) {
           case 'Withdrawals':
             url = 'withdraw'
