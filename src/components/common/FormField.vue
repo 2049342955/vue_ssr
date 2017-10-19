@@ -137,11 +137,13 @@
         this.setCounty(e.target.value)
       },
       setCity (v) {
+        this.p = v
         var cities = this.selectCity(city, v)
         cities = cities.length ? cities[0] : city[0]
         this.city = cities.city
       },
       setCounty (v) {
+        this.c = v
         var counties = this.selectCity(this.city, v)
         counties = counties.length ? counties[0] : this.city[0]
         this.county = counties.county

@@ -53,7 +53,7 @@
           <div class="price_text">需支付：<span class="money">{{$parent.totalPrice|format}}元</span></div>
           <div class="price_text">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
          <button class="btn" disabled v-if="$parent.leftStatus">已售罄</button>
-         <button :class="['btn', {over: $parent.overStatus}]" v-else @click="$parent.goPay">立即支付</button>
+         <button :class="['btn', {over: $parent.overStatus}]" :disabled="$parent.overStatus" v-else @click="$parent.goPay">立即支付</button>
         </div>
       </div>
       <div class="price transfer" v-else>

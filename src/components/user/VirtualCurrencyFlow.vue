@@ -3,9 +3,9 @@
     <div class="vcurrency_title">
       <span class="text_title">币流水</span>
       <div class="title_content">
-        <span class="title_now" @click="openList">{{title[nowEdit]}}</span>
+        <span class="title_now" @click="openList">{{hashType[nowEdit]&&hashType[nowEdit].name}}</span>
         <div class="title_list" v-if="show">
-          <a href="javascript:;" @click="setList(k)" v-for="n,k in title">{{n}}</a>
+          <a href="javascript:;" @click="setList(n.id)" v-for="n,k in hashType">{{n.name}}</a>
         </div>
       </div>
     </div>
@@ -17,7 +17,7 @@
             <p>{{d}}</p>
             <div>
               <span class="currency">{{data[k]}}</span>
-              <span class="">btc</span>
+              <span class="">{{hashType[nowEdit]&&hashType[nowEdit].name.toLowerCase()}}</span>
             </div>
           </div>
           <div class="line" v-if="k!==1"></div>
@@ -51,7 +51,6 @@
     },
     data () {
       return {
-        title: ['BTC', 'ETH', 'LTC'],
         nowEdit: 0,
         dataNav: {total_income: '累积已获得BTC', total_electric_fee: '累计支付电费'},
         data: {total_income: 0, total_electric_fee: 0},
@@ -67,7 +66,7 @@
       getList () {
         var self = this
         var sendData = {}
-        var data = {token: this.token, user_id: this.user_id, product_hash_type: '1', page: this.now}
+        var data = {token: this.token, user_id: this.user_id, product_hash_type: this.nowEdit + 1, page: this.now}
         if (this.$route.params.sort === 'default') {
           sendData = {sort: ''}
         } else {
@@ -85,6 +84,7 @@
       setList (n) {
         this.show = !this.show
         this.nowEdit = n
+        this.getList()
       }
     },
     watch: {
@@ -101,7 +101,8 @@
     computed: {
       ...mapState({
         token: state => state.info.token,
-        user_id: state => state.info.user_id
+        user_id: state => state.info.user_id,
+        hashType: state => state.hashType
       })
     }
   }

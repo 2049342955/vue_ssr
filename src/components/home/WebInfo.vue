@@ -5,10 +5,10 @@
         <h3>
           <span class="icon"></span>
           <span class="text">网站动态</span>
-          <router-link to="">查看更多 ></router-link>
+          <router-link to="/other/notice/website">查看更多 ></router-link>
         </h3>
         <div class="list">
-          <router-link to="" class="item" v-for="a,k in activity" :key="k">
+          <router-link :to="'/other/noticeDetail/'+a.id" class="item" v-for="a,k in activity" :key="k">
             <span class="icon"></span>
             <span class="line"></span>
             <span class="text">{{a.title}}</span>
@@ -20,10 +20,10 @@
         <h3>
           <span class="icon"></span>
           <span class="text">产品公告</span>
-          <router-link to="">查看更多 ></router-link>
+          <router-link to="/other/notice/product">查看更多 ></router-link>
         </h3>
         <div class="list">
-          <router-link to="" class="item" v-for="a,k in notice" :key="k">
+          <router-link :to="'/other/noticeDetail/'+a.id" class="item" v-for="a,k in notice" :key="k">
             <span class="icon"></span>
             <span class="line"></span>
             <span class="text">{{a.title}}</span>

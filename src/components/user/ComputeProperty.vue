@@ -27,9 +27,9 @@
     <div class="compute_title">
       <span class="text_title">算力账户</span>
       <div class="title_content">
-        <span class="title_now" @click="openList">{{title[nowEdit]}}</span>
+        <span class="title_now" @click="openList">{{hashType[nowEdit]&&hashType[nowEdit].name}}</span>
         <div class="title_list" v-if="show">
-          <a href="javascript:;" @click="setList(k)" v-for="n,k in title">{{n}}</a>
+          <a href="javascript:;" @click="setList(n.id)" v-for="n,k in hashType">{{n.name}}</a>
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@
           <div class="item">
             <p>{{d}}</p>
             <span class="currency">{{computeData[k]|format(8)}}</span>
-            <span class="">btc</span>
+            <span class="">{{hashType[nowEdit]&&hashType[nowEdit].name.toLowerCase()}}</span>
           </div>
           <div class="line"></div>
         </template>
@@ -144,6 +144,23 @@
       setList (n) {
         this.show = !this.show
         this.nowEdit = n
+        this.getList()
+      },
+      getList () {
+        var self = this
+        var sendData = {token: this.token, user_id: this.user_id, product_hash_type: this.nowEdit + 1}
+        util.post('myHashAccount', {sign: api.serialize(sendData)}).then(function (res) {
+          console.log(res)
+          self.computeData = res
+        })
+        util.post('hashAsset', {sign: api.serialize(sendData)}).then(function (res) {
+          console.log(res)
+          self.dataProperty = res
+        })
+        util.post('hashFund', {sign: api.serialize(sendData)}).then(function (res) {
+          console.log(res)
+          self.dataFund = res
+        })
       },
       submit () {
         var form = document.querySelector('.form_content')
@@ -182,18 +199,7 @@
         console.log(res)
         self.moneyData = res
       })
-      util.post('myHashAccount', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: 1})}).then(function (res) {
-        console.log(res)
-        self.computeData = res
-      })
-      util.post('hashAsset', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: 1})}).then(function (res) {
-        console.log(res)
-        self.dataProperty = res
-      })
-      util.post('hashFund', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: 1})}).then(function (res) {
-        console.log(res)
-        self.dataFund = res
-      })
+      this.getList()
     },
     filters: {
       currency: api.currency,
@@ -204,7 +210,8 @@
         token: state => state.info.token,
         user_id: state => state.info.user_id,
         bank_card: state => state.info.bank_card,
-        address: state => state.info.address
+        address: state => state.info.address,
+        hashType: state => state.hashType
       })
     }
   }
