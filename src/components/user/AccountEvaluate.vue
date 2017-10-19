@@ -61,11 +61,11 @@
         console.log(rickType)
         var self = this
         var sendData = {token: this.token, user_id: this.user_id}
-        util.post('risk_score', {sign: api.serialize(Object.assign({user_risk_score: score, risk_type: rickType}, sendData))}).then(function (data) {
+        util.post('risk_score', {sign: api.serialize(Object.assign({user_risk_score: score, risk_type: encodeURIComponent(rickType)}, sendData))}).then(function (data) {
           if (data) {
             util.post('show_risk_score', {sign: api.serialize(sendData)}).then(function (res) {
               if (res) {
-                self.$store.commit('SET_INFO', {risk: res, risk_type: rickType})
+                self.$store.commit('SET_INFO', {risk: res})
                 api.tips(self.$refs.tips, '测评成功', () => {
                   self.$router.push({name: 'account'})
                 })
