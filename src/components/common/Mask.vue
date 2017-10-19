@@ -6,9 +6,9 @@
         <span>关闭</span>
       </div>
       <h2>{{title}}</h2>
-      <form class="form form_content" @submit.prevent="$parent.submit" novalidate>
+      <form :class="['form form_content', {card_form: $parent.edit==='card'}]" @submit.prevent="$parent.submit" novalidate>
         <FormField :form="form"></FormField>
-        <p v-if="fee">手续费：{{$parent.total_price*$parent.fee}}元</p>
+        <p v-if="$parent.fee">手续费：{{$parent.total_price*$parent.fee}}元<span class="fee">({{$parent.fee}})</span></p>
         <button>确认提交</button>
       </form>
     </div>
@@ -27,9 +27,6 @@
       },
       title: {
         type: String
-      },
-      fee: {
-        type: Number
       }
     }
   }
@@ -44,20 +41,7 @@
         padding:40px 130px;
         @include form(v)
         .input{
-          span{
-            &:first-child {
-              width: 115px;
-              text-align: right;
-            }
-            &:nth-child(2) {
-              left: 135px
-            }
-          }
-          input,.sel{
-            padding-left:185px
-          }
           .select{
-            padding-left:185px;
             @include flex
             select{
               flex:1;
@@ -69,6 +53,25 @@
               }
             }
           }
+        }
+        &.card_form .input{
+          span{
+            &:first-child {
+              width: 115px;
+              text-align: right;
+            }
+            &:nth-child(2) {
+              left: 135px
+            }
+          }
+          input,.sel,.select{
+            padding-left:185px
+          }
+        }
+        .fee{
+          font-size: 12px;
+          color: $light_black;
+          margin-left:5px
         }
       }
     }

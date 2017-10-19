@@ -15,8 +15,12 @@
         </template>
         <div class="sel" v-else-if="f.option">
           <select :name="f.name" id="">
-            <option :value="v.name" v-for="v,k in hashType" v-if="f.name==='product_hash_type'">{{v.name}}</option>
-            <option :value="v" v-for="v,k in f.option" v-else>{{v}}{{f.unit}}</option>
+            <template v-if="f.name==='product_hash_type'">
+              <option :value="v.name" v-for="v,k in hashType">{{v.name}}</option>
+            </template>
+            <template v-else>
+              <option :value="v" v-for="v,k in f.option">{{v}}{{f.unit}}</option>
+            </template>
           </select>
         </div>
         <div class="select" v-else>

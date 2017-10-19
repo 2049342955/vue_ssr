@@ -91,7 +91,7 @@
       </table>
       <Pager :len="len"></Pager>
     </div>
-    <MyMask :form="form[edit]" :title="editText" v-if="edit" :fee="fee"></MyMask>
+    <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
     <div class="web_tips" ref="tips"></div>
   </section>
 </template>
@@ -117,7 +117,7 @@
         show: false,
         edit: '',
         form: {
-          sold: [{name: 'amount', type: 'text', title: '出售数量', placeholder: '请输入出售数量', tipsInfo: '最大可出售数量', tipsUnit: '台'}, {name: 'one_amount_value', type: 'text', title: '出售价格', placeholder: '请输入出售价格', tipsInfo: '购入价格', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}],
+          sold: [{name: 'amount', type: 'text', title: '出售数量', placeholder: '请输入出售数量', changeEvent: true, tipsInfo: '最大可出售数量', tipsUnit: '台'}, {name: 'one_amount_value', type: 'text', title: '出售单价', placeholder: '请输入出售单价', changeEvent: true, tipsInfo: '购入价格', tipsUnit: '元'}, {name: 'total_price', type: 'text', title: '出售总价', edit: 'price', tipsInfo: 'show', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}],
           rent: [{name: 'amount', type: 'text', title: '出租数量', placeholder: '请输入出租数量', changeEvent: true, tipsInfo: '最大可出租数量', tipsUnit: 'T'}, {name: 'transfer_time', type: 'select', title: '出租时长', option: ['30', '90', '180', '360'], unit: '天'}, {name: 'transfer_price', type: 'text', title: '出租单价', placeholder: '请输入出租单价', changeEvent: true, tipsInfo: 'show', tipsUnit: '元'}, {name: 'total_price', type: 'text', title: '出租总价', edit: 'price', tipsInfo: 'show', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}],
           againRent: [{name: 'amount', type: 'text', title: '转租数量', placeholder: '请输入出租数量', edit: 'price', tipsInfo: true, tipsUnit: 'T'}, {name: 'transfer_time', type: 'text', title: '转租时长', edit: 'price', tipsInfo: true, tipsUnit: '天'}, {name: 'transfer_price', type: 'text', title: '转租单价', placeholder: '请输入出租单价', edit: 'price', tipsInfo: 'show', tipsUnit: '元'}, {name: 'total_price', type: 'text', title: '转租总价', changeEvent: true, tipsInfo: 'show', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}]
         },
@@ -153,6 +153,7 @@
         this.show = !this.show
       },
       openMask (str, title, id) {
+        this.total_price = 0
         this.order_id = id
         window.scroll(0, 0)
         document.body.style.overflow = 'hidden'
@@ -176,11 +177,13 @@
           if (str === 'sold') {
             self.one_amount_value = res.one_amount_value
             self.amount = res.show_miner
+            self.fee = res.sell_miner_fee
           } else if (str === 'againRent') {
             self.amount = res.show_hash
             self.transfer_time = res.rent_time - res.have_use_time
           } else {
             self.amount = res.show_hash
+            self.fee = res.rent_fee
           }
         })
       },
@@ -244,11 +247,12 @@
           this.transfer_price = api.decimal(this.total_price / this.amount)
         } else {
           if (i === 'amount') {
+            e.target.value = (+e.target.value > this.amount) ? api.decimal(this.amount, 2) : e.target.value
             this.inputAmount = e.target.value
           } else {
-            this[e.target.name] = e.target.value
+            this[i] = e.target.value
+            this.total_price = api.decimal(this.inputAmount * this[i])
           }
-          this.total_price = api.decimal(this.inputAmount * this.transfer_price)
         }
       }
     },
@@ -317,15 +321,15 @@
             }
           }
           td{
+            line-height:54px;
             i.icon_currency{
               vertical-align: sub;
               margin-left:5px
             }
             &:last-child{
               width:186px;
-              @include gap(10,v)
               button,a{
-                line-height: 32px;
+                line-height: 34px;
                 @include gap(15,h)
               }
               button{
