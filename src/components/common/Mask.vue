@@ -43,7 +43,6 @@
       .form_content{
         padding:40px 130px;
         @include form(v)
-        width:450px;
         .input{
           span{
             &:first-child {

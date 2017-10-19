@@ -24,14 +24,22 @@
 <style type="text/css" lang="scss">
   @import '../assets/css/style.scss';
   .auth{
-    height:calc(100vh - 80px);
+    position: relative;
     .bg_box{
       @include bg(1920,calc(100vh - 80px))
-      @include position(80)
+      @include position
       z-index: -1;
       color:$light_text;
       .bg{
         background:url(../assets/images/auth_bg.jpg) no-repeat;
+      }
+    }
+    &:not(.login_block){
+      min-height:calc(100vh - 80px);
+      .bg_box{
+        .bg{
+          height:100%
+        }
       }
     }
     .box{
@@ -39,7 +47,6 @@
       @include main
     }
     .copyright{
-      @include position(auto,0,120,0)
       text-align: center;
       padding: 15px 0
     }
@@ -62,7 +69,7 @@
         }
       }
       .copyright{
-        bottom:70px;
+        margin-top:50px;
         color:$light_text
       }
     }

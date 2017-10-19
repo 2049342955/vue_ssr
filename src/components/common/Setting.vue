@@ -64,6 +64,10 @@
           this.$parent.product_hash_type = this.hashType[n - 1] && this.hashType[n - 1].name
           this.$parent.form[this.$parent.edit][0].type = 'text'
           this.$parent.form[this.$parent.edit][0].edit = 'address'
+        } else {
+          this.$parent.product_hash_type = ''
+          this.$parent.form[this.$parent.edit][0].type = 'select'
+          this.$parent.form[this.$parent.edit][0].edit = 0
         }
         window.scroll(0, 0)
         document.body.style.overflow = 'hidden'

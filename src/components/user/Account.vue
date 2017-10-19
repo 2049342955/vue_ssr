@@ -68,7 +68,7 @@
             url = 'bindAddress'
             callbackUrl = 'show_Address'
             no = 4
-            val = 'bindAddress'
+            val = 'address'
             tipsStr = '设置成功'
             break
         }
