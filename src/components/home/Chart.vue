@@ -15,10 +15,10 @@
           </div>
         </div>
       </div>
-      <div v-for="i,k in info">
-        <template v-if="k === 'difficulty'">挖矿难度：{{i|format}}</template>
-        <template v-else>{{i}}</template>
-      </div>
+      <div>全网算力：{{info.hashrate}}</div>
+      <div>比特币价格：1bt={{info.btc_price}}元</div>
+      <div>难度调整时间：{{info.leavetime}}</div>
+      <div>困难度：{{info.difficulty}}</div>
     </div>
     <div class="chart_show">
       <div class="chart_main">
@@ -46,6 +46,7 @@
 
 <script>
   import api from '../../util/function'
+  import util from '../../util'
   import echarts from 'echarts/lib/echarts'
   import 'echarts/lib/chart/line'
   import 'echarts/lib/component/tooltip'
@@ -53,7 +54,7 @@
     name: 'chart',
     data () {
       return {
-        info: {transfer: '1bt=22704.98元', dayProfit: '今日每日预计收入：5058元', yearProfit: '推算年化收益≈10%', difficulty: 1103400932964},
+        info: {btc_price: 0, hashrate: 0, leavetime: 0, difficulty: 1103400932964},
         coin: [{title: 'BTC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'BCC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETH', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'LTC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}],
         no: 0
       }
@@ -179,6 +180,10 @@
     },
     mounted () {
       this.drawLine()
+      var self = this
+      util.post('showCoinData', {sign: 'token=0'}).then(function (data) {
+        self.info = data
+      })
     },
     filters: {
       format: api.readable

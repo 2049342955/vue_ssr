@@ -29,7 +29,7 @@
       <div class="box">
         <h3>战略合作伙伴</h3>
         <div class="list">
-          <div class="item" v-for="i in 6">
+          <div class="item" v-for="i in 7">
             <div :class="'img img'+i"></div>
             <div :class="'img_hover img_hover'+i"></div>
           </div>
@@ -40,7 +40,6 @@
 </template>
 
 <script>
-  // import util from '../util'
   import Swiper from '../components/common/Swipe'
   import Chart from '../components/home/Chart'
   import MyData from '../components/home/DataList'
@@ -54,13 +53,6 @@
         ad: {title: '全国首家算力产业链综合服务平台', desc: '算力网是中国信息化推进联盟区块链实验室的推进项目，为区块链算力产业链提供全系列服务', items: [{title: '项目合规', desc: '所有项目出具法律意见书<br>并公开法律意见书'}, {title: '用电合规', desc: '项目为政府招商引资项目<br>全部国网供电，电力稳定持久'}, {title: '透明收益', desc: '全流程产业链对接，信息透明<br>避免踩坑'}, {title: '全程存证', desc: '对接保全网区块链电子凭证技术<br>实现全部在线协议的合规有效'}, {title: '算力管家', desc: '为用户投资的每一份算力<br>提供贴心的远程管家服务'}]},
         adImg: require('@/assets/images/ad.jpg')
       }
-    },
-    mounted () {
-      // var self = this
-      // util.post('/partner', {sign: 'token=0'}).then(function (data) {
-        // console.log(data)
-        // self.activity = data
-      // })
     }
   }
 </script>
@@ -206,71 +198,71 @@
             width: 180px;
           }
           .img1{
-            background: url('../assets/images/partner.png') -0px -254px;
+            background: url('../assets/images/partner.png') -0px -117px;
           }
           .img_hover1{
-            background: url('../assets/images/partner.png') -180px -254px;
+            background: url('../assets/images/partner.png') -180px -117px;
           }
           .img2,.img_hover2{
             height: 50px;
             width: 180px;
           }
           .img2{
-            background: url('../assets/images/partner.png') -0px -308px;
+            background: url('../assets/images/partner.png') -360px -117px;
           }
           .img_hover2{
-            background: url('../assets/images/partner.png') -360px -254px;
+            background: url('../assets/images/partner.png') -0px -171px;
           }
           .img3,.img_hover3{
             height: 55px;
             width: 180px;
           }
           .img3{
-            background: url('../assets/images/partner.png') -360px -120px;
+            background: url('../assets/images/partner.png') -176px -60px;
           }
           .img_hover3{
-            background: url('../assets/images/partner.png') -360px -175px;
+            background: url('../assets/images/partner.png') -356px -60px;
           }
           .img4,.img_hover4{
             height: 38px;
             width: 180px;
           }
           .img4{
-            background: url('../assets/images/partner.png') -360px -308px;
+            background: url('../assets/images/partner.png') -180px -171px;
           }
           .img_hover4{
-            background: url('../assets/images/partner.png') -180px -308px;
+            background: url('../assets/images/partner.png') -360px -171px;
           }
           .img5,.img_hover5{
             height: 60px;
             width: 180px;
           }
           .img5{
-            background: url('../assets/images/partner.png') -360px -60px;
+            background: url('../assets/images/partner.png') -0px -0px;
           }
           .img_hover5{
-            background: url('../assets/images/partner.png') -360px -0px;
+            background: url('../assets/images/partner.png') -180px -0px;
           }
           .img6,.img_hover6{
             height: 24px;
             width: 180px;
           }
           .img6{
-            background: url('../assets/images/partner.png') -360px -230px;
+            background: url('../assets/images/partner.png') -0px -221px;
           }
           .img_hover6{
-            background: url('../assets/images/partner.png') -0px -358px;
+            background: url('../assets/images/partner.png') -180px -221px;
           }
-          // .img7,.img_hover7{
-          //   height: 254px;
-          //   width: 180px;
-          // }
-          // .img7{
-          //   background: url('../assets/images/partner.png') -0px -0px;
-          // }
-          // .img_hover7{
-          //   background: url('../assets/images/partner.png') -180px -0px;
-          // }
+          .img7,.img_hover7{
+            height: 57px;
+            width: 176px;
+          }
+          .img7{
+            background: url('../assets/images/partner.png') -360px -0px;
+          }
+          .img_hover7{
+            background: url('../assets/images/partner.png') -0px -60px;
+          }
         }
       }
     }
