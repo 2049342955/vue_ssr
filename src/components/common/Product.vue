@@ -3,7 +3,7 @@
     <div class="items">
       <div class="text">
         <div class="product_title">
-          <h3>{{page==='cloudCompute'?$parent.detail.name:$parent.detail.product_name}}<span class="icon_img"></span></h3>
+          <h3>{{$parent.detail.product_name}}<span class="icon_img"></span></h3>
           <div v-if="$parent.detail.batch_area">
             <span class="tips">批次所在区域：</span>
             <span>{{$parent.detail.batch_area}}</span>

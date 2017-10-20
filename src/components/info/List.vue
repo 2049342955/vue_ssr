@@ -1,105 +1,39 @@
 <template>
   <section class="notice">
-    <h3>{{navi}}</h3>
+    <h3>{{$route.params.type==='website'?'网站动态':'产品公告'}}</h3>
     <div class="display">
-      <router-link :class="['item',{active: true}]" :to="list.path" v-for="list in lists" :key="lists.id">
+      <router-link :class="['item',{active: true}]" :to="'/webInfo/detail/'+list.id" v-for="list in lists" :key="lists.id">
         <span class="title">{{list.title}}</span>
-        <span class="time">{{list.time}}</span>
+        <span class="time">{{list.dateline}}</span>
       </router-link>
       <router-view class="content"></router-view>
-      <Pager class="page" v-show="lists.length>4"></Pager>
     </div>
   </section>
 </template>
 
 <script>
-  import Pager from '../common/Pager'
+  import util from '../../util'
   export default {
-    components: {
-      Pager
-    },
-    name: 'notice',
     data () {
       return {
-        lists: '',
-        navi: '',
-        dataLists: '',
-        len: 5
+        lists: []
       }
     },
     methods: {
       judge () {
-        if (this.$route.path.includes('product')) {
-          this.lists = this.dataLists.product
-          this.navi = '产品公告'
-        } else if (this.$route.path.includes('website')) {
-          this.lists = this.dataLists.website
-          this.navi = '网站动态'
+        var url = ''
+        if (this.$route.params.type === 'website') {
+          url = 'webDynamic'
+        } else {
+          url = 'webAnnouncoment'
         }
+        var self = this
+        util.post(url, {sign: 'token=0'}).then(function (data) {
+          self.lists = data
+        })
       }
     },
     created () {
-      console.log(this.$route.path)
-      // 列表数据
-      this.dataLists =
-      {
-        product:
-        [
-          {
-            title: '保全网获数千万融资 欲借助区块链技术打造连接现实与虚拟的平台',
-            path: '/webInfo/detail/1',
-            time: '2017-05-11    08:12:59'
-          },
-          {
-            title: '保全网获数千万融资 欲借助区块链技术打造连接现实与虚拟的平台',
-            path: '/webInfo/detail/3',
-            time: '2017-05-11    08:12:59'
-          },
-          {
-            title: '保全网获数千万融资 欲借助区块链技术打造连接现实与虚拟的平台',
-            path: '/webInfo/detail/4',
-            time: '2017-05-11    08:12:59'
-          },
-          {
-            title: '保全网获数千万融资 欲借助区块链技术打造连接现实与虚拟的平台',
-            path: '/webInfo/detail/5',
-            time: '2017-05-11    08:12:59'
-          },
-          {
-            title: '保全网获数千万融资 欲借助区块链技术打造连接现实与虚拟的平台',
-            path: '/webInfo/detail/6',
-            time: '2017-05-11    08:12:59'
-          }
-        ],
-        website:
-        [
-          {
-            title: '保全网获数千万融资 网站动态',
-            path: '/webInfo/detail/05',
-            time: '2017-05-11    08:12:59'
-          },
-          {
-            title: '保全网获数千万融资 网站动态',
-            path: '/webInfo/detail/04',
-            time: '2017-05-11    08:12:59'
-          },
-          {
-            title: '保全网获数千万融资 网站动态',
-            path: '/webInfo/detail/03',
-            time: '2017-05-11    08:12:59'
-          },
-          {
-            title: '保全网获数千万融资 网站动态',
-            path: '/webInfo/detail/02',
-            time: '2017-05-11    08:12:59'
-          },
-          {
-            title: '保全网获数千万融资 网站动态',
-            path: '/webInfo/detail/01',
-            time: '2017-05-11    08:12:59'
-          }
-        ]
-      }
       this.judge()
     },
     watch: {
@@ -114,6 +48,7 @@
   .notice{
     background: #fff;
     padding: 20px 40px;
+    min-height:500px;
     h3{
       font-size: 24px;
       font-weight: 400;

@@ -1,63 +1,71 @@
 <template>
   <section class="pay">
-    <div class="orderMsg">
-      <h3 class="title">确认订单信息</h3>
-      <div class="orderDetail">
-        <div class="detailH">
-          <div class="borderR" v-for="d,k in proData">
-            <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
-            <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
-            <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
-            <p>{{d.title}}</p>
+    <template v-if="!showAgreement">
+      <div class="orderMsg">
+        <h3 class="title">确认订单信息</h3>
+        <div class="orderDetail">
+          <div class="detailH">
+            <div class="borderR" v-for="d,k in proData">
+              <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
+              <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
+              <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
+              <p>{{d.title}}</p>
+            </div>
           </div>
-        </div>
-        <div class="detailF">
-          <p v-for="t,k in proText">{{t}}：
-            <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
-            <span class="value" v-else>{{$parent.detail[k]}}</span>
-          </p>
+          <div class="detailF">
+            <p v-for="t,k in proText">{{t}}：
+              <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
+              <span class="value" v-else>{{$parent.detail[k]}}</span>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="orderPay">
-      <div class="detail">
-        <div class="img">
-          <img :src="$parent.detail.imgurl" alt="">
+      <div class="orderPay">
+        <div class="detail">
+          <div class="img">
+            <img :src="$parent.detail.imgurl" alt="">
+          </div>
+          <div class="text">
+            <p>
+              <span class="title">批次所在区域：</span>
+              <span class="value">{{$parent.detail.address}}</span>
+            </p>
+            <p>{{$parent.detail.desc}}</p>
+          </div>
         </div>
-        <div class="text">
-          <p>
-            <span class="title">批次所在区域：</span>
-            <span class="value">{{$parent.detail.address}}</span>
-          </p>
-          <p>{{$parent.detail.desc}}</p>
-        </div>
+        <form class="form payForm" action="" @submit.prevent="pay" novalidate>
+          <div class="pay_text">
+            <div class="pay_value">
+              应付金额：
+              <span class="value">{{(page==='cloudCompute'?totalPrice:$parent.detail.total_price)|format}}</span>
+              <span>元</span>
+            </div>
+          </div>
+          <div class="pay_text">
+            <div class="pay_money">
+              账户余额：
+              <span class="money">{{$parent.balance}}</span>
+              <span>元</span>
+            </div>
+            <router-link to="/user/recharge">充值</router-link>
+          </div>
+          <FormField :form="form" class="form"></FormField>
+          <label for="accept">
+            <input type="checkbox" id="accept" name="accept" checked>
+            <span>阅读并接受<a href="javascript:;" @click="openContract">《算力网服务条款》</a></span>
+            <span class="select_accept">{{tips}}</span>
+          </label>
+          <button name="btn">确认支付</button>
+        </form>
       </div>
-      <form class="form payForm" action="" @submit.prevent="pay" novalidate>
-        <div class="pay_text">
-          <div class="pay_value">
-            应付金额：
-            <span class="value">{{(page==='cloudCompute'?totalPrice:$parent.detail.total_price)|format}}</span>
-            <span>元</span>
-          </div>
-        </div>
-        <div class="pay_text">
-          <div class="pay_money">
-            账户余额：
-            <span class="money">{{$parent.balance}}</span>
-            <span>元</span>
-          </div>
-          <router-link to="/user/recharge">充值</router-link>
-        </div>
-        <FormField :form="form" class="form"></FormField>
-        <label for="accept">
-          <input type="checkbox" id="accept" name="accept" checked>
-          <span>阅读并接受<router-link to="/auth/serviceTerms">《算力网服务条款》</router-link></span>
-          <span class="select_accept">{{tips}}</span>
-        </label>
-        <button name="btn">确认支付</button>
-      </form>
+      <div class="web_tips" ref="tips"></div>
+    </template>
+    <div v-else class="agreement_text">
+      <div class="" v-html="$parent.content"></div>
+      <div class="btn_box">
+        <button @click="agree">我同意</button>
+      </div>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -95,7 +103,8 @@
           }
         ],
         tips: '请同意服务条款',
-        totalPrice: 0
+        totalPrice: 0,
+        showAgreement: false
       }
     },
     methods: {
@@ -149,6 +158,12 @@
             }
           })
         }
+      },
+      openContract () {
+        this.showAgreement = true
+      },
+      agree () {
+        this.showAgreement = false
       }
     },
     mounted () {
@@ -307,6 +322,19 @@
           background: #ff721f;
           border-color: #ff721f;
           margin: 15px 0;
+        }
+      }
+    }
+    .agreement_text{
+      padding:15px;
+      background: #fff;
+      .btn_box{
+        text-align: center;
+        button{
+          line-height: 2;
+          width:100px;
+          margin:30px auto;
+          @include button($blue)
         }
       }
     }

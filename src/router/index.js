@@ -5,7 +5,7 @@ import NotFound from '@/views/NotFound'
 import Auth from '@/views/Auth'
 import Login from '@/components/auth/Login'
 import Regist from '@/components/auth/Regist'
-import ServiceTerms from '@/components/auth/ServiceTerms'
+import Agreement from '@/components/auth/ServiceTerms'
 import UserAgreement from '@/components/auth/UserAgreement'
 import PasswordRetrieval from '@/components/auth/PasswordRetrieval'
 import Bdc from '@/views/Bdc'
@@ -172,9 +172,9 @@ export default new Router({
       name: 'userAgreement',
       component: UserAgreement
     }, {
-      path: 'serviceTerms',
-      name: 'serviceTerms',
-      component: ServiceTerms
+      path: 'agreement',
+      name: 'agreement',
+      component: Agreement
     }]
   }, {
     path: '/mine',

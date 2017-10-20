@@ -33,7 +33,8 @@
         leftNum: 0,
         balance: 0,
         leftStatus: false,
-        overStatus: false
+        overStatus: false,
+        content: ''
       }
     },
     methods: {
@@ -57,6 +58,7 @@
           if (!res.code) {
             self.next = true
             self.balance = res.balance
+            self.content = res.content
           } else {
             api.tips(self.$refs.tips, res.msg)
           }

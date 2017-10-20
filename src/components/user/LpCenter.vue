@@ -1,6 +1,6 @@
 <template>
   <section class="lp_center">
-    <template v-if="scode">
+    <template v-if="scode&&!showAgreement">
       <h2>LP中心<button @click="open">添加基金</button></h2>
       <template v-if="data.fund_invest_id">
         <h3>{{data.fund_invest_id===1?'电厂基金':'矿场基金'}}</h3>
@@ -21,12 +21,18 @@
         </div>
       </template>
     </template>
+    <div v-else-if="showAgreement" class="agreement_text">
+      <div class="" v-html="content"></div>
+      <div class="btn_box">
+        <button @click="agree">我同意</button>
+      </div>
+    </div>
     <div class="no_scode" v-else>
       <div class="no_scode_box">
         <div class="input">
           <span>验证s码</span>
           <span>*</span>
-          <input ref="scode" type="password" name="scode" autocomplete="off" placeholder="请输入S码" @blur="test" pattern="^[0-9a-zA-Z]{6}$" data-status="" maxlength="6">
+          <input ref="scode" type="text" name="scode" autocomplete="off" placeholder="请输入S码" @blur="test" pattern="^[0-9a-zA-Z]{6}$" data-status="" maxlength="6">
           <span title="请输入6位字符串" tips="请输入S码"></span>
         </div>
         <button @click="check">提交</button>
@@ -67,7 +73,10 @@
         miner: {fund_name: '基金名称', fund_manager: '基金管理人', invest_money: '投资金额', start_end_time: '投资时间', fund_time: '投资期限', miner_num: '云矿机', miner_hash: '运算力', hash_income: '累计获得收益'},
         data: {},
         nav: {},
-        edit: false
+        edit: false,
+        showAgreement: false,
+        content: '',
+        contract: {}
       }
     },
     methods: {
@@ -100,7 +109,13 @@
         document.body.style.overflow = 'auto'
       },
       test (e) {
-        api.checkFiled(e.target)
+        var ele = e.target
+        if (!ele.checkValidity()) {
+          api.setTips(ele, 'invalid')
+        } else {
+          api.setTips(ele, 'valid')
+          return true
+        }
       },
       check (e) {
         var ele = this.$refs.scode
@@ -121,17 +136,25 @@
           return false
         }
         var self = this
-        util.post('ScodeVerify', {sign: api.serialize({token: this.token, user_id: this.user_id, scode: ele.value})}).then(function (data) {
+        util.post('ScodeVerify', {sign: api.serialize({token: this.token, user_id: this.user_id, s_code: ele.value})}).then(function (data) {
           if (!data.code) {
-            util.post('scode_info', {sign: 'token=' + self.token}).then(function (res) {
-              console.log(res)
-              self.nav = res.fund_invest_id === 1 ? self.electric : self.miner
-              self.data = res
-              self.$store.commit('SET_INFO', {scode: true})
-            })
+            console.log(data)
+            self.$store.commit('SET_INFO', {scode: true})
+            self.showAgreement = true
+            self.content = data.content
+            self.contract = {contract_id: data.id, funds_id: data.funds_id, s_code: data.s_code}
           } else {
-            api.tips(this.$refs.tips, data.msg)
+            api.tips(self.$refs.tips, data.msg)
           }
+        })
+      },
+      agree () {
+        var self = this
+        util.post('sign_contract', {sign: api.serialize(Object.assign({token: this.token, user_id: this.user_id}, self.contract))}).then(function (res) {
+          console.log(res)
+          self.showAgreement = false
+          self.nav = res.fund_invest_id === 1 ? self.electric : self.miner
+          self.data = res
         })
       }
     },
@@ -191,6 +214,18 @@
         button{
           width:100%;
           line-height: 3;
+          @include button($blue)
+        }
+      }
+    }
+    .agreement_text{
+      padding:15px;
+      .btn_box{
+        text-align: center;
+        button{
+          line-height: 2;
+          width:100px;
+          margin:30px auto;
           @include button($blue)
         }
       }
