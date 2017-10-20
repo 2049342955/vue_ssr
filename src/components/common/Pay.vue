@@ -51,7 +51,7 @@
           </div>
           <FormField :form="form" class="form"></FormField>
           <label for="accept">
-            <input type="checkbox" id="accept" name="accept" checked>
+            <input type="checkbox" id="accept" name="accept">
             <span>阅读并接受<a href="javascript:;" @click="openContract">《算力网{{page === 'cloudCompute'?'购买':'转让'}}协议》</a></span>
             <span class="select_accept">{{tips}}</span>
           </label>
