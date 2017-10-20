@@ -136,7 +136,9 @@
           return false
         }
         var self = this
-        util.post('ScodeVerify', {sign: api.serialize({token: this.token, user_id: this.user_id, s_code: ele.value})}).then(function (data) {
+        var sCodeData = {token: this.token, user_id: this.user_id, s_code: ele.value}
+        console.log(sCodeData)
+        util.post('ScodeVerify', {sign: api.serialize(sCodeData)}).then(function (data) {
           if (!data.code) {
             console.log(data)
             self.$store.commit('SET_INFO', {scode: true})
