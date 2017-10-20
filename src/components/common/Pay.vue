@@ -46,7 +46,7 @@
             <span class="money">{{$parent.balance}}</span>
             <span>元</span>
           </div>
-          <router-link to="/user/moneyFlow">充值</router-link>
+          <router-link to="/user/recharge">充值</router-link>
         </div>
         <FormField :form="form" class="form"></FormField>
         <label for="accept">

@@ -108,11 +108,13 @@
         dataFund: {total_miner: 0, total_hash: 0, selled_miner: 0, selling_miner: 0},
         edit: '',
         form: {
-          Withdrawals: [{name: 'amount', type: 'text', title: '提现金额', placeholder: '请输入提现金额'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}],
-          GetIncome: [{name: 'product_hash_type', type: 'select', title: '算力类型', option: ['BTC', 'BCC', 'ETC']}, {name: 'amount', type: 'text', title: '提取额度', placeholder: '请输入提取额度'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}]
+          Withdrawals: [{name: 'amount', type: 'text', title: '提现金额', placeholder: '请输入提现金额', changeEvent: true}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}],
+          GetIncome: [{name: 'product_hash_type', type: 'select', title: '算力类型', option: ['BTC', 'BCC', 'ETC']}, {name: 'amount', type: 'text', title: '提取额度', placeholder: '请输入提取额度', changeEvent: true}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}]
         },
         editText: '',
-        show: false
+        show: false,
+        fee: 0,
+        total_price: 0
       }
     },
     methods: {
@@ -136,6 +138,21 @@
         document.body.style.overflow = 'hidden'
         this.editText = title
         this.edit = str
+        var requestUrl = ''
+        if (str === 'Withdrawals') {
+          requestUrl = 'showWithdraw'
+        } else if (str === 'GetIncome') {
+          requestUrl = 'showWithdrawCoin'
+        }
+        var self = this
+        util.post(requestUrl, {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
+          console.log(res)
+          if (str === 'Withdrawals') {
+            self.fee = res.withdraw_fee
+          } else if (str === 'GetIncome') {
+            self.fee = res.withdraw_coin_fee
+          }
+        })
       },
       closeEdit () {
         this.edit = ''
@@ -169,7 +186,7 @@
         var form = document.querySelector('.form_content')
         var data = api.checkFrom(form)
         var url = ''
-        var sendData = {token: this.token, user_id: this.user_id, order_id: this.order_id}
+        var sendData = {token: this.token, user_id: this.user_id}
         var tipsStr = ''
         data.trade_password = md5(data.trade_password)
         switch (this.edit) {
@@ -198,6 +215,9 @@
             })
           }
         })
+      },
+      onChange (e) {
+        this.total_price = e.target.value
       }
     },
     mounted () {

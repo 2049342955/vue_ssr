@@ -29,9 +29,9 @@
       <div class="box">
         <h3>战略合作伙伴</h3>
         <div class="list">
-          <div class="item" v-for="i in 12">
-            <div class="img"></div>
-            <div class="img_hover"></div>
+          <div class="item" v-for="i in 6">
+            <div :class="'img img'+i"></div>
+            <div :class="'img_hover img_hover'+i"></div>
           </div>
         </div>
       </div>
@@ -187,33 +187,90 @@
         margin-bottom:30px
       }
       .list{
-        @include row(6,0)
+        @include row(4,0)
         border-left:1px solid $border;
         border-top:1px solid $border;
         .item{
-          height:70px;
+          height:80px;
           border-right:1px solid $border;
           border-bottom:1px solid $border;
           @include flex(center)
-          img{
-            width:81px;
-            height:32px
-          }
-          .img,.img_hover{
-            width: 81px; height: 32px;
-          }
-          .img{
-            background: url('../assets/images/partner.png') -111px -10px;
-          }
-          .img_hover{
-            background: url('../assets/images/partner.png') -10px -10px;
-          }
           .img,&:hover .img_hover{
-            display: block;
-          }
-          .img_hover,&:hover .img{
             display: none;
           }
+          .img_hover,&:hover .img{
+            display: block;
+          }
+          .img1,.img_hover1{
+            height: 54px;
+            width: 180px;
+          }
+          .img1{
+            background: url('../assets/images/partner.png') -0px -254px;
+          }
+          .img_hover1{
+            background: url('../assets/images/partner.png') -180px -254px;
+          }
+          .img2,.img_hover2{
+            height: 50px;
+            width: 180px;
+          }
+          .img2{
+            background: url('../assets/images/partner.png') -0px -308px;
+          }
+          .img_hover2{
+            background: url('../assets/images/partner.png') -360px -254px;
+          }
+          .img3,.img_hover3{
+            height: 55px;
+            width: 180px;
+          }
+          .img3{
+            background: url('../assets/images/partner.png') -360px -120px;
+          }
+          .img_hover3{
+            background: url('../assets/images/partner.png') -360px -175px;
+          }
+          .img4,.img_hover4{
+            height: 38px;
+            width: 180px;
+          }
+          .img4{
+            background: url('../assets/images/partner.png') -360px -308px;
+          }
+          .img_hover4{
+            background: url('../assets/images/partner.png') -180px -308px;
+          }
+          .img5,.img_hover5{
+            height: 60px;
+            width: 180px;
+          }
+          .img5{
+            background: url('../assets/images/partner.png') -360px -60px;
+          }
+          .img_hover5{
+            background: url('../assets/images/partner.png') -360px -0px;
+          }
+          .img6,.img_hover6{
+            height: 24px;
+            width: 180px;
+          }
+          .img6{
+            background: url('../assets/images/partner.png') -360px -230px;
+          }
+          .img_hover6{
+            background: url('../assets/images/partner.png') -0px -358px;
+          }
+          // .img7,.img_hover7{
+          //   height: 254px;
+          //   width: 180px;
+          // }
+          // .img7{
+          //   background: url('../assets/images/partner.png') -0px -0px;
+          // }
+          // .img_hover7{
+          //   background: url('../assets/images/partner.png') -180px -0px;
+          // }
         }
       }
     }
