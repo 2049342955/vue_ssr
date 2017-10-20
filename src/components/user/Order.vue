@@ -30,8 +30,9 @@
             <th>出售时间</th>
           </template>
           <template v-if="nowEdit!=0&&(status==2||status==3)">
-            <th>转让数量</th>
             <th>转让金额</th>
+            <th>转让数量</th>
+            <th>转让单价</th>
             <th>转让时间</th>
           </template>
           <template v-if="status!=2&&status!=3">
