@@ -38,7 +38,7 @@
     },
     methods: {
       goPay (e) {
-        if (this.trade_password === '') {
+        if (!this.trade_password) {
           api.tips(this.$refs.tips, '请先设置交易密码', () => {
             this.$router.push({name: 'password'})
           })

@@ -5,7 +5,7 @@
         <span class="text_title">订单管理</span>
         <div class="title_content">
           <span class="title_now" @click="openList">{{title[nowEdit]}}</span>
-          <div class="title_list" v-if="show">
+          <div class="title_list" v-show="show">
             <template v-if="scode">
               <router-link :to="'/user/order/'+k+'/1'" v-for="n,k in title2" :key="k">{{n}}</router-link>
             </template>

@@ -57,8 +57,8 @@
           if (!res.code) {
             api.tips(self.$refs.tips, tipStr)
             self.closeEdit()
-            if (this.edit === 'login') return false
-            self.$store.commit('SET_INFO', {'trade_password': 1})
+            if (self.edit === 'login') return false
+            self.$store.commit('SET_INFO', {trade_password: 1})
           } else {
             api.tips(self.$refs.tips, res.msg)
           }

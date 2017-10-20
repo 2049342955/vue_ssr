@@ -42,7 +42,7 @@
         util.post('productList', {sign: api.serialize(obj)}).then(function (res) {
           console.log(res)
           self.computeDate = res.data
-          self.show = !res.list.length
+          self.show = !res.data.length
           if (self.now > 1) return false
           self.len = res.page.total_page
         })

@@ -48,7 +48,7 @@
       <template v-else>
         <span>{{f.title}}</span>
         <span>*</span>
-        <input :type="f.type" :name="f.name" :value="$parent[f.name]||$parent.$parent[f.name]" disabled v-if="f.name!=='bank_card'">
+        <input :type="f.type" :name="f.name" :value="$parent[f.name]||$parent.$parent[f.name]" disabled v-if="f.name!=='bank_card'" :isChange="f.isChange">
         <input :type="f.type" :name="f.name" :value="$parent[f.name]&&$parent[f.name].card_no&&$parent[f.name].card_no|cardformat" disabled v-else>
         <div class="tips_info" v-if="f.tipsInfo">
           <span>{{f.tipsUnit}}</span>

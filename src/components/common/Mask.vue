@@ -8,7 +8,7 @@
       <h2>{{title}}</h2>
       <form :class="['form form_content', {card_form: $parent.edit==='card'}]" @submit.prevent="$parent.submit" novalidate>
         <FormField :form="form"></FormField>
-        <p v-if="$parent.fee">手续费：{{$parent.total_price*$parent.fee}}元<span class="fee">({{$parent.fee*100+'%'}})</span></p>
+        <p v-if="$parent.fee">手续费：{{$parent.total_price*$parent.fee|format}}元<span class="fee">({{$parent.fee*100+'%'}})</span></p>
         <button name="btn">确认提交</button>
       </form>
     </div>
@@ -17,6 +17,7 @@
 
 <script>
   import FormField from '@/components/common/FormField'
+  import api from '@/util/function'
   export default {
     components: {
       FormField
@@ -28,6 +29,9 @@
       title: {
         type: String
       }
+    },
+    filters: {
+      format: api.decimal
     }
   }
 </script>

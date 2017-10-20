@@ -6,9 +6,9 @@
           <h2>早上好，{{mobile|format}}</h2>
           <div class="line"></div>
           <div class="icons">
-            <span class="iconfont"></span>
-            <span class="iconfont"></span>
-            <span class="iconfont"></span>
+            <span :class="['iconfont', {active: true_name}]"></span>
+            <span :class="['iconfont', {active: risk.user_risk_score>=0}]"></span>
+            <span :class="['iconfont', {active: bank_card}]"></span>
             <span>上次登录时间：2017-09-26 09:19:24</span>
           </div>
         </div>
@@ -42,7 +42,10 @@
     computed: {
       ...mapState({
         mobile: state => state.info.mobile,
-        unread_num: state => state.info.unread_num
+        unread_num: state => state.info.unread_num,
+        true_name: state => state.info.true_name,
+        bank_card: state => state.info.bank_card,
+        risk: state => state.info.risk
       })
     },
     filters: {
@@ -81,25 +84,32 @@
               & + .iconfont{
                 margin-left:10px
               }
+              background:$light_black;
               &:before{
                 color:$white;
               }
               &:first-child{
-                background: #4d83dd;
+                &.active{
+                  background: #4d83dd;
+                }
                 &:before{
-                  content:'\e675'
+                  content:'\e63f'
                 }
               }
               &:nth-child(2){
-                background: #ffbc38;
+                &.active{
+                  background: #ffbc38;
+                }
                 &:before{
-                  content:'\e601'
+                  content:'\e653';
                 }
               }
               &:nth-child(3){
-                background: #93cd38;
+                &.active{
+                  background: #93cd38;
+                }
                 &:before{
-                  content:'\e699'
+                  content:'\e602'
                 }
               }
             }
@@ -117,12 +127,12 @@
           margin-left:10px;
           color:#74620e;
           .iconfont{
-            font-size: 24px;
+            font-size: 20px;
             color: #cec6a6;
             vertical-align: sub;
             padding-right: 5px;
             &:before{
-              content:'\e699'
+              content:'\e653'
             }
           }
         }

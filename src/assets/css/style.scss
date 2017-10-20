@@ -840,8 +840,9 @@
         cursor: pointer;
         &:after{
           content:'';
-          @include position(10,auto,auto,0)
-          @include triangle(bottom,$light_black)
+          @include position(8,auto,auto,0)
+          @include block(8)
+          @include arrow(down,$light_black)
         }
       }
       .title_list{
