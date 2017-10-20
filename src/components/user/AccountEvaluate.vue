@@ -107,8 +107,13 @@
             display: block;
             margin-top:10px;
             input{
-              @include checkbox(18)
+              @include checkbox(22)
               margin-right:5px;
+              &:before{
+                width: 9px;
+                left: calc(50% - 5px);
+                border-width: 0 0 2px 2px;
+              }
             }
           }
         }
