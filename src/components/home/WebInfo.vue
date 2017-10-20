@@ -1,14 +1,14 @@
 <template>
-  <div class="web_info">
+  <div class="web_info_box">
     <div class="main">
       <div class="box">
         <h3>
           <span class="icon"></span>
           <span class="text">网站动态</span>
-          <router-link to="/other/notice/website">查看更多 ></router-link>
+          <router-link to="/webInfo/list/website">查看更多 ></router-link>
         </h3>
         <div class="list">
-          <router-link :to="'/other/noticeDetail/'+a.id" class="item" v-for="a,k in activity" :key="k">
+          <router-link :to="'/webInfo/detail/'+a.id" class="item" v-for="a,k in activity" :key="k">
             <span class="icon"></span>
             <span class="line"></span>
             <span class="text">{{a.title}}</span>
@@ -20,10 +20,10 @@
         <h3>
           <span class="icon"></span>
           <span class="text">产品公告</span>
-          <router-link to="/other/notice/product">查看更多 ></router-link>
+          <router-link to="/webInfo/list/product">查看更多 ></router-link>
         </h3>
         <div class="list">
-          <router-link :to="'/other/noticeDetail/'+a.id" class="item" v-for="a,k in notice" :key="k">
+          <router-link :to="'/webInfo/detail/'+a.id" class="item" v-for="a,k in notice" :key="k">
             <span class="icon"></span>
             <span class="line"></span>
             <span class="text">{{a.title}}</span>
@@ -42,7 +42,7 @@
     data () {
       return {
         activity: [],
-        notice: [{title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}, {title: '算力网新产品云矿机第一期产品即将上线.', date: '2017-07-19'}]
+        notice: []
       }
     },
     mounted () {
@@ -59,7 +59,7 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  .web_info{
+  .web_info_box{
     border-top:1px solid $border;
     border-bottom:1px solid $border;
     margin-bottom:60px;

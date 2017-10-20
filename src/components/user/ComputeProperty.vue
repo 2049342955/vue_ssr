@@ -96,7 +96,6 @@
     },
     data () {
       return {
-        title: ['BTC', 'ETH', 'LTC'],
         nowEdit: 0,
         moneyNav: {freeze_account: '冻结资金', balance_account: '账户余额'},
         moneyData: {freeze_account: 0, balance_account: 0},
@@ -127,6 +126,7 @@
         }
         if (str === 'recharge') {
           this.$router.push({name: 'recharge'})
+          return false
         }
         if (str === 'GetIncome' && !this.address.length) {
           api.tips(this.$refs.tips, '请先绑定算力地址', () => {

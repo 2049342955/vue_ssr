@@ -50,18 +50,16 @@
         </tr>
         <tr v-for="d,k in data">
           <td>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
+          <td>{{d.total_hash|format}}T</td>
           <template v-if="nowEdit==0&&(status==2||status==3)">
-            <td>{{d.total_hash|format}}T</td>
             <td>{{d.selling_amount}}台</td>
             <td>{{d.total_price}}元</td>
           </template>
           <template v-else-if="(nowEdit==1||nowEdit==2)&&(status==2||status==3)">
-            <td>{{d.total_price}}元</td>
             <td>{{d.transfer_amount|format}}T</td>
             <td>{{d.transfer_price}}元</td>
           </template>
           <template v-else>
-            <td>{{d.total_hash|format}}T</td>
             <td v-if="nowEdit!=1">{{d.buy_amount}}台</td>
             <td>{{d.total_price}}元</td>
           </template>
