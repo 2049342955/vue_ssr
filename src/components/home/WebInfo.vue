@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import api from '../../util'
+  import util from '../../util'
   export default {
     name: 'chart',
     data () {
@@ -47,10 +47,10 @@
     },
     mounted () {
       var self = this
-      api.post('/webDynamic', {sign: 'token=0'}).then(function (data) {
+      util.post('/webDynamic', {sign: 'token=0'}).then(function (data) {
         self.activity = data
       })
-      api.post('/webAnnouncoment', {sign: 'token=0'}).then(function (data) {
+      util.post('/webAnnouncoment', {sign: 'token=0'}).then(function (data) {
         self.notice = data
       })
     }

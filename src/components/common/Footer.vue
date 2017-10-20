@@ -40,7 +40,7 @@
         link: {'关于我们': '/webInfo/aboutUs', '安全保障': '/webInfo/safeGuarantee', '法律声明': '/webInfo/lawyer', '常见问题': '/webInfo/issues'},
         service: {'BDC展示': '/bdc/list', '云矿机商城': '/cloudCompute/shop', '算力转让区': '/computeTransfer/List', '二手矿机市场': '/mine'},
         partner: {'保全网': 'https://baoquan.com/', '千信网': 'http://www.eqianxin.com/', '数秦区块链': ''},
-        info: {'网站公告': '/webInfo/list/website', '产品公告': '/webInfo/list/product'}
+        info: {'网站动态': '/webInfo/list/website', '产品公告': '/webInfo/list/product'}
       }
     }
   }

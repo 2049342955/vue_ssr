@@ -23,8 +23,8 @@
       <table>
         <tr>
           <th>算力服务器</th>
-          <th>总算力</th>
           <template v-if="nowEdit==0&&(status==2||status==3)">
+            <th>总算力</th>
             <th>出售数量</th>
             <th>出售金额</th>
             <th>出售时间</th>
@@ -35,6 +35,7 @@
             <th>转让时间</th>
           </template>
           <template v-if="status!=2&&status!=3">
+            <th>总算力</th>
             <th v-if="nowEdit!=1">购买数量</th>
             <th>购买金额</th>
             <th>购买时间</th>
@@ -50,16 +51,18 @@
         </tr>
         <tr v-for="d,k in data">
           <td>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
-          <td>{{d.total_hash|format}}T</td>
           <template v-if="nowEdit==0&&(status==2||status==3)">
+            <td>{{d.total_hash|format}}T</td>
             <td>{{d.selling_amount}}台</td>
             <td>{{d.total_price}}元</td>
           </template>
           <template v-else-if="(nowEdit==1||nowEdit==2)&&(status==2||status==3)">
+            <td>{{d.total_price}}元</td>
             <td>{{d.transfer_amount|format}}T</td>
             <td>{{d.transfer_price}}元</td>
           </template>
           <template v-else>
+            <td>{{d.total_hash|format}}T</td>
             <td v-if="nowEdit!=1">{{d.buy_amount}}台</td>
             <td>{{d.total_price}}元</td>
           </template>
