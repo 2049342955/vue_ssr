@@ -117,6 +117,7 @@
         @include detail
       }
       .detail_btn{
+        display: none;
         margin:30px 15px;
         text-align: right;
         button{
