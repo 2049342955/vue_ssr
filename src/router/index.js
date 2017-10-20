@@ -35,8 +35,6 @@ import AccountEvaluate from '@/components/user/AccountEvaluate'
 import WebInfo from '@/views/WebInfo'
 import AboutUs from '@/components/info/AboutUs'
 import Issues from '@/components/info/Issues'
-import IssuesList from '@/components/info/IssuesList'
-import IssuesItem from '@/components/info/IssuesItem'
 import Lawyer from '@/components/info/Lawyer'
 import SafeGuarantee from '@/components/info/SafeGuarantee'
 import WebInfoList from '@/components/info/List'
@@ -190,16 +188,8 @@ export default new Router({
       component: AboutUs
     }, {
       path: 'issues',
-      component: Issues,
-      children: [{
-        path: 'list/:type',
-        name: 'issuesList',
-        component: IssuesList
-      }, {
-        path: 'item/:id',
-        name: 'issuesItem',
-        component: IssuesItem
-      }]
+      name: 'issues',
+      component: Issues
     }, {
       path: 'safeGuarantee',
       name: 'safeGuarantee',

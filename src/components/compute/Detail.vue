@@ -32,7 +32,6 @@
         initNum: 0,
         leftNum: 0,
         balance: 0,
-        order_id: '',
         leftStatus: false,
         overStatus: false
       }
@@ -58,7 +57,6 @@
           if (!res.code) {
             self.next = true
             self.balance = res.balance
-            self.order_id = res.order_id
           } else {
             api.tips(self.$refs.tips, res.msg)
           }

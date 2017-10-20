@@ -32,6 +32,9 @@
           </td>
         </tr>
       </table>
+      <div class="nodata" v-if="show">
+        <img :src="img" alt="">
+      </div>
       <Pager :len="len"></Pager>
     </div>
     <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
@@ -63,7 +66,9 @@
         editText: '',
         len: 0,
         now: 1,
-        sort: [{title: '时间', option: ['asc', 'desc'], value: 0}]
+        sort: [{title: '时间', option: ['asc', 'desc'], value: 0}],
+        img: require('@/assets/images/no_data.jpg'),
+        show: false
       }
     },
     methods: {
@@ -88,6 +93,7 @@
       },
       getList () {
         var self = this
+        this.list = []
         var sendData = {}
         var data = {token: this.token, user_id: this.user_id, page: this.now}
         if (this.$route.params.sort === 'default') {
@@ -97,6 +103,7 @@
         }
         util.post('userCapitalList', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           self.list = res.value_list
+          self.show = !res.value_list.length
           if (self.now > 1) return false
           self.len = Math.ceil(res.total_num / 15)
         })
@@ -159,6 +166,13 @@
     }
     .detail_table{
       @include data_table
+      .nodata{
+        text-align: center;
+        margin-top:20px;
+        img{
+          width:300px
+        }
+      }
     }
   }
 </style>

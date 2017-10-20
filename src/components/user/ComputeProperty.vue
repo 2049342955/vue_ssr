@@ -61,17 +61,19 @@
         <div class="item_value"></div>
       </div>
     </div>
-    <h4>算力产业基金</h4>
-    <div class="detail_table fund_table">
-      <div class="item" v-for="d,k in computeFund">
-        <div class="item_title">{{d[0]}}</div>
-        <div class="item_value">{{dataFund[k]}}{{d[1]}}</div>
+    <template v-if="scode">
+      <h4>算力产业基金</h4>
+      <div class="detail_table fund_table">
+        <div class="item" v-for="d,k in computeFund">
+          <div class="item_title">{{d[0]}}</div>
+          <div class="item_value">{{dataFund[k]}}{{d[1]}}</div>
+        </div>
+        <div class="item" v-if="4%2">
+          <div class="item_title"></div>
+          <div class="item_value"></div>
+        </div>
       </div>
-      <div class="item" v-if="4%2">
-        <div class="item_title"></div>
-        <div class="item_value"></div>
-      </div>
-    </div>
+    </template>
     <div class="fund_btn">
       <router-link to="/user/order/0/1">出售云矿机</router-link>
       <router-link to="/user/order/1/1">出租算力</router-link>
@@ -181,11 +183,14 @@
             break
         }
         if (!data) return false
+        form.btn.setAttribute('disabled', true)
         var self = this
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (back) {
           console.log(back)
           if (back.code) {
-            api.tips(self.$refs.tips, back.msg)
+            api.tips(self.$refs.tips, back.msg, () => {
+              form.btn.removeAttribute('disabled')
+            })
           } else {
             self.closeEdit()
             api.tips(self.$refs.tips, tipsStr, () => {
@@ -213,7 +218,8 @@
         user_id: state => state.info.user_id,
         bank_card: state => state.info.bank_card,
         address: state => state.info.address,
-        hashType: state => state.hashType
+        hashType: state => state.hashType,
+        scode: state => state.info.scode
       })
     }
   }

@@ -1,22 +1,32 @@
 <template>
   <section class="lp_center">
-    <h2>LP中心<button @click="open">添加基金</button></h2>
-    <template v-if="data.fund_invest_id">
-      <h3>{{data.fund_invest_id===1?'电厂基金':'矿场基金'}}</h3>
-      <div class="detail_table">
-        <div class="item" v-for="d,k in nav">
-          <div class="item_title">{{d}}</div>
-          <div class="item_value">
-            <template v-if="k==='start_end_time'">{{data.fund_start_time}}-{{data.fund_end_time}}</template>
-            <!-- <template v-else-if="data.fund_invest_id===1&&d==='累积电费'">{{data[k]}}<span>查看明细</span></template>
-            <template v-else-if="data.fund_invest_id===2&&d==='累计获得收益'">{{data[k]}}<span>查看明细</span></template> -->
-            <template v-else>{{data[k]}}</template>
+    <template v-if="scode">
+      <h2>LP中心<button @click="open">添加基金</button></h2>
+      <template v-if="data.fund_invest_id">
+        <h3>{{data.fund_invest_id===1?'电厂基金':'矿场基金'}}</h3>
+        <div class="detail_table">
+          <div class="item" v-for="d,k in nav">
+            <div class="item_title">{{d}}</div>
+            <div class="item_value">
+              <template v-if="k==='start_end_time'">{{data.fund_start_time}}-{{data.fund_end_time}}</template>
+              <!-- <template v-else-if="data.fund_invest_id===1&&d==='累积电费'">{{data[k]}}<span>查看明细</span></template>
+              <template v-else-if="data.fund_invest_id===2&&d==='累计获得收益'">{{data[k]}}<span>查看明细</span></template> -->
+              <template v-else>{{data[k]}}</template>
+            </div>
+          </div>
+          <div class="item" v-if="Object.keys(nav).length%2">
+            <div class="item_title"></div>
+            <div class="item_value"></div>
           </div>
         </div>
-        <div class="item" v-if="Object.keys(nav).length%2">
-          <div class="item_title"></div>
-          <div class="item_value"></div>
-        </div>
+      </template>
+    </template>
+    <template v-else>
+      <div class="input">
+        <span>验证s码</span>
+        <span>*</span>
+        <input type="text">
+        <span title="" tips="" error="" success=""></span>
       </div>
     </template>
     <div class="mask" v-if="edit">
@@ -63,6 +73,18 @@
         var data = api.checkFrom(form)
         var self = this
         if (!data) return false
+        if (!(this.true_name && this.true_name.status === 1)) {
+          api.tips(this.$refs.tips, '请先实名认证', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
+        if (this.risk.user_risk_score < 0) {
+          api.tips(this.$refs.tips, '请先进行风险测评', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
         util.post('ScodeVerify', {sign: api.serialize({token: this.token, user_id: this.user_id, scode: form.scode.value})}).then(function (data) {
           if (!data.code) {
             self.edit = false
@@ -95,34 +117,9 @@
         token: state => state.info.token,
         user_id: state => state.info.user_id,
         true_name: state => state.info.true_name,
-        risk: state => state.info.risk
+        risk: state => state.info.risk,
+        scode: state => state.info.scode
       })
-    },
-    mounted () {
-      setTimeout(() => {
-        if (!(this.true_name && this.true_name.status === 1)) {
-          api.tips(this.$refs.tips, '请先实名认证', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
-        if (this.risk.user_risk_score < 0) {
-          api.tips(this.$refs.tips, '请先进行风险测评', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
-        var self = this
-        util.post('scode_info', {sign: 'token=' + this.token}).then(function (data) {
-          if (data.code) {
-            self.edit = true
-            document.body.style.overflow = 'hidden'
-          } else {
-            self.nav = data.fund_invest_id === 1 ? self.electric : self.miner
-            self.data = data
-          }
-        })
-      }, 500)
     }
   }
 </script>
@@ -158,6 +155,9 @@
           }
         }
       }
+    }
+    .input{
+      @include input
     }
   }
 </style>

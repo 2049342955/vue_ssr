@@ -22,7 +22,7 @@
     <h3>充值申请</h3>
     <form class="form" @submit.prevent="submit" novalidate>
       <FormField :form="form"></FormField>
-      <button>提交申请</button>
+      <button name="btn">提交申请</button>
     </form>
     <div class="web_tips" ref="tips"></div>
   </section>
@@ -56,11 +56,20 @@
         var sendData = {token: this.token}
         if (!data) return false
         var self = this
+        form.btn.setAttribute('disabled', true)
         console.log(data)
         util.post('balance_recharge', {sign: api.serialize(Object.assign(data, sendData))}).then(function (back) {
-          api.tips(self.$refs.tips, '提交成功，请等待工作人员确认')
-          form.amount.value = ''
-          form.request_id.value = ''
+          if (back.code) {
+            api.tips(self.$refs.tips, back.msg, () => {
+              form.btn.removeAttribute('disabled')
+            })
+          } else {
+            form.amount.value = ''
+            form.request_id.value = ''
+            api.tips(self.$refs.tips, '提交成功，请等待工作人员确认', () => {
+              form.btn.removeAttribute('disabled')
+            })
+          }
         })
       }
     },

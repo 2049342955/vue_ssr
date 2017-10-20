@@ -21,7 +21,7 @@ export default {
         {name: 'product', title: '产品公告', path: '/webInfo/list/product'},
         {name: 'website', title: '网站动态', path: '/webInfo/list/website'},
         {name: 'safeGuarantee', title: '安全保障', path: '/webInfo/safeGuarantee'},
-        {name: 'Issues', title: '常见问题', path: '/webInfo/issues/list/0'},
+        {name: 'Issues', title: '常见问题', path: '/webInfo/issues'},
         {name: 'lawyer', title: '政策法规', path: '/webInfo/lawyer'}
       ]
     }

@@ -35,6 +35,9 @@
         </tr>
       </table>
       <Pager :len="len"></Pager>
+      <div class="nodata" v-if="showImg">
+        <img :src="img" alt="">
+      </div>
     </div>
   </section>
 </template>
@@ -55,16 +58,19 @@
         dataNav: {total_income: '累积已获得BTC', total_electric_fee: '累计支付电费'},
         data: {total_income: 0, total_electric_fee: 0},
         nav: {product_name: '算力服务器', paid_time: '购买时间', hold_amound: '总算力', paid_amound: '获得BTC', electric_fee: '支付电费', status: '状态'},
-        list: [{product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}, {product_name: '阿瓦隆001', paid_time: '2017-09-21', hold_amound: '9T', paid_amound: '-0.0000926687 BTC', electric_fee: '-0.0000926687 BTC', status: '成功'}],
+        list: [],
         len: 0,
         now: 1,
         show: false,
-        sort: [{title: '时间', option: ['asc', 'desc'], value: 0}]
+        sort: [{title: '时间', option: ['asc', 'desc'], value: 0}],
+        img: require('@/assets/images/no_data.jpg'),
+        showImg: false
       }
     },
     methods: {
       getList () {
         var self = this
+        this.list = []
         var sendData = {}
         var data = {token: this.token, user_id: this.user_id, product_hash_type: this.nowEdit + 1, page: this.now}
         if (this.$route.params.sort === 'default') {
@@ -74,6 +80,7 @@
         }
         util.post('userCoinList', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           self.list = res.value_list
+          self.showImg = !res.value_list.length
           if (self.now > 1) return false
           self.len = Math.ceil(res.total_num / 15)
         })
@@ -132,6 +139,13 @@
     }
     .detail_table{
       @include data_table
+      .nodata{
+        text-align: center;
+        margin-top:20px;
+        img{
+          width:300px
+        }
+      }
     }
   }
 </style>

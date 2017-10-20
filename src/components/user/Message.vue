@@ -1,7 +1,7 @@
 <template>
   <section class="message">
     <h2>消息中心</h2>
-    <h3>通知消息<span class="read" v-if="data.length" @click="setRead()">全部标为已读</span></h3>
+    <h3>通知消息<span class="read" v-if="unread_num" @click="setRead()">全部标为已读</span></h3>
     <div class="data">
       <router-link :to="'/user/messageDetail/'+d.id" :class="['item', {isread: d.is_read}]" v-for="d,k in data" :key="k">
         <div class="title">{{d.title}}</div>
@@ -9,6 +9,9 @@
         <div class="time">{{d.created_at}}</div>
       </router-link>
       <Pager :len="len"></Pager>
+    </div>
+    <div class="nodata" v-if="show">
+      <img :src="img" alt="">
     </div>
   </section>
 </template>
@@ -28,7 +31,9 @@
         now: 1,
         leftSibling: 0,
         rightSibling: 0,
-        len: 0
+        len: 0,
+        img: require('@/assets/images/no_data.jpg'),
+        show: false
       }
     },
     methods: {
@@ -45,6 +50,7 @@
           console.log(res)
           self.$store.commit('SET_INFO', {unread_num: res.unread_num})
           self.data = res.list
+          self.show = !res.list.length
           if (self.now > 1) return false
           self.len = Math.ceil(res.total_num / 15)
         })
@@ -62,7 +68,8 @@
     computed: {
       ...mapState({
         token: state => state.info.token,
-        user_id: state => state.info.user_id
+        user_id: state => state.info.user_id,
+        unread_num: state => state.info.unread_num
       })
     }
   }
@@ -118,6 +125,13 @@
             color: $light_black;
           }
         }
+      }
+    }
+    .nodata{
+      text-align: center;
+      margin-top:20px;
+      img{
+        width:300px
       }
     }
   }

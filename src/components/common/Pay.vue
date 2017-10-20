@@ -54,7 +54,7 @@
           <span>阅读并接受<router-link to="/auth/serviceTerms">《算力网服务条款》</router-link></span>
           <span class="select_accept">{{tips}}</span>
         </label>
-        <button>确认支付</button>
+        <button name="btn">确认支付</button>
       </form>
     </div>
     <div class="web_tips" ref="tips"></div>
@@ -120,11 +120,14 @@
           return false
         }
         var self = this
+        ff.btn.setAttribute('disabled', true)
         if (this.page === 'cloudCompute') {
-          util.post('productMall', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, order_id: this.$parent.order_id, trade_password: md5(data.password)})}).then(function (res) {
+          util.post('productMall', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(data.password)})}).then(function (res) {
             console.log(res)
             if (res.code) {
-              api.tips(self.$refs.tips, res.msg)
+              api.tips(self.$refs.tips, res.msg, () => {
+                ff.btn.removeAttribute('disabled')
+              })
             } else {
               api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
                 self.$router.push({path: '/user/order/0/1'})
@@ -136,7 +139,9 @@
           util.post('doTransfer_Hashrate', {sign: api.serialize({token: this.$parent.token, user_id: this.$parent.user_id, transfer_order_id: this.$route.params.id, trade_password: md5(data.password)})}).then(function (res) {
             console.log(res)
             if (res.code) {
-              api.tips(self.$refs.tips, res.msg)
+              api.tips(self.$refs.tips, res.msg, () => {
+                ff.btn.removeAttribute('disabled')
+              })
             } else {
               api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
                 self.$router.push({path: '/user/order/1/1'})

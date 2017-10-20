@@ -6,7 +6,12 @@
         <div class="title_content">
           <span class="title_now" @click="openList">{{title[nowEdit]}}</span>
           <div class="title_list" v-if="show">
-            <router-link :to="'/user/order/'+k+'/1'" v-for="n,k in title" :key="k">{{n}}</router-link>
+            <template v-if="scode">
+              <router-link :to="'/user/order/'+k+'/1'" v-for="n,k in title2" :key="k">{{n}}</router-link>
+            </template>
+            <template v-else>
+              <router-link :to="'/user/order/'+k+'/1'" v-for="n,k in title" :key="k">{{n}}</router-link>
+            </template>
           </div>
         </div>
       </div>
@@ -89,6 +94,9 @@
           </td>
         </tr>
       </table>
+      <div class="nodata" v-if="showImg">
+        <img :src="img" alt="">
+      </div>
       <Pager :len="len"></Pager>
     </div>
     <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
@@ -109,7 +117,8 @@
     },
     data () {
       return {
-        title: ['云矿机', '算力', '基金'],
+        title: ['云矿机', '算力'],
+        title2: ['云矿机', '算力', '基金'],
         nav: [{'0': '已购买', '1': '出售中', '2': '已出售', '3': '已结束'}, {'0': '已租赁', '1': '出租中', '2': '已出租', '3': '已结束'}, {'0': '持有', '1': '出租中', '2': '已出租', '3': '已结束'}],
         data: [],
         nowEdit: 0,
@@ -132,17 +141,21 @@
         order_id: '',
         len: 0,
         now: 1,
-        fee: 0
+        fee: 0,
+        img: require('@/assets/images/no_data.jpg'),
+        showImg: false
       }
     },
     methods: {
       fetchData () {
         var self = this
+        this.data = []
         this.nowEdit = this.$route.params.type
         this.status = this.$route.params.status
         this.show = false
         util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id, type: this.$route.params.type, status: this.$route.params.status, page: this.now})}).then(function (res) {
           self.data = res.list
+          self.showImg = !res.list.length
           if (self.now > 1) return false
           self.len = Math.ceil(res.total_num / 15)
         })
@@ -262,7 +275,8 @@
     computed: {
       ...mapState({
         token: state => state.info.token,
-        user_id: state => state.info.user_id
+        user_id: state => state.info.user_id,
+        scode: state => state.info.scode
       })
     },
     watch: {
@@ -358,6 +372,13 @@
               }
             }
           }
+        }
+      }
+      .nodata{
+        text-align: center;
+        margin-top:20px;
+        img{
+          width:300px
         }
       }
     }

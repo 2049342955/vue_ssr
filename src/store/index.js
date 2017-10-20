@@ -15,6 +15,7 @@ const state = {
     risk: {user_risk_score: -1},
     address: [],
     trade_password: 0,
+    scode: '',
     unread_num: 0
   },
   hashType: []
@@ -27,7 +28,7 @@ const getters = {
       {opr: '认证', status: 0, setting: true},
       {opr: '测评', status: 0, setting: true},
       {opr: '绑定', status: 0, setting: true},
-      {opr: '添加地址', status: 1, setting: true},
+      {opr: '添加地址', status: 0, setting: true},
       {opr: '修改', status: 1, setting: true},
       {opr: '设置', status: 0, setting: true}
     ]
@@ -45,6 +46,9 @@ const getters = {
       arr[2].status = 1
       arr[2].opr = '已测评'
       arr[2].setting = false
+    }
+    if (state.info.address.length) {
+      arr[4].status = 1
     }
     if (state.info.trade_password) {
       arr[6].status = 1

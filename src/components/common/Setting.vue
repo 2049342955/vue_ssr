@@ -23,7 +23,7 @@
           <div class="opr" @click="setEdit(n.name,n.title,menu[k].setting)">{{menu[k].opr}}</div>
         </div>
         <div class="item" v-for="a in address">
-          <div class="val">{{hashType[a.product_hash_type-1]&&hashType[a.product_hash_type-1].name+'地址: '+a.address}}</div>
+          <div class="val">{{a.product_hash_type+'地址: '+a.address}}</div>
           <div class="opr" @click="setEdit(n.name,n.title,menu[k].setting,a.product_hash_type)">修改</div>
         </div>
       </template>
