@@ -29,7 +29,7 @@
       <div class="title_content">
         <span class="title_now" @click="openList">{{hashType[nowEdit]&&hashType[nowEdit].name}}</span>
         <div class="title_list" v-if="show">
-          <a href="javascript:;" @click="setList(n.id)" v-for="n,k in hashType">{{n.name}}</a>
+          <a href="javascript:;" @click="setList(k)" v-for="n,k in hashType">{{n.name}}</a>
         </div>
       </div>
     </div>
