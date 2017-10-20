@@ -830,31 +830,38 @@
     .title_content{
       position: relative;
       width:80px;
+      border:1px solid $border;
+      border-radius:3px;
       @include gap(10,h)
       .title_now{
         font-weight: bold;
         height: 27px;
         line-height: 27px;
-        color:$blue;
+        color:$text;
         cursor: pointer;
         &:after{
           content:'';
-          @include position(8,auto,auto,0)
+          @include position(8,auto,auto,5)
           @include block(7)
           @include arrow(down,$light_black)
         }
       }
       .title_list{
         @include position(27)
-        height:112px;
+        left:-1px;
+        right:-1px;
+        height:100px;
         z-index: 2;
         background: #fff;
-        border:1px solid $blue_border;
+        border:1px solid $border;
         border-top:0;
         a{
           display: block;
           line-height: 2;
           @include gap(10,h)
+          &:hover{
+            background: #eee
+          }
         }
       }
     }
