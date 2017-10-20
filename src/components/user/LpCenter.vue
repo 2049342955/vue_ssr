@@ -85,7 +85,7 @@
         var data = api.checkFrom(form)
         var self = this
         if (!data) return false
-        util.post('ScodeVerify', {sign: api.serialize({token: this.token, user_id: this.user_id, scode: form.scode.value})}).then(function (data) {
+        util.post('ScodeVerify', {sign: api.serialize({token: this.token, user_id: this.user_id, s_code: form.scode.value})}).then(function (data) {
           if (!data.code) {
             self.edit = false
             document.body.style.overflow = 'auto'
@@ -95,7 +95,7 @@
               self.data = res
             })
           } else {
-            api.tips(this.$refs.tips, data.msg)
+            api.tips(self.$refs.tips, data.msg)
           }
         })
       },
