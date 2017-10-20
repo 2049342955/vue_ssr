@@ -26,7 +26,8 @@
         sort: [{title: '价格', option: ['price_asc', 'price_desc'], value: 0}, {title: '算力', option: ['base_asc', 'base_desc'], value: 0}, {title: '出售总数', option: ['num_asc', 'num_desc'], value: 0}],
         dataNav: {'one_amount_value': {title: '每台服务器价格', unit: '元'}, 'hash': {title: '每台服务器算力', unit: 'T'}, 'amount': {title: '出售服务器总数', unit: '台'}, 'leftNum': {title: '剩余可售服务器', unit: '台'}},
         len: 0,
-        now: 1
+        now: 1,
+        show: false
       }
     },
     methods: {
@@ -41,6 +42,7 @@
         util.post('productList', {sign: api.serialize(obj)}).then(function (res) {
           console.log(res)
           self.computeDate = res.data
+          self.show = !res.list.length
           if (self.now > 1) return false
           self.len = res.page.total_page
         })

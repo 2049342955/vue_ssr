@@ -12,6 +12,7 @@
     </div>
     <div class="nodata" v-if="show">
       <img :src="img" alt="">
+      <p>暂无列表信息</p>
     </div>
   </section>
 </template>
@@ -127,12 +128,6 @@
         }
       }
     }
-    .nodata{
-      text-align: center;
-      margin-top:20px;
-      img{
-        width:300px
-      }
-    }
+    @include nodata
   }
 </style>

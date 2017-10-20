@@ -757,6 +757,7 @@
         border-bottom:1px solid $border
       }
     }
+    @include nodata
   }
 // 提示
   .web_tips{
@@ -855,6 +856,21 @@
           line-height: 2;
           @include gap(10,h)
         }
+      }
+    }
+  }
+// nodata
+  @mixin nodata{
+    .nodata{
+      text-align: center;
+      min-height:300px;
+      margin-top:20px;
+      img{
+        width:234px
+      }
+      p{
+        color:$light_black;
+        margin-top:15px
       }
     }
   }

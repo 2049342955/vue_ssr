@@ -21,14 +21,17 @@
         </div>
       </template>
     </template>
-    <template v-else>
-      <div class="input">
-        <span>验证s码</span>
-        <span>*</span>
-        <input type="text">
-        <span title="" tips="" error="" success=""></span>
+    <div class="no_scode" v-else>
+      <div class="no_scode_box">
+        <div class="input">
+          <span>验证s码</span>
+          <span>*</span>
+          <input ref="scode" type="password" name="scode" autocomplete="off" placeholder="请输入S码" @blur="test" pattern="^[0-9a-zA-Z]{6}$" data-status="" maxlength="6">
+          <span title="请输入6位字符串" tips="请输入S码"></span>
+        </div>
+        <button @click="check">提交</button>
       </div>
-    </template>
+    </div>
     <div class="mask" v-if="edit">
       <div class="form_box">
         <div class="close" @click="closeEdit()">
@@ -73,18 +76,6 @@
         var data = api.checkFrom(form)
         var self = this
         if (!data) return false
-        if (!(this.true_name && this.true_name.status === 1)) {
-          api.tips(this.$refs.tips, '请先实名认证', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
-        if (this.risk.user_risk_score < 0) {
-          api.tips(this.$refs.tips, '请先进行风险测评', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
         util.post('ScodeVerify', {sign: api.serialize({token: this.token, user_id: this.user_id, scode: form.scode.value})}).then(function (data) {
           if (!data.code) {
             self.edit = false
@@ -110,6 +101,38 @@
       },
       test (e) {
         api.checkFiled(e.target)
+      },
+      check (e) {
+        var ele = this.$refs.scode
+        if (!ele.value) {
+          api.setTips(ele, 'null')
+          return false
+        }
+        if (!(this.true_name && this.true_name.status === 1)) {
+          api.tips(this.$refs.tips, '请先实名认证', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
+        if (this.risk.user_risk_score < 0) {
+          api.tips(this.$refs.tips, '请先进行风险测评', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
+        var self = this
+        util.post('ScodeVerify', {sign: api.serialize({token: this.token, user_id: this.user_id, scode: ele.value})}).then(function (data) {
+          if (!data.code) {
+            util.post('scode_info', {sign: 'token=' + self.token}).then(function (res) {
+              console.log(res)
+              self.nav = res.fund_invest_id === 1 ? self.electric : self.miner
+              self.data = res
+              self.$store.commit('SET_INFO', {scode: true})
+            })
+          } else {
+            api.tips(this.$refs.tips, data.msg)
+          }
+        })
       }
     },
     computed: {
@@ -123,6 +146,7 @@
     }
   }
 </script>
+
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .lp_center{
@@ -156,8 +180,20 @@
         }
       }
     }
-    .input{
-      @include input
+    .no_scode{
+      @include flex(center)
+      height:100%;
+      .no_scode_box{
+        width:300px;
+        .input{
+          @include input
+        }
+        button{
+          width:100%;
+          line-height: 3;
+          @include button($blue)
+        }
+      }
     }
   }
 </style>

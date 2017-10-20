@@ -37,6 +37,7 @@
       <Pager :len="len"></Pager>
       <div class="nodata" v-if="showImg">
         <img :src="img" alt="">
+        <p>暂无列表信息</p>
       </div>
     </div>
   </section>
@@ -139,13 +140,6 @@
     }
     .detail_table{
       @include data_table
-      .nodata{
-        text-align: center;
-        margin-top:20px;
-        img{
-          width:300px
-        }
-      }
     }
   }
 </style>

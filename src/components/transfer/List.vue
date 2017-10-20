@@ -26,7 +26,8 @@
         sort: [{title: '价格', option: ['transfer_price-asc', 'transfer_price-desc'], value: 0}, {title: '数量', option: ['transfer_amount-asc', 'transfer_amount-desc'], value: 0}, {title: '期限', option: ['transfer_time-asc', 'transfer_time-desc'], value: 0}, {title: '已使用时长', option: ['birth_time-asc', 'birth_time-desc'], value: 0}],
         dataNav: {'transfer_price': {title: '转让每T算力价格', unit: '元'}, 'transfer_amount': {title: '转让数量', unit: 'T'}, 'transfer_time': {title: '转让时长', unit: '天'}, 'original_price': {title: '原始算力价格', unit: '元'}, 'birth_time': {title: '已使用时长', unit: '天'}},
         len: 0,
-        now: 1
+        now: 1,
+        show: false
       }
     },
     methods: {
@@ -42,6 +43,7 @@
         util.post('getHashrates', {sign: api.serialize(obj)}).then(function (res) {
           console.log(res)
           self.computeDate = res.list
+          self.show = !res.list.length
           if (self.now > 1) return false
           self.len = res.total_page
         })

@@ -34,6 +34,7 @@
       </table>
       <div class="nodata" v-if="show">
         <img :src="img" alt="">
+        <p>暂无列表信息</p>
       </div>
       <Pager :len="len"></Pager>
     </div>
@@ -166,13 +167,6 @@
     }
     .detail_table{
       @include data_table
-      .nodata{
-        text-align: center;
-        margin-top:20px;
-        img{
-          width:300px
-        }
-      }
     }
   }
 </style>

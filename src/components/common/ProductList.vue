@@ -34,6 +34,10 @@
             </template>
           </div>
         </div>
+        <div class="nodata" v-if="$parent.show">
+          <img :src="img" alt="">
+          <p>暂无数据</p>
+        </div>
       </div>
     </div>
     <div class="web_tips" ref="tips"></div>
@@ -60,7 +64,8 @@
     },
     data () {
       return {
-        edit: -1
+        edit: -1,
+        img: require('@/assets/images/nodata.jpg')
       }
     },
     methods: {
@@ -166,6 +171,19 @@
               cursor: pointer;
             }
           }
+        }
+      }
+      .nodata{
+        background: #fff;
+        min-height:500px;
+        padding-top:100px;
+        text-align: center;
+        img{
+          width:305px
+        }
+        p{
+          color:$light_black;
+          margin-top:15px
         }
       }
     }
