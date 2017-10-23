@@ -32,7 +32,7 @@
     },
     data () {
       return {
-        form: [{name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'password', type: 'password', title: '登录密码', placeholder: '请输入您的登录密码', pattern: '^.{6,16}$', tips: '密码应在6-16位之间'}]
+        form: [{name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'password', type: 'password', title: '登录密码', placeholder: '请输入您的登录密码', pattern: '^[0-9a-zA-Z]{6,16}$', tips: '密码应在6-16位之间'}]
       }
     },
     methods: {

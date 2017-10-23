@@ -1,6 +1,6 @@
 <template>
   <section class="lp_center">
-    <template v-if="scode&&!showAgreement">
+    <template v-if="scode.status&&!showAgreement">
       <h2>LP中心<button @click="open">添加基金</button></h2>
       <template v-if="scode.fund_invest_id">
         <h3>{{scode.fund_invest_id===1?'电厂基金':'矿场基金'}}</h3>
@@ -24,7 +24,7 @@
     <div v-else-if="showAgreement" class="agreement_text">
       <div class="" v-html="content"></div>
       <div class="btn_box">
-        <button @click="agree">我同意</button>
+        <button @click="agree">我同意，签合同</button>
       </div>
     </div>
     <div class="no_scode" v-else>
@@ -152,8 +152,10 @@
         util.post('sign_contract', {sign: api.serialize(Object.assign({token: this.token, user_id: this.user_id}, self.contract))}).then(function (res) {
           console.log(res)
           self.showAgreement = false
-          self.nav = res.fund_invest_id === 1 ? self.electric : self.miner
-          self.$store.commit('SET_INFO', {scode: res})
+          util.post('scode_info', {sign: 'token=' + self.token}).then(function (res) {
+            console.log(res)
+            self.$store.commit('SET_INFO', {scode: res})
+          })
         })
       }
     },
