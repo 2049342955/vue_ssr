@@ -80,11 +80,13 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .cloud_list{
-    @include main
     margin-bottom:60px;
+    overflow: hidden;
     h2{
       @include flex
-      @include gap(15,v,margin)
+      @include gap(15,v,margin);
+      @include main
+      margin:0 auto;
       span:nth-child(1){
         font-size: 24px;
         font-weight: bold;
@@ -107,7 +109,9 @@
       }
     }
     table{
-      @include table
+      @include table;
+      @include main;
+      margin:0 auto;
       th{
         font-size: 18px;
         line-height: 65px;
