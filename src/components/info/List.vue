@@ -72,6 +72,9 @@
           font-size: 14px;
         }
       }
+      .item:hover{
+        color:#327fff;
+      }
       .page{
         display: block;
       }
