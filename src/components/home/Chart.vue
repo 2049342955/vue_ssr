@@ -15,9 +15,9 @@
           </div>
         </div>
       </div>
-      <div>全网算力：{{info.hashrate}}</div>
+      <div>全网算力：{{info.hashrate}}P</div>
       <div>比特币价格：1bt={{info.btc_price}}元</div>
-      <div>难度调整时间：{{info.leavetime}}</div>
+      <div>难度调整时间：{{parseInt(info.leavetime/24)}}天{{info.leavetime%24}}小时</div>
       <div>困难度：{{info.difficulty}}</div>
     </div>
     <div class="chart_show">

@@ -2,19 +2,19 @@
   <section class="lp_center">
     <template v-if="scode&&!showAgreement">
       <h2>LP中心<button @click="open">添加基金</button></h2>
-      <template v-if="data.fund_invest_id">
-        <h3>{{data.fund_invest_id===1?'电厂基金':'矿场基金'}}</h3>
+      <template v-if="scode.fund_invest_id">
+        <h3>{{scode.fund_invest_id===1?'电厂基金':'矿场基金'}}</h3>
         <div class="detail_table">
-          <div class="item" v-for="d,k in nav">
+          <div class="item" v-for="d,k in nav[scode.fund_invest_id-1]">
             <div class="item_title">{{d}}</div>
             <div class="item_value">
-              <template v-if="k==='start_end_time'">{{data.fund_start_time}}-{{data.fund_end_time}}</template>
-              <!-- <template v-else-if="data.fund_invest_id===1&&d==='累积电费'">{{data[k]}}<span>查看明细</span></template>
-              <template v-else-if="data.fund_invest_id===2&&d==='累计获得收益'">{{data[k]}}<span>查看明细</span></template> -->
-              <template v-else>{{data[k]}}</template>
+              <template v-if="k==='start_end_time'">{{scode.fund_start_time}}-{{scode.fund_end_time}}</template>
+              <!-- <template v-else-if="scode.fund_invest_id===1&&d==='累积电费'">{{scode[k]}}<span>查看明细</span></template>
+              <template v-else-if="scode.fund_invest_id===2&&d==='累计获得收益'">{{scode[k]}}<span>查看明细</span></template> -->
+              <template v-else>{{scode[k]}}</template>
             </div>
           </div>
-          <div class="item" v-if="Object.keys(nav).length%2">
+          <div class="item" v-if="Object.keys(nav[scode.fund_invest_id-1]).length%2">
             <div class="item_title"></div>
             <div class="item_value"></div>
           </div>
@@ -69,10 +69,8 @@
   export default {
     data () {
       return {
-        electric: {fund_name: '基金名称', fund_manager: '基金管理人', invest_money: '投资金额', start_end_time: '投资时间', fund_time: '投资期限', electric_amount: '累计用电力量', electric_total_price: '累积电费'},
-        miner: {fund_name: '基金名称', fund_manager: '基金管理人', invest_money: '投资金额', start_end_time: '投资时间', fund_time: '投资期限', miner_num: '云矿机', miner_hash: '运算力', hash_income: '累计获得收益'},
         data: {},
-        nav: {},
+        nav: [{fund_name: '基金名称', fund_manager: '基金管理人', invest_money: '投资金额', start_end_time: '投资时间', fund_time: '投资期限', electric_amount: '累计用电力量', electric_total_price: '累积电费'}, {fund_name: '基金名称', fund_manager: '基金管理人', invest_money: '投资金额', start_end_time: '投资时间', fund_time: '投资期限', miner_num: '云矿机', miner_hash: '运算力', hash_income: '累计获得收益'}],
         edit: false,
         showAgreement: false,
         content: '',
@@ -91,8 +89,7 @@
             document.body.style.overflow = 'auto'
             util.post('scode_info', {sign: 'token=' + self.token}).then(function (res) {
               console.log(res)
-              self.nav = res.fund_invest_id === 1 ? self.electric : self.miner
-              self.data = res
+              self.$store.commit('SET_INFO', {scode: res})
             })
           } else {
             api.tips(self.$refs.tips, data.msg)
@@ -156,7 +153,7 @@
           console.log(res)
           self.showAgreement = false
           self.nav = res.fund_invest_id === 1 ? self.electric : self.miner
-          self.data = res
+          self.$store.commit('SET_INFO', {scode: res})
         })
       }
     },
