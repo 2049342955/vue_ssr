@@ -98,8 +98,8 @@
             type: 'password',
             title: '交易密码',
             placeholder: '请输入交易密码',
-            pattern: '^.{6,16}$',
-            tips: '密码应是6到16位,请输入密码'
+            pattern: '^[0-9a-zA-Z]{6,16}$',
+            tips: '密码应是6到16位'
           }
         ],
         tips: '请同意服务条款',
