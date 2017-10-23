@@ -15,8 +15,8 @@
           <div class="form-header">提交托管矿机申请</div>
           <form class="data_form" @submit.prevent="submit" novalidate v-if="!success">
             <div class="form-line"><span class="label">申请人</span><input type="text" v-model.trim="depName" placeholder="请输入您的姓名" @blur="test"></div>
-            <div class="form-line"><span class="label">手机号码</span><input type="text" v-model.trim="depTel" pattern="^1[3578][0-9]{9}$" placeholder="请输入手机号码" @blur="test" title="请输入11位手机号"></div>
-            <div class="form-line"><span class="label">手机验证码</span><input type="text" v-model.trim="depTel" pattern="^[0-9]{6}$" placeholder="手机验证码" @blur="test" title="请输入6位数字" class="yan"><div class="form_btn">验证码</div></div>
+            <div class="form-line"><span class="label">手机号码</span><input type="text" name="depTel" v-model.trim="depTel" pattern="^1[3578][0-9]{9}$" placeholder="请输入手机号码" @blur="test" title="请输入11位手机号"></div>
+            <div class="form-line"><span class="label">手机验证码</span><input type="text" v-model.trim="code" pattern="^[0-9]{6}$" placeholder="手机验证码" @blur="test" title="请输入6位数字" class="yan"><div  ref="count_btn" class="form_btn" @click="getCode">验证码</div></div>
             <div class="form-line"><span class="label">选择BDC</span>
               <select v-model="depBdc">
                 <option v-for="(item, index) in list" :key="item.bdc_name" :value="item.bdc_name">{{item.bdc_name}}</option>
@@ -50,12 +50,13 @@
         </div>
       </div>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
 <script>
-  import api from '../../util'
-  import func from '@/util/function'
+  import util from '@/util'
+  import api from '@/util/function'
   export default {
     data () {
       return {
@@ -66,14 +67,15 @@
         depType: '',
         depNumber: '',
         tips: '',
-        success: false
+        success: false,
+        code: ''
       }
     },
     methods: {
       submit () {
         let self = this
         var ff = document.querySelector('.data_form')
-        var data = func.checkOne(ff, this)
+        var data = api.checkOne(ff, this)
         if (data.status === 'null') {
           this.tips = ff[data.n].placeholder
           ff[data.n].focus()
@@ -83,7 +85,7 @@
           ff[data.n].focus()
           return false
         }
-        api.post('depositMessage', {sign: func.serialize({token: '0', dep_name: encodeURIComponent(this.depName), dep_tel: this.depTel, dep_bdc: encodeURIComponent(this.depBdc), dep_type: encodeURIComponent(this.depType), dep_number: this.depNumber})}).then(function (res) {
+        util.post('depositMessage', {sign: api.serialize({token: '0', dep_name: encodeURIComponent(this.depName), dep_tel: this.depTel, dep_bdc: encodeURIComponent(this.depBdc), dep_type: encodeURIComponent(this.depType), dep_number: this.depNumber})}).then(function (res) {
           if (!res.code) {
             self.success = true
           }
@@ -100,11 +102,45 @@
           this.tips = ''
           return true
         }
+      },
+      getCode () {
+        var self = this
+        var form = document.querySelector('.data_form')
+        console.log(form.depTel)
+        if (form.depTel.value) {
+          if (!api.checkFiled(form.depTel)) {
+            api.setTips(form.depTel, 'invalid')
+            return false
+          }
+        } else {
+          api.setTips(form.depTel, 'null')
+          return false
+        }
+        if (self.$refs['count_btn'][0].getAttribute('disabled') === 'true') return false
+        util.post('send_code', {sign: api.serialize({token: this.token, mobile: form.mobile.value})}).then(res => {
+          api.setTips(form.code, 'success')
+          self.conntDown()
+          self.$refs['count_btn'][0].setAttribute('disabled', true)
+        })
+      },
+      conntDown () {
+        var self = this
+        var t = 60
+        var tt = setInterval(() => {
+          if (t === 0) {
+            self.str = '重新获取验'
+            clearInterval(tt)
+            self.$refs['count_btn'][0].setAttribute('disabled', false)
+          } else {
+            self.str = t + 's'
+            t--
+          }
+        }, 1000)
       }
     },
     beforeMount () {
       let self = this
-      api.post('bdcinfoList', {sign: 'token=0'}).then(function (data) {
+      util.post('bdcinfoList', {sign: 'token=0'}).then(function (data) {
         self.list = data
         self.depBdc = data[0].bdc_name
       })
@@ -116,7 +152,7 @@
   @import '../../assets/css/style.scss';
   .bg-box{
     width: 100%;
-    height: 640px;
+    height: 558px;
     position: absolute;
     top: 0;
     left: 0;
@@ -191,10 +227,10 @@
   .form-box{
     background-color: #15121c;
     width: 410px;
-    height: 518px;
-    padding: 20px 45px;
+    height: 438px;
+    padding: 10px 45px;
     .tips{
-      height:40px;
+      height:30px;
       line-height:40px;
       text-align: center;
       color:$red;
@@ -232,7 +268,7 @@
   .form-header{
     font-weight: bold;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     color: #fff;
   }
   .form-line{
@@ -243,7 +279,7 @@
     font-size: 16px;
     line-height: 40px;
     &:not(:nth-child(6)){
-      margin-bottom: 19px;
+      margin-bottom: 12px;
     }
     & .tip{
       position: absolute;
@@ -271,6 +307,22 @@
       width: 190px;
       padding-left: 20px;
       height: 40px;
+    }
+    .yan{
+       width:113px;
+       height:20px;
+       border-right:1px solid #ccc;
+    }
+    div{
+          display: inline;
+    color: black;
+    padding: 3px 13px;
+    background: #ccc;
+    height: 20px;
+    margin-left: 10px;
+    font-size: 12px;
+    border-radius: 3px;
+    cursor: pointer;
     }
   }
   .item-box-row{
