@@ -107,8 +107,8 @@
         dataFund: {total_miner: 0, total_hash: 0, selled_miner: 0, selling_miner: 0},
         edit: '',
         form: {
-          Withdrawals: [{name: 'amount', type: 'text', title: '提现金额', placeholder: '请输入提现金额', changeEvent: true}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}],
-          GetIncome: [{name: 'product_hash_type', type: 'select', title: '算力类型', option: ['BTC', 'BCC', 'ETC']}, {name: 'amount', type: 'text', title: '提取额度', placeholder: '请输入提取额度', changeEvent: true}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}]
+          Withdrawals: [{name: 'amount', type: 'text', title: '提现金额', placeholder: '请输入提现金额', changeEvent: true, pattern: '^[2-9][0-9]{1,}$', tips: '请输入至少20的整数', len: 7}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: '^[0-9]{6}$', tips: '请输入6位数字'}],
+          GetIncome: [{name: 'product_hash_type', type: 'select', title: '算力类型', option: ['BTC', 'BCC', 'ETC']}, {name: 'amount', type: 'text', title: '提取额度', placeholder: '请输入提取额度', changeEvent: true, pattern: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: '^[0-9]{6}$', tips: '请输入6位数字'}]
         },
         editText: '',
         show: false,
@@ -139,13 +139,16 @@
         this.editText = title
         this.edit = str
         var requestUrl = ''
+        var data = {}
         if (str === 'Withdrawals') {
           requestUrl = 'showWithdraw'
+          data = {token: this.token, user_id: this.user_id}
         } else if (str === 'GetIncome') {
           requestUrl = 'showWithdrawCoin'
+          data = {token: this.token, user_id: this.user_id, product_hash_type: this.nowEdit}
         }
         var self = this
-        util.post(requestUrl, {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
+        util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
           console.log(res)
           if (str === 'Withdrawals') {
             self.fee = res.withdraw_fee

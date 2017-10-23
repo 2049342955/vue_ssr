@@ -36,6 +36,7 @@
         </div>
       </div>
     </div>
+    <SideBar></SideBar>
   </article>
 </template>
 
@@ -44,9 +45,10 @@
   import Chart from '../components/home/Chart'
   import MyData from '../components/home/DataList'
   import WebInfo from '../components/home/WebInfo'
+  import SideBar from '../components/home/SideBar'
   export default {
     components: {
-      Swiper, Chart, MyData, WebInfo
+      Swiper, Chart, MyData, WebInfo, SideBar
     },
     data () {
       return {
