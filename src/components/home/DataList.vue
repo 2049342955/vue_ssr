@@ -31,7 +31,7 @@
     data () {
       return {
         nav: {'name': {title: '矿机名称', unit: ''}, 'amount': {title: '总数量', unit: '台'}, 'one_amount_value': {title: '单价', unit: '元'}, 'buy_step_amount': {title: '最小购买单位', unit: '台'}, 'hash': {title: '算力', unit: 'T'}, 'type_name': {title: '算力类型', unit: ''}, 'plan': {title: '项目进度', unit: ''}},
-        list: [{product_id: 1, name: 'Avalon(阿瓦隆A6)', sell_amount: 100, one_amount_value: 12000, buy_step_amount: 1, hash: 9, type_name: 'BTC', plan: '80%'}, {product_id: 1, name: 'Avalon(阿瓦隆A6)', sell_amount: 100, one_amount_value: 12000, buy_step_amount: 1, hash: 9, type_name: 'BTC', plan: '80%'}, {product_id: 1, name: 'Avalon(阿瓦隆A6)', sell_amount: 100, one_amount_value: 12000, buy_step_amount: 1, hash: 9, type_name: 'BTC', plan: '80%'}, {product_id: 1, name: 'Avalon(阿瓦隆A6)', sell_amount: 100, one_amount_value: 12000, buy_step_amount: 1, hash: 9, type_name: 'BTC', plan: '80%'}, {product_id: 1, name: 'Avalon(阿瓦隆A6)', sell_amount: 100, one_amount_value: 12000, buy_step_amount: 1, hash: 9, type_name: 'BTC', plan: '80%'}]
+        list: []
       }
     },
     methods: {

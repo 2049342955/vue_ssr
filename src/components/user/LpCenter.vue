@@ -1,6 +1,6 @@
 <template>
   <section class="lp_center">
-    <template v-if="scode.status&&!showAgreement">
+    <template v-if="scode.is_contract&&!showAgreement">
       <h2>LP中心<button @click="open">添加基金</button></h2>
       <template v-if="scode.fund_invest_id">
         <h3>{{scode.fund_invest_id===1?'电厂基金':'矿场基金'}}</h3>
