@@ -7,7 +7,7 @@
     </div>
     <div class="site">
       <h3>公司地址</h3>
-      <baidu-map class="mapImg" :center="center" :zoom="zoom" @ready="handler" :scroll-wheel-zoom="true">
+      <baidu-map class="mapImg" :center="center" :zoom="zoom" @ready="handler" :scroll-wheel-zoom="false">
         <bm-marker :position="center"  :markerStyle="{width:'20px'}" :dragging="false">
            <!-- <bm-label content="杭州总部" :labelStyle="{background:'#3d81f2',border:'0px',color: 'white', fontSize : '18px',padding: '10px 27px'}" :offset="{}"/> -->
            <bm-label content="<h4>杭州总部</h4><h5>地址 ： 浙江省杭州市学院路77号黄龙国际中心G座-907</h5> <h6>咨询电话 ： 0571-28221076</h6><h1><span></span></h1>" :labelStyle="{border:'0px', color: '#666666',whiteSpace:'normal', fontSize : '12px',padding: '0px',boxSizing:'border-box',width:'250px',wordBreak:'break-all !important',lineHeight:'24px'}" :offset="{width: -498, height: -130}"/>
@@ -121,6 +121,7 @@
           line-height:40px;
           box-sizing: border-box;
           padding-left:27px;
+          position: relative;
         }
         h5{
            padding:30px 27px;
@@ -131,7 +132,8 @@
           padding-top:0;
           box-sizing:border-box;
           line-height:0;
-          padding-bottom: 25px;
+          padding-bottom: 50px;
+         
         }
         h4:after{
           content:'>';
@@ -139,8 +141,12 @@
           color:white;
           font-family: "宋体";
           font-weight:800;
-          transform:rotate(-45deg);
+          width:18px;
+          height:18px;
+          position: absolute;
+          transform:rotate(90deg);
           margin-left:118px;
+          margin-top:15px;
         }
         h1{
           width:25px;
@@ -161,7 +167,7 @@
             background:#218cff;
           }
         }
-         
+        
       }
     }
   }
