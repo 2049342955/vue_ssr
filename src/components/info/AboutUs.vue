@@ -133,7 +133,6 @@
           box-sizing:border-box;
           line-height:0;
           padding-bottom: 50px;
-         
         }
         h4:after{
           content:'>';
@@ -167,7 +166,6 @@
             background:#218cff;
           }
         }
-        
       }
     }
   }
