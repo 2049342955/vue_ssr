@@ -10,10 +10,9 @@ let api = axios.create({
 })
 // 修改返回数据格式
 api.defaults.transformResponse = (res) => {
-  if (res.code !== '1000') {
-    return res
+  if (res.code === '1000') {
+    return res.msg
   } else if (res.code === '600001') {
-    console.log(11)
     return false
   } else {
     return res.msg

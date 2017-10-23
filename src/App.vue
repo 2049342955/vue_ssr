@@ -3,6 +3,7 @@
     <MyHead></MyHead>
     <router-view class="body"></router-view>
     <MyFoot></MyFoot>
+    <div class="web_tips" ref="tips"></div>
   </article>
 </template>
 

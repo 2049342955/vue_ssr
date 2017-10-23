@@ -40,11 +40,12 @@
           obj = {token: this.token, product_type: this.$route.params.type, sort: this.$route.params.sort, page: this.now}
         }
         util.post('productList', {sign: api.serialize(obj)}).then(function (res) {
-          console.log(res)
-          self.computeDate = res.data
-          self.show = !res.data.length
-          if (self.now > 1) return false
-          self.len = res.page.total_page
+          if (res && !res.code) {
+            self.computeDate = res.data
+            self.show = !res.data.length
+            if (self.now > 1) return false
+            self.len = res.page.total_page
+          }
         })
       },
       getList () {

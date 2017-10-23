@@ -174,15 +174,19 @@
         var sendData = {token: this.token, user_id: this.user_id, product_hash_type: this.nowEdit + 1}
         util.post('myHashAccount', {sign: api.serialize(sendData)}).then(function (res) {
           console.log(res)
-          self.computeData = res
+          if (res && !res.code) {
+            self.computeData = res
+          }
         })
         util.post('hashAsset', {sign: api.serialize(sendData)}).then(function (res) {
-          console.log(res)
-          self.dataProperty = res
+          if (res && !res.code) {
+            self.dataProperty = res
+          }
         })
         util.post('hashFund', {sign: api.serialize(sendData)}).then(function (res) {
-          console.log(res)
-          self.dataFund = res
+          if (res && !res.code) {
+            self.dataFund = res
+          }
         })
       },
       submit () {
@@ -226,10 +230,10 @@
     mounted () {
       var self = this
       util.post('myAccount', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
-        console.log(res)
-        if (!res.code) {
+        if (res && !res.code) {
           self.moneyData = res
-        } else if (res.code === '600001') {
+        }
+        if (!res) {
           api.tips(self.$refs.tips, '您的账号在别处登录', () => {
             self.$router.push({name: 'home'})
             self.$store.commit('LOGOUT')

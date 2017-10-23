@@ -41,11 +41,12 @@
           obj = {token: this.token, product_hash_type: this.$route.params.type, order_type: this.$route.params.sort, page: this.now}
         }
         util.post('getHashrates', {sign: api.serialize(obj)}).then(function (res) {
-          console.log(res)
-          self.computeDate = res.list
-          self.show = !res.list.length
-          if (self.now > 1) return false
-          self.len = res.total_page
+          if (res && !res.code) {
+            self.computeDate = res.list
+            self.show = !res.list.length
+            if (self.now > 1) return false
+            self.len = res.total_page
+          }
         })
       },
       getList () {

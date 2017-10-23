@@ -51,12 +51,15 @@
         this.$store.dispatch('getInfo')
       }
       var self = this
-      util.post('getAll', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (data) {
-        console.log(data)
-        self.$store.commit('SET_INFO', data)
+      util.post('getAll', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
+        if (res && !res.code) {
+          self.$store.commit('SET_INFO', res)
+        }
       })
       util.post('getCurrencys', {sign: api.serialize({token: this.token})}).then(function (res) {
-        self.$store.commit('SET_HASH_TYPE', res)
+        if (res && !res.code) {
+          self.$store.commit('SET_HASH_TYPE', res)
+        }
       })
     },
     computed: {

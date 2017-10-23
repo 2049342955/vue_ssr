@@ -158,12 +158,13 @@
         this.status = this.$route.params.status
         this.show = false
         util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id, type: this.$route.params.type, status: this.$route.params.status, page: this.now})}).then(function (res) {
-          if (!res.code) {
+          if (res && !res.code) {
             self.data = res.list
             self.showImg = !res.list.length
             if (self.now > 1) return false
             self.len = Math.ceil(res.total_num / 15)
-          } else if (res.code === '600001') {
+          }
+          if (!res) {
             api.tips(self.$refs.tips, '您的账号在别处登录', () => {
               self.$router.push({name: 'home'})
               self.$store.commit('LOGOUT')

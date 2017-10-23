@@ -81,12 +81,13 @@
           sendData = {sort: this.$route.params.sort}
         }
         util.post('userCoinList', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
-          if (!res.code) {
+          if (res && !res.code) {
             self.list = res.value_list
             self.showImg = !res.value_list.length
             if (self.now > 1) return false
             self.len = Math.ceil(res.total_num / 15)
-          } else if (res.code === '600001') {
+          }
+          if (!res) {
             api.tips(self.$refs.tips, '您的账号在别处登录', () => {
               self.$router.push({name: 'home'})
               self.$store.commit('LOGOUT')
