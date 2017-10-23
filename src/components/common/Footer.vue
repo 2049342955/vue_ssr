@@ -37,7 +37,8 @@
   export default {
     data () {
       return {
-        link: {'关于我们': '/webInfo/aboutUs', '安全保障': '/webInfo/safeGuarantee', '法律声明': '/webInfo/lawyer', '常见问题': '/webInfo/issues'},
+        // link: {'关于我们': '/webInfo/aboutUs', '安全保障': '/webInfo/safeGuarantee', '法律声明': '/webInfo/lawyer', '常见问题': '/webInfo/issues'},
+        link: {'关于我们': '/webInfo/aboutUs', '常见问题': '/webInfo/issues'},
         service: {'BDC托管': '/bdc/list', '云矿机商城': '/cloudCompute/list/1/all', '算力转让区': '/computeTransfer/list/1/all'},
         partner: {'保全网': 'https://baoquan.com/', '千信网': 'http://www.eqianxin.com/', '数秦区块链': ''},
         info: {'网站动态': '/webInfo/list/website', '产品公告': '/webInfo/list/product'}

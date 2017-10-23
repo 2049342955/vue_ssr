@@ -14,6 +14,7 @@
       <img :src="img" alt="">
       <p>暂无列表信息</p>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -49,11 +50,18 @@
         var self = this
         util.post('MessageList', {sign: api.serialize({token: this.token, user_id: this.user_id, page: this.now})}).then(function (res) {
           console.log(res)
-          self.$store.commit('SET_INFO', {unread_num: res.unread_num})
-          self.data = res.list
-          self.show = !res.list.length
-          if (self.now > 1) return false
-          self.len = Math.ceil(res.total_num / 15)
+          if (!res.code) {
+            self.$store.commit('SET_INFO', {unread_num: res.unread_num})
+            self.data = res.list
+            self.show = !res.list.length
+            if (self.now > 1) return false
+            self.len = Math.ceil(res.total_num / 15)
+          } else if (res.code === '600001') {
+            api.tips(self.$refs.tips, '您的账号在别处登录', () => {
+              self.$router.push({name: 'home'})
+              self.$store.commit('LOGOUT')
+            })
+          }
         })
       },
       getList () {

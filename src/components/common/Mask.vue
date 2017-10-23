@@ -8,7 +8,7 @@
       <h2>{{title}}</h2>
       <form :class="['form form_content', {card_form: $parent.edit==='card'}]" @submit.prevent="$parent.submit" novalidate>
         <FormField :form="form"></FormField>
-        <p v-if="$parent.fee">手续费：{{isNaN($parent.total_price)&&0*$parent.fee|format}}元<span class="fee">({{$parent.fee*100+'%'}})</span></p>
+        <p v-if="$parent.fee">手续费：{{$parent.total_price*$parent.fee|format}}元<span class="fee">({{$parent.fee*100+'%'}})</span></p>
         <button name="btn">确认提交</button>
       </form>
     </div>

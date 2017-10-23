@@ -227,7 +227,14 @@
       var self = this
       util.post('myAccount', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
         console.log(res)
-        self.moneyData = res
+        if (!res.code) {
+          self.moneyData = res
+        } else if (res.code === '600001') {
+          api.tips(self.$refs.tips, '您的账号在别处登录', () => {
+            self.$router.push({name: 'home'})
+            self.$store.commit('LOGOUT')
+          })
+        }
       })
       this.getList()
     },

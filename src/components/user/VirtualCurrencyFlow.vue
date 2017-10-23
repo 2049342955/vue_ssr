@@ -40,6 +40,7 @@
         <p>暂无列表信息</p>
       </div>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -80,10 +81,17 @@
           sendData = {sort: this.$route.params.sort}
         }
         util.post('userCoinList', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
-          self.list = res.value_list
-          self.showImg = !res.value_list.length
-          if (self.now > 1) return false
-          self.len = Math.ceil(res.total_num / 15)
+          if (!res.code) {
+            self.list = res.value_list
+            self.showImg = !res.value_list.length
+            if (self.now > 1) return false
+            self.len = Math.ceil(res.total_num / 15)
+          } else if (res.code === '600001') {
+            api.tips(self.$refs.tips, '您的账号在别处登录', () => {
+              self.$router.push({name: 'home'})
+              self.$store.commit('LOGOUT')
+            })
+          }
         })
       },
       openList () {

@@ -25,7 +25,7 @@
             <router-link class="btn" to="/auth/regist">注册</router-link>
           </template>
           <template v-else>
-            <router-link class="tel" to="/user/computeProperty">{{mobile|format}}</router-link>
+            <router-link class="tel" to="/user/computeProperty"><span class="iconfont">&#xe63f; </span>{{mobile|format}}</router-link>
             <a href="javascript:;" @click="logout">退出</a>
           </template>
         </template>
@@ -52,6 +52,7 @@
       }
       var self = this
       util.post('getAll', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (data) {
+        console.log(data)
         self.$store.commit('SET_INFO', data)
       })
       util.post('getCurrencys', {sign: api.serialize({token: this.token})}).then(function (res) {

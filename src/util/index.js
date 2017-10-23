@@ -13,7 +13,7 @@ api.defaults.transformResponse = (res) => {
   if (res.code !== '1000') {
     return res
   } else if (res.code === '600001') {
-    alert('您的账号在其他设备登录')
+    console.log(11)
     return false
   } else {
     return res.msg

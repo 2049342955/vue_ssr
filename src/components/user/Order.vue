@@ -6,7 +6,7 @@
         <div class="title_content">
           <span class="title_now" @click="openList">{{title[nowEdit]}}</span>
           <div class="title_list" v-show="show">
-            <template v-if="scode">
+            <template v-if="scode&&scode.is_contract">
               <router-link :to="'/user/order/'+k+'/1'" v-for="n,k in title2" :key="k">{{n}}</router-link>
             </template>
             <template v-else>
@@ -158,10 +158,17 @@
         this.status = this.$route.params.status
         this.show = false
         util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id, type: this.$route.params.type, status: this.$route.params.status, page: this.now})}).then(function (res) {
-          self.data = res.list
-          self.showImg = !res.list.length
-          if (self.now > 1) return false
-          self.len = Math.ceil(res.total_num / 15)
+          if (!res.code) {
+            self.data = res.list
+            self.showImg = !res.list.length
+            if (self.now > 1) return false
+            self.len = Math.ceil(res.total_num / 15)
+          } else if (res.code === '600001') {
+            api.tips(self.$refs.tips, '您的账号在别处登录', () => {
+              self.$router.push({name: 'home'})
+              self.$store.commit('LOGOUT')
+            })
+          }
         })
       },
       getList () {
@@ -264,9 +271,9 @@
       onChange (e, i, unit) {
         if (i === 'total_price') {
           this.total_price = e.target.value
+          this.total_price = isNaN(this.total_price) ? 0 : this.total_price
           this.transfer_price = api.decimal(this.total_price / this.amount)
           this.transfer_price = isNaN(this.transfer_price) ? 0 : this.transfer_price
-          console.log(this.transfer_price)
         } else {
           if (i === 'amount') {
             if (unit === '台') {
