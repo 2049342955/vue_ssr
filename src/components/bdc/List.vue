@@ -16,7 +16,7 @@
           <form class="data_form" @submit.prevent="submit" novalidate v-if="!success">
             <div class="form-line"><span class="label">申请人</span><input type="text" v-model.trim="depName" placeholder="请输入您的姓名" @blur="test"></div>
             <div class="form-line"><span class="label">手机号码</span><input type="text" v-model.trim="depTel" pattern="^1[3578][0-9]{9}$" placeholder="请输入手机号码" @blur="test" title="请输入11位手机号"></div>
-            <div class="form-line"><span class="label">手机验证码</span><input type="text" v-model.trim="depTel" pattern="^[0-9]{6}$" placeholder="手机验证码" @blur="test" title="请输入6位数字"><div class="form_btn">验证码</div></div>
+            <div class="form-line"><span class="label">手机验证码</span><input type="text" v-model.trim="depTel" pattern="^[0-9]{6}$" placeholder="手机验证码" @blur="test" title="请输入6位数字" class="yan"><div class="form_btn">验证码</div></div>
             <div class="form-line"><span class="label">选择BDC</span>
               <select v-model="depBdc">
                 <option v-for="(item, index) in list" :key="item.bdc_name" :value="item.bdc_name">{{item.bdc_name}}</option>
@@ -116,7 +116,7 @@
   @import '../../assets/css/style.scss';
   .bg-box{
     width: 100%;
-    height: 590px;
+    height: 640px;
     position: absolute;
     top: 0;
     left: 0;
@@ -132,8 +132,8 @@
   }
   .bg{
     background: url('../../assets/images/bdc_bg.jpg') no-repeat;
-    width: 1920px;
-    height: 580px;
+    width:100%;
+    height: 100%;
     position: absolute;
     top: 0;
     left: 50%;
@@ -191,7 +191,7 @@
   .form-box{
     background-color: #15121c;
     width: 410px;
-    height: 448px;
+    height: 518px;
     padding: 20px 45px;
     .tips{
       height:40px;
@@ -242,7 +242,7 @@
     background-color: #fff;
     font-size: 16px;
     line-height: 40px;
-    &:not(:nth-child(5)){
+    &:not(:nth-child(6)){
       margin-bottom: 19px;
     }
     & .tip{
