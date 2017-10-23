@@ -26,7 +26,7 @@
         ],
         form: {
           login: [{name: 'mobile', type: 'text', title: '手机号码', edit: 'disabled'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取', success: '发送成功'}, {name: 'password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: '^.{6,16}$', tips: '密码应是6到16位'}, {name: 'password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: '^.{6,16}$', tips: '密码应是6到16位', error: '两次密码不一致'}],
-          trade: [{name: 'mobile', type: 'text', title: '手机号码', edit: 'disabled'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: '^.{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取', success: '发送成功'}, {name: 'trade_password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: '^.{6,16}$', tips: '密码应是6到16位'}, {name: 'trade_password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: '^.{6,16}$', tips: '密码应是6到16位', error: '两次密码不一致'}]
+          trade: [{name: 'mobile', type: 'text', title: '手机号码', edit: 'disabled'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: '^[0-9]{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取', success: '发送成功'}, {name: 'trade_password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: '^[0-9]{6}$', tips: '密码应是6位数字'}, {name: 'trade_password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: '^[0-9]{6}$', tips: '密码应是6位数字', error: '两次密码不一致'}]
         },
         edit: false,
         title: ''
@@ -39,6 +39,7 @@
         var url = ''
         var sendData = {token: this.token, user_id: this.user_id}
         var tipStr = ''
+        var icon = false
         switch (this.edit) {
           case 'login':
             url = 'changeLoginPassword'
@@ -49,6 +50,7 @@
             data.trade_password = md5(data.trade_password)
             data.trade_password1 = md5(data.trade_password1)
             tipStr = '设置成功'
+            icon = true
             break
         }
         if (!data) return false
@@ -57,7 +59,7 @@
           if (!res.code) {
             api.tips(self.$refs.tips, tipStr)
             self.closeEdit()
-            if (self.edit === 'login') return false
+            if (!icon) return false
             self.$store.commit('SET_INFO', {trade_password: 1})
           } else {
             api.tips(self.$refs.tips, res.msg)

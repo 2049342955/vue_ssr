@@ -129,12 +129,13 @@
         show: false,
         edit: '',
         form: {
-          sold: [{name: 'amount', type: 'text', title: '出售数量', placeholder: '请输入出售数量', changeEvent: true, tipsInfo: '最大可出售数量', tipsUnit: '台'}, {name: 'one_amount_value', type: 'text', title: '出售单价', placeholder: '请输入出售单价', changeEvent: true, tipsInfo: '购入价格', tipsUnit: '元'}, {name: 'total_price', type: 'text', title: '出售总价', edit: 'price', tipsInfo: 'show', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}],
-          rent: [{name: 'amount', type: 'text', title: '出租数量', placeholder: '请输入出租数量', changeEvent: true, tipsInfo: '最大可出租数量', tipsUnit: 'T'}, {name: 'transfer_time', type: 'select', title: '出租时长', option: ['30', '90', '180', '360'], unit: '天'}, {name: 'transfer_price', type: 'text', title: '出租单价', placeholder: '请输入出租单价', changeEvent: true, tipsInfo: 'show', tipsUnit: '元'}, {name: 'total_price', type: 'text', title: '出租总价', edit: 'price', tipsInfo: 'show', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}],
-          againRent: [{name: 'amount', type: 'text', title: '转租数量', placeholder: '请输入出租数量', edit: 'price', tipsInfo: true, tipsUnit: 'T'}, {name: 'transfer_time', type: 'text', title: '转租时长', edit: 'price', tipsInfo: '已使用时长', tipsUnit: '天', showUse: true}, {name: 'transfer_price', type: 'text', title: '转租单价', placeholder: '请输入出租单价', edit: 'price', tipsInfo: true, tipsUnit: '元'}, {name: 'total_price', type: 'text', title: '转租总价', placeholder: '请输入转租总价', changeEvent: true, tipsInfo: 'show', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码'}]
+          sold: [{name: 'amount', type: 'text', title: '出售数量', placeholder: '请输入出售数量', changeEvent: true, tipsInfo: '最大可出售数量', tipsUnit: '台', pattern: '^[0-9]?$', tips: '请输入整数'}, {name: 'one_amount_value', type: 'text', title: '出售单价', placeholder: '请输入出售单价', changeEvent: true, tipsInfo: '购入价格', tipsUnit: '元', pattern: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, {name: 'total_price', type: 'text', title: '出售总价', edit: 'price', tipsInfo: 'show', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: '^[0-9]{6}$', tips: '请输入6位数字'}],
+          rent: [{name: 'amount', type: 'text', title: '出租数量', placeholder: '请输入出租数量', changeEvent: true, tipsInfo: '最大可出租数量', tipsUnit: 'T', pattern: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, {name: 'transfer_time', type: 'select', title: '出租时长', option: ['30', '90', '180', '360'], unit: '天'}, {name: 'transfer_price', type: 'text', title: '出租单价', placeholder: '请输入出租单价', changeEvent: true, tipsInfo: 'show', tipsUnit: '元', pattern: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, {name: 'total_price', type: 'text', title: '出租总价', edit: 'price', tipsInfo: 'show', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: '^[0-9]{6}$', tips: '请输入6位数字'}],
+          againRent: [{name: 'amount', type: 'text', title: '转租数量', placeholder: '请输入出租数量', edit: 'price', tipsInfo: true, tipsUnit: 'T', pattern: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, {name: 'transfer_time', type: 'text', title: '转租时长', edit: 'price', tipsInfo: '已使用时长', tipsUnit: '天', showUse: true}, {name: 'transfer_price', type: 'text', title: '转租单价', placeholder: '请输入出租单价', edit: 'price', tipsInfo: true, tipsUnit: '元'}, {name: 'total_price', type: 'text', title: '转租总价', placeholder: '请输入转租总价', changeEvent: true, tipsInfo: 'show', tipsUnit: '元', pattern: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: '^[0-9]{6}$', tips: '请输入6位数字'}]
         },
         editText: '',
         amount: 0,
+        inputPrice: 0,
         inputAmount: 0,
         transfer_price: 0,
         one_amount_value: 0,
@@ -264,13 +265,19 @@
         if (i === 'total_price') {
           this.total_price = e.target.value
           this.transfer_price = api.decimal(this.total_price / this.amount)
+          this.transfer_price = isNaN(this.transfer_price) ? 0 : this.transfer_price
+          console.log(this.transfer_price)
         } else {
           if (i === 'amount') {
             e.target.value = (+e.target.value > this.amount) ? api.decimal(this.amount, 2) : e.target.value
             this.inputAmount = e.target.value
+            // this.inputAmount = isNaN(this.inputAmount) ? 0 : this.inputAmount
+            console.log(this.inputAmount)
           } else {
-            this[i] = e.target.value
-            this.total_price = api.decimal(this.inputAmount * this[i])
+            // this[i] = e.target.value
+            this.inputPrice = e.target.value
+            this.total_price = api.decimal(this.inputAmount * this.inputPrice)
+            this.total_price = isNaN(this.total_price) ? 0 : this.total_price
           }
         }
       }

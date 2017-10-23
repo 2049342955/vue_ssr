@@ -67,6 +67,7 @@
       changeNum (n) {
         if (this.leftStatus) return false
         this.number = n < 1 || isNaN(+n) || typeof +n !== 'number' ? 1 : n > this.initNum ? this.initNum : n
+        this.number = parseInt(this.number)
         if (n > this.initNum) {
           this.overStatus = true
           setTimeout(() => {

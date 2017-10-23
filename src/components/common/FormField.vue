@@ -7,7 +7,7 @@
         <template v-if="f.type!=='select'">
           <input type="text" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" v-if="f.type==='password'" @focus="$event.target.type='password'">
           <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" :isChange="f.isChange" v-else-if="f.changeEvent" @change="$parent.$parent.onChange($event,f.name)">
-          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" :isChange="f.isChange" v-else>
+          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" :isChange="f.isChange" v-else :maxlength="f.len">
           <div class="tips_info" v-if="f.tipsInfo">
             <span>{{f.tipsUnit}}</span>
             <span v-if="f.tipsInfo!=='show'">{{f.tipsInfo}}：{{$parent.$parent[f.name]|decimal}}{{f.tipsUnit}}</span>
@@ -36,7 +36,7 @@
         </div>
         <template v-if="f.addon">
           <canvas id="code" width="90" height="40" v-if="f.addon===1" @click="changeCode"></canvas>
-          <div ref="btn" class="btn" v-if="f.addon===2" @click="getCode">{{str}}</div>
+          <div ref="count_btn" class="btn" v-if="f.addon===2" @click="getCode">{{str}}</div>
         </template>
         <span :title="f.tips" :tips="f.placeholder" :error="f.error" :success="f.success"></span>
       </template>
@@ -106,11 +106,11 @@
         var self = this
         var form = document.querySelector('.form')
         if (!api.checkCode(form)) return false
-        if (self.$refs['btn'][0].getAttribute('disabled') === 'true') return false
+        if (self.$refs['count_btn'][0].getAttribute('disabled') === 'true') return false
         util.post('send_code', {sign: api.serialize({token: this.token, mobile: form.mobile.value})}).then(res => {
           api.setTips(form.code, 'success')
           self.conntDown()
-          self.$refs['btn'][0].setAttribute('disabled', true)
+          self.$refs['count_btn'][0].setAttribute('disabled', true)
         })
       },
       conntDown () {
@@ -120,7 +120,7 @@
           if (t === 0) {
             self.str = '重新获取验'
             clearInterval(tt)
-            self.$refs['btn'][0].setAttribute('disabled', false)
+            self.$refs['count_btn'][0].setAttribute('disabled', false)
           } else {
             self.str = t + 's'
             t--
