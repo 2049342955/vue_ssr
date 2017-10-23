@@ -16,7 +16,7 @@
           <form class="data_form" @submit.prevent="submit" novalidate v-if="!success">
             <div class="form-line"><span class="label">申请人</span><input type="text" v-model.trim="depName" placeholder="请输入您的姓名" @blur="test"></div>
             <div class="form-line"><span class="label">手机号码</span><input type="text" name="depTel" v-model.trim="depTel" pattern="^1[3578][0-9]{9}$" placeholder="请输入手机号码" @blur="test" title="请输入11位手机号"></div>
-            <div class="form-line"><span class="label">手机验证码</span><input type="text" v-model.trim="code" pattern="^[0-9]{6}$" placeholder="手机验证码" @blur="test" title="请输入6位数字" class="yan"><div  ref="count_btn" class="form_btn" @click="getCode">验证码</div></div>
+            <div class="form-line"><span class="label">手机验证码</span><input type="text" v-model.trim="code" pattern="^[0-9]{6}$" placeholder="手机验证码" @blur="test" title="请输入6位数字" class="yan"><div  ref="count_btn" class="form_btn" @click="getCode">{{str}}</div></div>
             <div class="form-line"><span class="label">选择BDC</span>
               <select v-model="depBdc">
                 <option v-for="(item, index) in list" :key="item.bdc_name" :value="item.bdc_name">{{item.bdc_name}}</option>
@@ -57,6 +57,7 @@
 <script>
   import util from '@/util'
   import api from '@/util/function'
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
@@ -68,7 +69,8 @@
         depNumber: '',
         tips: '',
         success: false,
-        code: ''
+        code: '',
+        str: '验证码'
       }
     },
     methods: {
@@ -85,7 +87,7 @@
           ff[data.n].focus()
           return false
         }
-        util.post('depositMessage', {sign: api.serialize({token: '0', dep_name: encodeURIComponent(this.depName), dep_tel: this.depTel, dep_bdc: encodeURIComponent(this.depBdc), dep_type: encodeURIComponent(this.depType), dep_number: this.depNumber})}).then(function (res) {
+        util.post('depositMessage', {sign: api.serialize({token: this.token, dep_name: encodeURIComponent(this.depName), dep_tel: this.depTel, dep_bdc: encodeURIComponent(this.depBdc), dep_type: encodeURIComponent(this.depType), dep_number: this.depNumber, code: this.code})}).then(function (res) {
           if (!res.code) {
             self.success = true
           }
@@ -106,21 +108,20 @@
       getCode () {
         var self = this
         var form = document.querySelector('.data_form')
-        console.log(form.depTel)
         if (form.depTel.value) {
           if (!api.checkFiled(form.depTel)) {
-            api.setTips(form.depTel, 'invalid')
+            this.tips = form.depTel.title
             return false
           }
         } else {
-          api.setTips(form.depTel, 'null')
+          this.tips = form.depTel.placeholder
           return false
         }
-        if (self.$refs['count_btn'][0].getAttribute('disabled') === 'true') return false
-        util.post('send_code', {sign: api.serialize({token: this.token, mobile: form.mobile.value})}).then(res => {
-          api.setTips(form.code, 'success')
+        if (self.$refs['count_btn'].getAttribute('disabled') === 'true') return false
+        util.post('send_code', {sign: api.serialize({token: this.token, mobile: form.depTel.value})}).then(res => {
+          this.tips = '短信验证码发送成功'
           self.conntDown()
-          self.$refs['count_btn'][0].setAttribute('disabled', true)
+          self.$refs['count_btn'].setAttribute('disabled', true)
         })
       },
       conntDown () {
@@ -128,9 +129,9 @@
         var t = 60
         var tt = setInterval(() => {
           if (t === 0) {
-            self.str = '重新获取验'
+            self.str = '重新获取'
             clearInterval(tt)
-            self.$refs['count_btn'][0].setAttribute('disabled', false)
+            self.$refs['count_btn'].setAttribute('disabled', false)
           } else {
             self.str = t + 's'
             t--
@@ -143,6 +144,11 @@
       util.post('bdcinfoList', {sign: 'token=0'}).then(function (data) {
         self.list = data
         self.depBdc = data[0].bdc_name
+      })
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token
       })
     }
   }
@@ -231,7 +237,7 @@
     padding: 10px 45px;
     .tips{
       height:30px;
-      line-height:40px;
+      line-height:30px;
       text-align: center;
       color:$red;
       font-size: 12px;
@@ -309,20 +315,23 @@
       height: 40px;
     }
     .yan{
-       width:113px;
-       height:20px;
-       border-right:1px solid #ccc;
+      width:113px;
+      height:20px;
+      border-right:1px solid #ccc;
     }
     div{
-          display: inline;
-    color: black;
-    padding: 3px 13px;
-    background: #ccc;
-    height: 20px;
-    margin-left: 10px;
-    font-size: 12px;
-    border-radius: 3px;
-    cursor: pointer;
+      display: inline-block;
+      color: black;
+      width:70px;
+      text-align: center;
+      background: #ccc;
+      height: 20px;
+      line-height: 20px;
+      margin-left: 10px;
+      font-size: 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      vertical-align: middle;
     }
   }
   .item-box-row{

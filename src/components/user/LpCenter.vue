@@ -225,7 +225,7 @@
         text-align: center;
         button{
           line-height: 2;
-          width:100px;
+          width:120px;
           margin:30px auto;
           @include button($blue)
         }

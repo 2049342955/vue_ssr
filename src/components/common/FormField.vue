@@ -6,11 +6,14 @@
         <span>*</span>
         <template v-if="f.type!=='select'">
           <input type="text" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" v-if="f.type==='password'" @focus="$event.target.type='password'">
-          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" :isChange="f.isChange" v-else-if="f.changeEvent" @change="$parent.$parent.onChange($event,f.name)">
+          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" :isChange="f.isChange" v-else-if="f.changeEvent" @change="$parent.$parent.onChange($event,f.name,f.tipsUnit)">
           <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" :isChange="f.isChange" v-else :maxlength="f.len">
           <div class="tips_info" v-if="f.tipsInfo">
             <span>{{f.tipsUnit}}</span>
-            <span v-if="f.tipsInfo!=='show'">{{f.tipsInfo}}：{{$parent.$parent[f.name]|decimal}}{{f.tipsUnit}}</span>
+            <template v-if="f.tipsInfo!=='show'">
+              <span v-if="f.tipsUnit==='台'">{{f.tipsInfo}}：{{$parent.$parent[f.name]}}{{f.tipsUnit}}</span>
+              <span v-else>{{f.tipsInfo}}：{{$parent.$parent[f.name]|decimal}}{{f.tipsUnit}}</span>
+            </template>
           </div>
         </template>
         <div class="sel" v-else-if="f.option">

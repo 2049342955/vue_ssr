@@ -261,7 +261,7 @@
           }
         })
       },
-      onChange (e, i) {
+      onChange (e, i, unit) {
         if (i === 'total_price') {
           this.total_price = e.target.value
           this.transfer_price = api.decimal(this.total_price / this.amount)
@@ -269,7 +269,11 @@
           console.log(this.transfer_price)
         } else {
           if (i === 'amount') {
-            e.target.value = (+e.target.value > this.amount) ? api.decimal(this.amount, 2) : e.target.value
+            if (unit === '台') {
+              e.target.value = (+e.target.value > this.amount) ? this.amount : e.target.value
+            } else {
+              e.target.value = (+e.target.value > this.amount) ? api.decimal(this.amount, 2) : e.target.value
+            }
             this.inputAmount = e.target.value
             // this.inputAmount = isNaN(this.inputAmount) ? 0 : this.inputAmount
             console.log(this.inputAmount)
