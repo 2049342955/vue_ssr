@@ -195,7 +195,7 @@ api.checkAjax = (obj, res, callback, btn) => {
     })
   } else if (res && !res.code) {
     callback()
-  } else {
+  } else if (res === 'repeatLogin') {
     api.tips(obj.$refs.tips, '您的账号在别处登录', () => {
       obj.$router.push({name: 'home'})
       obj.$store.commit('LOGOUT')

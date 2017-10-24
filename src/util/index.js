@@ -13,7 +13,7 @@ api.defaults.transformResponse = (res) => {
   if (res.code === '1000') {
     return res.msg
   } else if (res.code === '600001') {
-    return false
+    return 'repeatLogin'
   } else {
     return res
   }
