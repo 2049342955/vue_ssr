@@ -35,11 +35,10 @@
       fetchData (id, ev) {
         if (ev) {
           ev.target.classList.add('active')
-          if (ev.target.previousSibling) {
-            ev.target.previousSibling.classList.remove('active')
-          }
-          if (ev.target.nextSibling) {
-            ev.target.nextSibling.classList.remove('active')
+          for (var key = 0; key < ev.target.parentNode.childNodes.length; key++) {
+            if (ev.target.parentNode.childNodes[key] !== ev.target) {
+              ev.target.parentNode.childNodes[key].classList.remove('active')
+            }
           }
         }
         this.show = false
