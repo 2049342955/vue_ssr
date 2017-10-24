@@ -15,7 +15,7 @@ const state = {
     risk: {user_risk_score: -1},
     address: [],
     trade_password: 0,
-    scode: '',
+    scode: [],
     unread_num: 0,
     last_login_time: ''
   },

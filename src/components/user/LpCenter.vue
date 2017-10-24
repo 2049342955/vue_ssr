@@ -1,33 +1,33 @@
 <template>
   <section class="lp_center">
-    <template v-if="scode&&scode.is_contract&&!showAgreement">
+    <template v-if="scode.length&&!showAgreement">
       <h2>LP中心<button @click="open">添加基金</button></h2>
-      <template v-if="scode.fund_invest_id">
-        <h3>{{scode.fund_invest_id===1?'电厂基金':'矿场基金'}}</h3>
+      <template v-if="s.fund_invest_id" v-for="s,k in scode">
+        <h3>{{s.fund_invest_id===1?'电厂基金':'矿场基金'}}</h3>
         <div class="detail_table">
-          <div class="item" v-for="d,k in nav[scode.fund_invest_id-1]">
+          <div class="item" v-for="d,k in nav[s.fund_invest_id-1]">
             <div class="item_title">{{d}}</div>
             <div class="item_value">
-              <template v-if="k==='start_end_time'">{{scode.fund_start_time}}-{{scode.fund_end_time}}</template>
-              <!-- <template v-else-if="scode.fund_invest_id===1&&d==='累积电费'">{{scode[k]}}<span>查看明细</span></template>
-              <template v-else-if="scode.fund_invest_id===2&&d==='累计获得收益'">{{scode[k]}}<span>查看明细</span></template> -->
-              <template v-else>{{scode[k]}}</template>
+              <template v-if="k==='start_end_time'">{{s.fund_start_time}}-{{s.fund_end_time}}</template>
+              <!-- <template v-else-if="s.fund_invest_id===1&&d==='累积电费'">{{s[k]}}<span>查看明细</span></template>
+              <template v-else-if="s.fund_invest_id===2&&d==='累计获得收益'">{{s[k]}}<span>查看明细</span></template> -->
+              <template v-else>{{s[k]}}</template>
             </div>
           </div>
-          <div class="item" v-if="Object.keys(nav[scode.fund_invest_id-1]).length%2">
+          <div class="item" v-if="Object.keys(nav[s.fund_invest_id-1]).length%2">
             <div class="item_title"></div>
             <div class="item_value"></div>
           </div>
         </div>
       </template>
     </template>
-    <div v-else-if="showAgreement" class="agreement_text">
+    <div v-if="showAgreement" class="agreement_text">
       <div class="" v-html="content"></div>
       <div class="btn_box">
         <button @click="agree">我同意，签合同</button>
       </div>
     </div>
-    <div class="no_scode" v-else>
+    <div class="no_scode" v-if="!scode.length&&!showAgreement">
       <div class="no_scode_box">
         <div class="input">
           <span>验证S码</span>
@@ -47,7 +47,6 @@
         <h2>验证S码</h2>
         <form class="form_content" @submit.prevent="submit" novalidate>
           <p>请输入S码绑定算力产业基金</p>
-          <!-- <p>算力基金已经结束，请重新输入S码绑定其他基金</p> -->
           <div class="input">
             <span>S码</span>
             <span>*</span>
@@ -87,11 +86,9 @@
           api.checkAjax(self, res, () => {
             self.edit = false
             document.body.style.overflow = 'auto'
-            util.post('scode_info', {sign: 'token=' + self.token}).then(function (data) {
-              if (data && !data.code) {
-                self.$store.commit('SET_INFO', {scode: data})
-              }
-            })
+            self.showAgreement = true
+            self.content = res.content
+            self.contract = {contract_id: res.id, funds_id: res.funds_id, s_code: res.s_code}
           })
         })
       },
@@ -136,7 +133,6 @@
         console.log(sCodeData)
         util.post('ScodeVerify', {sign: api.serialize(sCodeData)}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.$store.commit('SET_INFO', {scode: true})
             self.showAgreement = true
             self.content = res.content
             self.contract = {contract_id: res.id, funds_id: res.funds_id, s_code: res.s_code}

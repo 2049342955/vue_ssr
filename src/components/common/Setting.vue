@@ -8,7 +8,7 @@
         <div class="val">
           <template v-if="menu[k].status&&n.name==='tel'">{{n.text}}：<span>{{mobile|format}}</span></template>
           <template v-if="menu[k].status&&n.name==='auth'">{{true_name.truename}}：<span>{{true_name.idcard|cardformat}}</span></template>
-          <template v-if="menu[k].status&&n.name==='test'">风险分数：<span>{{risk.user_risk_score}}</span></template>
+          <template v-if="menu[k].status&&n.name==='test'"><span>{{risk.user_risk_score+'分'+'('+risk.risk_type+')'}}</span></template>
           <template v-if="menu[k].status&&n.name==='card'">{{bank_card.open_bank}}：<span>{{bank_card.card_no|cardformat}}</span></template>
         </div>
         <div class="opr" @click="setEdit(n.name,n.title,menu[type==='password'?k+5:k].setting)" v-if="n.name!=='test'">{{menu[type==='password'?k+5:k].opr}}</div>

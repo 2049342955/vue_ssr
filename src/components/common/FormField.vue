@@ -1,20 +1,15 @@
 <template>
   <div class="form_field">
     <div :class="['input', {addon: f.addon}, {disabled: f.edit}]" v-for="f in form">
+      <!-- title -->
+      <span>{{f.title}}</span>
+      <span>*</span>
+      <!-- type -->
       <template v-if="!f.edit">
-        <span>{{f.title}}</span>
-        <span>*</span>
         <template v-if="f.type!=='select'">
-          <input type="text" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" v-if="f.type==='password'" @focus="$event.target.type='password'">
-          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" :isChange="f.isChange" v-else-if="f.changeEvent" @change="$parent.$parent.onChange($event,f.name,f.tipsUnit)">
-          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="" :isChange="f.isChange" v-else :maxlength="f.len">
-          <div class="tips_info" v-if="f.tipsInfo">
-            <span>{{f.tipsUnit}}</span>
-            <template v-if="f.tipsInfo!=='show'">
-              <span v-if="f.tipsUnit==='台'">{{f.tipsInfo}}：{{$parent.$parent[f.name]}}{{f.tipsUnit}}</span>
-              <span v-else>{{f.tipsInfo}}：{{$parent.$parent[f.name]|decimal}}{{f.tipsUnit}}</span>
-            </template>
-          </div>
+          <input type="text" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="check[f.pattern].code" data-status="" v-if="f.type==='password'" @focus="$event.target.type='password'">
+          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="check[f.pattern].code" data-status="" :isChange="f.isChange" @change="$parent.$parent.onChange($event,f.name,f.tipsUnit)" v-else-if="f.changeEvent">
+          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="check[f.pattern].code" data-status="" :isChange="f.isChange" :maxlength="f.len" v-else>
         </template>
         <div class="sel" v-else-if="f.option">
           <select :name="f.name" id="">
@@ -37,30 +32,32 @@
             <option :value="v.name" v-for="v,k in county" :selected="n===v.name">{{v.name}}</option>
           </select>
         </div>
-        <template v-if="f.addon">
-          <canvas id="code" width="90" height="40" v-if="f.addon===1" @click="changeCode"></canvas>
-          <div ref="count_btn" class="btn" v-if="f.addon===2" @click="getCode">{{str}}</div>
-        </template>
-        <span :title="f.tips" :tips="f.placeholder" :error="f.error" :success="f.success"></span>
       </template>
-      <template v-else-if="f.edit==='disabled'">
-        <span>{{f.title}}</span>
-        <span>*</span>
-        <input :type="f.type" :name="f.name" :value="mobile" disabled>
-      </template>
+      <input :type="f.type" :name="f.name" :value="mobile" disabled v-else-if="f.edit==='disabled'">
       <template v-else>
-        <span>{{f.title}}</span>
-        <span>*</span>
-        <input :type="f.type" :name="f.name" :value="$parent[f.name]||$parent.$parent[f.name]" disabled v-if="f.name!=='bank_card'" :isChange="f.isChange">
+        <input :type="f.type" :name="f.name" :value="$parent[f.name]||$parent.$parent[f.name]" disabled :isChange="f.isChange" v-if="f.name!=='bank_card'">
         <input :type="f.type" :name="f.name" :value="$parent[f.name]&&$parent[f.name].card_no&&$parent[f.name].card_no|cardformat" disabled v-else>
-        <div class="tips_info" v-if="f.tipsInfo">
-          <span>{{f.tipsUnit}}</span>
-          <span v-if="f.showUse">{{f.tipsInfo+':'+$parent.$parent.have_use_time+f.tipsUnit}}</span>
-        </div>
-        <div class="show_link" v-if="f.showLink">
-          <router-link :to="f.showLink">更换银行卡</router-link>
-        </div>
       </template>
+      <!-- tips_info -->
+      <div class="tips_info" v-if="f.tipsInfo">
+        <span>{{f.tipsUnit}}</span>
+        <template v-if="f.tipsInfo!=='show'&&!f.showUse">
+          <span v-if="f.tipsUnit==='台'">{{f.tipsInfo}}：{{$parent.$parent[f.name]}}{{f.tipsUnit}}</span>
+          <span v-else>{{f.tipsInfo}}：{{$parent.$parent[f.name]|decimal}}{{f.tipsUnit}}</span>
+        </template>
+        <span v-if="f.showUse">{{f.tipsInfo+':'+$parent.$parent.have_use_time+f.tipsUnit}}</span>
+      </div>
+      <!-- addon -->
+      <template v-if="f.addon">
+        <canvas id="code" width="90" height="40" v-if="f.addon===1" @click="changeCode"></canvas>
+        <div ref="count_btn" class="btn" v-if="f.addon===2" @click="getCode">{{str}}</div>
+      </template>
+      <!-- tips -->
+      <span :title="f.pattern&&check[f.pattern].tips" :error="f.pattern&&check[f.pattern].error||f.error" :tips="f.placeholder" :success="f.pattern&&check[f.pattern].success" v-if="!f.edit"></span>
+      <!-- show_link -->
+      <div class="show_link" v-if="f.showLink">
+        <router-link :to="f.showLink">更换银行卡</router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -85,7 +82,8 @@
         p: '',
         c: '',
         n: '',
-        str: '获取验证码'
+        str: '获取验证码',
+        check: {tel: {code: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, password: {code: '^[0-9a-zA-Z_]{6,16}$', tips: '密码应在6-16位之间的字母数字和下划线'}, imgCode: {code: '^[0-9a-zA-Z]{4}$', tips: '请输入4位字符', error: '图形验证码错误，请重新输入'}, telCode: {code: '^[0-9]{6}$', tips: '请输入6位数字', success: '发送成功'}, idCard: {code: '^([0-9]{15}$|^[0-9]{18}$|^[0-9]{17}([0-9]|X|x))$', tips: '身份证号应是18位'}, bankCard: {code: '^[0-9]{16,21}$', tips: '请输入16至21位的银行卡号'}, computeAddress: {code: '^[0-9a-zA-Z]{34,}$', tips: '请输入至少34位的字符'}, money: {code: '^[2-9][0-9]{1,}$', tips: '请输入至少20的整数'}, coin: {code: '^[1-9][0-9]*|[1-9][0-9]*[.][0-9]{1,8}|0[.][0-9]{1,8}$', tips: '请输入大于0的整数或8位小数'}, float: {code: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, int: {code: '^[0-9]+$', tips: '请输入整数'}, bigMoney: {code: '^[1-9][0-9]{2,}$', tips: '请输入至少100的整数'}}
       }
     },
     mounted () {

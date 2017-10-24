@@ -91,17 +91,7 @@
     },
     data () {
       return {
-        form:
-        [
-          {
-            name: 'password',
-            type: 'password',
-            title: '交易密码',
-            placeholder: '请输入交易密码',
-            pattern: '^[0-9a-zA-Z]{6,16}$',
-            tips: '密码应是6到16位'
-          }
-        ],
+        form: [{name: 'password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
         tips: '请同意服务条款',
         totalPrice: 0,
         showAgreement: false

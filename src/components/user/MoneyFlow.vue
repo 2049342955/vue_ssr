@@ -63,7 +63,7 @@
         list: [],
         edit: '',
         form: {
-          Withdrawals: [{name: 'amount', type: 'text', title: '提现金额', placeholder: '请输入提现金额', changeEvent: true, pattern: '^[2-9][0-9]{1,}$', tips: '请输入至少20的整数', len: 7}, {name: 'password', type: 'trade_password', title: '交易密码', placeholder: '请输入交易密码', pattern: '^[0-9]{6}$', tips: '请输入6位数字'}]
+          Withdrawals: [{name: 'amount', type: 'text', title: '提现金额', placeholder: '请输入提现金额', changeEvent: true, pattern: 'money', len: 7}, {name: 'password', type: 'trade_password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}]
         },
         editText: '',
         len: 0,

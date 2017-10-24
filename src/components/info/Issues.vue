@@ -9,7 +9,7 @@
       </div>
       <div class="issues_content" v-show="show">
         <h3>{{nowItem.title}}</h3>
-        <div v-html="nowItem.content"></div>
+        <div class="issues_con" v-html="nowItem.content"></div>
         <button @click="back">返回</button>
       </div>
     </div>
@@ -130,6 +130,12 @@
         button:hover{
           background: #327fff;
           color:#f5f8ff;
+        }
+        .issues_con{
+          img{
+            width:auto;
+            max-width:100%
+          }
         }
       }
     }
