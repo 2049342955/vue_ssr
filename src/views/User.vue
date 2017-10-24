@@ -6,10 +6,10 @@
           <h2>早上好，{{mobile|format}}</h2>
           <div class="line"></div>
           <div class="icons">
-            <span :class="['iconfont', {active: true_name}]"></span>
+            <span :class="['iconfont', {active: true_name.status===1}]"></span>
             <span :class="['iconfont', {active: risk.user_risk_score>=0}]"></span>
             <span :class="['iconfont', {active: bank_card}]"></span>
-            <span>上次登录时间：2017-09-26 09:19:24</span>
+            <span>上次登录时间：{{new Date(last_login_time*1000)|date}}</span>
           </div>
         </div>
         <router-link class="message" to="/user/message" v-if="unread_num">
@@ -45,11 +45,13 @@
         unread_num: state => state.info.unread_num,
         true_name: state => state.info.true_name,
         bank_card: state => state.info.bank_card,
-        risk: state => state.info.risk
+        risk: state => state.info.risk,
+        last_login_time: state => state.info.last_login_time
       })
     },
     filters: {
-      format: api.telReadable
+      format: api.telReadable,
+      date: api.date
     }
   }
 </script>
