@@ -29,7 +29,7 @@
     </div>
     <div class="site" v-for="data in datas">
       <h3>{{data.title}}</h3>
-      <p>{{data.text}}</p>
+      <p v-html="data.text"></p>
     </div>
     <!-- <div class="media">
       <h3>媒体采访</h3>
@@ -52,7 +52,7 @@
     name: 'aboutUs',
     data () {
       return {
-        datas: [{title: '媒体采访', text: '如果有媒体采访需求，请将您的媒体名称、采访提纲、联系方式发至： lzy@baoquan.com ，我们会尽快与您联系。'}, {title: '商务合作', text: '如果贵公司希望与我们建立商务合作关系，形成优势互补，请将合作意向进行简要描述并发送邮件至： BD@suanli.com ，我们会尽快与您联系。'}],
+        datas: [{title: '媒体采访', text: '如果有媒体采访需求，请将您的媒体名称、采访提纲、联系方式发至： <span>lzy@baoquan.com</span> ，我们会尽快与您联系。'}, {title: '商务合作', text: '如果贵公司希望与我们建立商务合作关系，形成优势互补，请将合作意向进行简要描述并发送邮件至：<span> BD@suanli.com</span> ，我们会尽快与您联系。'}],
         distribute: [{name: '杭州总部', address: '浙江省杭州市学院路77号黄龙国际中心G座-907', telNumber: '0571-28221076'}, {name: '北京分部', address: '北京市学院路77号黄龙国际中心G座', telNumber: '011-28221076'}],
         center: {lng: 120.13255, lat: 30.281902},
         zoom: 16
@@ -96,6 +96,9 @@
       }
       p{
         margin: 0 110px 20px 0;
+        span{
+          color:#1687ee;
+        }
       }
       .site_con{
         @include flex(flex-start,stretch);
