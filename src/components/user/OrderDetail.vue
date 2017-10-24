@@ -1,6 +1,6 @@
 <template>
   <section class="detail">
-    <template v-show="!show">
+    <template v-if="!show">
       <h2>订单详情</h2>
       <h3>运行状况</h3>
       <div class="detail_box">
@@ -33,13 +33,13 @@
             <div class="item_value"></div>
           </div>
         </div>
-        <!-- <div class="detail_btn">
+        <div class="detail_btn">
           <button @click="getContract">查看协议</button>
-          <button>查看保全</button>
-        </div> -->
+          <!-- <button>查看保全</button> -->
+        </div>
       </div>
     </template>
-    <div v-show="show" class="agreement_text">
+    <div v-if="show" class="agreement_text">
       <div class="" v-html="contract"></div>
       <div class="btn_box">
         <button @click="back">返回</button>
@@ -88,13 +88,17 @@
         }
         util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.show = true
-            self.contract = res.content
+            if (res === '暂无协议') {
+              api.tips(self.$refs.tips, res)
+            } else {
+              self.show = true
+              self.contract = res.content
+            }
           })
         })
       },
       back () {
-        self.show = false
+        this.show = false
       }
     },
     mounted () {
