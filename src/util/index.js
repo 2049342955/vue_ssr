@@ -15,7 +15,7 @@ api.defaults.transformResponse = (res) => {
   } else if (res.code === '600001') {
     return false
   } else {
-    return res.msg
+    return res
   }
 }
 

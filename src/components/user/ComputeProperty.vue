@@ -209,17 +209,15 @@
         if (!data) return false
         form.btn.setAttribute('disabled', true)
         var self = this
-        util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (back) {
-          console.log(back)
-          if (back.code) {
-            api.tips(self.$refs.tips, back.msg, () => {
+        util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
+          console.log(res)
+          if (res.code) {
+            api.tips(self.$refs.tips, res.msg, () => {
               form.btn.removeAttribute('disabled')
             })
           } else {
             self.closeEdit()
-            api.tips(self.$refs.tips, tipsStr, () => {
-              self.$router.push({path: '/user/order/1/1'})
-            })
+            api.tips(self.$refs.tips, tipsStr)
           }
         })
       },

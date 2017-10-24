@@ -50,6 +50,7 @@
   import MyMask from '@/components/common/Mask'
   import Pager from '@/components/common/Pager'
   import Sort from '@/components/common/Sort'
+  import md5 from 'js-md5'
   export default {
     components: {
       MyMask, Pager, Sort
@@ -62,14 +63,16 @@
         list: [],
         edit: '',
         form: {
-          Withdrawals: [{name: 'money', type: 'text', title: '提现金额', placeholder: '请输入提现金额'}, {name: 'password', type: 'text', title: '交易密码', placeholder: '请输入交易密码'}]
+          Withdrawals: [{name: 'amount', type: 'text', title: '提现金额', placeholder: '请输入提现金额', changeEvent: true, pattern: '^[2-9][0-9]{1,}$', tips: '请输入至少20的整数', len: 7}, {name: 'password', type: 'trade_password', title: '交易密码', placeholder: '请输入交易密码', pattern: '^[0-9]{6}$', tips: '请输入6位数字'}]
         },
         editText: '',
         len: 0,
         now: 1,
         sort: [{title: '时间', option: ['asc', 'desc'], value: 0}],
         img: require('@/assets/images/no_data.jpg'),
-        show: false
+        show: false,
+        fee: 0,
+        total_price: 0
       }
     },
     methods: {
@@ -87,6 +90,12 @@
         document.body.style.overflow = 'hidden'
         this.editText = title
         this.edit = str
+        var data = {token: this.token, user_id: this.user_id}
+        var self = this
+        util.post('showWithdraw', {sign: api.serialize(data)}).then(function (res) {
+          console.log(res)
+          self.fee = res.withdraw_fee
+        })
       },
       closeEdit () {
         this.edit = ''
@@ -109,13 +118,30 @@
             if (self.now > 1) return false
             self.len = Math.ceil(res.total_num / 15)
           }
-          if (!res) {
-            api.tips(self.$refs.tips, '您的账号在别处登录', () => {
-              self.$router.push({name: 'home'})
-              self.$store.commit('LOGOUT')
+        })
+      },
+      submit () {
+        var form = document.querySelector('.form_content')
+        var data = api.checkFrom(form)
+        var sendData = {token: this.token, user_id: this.user_id}
+        data.trade_password = md5(data.trade_password)
+        if (!data) return false
+        form.btn.setAttribute('disabled', true)
+        var self = this
+        util.post('withdraw', {sign: api.serialize(Object.assign(data, sendData))}).then(function (back) {
+          console.log(back)
+          if (back.code) {
+            api.tips(self.$refs.tips, back.msg, () => {
+              form.btn.removeAttribute('disabled')
             })
+          } else {
+            self.closeEdit()
+            api.tips(self.$refs.tips, '提现成功')
           }
         })
+      },
+      onChange (e) {
+        this.total_price = e.target.value
       }
     },
     filters: {
@@ -127,8 +153,15 @@
     mounted () {
       var self = this
       util.post('userCapital', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
-        console.log(res)
-        self.data = res
+        if (res && !res.code) {
+          self.data = res
+        }
+        if (!res) {
+          api.tips(self.$refs.tips, '您的账号在别处登录', () => {
+            self.$router.push({name: 'home'})
+            self.$store.commit('LOGOUT')
+          })
+        }
       })
       this.getList()
     },
