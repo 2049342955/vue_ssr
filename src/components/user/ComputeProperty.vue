@@ -149,12 +149,13 @@
         }
         var self = this
         util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
-          console.log(res)
-          if (str === 'Withdrawals') {
-            self.fee = res.withdraw_fee
-          } else if (str === 'GetIncome') {
-            self.fee = res.withdraw_coin_fee
-          }
+          api.checkAjax(self, res, () => {
+            if (str === 'Withdrawals') {
+              self.fee = res.withdraw_fee
+            } else if (str === 'GetIncome') {
+              self.fee = res.withdraw_coin_fee
+            }
+          })
         })
       },
       closeEdit () {
@@ -173,20 +174,19 @@
         var self = this
         var sendData = {token: this.token, user_id: this.user_id, product_hash_type: this.nowEdit + 1}
         util.post('myHashAccount', {sign: api.serialize(sendData)}).then(function (res) {
-          console.log(res)
-          if (res && !res.code) {
+          api.checkAjax(self, res, () => {
             self.computeData = res
-          }
+          })
         })
         util.post('hashAsset', {sign: api.serialize(sendData)}).then(function (res) {
-          if (res && !res.code) {
+          api.checkAjax(self, res, () => {
             self.dataProperty = res
-          }
+          })
         })
         util.post('hashFund', {sign: api.serialize(sendData)}).then(function (res) {
-          if (res && !res.code) {
+          api.checkAjax(self, res, () => {
             self.dataFund = res
-          }
+          })
         })
       },
       submit () {
@@ -210,15 +210,10 @@
         form.btn.setAttribute('disabled', true)
         var self = this
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
-          console.log(res)
-          if (res.code) {
-            api.tips(self.$refs.tips, res.msg, () => {
-              form.btn.removeAttribute('disabled')
-            })
-          } else {
+          api.checkAjax(self, res, () => {
             self.closeEdit()
             api.tips(self.$refs.tips, tipsStr)
-          }
+          }, form.btn)
         })
       },
       onChange (e) {
@@ -228,15 +223,9 @@
     mounted () {
       var self = this
       util.post('myAccount', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
-        if (res && !res.code) {
+        api.checkAjax(self, res, () => {
           self.moneyData = res
-        }
-        if (!res) {
-          api.tips(self.$refs.tips, '您的账号在别处登录', () => {
-            self.$router.push({name: 'home'})
-            self.$store.commit('LOGOUT')
-          })
-        }
+        })
       })
       this.getList()
     },

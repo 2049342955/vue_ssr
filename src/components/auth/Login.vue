@@ -11,7 +11,7 @@
         <router-link to="/auth/passwordRetrieval">忘记密码</router-link>
       </h3>
       <FormField :form="form"></FormField>
-      <button>登录</button>
+      <button name="btn">登录</button>
       <div class="go_regist">
         <span>还没有账号？</span>
         <router-link to="/auth/regist">免费注册</router-link>
@@ -37,12 +37,13 @@
     },
     methods: {
       login () {
-        var ff = document.querySelector('.form')
-        var data = api.checkFrom(ff)
+        var form = document.querySelector('.form')
+        var data = api.checkFrom(form)
         if (!data) return false
         var self = this
+        form.btn.setAttribute('disabled', true)
         util.post('login', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
-          if (!res.code) {
+          api.checkAjax(self, res, () => {
             self.$store.commit('SET_TOKEN', Object.assign(res, {mobile: data.mobile}))
             util.post('getAll', {sign: api.serialize(res)}).then(function (data) {
               self.$store.commit('SET_INFO', data)
@@ -50,9 +51,7 @@
             api.tips(self.$refs.tips, '欢迎来到算力网！', () => {
               self.$router.push({name: 'home'})
             })
-          } else {
-            api.tips(self.$refs.tips, res.msg)
-          }
+          }, form.btn)
         })
       }
     }

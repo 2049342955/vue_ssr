@@ -7,6 +7,7 @@
       <div class="time">{{data.created_at}}</div>
       <div class="text" v-html="data.msg"></div>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -23,7 +24,9 @@
     mounted () {
       var self = this
       util.post('Messagecontent', {sign: api.serialize({token: this.token, user_id: this.user_id, message_id: this.$route.params.id})}).then(function (res) {
-        self.data = res
+        api.checkAjax(self, res, () => {
+          self.data = res
+        })
       })
     },
     computed: {

@@ -83,17 +83,16 @@
         var data = api.checkFrom(form)
         var self = this
         if (!data) return false
-        util.post('ScodeVerify', {sign: api.serialize({token: this.token, user_id: this.user_id, s_code: form.scode.value})}).then(function (data) {
-          if (!data.code) {
+        util.post('ScodeVerify', {sign: api.serialize({token: this.token, user_id: this.user_id, s_code: form.scode.value})}).then(function (res) {
+          api.checkAjax(self, res, () => {
             self.edit = false
             document.body.style.overflow = 'auto'
-            util.post('scode_info', {sign: 'token=' + self.token}).then(function (res) {
-              console.log(res)
-              self.$store.commit('SET_INFO', {scode: res})
+            util.post('scode_info', {sign: 'token=' + self.token}).then(function (data) {
+              if (data && !data.code) {
+                self.$store.commit('SET_INFO', {scode: data})
+              }
             })
-          } else {
-            api.tips(self.$refs.tips, data.msg)
-          }
+          })
         })
       },
       open () {
@@ -135,26 +134,25 @@
         var self = this
         var sCodeData = {token: this.token, user_id: this.user_id, s_code: ele.value}
         console.log(sCodeData)
-        util.post('ScodeVerify', {sign: api.serialize(sCodeData)}).then(function (data) {
-          if (!data.code) {
-            console.log(data)
+        util.post('ScodeVerify', {sign: api.serialize(sCodeData)}).then(function (res) {
+          api.checkAjax(self, res, () => {
             self.$store.commit('SET_INFO', {scode: true})
             self.showAgreement = true
-            self.content = data.content
-            self.contract = {contract_id: data.id, funds_id: data.funds_id, s_code: data.s_code}
-          } else {
-            api.tips(self.$refs.tips, data.msg)
-          }
+            self.content = res.content
+            self.contract = {contract_id: res.id, funds_id: res.funds_id, s_code: res.s_code}
+          })
         })
       },
       agree () {
         var self = this
         util.post('sign_contract', {sign: api.serialize(Object.assign({token: this.token, user_id: this.user_id}, self.contract))}).then(function (res) {
-          console.log(res)
-          self.showAgreement = false
-          util.post('scode_info', {sign: 'token=' + self.token}).then(function (res) {
-            console.log(res)
-            self.$store.commit('SET_INFO', {scode: res})
+          api.checkAjax(self, res, () => {
+            self.showAgreement = false
+            util.post('scode_info', {sign: 'token=' + self.token}).then(function (data) {
+              if (data && !data.code) {
+                self.$store.commit('SET_INFO', {scode: data})
+              }
+            })
           })
         })
       }

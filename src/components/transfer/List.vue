@@ -6,6 +6,7 @@
     <ProductNav page="computeTransfer"></ProductNav>
     <ProductList :sort="sort" :dataNav="dataNav" page="computeTransfer"></ProductList>
     <Pager :len="len"></Pager>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -41,12 +42,12 @@
           obj = {token: this.token, product_hash_type: this.$route.params.type, order_type: this.$route.params.sort, page: this.now}
         }
         util.post('getHashrates', {sign: api.serialize(obj)}).then(function (res) {
-          if (res && !res.code) {
+          api.checkAjax(self, res, () => {
             self.computeDate = res.list
             self.show = !res.list.length
             if (self.now > 1) return false
             self.len = res.total_page
-          }
+          })
         })
       },
       getList () {

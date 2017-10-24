@@ -13,7 +13,7 @@
         <input :class="f.name" :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="">
         <span :title="f.tips" :tips="f.placeholder" :error="f.error"></span>
       </div>
-      <button>提交</button>
+      <button name="btn">提交</button>
     </form>
     <div class="web_tips" ref="tips"></div>
   </div>
@@ -41,37 +41,34 @@
     },
     methods: {
       submit (n) {
-        var ff = document.querySelector('.form')
-        var data = api.checkFrom(ff)
+        var form = document.querySelector('.form')
+        var data = api.checkFrom(form)
         if (!data) return false
         var self = this
         if (n === 1) {
           util.post('valid_code', {sign: api.serialize(Object.assign(data, {token: this.token}))}).then(res => {
-            if (!res.code) {
+            api.checkAjax(self, res, () => {
               self.mobile = data.mobile
               self.code_id = res.id
               self.valid_code = res.valid_code
               self.next = true
-            } else {
-              api.tips(self.$refs.tips, res.msg)
-            }
+            })
           })
         } else {
+          form.btn.setAttribute('disabled', true)
           util.post('forgitPwd', {sign: api.serialize(Object.assign(data, {token: this.token, valid_code: this.valid_code, code_id: this.code_id, mobile: this.mobile}))}).then(res => {
-            if (!res.code) {
+            api.checkAjax(self, res, () => {
               api.tips(self.$refs.tips, '重置密码成功', () => {
                 self.$router.push({name: 'login'})
               })
-            } else {
-              api.tips(self.$refs.tips, res.msg)
-            }
+            }, form.btn)
           })
         }
       },
       test (e) {
         var ele = e.target
-        var ff = document.querySelector('.form')
-        api.checkFiled(ele, ff)
+        var form = document.querySelector('.form')
+        api.checkFiled(ele, form)
       }
     },
     computed: {

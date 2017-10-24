@@ -93,8 +93,9 @@
         var data = {token: this.token, user_id: this.user_id}
         var self = this
         util.post('showWithdraw', {sign: api.serialize(data)}).then(function (res) {
-          console.log(res)
-          self.fee = res.withdraw_fee
+          api.checkAjax(self, res, () => {
+            self.fee = res.withdraw_fee
+          })
         })
       },
       closeEdit () {
@@ -112,12 +113,12 @@
           sendData = {sort: this.$route.params.sort}
         }
         util.post('userCapitalList', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
-          if (res && !res.code) {
+          api.checkAjax(self, res, () => {
             self.list = res.value_list
             self.show = !res.value_list.length
             if (self.now > 1) return false
             self.len = Math.ceil(res.total_num / 15)
-          }
+          })
         })
       },
       submit () {
@@ -128,16 +129,11 @@
         if (!data) return false
         form.btn.setAttribute('disabled', true)
         var self = this
-        util.post('withdraw', {sign: api.serialize(Object.assign(data, sendData))}).then(function (back) {
-          console.log(back)
-          if (back.code) {
-            api.tips(self.$refs.tips, back.msg, () => {
-              form.btn.removeAttribute('disabled')
-            })
-          } else {
+        util.post('withdraw', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
+          api.checkAjax(self, res, () => {
             self.closeEdit()
             api.tips(self.$refs.tips, '提现成功')
-          }
+          }, form.btn)
         })
       },
       onChange (e) {
@@ -153,15 +149,9 @@
     mounted () {
       var self = this
       util.post('userCapital', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
-        if (res && !res.code) {
+        api.checkAjax(self, res, () => {
           self.data = res
-        }
-        if (!res) {
-          api.tips(self.$refs.tips, '您的账号在别处登录', () => {
-            self.$router.push({name: 'home'})
-            self.$store.commit('LOGOUT')
-          })
-        }
+        })
       })
       this.getList()
     },

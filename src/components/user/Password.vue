@@ -56,14 +56,12 @@
         if (!data) return false
         var self = this
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
-          if (!res.code) {
+          api.checkAjax(self, res, () => {
             api.tips(self.$refs.tips, tipStr)
             self.closeEdit()
             if (!icon) return false
             self.$store.commit('SET_INFO', {trade_password: 1})
-          } else {
-            api.tips(self.$refs.tips, res.msg)
-          }
+          })
         })
       },
       closeEdit () {

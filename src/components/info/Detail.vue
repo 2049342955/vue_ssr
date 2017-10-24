@@ -2,11 +2,13 @@
   <section class="web_info_detail">
     <h3>{{content.title}}</h3>
     <div v-html="content.content"></div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
 <script>
   import util from '../../util'
+  import api from '../../util/function'
   export default {
     data () {
       return {
@@ -15,8 +17,10 @@
     },
     created () {
       var self = this
-      util.post('content', {sign: 'token=0&news_id=' + this.$route.params.id}).then(function (data) {
-        self.content = data[0]
+      util.post('content', {sign: 'token=0&news_id=' + this.$route.params.id}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.content = res[0]
+        })
       })
     }
   }

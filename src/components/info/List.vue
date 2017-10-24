@@ -8,11 +8,13 @@
       </router-link>
       <router-view class="content"></router-view>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
 <script>
   import util from '../../util'
+  import api from '../../util/function'
   export default {
     data () {
       return {
@@ -28,8 +30,10 @@
           url = 'webAnnouncoment'
         }
         var self = this
-        util.post(url, {sign: 'token=0'}).then(function (data) {
-          self.lists = data
+        util.post(url, {sign: 'token=0'}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.lists = res
+          })
         })
       }
     },

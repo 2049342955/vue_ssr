@@ -5,6 +5,7 @@
     <div class="chart_btn">
       <router-link class="back" to="/user/computeProperty">返回</router-link>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -108,10 +109,11 @@
     mounted () {
       var self = this
       util.post('showIncome', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: 1})}).then(function (res) {
-        console.log(res)
-        self.date = res.time
-        self.val = res.data
-        self.drawLine()
+        api.checkAjax(self, res, () => {
+          self.date = res.time
+          self.val = res.data
+          self.drawLine()
+        })
       })
     },
     computed: {

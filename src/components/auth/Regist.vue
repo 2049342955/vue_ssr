@@ -7,7 +7,7 @@
       <span>阅读并接受<router-link to="/article/userAgreement">《用户使用协议》</router-link></span>
       <span class="select_accept">请选择</span>
     </label>
-    <button>注册</button>
+    <button name="btn">注册</button>
     <div class="web_tips" ref="tips"></div>
   </form>
 </template>
@@ -28,22 +28,21 @@
     },
     methods: {
       regist () {
-        var ff = document.querySelector('.regist')
-        var data = api.checkFrom(ff)
+        var form = document.querySelector('.regist')
+        var data = api.checkFrom(form)
         if (!data) return false
-        if (!ff.accept.checked) {
-          ff.accept.setAttribute('data-status', 'invalid')
+        if (!form.accept.checked) {
+          form.accept.setAttribute('data-status', 'invalid')
           return false
         }
+        form.btn.setAttribute('disabled', true)
         var self = this
         util.post('/register', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
-          if (!res.code) {
+          api.checkAjax(self, res, () => {
             api.tips(self.$refs.tips, '恭喜您注册成功！', () => {
               self.$router.push({name: 'login'})
             })
-          } else {
-            api.tips(self.$refs.tips, res.msg)
-          }
+          }, form.btn)
         })
       }
     }

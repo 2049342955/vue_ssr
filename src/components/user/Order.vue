@@ -129,7 +129,7 @@
         show: false,
         edit: '',
         form: {
-          sold: [{name: 'amount', type: 'text', title: '出售数量', placeholder: '请输入出售数量', changeEvent: true, tipsInfo: '最大可出售数量', tipsUnit: '台', pattern: '^[0-9]?$', tips: '请输入整数'}, {name: 'one_amount_value', type: 'text', title: '出售单价', placeholder: '请输入出售单价', changeEvent: true, tipsInfo: '购入价格', tipsUnit: '元', pattern: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, {name: 'total_price', type: 'text', title: '出售总价', edit: 'price', tipsInfo: 'show', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: '^[0-9]{6}$', tips: '请输入6位数字'}],
+          sold: [{name: 'amount', type: 'text', title: '出售数量', placeholder: '请输入出售数量', changeEvent: true, tipsInfo: '最大可出售数量', tipsUnit: '台', pattern: '^[0-9]+$', tips: '请输入整数'}, {name: 'one_amount_value', type: 'text', title: '出售单价', placeholder: '请输入出售单价', changeEvent: true, tipsInfo: '购入价格', tipsUnit: '元', pattern: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, {name: 'total_price', type: 'text', title: '出售总价', edit: 'price', tipsInfo: 'show', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: '^[0-9]{6}$', tips: '请输入6位数字'}],
           rent: [{name: 'amount', type: 'text', title: '出租数量', placeholder: '请输入出租数量', changeEvent: true, tipsInfo: '最大可出租数量', tipsUnit: 'T', pattern: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, {name: 'transfer_time', type: 'select', title: '出租时长', option: ['30', '90', '180', '360'], unit: '天'}, {name: 'transfer_price', type: 'text', title: '出租单价', placeholder: '请输入出租单价', changeEvent: true, tipsInfo: 'show', tipsUnit: '元', pattern: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, {name: 'total_price', type: 'text', title: '出租总价', edit: 'price', tipsInfo: 'show', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: '^[0-9]{6}$', tips: '请输入6位数字'}],
           againRent: [{name: 'amount', type: 'text', title: '转租数量', placeholder: '请输入出租数量', edit: 'price', tipsInfo: true, tipsUnit: 'T', pattern: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, {name: 'transfer_time', type: 'text', title: '转租时长', edit: 'price', tipsInfo: '已使用时长', tipsUnit: '天', showUse: true}, {name: 'transfer_price', type: 'text', title: '转租单价', placeholder: '请输入出租单价', edit: 'price', tipsInfo: true, tipsUnit: '元'}, {name: 'total_price', type: 'text', title: '转租总价', placeholder: '请输入转租总价', changeEvent: true, tipsInfo: 'show', tipsUnit: '元', pattern: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: '^[0-9]{6}$', tips: '请输入6位数字'}]
         },
@@ -158,18 +158,12 @@
         this.status = this.$route.params.status
         this.show = false
         util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id, type: this.$route.params.type, status: this.$route.params.status, page: this.now})}).then(function (res) {
-          if (res && !res.code) {
+          api.checkAjax(self, res, () => {
             self.data = res.list
             self.showImg = !res.list.length
             if (self.now > 1) return false
             self.len = Math.ceil(res.total_num / 15)
-          }
-          if (!res) {
-            api.tips(self.$refs.tips, '您的账号在别处登录', () => {
-              self.$router.push({name: 'home'})
-              self.$store.commit('LOGOUT')
-            })
-          }
+          })
         })
       },
       getList () {
@@ -199,20 +193,21 @@
         }
         var self = this
         util.post(requestUrl, {sign: api.serialize(Object.assign({token: this.token, user_id: this.user_id}, data))}).then(function (res) {
-          console.log(res)
-          if (str === 'sold') {
-            self.one_amount_value = res.one_amount_value
-            self.amount = res.show_miner
-            self.fee = res.sell_miner_fee
-          } else if (str === 'againRent') {
-            self.amount = res.show_hash
-            self.transfer_time = res.rent_time - res.have_use_time
-            self.fee = res.rent_fee
-            self.have_use_time = res.have_use_time
-          } else {
-            self.amount = res.show_hash
-            self.fee = res.rent_fee
-          }
+          api.checkAjax(self, res, () => {
+            if (str === 'sold') {
+              self.one_amount_value = res.one_amount_value
+              self.amount = res.show_miner
+              self.fee = res.sell_miner_fee
+            } else if (str === 'againRent') {
+              self.amount = res.show_hash
+              self.transfer_time = res.rent_time - res.have_use_time
+              self.fee = res.rent_fee
+              self.have_use_time = res.have_use_time
+            } else {
+              self.amount = res.show_hash
+              self.fee = res.rent_fee
+            }
+          })
         })
       },
       quit (str, id) {
@@ -224,11 +219,11 @@
         }
         var self = this
         util.post(requestUrl, {sign: api.serialize({token: this.token, user_id: this.user_id, order_id: id})}).then(function (res) {
-          if (!res.code) {
+          api.checkAjax(self, res, () => {
             api.tips(self.$refs.tips, '操作成功', () => {
               self.fetchData()
             })
-          }
+          })
         })
       },
       closeEdit () {
@@ -260,13 +255,13 @@
         data.trade_password = md5(data.trade_password)
         var self = this
         console.log(data)
-        util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (back) {
-          if (back) {
+        util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
+          api.checkAjax(self, res, () => {
             self.closeEdit()
             api.tips(self.$refs.tips, tipsStr, () => {
               self.fetchData()
             })
-          }
+          })
         })
       },
       onChange (e, i, unit) {
