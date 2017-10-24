@@ -55,13 +55,11 @@
         var self = this
         // 100002:参数缺失，200009：不能购买自己发布的订单
         util.post('productOrder', {sign: api.serialize({token: this.token, product_id: this.$route.params.id, num: this.number})}).then(function (res) {
-          if (!res.code) {
+          api.checkAjax(self, res, () => {
             self.next = true
             self.balance = res.balance
             self.content = res.content
-          } else {
-            api.tips(self.$refs.tips, res.msg)
-          }
+          })
         })
       },
       changeNum (n) {
@@ -83,13 +81,14 @@
     mounted () {
       var self = this
       util.post('productDetail', {sign: api.serialize({token: this.token, product_id: this.$route.params.id})}).then(function (res) {
-        console.log(res)
-        self.initNum = res.amount - res.buyed_amount
-        self.leftNum = self.initNum
-        self.leftStatus = self.leftNum === 0
-        self.detail = Object.assign(self.detail, res)
-        self.detail = Object.assign(self.detail, res.has_product_miner_base)
-        self.detail.hashType = res.hashtype.name
+        api.checkAjax(self, res, () => {
+          self.initNum = res.amount - res.buyed_amount
+          self.leftNum = self.initNum
+          self.leftStatus = self.leftNum === 0
+          self.detail = Object.assign(self.detail, res)
+          self.detail = Object.assign(self.detail, res.has_product_miner_base)
+          self.detail.hashType = res.hashtype.name
+        })
       })
     },
     computed: {

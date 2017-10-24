@@ -13,7 +13,7 @@
         <input :class="f.name" :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="">
         <span :title="f.tips" :tips="f.placeholder" :error="f.error"></span>
       </div>
-      <button>提交</button>
+      <button name="btn">提交</button>
     </form>
     <div class="web_tips" ref="tips"></div>
   </div>
@@ -32,7 +32,7 @@
     data () {
       return {
         form: [{name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'imgCode', type: 'text', title: '图形验证', placeholder: '请输入图形验证码', addon: 1, pattern: '^[0-9a-zA-Z]{4}$', tips: '图形验证码应是4位', error: '图形验证码错误，请重新输入'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: '^[0-9]{6}$', tips: '短信验证码应是6位', error: '短信验证码有误，请重新获取', success: '发送成功'}],
-        nextForm: [{name: 'password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: '^[0-9a-zA-Z]{6,16}$', tips: '密码应是6到16位'}, {name: 'password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: '^[0-9a-zA-Z]{6,16}$', tips: '密码应是6到16位', error: '两次密码不一致'}],
+        nextForm: [{name: 'password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: '^[0-9a-zA-Z]{6,16}$', tips: '密码应是6到16位'}, {name: 'password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: '^[0-9a-zA-Z_]{6,16}$', tips: '密码应在6-16位之间的字母数字和下划线', error: '两次密码不一致'}],
         next: false,
         code_id: '',
         valid_code: '',
@@ -41,37 +41,34 @@
     },
     methods: {
       submit (n) {
-        var ff = document.querySelector('.form')
-        var data = api.checkFrom(ff)
+        var form = document.querySelector('.form')
+        var data = api.checkFrom(form)
         if (!data) return false
         var self = this
         if (n === 1) {
           util.post('valid_code', {sign: api.serialize(Object.assign(data, {token: this.token}))}).then(res => {
-            if (!res.code) {
+            api.checkAjax(self, res, () => {
               self.mobile = data.mobile
               self.code_id = res.id
               self.valid_code = res.valid_code
               self.next = true
-            } else {
-              api.tips(self.$refs.tips, res.msg)
-            }
+            })
           })
         } else {
+          form.btn.setAttribute('disabled', true)
           util.post('forgitPwd', {sign: api.serialize(Object.assign(data, {token: this.token, valid_code: this.valid_code, code_id: this.code_id, mobile: this.mobile}))}).then(res => {
-            if (!res.code) {
+            api.checkAjax(self, res, () => {
               api.tips(self.$refs.tips, '重置密码成功', () => {
                 self.$router.push({name: 'login'})
               })
-            } else {
-              api.tips(self.$refs.tips, res.msg)
-            }
+            }, form.btn)
           })
         }
       },
       test (e) {
         var ele = e.target
-        var ff = document.querySelector('.form')
-        api.checkFiled(ele, ff)
+        var form = document.querySelector('.form')
+        api.checkFiled(ele, form)
       }
     },
     computed: {

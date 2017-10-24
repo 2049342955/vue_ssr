@@ -81,18 +81,12 @@
           sendData = {sort: this.$route.params.sort}
         }
         util.post('userCoinList', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
-          if (res && !res.code) {
+          api.checkAjax(self, res, () => {
             self.list = res.value_list
             self.showImg = !res.value_list.length
             if (self.now > 1) return false
             self.len = Math.ceil(res.total_num / 15)
-          }
-          if (!res) {
-            api.tips(self.$refs.tips, '您的账号在别处登录', () => {
-              self.$router.push({name: 'home'})
-              self.$store.commit('LOGOUT')
-            })
-          }
+          })
         })
       },
       openList () {
@@ -110,8 +104,9 @@
     mounted () {
       var self = this
       util.post('userCoin', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: '1'})}).then(function (res) {
-        console.log(res)
-        self.data = res
+        api.checkAjax(self, res, () => {
+          self.data = res
+        })
       })
       this.getList()
     },

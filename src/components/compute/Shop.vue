@@ -6,6 +6,7 @@
     <ProductNav page="cloudCompute"></ProductNav>
     <ProductList :sort="sort" :dataNav="dataNav" page="cloudCompute"></ProductList>
     <Pager :len="len"></Pager>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -40,12 +41,12 @@
           obj = {token: this.token, product_type: this.$route.params.type, sort: this.$route.params.sort, page: this.now}
         }
         util.post('productList', {sign: api.serialize(obj)}).then(function (res) {
-          if (res && !res.code) {
+          api.checkAjax(self, res, () => {
             self.computeDate = res.data
             self.show = !res.data.length
             if (self.now > 1) return false
             self.len = res.page.total_page
-          }
+          })
         })
       },
       getList () {

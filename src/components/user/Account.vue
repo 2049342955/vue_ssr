@@ -74,20 +74,17 @@
         }
         if (!data) return false
         var self = this
-        util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (back) {
-          if (!back.code) {
+        util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
+          api.checkAjax(self, res, () => {
             self.closeEdit()
             api.tips(self.$refs.tips, tipsStr)
-            util.post(callbackUrl, {sign: api.serialize(sendData)}).then(function (res) {
-              console.log(res)
-              if (res) {
+            util.post(callbackUrl, {sign: api.serialize(sendData)}).then(function (data) {
+              if (data && !data.code) {
                 self.nav[no].status = 1
-                self.$store.commit('SET_INFO', {[val]: res})
+                self.$store.commit('SET_INFO', {[val]: data})
               }
             })
-          } else {
-            api.tips(self.$refs.tips, back.msg)
-          }
+          })
         })
       },
       closeEdit () {

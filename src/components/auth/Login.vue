@@ -11,7 +11,7 @@
         <router-link to="/auth/passwordRetrieval">忘记密码</router-link>
       </h3>
       <FormField :form="form"></FormField>
-      <button>登录</button>
+      <button name="btn">登录</button>
       <div class="go_regist">
         <span>还没有账号？</span>
         <router-link to="/auth/regist">免费注册</router-link>
@@ -32,17 +32,18 @@
     },
     data () {
       return {
-        form: [{name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'password', type: 'password', title: '登录密码', placeholder: '请输入您的登录密码', pattern: '^[0-9a-zA-Z]{6,16}$', tips: '密码应在6-16位之间'}]
+        form: [{name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, {name: 'password', type: 'password', title: '登录密码', placeholder: '请输入您的登录密码', pattern: '^[0-9a-zA-Z_]{6,16}$', tips: '密码应在6-16位之间的字母数字和下划线'}]
       }
     },
     methods: {
       login () {
-        var ff = document.querySelector('.form')
-        var data = api.checkFrom(ff)
+        var form = document.querySelector('.form')
+        var data = api.checkFrom(form)
         if (!data) return false
         var self = this
+        form.btn.setAttribute('disabled', true)
         util.post('login', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
-          if (!res.code) {
+          api.checkAjax(self, res, () => {
             self.$store.commit('SET_TOKEN', Object.assign(res, {mobile: data.mobile}))
             util.post('getAll', {sign: api.serialize(res)}).then(function (data) {
               self.$store.commit('SET_INFO', data)
@@ -50,9 +51,7 @@
             api.tips(self.$refs.tips, '欢迎来到算力网！', () => {
               self.$router.push({name: 'home'})
             })
-          } else {
-            api.tips(self.$refs.tips, res.msg)
-          }
+          }, form.btn)
         })
       }
     }

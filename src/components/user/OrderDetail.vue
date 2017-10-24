@@ -37,6 +37,7 @@
         <button>查看保全</button>
       </div>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -65,7 +66,9 @@
       var self = this
       this.nav = this.$route.params.type !== '1' ? this.type : this.computeType
       util.post('showOrderDetail', {sign: api.serialize({token: this.token, order_id: this.$route.params.id})}).then(function (res) {
-        self.data = res
+        api.checkAjax(self, res, () => {
+          self.data = res
+        })
       })
     },
     computed: {

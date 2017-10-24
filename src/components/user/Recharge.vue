@@ -58,18 +58,14 @@
         var self = this
         form.btn.setAttribute('disabled', true)
         console.log(data)
-        util.post('balance_recharge', {sign: api.serialize(Object.assign(data, sendData))}).then(function (back) {
-          if (back.code) {
-            api.tips(self.$refs.tips, back.msg, () => {
-              form.btn.removeAttribute('disabled')
-            })
-          } else {
+        util.post('balance_recharge', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
+          api.checkAjax(self, res, () => {
             form.amount.value = ''
             form.request_id.value = ''
             api.tips(self.$refs.tips, '提交成功，请等待工作人员确认', () => {
               form.btn.removeAttribute('disabled')
             })
-          }
+          }, form.btn)
         })
       }
     },

@@ -42,26 +42,22 @@
       setRead (i) {
         var self = this
         util.post('isRead', {sign: api.serialize({token: this.token, user_id: this.user_id, is_read: 0})}).then(function (res) {
-          self.$router.push({name: 'message'})
-          self.fetchData()
+          api.checkAjax(self, res, () => {
+            self.$router.push({name: 'message'})
+            self.fetchData()
+          })
         })
       },
       fetchData () {
         var self = this
         util.post('MessageList', {sign: api.serialize({token: this.token, user_id: this.user_id, page: this.now})}).then(function (res) {
-          if (res && !res.code) {
+          api.checkAjax(self, res, () => {
             self.$store.commit('SET_INFO', {unread_num: res.unread_num})
             self.data = res.list
             self.show = !res.list.length
             if (self.now > 1) return false
             self.len = Math.ceil(res.total_num / 15)
-          }
-          if (!res) {
-            api.tips(self.$refs.tips, '您的账号在别处登录', () => {
-              self.$router.push({name: 'home'})
-              self.$store.commit('LOGOUT')
-            })
-          }
+          })
         })
       },
       getList () {

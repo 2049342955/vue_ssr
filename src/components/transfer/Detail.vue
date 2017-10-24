@@ -39,23 +39,22 @@
         var self = this
         console.log(this.user_id)
         util.post('doTransfer_Hashrate_show', {sign: api.serialize({token: this.token, user_id: this.user_id, transfer_order_id: this.$route.params.id})}).then(function (res) {
-          console.log(res)
-          if (!res.code) {
+          api.checkAjax(self, res, () => {
             self.next = true
             self.balance = res.balance_account
             self.content = res.has_contract_tpl.content
-          } else {
-            api.tips(self.$refs.tips, res.msg)
-          }
+          })
         })
       }
     },
     mounted () {
       var self = this
       util.post('getHashrate_details', {sign: api.serialize({token: this.token, transfer_order_id: this.$route.params.id})}).then(function (res) {
-        self.detail = Object.assign(self.detail, res)
-        self.detail = Object.assign(self.detail, res.has_product_hash.has_product_miner_base)
-        self.detail.hashType = res.hashtype.name
+        api.checkAjax(self, res, () => {
+          self.detail = Object.assign(self.detail, res)
+          self.detail = Object.assign(self.detail, res.has_product_hash.has_product_miner_base)
+          self.detail.hashType = res.hashtype.name
+        })
       })
     },
     computed: {
