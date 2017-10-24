@@ -30,7 +30,7 @@
     <div class="no_scode" v-else>
       <div class="no_scode_box">
         <div class="input">
-          <span>验证s码</span>
+          <span>验证S码</span>
           <span>*</span>
           <input ref="scode" type="text" name="scode" autocomplete="off" placeholder="请输入S码" @blur="test" pattern="^[0-9a-zA-Z]{6}$" data-status="" maxlength="6">
           <span title="请输入6位字符串" tips="请输入S码"></span>

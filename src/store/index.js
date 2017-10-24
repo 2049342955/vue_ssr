@@ -16,7 +16,8 @@ const state = {
     address: [],
     trade_password: 0,
     scode: '',
-    unread_num: 0
+    unread_num: 0,
+    last_login_time: ''
   },
   hashType: []
 }
