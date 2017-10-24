@@ -2,7 +2,7 @@
   <section class="issues">
     <div class="issues_box">
       <div class="issues_lists">
-        <div class="item" v-for="n,k in nav" @click="fetchData(n.help_class_id)">{{n.name}}</div>
+        <div :class="['item', {active:k===0}]" v-for="n,k in nav" @click="fetchData(n.help_class_id,$event)">{{n.name}}</div>
       </div>
       <div class="issues_list" v-show="!show">
         <div class="item" v-for="l,k in list" @click="getContent(k)">{{l.title}}</div>
@@ -10,6 +10,7 @@
       <div class="issues_content" v-show="show">
         <h3>{{nowItem.title}}</h3>
         <div v-html="nowItem.content"></div>
+        <button @click="back">返回</button>
       </div>
     </div>
   </section>
@@ -31,7 +32,16 @@
       }
     },
     methods: {
-      fetchData (id) {
+      fetchData (id, ev) {
+        if (ev) {
+          ev.target.classList.add('active')
+          if (ev.target.previousSibling) {
+            ev.target.previousSibling.classList.remove('active')
+          }
+          if (ev.target.nextSibling) {
+            ev.target.nextSibling.classList.remove('active')
+          }
+        }
         this.show = false
         if (id === this.nowClass) return false
         this.nowClass = id
@@ -44,6 +54,9 @@
       getContent (n) {
         this.show = true
         this.nowItem = this.list[n]
+      },
+      back () {
+        this.show = false
       }
     },
     mounted () {
@@ -83,6 +96,14 @@
           & + .item{
             margin-top:15px
           }
+          &:hover{
+              background:#f5f8ff;
+              color:#327fff;
+          }
+          &.active{
+             background:#f5f8ff;
+              color:#327fff;
+          }
         }
       }
       .issues_content,.issues_list{
@@ -97,6 +118,18 @@
         }
         p{
           text-indent: 2em;
+        }
+        button{
+           width:60px;
+           height: 30px;
+           float: right;
+           background:#f5f8ff;
+           color:#327fff;
+           border:0;
+        }
+        button:hover{
+          background: #327fff;
+          color:#f5f8ff;
         }
       }
     }

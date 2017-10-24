@@ -86,6 +86,7 @@
               padding-left:0;
               border-left:0
             }
+            color: #adaeb1;
           }
         }
         .partner{
@@ -101,7 +102,13 @@
             flex:1;
             @include gap(30,h)
             @include flex(space-between)
+            a{
+              color:#adaeb1;
+            }
           }
+        }
+        p{
+          color: #adaeb1;
         }
       }
       .follow{
@@ -118,16 +125,17 @@
         a{
           display: block;
           line-height: 2;
+          color: #adaeb1;
         }
       }
       h3,span.active{
         font-size: 18px
       }
       h4{
-        color:#d7d8d9
+        color:#f5f8fb;
       }
       h3,.help_support a,.partner span{
-        color:$light_black
+        color:#adaeb1;
       }
       span.active{
         font-weight: bold;
