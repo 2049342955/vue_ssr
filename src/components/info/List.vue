@@ -25,8 +25,10 @@
       judge () {
         var url = ''
         if (this.$route.params.type === 'website') {
+          document.querySelector('title').innerHTML = '网站动态'
           url = 'webDynamic'
         } else {
+          document.querySelector('title').innerHTML = '产品公告'
           url = 'webAnnouncoment'
         }
         var self = this
