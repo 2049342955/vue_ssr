@@ -1,6 +1,6 @@
 <template>
   <section class="issues">
-    <h3>法律声明</h3>
+    <h3>法律声明</h3>   
   </section>
 </template>
 

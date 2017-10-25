@@ -4,7 +4,7 @@
       <Sort :page="page" :sort="sort"></Sort>
       <div class="data">
         <div class="item" v-for="d,k in $parent.computeDate">
-          <h3>{{page==='computeTransfer'?d.product_name:d.name}}<span :class="'icon_currency '+d.hashtype.name"></span><span :class="['sell_type', {active: d.sell_type&&d.sell_type===1}]" v-if="page==='cloudCompute'">{{d.sell_type&&d.sell_type===1?'预售':'转售'}}</span></h3>
+          <h3>{{page==='computeTransfer'?d.product_name:d.name}}<span :class="'icon_currency '+d.hashtype.name"></span><span class="sell_type" v-if="page==='cloudCompute'">{{d.sell_type&&d.sell_type===1?'预售':'转售'}}</span></h3>
           <div class="info_box">
             <template v-for="n,i in dataNav">
               <div class="info" v-if="i==='leftNum'">
@@ -121,11 +121,16 @@
               margin-left:5px;
             }
             .sell_type{
-              font-size: 14px;
+              font-size: 12px;
               margin-left:8px;
-              padding:1px 7px;
-              border-radius:5px;
-              @include button($blue)
+              width:58px;
+              height: 18px;
+              text-align: center;
+              border-radius:18px;
+              line-height:15px;
+              color:#ff721f;
+              display: inline-block;
+              border:1px solid #ff721f;
               &.active{
                 @include button($orange)
               }

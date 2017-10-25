@@ -34,17 +34,21 @@
     @include main
     @include gap(70,h)
     @include flex(space-between)
+    padding:0;
     background: $white;
     box-shadow:5px 10px 15px 0px rgba(50, 127, 255, 0.12);
     .item{
       color: $text;
       font-size: 18px;
       cursor: pointer;
+      width: 33.3%;
+      text-align: center;
+      color:#999999;
       border-bottom:2px solid transparent;
       @include gap(10,h)
       &:hover,&.router-link-active{
-        color:$blue;
-        border-bottom:2px solid $blue
+        background:$blue;
+        color:white;
       }
       .iconfont{
         @include block(36)
