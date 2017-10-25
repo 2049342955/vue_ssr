@@ -81,5 +81,16 @@
         background:url(../../assets/images/cloudCompute.jpg) no-repeat;
       }
     }
+    .pager{
+      background: #f7f8fa;
+      padding-top:0;
+      padding-bottom:30px;
+      .pager_box{
+        border:0;
+        @include main
+        background: #fff;
+        padding:30px 15px;
+      }
+    }
   }
 </style>

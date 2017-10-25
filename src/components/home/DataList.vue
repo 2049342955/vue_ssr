@@ -10,12 +10,12 @@
         <th v-for="n in nav">{{n.title}}</th>
         <th>操作</th>
       </tr>
-      <tr v-for="l,i in list">
+      <tr v-for="l,i in list" @click="goPay(l.product_id)">
         <td v-for="v,k in nav">
-          <div class="data_name"  @click="goPay(l.product_id)" v-if="k==='name'"><i class="iconfont">&#xe605;</i>{{l[k]}}</div>
+          <template v-if="k==='name'"><i class="iconfont">&#xe605;</i>{{l[k]}}</template>
           <template v-else>{{l[k]+[v.unit]}}</template>
         </td>
-        <td><a href="javascript:;" @click="goPay(l.product_id)">申购</a></td>
+        <td><a href="javascript:;">申购</a></td>
       </tr>
     </table>
     <div class="web_tips" ref="tips"></div>
@@ -127,11 +127,9 @@
           color:$orange;
           font-size: 24px
         }
-        .data_name{
-          cursor: pointer;
-        }
       }
       tr:not(:first-child){
+        cursor: pointer;
         &:hover{
           background: #f4f4f4
         }

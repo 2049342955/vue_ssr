@@ -1,21 +1,23 @@
 <template>
   <aside class="pager" v-if="len>1">
-    <span :class="{disabled:$parent.now<=1}" @click="getData($parent.now-1)">上一页</span>
-    <template v-if="len<=7">
-      <span v-for="i in len" :class="['pager_item', {active:i===$parent.now}]" @click="getData(i)">{{ i }}</span>
-    </template>
-    <template v-else>
-      <span v-for="i in 3" :class="['pager_item', {active:i===$parent.now}]" @click="getData(i)">{{ i }}</span>
-      <span v-if="$parent.leftSibling>4">...</span>
-      <template v-if="$parent.now>3&&$parent.now<len-1">
-        <span :class="['pager_item', {active:$parent.leftSibling===$parent.now}]" @click="getData($parent.leftSibling)">{{ $parent.leftSibling }}</span>
-        <span :class="['pager_item', {active:$parent.rightSibling===$parent.now}]" @click="getData($parent.rightSibling)">{{ $parent.rightSibling }}</span>
+    <div class="pager_box">
+      <span :class="{disabled:$parent.now<=1}" @click="getData($parent.now-1)">上一页</span>
+      <template v-if="len<=7">
+        <span v-for="i in len" :class="['pager_item', {active:i===$parent.now}]" @click="getData(i)">{{ i }}</span>
       </template>
-      <span v-if="$parent.rightSibling<len-2">...</span>
-      <span :class="['pager_item', {active:len-1===$parent.now}]" @click="getData(len-1)">{{ len-1 }}</span>
-      <span :class="['pager_item', {active:len===$parent.now}]" @click="getData(len)">{{ len }}</span>
-    </template>
-    <span :class="{disabled:$parent.now>=len}" @click="getData($parent.now+1,1)">下一页</span>
+      <template v-else>
+        <span v-for="i in 3" :class="['pager_item', {active:i===$parent.now}]" @click="getData(i)">{{ i }}</span>
+        <span v-if="$parent.leftSibling>4">...</span>
+        <template v-if="$parent.now>3&&$parent.now<len-1">
+          <span :class="['pager_item', {active:$parent.leftSibling===$parent.now}]" @click="getData($parent.leftSibling)">{{ $parent.leftSibling }}</span>
+          <span :class="['pager_item', {active:$parent.rightSibling===$parent.now}]" @click="getData($parent.rightSibling)">{{ $parent.rightSibling }}</span>
+        </template>
+        <span v-if="$parent.rightSibling<len-2">...</span>
+        <span :class="['pager_item', {active:len-1===$parent.now}]" @click="getData(len-1)">{{ len-1 }}</span>
+        <span :class="['pager_item', {active:len===$parent.now}]" @click="getData(len)">{{ len }}</span>
+      </template>
+      <span :class="{disabled:$parent.now>=len}" @click="getData($parent.now+1,1)">下一页</span>
+    </div>
   </aside>
 </template>
 
@@ -49,7 +51,10 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .pager{
-    @include pager
-    margin-bottom:50px
+    padding-top:80px;
+    padding-bottom:50px;
+    .pager_box{
+      @include pager
+    }
   }
 </style>

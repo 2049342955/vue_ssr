@@ -592,7 +592,6 @@
 // pager
   @mixin pager($color:$blue){
     @include flex(flex-end)
-    margin-top:80px;
     border-top:1px solid #bfbfbf;
     padding-top:20px;
     span{
@@ -855,6 +854,7 @@
         background: #fff;
         border:1px solid $border;
         border-top:0;
+        display: none;
         a{
           display: block;
           line-height: 2;
@@ -862,6 +862,11 @@
           &:hover{
             background: #eee
           }
+        }
+      }
+      &:hover{
+        .title_list{
+          display: block
         }
       }
     }

@@ -17,6 +17,7 @@
     "axios": "^0.16.2",
     "echarts": "^3.7.1",
     "js-md5": "^0.6.1",
+    "promise-polyfill": "^6.0.2",
     "qs": "^6.5.1",
     "vue": "^2.4.4",
     "vue-baidu-map": "^0.18.2",

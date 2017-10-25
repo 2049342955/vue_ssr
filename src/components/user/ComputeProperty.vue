@@ -27,8 +27,8 @@
     <div class="compute_title">
       <span class="text_title">算力账户</span>
       <div class="title_content">
-        <span class="title_now" @click="openList">{{hashType[nowEdit]&&hashType[nowEdit].name}}</span>
-        <div class="title_list" v-if="show">
+        <span class="title_now">{{hashType[nowEdit]&&hashType[nowEdit].name}}</span>
+        <div class="title_list">
           <a href="javascript:;" @click="setList(k)" v-for="n,k in hashType">{{n.name}}</a>
         </div>
       </div>
@@ -39,7 +39,7 @@
           <div class="item">
             <p>{{d}}</p>
             <span class="currency">{{computeData[k]|format(8)}}</span>
-            <span class="">{{hashType[nowEdit]&&hashType[nowEdit].name.toLowerCase()}}</span>
+            <span class="">{{hashType[nowEdit]&&hashType[nowEdit].name&&hashType[nowEdit].name.toLowerCase()}}</span>
           </div>
           <div class="line"></div>
         </template>
@@ -111,7 +111,6 @@
           GetIncome: [{name: 'product_hash_type', type: 'select', title: '算力类型', option: ['BTC', 'BCC', 'ETC']}, {name: 'amount', type: 'text', title: '提取额度', placeholder: '请输入提取额度', changeEvent: true, pattern: 'coin'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}]
         },
         editText: '',
-        show: false,
         fee: 0,
         total_price: 0
       }
@@ -162,11 +161,7 @@
         this.edit = ''
         document.body.style.overflow = 'auto'
       },
-      openList () {
-        this.show = !this.show
-      },
       setList (n) {
-        this.show = !this.show
         this.nowEdit = n
         this.getList()
       },
