@@ -14,6 +14,12 @@
     components: {
       MyHead,
       MyFoot
+    },
+    mounted () {
+      var self = this
+      window.onunload = function () {
+        self.$store.commit('LOGOUT')
+      }
     }
   }
 </script>

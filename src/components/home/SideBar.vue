@@ -40,7 +40,7 @@
       },
       test (e) {
         var ele = document.querySelector('.frame_header')
-        if (!ele) return false
+        if (!ele || !this.$refs.bar) return false
         if (e.target.scrollingElement.scrollTop > 0) {
           this.$refs.bar.style.display = 'block'
         } else {

@@ -70,11 +70,11 @@
       api.post('/banner', {sign: 'token=0'}).then(function (data) {
         self.banners = data
         self.onInit()
-        window.onresize = () => {
-          self.currentPage = 1
-          self.onInit()
-        }
+        window.addEventListener('resize', self.onResize, false)
       })
+    },
+    destroyed () {
+      window.removeEventListener('resize', this.onResize)
     },
     methods: {
       onTouchStart (e) {
@@ -102,6 +102,10 @@
             }
           }
         }
+      },
+      onResize () {
+        this.currentPage = 1
+        this.onInit()
       },
       onTransitionEnd () {
         this.transitioning = false
