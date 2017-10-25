@@ -36,7 +36,7 @@
     @include flex(space-between)
     padding:0;
     background: $white;
-    box-shadow:5px 10px 15px 0px rgba(50, 127, 255, 0.12);
+    box-shadow:5px 10px 15px 0px rgba(63, 113, 197, 0.2);
     .item{
       color: $text;
       font-size: 18px;

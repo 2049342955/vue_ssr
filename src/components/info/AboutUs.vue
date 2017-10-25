@@ -129,9 +129,11 @@
         h5{
            padding:30px 27px;
            box-sizing:border-box;
+           font-size: 14px;
         }
         h6{
           padding-left:27px;
+          font-size: 14px;
           padding-top:0;
           box-sizing:border-box;
           line-height:0;
