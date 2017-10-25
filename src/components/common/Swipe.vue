@@ -12,8 +12,8 @@
 <script>
   import api from '../../util'
   export default {
-    name: 'swiper', // Swiper
-    props: { // 父组件数据流向子组件 轮播图属性
+    name: 'swiper',
+    props: {
       direction: {
         type: Number,
         default: 1,
@@ -61,7 +61,8 @@
         translateX: 0,
         translateY: 0,
         transitionDuration: 0,
-        offset: 0
+        offset: 0,
+        t: ''
       }
     },
     mounted () {
@@ -70,6 +71,7 @@
         self.banners = data
         self.onInit()
         window.onresize = () => {
+          self.currentPage = 1
           self.onInit()
         }
       })
@@ -86,6 +88,8 @@
         document.addEventListener('mousemove', this.onTouchMove, false)
         document.addEventListener('touchend', this.onTouchEnd, false)
         document.addEventListener('mouseup', this.onTouchEnd, false)
+        clearInterval(this.t)
+        this.t = ''
       },
       onWheel (e) {
         if (this.mouseWheelControl) {
@@ -107,6 +111,11 @@
           this.$emit('slide-change-end', this.currentPage)
         } else {
           this.$emit('slide-revert-end', this.currentPage)
+        }
+        if (this.t === '') {
+          this.t = setInterval(() => {
+            this.next()
+          }, this.autoPlay)
         }
       },
       onTouchMove (e) {
@@ -183,6 +192,7 @@
         }, 0) + this.translateOffset
       },
       onInit () {
+        clearInterval(this.t)
         this.offset = this.$refs['swiper-wrap'][this.direction ? 'offsetWidth' : 'offsetHeight']
         this.onTouchMove = this.onTouchMove.bind(this)
         this.onTouchEnd = this.onTouchEnd.bind(this)
@@ -193,7 +203,7 @@
           this.setTranslate(this.getTranslateOfPage(this.currentPage))
         }
         if (this.autoPlay) {
-          setInterval(() => {
+          this.t = setInterval(() => {
             this.next()
           }, this.autoPlay)
         }
@@ -234,8 +244,8 @@
   }
   .swiper-pagination .swiper-pagination-bullet {
     display: inline-block;
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background-color: #000000;
     opacity: .2;

@@ -197,7 +197,7 @@
     @include position(490)
     bottom:auto;
     height:60px;
-    background:#183473;
+    background:rgba(27, 27, 27, 0.2);
     .text{
       @include main
       @include flex(space-between)

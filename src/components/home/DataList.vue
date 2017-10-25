@@ -12,7 +12,7 @@
       </tr>
       <tr v-for="l,i in list">
         <td v-for="v,k in nav">
-          <template v-if="k==='name'"><i class="iconfont">&#xe605;</i>{{l[k]}}</template>
+          <div class="data_name"  @click="goPay(l.product_id)" v-if="k==='name'"><i class="iconfont">&#xe605;</i>{{l[k]}}</div>
           <template v-else>{{l[k]+[v.unit]}}</template>
         </td>
         <td><a href="javascript:;" @click="goPay(l.product_id)">申购</a></td>
@@ -126,6 +126,9 @@
         .iconfont{
           color:$orange;
           font-size: 24px
+        }
+        .data_name{
+          cursor: pointer;
         }
       }
       tr:not(:first-child){

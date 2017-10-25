@@ -21,7 +21,8 @@
       <img :src="adImg" alt="">
       <div class="text">
         <h2>算力服务器一站式服务平台</h2>
-        <p>通过设备集群式部署，为用户提供一站式算力服务器挖矿服务<br>包括矿场投资，算力服务器托管，算力服务器采购、算力租赁等，让用户轻松体验挖矿乐趣</p>
+        <p>通过设备集群式部署，为用户提供一站式算力服务器挖矿服务包括矿场投资，算力服务器托管，算力服务器采购、算力租赁等，让用户轻松体验挖矿乐趣</p>
+        <router-link to="/cloudCompute/list/1/all">即刻体验</router-link>
       </div>
     </div>
     <WebInfo></WebInfo>
@@ -159,15 +160,22 @@
     }
     .text{
       @include main
+      text-align: center;
       h2{
         font-size: 30px;
-        font-weight: bold;
         margin-bottom:20px;
         color:$white
       }
       p{
         font-size: 16px;
         color:#d7d8d9
+      }
+      a{
+        display: inline-block;
+        padding:10px 50px;
+        border-radius:5px;
+        @include button($blue)
+        margin-top:30px
       }
     }
   }
