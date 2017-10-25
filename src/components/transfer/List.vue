@@ -7,6 +7,7 @@
     <ProductList :sort="sort" :dataNav="dataNav" page="computeTransfer"></ProductList>
     <Pager :len="len"></Pager>
     <div class="web_tips" ref="tips"></div>
+    <SideBar></SideBar>
   </section>
 </template>
 
@@ -17,9 +18,10 @@
   import ProductList from '../common/ProductList'
   import ProductNav from '../common/ProductNav'
   import Pager from '@/components/common/Pager'
+  import SideBar from '@/components/home/SideBar'
   export default {
     components: {
-      ProductList, ProductNav, Pager
+      ProductList, ProductNav, Pager, SideBar
     },
     data () {
       return {
