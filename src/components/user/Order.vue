@@ -93,7 +93,7 @@
             <template v-if="nowEdit==2&&status==1">
               <button @click="openMask('rent', '出租算力', d.id)">出租算力</button>
             </template>
-            <router-link :to="'/user/orderDetail/'+nowEdit+'/'+d.id"  v-if="status!=2&&status!=3">查看详情</router-link>
+            <router-link :to="'/user/orderDetail/'+nowEdit+'/'+d.id"  v-if="nowEdit!=2&&status!=2&&status!=3">查看详情</router-link>
           </td>
         </tr>
       </table>

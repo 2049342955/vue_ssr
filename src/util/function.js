@@ -187,19 +187,20 @@ api.tips = (ele, str, callback) => {
   }, 2000)
 }
 api.checkAjax = (obj, res, callback, btn) => {
+  if (res === 'repeatLogin') {
+    api.tips(obj.$refs.tips, '您的账号在别处登录', () => {
+      obj.$router.push({name: 'home'})
+      obj.$store.commit('LOGOUT')
+    })
+  }
   if (res && res.code) {
     api.tips(obj.$refs.tips, res.msg, () => {
       if (btn) {
         btn.removeAttribute('disabled')
       }
     })
-  } else if (res && !res.code) {
-    callback()
   } else {
-    api.tips(obj.$refs.tips, '您的账号在别处登录', () => {
-      obj.$router.push({name: 'home'})
-      obj.$store.commit('LOGOUT')
-    })
+    callback()
   }
 }
 export default api

@@ -39,7 +39,11 @@
       },
       speed: {
         type: Number,
-        default: 200
+        default: 500
+      },
+      autoPlay: {
+        type: Number,
+        default: 3000
       }
     },
     data () {
@@ -61,17 +65,12 @@
       }
     },
     mounted () {
-      var self = this // ?
+      var self = this
       api.post('/banner', {sign: 'token=0'}).then(function (data) {
         self.banners = data
-        self.offset = self.$refs['swiper-wrap'][self.direction ? 'offsetWidth' : 'offsetHeight']
-        self.onTouchMove = self.onTouchMove.bind(self)
-        self.onTouchEnd = self.onTouchEnd.bind(self)
-        var arr = self.banners
-        self.slideEls = [arr[arr.length - 1], ...arr, arr[0]]
-        self.translateOffset = -self.offset
-        if (self.loop) {
-          self.setTranslate(self.getTranslateOfPage(self.currentPage))
+        self.onInit()
+        window.onresize = () => {
+          self.onInit()
         }
       })
     },
@@ -182,6 +181,22 @@
         return -[].reduce.call(this.banners, (total, el, i) => {
           return i > page - 2 ? total : total + this.offset
         }, 0) + this.translateOffset
+      },
+      onInit () {
+        this.offset = this.$refs['swiper-wrap'][this.direction ? 'offsetWidth' : 'offsetHeight']
+        this.onTouchMove = this.onTouchMove.bind(this)
+        this.onTouchEnd = this.onTouchEnd.bind(this)
+        var arr = this.banners
+        this.slideEls = [arr[arr.length - 1], ...arr, arr[0]]
+        this.translateOffset = -this.offset
+        if (this.loop) {
+          this.setTranslate(this.getTranslateOfPage(this.currentPage))
+        }
+        if (this.autoPlay) {
+          setInterval(() => {
+            this.next()
+          }, this.autoPlay)
+        }
       }
     }
   }
@@ -219,12 +234,13 @@
   }
   .swiper-pagination .swiper-pagination-bullet {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background-color: #000000;
     opacity: .2;
     transition: all .5s ease;
+    cursor: pointer;
   }
   .swiper-pagination .swiper-pagination-bullet.active {
     background: #fff;

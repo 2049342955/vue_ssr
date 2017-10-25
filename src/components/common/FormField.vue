@@ -7,9 +7,9 @@
       <!-- type -->
       <template v-if="!f.edit">
         <template v-if="f.type!=='select'">
-          <input type="text" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="check[f.pattern].code" data-status="" v-if="f.type==='password'" @focus="$event.target.type='password'">
-          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="check[f.pattern].code" data-status="" :isChange="f.isChange" @change="$parent.$parent.onChange($event,f.name,f.tipsUnit)" v-else-if="f.changeEvent">
-          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="check[f.pattern].code" data-status="" :isChange="f.isChange" :maxlength="f.len" v-else>
+          <input type="text" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern&&check[f.pattern].code" data-status="" v-if="f.type==='password'" @focus="$event.target.type='password'">
+          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern&&check[f.pattern].code" data-status="" :isChange="f.isChange" @change="$parent.$parent.onChange($event,f.name,f.tipsUnit)" v-else-if="f.changeEvent">
+          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern&&check[f.pattern].code" data-status="" :isChange="f.isChange" :maxlength="f.len" v-else>
         </template>
         <div class="sel" v-else-if="f.option">
           <select :name="f.name" id="">

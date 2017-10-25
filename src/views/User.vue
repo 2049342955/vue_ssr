@@ -3,7 +3,7 @@
     <div class="info">
       <div class="box">
         <div class="welcome">
-          <h2>早上好，{{mobile|format}}</h2>
+          <h2>{{time}}，{{mobile|format}}</h2>
           <div class="line"></div>
           <div class="icons">
             <span :class="['iconfont', {active: true_name.status===1}]"></span>
@@ -47,7 +47,19 @@
         bank_card: state => state.info.bank_card,
         risk: state => state.info.risk,
         last_login_time: state => state.info.last_login_time
-      })
+      }),
+      time () {
+        var time = new Date().getHours()
+        if (time >= 6 && time < 9) {
+          return '早上好'
+        } else if (time >= 9 && time < 12) {
+          return '上午好'
+        } else if (time >= 12 && time < 18) {
+          return '下午好'
+        } else {
+          return '晚上好'
+        }
+      }
     },
     filters: {
       format: api.telReadable,
