@@ -192,6 +192,7 @@ api.checkAjax = (obj, res, callback, btn) => {
       obj.$router.push({name: 'home'})
       obj.$store.commit('LOGOUT')
     })
+    return false
   }
   if (res && res.code) {
     api.tips(obj.$refs.tips, res.msg, () => {

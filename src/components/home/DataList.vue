@@ -60,9 +60,9 @@
     mounted () {
       var self = this
       util.post('product_top_list', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
-        if (res && !res.code) {
+        api.checkAjax(self, res, () => {
           self.list = res
-        }
+        })
       })
     },
     filters: {
