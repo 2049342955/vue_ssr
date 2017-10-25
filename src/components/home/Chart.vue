@@ -16,7 +16,7 @@
         </div>
       </div>
       <div>全网算力：{{info.hashrate}}P</div>
-      <div>比特币价格：1btc=${{parseInt(info.btc_price/6.8)}}(okcoin提供)</div>
+      <div>比特币价格：1btc={{info.btc_price}}(okcoin提供)</div>
       <div>难度调整时间：{{parseInt(info.leavetime/24)}}天{{info.leavetime%24}}小时</div>
       <div>困难度：{{info.difficulty}}</div>
     </div>
