@@ -93,5 +93,9 @@
         padding:30px 15px;
       }
     }
+    .sort{
+      border:0;
+      border-bottom: 1px solid #e8e8e8;
+    }
   }
 </style>
