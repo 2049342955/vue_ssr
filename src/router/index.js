@@ -84,7 +84,11 @@ export default new Router({
     }, {
       path: 'passwordRetrieval',
       name: 'passwordRetrieval',
-      component: PasswordRetrieval
+      component: PasswordRetrieval,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '找回密码'
+        next()
+      }
     }]
   }, {
     path: '/bdc',
@@ -247,7 +251,11 @@ export default new Router({
     }, {
       path: 'list/:type',
       name: 'list',
-      component: WebInfoList
+      component: WebInfoList,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '网站动态'
+        next()
+      }
     }, {
       path: 'detail/:id',
       name: 'webInfoDetail',
