@@ -46,9 +46,9 @@
       background: #fff;
       .tab{
         font-size: 16px;
-        color: #333;
+        color: #666;
         margin-right: 36px;
-        font-weight: bold;
+        font-weight: 100;
       }
       .router-link-active{
         color:#327fff;
