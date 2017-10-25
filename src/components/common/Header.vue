@@ -89,6 +89,10 @@
     },
     filters: {
       format: api.telReadable
+    },
+    beforeDestroy: function () {
+      this.$router.push({name: 'home'})
+      this.$store.commit('LOGOUT')
     }
   }
 </script>
