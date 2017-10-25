@@ -68,11 +68,19 @@ export default new Router({
     children: [{
       path: 'login',
       name: 'login',
-      component: Login
+      component: Login,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '登录'
+        next()
+      }
     }, {
       path: 'regist',
       name: 'regist',
-      component: Regist
+      component: Regist,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '注册'
+        next()
+      }
     }, {
       path: 'passwordRetrieval',
       name: 'passwordRetrieval',
