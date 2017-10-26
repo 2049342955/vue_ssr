@@ -87,6 +87,8 @@
       @include flex
       @include gap(15,v,margin);
       @include main
+      position: relative;
+      top: -20px;
       span:nth-child(1){
         font-size: 24px;
         font-weight: bold;
