@@ -39,6 +39,7 @@ import Lawyer from '@/components/info/Lawyer'
 import SafeGuarantee from '@/components/info/SafeGuarantee'
 import WebInfoList from '@/components/info/List'
 import WebInfoDetail from '@/components/info/Detail'
+import IssuesDetail from '@/components/info/IssuesDetail'
 
 Vue.use(Router)
 
@@ -223,6 +224,7 @@ export default new Router({
       component: AboutUs,
       beforeEnter: (to, from, next) => {
         document.querySelector('title').innerHTML = '关于我们'
+        document.querySelector('meta[name="description"]').setAttribute('content', '算力网（www.suanLi.com）是由浙江数秦科技有限公司开发的云算力租赁及云矿机托管一站式服务平台，公司成立于2017年，由浙江数秦科技有限公司及多家上市公司、独立基金共同打造，并由浙江数秦科技有限公司独立运营，目前算力网以矿机托管，云矿机出售，云算力租赁为主营业务。算力网支持各大主流比特币矿机，例如A7，S9，E9等，连接全球最大比特币矿机生产商、矿池等资源，让用户通过网络即可实现远程挖矿，体验科技的同时享受算力产生的比特币。')
         next()
       }
     }, {
@@ -231,6 +233,14 @@ export default new Router({
       component: Issues,
       beforeEnter: (to, from, next) => {
         document.querySelector('title').innerHTML = '常见问题'
+        next()
+      }
+    }, {
+      path: 'issuesDetail/:id',
+      name: 'issuesDetail',
+      component: IssuesDetail,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '问题详情'
         next()
       }
     }, {

@@ -151,12 +151,17 @@
     position: relative;
     height:315px;
     margin-bottom:60px;
+    overflow: hidden;
     @include flex(flex-start,center)
     img{
       @include position
       height:100%;
       object-fit:cover;
       z-index: -1;
+      transition:2s;
+    }
+    &:hover img{
+      transform:scale(1.1); 
     }
     .text{
       @include main
