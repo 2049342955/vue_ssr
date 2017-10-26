@@ -66,7 +66,7 @@
   .ad{
     background:#f7f8fa;
     border-bottom:1px solid $border;
-    margin-bottom:65px;
+    margin-bottom:45px;
     .main{
       @include gap(20,v)
       @include main
@@ -180,7 +180,11 @@
         padding:10px 50px;
         border-radius:5px;
         @include button($blue)
-        margin-top:30px
+        margin-top:30px;
+        &:hover{
+          background:#166cfb;
+          border:1px solid #166cfb;
+        }
       }
     }
   }

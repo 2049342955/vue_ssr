@@ -87,7 +87,6 @@
       @include flex
       @include gap(15,v,margin);
       @include main
-      margin:0 auto;
       span:nth-child(1){
         font-size: 24px;
         font-weight: bold;
@@ -131,7 +130,7 @@
       tr:not(:first-child){
         cursor: pointer;
         &:hover{
-          background: #f4f4f4
+          background: #ecf3ff;
         }
         td:nth-child(3),a{
           color:$orange
