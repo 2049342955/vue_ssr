@@ -1,6 +1,6 @@
 <template>
   <article class="home">
-    <Swiper :pagination-visible="true" :loop="true" :paginationClickable="true" :autoPlay="5000"></Swiper>
+    <Swiper :pagination-visible="true" :loop="true" :paginationClickable="true" :autoPlay="0"></Swiper>
     <Chart></Chart>
     <div class="ad">
       <div class="main">

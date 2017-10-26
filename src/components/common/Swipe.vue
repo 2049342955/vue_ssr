@@ -1,7 +1,20 @@
 <template>
   <section class="swiper" :class="[direction?'horizontal':'vertical',{'dragging':dragging}]" @touchstart="onTouchStart" @mousedown="onTouchStart" @wheel="onWheel" ref="swiper-wrap">
-    <div class="swiper-wrap" :style="{'transform':'translate3d('+translateX+'px,'+translateY+'px,0','transition-duration':transitionDuration+'ms'}" @transitionend="onTransitionEnd">
-      <img class="swiper_one" :src="n.image" v-for="n,k in slideEls">
+    <div class="swiper-wrap" :style="{'transform':'translate3d('+translateX+'px,'+translateY+'px,0','transition-duration':transitionDuration+'ms', width: width*4+'px'}" @transitionend="onTransitionEnd">
+      <div class="swiper_one" v-for="n,k in slideEls" @mousemove="onMouseover" :style="{width: width+'px'}">
+        <div :class="['swiper_box', {active: currentPage===k}, {prev: k===0&&prevIcon}, {next: k===5&&nextIcon}]" v-if="currentPage===k">
+          <template v-for="b in n">
+            <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" :style="[{transform: 'translate3d('+offsetX+'px, '+offsetY+'px, 0px)'}]" v-if="b===1">
+            <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-else>
+          </template>
+        </div>
+        <div :class="['swiper_box', {prev: k===0&&prevIcon}, {next: k===5&&nextIcon}]" v-else>
+          <template v-for="b in n">
+            <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" :style="[{transform: 'translate3d('+offsetX+'px, '+offsetY+'px, 0px)'}]" v-if="((k===0&&prevIcon)||(k===5&&nextIcon))">
+            <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" :style="[{transform: 'translate3d(0px, '+initY+'px, 0px)'}]" v-else>
+          </template>
+        </div>
+      </div>
     </div>
     <div class="swiper-pagination" v-show="paginationVisiable">
       <span class="swiper-pagination-bullet" :class="{'active':k+1===currentPage}" v-for="(slide,k) in banners" @click="paginationClickable && setPage(k+1)"></span>
@@ -10,7 +23,6 @@
 </template>
 
 <script>
-  import api from '../../util'
   export default {
     name: 'swiper',
     props: {
@@ -48,7 +60,7 @@
     },
     data () {
       return {
-        banners: [],
+        banners: [2, 2, 2, 2],
         slideEls: [],
         currentPage: 1,
         lastPage: 1,
@@ -62,21 +74,34 @@
         translateY: 0,
         transitionDuration: 0,
         offset: 0,
-        t: ''
+        t: '',
+        initY: 50,
+        offsetX: 0,
+        offsetY: 0,
+        prevIcon: false,
+        nextIcon: false,
+        width: 0
       }
     },
     mounted () {
-      var self = this
-      api.post('/banner', {sign: 'token=0'}).then(function (data) {
-        self.banners = data
-        self.onInit()
-        window.addEventListener('resize', self.onResize, false)
-      })
+      this.onInit()
+      window.addEventListener('resize', this.onResize, false)
+      var cWidth = document.body.clientWidth || document.documentElement.clientWidth
+      // var iWidth = window.innerWidth
+      // this.width = iWidth - cWidth
+      this.width = cWidth
+      console.log(this.width)
     },
     destroyed () {
       window.removeEventListener('resize', this.onResize)
     },
     methods: {
+      onMouseover (e) {
+        var w = window.innerWidth
+        var h = window.innerHeight
+        this.offsetX = e.clientX / w * 50
+        this.offsetY = e.clientY / h * 30
+      },
       onTouchStart (e) {
         this.startPos = this.getTouchPos(e)
         this.delta = 0
@@ -116,7 +141,7 @@
         } else {
           this.$emit('slide-revert-end', this.currentPage)
         }
-        if (this.t === '') {
+        if (this.t === '' && this.autoPlay) {
           this.t = setInterval(() => {
             this.next()
           }, this.autoPlay)
@@ -148,8 +173,11 @@
         this.lastPage = this.currentPage
         if (page === 0) {
           this.currentPage = this.banners.length
+          this.prevIcon = true
+          console.log(11)
         } else if (page === this.banners.length + 1) {
           this.currentPage = 1
+          this.nextIcon = true
         } else {
           this.currentPage = page
         }
@@ -216,64 +244,145 @@
   }
 </script>
 
-<style type="text/css">
+<style type="text/css" lang="scss">
   .swiper {
     position: relative;
     height: 550px;
-    overflow: hidden
-  }
-  .swiper-wrap {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    transition: all 0ms ease;
-  }
-  .swiper-wrap > .swiper_one{
-    display: flex;
-    flex-shrink: 0;
-    width: 100%;
-    height: 100%;
-  }
-  img.swiper_one{
-    object-fit: cover;
-  }
-  .horizontal .swiper-wrap {
-    flex-direction: row;
-  }
-  .vertical .swiper-wrap {
-    flex-direction: column;
-  }
-  .swiper-pagination {
-    position: absolute;
-  }
-  .swiper-pagination .swiper-pagination-bullet {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #000000;
-    opacity: .2;
-    transition: all .5s ease;
-    cursor: pointer;
-  }
-  .swiper-pagination .swiper-pagination-bullet.active {
-    background: #fff;
-    opacity: 1;
-  }
-  .vertical .swiper-pagination {
-    right: 10px;
-    top: 50%;
-    transform: translate3d(0, -50%, 0);
-  }
-  .vertical .swiper-pagination .swiper-pagination-bullet{
-    margin: 6px 0;
-  }
-  .horizontal .swiper-pagination {
-    bottom: 80px;
-    width: 100%;
-    text-align: center;
-  }
-  .horizontal .swiper-pagination .swiper-pagination-bullet{
-    margin: 0 3px;
+    overflow: hidden;
+    .swiper-wrap {
+      display: flex;
+      // flex-shrink: 0;
+      width: 400vw;
+      height: 100%;
+      transition: all 0ms ease;
+      .swiper_one{
+        /*display: flex;
+        flex-shrink: 0;*/
+        width: 100vw;
+        height: 100%;
+        text-align: center;
+        background-color: #5058fc;
+        .swiper_box{
+          position: relative;
+          width: 100vw;
+          height: 100%;
+          transform: translate3d(0px, 30px, 0px);
+          transition: all 1s .5s;
+          &.active,&.prev,&.next{
+            transform: translate3d(0px, 0px, 0px)
+          }
+          img{
+            position: absolute;
+            transition: all .2s;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+          }
+        }
+        &:nth-child(6),&:nth-child(2){
+          background-color: #1242ac;
+        }
+        &:nth-child(6),&:nth-child(2){
+          img:first-child{
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+          }
+        }
+        &:nth-child(6),&:nth-child(2){
+          img:nth-child(2){
+            top:calc(50% - 87.5px);
+            left:calc(50% - 289px);
+            width:578px;
+            height:175px;
+          }
+        }
+        &:nth-child(3) img:first-child{
+          right:10%;
+          width:689px;
+          top:calc(50% - 214px);
+          height:428px;
+        }
+        &:nth-child(3) img:nth-child(2){
+          top:calc(50% - 54px);
+          left:10%;
+          width:585px;
+          height:108px;
+        }
+        &:nth-child(4){
+          img:first-child{
+            right:10%;
+            width:646px;
+            top:calc(50% - 223.5px);
+            height:447px;
+          }
+        }
+        &:nth-child(4){
+          img:nth-child(2){
+            top:calc(50% - 51px);
+            left:10%;
+            width:344px;
+            height:102px;
+          }
+        }
+        &:nth-child(5),&:nth-child(1){
+          img:first-child{
+            right:5%;
+            width:1217px;
+            top:calc(50% - 245px);
+            height:490px;
+          }
+        }
+        &:nth-child(5),&:nth-child(1){
+          img:nth-child(2){
+            top:calc(50% - 51px);
+            left:10%;
+            width:670px;
+            height:102px;
+          }
+        }
+      }
+    }
+    &.horizontal {
+      flex-direction: row;
+      .swiper-pagination .swiper-pagination-bullet{
+        margin: 0 3px;
+      }
+    }
+    &.vertical {
+      flex-direction: column;
+      .swiper-pagination {
+        right: 10px;
+        top: 50%;
+        transform: translate3d(0, -50%, 0);
+        .swiper-pagination-bullet{
+          margin: 6px 0;
+        }
+      }
+    }
+    &.vertical,&.horizontal{
+      .swiper-pagination {
+        bottom: 80px;
+        width: 100%;
+        text-align: center;
+      }
+    }
+    .swiper-pagination {
+      position: absolute;
+      .swiper-pagination-bullet {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #000000;
+        opacity: .2;
+        transition: all .5s ease;
+        cursor: pointer;
+        &.active {
+          background: #fff;
+          opacity: 1;
+        }
+      }
+    }
   }
 </style>
