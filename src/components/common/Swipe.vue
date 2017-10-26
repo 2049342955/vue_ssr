@@ -86,11 +86,6 @@
     mounted () {
       this.onInit()
       window.addEventListener('resize', this.onResize, false)
-      var cWidth = document.body.clientWidth || document.documentElement.clientWidth
-      // var iWidth = window.innerWidth
-      // this.width = iWidth - cWidth
-      this.width = cWidth
-      console.log(this.width)
     },
     destroyed () {
       window.removeEventListener('resize', this.onResize)
@@ -224,6 +219,7 @@
         }, 0) + this.translateOffset
       },
       onInit () {
+        this.width = document.body.clientWidth || document.documentElement.clientWidth
         clearInterval(this.t)
         this.offset = this.$refs['swiper-wrap'][this.direction ? 'offsetWidth' : 'offsetHeight']
         this.onTouchMove = this.onTouchMove.bind(this)
