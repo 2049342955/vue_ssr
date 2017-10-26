@@ -5,13 +5,13 @@
         <div :class="['item', {active:k===0}]" v-for="n,k in nav" @click="fetchData(n.help_class_id,$event)">{{n.name}}</div>
       </div>
       <div class="issues_list" v-show="!show">
-        <div class="item" v-for="l,k in list" @click="getContent(k)">{{l.title}}</div>
+        <router-link class="item" v-for="l,k in list" :to="'/webInfo/issuesDetail/'+l.id" :key="list.id">{{l.title}}</router-link>
       </div>
-      <div class="issues_content" v-show="show">
+      <!-- <div class="issues_content" v-show="show">
         <h3>{{nowItem.title}}</h3>
         <div class="issues_con" v-html="nowItem.content"></div>
         <button @click="back">返回</button>
-      </div>
+      </div> -->
     </div>
   </section>
 </template>
@@ -27,7 +27,7 @@
         nav: [],
         nowClass: -1,
         list: [],
-        nowItem: {title: '', content: ''},
+        // nowItem: {title: '', content: ''},
         show: false
       }
     },
@@ -49,13 +49,6 @@
         util.post('getHelp', {sign: api.serialize({token: this.token, help_class_id: this.nowClass})}).then(function (res) {
           self.list = res
         })
-      },
-      getContent (n) {
-        this.show = true
-        this.nowItem = this.list[n]
-      },
-      back () {
-        this.show = false
       }
     },
     mounted () {
@@ -111,6 +104,11 @@
         line-height: 2;
         .item{
           cursor: pointer;
+          width: 100%;
+          display:block;
+          &:hover{
+            color:#327fff;
+          }
         }
         h3{
           margin-bottom:30px

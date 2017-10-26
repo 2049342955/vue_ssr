@@ -179,7 +179,7 @@
             margin-bottom:10px;
           }
           &:hover{
-            background: #f4f4f4;
+            background: #ecf3ff;
             .btn:not(:disabled){
               @include button($orange)
               cursor: pointer;
