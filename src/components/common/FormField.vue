@@ -40,9 +40,11 @@
       </template>
       <!-- tips_info -->
       <div class="tips_info" v-if="f.tipsInfo">
-        <span>{{f.tipsUnit}}</span>
+        <span v-if="f.tipsUnit==='hash'">{{$parent.$parent.product_hash_type}}</span>
+        <span v-else>{{f.tipsUnit}}</span>
         <template v-if="f.tipsInfo!=='show'&&!f.showUse">
           <span v-if="f.tipsUnit==='台'">{{f.tipsInfo}}：{{$parent.$parent[f.name]}}{{f.tipsUnit}}</span>
+          <span v-else-if="f.tipsUnit==='hash'">{{f.tipsInfo}}：{{$parent.$parent[f.name]}}{{$parent.$parent.product_hash_type}}</span>
           <span v-else>{{f.tipsInfo}}：{{$parent.$parent[f.name]|decimal}}{{f.tipsUnit}}</span>
         </template>
         <span v-if="f.showUse">{{f.tipsInfo+':'+$parent.$parent.have_use_time+f.tipsUnit}}</span>
