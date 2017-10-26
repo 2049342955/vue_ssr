@@ -194,6 +194,13 @@ api.checkAjax = (obj, res, callback, btn) => {
     })
     return false
   }
+  if (res === 'overtime') {
+    api.tips(obj.$refs.tips, '账户登录超时，请重新登录', () => {
+      obj.$router.push({name: 'login'})
+      obj.$store.commit('LOGOUT')
+    })
+    return false
+  }
   if (res && res.code) {
     api.tips(obj.$refs.tips, res.msg, () => {
       if (btn) {

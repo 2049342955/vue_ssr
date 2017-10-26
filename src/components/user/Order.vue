@@ -4,9 +4,9 @@
       <div class="text">
         <span class="text_title">订单管理</span>
         <div class="title_content">
-          <span class="title_now" @click="openList" v-if="scode.length">{{title2[nowEdit]}}</span>
-          <span class="title_now" @click="openList" v-else>{{title[nowEdit]}}</span>
-          <div class="title_list" v-show="show">
+          <span class="title_now" v-if="scode.length">{{title2[nowEdit]}}</span>
+          <span class="title_now" v-else>{{title[nowEdit]}}</span>
+          <div class="title_list">
             <template v-if="scode.length">
               <router-link :to="'/user/order/'+k+'/1'" v-for="n,k in title2" :key="k">{{n}}</router-link>
             </template>
@@ -127,7 +127,6 @@
         data: [],
         nowEdit: 0,
         status: 1,
-        show: false,
         edit: '',
         form: {
           sold: [{name: 'amount', type: 'text', title: '出售数量', placeholder: '请输入出售数量', changeEvent: true, tipsInfo: '最大可出售数量', tipsUnit: '台', pattern: 'int'}, {name: 'one_amount_value', type: 'text', title: '出售单价', placeholder: '请输入出售单价', changeEvent: true, tipsInfo: '购入价格', tipsUnit: '元', pattern: 'float'}, {name: 'total_price', type: 'text', title: '出售总价', edit: 'price', tipsInfo: 'show', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
@@ -169,9 +168,6 @@
       },
       getList () {
         this.fetchData()
-      },
-      openList () {
-        this.show = !this.show
       },
       openMask (str, title, id) {
         this.total_price = 0

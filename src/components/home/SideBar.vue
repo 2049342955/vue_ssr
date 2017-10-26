@@ -2,9 +2,11 @@
   <div ref="bar" class="side_bar">
     <div class="item" v-for="n,k in nav">
       <div :class="'iconfont icon_'+k" @click="openPopup(n)"></div>
-      <div class="popup qq" v-if="n==='qq'">
-        <span>QQ群</span>
-        <span>3567894561</span>
+      <div class="popup" v-if="n==='qq'">
+        <!-- <span>QQ群</span>
+        <span>3567894561</span> -->
+        <!-- <img border="0" :src="img" alt="算力网官方用户群" title="算力网官方用户群"> -->
+        <a class="qq" title="点击或扫描加入群" href="http://qm.qq.com/cgi-bin/qm/qr?k=WS2QITBH5tuDJbC5FmpEz1wx9Qi-nskJ"></a>
       </div>
       <div class="popup tel" v-if="n==='tel'">
         <span>0571-</span>
@@ -111,9 +113,16 @@
             font-weight: bold;
           }
         }
-        .wechat{
+        .qq,.wechat{
           width: 80px;
           height: 80px;
+        }
+        .qq{
+          display: block;
+          background: url('../../assets/images/qrcode.png');
+          background-size: 100%;
+        }
+        .wechat{
           background: url('../../assets/images/css_sprites.png') -175px -10px;
         }
       }

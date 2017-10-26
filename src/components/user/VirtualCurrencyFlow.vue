@@ -3,8 +3,8 @@
     <div class="vcurrency_title">
       <span class="text_title">币流水</span>
       <div class="title_content">
-        <span class="title_now" @click="openList">{{hashType[nowEdit]&&hashType[nowEdit].name}}</span>
-        <div class="title_list" v-if="show">
+        <span class="title_now">{{hashType[nowEdit]&&hashType[nowEdit].name}}</span>
+        <div class="title_list">
           <a href="javascript:;" @click="setList(k)" v-for="n,k in hashType">{{n.name}}</a>
         </div>
       </div>
@@ -17,7 +17,7 @@
             <p>{{d}}</p>
             <div>
               <span class="currency">{{data[k]}}</span>
-              <span class="">{{hashType[nowEdit]&&hashType[nowEdit].name.toLowerCase()}}</span>
+              <span class="">{{hashType[nowEdit]&&hashType[nowEdit].name&&hashType[nowEdit].name.toLowerCase()}}</span>
             </div>
           </div>
           <div class="line" v-if="k!==1"></div>
@@ -63,7 +63,6 @@
         list: [],
         len: 0,
         now: 1,
-        show: false,
         sort: [{title: '时间', option: ['asc', 'desc'], value: 0}],
         img: require('@/assets/images/no_data.jpg'),
         showImg: false
@@ -89,11 +88,7 @@
           })
         })
       },
-      openList () {
-        this.show = !this.show
-      },
       setList (n) {
-        this.show = !this.show
         this.nowEdit = n
         this.getList()
       }

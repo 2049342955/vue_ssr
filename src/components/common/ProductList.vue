@@ -3,7 +3,7 @@
     <div class="box">
       <Sort :page="page" :sort="sort"></Sort>
       <div class="data">
-        <div class="item" v-for="d,k in $parent.computeDate">
+        <div class="item" v-for="d,k in $parent.computeDate" @click="goPay(d.id)" :disabled="d.status&&(d.status===2||d.status===3)||(d.amount-d.buyed_amount<=0)">
           <h3>{{page==='computeTransfer'?d.product_name:d.name}}<span :class="'icon_currency '+d.hashtype.name"></span><span class="sell_type" v-if="page==='cloudCompute'">{{d.sell_type&&d.sell_type===1?'预售':'转售'}}</span></h3>
           <div class="info_box">
             <template v-for="n,i in dataNav">
@@ -24,12 +24,12 @@
               <div class="line"></div>
             </template>
             <template v-if="page==='computeTransfer'">
-              <button class="btn" v-if="d.status===1" @click="goPay(d.id)">立即购买</button>
+              <button class="btn" v-if="d.status===1">立即购买</button>
               <button class="btn" disabled v-else-if="d.status===2">已转让</button>
               <button class="btn" disabled v-else-if="d.status===3">产品撤销</button>
             </template>
             <template v-else>
-              <button class="btn" v-if="d.amount-d.buyed_amount>0" @click="goPay(d.id)">立即购买</button>
+              <button class="btn" v-if="d.amount-d.buyed_amount>0">立即购买</button>
               <button class="btn" disabled v-else>已售罄</button>
             </template>
           </div>
@@ -43,6 +43,7 @@
     <div class="web_tips" ref="tips"></div>
   </section>
 </template>
+
 <script>
   import { mapState } from 'vuex'
   import api from '@/util/function'
@@ -107,13 +108,17 @@
     margin-top:-20px;
     background: #f7f8fa;
     padding-top:50px;
-    padding-bottom:50px;
+    padding-bottom:30px;
     .box{
       @include main
       .data{
         .item{
           padding:30px 50px;
           background: $white;
+          cursor: pointer;
+          &[disabled]{
+            cursor: no-drop;
+          }
           h3{
             font-size: 18px;
             margin-bottom:10px;
@@ -166,7 +171,7 @@
               background: transparent;
               &:disabled{
                 cursor: no-drop;
-                color:$light_text
+                color:$light_black
               }
             }
           }

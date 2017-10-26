@@ -10,8 +10,8 @@
       <div class="input" v-for="f in nextForm">
         <span>{{f.title}}</span>
         <span>*</span>
-        <input :class="f.name" :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" data-status="">
-        <span :title="f.tips" :tips="f.placeholder" :error="f.error"></span>
+        <input :class="f.name" :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="password.code" data-status="">
+        <span :title="password.tips" :tips="f.placeholder" :error="f.error"></span>
       </div>
       <button name="btn">提交</button>
     </form>
@@ -32,11 +32,12 @@
     data () {
       return {
         form: [{name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: 'tel'}, {name: 'imgCode', type: 'text', title: '图形验证', placeholder: '请输入图形验证码', addon: 1, pattern: 'imgCode'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}],
-        nextForm: [{name: 'password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: '^[0-9a-zA-Z]{6,16}$', tips: '密码应是6到16位'}, {name: 'password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: 'password', error: '两次密码不一致'}],
+        nextForm: [{name: 'password', type: 'password', title: '设置密码', placeholder: '请输入密码'}, {name: 'password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', error: '两次密码不一致'}],
         next: false,
         code_id: '',
         valid_code: '',
-        mobile: ''
+        mobile: '',
+        password: {code: '^[0-9a-zA-Z_]{6,16}$', tips: '密码应在6-16位之间的字母数字和下划线'}
       }
     },
     methods: {

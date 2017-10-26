@@ -1,10 +1,10 @@
 <template>
   <div class="chart">
     <div class="text">
-      <div class="select_coin" ref="select">
+      <div class="select_coin">
         <div class="now">
           <div :class="'icon_currency '+coin[no].title"></div>
-          <span class="text" @click="openSelect" title="0">{{coin[no].title}}</span>
+          <span class="text" title="0">{{coin[no].title}}</span>
           <span class="arrow"></span>
         </div>
         <div class="other">
@@ -16,7 +16,7 @@
         </div>
       </div>
       <div>全网算力：{{info.hashrate}}P</div>
-      <div>比特币价格：1btc={{info.btc_price}}(okcoin提供)</div>
+      <div>比特币价格：1btc=${{info.btc_price}} (okcoin提供)</div>
       <div>难度调整时间：{{parseInt(info.leavetime/24)}}天{{info.leavetime%24}}小时</div>
       <div>困难度：{{info.difficulty}}</div>
     </div>
@@ -159,22 +159,8 @@
         //   })
         // }, 1000)
       },
-      openSelect (e) {
-        var ele = this.$refs['select'].classList
-        if (ele.contains('active')) {
-          ele.remove('active')
-        } else {
-          ele.add('active')
-        }
-      },
       selectCoin (e) {
         this.no = e.target.title
-        var ele = this.$refs['select'].classList
-        if (ele.contains('active')) {
-          ele.remove('active')
-        } else {
-          ele.add('active')
-        }
         this.drawLine()
       }
     },
@@ -242,7 +228,7 @@
             }
           }
         }
-        &.active{
+        &:hover{
           .now{
             background:#232428;
             &:hover{

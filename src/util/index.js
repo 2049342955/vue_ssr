@@ -14,6 +14,8 @@ api.defaults.transformResponse = (res) => {
     return res.msg
   } else if (res.code === '600001') {
     return 'repeatLogin'
+  } else if (res.code === '100001') {
+    return 'overtime'
   } else {
     return res
   }
