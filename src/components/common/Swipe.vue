@@ -2,13 +2,13 @@
   <section class="swiper" :class="[direction?'horizontal':'vertical',{'dragging':dragging}]" @touchstart="onTouchStart" @mousedown="onTouchStart" ref="swiper-wrap">
     <div class="swiper-wrap" :style="{'transform':'translate3d('+translateX+'px,'+translateY+'px,0','transition-duration':transitionDuration+'ms', width: width*4+'px'}" @transitionend="onTransitionEnd">
       <div class="swiper_one" v-for="n,k in slideEls" @mousemove="onMouseover" :style="{width: width+'px'}">
-        <div :class="['swiper_box', {active: currentPage===k}]" v-if="currentPage===k">
+        <div :class="['swiper_box', {active: currentPage===k}]" v-if="currentPage===k" :style="{width: width+'px'}">
           <template v-for="b in n">
             <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" :style="[{transform: 'translate3d('+offsetX+'px, '+offsetY+'px, 0px)'}]" v-if="b===1">
             <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-else>
           </template>
         </div>
-        <div class="swiper_box" v-else>
+        <div class="swiper_box" v-else :style="{width: width+'px'}">
           <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" :style="[{transform: 'translate3d(0px, '+initY+'px, 0px)'}]" v-for="b in n">
         </div>
       </div>
@@ -123,7 +123,7 @@
         if (this.currentPage === 0) {
           this.currentPage = this.banners.length
         }
-        if (this.currentPage === this.banners.length + 1) {
+        if (this.currentPage >= this.banners.length + 1) {
           this.currentPage = 1
         }
         if (this.autoPlay) {
@@ -229,7 +229,7 @@
         background-color: #5058fc;
         .swiper_box{
           position: relative;
-          width: 100vw;
+          // width: 100vw;
           height: 100%;
           transform: translate3d(0px, 30px, 0px);
           transition: all 1s .2s;
