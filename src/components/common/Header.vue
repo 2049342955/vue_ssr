@@ -144,8 +144,7 @@
               display: block;
               color: balck;
               position: relative;
-              top: 5px;
-              font-size: 14px;
+              font-size: 12px;
         }
       }
       nav .item:hover a::after{
@@ -153,8 +152,7 @@
               display: block;
               color: black;
               position: relative;
-              top: 5px;
-              font-size: 14px;
+              font-size: 12px;
         }
       .side_nav{
         a{
@@ -203,8 +201,7 @@
               display: block;
               color: white;
               position: relative;
-              top: 5px;
-              font-size: 14px;
+              font-size: 12px;
             }
           }
           &:hover a::after{
@@ -212,8 +209,7 @@
               display: block;
               color: white;
               position: relative;
-              top: 5px;
-              font-size: 14px;
+              font-size: 12px;
           }
         }
         span{
