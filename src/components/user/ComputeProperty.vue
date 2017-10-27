@@ -135,6 +135,13 @@
           })
           return false
         }
+        if (str === 'Withdrawals' && +this.moneyData.balance_account <= 0) {
+          api.tips(this.$refs.tips, '您的账户余额不足，不能提现')
+          return false
+        } else if (str === 'GetIncome' && +this.computeData.balance_account <= 0) {
+          api.tips(this.$refs.tips, '您的账户余额不足，不能提取收益')
+          return false
+        }
         window.scroll(0, 0)
         document.body.style.overflow = 'hidden'
         this.editText = title
@@ -153,7 +160,7 @@
           api.checkAjax(self, res, () => {
             if (str === 'Withdrawals') {
               self.fee = res.withdraw_fee
-              self.amount = res.balance_account
+              self.amount = parseInt(res.balance_account)
             } else if (str === 'GetIncome') {
               self.fee = res.withdraw_coin_fee
               self.amount = res.coin_account
@@ -217,6 +224,9 @@
         })
       },
       onChange (e) {
+        if (parseFloat(e.target.value) > parseFloat(this.amount)) {
+          e.target.value = this.amount
+        }
         this.total_price = e.target.value
       }
     },

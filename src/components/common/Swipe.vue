@@ -1,18 +1,15 @@
 <template>
-  <section class="swiper" :class="[direction?'horizontal':'vertical',{'dragging':dragging}]" @touchstart="onTouchStart" @mousedown="onTouchStart" @wheel="onWheel" ref="swiper-wrap">
+  <section class="swiper" :class="[direction?'horizontal':'vertical',{'dragging':dragging}]" @touchstart="onTouchStart" @mousedown="onTouchStart" ref="swiper-wrap">
     <div class="swiper-wrap" :style="{'transform':'translate3d('+translateX+'px,'+translateY+'px,0','transition-duration':transitionDuration+'ms', width: width*4+'px'}" @transitionend="onTransitionEnd">
       <div class="swiper_one" v-for="n,k in slideEls" @mousemove="onMouseover" :style="{width: width+'px'}">
-        <div :class="['swiper_box', {active: currentPage===k}, {prev: k===0&&prevIcon}, {next: k===5&&nextIcon}]" v-if="currentPage===k">
+        <div :class="['swiper_box', {active: currentPage===k}]" v-if="currentPage===k">
           <template v-for="b in n">
             <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" :style="[{transform: 'translate3d('+offsetX+'px, '+offsetY+'px, 0px)'}]" v-if="b===1">
             <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-else>
           </template>
         </div>
-        <div :class="['swiper_box', {prev: k===0&&prevIcon}, {next: k===5&&nextIcon}]" v-else>
-          <template v-for="b in n">
-            <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" :style="[{transform: 'translate3d('+offsetX+'px, '+offsetY+'px, 0px)'}]" v-if="((k===0&&prevIcon)||(k===5&&nextIcon))">
-            <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" :style="[{transform: 'translate3d(0px, '+initY+'px, 0px)'}]" v-else>
-          </template>
+        <div class="swiper_box" v-else>
+          <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" :style="[{transform: 'translate3d(0px, '+initY+'px, 0px)'}]" v-for="b in n">
         </div>
       </div>
     </div>
@@ -32,10 +29,6 @@
         validator: (value) => {
           return [1, 0].indexOf(value) > -1
         }
-      },
-      mouseWheelControl: {
-        type: Boolean,
-        default: false
       },
       paginationVisiable: {
         type: Boolean,
@@ -69,7 +62,6 @@
         transitioning: false,
         startPos: null,
         startTranslate: 0,
-        translateOffset: 0,
         translateX: 0,
         translateY: 0,
         transitionDuration: 0,
@@ -78,8 +70,6 @@
         initY: 50,
         offsetX: 0,
         offsetY: 0,
-        prevIcon: false,
-        nextIcon: false,
         width: 0
       }
     },
@@ -92,15 +82,26 @@
     },
     methods: {
       onMouseover (e) {
+        clearInterval(this.t)
+        this.t = ''
+        if (this.transitioning) return false
         var w = window.innerWidth
         var h = window.innerHeight
         this.offsetX = e.clientX / w * 50
         this.offsetY = e.clientY / h * 30
+        var self = this
+        setTimeout(() => {
+          if (this.t === '' && this.autoPlay) {
+            self.t = setInterval(() => {
+              self.next()
+            }, this.autoPlay)
+          }
+        }, 3000)
       },
       onTouchStart (e) {
         this.startPos = this.getTouchPos(e)
         this.delta = 0
-        this.startTranslate = this.getTranslateOfPage(this.currentPage)
+        this.startTranslate = this.currentPage * -this.offset
         this.startTime = new Date().getTime()
         this.dragging = true
         this.transitionDuration = 0
@@ -111,18 +112,6 @@
         clearInterval(this.t)
         this.t = ''
       },
-      onWheel (e) {
-        if (this.mouseWheelControl) {
-          e.preventDefault()
-          if (!this.transitioning) {
-            if (e.deltaY > 0) {
-              this.next()
-            } else {
-              this.prev()
-            }
-          }
-        }
-      },
       onResize () {
         this.currentPage = 1
         this.onInit()
@@ -131,10 +120,14 @@
         this.transitioning = false
         this.transitionDuration = 0
         this.delta = 0
-        if (this.lastPage !== this.currentPage) {
-          this.$emit('slide-change-end', this.currentPage)
-        } else {
-          this.$emit('slide-revert-end', this.currentPage)
+        if (this.currentPage === 0) {
+          this.currentPage = this.banners.length
+        }
+        if (this.currentPage === this.banners.length + 1) {
+          this.currentPage = 1
+        }
+        if (this.autoPlay) {
+          this.setTranslate()
         }
         if (this.t === '' && this.autoPlay) {
           this.t = setInterval(() => {
@@ -166,18 +159,10 @@
       },
       setPage (page, e) {
         this.lastPage = this.currentPage
-        if (page === 0) {
-          this.currentPage = this.banners.length
-          this.prevIcon = true
-          console.log(11)
-        } else if (page === this.banners.length + 1) {
-          this.currentPage = 1
-          this.nextIcon = true
-        } else {
-          this.currentPage = page
-        }
-        this.setTranslate(this.getTranslateOfPage(page))
-        this.onTransitionStart()
+        this.currentPage = page
+        this.setTranslate()
+        this.transitioning = false
+        this.transitionDuration = this.speed
       },
       next () {
         var page = this.currentPage
@@ -195,28 +180,16 @@
           this.setPage(this.currentPage)
         }
       },
-      onTransitionStart () {
-        this.transitioning = false
-        this.transitionDuration = this.speed
-        if (this.lastPage !== this.currentPage) {
-          this.$emit('slide-change-start', this.currentPage)
-        } else {
-          this.$emit('slide-revert-start', this.currentPage)
-        }
-      },
       setTranslate (value) {
+        if (!value) {
+          value = this.currentPage * -this.offset
+        }
         var translateName = this.direction ? 'translateX' : 'translateY'
         this[translateName] = value
       },
       getTouchPos (e) {
         var key = this.direction ? 'pageX' : 'pageY'
         return e.changedTouches ? e.changedTouches[0][key] : e[key]
-      },
-      getTranslateOfPage (page) {
-        if (page === 0) return 0
-        return -[].reduce.call(this.banners, (total, el, i) => {
-          return i > page - 2 ? total : total + this.offset
-        }, 0) + this.translateOffset
       },
       onInit () {
         this.width = document.body.clientWidth || document.documentElement.clientWidth
@@ -226,9 +199,8 @@
         this.onTouchEnd = this.onTouchEnd.bind(this)
         var arr = this.banners
         this.slideEls = [arr[arr.length - 1], ...arr, arr[0]]
-        this.translateOffset = -this.offset
         if (this.loop) {
-          this.setTranslate(this.getTranslateOfPage(this.currentPage))
+          this.setTranslate()
         }
         if (this.autoPlay) {
           this.t = setInterval(() => {
@@ -247,14 +219,11 @@
     overflow: hidden;
     .swiper-wrap {
       display: flex;
-      // flex-shrink: 0;
-      width: 400vw;
+      // width: 400vw;
       height: 100%;
       transition: all 0ms ease;
       .swiper_one{
-        /*display: flex;
-        flex-shrink: 0;*/
-        width: 100vw;
+        // width: 100vw;
         height: 100%;
         text-align: center;
         background-color: #5058fc;
@@ -263,8 +232,8 @@
           width: 100vw;
           height: 100%;
           transform: translate3d(0px, 30px, 0px);
-          transition: all 1s .5s;
-          &.active,&.prev,&.next{
+          transition: all 1s .2s;
+          &.active{
             transform: translate3d(0px, 0px, 0px)
           }
           img{
