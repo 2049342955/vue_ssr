@@ -1,6 +1,6 @@
 <template>
   <section class="notice">
-    <h3>{{$route.params.type==='website'?'网站动态':'产品公告'}}</h3>
+    <h3>{{str[$route.params.type]}}</h3>
     <div class="display">
       <router-link :class="['item',{active: true}]" :to="'/webInfo/detail/'+list.id" v-for="list in lists" :key="lists.id">
         <span class="title">{{list.title}}</span>
@@ -18,19 +18,16 @@
   export default {
     data () {
       return {
-        lists: []
+        lists: [],
+        str: {website: '网站动态', product: '产品公告', news: '算力资讯'},
+        requestUrl: {website: 'webDynamic', product: 'webAnnouncoment', news: 'webAnnouncoment'}
       }
     },
     methods: {
       judge () {
-        var url = ''
-        if (this.$route.params.type === 'website') {
-          document.querySelector('title').innerHTML = '网站动态'
-          url = 'webDynamic'
-        } else {
-          document.querySelector('title').innerHTML = '产品公告'
-          url = 'webAnnouncoment'
-        }
+        var n = this.$route.params.type
+        var url = this.requestUrl[n]
+        document.querySelector('title').innerHTML = this.str[n]
         var self = this
         util.post(url, {sign: 'token=0'}).then(function (res) {
           api.checkAjax(self, res, () => {

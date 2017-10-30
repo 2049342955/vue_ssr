@@ -2,7 +2,7 @@
   <article class="web_info">
     <div class="box">
       <div class="swip">
-        <router-link class="tab" :to="navi.path" v-for="navi in navis" :key="navi.id">{{navi.title}}</router-link>
+        <router-link class="tab" :to="n.path" v-for="n in nav[no]" :key="n.id">{{n.title}}</router-link>
       </div>
     </div>
     <div class="swip">
@@ -15,15 +15,21 @@
   export default {
     data () {
       return {
-        navis:
-        [
-          {name: 'aboutUs', title: '关于我们', path: '/webInfo/aboutUs'},
-          {name: 'product', title: '产品公告', path: '/webInfo/list/product'},
-          {name: 'website', title: '网站动态', path: '/webInfo/list/website'},
-          // {name: 'safeGuarantee', title: '安全保障', path: '/webInfo/safeGuarantee'},
-          {name: 'Issues', title: '常见问题', path: '/webInfo/issues'}
-          // {name: 'lawyer', title: '政策法规', path: '/webInfo/lawyer'}
-        ]
+        nav: [[{name: 'aboutUs', title: '关于我们', path: '/webInfo/aboutUs'}, {name: 'Issues', title: '常见问题', path: '/webInfo/issues'}], [{name: 'product', title: '产品公告', path: '/webInfo/list/product'}, {name: 'website', title: '网站动态', path: '/webInfo/list/website'}, {name: 'news', title: '算力资讯', path: '/webInfo/list/news'}]],
+        no: 0
+      }
+    },
+    created () {
+      this.judge()
+    },
+    watch: {
+      $route () {
+        this.judge()
+      }
+    },
+    methods: {
+      judge () {
+        this.no = (this.$route.name === 'list' && '1') || ((this.$route.name === 'issues' || 'aboutUs') && '0')
       }
     }
   }

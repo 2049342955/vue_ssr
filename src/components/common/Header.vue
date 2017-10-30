@@ -42,7 +42,7 @@
     name: 'header',
     data () {
       return {
-        nav: {'云矿机商城': '/cloudCompute/list/1/all', '算力转让区': '/computeTransfer/list/1/all', 'BDC托管': '/bdc/list'}
+        nav: {'算力商城': '/cloudCompute/list/1/all', '算力转让': '/computeTransfer/list/1/all', '算力托管': '/bdc/list', '算力资讯': '/webInfo/list/news'}
       }
     },
     created () {
