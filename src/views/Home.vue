@@ -1,7 +1,7 @@
 <template>
   <article class="home">
     <Swiper :pagination-visible="true" :loop="true" :paginationClickable="true" :autoPlay="5000"></Swiper>
-    <Chart></Chart>
+    <!-- <Chart></Chart> -->
     <div class="ad">
       <div class="main">
         <h1>{{ad.title}}</h1>

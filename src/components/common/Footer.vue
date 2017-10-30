@@ -6,7 +6,7 @@
           <h4>联系我们</h4>
           <h3>杭州总部</h3>
           <p style="margin-bottom:10px;">咨询电话：<span class="active">0571-28221076</span>工作日（9:00~18:00）</p>
-          <p style="margin-bottom:10px;">客服邮箱：V@suanli.com</p>
+          <p style="margin-bottom:10px;">客服邮箱：V@suanLi.com</p>
           <p style="margin-bottom:10px;">公司地址：浙江省杭州市学院路77号黄龙国际中心G座-907</p>
         </aside>
         <aside>
@@ -27,8 +27,8 @@
           <router-link :to="i" v-for="i,k in info" :key="k">{{k}}</router-link>
           <div class="outside">
             <div class="qrcode"></div>
-            <div class="active">最新区块链资讯</div>
           </div>
+          <div class="active">最新区块链资讯</div>
         </div>
       </div>
       <div class="partner">
@@ -114,25 +114,22 @@
         }
         .follow{
           text-align: center;
-          .qrcode{
-            width: 80px;
-            height: 80px;
-            background: url('../../assets/images/css_sprites.png') -175px -10px;
-            margin:0 auto;
-             margin-top:5px;
+          .outside{
+            background: #fff;
+            margin-top:10px;
+            padding:3px;
+            .qrcode{
+              width: 80px;
+              height: 80px;
+              background: url('../../assets/images/css_sprites.png') -175px -10px;
+            }
           }
-          div{
+          .active{
             font-size: 12px
           }
           a{
             display: block;
             line-height: 1.5;
-          }
-          .outside{
-            border:1px solid #fff;
-            width:95px;
-            height:113px;
-            margin-top:10px;
           }
         }
         h3,span.active{

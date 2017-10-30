@@ -83,12 +83,6 @@
           })
           return false
         }
-        if (this.risk.user_risk_score < 0) {
-          api.tips(this.$refs.tips, '请先进行风险测评', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
         this.$router.push({path: '/' + this.page + '/detail/' + id})
       }
     },

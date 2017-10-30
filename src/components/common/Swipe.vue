@@ -87,8 +87,8 @@
         if (this.transitioning) return false
         var w = window.innerWidth
         var h = window.innerHeight
-        this.offsetX = e.clientX / w * 50
-        this.offsetY = e.clientY / h * 30
+        this.offsetX = e.clientX / w * 40
+        this.offsetY = e.clientY / h * 20
         var self = this
         setTimeout(() => {
           if (this.t === '' && this.autoPlay) {
@@ -215,7 +215,7 @@
 <style type="text/css" lang="scss">
   .swiper {
     position: relative;
-    height: 550px;
+    height: 440px;
     overflow: hidden;
     .swiper-wrap {
       display: flex;
@@ -231,7 +231,7 @@
           position: relative;
           // width: 100vw;
           height: 100%;
-          transform: translate3d(0px, 30px, 0px);
+          transform: translate3d(0px, 20px, 0px);
           transition: all 1s .2s;
           &.active{
             transform: translate3d(0px, 0px, 0px)
@@ -292,7 +292,7 @@
         }
         &:nth-child(5),&:nth-child(1){
           img:first-child{
-            right:5%;
+            right:3%;
             width:1217px;
             top:calc(50% - 245px);
             height:490px;
@@ -327,7 +327,7 @@
     }
     &.vertical,&.horizontal{
       .swiper-pagination {
-        bottom: 80px;
+        bottom: 20px;
         width: 100%;
         text-align: center;
       }
