@@ -20,8 +20,8 @@
     <div class="ad_img">
       <img :src="adImg" alt="">
       <div class="text">
-        <h2>算力服务器一站式服务平台</h2>
-        <p>通过设备集群式部署，为用户提供一站式算力服务器挖矿服务包括矿场投资，算力服务器托管，算力服务器采购、算力租赁等，让用户轻松体验挖矿乐趣</p>
+        <p><span style="width:224px;height:1px;border-top:1px solid white;display:inline-block;margin-right:18px;position:relative;top:-5px;"></span>清华长三角研究院  & 鼎峰资本  战略投资<span  style="width:224px;height:1px;border-top:1px solid white;display:inline-block;margin-left:18px;position:relative;top:-5px;"></span></p>
+        <h2 style="margin-bottom: 10px;margin-top: 10px;">中国信息化推进联盟区块链实验室算力产业课题项目</h2>
         <router-link to="/cloudCompute/list/1/all">即刻体验</router-link>
       </div>
     </div>
