@@ -77,7 +77,7 @@
     },
     methods: {
       openMask (str, title) {
-        if ((str === 'Withdrawals' || str === 'recharge') && !this.bank_card) {
+        if ((str === 'Withdrawals') && !this.bank_card) {
           api.tips(this.$refs.tips, '请先绑定银行卡', () => {
             this.$router.push({name: 'account'})
           })

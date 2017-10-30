@@ -52,10 +52,6 @@
             api.tips(this.$refs.tips, '请先实名认证')
             return false
           }
-          if (this.risk.user_risk_score < 0) {
-            api.tips(this.$refs.tips, '请先进行风险测评')
-            return false
-          }
         }
         if (!setting) return false
         this.$parent.edit = str
