@@ -88,6 +88,7 @@
               width:400px;
               margin-left:20px;
               font-size: 12px;
+              line-height: 1.6;
             }
           }
           .help_support{

@@ -36,7 +36,7 @@
     data () {
       return {
         titleBg: require('@/assets/images/user_bg1.jpg'),
-        nav: [{name: 'computeProperty', title: '算力资产', path: '/user/computeProperty'}, {name: 'account', title: '账户管理', path: '/user/account'}, {name: 'password', title: '密码管理', path: '/user/password'}, {name: 'order', title: '订单管理', path: '/user/order/0/1'}, {name: 'virtualCurrencyFlow', title: '币流水', path: '/user/virtualCurrencyFlow/default'}, {name: 'moneyFlow', title: '资金流水', path: '/user/moneyFlow/default'}, {name: 'lp', title: 'LP中心', path: '/user/lpCenter'}, {name: 'message', title: '消息中心', path: '/user/message'}]
+        nav: [{name: 'computeProperty', title: '算力资产', path: '/user/computeProperty'}, {name: 'account', title: '账户管理', path: '/user/account'}, {name: 'password', title: '密码管理', path: '/user/password'}, {name: 'order', title: '订单管理', path: '/user/order/0/1'}, {name: 'repayment', title: '还款管理', path: '/user/repayment'}, {name: 'virtualCurrencyFlow', title: '币流水', path: '/user/virtualCurrencyFlow/default'}, {name: 'moneyFlow', title: '资金流水', path: '/user/moneyFlow/default'}, {name: 'lp', title: 'LP中心', path: '/user/lpCenter'}, {name: 'message', title: '消息中心', path: '/user/message'}]
       }
     },
     computed: {
