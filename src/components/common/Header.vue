@@ -5,7 +5,7 @@
       <nav>
         <span v-if="$route.path.includes('regist')">用户注册</span>
         <span v-else-if="$route.path.includes('passwordRetrieval')">找回密码</span>
-        <div class="item" v-for="(i,k) in nav" v-else>
+        <div :class="['item',{active:i === 0}]" v-for="(i,k) in nav" v-else>
           <router-link :to="i">{{ k }}</router-link>
         </div>
       </nav>
@@ -139,10 +139,21 @@
       }
       nav .item a{
         color:$text;
-        &:hover,&.router-link-active{
-          border-bottom:1px solid $text
+        &.router-link-active::after{
+              content: "●";
+              display: block;
+              color: balck;
+              position: relative;
+              font-size: 12px;
         }
       }
+      nav .item:hover a::after{
+              content: "●";
+              display: block;
+              color: black;
+              position: relative;
+              font-size: 12px;
+        }
       .side_nav{
         a{
           color:$text;
@@ -180,11 +191,25 @@
         margin-left:60px;
         .item{
           @include gap(20,h)
+          text-align:center;
+          width:134px;
+          height:25px;
           a{
             font-size: 16px;
-            &:hover{
-              border-bottom:1px solid $white
+            &.router-link-active::after{
+              content: "●";
+              display: block;
+              color: white;
+              position: relative;
+              font-size: 12px;
             }
+          }
+          &:hover a::after{
+              content: "●";
+              display: block;
+              color: white;
+              position: relative;
+              font-size: 12px;
           }
         }
         span{
