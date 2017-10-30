@@ -21,10 +21,9 @@
       return {
         nav: [
           {title: '手机认证', desc: '手机号码是在算力网进行操作的重要凭证。', text: '手机号码', name: 'tel'},
-          {title: '实名认证', desc: '完成实名认证，认证后可以获得更多权限', text: '身份证号', name: 'auth'},
-          {title: '风险测评', desc: '完成风险测评才可以充值、交易等操作。', text: '', name: 'test'},
-          {title: '绑定银行卡', desc: '绑定银行卡才能进行提现。', text: '', name: 'card'},
-          {title: '计算算力地址', desc: '请选择算力类型并设置算力地址', text: '', name: 'address'}
+          {title: '实名认证', desc: '完成实名认证，认证后可以获得更多权限。', text: '身份证号', name: 'auth'},
+          {title: '绑定银行卡', desc: '绑定银行卡之后才能进行充值、购买和提现等操作。', text: '', name: 'card'},
+          {title: '算力收益地址', desc: '请选择算力类型并设置算力地址。', text: '', name: 'address'}
         ],
         form: {
           auth: [{name: 'truename', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'card_type', type: 'text', title: '证件类型', edit: 'card_type', isChange: true}, {name: 'idcard', type: 'text', title: '证件号码', placeholder: '请输入您的证件号码', pattern: 'idCard'}, {name: 'mobile', type: 'text', title: '手机号码', edit: 'disabled'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}],
@@ -47,6 +46,7 @@
         var val = ''
         var sendData = {token: this.token, user_id: this.user_id}
         var tipsStr = ''
+        var tipsStr2 = ''
         switch (this.edit) {
           case 'tel':
             break
@@ -56,18 +56,20 @@
             no = 1
             val = 'true_name'
             tipsStr = '实名认证已提交'
+            tipsStr2 = '恭喜您银行卡绑定成功，温馨提示：在您进行购买矿机和算力之前，请先绑定银行卡'
             break
           case 'card':
             url = 'BankCard'
             callbackUrl = 'show_bankcard'
-            no = 3
+            no = 2
             val = 'bank_card'
-            tipsStr = '绑定成功'
+            tipsStr = '银行卡绑定已提交'
+            tipsStr2 = '恭喜您银行卡绑定成功'
             break
           case 'address':
             url = 'bindAddress'
             callbackUrl = 'show_Address'
-            no = 4
+            no = 3
             val = 'address'
             tipsStr = '设置成功'
             break
@@ -78,18 +80,36 @@
           api.checkAjax(self, res, () => {
             self.closeEdit()
             api.tips(self.$refs.tips, tipsStr)
-            util.post(callbackUrl, {sign: api.serialize(sendData)}).then(function (data) {
-              if (data && !data.code) {
-                self.nav[no].status = 1
-                self.$store.commit('SET_INFO', {[val]: data})
-              }
-            })
+            if (self.edit !== 'address') {
+              self.$store.commit('SET_INFO', {[val]: {status: 0}})
+              console.log(self.$store.state.info)
+              setTimeout(() => {
+                self.requestData(callbackUrl, sendData, no, val, () => {
+                  api.tips(self.$refs.tips, tipsStr2)
+                })
+              }, 5000)
+            } else {
+              self.requestData(callbackUrl, sendData, no, val)
+            }
           })
         })
       },
       closeEdit () {
         this.edit = ''
         document.body.style.overflow = 'auto'
+      },
+      requestData (url, sendData, no, val, callback) {
+        var self = this
+        util.post(url, {sign: api.serialize(sendData)}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.$store.commit('SET_INFO', {[val]: res})
+            if (callback) {
+              callback()
+            }
+          }, '', () => {
+            self.$store.commit('SET_INFO', {[val]: ''})
+          })
+        })
       }
     },
     computed: {

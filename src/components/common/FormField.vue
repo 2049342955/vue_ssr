@@ -9,7 +9,7 @@
         <template v-if="f.type!=='select'">
           <input type="text" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern&&check[f.pattern].code" data-status="" v-if="f.type==='password'" @focus="$event.target.type='password'">
           <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern&&check[f.pattern].code" data-status="" :isChange="f.isChange" @change="$parent.$parent.onChange($event,f.name,f.tipsUnit)" v-else-if="f.changeEvent">
-          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern&&check[f.pattern].code" data-status="" :isChange="f.isChange" :maxlength="f.len" v-else>
+          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern&&check[f.pattern].code" data-status="" :isChange="f.isChange" :maxlength="f.len" v-else :value="$parent[f.value]&&$parent[f.value].card_no">
         </template>
         <div class="sel" v-else-if="f.option">
           <select :name="f.name" id="">
@@ -28,15 +28,14 @@
           <select name="city_name" id="" @change="changeCounty" :isChange="true">
             <option :value="v.name" v-for="v,k in city" :selected="c===v.name">{{v.name}}</option>
           </select>
-          <select name="area_name" id="" :isChange="true">
+          <select name="area_name" id="" :isChange="true" @change="changeItem">
             <option :value="v.name" v-for="v,k in county" :selected="n===v.name">{{v.name}}</option>
           </select>
         </div>
       </template>
       <input :type="f.type" :name="f.name" :value="mobile" disabled v-else-if="f.edit==='disabled'">
       <template v-else>
-        <input :type="f.type" :name="f.name" :value="$parent[f.name]||$parent.$parent[f.name]" disabled :isChange="f.isChange" v-if="f.name!=='bank_card'">
-        <input :type="f.type" :name="f.name" :value="$parent[f.name]&&$parent[f.name].card_no&&$parent[f.name].card_no|cardformat" disabled v-else>
+        <input :type="f.type" :name="f.name" :value="$parent[f.name]||$parent.$parent[f.name]" disabled :isChange="f.isChange">
       </template>
       <!-- tips_info -->
       <div class="tips_info" v-if="f.tipsInfo">
@@ -56,10 +55,6 @@
       </template>
       <!-- tips -->
       <span :title="f.pattern&&check[f.pattern].tips" :error="(f.pattern&&check[f.pattern].error)||f.error" :tips="f.placeholder" :success="f.pattern&&check[f.pattern].success" v-if="!f.edit"></span>
-      <!-- show_link -->
-      <div class="show_link" v-if="f.showLink">
-        <router-link :to="f.showLink">更换银行卡</router-link>
-      </div>
     </div>
   </div>
 </template>
@@ -127,7 +122,7 @@
         var t = 60
         this.tt = setInterval(() => {
           if (t === 0) {
-            self.str = '重新获取验'
+            self.str = '重新获取'
             clearInterval(self.tt)
             self.$refs['count_btn'][0].setAttribute('disabled', false)
           } else {
@@ -145,6 +140,9 @@
       },
       changeCounty (e) {
         this.setCounty(e.target.value)
+      },
+      changeItem (e) {
+        this.n = e.target.value
       },
       setCity (v) {
         this.p = v

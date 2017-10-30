@@ -83,6 +83,12 @@
           })
           return false
         }
+        if (!(this.bank_card && this.bank_card.status === 2)) {
+          api.tips(this.$refs.tips, '请先绑定银行卡', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
         this.$router.push({path: '/' + this.page + '/detail/' + id})
       }
     },
@@ -90,7 +96,8 @@
       ...mapState({
         token: state => state.info.token,
         true_name: state => state.info.true_name,
-        risk: state => state.info.risk
+        risk: state => state.info.risk,
+        bank_card: state => state.info.bank_card
       })
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="setting">
-    <div :class="['item', {fail: !menu[type==='password'?k+5:k].status}, {success: menu[type==='password'?k+5:k].status}, {address_item: n.name==='address'}]" v-for="n,k in nav">
+    <div :class="['item', {fail: !menu[type==='password'?k+4:k].status}, {success: menu[type==='password'?k+4:k].status}, {address_item: n.name==='address'}]" v-for="n,k in nav">
       <template v-if="n.name!=='address'">
         <div class="icon"></div>
         <div class="con_title">{{n.title}}</div>
@@ -8,11 +8,9 @@
         <div class="val">
           <template v-if="menu[k].status&&n.name==='tel'">{{n.text}}：<span>{{mobile|format}}</span></template>
           <template v-if="menu[k].status&&n.name==='auth'">{{true_name.truename}}：<span>{{true_name.idcard|cardformat}}</span></template>
-          <template v-if="menu[k].status&&n.name==='test'"><span>{{risk.user_risk_score+'分'+'('+risk.risk_type+')'}}</span></template>
-          <template v-if="menu[k].status&&n.name==='card'">{{bank_card.open_bank}}：<span>{{bank_card.card_no|cardformat}}</span></template>
+          <template v-if="menu[k].status&&n.name==='card'&&bank_card.open_bank">{{bank_card.open_bank}}：<span>{{bank_card.card_no|cardformat}}</span></template>
         </div>
-        <div class="opr" @click="setEdit(n.name,n.title,menu[type==='password'?k+5:k].setting)" v-if="n.name!=='test'">{{menu[type==='password'?k+5:k].opr}}</div>
-        <div class="opr" @click="test(menu[k].setting)" v-else>{{menu[k].opr}}</div>
+        <div class="opr" @click="setEdit(n.name,n.title,menu[type==='password'?k+4:k].setting)">{{menu[type==='password'?k+4:k].opr}}</div>
       </template>
       <template v-else>
         <div class="item">
@@ -69,14 +67,6 @@
         }
         window.scroll(0, 0)
         document.body.style.overflow = 'hidden'
-      },
-      test (n) {
-        if (!(this.true_name && this.true_name.status === 1)) {
-          api.tips(this.$refs.tips, '请先实名认证')
-          return false
-        }
-        if (!n) return false
-        this.$router.push({name: 'accountEvaluate'})
       }
     },
     computed: {
@@ -86,7 +76,6 @@
         mobile: state => state.info.mobile,
         true_name: state => state.info.true_name,
         bank_card: state => state.info.bank_card,
-        risk: state => state.info.risk,
         address: state => state.info.address,
         hashType: state => state.hashType
       }),

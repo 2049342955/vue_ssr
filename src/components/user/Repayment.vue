@@ -47,7 +47,6 @@
       </div>
       <Pager :len="len"></Pager>
     </div>
-    <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
     <div class="web_tips" ref="tips"></div>
   </section>
 </template>
@@ -56,12 +55,11 @@
   // import util from '@/util'
   // import api from '@/util/function'
   // import { mapState } from 'vuex'
-  import MyMask from '@/components/common/Mask'
   import Pager from '@/components/common/Pager'
   // import md5 from 'js-md5'
   export default {
     components: {
-      MyMask, Pager
+      Pager
     },
     data () {
       return {
@@ -69,7 +67,8 @@
         data: [{product: '阿瓦隆001', fen: '10000元', shou: '15%', xian: '12个月', yi: '1/12期', time: '2017-09-21', id: '0', hash_type_name: 'BTC'}],
         img: require('@/assets/images/re.jpg'),
         showImg: false,
-        status: 1
+        status: 1,
+        len: 0
       }
     }
   }
