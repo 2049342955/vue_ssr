@@ -1,137 +1,175 @@
 <template>
-  <section class="message">
-    <h2>消息中心</h2>
-    <h3>通知消息<span class="read" v-if="unread_num" @click="setRead()">全部标为已读</span></h3>
-    <div class="data">
-      <router-link :to="'/user/messageDetail/'+d.id" :class="['item', {isread: d.is_read}]" v-for="d,k in data" :key="k">
-        <div class="title">{{d.title}}</div>
-        <div class="text">{{d.dealtContent}}</div>
-        <div class="time">{{d.created_at}}</div>
-      </router-link>
+  <section class="order">
+    <div class="order_title">
+      <div class="text">
+        <span class="text_title">还款管理</span>
+      </div>
+      <nav>
+        <router-link :to="'/user/repayment/'+(+k+1)" v-for="n,k in nav[0]" :key="k">{{n}}</router-link>
+      </nav>
+    </div>
+    <div class="order_box">
+      <table>
+        <tr>
+          <th>算力服务器</th>
+          <template v-if="$route.params.type==='1'">
+            <th>分期金额</th>
+            <th>手续费率</th>
+            <th>分期期限</th>
+            <th>已还期数</th>
+            <th>分期时间</th>
+          </template>
+          <template v-else>
+            <th>分期时间</th>
+          </template>
+          <th>操作</th>
+        </tr>
+        <tr v-for="d,k in data">
+          <td>{{d.product}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
+          <template v-if="$route.params.type==='1'">
+            <td>{{d.fen}}</td>
+            <td>{{d.shou}}</td>
+            <td>{{d.xian}}</td>
+            <td>{{d.yi}}</td>
+            <td>{{d.time}}</td>
+          </template>
+          <template v-else>
+            <td>{{d.time}}</td>
+          </template>
+          <td>
+            <router-link :to="'/user/repaymentDetail/'+d.id" class="blue">查看详情</router-link>
+          </td>
+        </tr>
+      </table>
+      <div class="nodata" v-if="showImg">
+        <img :src="img" alt="">
+        <p>暂无列表信息</p>
+      </div>
       <Pager :len="len"></Pager>
     </div>
-    <div class="nodata" v-if="show">
-      <img :src="img" alt="">
-      <p>暂无列表信息</p>
-    </div>
+    <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
     <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
 <script>
-  import util from '@/util'
-  import api from '@/util/function'
-  import { mapState } from 'vuex'
+  // import util from '@/util'
+  // import api from '@/util/function'
+  // import { mapState } from 'vuex'
+  import MyMask from '@/components/common/Mask'
   import Pager from '@/components/common/Pager'
+  // import md5 from 'js-md5'
   export default {
     components: {
-      Pager
+      MyMask, Pager
     },
     data () {
       return {
-        data: [],
-        now: 1,
-        leftSibling: 0,
-        rightSibling: 0,
-        len: 0,
-        img: require('@/assets/images/no_data.jpg'),
-        show: false
+        nav: [{'0': '进行中', '1': '已结束'}],
+        data: [{product: '阿瓦隆001', fen: '10000元', shou: '15%', xian: '12个月', yi: '1/12期', time: '2017-09-21', id: '0', hash_type_name: 'BTC'}],
+        img: require('@/assets/images/re.jpg'),
+        showImg: false,
+        status: 1
       }
-    },
-    methods: {
-      setRead (i) {
-        var self = this
-        util.post('isRead', {sign: api.serialize({token: this.token, user_id: this.user_id, is_read: 0})}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            self.$router.push({name: 'message'})
-            self.fetchData()
-          })
-        })
-      },
-      fetchData () {
-        var self = this
-        util.post('MessageList', {sign: api.serialize({token: this.token, user_id: this.user_id, page: this.now})}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            self.$store.commit('SET_INFO', {unread_num: res.unread_num})
-            self.data = res.list
-            self.show = !res.list.length
-            if (self.now > 1) return false
-            self.len = Math.ceil(res.total_num / 15)
-          })
-        })
-      },
-      getList () {
-        this.fetchData()
-      }
-    },
-    watch: {
-      '$route': 'fetchData'
-    },
-    mounted () {
-      this.fetchData()
-    },
-    computed: {
-      ...mapState({
-        token: state => state.info.token,
-        user_id: state => state.info.user_id,
-        unread_num: state => state.info.unread_num
-      })
     }
   }
 </script>
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  .message{
-    padding:0 15px;
-    h2{
-      padding:0 15px !important;
-    }
-    h3{
-      .read{
-        float: right;
-        color: $blue;
-        cursor: pointer;
-        font-size: 14px;
+  .order{
+    .order_title{
+      @include gap(25,h)
+      padding-top:15px;
+      border-bottom: 1px solid $border;
+      .text{
+        @include select_list
+        margin-bottom:30px;
       }
-    }
-    .data{
-      .item{
-        line-height: 50px;
-        border-bottom:1px solid $border;
-        @include flex(space-between)
-        @include gap(15,h)
-        cursor: pointer;
-        color: $text;
-        .title,.time{
-          font-weight: bold
-        }
-        .time{
-          width:160px;
-        }
-        .title{
-          width:320px;
-          @include ellipsis
-        }
-        .time{
-          text-align: right;
-        }
-        .text{
-          width:leave(480);
-          @include ellipsis
-          color:#bfbfbf
-        }
-        &.isread{
-          .title,.time{
-            color:$light_text;
-            font-weight: normal;
+      nav{
+        a{
+          @include gap(10,h)
+          display: inline-block;
+          padding-bottom:10px;
+          border-bottom: 3px solid transparent;
+          color:#6b7d90;
+          & + a{
+            margin-left:30px
           }
-          .text{
-            color: $light_black;
+          &:hover,&.router-link-active{
+            border-color:#7e92a8
           }
         }
       }
     }
-    @include nodata
+    .order_box{
+      padding:20px 25px;
+      table{
+        width: 100%;
+        text-align: center;
+        tr{
+          // line-height: 55px;
+          border-bottom:1px solid $border;
+          &:first-child{
+            background: #f7f8fa;
+            color: $light_text;
+            border-top:1px solid $border;
+            border-bottom:0;
+            th{
+              font-size: 12px;
+              font-weight: normal;
+              line-height: 50px;
+            }
+          }
+          td{
+            line-height:54px;
+            i.icon_currency{
+              vertical-align: sub;
+              margin-left:5px
+            }
+            .router-link-active{
+              background: #327fff;
+              color:white;
+            }
+            &:last-child{
+              width:186px;
+              button,a{
+                line-height: 34px;
+                @include gap(15,h)
+              }
+              button{
+                @include button($blue)
+                margin-right:5px;
+                &.sold{
+                  margin-bottom:8px
+                }
+                &:disabled{
+                  background: #759fe4;
+                  border-color:#759fe4;
+                  cursor: no-drop;
+                }
+              }
+              a{
+                display: inline-block;
+                @include button($blue,border)
+                border-radius: 5px;
+                .btn:not(:disabled){
+                  @include button($orange)
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+          &:hover{
+            background: #f7f8fa;
+          }
+          &:hover .blue{
+            background: #327fff;
+            color:white;
+          }
+        }
+      }
+      @include nodata
+    }
   }
 </style>

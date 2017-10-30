@@ -193,7 +193,7 @@
         name: 'messageDetail',
         component: MessageDetail
       }, {
-        path: 'repayment',
+        path: 'repayment/:type',
         name: 'repayment',
         component: Repayment
       }, {
