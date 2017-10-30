@@ -320,18 +320,20 @@
       border-right:1px solid #ccc;
     }
     div{
-      display: inline-block;
-      color: black;
-      width:70px;
-      text-align: center;
-      background: #ccc;
-      height: 20px;
-      line-height: 20px;
-      margin-left: 10px;
-      font-size: 12px;
-      border-radius: 3px;
-      cursor: pointer;
-      vertical-align: middle;
+          display: inline-block;
+    color: white;
+    width: 70px;
+    text-align: center;
+    background: #327fff;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 10px;
+    font-size: 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
     }
   }
   .item-box-row{
