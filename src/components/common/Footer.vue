@@ -5,9 +5,9 @@
         <aside>
           <h4>联系我们</h4>
           <h3>杭州总部</h3>
-          <p>咨询电话：<span class="active">0571-28221076</span>工作日（9:00~18:00）</p>
-          <p>客服邮箱：V@suanli.com</p>
-          <p>公司地址：浙江省杭州市学院路77号黄龙国际中心G座-907</p>
+          <p style="margin-bottom:10px;">咨询电话：<span class="active">0571-28221076</span>工作日（9:00~18:00）</p>
+          <p style="margin-bottom:10px;">客服邮箱：V@suanli.com</p>
+          <p style="margin-bottom:10px;">公司地址：浙江省杭州市学院路77号黄龙国际中心G座-907</p>
         </aside>
         <aside>
           <div class="help_support">
@@ -25,8 +25,10 @@
         <div class="follow">
           <h4>关注我们</h4>
           <router-link :to="i" v-for="i,k in info" :key="k">{{k}}</router-link>
-          <div class="qrcode"></div>
-          <div class="active">最新区块链资讯</div>
+          <div class="outside">
+            <div class="qrcode"></div>
+            <div class="active">最新区块链资讯</div>
+          </div>
         </div>
       </div>
       <div class="partner">
@@ -100,7 +102,7 @@
             }
           }
           .service{
-            margin-bottom:25px;
+            margin-bottom:30px;
             a{
               @include gap(30,h)
               &:nth-child(2){
@@ -114,15 +116,22 @@
           .qrcode{
             width: 80px;
             height: 80px;
-            margin-top:15px;
             background: url('../../assets/images/css_sprites.png') -175px -10px;
+            margin:0 auto;
+             margin-top:5px;
           }
           div{
             font-size: 12px
           }
           a{
             display: block;
-            line-height: 2;
+            line-height: 1.5;
+          }
+          .outside{
+            border:1px solid #fff;
+            width:95px;
+            height:113px;
+            margin-top:10px;
           }
         }
         h3,span.active{
