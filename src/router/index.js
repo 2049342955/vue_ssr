@@ -238,7 +238,7 @@
         name: 'list',
         component: WebInfoList
       }, {
-        path: 'detail/:id',
+        path: 'detail/:type/:id',
         name: 'webInfoDetail',
         component: WebInfoDetail
       }, {
