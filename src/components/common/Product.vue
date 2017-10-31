@@ -34,7 +34,6 @@
                 <span v-else>{{$parent.detail[k]}}</span>
               </div>
             </div>
-            <h4 v-html="$parent.detail.machine_intro"></h4>
           </div>
         </div>
       </div>
@@ -69,6 +68,10 @@
       </div>
     </div>
     <div class="info">
+      <div class="info_item">
+        <h3>产品介绍</h3>
+        <div class="box" v-html="$parent.detail.machine_intro"></div>
+      </div>
       <div class="info_item">
         <h3>产品优势</h3>
         <div class="box" v-html="$parent.detail.machine_agreement"></div>

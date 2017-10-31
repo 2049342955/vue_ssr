@@ -40,7 +40,8 @@
       </div>
     </template>
     <div v-if="show" class="agreement_text">
-      <div class="" v-html="contract"></div>
+      <div class="" v-html="contract.hash_res.content"></div>
+      <div class="" v-html="contract.host_res.content"></div>
       <div class="btn_box">
         <button @click="back">返回</button>
       </div>
@@ -92,7 +93,7 @@
               api.tips(self.$refs.tips, res)
             } else {
               self.show = true
-              self.contract = res.content
+              self.contract = res
             }
           })
         })
