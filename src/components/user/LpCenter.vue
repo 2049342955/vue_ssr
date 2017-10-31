@@ -12,7 +12,7 @@
       </div>
     </div>
     <template v-if="show===2">
-      <h2>LP中心<button @click="open">添加基金</button></h2>
+      <h2>LP中心<button @click="open">添加基金</button><span class="scode_info">风险测评：{{scodeInfo.risk.user_risk_score+'分('+scodeInfo.risk.risk_type+')'}}</span></h2>
       <template v-if="s.fund_invest_id" v-for="s,k in scodeInfo.list">
         <h3>{{s.fund_invest_id===1?'BDC基金':'算力基金'}}</h3>
         <div class="detail_table">
@@ -210,6 +210,12 @@
     padding:0 15px;
     h2{
       padding:0 15px !important;
+      .scode_info{
+        float: right;
+        font-size: 14px;
+        margin-right:50px;
+        color:$blue
+      }
       button{
         float: right;
         @include button($blue)
