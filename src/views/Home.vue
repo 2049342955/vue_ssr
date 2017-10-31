@@ -151,10 +151,9 @@
     position: relative;
     height:315px;
     margin-bottom:60px;
-    overflow: hidden;
     @include flex(flex-start,center)
     img{
-      @include position
+      position: absolute;
       height:100%;
       object-fit:cover;
       z-index: -1;
