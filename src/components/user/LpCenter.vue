@@ -69,7 +69,7 @@
     data () {
       return {
         data: {},
-        nav: [{fund_name: ['基金名称', ''], fund_manager: ['基金管理人', ''], invest_money: ['投资金额', '万'], start_end_time: ['投资时间', ''], fund_time: ['投资期限', '天'], electric_amount: ['累计用电力量', '度'], electric_total_price: ['累积电费', '元']}, {fund_name: ['基金名称', ''], fund_manager: ['基金管理人', ''], invest_money: ['投资金额', '元'], start_end_time: ['投资时间', ''], fund_time: ['投资期限', '天'], miner_num: ['云矿机', '台'], miner_hash: ['运算力', 'T'], hash_income: ['累计获得收益', 'btc']}],
+        nav: [{fund_name: ['基金名称', ''], fund_manager: ['基金管理人', ''], invest_money: ['投资金额', '万'], start_end_time: ['投资时间', ''], fund_time: ['投资期限', '天'], electric_amount: ['累计用电力量', '度'], electric_total_price: ['累积电费', '元']}, {fund_name: ['基金名称', ''], fund_manager: ['基金管理人', ''], invest_money: ['投资金额', '万'], start_end_time: ['投资时间', ''], fund_time: ['投资期限', '天'], miner_num: ['云矿机', '台'], miner_hash: ['运算力', 'T'], hash_income: ['累计获得收益', 'btc']}],
         edit: false,
         show: 0,
         content: '',
