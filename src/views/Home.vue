@@ -17,8 +17,8 @@
       </div>
     </div>
     <MyData></MyData>
-    <div class="ad_img">
-      <img :src="adImg" alt="">
+    <div class="ad_img1">
+      <img src="../assets/images/ad.jpg" alt="">
       <div class="text">
         <p><span style="width:224px;height:1px;border-top:1px solid white;display:inline-block;margin-right:18px;position:relative;top:-5px;"></span>清华长三角研究院  & 鼎峰资本  战略投资<span  style="width:224px;height:1px;border-top:1px solid white;display:inline-block;margin-left:18px;position:relative;top:-5px;"></span></p>
         <h2 style="margin-bottom: 10px;margin-top: 10px;">中国信息化推进联盟区块链实验室算力产业课题项目</h2>
@@ -147,10 +147,11 @@
       }
     }
   }
-  .ad_img{
+  .ad_img1{
     position: relative;
     height:315px;
     margin-bottom:60px;
+    overflow: hidden;
     @include flex(flex-start,center)
     img{
       @include position
