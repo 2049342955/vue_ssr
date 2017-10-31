@@ -101,19 +101,12 @@
       getBaoquan (id) {
         var data = {token: this.token, order_id: this.$route.params.id, security_hash_type: this.$route.params.type, user_id: this.user_id}
         var self = this
+        var newTab = window.open('about:blank')
         util.post('getBaoquan', {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.openwin('https://www.baoquan.com/attestations/' + res)
+            newTab.location.href = 'https://www.baoquan.com/attestations/' + res
           })
         })
-      },
-      openwin (url) {
-        var a = document.createElement('a')
-        a.setAttribute('href', url)
-        a.setAttribute('target', '_blank')
-        a.setAttribute('id', 'openwin')
-        document.body.appendChild(a)
-        a.click()
       },
       back () {
         this.show = false
