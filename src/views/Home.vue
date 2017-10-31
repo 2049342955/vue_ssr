@@ -151,7 +151,6 @@
     position: relative;
     height:315px;
     margin-bottom:60px;
-    overflow: hidden;
     @include flex(flex-start,center)
     img{
       @include position
