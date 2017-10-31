@@ -31,7 +31,6 @@
               <span class="title">批次所在区域：</span>
               <span class="value">{{$parent.detail.batch_area}}</span>
             </p>
-            <div v-html="$parent.detail.machine_agreement"></div>
           </div>
         </div>
         <form class="form payForm" action="" @submit.prevent="pay" novalidate>
