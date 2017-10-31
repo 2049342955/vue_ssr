@@ -21,7 +21,7 @@
     data () {
       return {
         next: false,
-        detail: {buyType: '转让', incomeType: '每日结算，次日发放', status: 0},
+        detail: {buyType: '转让', incomeType: '每日结算，次日发放', status: 0, transfer_amount: 0, total_price: 0},
         proData: {product_name: {title: '矿机名称', unit: ''}, transfer_price: {title: '每T算力价格', unit: '元'}, transfer_amount: {title: '算力总量', unit: 'T'}, transfer_time: {title: '转让时长', unit: '天'}},
         proText: {hashType: '算力类型', buyType: '购买类型', incomeType: '结算方式'},
         balance: 0,
@@ -43,8 +43,8 @@
           api.checkAjax(self, res, () => {
             self.next = true
             self.balance = res.balance_account
-            self.content = res.has_contract_tpl.content
-            self.content1 = res.has_contract_tpl.content1
+            self.content = res.contract_result.content
+            self.content1 = res.contract_result.content1
           })
         })
       }

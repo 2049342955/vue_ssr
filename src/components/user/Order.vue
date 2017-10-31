@@ -51,7 +51,7 @@
           </template>
           <th>操作</th>
         </tr>
-        <tr v-for="d,k in data">
+        <tr v-for="d,k in data" :class="{active: nowEdit==0&&status==1}">
           <td>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
           <template v-if="nowEdit==0&&(status==2||status==3)">
             <td>{{d.total_hash|format}}T</td>
@@ -363,6 +363,36 @@
               button,a{
                 line-height: 34px;
                 @include gap(15,h)
+              }
+              button{
+                @include button($blue)
+                margin-right:5px;
+                &.sold{
+                  margin-bottom:8px
+                }
+                &:disabled{
+                  background: #759fe4;
+                  border-color:#759fe4;
+                  cursor: no-drop;
+                }
+              }
+              a{
+                display: inline-block;
+                @include button($blue,border)
+                border-radius: 5px;
+                .btn:not(:disabled){
+                  @include button($orange)
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+          &.active{
+            td:last-child{
+              width:186px;
+              button,a{
+                line-height: 34px;
+                @include gap(5,h)
               }
               button{
                 @include button($blue)
