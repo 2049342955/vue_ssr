@@ -99,10 +99,11 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
+  @import '../../assets/fonts/iconfont.css';
   .logo{
     display: block;
-    width: 170px;
-    height: 50px;
+    width: 150px;
+    height: 44px;
   }
   .frame_header{
     @include position(0,0,auto,0)
@@ -112,7 +113,7 @@
       background: rgba(0,0,0,.8);
     }
     .box .logo{
-      background: url('../../assets/images/css_sprites.png') -10px -80px
+      background: url('../../assets/images/css_sprites.png') -10px -74px;
     }
     a{
       color:$white
@@ -148,12 +149,12 @@
         }
       }
       nav .item:hover a::after{
-              content: "●";
-              display: block;
-              color: black;
-              position: relative;
-              font-size: 12px;
-        }
+        content: "●";
+        display: block;
+        color: black;
+        position: relative;
+        font-size: 12px;
+      }
       .side_nav{
         a{
           color:$text;
@@ -174,7 +175,7 @@
   .web_box{
     background: #242528;
     .box .logo{
-      background: url('../../assets/images/css_sprites.png') -10px -80px
+      background: url('../../assets/images/css_sprites.png') -10px -74px;
     }
     .box nav .item a,.box .side_nav a,.box .side_nav a.tel{
       color:#fff
