@@ -236,9 +236,15 @@
     }
     .no_scode{
       @include flex(center)
+      position: relative;
       height:100%;
       .no_scode_box{
         width:300px;
+        position: absolute;
+        left: 50%;
+        top:50%;
+        margin-top:-62px;
+        margin-left:-150px;
         .input{
           @include input
         }
