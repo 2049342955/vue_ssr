@@ -40,8 +40,8 @@
       </div>
     </template>
     <div v-if="show" class="agreement_text">
-      <div class="" v-html="contract.hash_res.content"></div>
-      <div class="" v-html="contract.host_res.content"></div>
+      <div class="" v-html="contract.hash_res&&contract.hash_res.content"></div>
+      <div class="" v-html="contract.host_res&&contract.host_res.content"></div>
       <div class="btn_box">
         <button @click="back">返回</button>
       </div>
@@ -82,10 +82,6 @@
         if (this.$route.params.type === '1') {
           requestUrl = 'rent_contract'
           data = {token: this.token, transfer_id: this.$route.params.id}
-        }
-        if (this.$route.params.type === '2') {
-          requestUrl = 'lp_contract'
-          data = {token: this.token, funds_id: this.$route.params.id}
         }
         util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
