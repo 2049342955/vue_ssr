@@ -1,7 +1,7 @@
 <template>
   <section class="web_info_detail">
     <h3>{{content.title}}</h3>
-    <div v-html="content.content"></div>
+    <div class="info_detail" v-html="content.content"></div>
     <div class="web_tips" ref="tips"></div>
   </section>
 </template>
@@ -36,6 +36,12 @@
       text-align: center;
       font-size: 18px;
       line-height: 3;
+    }
+    .info_detail{
+      img{
+        width:auto;
+        max-width:100%
+      }
     }
   }
 </style>

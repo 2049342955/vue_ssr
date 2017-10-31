@@ -36,7 +36,7 @@
         </div>
         <div class="nodata" v-if="$parent.show">
           <img :src="img" alt="">
-          <p>暂无数据</p>
+          <p>即将上线，敬请期待</p>
         </div>
       </div>
     </div>
@@ -45,8 +45,6 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import api from '@/util/function'
   import Sort from '@/components/common/Sort'
   export default {
     components: {
@@ -65,40 +63,13 @@
     },
     data () {
       return {
-        edit: -1,
         img: require('@/assets/images/nodata.jpg')
       }
     },
     methods: {
       goPay (id, status) {
-        if (this.token === 0) {
-          api.tips(this.$refs.tips, '请先登录', () => {
-            this.$router.push({name: 'login'})
-          })
-          return false
-        }
-        if (!(this.true_name && this.true_name.status === 1)) {
-          api.tips(this.$refs.tips, '请先实名认证', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
-        if (!(this.bank_card && this.bank_card.status === 2)) {
-          api.tips(this.$refs.tips, '请先绑定银行卡', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
         this.$router.push({path: '/' + this.page + '/detail/' + id})
       }
-    },
-    computed: {
-      ...mapState({
-        token: state => state.info.token,
-        true_name: state => state.info.true_name,
-        risk: state => state.info.risk,
-        bank_card: state => state.info.bank_card
-      })
     }
   }
 </script>

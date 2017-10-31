@@ -7,6 +7,10 @@
             <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-if="b===1">
             <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-else :style="[{transform: 'translate3d('+offsetX+'px, '+offsetY+'px, 0px)'}]">
           </template>
+          <router-link to="/cloudCompute/list/1/all" class="btn" v-if="k===5||k===1">即刻开始</router-link>
+          <router-link to="/bdc/list" class="btn" v-else-if="k===2">查看详情</router-link>
+          <router-link to="/user/computeProperty" class="btn" v-else-if="k===3">查看详情</router-link>
+          <router-link to="/cloudCompute/list/1/all" class="btn" v-else-if="k===0||k===4">查看详情</router-link>
         </div>
         <div class="swiper_box" v-else :style="{width: width+'px'}">
           <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-for="b in n">
@@ -235,31 +239,60 @@
             transition: all .2s;
             transform-style: preserve-3d;
             backface-visibility: hidden;
+            &:first-child{
+              left:calc(50% - 590px);
+            }
+            &:nth-child(2){
+              right:calc(50% - 590px);
+            }
+          }
+          a.btn{
+            position: absolute;
+            width:200px;
+            height:50px;
+            line-height: 50px;
+            text-align: center;
+            left:calc(50% - 590px);
+            top:330px;
+            color:#fff;
+            border:1px solid #fff;
+            border-radius:5px;
+            font-size: 18px;
+            &:hover{
+              background: #fff;
+              color:#1e396c
+            }
           }
         }
         &:nth-child(6),&:nth-child(2){
           img{
             top:0;
-            left:calc(50% - 590px);
             width:1180px;
             height:100%;
           }
+          a.btn{
+            border-color:#327fff;
+            background: #327fff;
+            color:#fff;
+            &:hover{
+              border-color:#327fff;
+              background: #327fff;
+              color:#fff
+            }
+          }
         }
         &:nth-child(3) img:first-child{
-          left:calc(50% - 590px);
           width:563px;
           top:calc(50% - 45px);
           height:90px;
         }
         &:nth-child(3) img:nth-child(2){
           top:calc(50% - 139.5px);
-          right:calc(50% - 590px);
           width:532px;
           height:279px;
         }
         &:nth-child(4){
           img:first-child{
-            left:calc(50% - 590px);
             width:626px;
             top:calc(50% - 44px);
             height:88px;
@@ -268,14 +301,12 @@
         &:nth-child(4){
           img:nth-child(2){
             top:calc(50% - 137.5px);
-            right:calc(50% - 590px);
             width:404px;
             height:275px;
           }
         }
         &:nth-child(5),&:nth-child(1){
           img:first-child{
-            left:calc(50% - 590px);
             width:493px;
             top:calc(50% - 54.5px);
             height:99px;
@@ -284,7 +315,6 @@
         &:nth-child(5),&:nth-child(1){
           img:nth-child(2){
             top:calc(50% - 143.5px);
-            right:calc(50% - 590px);
             width:564px;
             height:287px;
           }

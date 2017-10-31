@@ -394,7 +394,7 @@
     &:before{
       content: '';
       display: inline-block;
-      background: url('../../assets/images/css_sprites.png') -10px -209px;
+      background: url('../../assets/images/css_sprites.png') -10px -168px;
       width: 122px;
       height: 36px;
       vertical-align: middle;
@@ -403,7 +403,7 @@
     &:after{
       content: '';
       display: inline-block;
-      background: url('../../assets/images/css_sprites.png') -10px -152px;
+      background: url('../../assets/images/css_sprites.png') -210px -68px;
       width: 122px;
       height: 37px;
       vertical-align: middle;

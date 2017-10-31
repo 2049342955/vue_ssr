@@ -76,7 +76,7 @@
   @import '../../assets/fonts/iconfont.css';
   .transfer_list{
     .bg_box{
-      @include bg(1920,420px,#12161d)
+      @include bg(1920,420px,#1863f0)
       z-index: -1;
       .bg{
         background:url(../../assets/images/cloudCompute.jpg) no-repeat;

@@ -57,7 +57,6 @@
         if (!data) return false
         var self = this
         form.btn.setAttribute('disabled', true)
-        console.log(data)
         util.post('balance_recharge', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           api.checkAjax(self, res, () => {
             form.amount.value = ''
