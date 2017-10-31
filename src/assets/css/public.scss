@@ -74,18 +74,18 @@ input::-webkit-input-placeholder {
       @include block(20)
     }
     &.BTC{
-      background: url('./assets/images/css_sprites.png') -360px -121px;
+      background: url('./assets/images/css_sprites.png') -160px -110px;
     }
     &.BCC{
-      background: url('./assets/images/css_sprites.png') -318px -161px;
+      background: url('./assets/images/css_sprites.png') -264px -168px;
     }
     &.ETH{
       background: url('./assets/images/css_sprites.png') -280px -161px;
     }
     &.ETC{
-      background: url('./assets/images/css_sprites.png') -280px -121px;
+      background: url('./assets/images/css_sprites.png') -290px -125px;
     }
     &.LTC{
-      background: url('./assets/images/css_sprites.png') -320px -121px;
+      background: url('./assets/images/css_sprites.png') -210px -125px;
     }
   }

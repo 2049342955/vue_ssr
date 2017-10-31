@@ -88,7 +88,7 @@
               width: 92px;
               height: 35px;
               border-radius:5px;
-              background: url('../../assets/images/css_sprites.png') -280px -66px;
+              background: url('../../assets/images/css_sprites.png') -152px -168px;
             }
             .copyright_text{
               width:400px;
@@ -127,7 +127,7 @@
             .qrcode{
               width: 80px;
               height: 80px;
-              background: url('../../assets/images/css_sprites.png') -180px -10px;
+              background: url('../../assets/images/css_sprites.png') -10px -10px;
             }
           }
           .active{

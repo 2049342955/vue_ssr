@@ -53,7 +53,7 @@
           <div class="price_text">需支付：<span class="money">{{$parent.totalPrice|format}}元</span></div>
           <div class="price_text">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
          <button class="btn" disabled v-if="$parent.leftStatus">已售罄</button>
-         <button :class="['btn', {over: $parent.overStatus}]" :disabled="$parent.overStatus" v-else @click="$parent.goPay">立即支付</button>
+         <button :class="['btn', {over: $parent.overStatus}]" :disabled="$parent.overStatus" v-else @click="checkPay">立即支付</button>
         </div>
       </div>
       <div class="price transfer" v-else>
@@ -61,7 +61,7 @@
         <div class="price_input">
           <div class="price_text">需支付：<span class="money">{{$parent.detail.total_price|format}}元</span></div>
           <div class="price_text">总算力：<span class="money">{{$parent.detail.transfer_amount|format}}T</span></div>
-          <button class="btn" v-if="$parent.detail.status===1" @click="$parent.goPay">立即支付</button>
+          <button class="btn" v-if="$parent.detail.status===1" @click="checkPay">立即支付</button>
           <button class="btn" disabled v-else-if="$parent.detail.status===2">已转让</button>
           <button class="btn" disabled v-else-if="$parent.detail.status===3">产品撤销</button>
         </div>
@@ -85,11 +85,13 @@
         </div>
       </div>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
 <script>
   import api from '../../util/function'
+  import { mapState } from 'vuex'
   export default {
     props: {
       page: {
@@ -105,8 +107,36 @@
         type: Object
       }
     },
+    methods: {
+      checkPay (id, status) {
+        if (this.token === 0) {
+          this.$router.push({name: 'login'})
+          return false
+        }
+        if (!(this.true_name && this.true_name.status === 1)) {
+          api.tips(this.$refs.tips, '请先实名认证', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
+        if (!(this.bank_card && this.bank_card.status === 2)) {
+          api.tips(this.$refs.tips, '请先绑定银行卡', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
+        this.$parent.goPay()
+      }
+    },
     filters: {
       format: api.decimal
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token,
+        true_name: state => state.info.true_name,
+        bank_card: state => state.info.bank_card
+      })
     }
   }
 </script>
