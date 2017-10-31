@@ -52,7 +52,7 @@
           </div>
           <FormField :form="form" class="form"></FormField>
           <label for="accept">
-            <input type="checkbox" id="accept" name="accept">
+            <input type="checkbox" v-model="toggle" id="accept" name="accept">
             <span>阅读并接受<a href="javascript:;" @click="openContract(1)">《算力网{{page === 'cloudCompute'?'购买':'转让'}}协议》</a>和<a href="javascript:;" @click="openContract(2)">《算力网托管协议》</a></span>
             <span class="select_accept">{{tips}}</span>
           </label>
@@ -101,7 +101,8 @@
         form: [{name: 'password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
         tips: '请同意服务条款',
         totalPrice: 0,
-        showAgreement: 0
+        showAgreement: 0,
+        toggle: false
       }
     },
     methods: {
@@ -148,6 +149,7 @@
       },
       openContract (v) {
         this.showAgreement = v
+        this.toggle = true
       },
       agree () {
         this.showAgreement = 0
