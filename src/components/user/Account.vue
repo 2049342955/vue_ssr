@@ -55,7 +55,7 @@
             callbackUrl = 'show_user_truename'
             no = 1
             val = 'true_name'
-            tipsStr = '实名认证已提交'
+            tipsStr = '实名认证已提交，请您耐心等待几秒即可看到认证结果'
             tipsStr2 = '恭喜您实名认证成功，温馨提示：在您进行购买矿机和算力之前，请先绑定银行卡'
             break
           case 'card':
@@ -63,7 +63,7 @@
             callbackUrl = 'show_bankcard'
             no = 2
             val = 'bank_card'
-            tipsStr = '银行卡绑定已提交'
+            tipsStr = '银行卡绑定已提交，请您耐心等待几秒即可看到认证结果'
             tipsStr2 = '恭喜您银行卡绑定成功'
             break
           case 'address':
@@ -85,9 +85,8 @@
                 self.requestData(callbackUrl, sendData, no, val, () => {
                   api.tips(self.$refs.tips, tipsStr2)
                 })
-              }, 5000)
+              }, 7000)
             } else {
-              console.log(11)
               self.requestData(callbackUrl, sendData, no, val)
             }
             self.closeEdit()
@@ -103,7 +102,6 @@
         util.post(url, {sign: api.serialize(sendData)}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.$store.commit('SET_INFO', {[val]: res})
-            console.log(res, self.$store.state.info.address)
             if (callback) {
               callback()
             }
