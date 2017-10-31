@@ -70,15 +70,15 @@
     <div class="info">
       <div class="info_item">
         <h3>产品介绍</h3>
-        <div v-html="$parent.detail.machine_intro"></div>
+        <div class="box" v-html="$parent.detail.machine_intro"></div>
       </div>
       <div class="info_item">
         <h3>产品优势</h3>
-        <div v-html="$parent.detail.machine_advantage"></div>
+        <div class="box" v-html="$parent.detail.machine_advantage"></div>
       </div>
       <div class="info_item">
         <h3>协议说明</h3>
-        <div v-html="$parent.detail.machine_agreement"></div>
+        <div class="box" v-html="$parent.detail.machine_agreement"></div>
       </div>
       <div class="info_item">
         <h3>矿场相册</h3>
@@ -310,13 +310,7 @@
           padding:30px 0;
           font-size: 16px
         }
-        &:first-child{
-          .box{
-            color: $light_text;
-            @include row(2)
-          }
-        }
-        &:nth-child(4){
+        &:last-child{
           .box{
             @include row(2)
             .item img{
