@@ -5,15 +5,15 @@
         <aside>
           <h4>联系我们</h4>
           <h3>
-            <span>杭州总部</span>
-            <span>北京</span>
-            <span>山西</span>
-            <span>广东</span>
-            <span>广西</span>
+            <a to="#" v-for="item,k in items" @click="select(k)" :class="{'active':show===k}">{{item.title}}</a>
+            <!-- <router-link to="#">北京</router-link>
+            <router-link to="#">山西</router-link>
+            <router-link to="#">广东</router-link>
+            <router-link to="#">广西</router-link> -->
           </h3>
-          <p style="margin-bottom:10px;">咨询电话：<span class="active">0571-28221076</span>工作日（9:00~18:00）</p>
-          <p style="margin-bottom:10px;">客服邮箱：V@suanLi.com</p>
-          <p style="margin-bottom:10px;">公司地址：浙江省杭州市学院路77号黄龙国际中心G座-907</p>
+          <p>咨询电话：<span class="active">0571-28221076</span>工作日（9:00~18:00）</p>
+          <p>客服邮箱：V@suanLi.com</p>
+          <p>公司地址：浙江省杭州市学院路77号黄龙国际中心G座-907</p>
         </aside>
         <aside>
           <div class="help_support">
@@ -25,7 +25,7 @@
           </div>
           <div class="copyright">
             <div class="copyright_img"></div>
-            <p class="copyright_text">Copyright © 2013-2017 Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. 算力网 版权所有</p>
+            <p class="copyright_text">Copyright © 2013-2017 Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. <router-link to="#">算力网</router-link> 版权所有</p>
           </div>
         </aside>
         <div class="follow">
@@ -34,7 +34,7 @@
           <div class="outside">
             <div class="qrcode"></div>
           </div>
-          <div class="active">最新区块链资讯</div>
+          <!-- <div class="active">最新区块链资讯</div> -->
         </div>
       </div>
       <div class="partner">
@@ -56,7 +56,15 @@
         link: {'关于我们': '/webInfo/aboutUs', '常见问题': '/webInfo/issues'},
         service: {'算力商城': '/cloudCompute/list/1/all', '算力转让': '/computeTransfer/list/1/all', '算力托管': '/bdc/list', '算力资讯': '/webInfo/list/news'},
         partner: [],
-        info: {'网站动态': '/webInfo/list/website', '产品公告': '/webInfo/list/product'}
+        info: {'网站动态': '/webInfo/list/website', '产品公告': '/webInfo/list/product'},
+        items: [
+          {title: '杭州总部', show: false},
+          {title: '北京', show: false},
+          {title: '山西', show: false},
+          {title: '广东', show: false},
+          {title: '广西', show: false}
+        ],
+        show: 0
       }
     },
     created () {
@@ -64,6 +72,11 @@
       util.post('friendlinkList', {sign: 'token=0'}).then(function (res) {
         self.partner = res
       })
+    },
+    methods: {
+      select (k) {
+        this.show = k
+      }
     }
   }
 </script>
@@ -98,7 +111,7 @@
             }
           }
           .help_support{
-            margin-bottom:25px;
+            margin-bottom:5px;
             a{
               @include gap(20,h)
               border-left:1px solid $light_text;
@@ -109,7 +122,7 @@
             }
           }
           .service{
-            margin-bottom:30px;
+            margin-bottom:20px;
             a{
               @include gap(30,h)
               &:nth-child(2){
@@ -135,18 +148,27 @@
           }
           a{
             display: block;
-            line-height: 1.5;
+            line-height: 2;
           }
         }
-        h3,span.active{
+        h3{
           font-size: 15px;
-          span{
-            width:62px;
+          a{
+            width:72px;
             height:20px;
             text-align:center;
             line-height:20px;
             display:inline-block;
+            cursor: pointer;
             &:hover{
+              line-height:20px;
+              text-align:center;
+              color:white;
+              font-size:15px;
+              border-radius:5px;
+              background: #327fff;
+            }
+            &.active{
               line-height:20px;
               text-align:center;
               color:white;

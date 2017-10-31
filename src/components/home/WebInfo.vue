@@ -130,6 +130,9 @@
               .text{
                 color:$orange
               }
+              .date{
+                color:$orange
+              }
             }
           }
         }

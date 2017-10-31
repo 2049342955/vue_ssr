@@ -230,8 +230,8 @@
             text-align: center;
             margin-left:10px;
             border-radius:3px;
-            background:$white;
-            color:$blue
+            color:$white;
+            background:$blue
           }
         }
       }
