@@ -17,12 +17,12 @@
         <h3>{{s.fund_invest_id===1?'BDC基金':'算力基金'}}</h3>
         <div class="detail_table">
           <div class="item" v-for="d,k in nav[s.fund_invest_id-1]">
-            <div class="item_title">{{d}}</div>
+            <div class="item_title">{{d[0]}}</div>
             <div class="item_value">
               <template v-if="k==='start_end_time'">{{s.fund_start_time}}-{{s.fund_end_time}}</template>
               <!-- <template v-else-if="s.fund_invest_id===1&&d==='累积电费'">{{s[k]}}<span>查看明细</span></template>
               <template v-else-if="s.fund_invest_id===2&&d==='累计获得收益'">{{s[k]}}<span>查看明细</span></template> -->
-              <template v-else>{{s[k]}}</template>
+              <template v-else>{{s[k]}}{{d[1]}}</template>
             </div>
           </div>
           <div class="item" v-if="Object.keys(nav[s.fund_invest_id-1]).length%2">
@@ -69,7 +69,7 @@
     data () {
       return {
         data: {},
-        nav: [{fund_name: '基金名称', fund_manager: '基金管理人', invest_money: '投资金额', start_end_time: '投资时间', fund_time: '投资期限', electric_amount: '累计用电力量', electric_total_price: '累积电费'}, {fund_name: '基金名称', fund_manager: '基金管理人', invest_money: '投资金额', start_end_time: '投资时间', fund_time: '投资期限', miner_num: '云矿机', miner_hash: '运算力', hash_income: '累计获得收益'}],
+        nav: [{fund_name: ['基金名称', ''], fund_manager: ['基金管理人', ''], invest_money: ['投资金额', '万'], start_end_time: ['投资时间', ''], fund_time: ['投资期限', '天'], electric_amount: ['累计用电力量', '度'], electric_total_price: ['累积电费', '元']}, {fund_name: ['基金名称', ''], fund_manager: ['基金管理人', ''], invest_money: ['投资金额', '元'], start_end_time: ['投资时间', ''], fund_time: ['投资期限', '天'], miner_num: ['云矿机', '台'], miner_hash: ['运算力', 'T'], hash_income: ['累计获得收益', 'btc']}],
         edit: false,
         show: 0,
         content: '',
