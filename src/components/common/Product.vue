@@ -74,11 +74,11 @@
       </div>
       <div class="info_item">
         <h3>产品优势</h3>
-        <div class="box" v-html="$parent.detail.machine_agreement"></div>
+        <div class="box" v-html="$parent.detail.machine_advantage"></div>
       </div>
       <div class="info_item">
         <h3>协议说明</h3>
-        <div class="box" v-html="$parent.detail.machine_advantage"></div>
+        <div class="box" v-html="$parent.detail.machine_agreement"></div>
       </div>
       <div class="info_item">
         <h3>矿场相册</h3>
