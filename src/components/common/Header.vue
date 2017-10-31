@@ -99,10 +99,11 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
+  @import '../../assets/fonts/iconfont.css';
   .logo{
     display: block;
-    width: 145px;
-    height: 51px;
+    width: 130px;
+    height: 38px;
   }
   .frame_header{
     @include position(0,0,auto,0)
@@ -112,7 +113,7 @@
       background: rgba(0,0,0,.8);
     }
     .box .logo{
-      background: url('../../assets/images/css_sprites.png') -10px -81px
+      background: url('../../assets/images/css_sprites.png') -10px -110px;
     }
     a{
       color:$white
@@ -135,7 +136,7 @@
   .auth_box,.user_box{
     .box{
       .logo{
-        background: url('../../assets/images/css_sprites.png') -10px -10px;
+        background: url('../../assets/images/css_sprites.png') -210px -10px;
       }
       nav .item a{
         color:$text;
@@ -148,12 +149,12 @@
         }
       }
       nav .item:hover a::after{
-              content: "●";
-              display: block;
-              color: black;
-              position: relative;
-              font-size: 12px;
-        }
+        content: "●";
+        display: block;
+        color: black;
+        position: relative;
+        font-size: 12px;
+      }
       .side_nav{
         a{
           color:$text;
@@ -174,7 +175,7 @@
   .web_box{
     background: #242528;
     .box .logo{
-      background: url('../../assets/images/css_sprites.png') -10px -81px
+      background: url('../../assets/images/css_sprites.png') -10px -110px;
     }
     .box nav .item a,.box .side_nav a,.box .side_nav a.tel{
       color:#fff
@@ -190,9 +191,8 @@
         @include flex
         margin-left:60px;
         .item{
-          @include gap(20,h)
           text-align:center;
-          width:134px;
+          width:100px;
           height:25px;
           a{
             font-size: 16px;
@@ -230,8 +230,8 @@
             text-align: center;
             margin-left:10px;
             border-radius:3px;
-            color:$white;
-            background:$blue
+            background:$blue;
+            color:$white
           }
         }
       }
