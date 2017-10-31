@@ -119,6 +119,7 @@
     },
     methods: {
       openMask (str, title) {
+        this.total_price = 0
         if (!(this.true_name && this.true_name.status === 1)) {
           api.tips(this.$refs.tips, '请先实名认证', () => {
             this.$router.push({name: 'account'})
@@ -229,6 +230,7 @@
         })
       },
       onChange (e) {
+        console.log(this.amount)
         if (parseFloat(e.target.value) > parseFloat(this.amount)) {
           e.target.value = this.amount
         }
