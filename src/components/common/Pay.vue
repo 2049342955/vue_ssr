@@ -15,6 +15,7 @@
           <div class="detailF">
             <p v-for="t,k in proText">{{t}}：
               <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
+              <span class="value" v-else-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
               <span class="value" v-else>{{$parent.detail[k]}}</span>
             </p>
           </div>
@@ -23,14 +24,14 @@
       <div class="orderPay">
         <div class="detail">
           <div class="img">
-            <img :src="$parent.detail.imgurl" alt="">
+            <img :src="$parent.detail.product_img" alt="">
           </div>
           <div class="text">
             <p>
               <span class="title">批次所在区域：</span>
-              <span class="value">{{$parent.detail.address}}</span>
+              <span class="value">{{$parent.detail.batch_area}}</span>
             </p>
-            <p>{{$parent.detail.desc}}</p>
+            <div v-html="$parent.detail.machine_agreement"></div>
           </div>
         </div>
         <form class="form payForm" action="" @submit.prevent="pay" novalidate>
@@ -52,7 +53,7 @@
           <FormField :form="form" class="form"></FormField>
           <label for="accept">
             <input type="checkbox" id="accept" name="accept">
-            <span>阅读并接受<a href="javascript:;" @click="openContract">《算力网{{page === 'cloudCompute'?'购买':'转让'}}协议》</a></span>
+            <span>阅读并接受<a href="javascript:;" @click="openContract(1)">《算力网{{page === 'cloudCompute'?'购买':'转让'}}协议》</a>和<a href="javascript:;" @click="openContract(2)">《算力网托管协议》</a></span>
             <span class="select_accept">{{tips}}</span>
           </label>
           <button name="btn">确认支付</button>
@@ -60,8 +61,14 @@
       </div>
       <div class="web_tips" ref="tips"></div>
     </template>
-    <div v-else class="agreement_text">
+    <div v-else-if="showAgreement===1" class="agreement_text">
       <div class="" v-html="$parent.content"></div>
+      <div class="btn_box">
+        <button @click="agree">我同意</button>
+      </div>
+    </div>
+    <div v-else-if="showAgreement===2" class="agreement_text">
+      <div class="" v-html="$parent.content1"></div>
       <div class="btn_box">
         <button @click="agree">我同意</button>
       </div>
@@ -94,7 +101,7 @@
         form: [{name: 'password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
         tips: '请同意服务条款',
         totalPrice: 0,
-        showAgreement: false
+        showAgreement: 0
       }
     },
     methods: {
@@ -139,11 +146,11 @@
           })
         }
       },
-      openContract () {
-        this.showAgreement = true
+      openContract (v) {
+        this.showAgreement = v
       },
       agree () {
-        this.showAgreement = false
+        this.showAgreement = 0
       }
     },
     mounted () {

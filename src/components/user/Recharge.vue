@@ -4,9 +4,9 @@
     <h3>操作提示</h3>
     <div class="recharge_text">
       <div class="recharge_info">
-        <p>账号主体：杭州某某有限公司</p>
-        <p>对公银行：建设银行</p>
-        <p>银行卡号：32095023582232352</p>
+        <p>账号主体：浙江数秦科技有限公司</p>
+        <p>对公银行：杭州银行</p>
+        <p>银行卡号：3301 0401 6000 4867 449</p>
         <div class="recharge_process">
           <div>流程说明：</div>
           <div class="process">

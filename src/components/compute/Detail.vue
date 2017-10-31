@@ -21,11 +21,11 @@
     data () {
       return {
         next: false,
-        detail: {product_img: '', income: 0.12441251, electricityFees: 0.12441251, buyType: '预售', incomeType: '每日结算，次日发放', machine_intro: '', machine_agreement: '', product_photos: []},
+        detail: {incomeType: '每日结算，次日发放'},
         proData: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台服务器算力', unit: 'T'}, amount: {title: '服务器总台数', unit: '台'}},
-        proText: {hashType: '算力类型', buyType: '购买类型', incomeType: '结算方式'},
+        proText: {hashType: '算力类型', status: '购买类型', incomeType: '结算方式'},
         proData2: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '每日电费约', unit: 'btc'}},
-        proText2: {hashType: '算力类型', hash: '每台矿机算力', buyType: '购买类型', incomeType: '结算方式'},
+        proText2: {hashType: '算力类型', hash: '每台矿机算力', status: '购买类型', incomeType: '结算方式'},
         totalPrice: 0,
         totalHash: 0,
         number: '',
@@ -34,7 +34,9 @@
         balance: 0,
         leftStatus: false,
         overStatus: false,
-        content: ''
+        content: '',
+        content1: '',
+        str: {4: '预热', 5: '可售'}
       }
     },
     methods: {
@@ -52,6 +54,10 @@
           }, 2000)
           return false
         }
+        if (this.detail.status === 4) {
+          api.tips(this.$refs.tips, '暂不能购买')
+          return false
+        }
         var self = this
         // 100002:参数缺失，200009：不能购买自己发布的订单
         util.post('productOrder', {sign: api.serialize({token: this.token, product_id: this.$route.params.id, num: this.number})}).then(function (res) {
@@ -59,6 +65,7 @@
             self.next = true
             self.balance = res.balance
             self.content = res.content
+            self.content1 = res.content1
           })
         })
       },

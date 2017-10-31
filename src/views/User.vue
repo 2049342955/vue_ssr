@@ -171,7 +171,10 @@
             border-top:1px solid #eaf1f5;
             border-left:2px solid transparent;
             border-radius:5px;
-            &:hover,&.router-link-active,&.active{
+            &:hover{
+              background: #f5f8ff;
+            }
+            &.router-link-active,&.active{
               position: relative;
               background: #f5f8ff;
               border-left-color:$blue;
@@ -180,6 +183,9 @@
                 content:'';
                 @include position(20,auto,auto,35)
                 @include triangle(right,$blue)
+                border-top: 5px solid transparent;
+                border-bottom: 5px solid transparent;
+                border-left: 5px solid #327fff;
               }
             }
           }

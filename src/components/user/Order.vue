@@ -4,7 +4,7 @@
       <div class="text">
         <span class="text_title">订单管理</span>
         <div class="title_content">
-          <span class="title_now" v-if="scode.length">{{title2[nowEdit]}}</span>
+          <span class="title_now" v-if="scode">{{title2[nowEdit]}}</span>
           <span class="title_now" v-else>{{title[nowEdit]}}</span>
           <div class="title_list">
             <template v-if="scode">
@@ -68,7 +68,8 @@
             <td v-if="nowEdit!=1">{{d.buy_amount}}台</td>
             <td>{{d.total_price}}元</td>
           </template>
-          <td>{{d.create_time}}</td>
+          <td v-if="nowEdit==1&&(status==2||status==3)">{{d.transfer_time}}天</td>
+          <td v-else>{{d.create_time}}</td>
           <template v-if="nowEdit==0&&(status==1||status==4)">
             <td>{{d.remain_miner}}台</td>
             <td>{{d.remain_hash|format}}T</td>
@@ -78,20 +79,20 @@
           </template>
           <td>
             <template v-if="nowEdit==0&&status==1">
-              <button class="sold" @click="openMask('sold', '出售云矿机', d.id)" :disabled="!d.remain_miner||(parseInt((Date.parse(new Date())/1000-d.income_start_time)/(3600*24))<5)">出售云矿机</button>
-              <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash||(parseInt((Date.parse(new Date())/1000-d.income_start_time)/(3600*24))<5)">出租算力</button>
+              <button class="sold" @click="openMask('sold', '出售云矿机', d.id)" :disabled="!d.remain_miner">出售云矿机</button>
+              <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash">出租算力</button>
             </template>
             <template v-if="nowEdit==0&&status==2">
               <button class="sold" @click="quit('sold', d.id)">撤销出售</button>
             </template>
             <template v-if="nowEdit==1&&status==1">
-              <button @click="openMask('againRent', '转租算力', d.id)" :disabled="!d.remain_hash||(parseInt((Date.parse(new Date())/1000-d.income_start_time)/(3600*24))<5)">转租算力</button>
+              <button @click="openMask('againRent', '转租算力', d.id)" :disabled="!d.remain_hash">转租算力</button>
             </template>
             <template v-if="(nowEdit==1||nowEdit==2)&&status==2">
               <button @click="quit('rent', d.id)">撤销出租</button>
             </template>
             <template v-if="nowEdit==2&&status==1">
-              <button @click="openMask('rent', '出租算力', d.id)">出租算力</button>
+              <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash">出租算力</button>
             </template>
             <router-link :to="'/user/orderDetail/'+nowEdit+'/'+d.id"  v-if="nowEdit!=2&&status!=2&&status!=3">查看详情</router-link>
           </td>
@@ -172,10 +173,6 @@
       openMask (str, title, id) {
         this.total_price = 0
         this.order_id = id
-        window.scroll(0, 0)
-        document.body.style.overflow = 'hidden'
-        this.editText = title
-        this.edit = str
         var data = {}
         var requestUrl = ''
         if (str === 'rent') {
@@ -191,6 +188,10 @@
         var self = this
         util.post(requestUrl, {sign: api.serialize(Object.assign({token: this.token, user_id: this.user_id}, data))}).then(function (res) {
           api.checkAjax(self, res, () => {
+            window.scroll(0, 0)
+            document.body.style.overflow = 'hidden'
+            self.editText = title
+            self.edit = str
             if (str === 'sold') {
               self.one_amount_value = res.one_amount_value
               self.amount = res.show_miner

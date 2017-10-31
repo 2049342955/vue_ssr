@@ -30,7 +30,8 @@
             <div class="product_word">
               <div class="item" v-for="t,k in proText">
                 <span class="tips">{{t}}:</span>
-                <span>{{$parent.detail[k]}}</span>
+                <span v-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
+                <span v-else>{{$parent.detail[k]}}</span>
               </div>
             </div>
             <h4 v-html="$parent.detail.machine_intro"></h4>
@@ -108,7 +109,7 @@
       }
     },
     methods: {
-      checkPay (id, status) {
+      checkPay (e) {
         if (this.token === 0) {
           this.$router.push({name: 'login'})
           return false
@@ -125,7 +126,7 @@
           })
           return false
         }
-        this.$parent.goPay()
+        this.$parent.goPay(e)
       }
     },
     filters: {

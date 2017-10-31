@@ -25,8 +25,8 @@
       <div class="detail_box">
         <div class="detail_table">
           <div class="item" v-for="d,k in nav">
-            <div class="item_title">{{d}}</div>
-            <div class="item_value">{{data[k]}}</div>
+            <div class="item_title">{{d[0]}}</div>
+            <div class="item_value">{{data[k]}}{{d[1]}}</div>
           </div>
           <div class="item" v-if="Object.keys(nav).length%2">
             <div class="item_title"></div>
@@ -61,8 +61,8 @@
         info: {realized_income_value: '累计已获得收益', today_income: '今日收益', total_realized_power_fee_value: '今日支付电费'},
         info2: {realized_income_value: '累计已获得收益', today_income_value: '今日收益', today_power_fee_value: '今日支付电费'},
         data: {},
-        type: {hash_type: '算力类型', miner_name: '矿机名称', buy_amount: '购买数量', create_time: '购买日期', pay_value: '购买金额', income_type: '收益方式', total_hash: '总算力'},
-        computeType: {type_name: '代币类型', buy_amount: '购买数量', create_time: '购买日期', pay_value: '购买金额', manner: '发币方式'},
+        type: {hash_type: ['算力类型', ''], miner_name: ['矿机名称', ''], buy_amount: ['购买数量', '台'], create_time: ['购买日期', ''], pay_value: ['购买金额', '元'], income_type: ['收益方式', ''], total_hash: ['总算力', 'T']},
+        computeType: {type_name: ['代币类型', ''], buy_amount: ['购买数量', 'T'], create_time: ['购买日期', ''], pay_value: ['购买金额', '元'], manner: ['发币方式', '']},
         nav: {},
         info3: {},
         show: false,
