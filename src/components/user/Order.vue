@@ -172,6 +172,8 @@
       },
       openMask (str, title, id) {
         this.total_price = 0
+        this.inputAmount = 0
+        this.inputPrice = 0
         this.order_id = id
         var data = {}
         var requestUrl = ''
@@ -276,14 +278,11 @@
               e.target.value = (+e.target.value > this.amount) ? api.decimal(this.amount, 2) : e.target.value
             }
             this.inputAmount = e.target.value
-            // this.inputAmount = isNaN(this.inputAmount) ? 0 : this.inputAmount
-            console.log(this.inputAmount)
           } else {
-            // this[i] = e.target.value
             this.inputPrice = e.target.value
-            this.total_price = api.decimal(this.inputAmount * this.inputPrice)
-            this.total_price = isNaN(this.total_price) ? 0 : this.total_price
           }
+          this.total_price = api.decimal(this.inputAmount * this.inputPrice)
+          this.total_price = isNaN(this.total_price) ? 0 : this.total_price
         }
       }
     },
