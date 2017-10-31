@@ -103,9 +103,17 @@
         var self = this
         util.post('getBaoquan', {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
-            window.open('https://www.baoquan.com/attestations/' + res)
+            self.openwin('https://www.baoquan.com/attestations/' + res)
           })
         })
+      },
+      openwin (url) {
+        var a = document.createElement('a')
+        a.setAttribute('href', url)
+        a.setAttribute('target', '_blank')
+        a.setAttribute('id', 'openwin')
+        document.body.appendChild(a)
+        a.click()
       },
       back () {
         this.show = false
