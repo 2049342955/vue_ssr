@@ -5,26 +5,26 @@
     <div class="data">
      <ul>
        <li>
-         <h4>阿瓦隆1号矿机</h4>
+         <h4>{{moneydata.title}}</h4>
          <p>算力服务器</p>
        </li>
        <li>
-         <h4>10000.00 <span>元</span></h4>
+         <h4>{{moneydata.money}} <span>元</span></h4>
          <p>分期金额</p>
        </li>
        <li>
-         <h4>15 <span>%</span></h4>
+         <h4>{{moneydata.lv}} <span>%</span></h4>
          <p>手续费率</p>
        </li>
        <li style="border-right:0;">
-         <h4>2017 <span> 年 </span>09<span> 月 </span>12<span> 日 </span></h4>
+         <h4>{{moneydata.year}} <span> 年 </span>{{moneydata.month}}<span> 月 </span>{{moneydata.day}}<span> 日 </span></h4>
          <p>分期时间</p>
        </li>
      </ul>
      <ol>
-       <li>分期期限 ：<span>12个月</span></li>
-       <li>预期时间 ：<span>00天</span></li>
-       <li>逾期罚息 ：<span>0.00</span></li>
+       <li v-for="n,k in monrynav">
+         {{n[0]}} : <span>{{n[1]}}</span>
+       </li>
        <li><router-link to="javascript:;" style="color:#327fff;">查看计算公式</router-link></li>
      </ol>
      <div class="table">
@@ -35,6 +35,10 @@
      </div>
     </div>
     <router-link to="javascript:;" class="submit">提前还款</router-link>
+    <div class="button">
+      <h4>确认还款<span>x</span></h4>
+      
+    </div>
   </section>
 </template>
 
@@ -45,7 +49,9 @@
   export default {
     data () {
       return {
-        data: {type: ['算力类型', 'BTC'], num: ['购买数量', '100 * 1台 = 10台'], time: ['购买日期', '2017-09-12 18:00'], money: ['购买金额', '10 * 9000.00元 = 90000.00元'], shou: ['收益方式', '每日结算，次日发放'], all: ['总算力', '90T'], fu: ['服务器类型', '阿瓦隆'], address: ['所在区域', '']}
+        data: {type: ['算力类型', 'BTC'], num: ['购买数量', '100 * 1台 = 10台'], time: ['购买日期', '2017-09-12 18:00'], money: ['购买金额', '10 * 9000.00元 = 90000.00元'], shou: ['收益方式', '每日结算，次日发放'], all: ['总算力', '90T'], fu: ['服务器类型', '阿瓦隆'], address: ['所在区域', '']},
+        moneydata: {title: '阿瓦隆1号矿机', money: '10000.00', lv: '15', year: '2017', month: '06', day: '22'},
+        monrynav: {'0': ['分期期限', '12个月'], '1': ['预期时间', '20天'], '2': ['逾期罚息', '0.00']}
       }
     }
   }
