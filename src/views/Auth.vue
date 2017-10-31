@@ -1,5 +1,5 @@
 <template>
-  <section :class="['auth', {login_block:$route.path.includes('login')}]">
+  <section :class="['auth', {login_block:$route.path.includes('login')}, {agreement_box: agree}]">
     <div class="bg_box">
       <div class="bg"></div>
     </div>
@@ -15,7 +15,8 @@
     data () {
       return {
         banner: require('@/assets/images/auth_bg.jpg'),
-        bg: require('@/assets/images/login_bg.jpg')
+        bg: require('@/assets/images/login_bg.jpg'),
+        agree: false
       }
     }
   }
@@ -71,6 +72,13 @@
       .copyright{
         margin-top:50px;
         color:$light_text
+      }
+    }
+    &.agreement_box{
+      background: #f7f8fa;
+      padding:40px 0;
+      .bg_box,.copyright{
+        display: none;
       }
     }
   }

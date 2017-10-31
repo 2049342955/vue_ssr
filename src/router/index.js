@@ -6,8 +6,6 @@
   import Auth from '@/views/Auth'
   import Login from '@/components/auth/Login'
   import Regist from '@/components/auth/Regist'
-  import Agreement from '@/components/auth/ServiceTerms'
-  import UserAgreement from '@/components/auth/UserAgreement'
   import PasswordRetrieval from '@/components/auth/PasswordRetrieval'
   import Bdc from '@/views/Bdc'
   import BdcList from '@/components/bdc/List'
@@ -212,14 +210,6 @@
         path: 'accountEvaluate',
         name: 'accountEvaluate',
         component: AccountEvaluate
-      }, {
-        path: 'userAgreement',
-        name: 'userAgreement',
-        component: UserAgreement
-      }, {
-        path: 'agreement',
-        name: 'agreement',
-        component: Agreement
       }]
     }, {
       path: '/mine',
