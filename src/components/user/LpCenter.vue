@@ -132,7 +132,6 @@
         }
         var self = this
         var sCodeData = {token: this.token, user_id: this.user_id, s_code: ele.value}
-        this.$store.commit('SET_INFO', {scode: 1})
         util.post('ScodeVerify', {sign: api.serialize(sCodeData)}).then(function (res) {
           api.checkAjax(self, res, () => {
             if (self.risk && self.risk.user_risk_score < 0) {
@@ -156,6 +155,9 @@
                 self.scodeInfo = data
               }
             })
+            if (!self.scode) {
+              self.$store.commit('SET_INFO', {scode: 1})
+            }
           })
         })
       }
@@ -195,7 +197,8 @@
         user_id: state => state.info.user_id,
         true_name: state => state.info.true_name,
         bank_card: state => state.info.bank_card,
-        risk: state => state.info.risk
+        risk: state => state.info.risk,
+        scode: state => state.info.scode
       })
     }
   }

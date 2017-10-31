@@ -53,7 +53,7 @@
           <FormField :form="form" class="form"></FormField>
           <label for="accept">
             <input type="checkbox" v-model="toggle" id="accept" name="accept">
-            <span>阅读并接受<a href="javascript:;" @click="openContract(1)">《算力网{{page === 'cloudCompute'?'购买':'转让'}}协议》</a>和<a href="javascript:;" @click="openContract(2)">《算力网托管协议》</a></span>
+            <span @click="openContract(1)">阅读并接受<a href="javascript:;">《算力网{{page === 'cloudCompute'?'购买':'转让'}}协议》</a>和<a href="javascript:;">《算力网托管协议》</a></span>
             <span class="select_accept">{{tips}}</span>
           </label>
           <button name="btn">确认支付</button>
@@ -63,11 +63,6 @@
     </template>
     <div v-else-if="showAgreement===1" class="agreement_text">
       <div class="" v-html="$parent.content"></div>
-      <div class="btn_box">
-        <button @click="agree">我同意</button>
-      </div>
-    </div>
-    <div v-else-if="showAgreement===2" class="agreement_text">
       <div class="" v-html="$parent.content1"></div>
       <div class="btn_box">
         <button @click="agree">我同意</button>
