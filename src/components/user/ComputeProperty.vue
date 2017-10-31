@@ -147,10 +147,6 @@
           api.tips(this.$refs.tips, '您的账户余额不足，不能提取收益')
           return false
         }
-        window.scroll(0, 0)
-        document.body.style.overflow = 'hidden'
-        this.editText = title
-        this.edit = str
         var requestUrl = ''
         var data = {}
         if (str === 'Withdrawals') {
@@ -163,6 +159,10 @@
         var self = this
         util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
+            window.scroll(0, 0)
+            document.body.style.overflow = 'hidden'
+            self.editText = title
+            self.edit = str
             if (str === 'Withdrawals') {
               self.fee = res.withdraw_fee
               self.amount = parseInt(res.balance_account)
