@@ -14,7 +14,7 @@
     <template v-if="show===2">
       <h2>LP中心<button @click="open">添加基金</button></h2>
       <template v-if="s.fund_invest_id" v-for="s,k in scodeInfo.list">
-        <h3>{{s.fund_invest_id===1?'电厂基金':'矿场基金'}}</h3>
+        <h3>{{s.fund_invest_id===1?'BDC基金':'算力基金'}}</h3>
         <div class="detail_table">
           <div class="item" v-for="d,k in nav[s.fund_invest_id-1]">
             <div class="item_title">{{d}}</div>

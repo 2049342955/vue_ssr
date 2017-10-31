@@ -35,7 +35,7 @@
         </div>
         <div class="detail_btn">
           <button @click="getContract">查看协议</button>
-          <!-- <button>查看保全</button> -->
+          <button @click="getBaoquan">查看保全</button>
         </div>
       </div>
     </template>
@@ -97,6 +97,15 @@
           })
         })
       },
+      getBaoquan (id) {
+        var data = {token: this.token, order_id: this.$route.params.id, security_hash_type: this.$route.params.type, user_id: this.user_id}
+        var self = this
+        util.post('getBaoquan', {sign: api.serialize(data)}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            console.log(res)
+          })
+        })
+      },
       back () {
         this.show = false
       }
@@ -115,7 +124,8 @@
     },
     computed: {
       ...mapState({
-        token: state => state.info.token
+        token: state => state.info.token,
+        user_id: state => state.info.user_id
       })
     }
   }
