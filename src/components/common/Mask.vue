@@ -2,8 +2,7 @@
   <section class="mask">
     <div class="form_box">
       <div class="close" @click="$parent.closeEdit()">
-        <span class="icon"></span>
-        <span>关闭</span>
+        <span class="icon"  style="position: absolute;top: 45px;right: 20px;"></span>
       </div>
       <h2>{{title}}</h2>
       <form :class="['form form_content', {card_form: $parent.edit==='card'}]" @submit.prevent="$parent.submit" novalidate>

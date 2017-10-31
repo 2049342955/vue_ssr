@@ -3,6 +3,7 @@
     <h3>{{content.title}}</h3>
     <div class="info_detail" v-html="content.content"></div>
     <div class="web_tips" ref="tips"></div>
+    <router-link class="button" :to="'/webInfo/list/'+$route.params.type">返回</router-link>
   </section>
 </template>
 
@@ -12,7 +13,8 @@
   export default {
     data () {
       return {
-        content: {}
+        content: {},
+        str: {website: '网站动态', product: '产品公告', news: '算力资讯'}
       }
     },
     created () {
@@ -30,8 +32,18 @@
   .web_info_detail{
     min-height:500px;
     background: #fff;
-    padding:15px;
+    padding:15px 15px 45px 15px;
     line-height: 2;
+    .button{
+     width: 60px;
+    height: 30px;
+    text-align: center;
+    float: right;
+    background: #f5f8ff;
+    color: #327fff;
+    border: 0;
+    border-radius: 3px;
+    }
     h3{
       text-align: center;
       font-size: 18px;

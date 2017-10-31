@@ -2,7 +2,7 @@
   <section class="notice">
     <h3>{{str[$route.params.type]}}</h3>
     <div class="display">
-      <router-link :class="['item',{active: true}]" :to="'/webInfo/detail/'+list.id" v-for="list in lists" :key="lists.id">
+      <router-link :class="['item',{active: true}]" :to="'/webInfo/detail/'+$route.params.type+'/'+list.id" v-for="list in lists" :key="lists.id">
         <span class="title">{{list.title}}</span>
         <span class="time">{{list.dateline}}</span>
       </router-link>
