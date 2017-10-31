@@ -235,16 +235,13 @@
       }
     }
     .no_scode{
-      @include flex(center)
-      position: relative;
+      width:100%;
       height:100%;
       .no_scode_box{
         width:300px;
-        position: absolute;
-        left: 50%;
-        top:50%;
-        margin-top:-62px;
-        margin-left:-150px;
+        height: 124px;
+        margin:auto;
+        margin-top:210px;
         .input{
           @include input
         }
