@@ -101,8 +101,8 @@
   @import '../../assets/css/style.scss';
   .logo{
     display: block;
-    width: 145px;
-    height: 51px;
+    width: 170px;
+    height: 50px;
   }
   .frame_header{
     @include position(0,0,auto,0)
@@ -112,7 +112,7 @@
       background: rgba(0,0,0,.8);
     }
     .box .logo{
-      background: url('../../assets/images/css_sprites.png') -10px -81px
+      background: url('../../assets/images/css_sprites.png') -10px -80px
     }
     a{
       color:$white
@@ -174,7 +174,7 @@
   .web_box{
     background: #242528;
     .box .logo{
-      background: url('../../assets/images/css_sprites.png') -10px -81px
+      background: url('../../assets/images/css_sprites.png') -10px -80px
     }
     .box nav .item a,.box .side_nav a,.box .side_nav a.tel{
       color:#fff

@@ -11,7 +11,7 @@
         </div>
         <div class="product_con">
           <div class="product_img">
-            <img :src="$parent.detail.imgurl" alt="">
+            <img :src="$parent.detail.product_img" alt="">
           </div>
           <div class="product_text">
             <div class="product_data">
@@ -79,7 +79,7 @@
       <div class="info_item">
         <h3>矿场相册</h3>
         <div class="box">
-          <div class="item" v-for="i,k in $parent.detail.minerImg">
+          <div class="item" v-for="i,k in $parent.detail.product_photos">
             <img :src="i" alt="">
           </div>
         </div>
