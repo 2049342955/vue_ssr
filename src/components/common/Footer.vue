@@ -141,16 +141,17 @@
         h3,span.active{
           font-size: 15px;
           span{
-            margin-right:21px;
+            width:62px;
+            height:20px;
+            text-align:center;
+            line-height:20px;
+            display:inline-block;
             &:hover{
-              width:82px;
-              height:20px;
               line-height:20px;
               text-align:center;
               color:white;
               font-size:15px;
               border-radius:5px;
-              display:inline-block;
               background: #327fff;
             }
           }
