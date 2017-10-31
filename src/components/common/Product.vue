@@ -316,7 +316,7 @@
             @include row(2)
           }
         }
-        &:nth-child(3){
+        &:nth-child(4){
           .box{
             @include row(2)
             .item img{
