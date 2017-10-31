@@ -83,7 +83,7 @@
               <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash">出租算力</button>
             </template>
             <template v-if="nowEdit==0&&status==2">
-              <button class="sold" @click="quit('sold', d.id)">撤销出售</button>
+              <button @click="quit('sold', d.id)">撤销出售</button>
             </template>
             <template v-if="nowEdit==1&&status==1">
               <button @click="openMask('againRent', '转租算力', d.id)" :disabled="!d.remain_hash">转租算力</button>
@@ -353,23 +353,21 @@
             }
           }
           td{
-            line-height:54px;
+            line-height:56px;
             i.icon_currency{
               vertical-align: sub;
               margin-left:5px
             }
             &:last-child{
-              width:186px;
+              width:180px;
               button,a{
-                line-height: 34px;
-                @include gap(15,h)
+                font-size: 12px;
+                line-height: 28px;
+                @include gap(8,h)
               }
               button{
                 @include button($blue)
                 margin-right:5px;
-                &.sold{
-                  margin-bottom:8px
-                }
                 &:disabled{
                   background: #759fe4;
                   border-color:#759fe4;
@@ -389,32 +387,7 @@
           }
           &.active{
             td:last-child{
-              width:186px;
-              button,a{
-                line-height: 34px;
-                @include gap(5,h)
-              }
-              button{
-                @include button($blue)
-                margin-right:5px;
-                &.sold{
-                  margin-bottom:8px
-                }
-                &:disabled{
-                  background: #759fe4;
-                  border-color:#759fe4;
-                  cursor: no-drop;
-                }
-              }
-              a{
-                display: inline-block;
-                @include button($blue,border)
-                border-radius: 5px;
-                .btn:not(:disabled){
-                  @include button($orange)
-                  cursor: pointer;
-                }
-              }
+              width:245px;
             }
           }
         }

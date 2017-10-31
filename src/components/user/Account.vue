@@ -78,11 +78,9 @@
         var self = this
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.closeEdit()
             api.tips(self.$refs.tips, tipsStr)
             if (self.edit !== 'address') {
               self.$store.commit('SET_INFO', {[val]: {status: 0}})
-              console.log(self.$store.state.info)
               setTimeout(() => {
                 self.requestData(callbackUrl, sendData, no, val, () => {
                   api.tips(self.$refs.tips, tipsStr2)
@@ -91,6 +89,7 @@
             } else {
               self.requestData(callbackUrl, sendData, no, val)
             }
+            self.closeEdit()
           })
         })
       },

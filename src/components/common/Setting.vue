@@ -56,7 +56,7 @@
         this.$parent.title = title
         if (str === 'address') {
           if (n) {
-            this.$parent.product_hash_type = this.hashType[n - 1] && this.hashType[n - 1].name
+            this.$parent.product_hash_type = n
             this.$parent.form[this.$parent.edit][0].type = 'text'
             this.$parent.form[this.$parent.edit][0].edit = 'address'
           } else {
