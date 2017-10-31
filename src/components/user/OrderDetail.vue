@@ -102,7 +102,7 @@
         var self = this
         util.post('getBaoquan', {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
-            console.log(res)
+            window.open('https://www.baoquan.com/attestations/' + res)
           })
         })
       },

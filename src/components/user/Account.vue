@@ -87,6 +87,7 @@
                 })
               }, 5000)
             } else {
+              console.log(11)
               self.requestData(callbackUrl, sendData, no, val)
             }
             self.closeEdit()
@@ -102,6 +103,7 @@
         util.post(url, {sign: api.serialize(sendData)}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.$store.commit('SET_INFO', {[val]: res})
+            console.log(res, self.$store.state.info.address)
             if (callback) {
               callback()
             }
