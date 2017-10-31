@@ -20,7 +20,7 @@
       return {
         lists: [],
         str: {website: '网站动态', product: '产品公告', news: '算力资讯'},
-        requestUrl: {website: 'webDynamic', product: 'webAnnouncoment', news: 'webAnnouncoment'}
+        requestUrl: {website: 'webDynamic', product: 'webAnnouncoment', news: 'suanliMessage'}
       }
     },
     methods: {

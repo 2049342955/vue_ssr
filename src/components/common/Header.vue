@@ -52,14 +52,14 @@
       }
       var self = this
       util.post('getAll', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
-        if (res && !res.code) {
+        api.checkAjax(self, res, () => {
           self.$store.commit('SET_INFO', res)
-        }
+        })
       })
       util.post('getCurrencys', {sign: api.serialize({token: this.token})}).then(function (res) {
-        if (res && !res.code) {
+        api.checkAjax(self, res, () => {
           self.$store.commit('SET_HASH_TYPE', res)
-        }
+        })
       })
     },
     computed: {

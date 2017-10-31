@@ -1,8 +1,19 @@
 <template>
   <section class="lp_center">
-    <template v-if="scode.length&&!showAgreement">
+    <div class="no_scode" v-if="show===1">
+      <div class="no_scode_box">
+        <div class="input">
+          <span>验证S码</span>
+          <span>*</span>
+          <input ref="scode" type="text" name="scode" autocomplete="off" placeholder="请输入S码" @blur="test" pattern="^[0-9a-zA-Z]{6}$" data-status="" maxlength="6">
+          <span title="请输入6位字符串" tips="请输入S码"></span>
+        </div>
+        <button @click="check">提交</button>
+      </div>
+    </div>
+    <template v-if="show===2">
       <h2>LP中心<button @click="open">添加基金</button></h2>
-      <template v-if="s.fund_invest_id" v-for="s,k in scode">
+      <template v-if="s.fund_invest_id" v-for="s,k in scodeInfo.list">
         <h3>{{s.fund_invest_id===1?'电厂基金':'矿场基金'}}</h3>
         <div class="detail_table">
           <div class="item" v-for="d,k in nav[s.fund_invest_id-1]">
@@ -21,21 +32,10 @@
         </div>
       </template>
     </template>
-    <div v-if="showAgreement" class="agreement_text">
+    <div v-if="show===3" class="agreement_text">
       <div class="" v-html="content"></div>
       <div class="btn_box">
         <button @click="agree">我同意，签合同</button>
-      </div>
-    </div>
-    <div class="no_scode" v-if="!scode.length&&!showAgreement">
-      <div class="no_scode_box">
-        <div class="input">
-          <span>验证S码</span>
-          <span>*</span>
-          <input ref="scode" type="text" name="scode" autocomplete="off" placeholder="请输入S码" @blur="test" pattern="^[0-9a-zA-Z]{6}$" data-status="" maxlength="6">
-          <span title="请输入6位字符串" tips="请输入S码"></span>
-        </div>
-        <button @click="check">提交</button>
       </div>
     </div>
     <div class="mask" v-if="edit">
@@ -71,9 +71,11 @@
         data: {},
         nav: [{fund_name: '基金名称', fund_manager: '基金管理人', invest_money: '投资金额', start_end_time: '投资时间', fund_time: '投资期限', electric_amount: '累计用电力量', electric_total_price: '累积电费'}, {fund_name: '基金名称', fund_manager: '基金管理人', invest_money: '投资金额', start_end_time: '投资时间', fund_time: '投资期限', miner_num: '云矿机', miner_hash: '运算力', hash_income: '累计获得收益'}],
         edit: false,
-        showAgreement: false,
+        show: 0,
         content: '',
-        contract: {}
+        contract: {},
+        no: '',
+        scodeInfo: {}
       }
     },
     methods: {
@@ -86,7 +88,7 @@
           api.checkAjax(self, res, () => {
             self.edit = false
             document.body.style.overflow = 'auto'
-            self.showAgreement = true
+            self.show = 3
             self.content = res.content
             self.contract = {contract_id: res.id, funds_id: res.funds_id, s_code: res.s_code}
           })
@@ -122,20 +124,24 @@
           })
           return false
         }
-        if (this.risk.user_risk_score < 0) {
-          api.tips(this.$refs.tips, '请先进行风险测评', () => {
+        if (!(this.bank_card && this.bank_card.status === 2)) {
+          api.tips(this.$refs.tips, '请先绑定银行卡', () => {
             this.$router.push({name: 'account'})
           })
           return false
         }
         var self = this
         var sCodeData = {token: this.token, user_id: this.user_id, s_code: ele.value}
-        console.log(sCodeData)
+        this.$store.commit('SET_INFO', {scode: 1})
         util.post('ScodeVerify', {sign: api.serialize(sCodeData)}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.showAgreement = true
-            self.content = res.content
-            self.contract = {contract_id: res.id, funds_id: res.funds_id, s_code: res.s_code}
+            if (self.risk && self.risk.user_risk_score < 0) {
+              self.$router.push({name: 'accountEvaluate'})
+            } else {
+              self.show = 3
+              self.content = res.content
+              self.contract = {contract_id: res.id, funds_id: res.funds_id, s_code: res.s_code}
+            }
           })
         })
       },
@@ -143,23 +149,48 @@
         var self = this
         util.post('sign_contract', {sign: api.serialize(Object.assign({token: this.token, user_id: this.user_id}, self.contract))}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.showAgreement = false
+            self.show = 2
             util.post('scode_info', {sign: 'token=' + self.token}).then(function (data) {
               if (data && !data.code) {
-                self.$store.commit('SET_INFO', {scode: data})
+                self.scodeInfo = data
               }
             })
           })
         })
       }
     },
+    mounted () {
+      var self = this
+      util.post('scode_info', {sign: 'token=' + self.token}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.no = res.s_code
+          self.scodeInfo = res
+          if (!res.list) {
+            self.show = 1
+          }
+          if (res.s_code && res.risk && res.risk.user_risk_score < 0) {
+            self.$router.push({name: 'accountEvaluate'})
+          }
+          if (res.s_code && res.risk && res.risk.user_risk_score > 0 && !res.list[res.s_code].is_contract) {
+            var sCodeData = {token: self.token, user_id: self.user_id, s_code: res.s_code}
+            util.post('show_contract', {sign: api.serialize(sCodeData)}).then(function (r) {
+              api.checkAjax(self, r, () => {
+                self.show = 3
+                self.content = r.content
+                self.contract = {contract_id: r.id, funds_id: r.funds_id, s_code: r.s_code}
+              })
+            })
+          }
+        })
+      })
+    },
     computed: {
       ...mapState({
         token: state => state.info.token,
         user_id: state => state.info.user_id,
         true_name: state => state.info.true_name,
-        risk: state => state.info.risk,
-        scode: state => state.info.scode
+        bank_card: state => state.info.bank_card,
+        risk: state => state.info.risk
       })
     }
   }

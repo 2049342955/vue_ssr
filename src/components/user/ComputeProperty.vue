@@ -119,7 +119,13 @@
     },
     methods: {
       openMask (str, title) {
-        if ((str === 'Withdrawals') && !this.bank_card) {
+        if (!(this.true_name && this.true_name.status === 1)) {
+          api.tips(this.$refs.tips, '请先实名认证', () => {
+            this.$router.push({name: 'account'})
+          })
+          return false
+        }
+        if (!(this.bank_card && this.bank_card.status === 2)) {
           api.tips(this.$refs.tips, '请先绑定银行卡', () => {
             this.$router.push({name: 'account'})
           })
@@ -127,7 +133,6 @@
         }
         if (str === 'recharge') {
           this.$router.push({name: 'recharge'})
-          return false
         }
         if (str === 'GetIncome' && !this.address.length) {
           api.tips(this.$refs.tips, '请先绑定算力地址', () => {
@@ -247,6 +252,7 @@
       ...mapState({
         token: state => state.info.token,
         user_id: state => state.info.user_id,
+        true_name: state => state.info.true_name,
         bank_card: state => state.info.bank_card,
         address: state => state.info.address,
         hashType: state => state.hashType,

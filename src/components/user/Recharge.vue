@@ -46,7 +46,7 @@
       return {
         processText: ['银行转账', '提交申请', '审核通过'],
         processStatus: 2,
-        form: [{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', pattern: 'bigMoney', len: 7}, {name: 'bank_card', type: 'text', title: '充值银行卡', edit: 'bank_card', showLink: '/user/account'}, {name: 'request_id', type: 'text', title: '充值流水号', placeholder: '请输入充值流水号', pattern: 'int'}]
+        form: [{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', pattern: 'bigMoney', len: 7}, {name: 'bank_num', type: 'text', title: '充值银行卡', value: 'bank_card'}, {name: 'request_id', type: 'text', title: '充值流水号', placeholder: '请输入充值流水号', pattern: 'int'}]
       }
     },
     methods: {

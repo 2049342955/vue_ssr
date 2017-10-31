@@ -48,8 +48,8 @@
           })
           return false
         }
-        if (this.risk.user_risk_score < 0) {
-          api.tips(this.$refs.tips, '请先进行风险测评', () => {
+        if (!(this.bank_card && this.bank_card.status === 2)) {
+          api.tips(this.$refs.tips, '请先绑定银行卡', () => {
             this.$router.push({name: 'account'})
           })
           return false
@@ -72,7 +72,7 @@
       ...mapState({
         token: state => state.info.token,
         true_name: state => state.info.true_name,
-        risk: state => state.info.risk
+        bank_card: state => state.info.bank_card
       })
     }
   }

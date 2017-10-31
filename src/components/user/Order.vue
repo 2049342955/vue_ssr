@@ -7,7 +7,7 @@
           <span class="title_now" v-if="scode.length">{{title2[nowEdit]}}</span>
           <span class="title_now" v-else>{{title[nowEdit]}}</span>
           <div class="title_list">
-            <template v-if="scode.length">
+            <template v-if="scode">
               <router-link :to="'/user/order/'+k+'/1'" v-for="n,k in title2" :key="k">{{n}}</router-link>
             </template>
             <template v-else>
@@ -78,14 +78,14 @@
           </template>
           <td>
             <template v-if="nowEdit==0&&status==1">
-              <button class="sold" @click="openMask('sold', '出售云矿机', d.id)" :disabled="!d.remain_miner">出售云矿机</button>
-              <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash">出租算力</button>
+              <button class="sold" @click="openMask('sold', '出售云矿机', d.id)" :disabled="!d.remain_miner||(parseInt((Date.parse(new Date())/1000-d.income_start_time)/(3600*24))<5)">出售云矿机</button>
+              <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash||(parseInt((Date.parse(new Date())/1000-d.income_start_time)/(3600*24))<5)">出租算力</button>
             </template>
             <template v-if="nowEdit==0&&status==2">
               <button class="sold" @click="quit('sold', d.id)">撤销出售</button>
             </template>
             <template v-if="nowEdit==1&&status==1">
-              <button @click="openMask('againRent', '转租算力', d.id)" :disabled="!d.remain_hash">转租算力</button>
+              <button @click="openMask('againRent', '转租算力', d.id)" :disabled="!d.remain_hash||(parseInt((Date.parse(new Date())/1000-d.income_start_time)/(3600*24))<5)">转租算力</button>
             </template>
             <template v-if="(nowEdit==1||nowEdit==2)&&status==2">
               <button @click="quit('rent', d.id)">撤销出租</button>

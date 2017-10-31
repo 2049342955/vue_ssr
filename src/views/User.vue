@@ -6,9 +6,9 @@
           <h2>{{time}}，{{mobile|format}}</h2>
           <div class="line"></div>
           <div class="icons">
+            <span class="iconfont active"></span>
             <span :class="['iconfont', {active: true_name&&true_name.status===1}]"></span>
-            <span :class="['iconfont', {active: risk.user_risk_score>=0}]"></span>
-            <span :class="['iconfont', {active: bank_card}]"></span>
+            <span :class="['iconfont', {active: bank_card&&bank_card.status===2}]"></span>
             <span>上次登录时间：{{new Date(last_login_time*1000)|date}}</span>
           </div>
         </div>
@@ -107,7 +107,7 @@
                   background: #4d83dd;
                 }
                 &:before{
-                  content:'\e63f'
+                  content:'\e694'
                 }
               }
               &:nth-child(2){
@@ -115,7 +115,7 @@
                   background: #ffbc38;
                 }
                 &:before{
-                  content:'\e653';
+                  content:'\e63f';
                 }
               }
               &:nth-child(3){

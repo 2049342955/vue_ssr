@@ -67,7 +67,7 @@
               if (data && !data.code) {
                 self.$store.commit('SET_INFO', {risk: data})
                 api.tips(self.$refs.tips, '测评成功', () => {
-                  self.$router.push({name: 'account'})
+                  self.$router.push({name: 'lpCenter'})
                 })
               }
             })
