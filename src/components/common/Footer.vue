@@ -5,7 +5,7 @@
         <aside>
           <h4>联系我们</h4>
           <h3>
-            <a to="#" v-for="item,k in items" @click="select(k)" :class="{'active':show===k}">{{item.title}}</a>
+            <a to="#" v-for="item,k in items" :class="{'active':show===k}">{{item.title}}</a>
             <!-- <router-link to="#">北京</router-link>
             <router-link to="#">山西</router-link>
             <router-link to="#">广东</router-link>
@@ -72,12 +72,12 @@
       util.post('friendlinkList', {sign: 'token=0'}).then(function (res) {
         self.partner = res
       })
-    },
-    methods: {
-      select (k) {
-        this.show = k
-      }
     }
+    // methods: {
+    //   select (k) {
+    //     this.show = k
+    //   }
+    // }
   }
 </script>
 
@@ -154,27 +154,28 @@
         h3{
           font-size: 15px;
           a{
-            width:72px;
-            height:20px;
+            // width:82px;
+            // height:25px;
+            padding:0px 12px;
             text-align:center;
-            line-height:20px;
+            margin-right:10px;
+            line-height:25px;
             display:inline-block;
+            box-sizing: border-box;
+            font-size:14px;
             cursor: pointer;
             &:hover{
-              line-height:20px;
-              text-align:center;
               color:white;
-              font-size:15px;
-              border-radius:5px;
-              background: #327fff;
+              font-size:14px;
             }
-            &.active{
-              line-height:20px;
+            &.active:nth-of-type(1){
+              line-height:25px;
               text-align:center;
               color:white;
-              font-size:15px;
+              font-size:14px;
               border-radius:5px;
               background: #327fff;
+              box-sizing: border-box;
             }
           }
         }

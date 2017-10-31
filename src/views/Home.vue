@@ -18,10 +18,11 @@
     </div>
     <MyData></MyData>
     <div class="wq">
-      <img :src="wqImg" alt="">
+      <img :src="wqImg" alt="" class="pre">
       <div class="text">
-        <p><span style="width:224px;height:1px;border-top:1px solid white;display:inline-block;margin-right:18px;position:relative;top:-5px;"></span>清华长三角研究院  & 鼎峰资本  战略投资<span  style="width:224px;height:1px;border-top:1px solid white;display:inline-block;margin-left:18px;position:relative;top:-5px;"></span></p>
-        <h2 style="margin-bottom: 10px;margin-top: 10px;">中国信息化推进联盟区块链实验室算力产业课题项目</h2>
+        <!-- <p><span style="width:224px;height:1px;border-top:1px solid white;display:inline-block;margin-right:18px;position:relative;top:-5px;"></span>清华长三角研究院  & 鼎峰资本  战略投资<span  style="width:224px;height:1px;border-top:1px solid white;display:inline-block;margin-left:18px;position:relative;top:-5px;"></span></p>
+        <h2 style="margin-bottom: 10px;margin-top: 10px;">中国信息化推进联盟区块链实验室算力产业课题项目</h2> -->
+        <img src="../assets/images/server.png" style="width:800px;display:block;margin:0 auto;"/>
         <router-link to="/cloudCompute/list/1/all">即刻体验</router-link>
       </div>
     </div>
@@ -153,14 +154,14 @@
     margin-bottom:60px;
     overflow: hidden;
     @include flex(flex-start,center)
-    img{
+    .pre{
       @include position
       height:100%;
       object-fit:cover;
       z-index: -1;
       transition:2s;
     }
-    &:hover img{
+    &:hover .pre{
       transform:scale(1.1); 
     }
     .text{

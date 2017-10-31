@@ -1,7 +1,7 @@
 <template>
   <div class="sort">
-    <div class="item" @click="setSort('default')">默认</div>
-    <div :class="['item', {active: edit==k}, {up: !s.value}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont"></span></div>
+    <div :class="['item', 'next', {active1: activeOne==true}]" @click="setSort('default')">默认</div>
+    <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont"></span></div>
   </div>
 </template>
 
@@ -17,11 +17,13 @@
     },
     data () {
       return {
-        edit: -1
+        edit: -1,
+        activeOne: true
       }
     },
     methods: {
       setSort (n) {
+        this.activeOne = false
         this.edit = n
         var obj = this.sort[n]
         var str = ''
@@ -59,6 +61,7 @@
       padding:0 30px;
       line-height: 40px;
       background: #f7f8fa;
+      color:#999;
       & + .item{
         margin-left:50px
       }
@@ -66,9 +69,10 @@
         @include block(24)
         vertical-align: middle;
         transition:all .3s;
+        
         &:before{
           font-size: 24px;
-          content:'\e60e'
+          content:'\e60e';
         }
       }
       &.active{
@@ -78,6 +82,11 @@
         .iconfont{
           transform:rotate(180deg)
         }
+      }
+    }
+    .next{
+      &.active1{
+        color:$blue;
       }
     }
   }
