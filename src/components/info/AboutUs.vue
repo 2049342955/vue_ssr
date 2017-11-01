@@ -143,7 +143,7 @@
           content:'>';
           font-size:18px;
           color:white;
-          font-family: "宋体";
+          font-family: "宋体" !important;
           font-weight:800;
           width:18px;
           height:18px;
@@ -173,5 +173,8 @@
         }
       }
     }
+  }
+  .about_us .site .mapImg h4:after{
+    font-family: "宋体" !important;
   }
 </style>

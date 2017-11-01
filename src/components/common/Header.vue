@@ -207,7 +207,7 @@
           &:hover a::after{
               content: "●";
               display: block;
-              color: white;
+              color: white !important;
               position: relative;
               font-size: 12px;
           }
