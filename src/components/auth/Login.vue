@@ -114,4 +114,7 @@
       }
     }
   }
+  .auth.login_block .copyright{
+    color:#999;
+  }
 </style>

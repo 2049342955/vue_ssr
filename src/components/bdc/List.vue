@@ -8,8 +8,8 @@
       <div class="top-box">
         <div class="float-left bdc-box">
           <div><span class="big-title">BDC</span><span class="subtitle">（Blockchain   Data   Center）</span></div>
-          <div class="bdc-detail">BDC是平台整合优质品牌商与分销商，通过平台的优势及服务以吸引广大消费者的一种形式，算力网通过自身的优势整合筛选出行业内优质合规的BDC机房，算力服务器生产商，为算力爱好者提供算力服务器托管，算力服务器采购，算力服务器租赁等服务，打通算力及衍生商品产业链的完整交易，做到平台，供应商，消费者三方互惠互利。</div>
-          <div><span class="service">客服：</span><span class="tel">0571- 28221076</span><span class="time">工作日（9:00~18:00）</span></div>
+          <div class="bdc-detail" style="line-height:32px;">BDC是平台整合优质品牌商与分销商，通过平台的优势及服务以吸引广大消费者的一种形式，算力网通过自身的优势整合筛选出行业内优质合规的BDC机房，算力服务器生产商，为算力爱好者提供算力服务器托管，算力服务器采购，算力服务器租赁等服务，打通算力及衍生商品产业链的完整交易，做到平台，供应商，消费者三方互惠互利。</div>
+          <div><span class="service">客服：</span><span class="tel">0571- 28221076</span><span class="time" style="color:#999;">工作日（9:00~18:00）</span></div>
         </div>
         <div class="float-right form-box">
           <div class="form-header">提交托管矿机申请</div>
