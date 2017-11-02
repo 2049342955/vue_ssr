@@ -59,7 +59,7 @@
     },
     mounted () {
       var self = this
-      util.post('product_top_list', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
+      util.post('product_top_list', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.list = res
         })
