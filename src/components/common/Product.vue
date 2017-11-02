@@ -83,9 +83,9 @@
       <div class="info_item">
         <h3>矿场相册</h3>
         <div class="box">
-          <div class="item" v-for="i,k in $parent.detail.product_photos">
-            <img :src="i" alt="">
-          </div>
+           <div class="item"> 
+            <img :src="$parent.detail.product_photos" alt="">
+           </div> 
         </div>
       </div>
     </div>
