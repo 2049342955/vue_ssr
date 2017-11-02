@@ -245,6 +245,9 @@
             &:nth-child(2){
               right:calc(50% - 590px);
             }
+            @media screen and (max-width: 1178px) and (min-width: 340px){
+              object-fit:contain
+            }
           }
           a.btn{
             position: absolute;
@@ -263,12 +266,25 @@
               color:#1e396c
             }
           }
+          img:first-child,a.btn{
+            @media screen and (max-width: 1178px) and (min-width: 340px){
+              left:0;
+            }
+          }
+          img:nth-child(2){
+            @media screen and (max-width: 1178px) and (min-width: 340px){
+              right:0;
+            }
+          }
         }
         &:nth-child(6),&:nth-child(2){
           img{
             top:0;
             width:1180px;
             height:100%;
+            @media screen and (max-width: 1178px) and (min-width: 340px){
+              width:100%;
+            }
           }
           a.btn{
             border-color:#327fff;
