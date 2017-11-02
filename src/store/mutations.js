@@ -1,4 +1,4 @@
-import { SET_TOKEN, LOGOUT, SET_INFO, SET_HASH_TYPE } from './mutation-types'
+import { SET_TOKEN, LOGOUT, SET_INFO, SET_HASH_TYPE, SET_NUM } from './mutation-types'
 
 export default {
   [SET_TOKEN] (state, res) {
@@ -18,5 +18,8 @@ export default {
   },
   [SET_HASH_TYPE] (state, payload) {
     state.hashType = payload
+  },
+  [SET_NUM] (state, payload) {
+    state.num = payload
   }
 }

@@ -2,7 +2,7 @@
   <section class="issues">
     <div class="issues_box">
       <div class="issues_lists">
-        <div :class="['item', {active:k===0}]" v-for="n,k in nav" @click="fetchData(n.help_class_id,$event)">{{n.name}}</div>
+        <div :class="['item', {active:k===0}]" v-for="n,k in nav" @click="fetchData(n.help_class_id,$event,k)">{{n.name}}</div>
       </div>
       <div class="issues_list" v-show="!show">
         <router-link class="item" v-for="l,k in list" :to="'/webInfo/issuesDetail/'+l.id" :key="list.id">{{l.title}}</router-link>
@@ -32,7 +32,10 @@
       }
     },
     methods: {
-      fetchData (id, ev) {
+      fetchData (id, ev, k) {
+        if (k) {
+          this.$store.commit('SET_NUM', k)
+        }
         if (ev) {
           ev.target.classList.add('active')
           for (var key = 0; key < ev.target.parentNode.childNodes.length; key++) {
@@ -55,12 +58,13 @@
       var self = this
       util.post('getHelpClass', {sign: api.serialize({token: this.token})}).then(function (res) {
         self.nav = res
-        self.fetchData(res[0].help_class_id)
+        self.fetchData(res[self.num ? self.num : 0].help_class_id)
       })
     },
     computed: {
       ...mapState({
-        token: state => state.info.token
+        token: state => state.info.token,
+        num: state => state.num
       })
     }
   }
