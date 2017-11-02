@@ -184,7 +184,7 @@ api.tips = (ele, str, callback) => {
     if (callback) {
       callback()
     }
-  }, 2000)
+  }, 3000)
 }
 api.checkAjax = (obj, res, callback, btn, failback) => {
   if (res === 'repeatLogin') {

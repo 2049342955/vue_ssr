@@ -42,7 +42,7 @@
     name: 'header',
     data () {
       return {
-        nav: {'算力商城': '/cloudCompute/list/1/all', '算力转让': '/computeTransfer/list/1/all', '算力托管': '/bdc/list', '算力资讯': '/webInfo/list/news'}
+        nav: {'算力商城': '/cloudCompute/list/1/all', '算力转让': '/computeTransfer/list/1/all', '算力托管': '/bdc', '算力资讯': '/webInfo/list/news'}
       }
     },
     created () {

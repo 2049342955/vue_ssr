@@ -61,7 +61,7 @@
         &.card_form .input{
           span{
             &:first-child {
-              width: 115px;
+              width: 120px;
               text-align: right;
             }
             &:nth-child(2) {
