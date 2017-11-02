@@ -19,7 +19,8 @@ const state = {
     unread_num: 0,
     last_login_time: ''
   },
-  hashType: []
+  hashType: [],
+  num: ''
 }
 
 const getters = {
