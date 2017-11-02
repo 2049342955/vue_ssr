@@ -30,6 +30,9 @@
     methods: {
       judge () {
         this.no = ((this.$route.name === 'list' || this.$route.name === 'webInfoDetail') && '1') || ((this.$route.name === 'issues' || this.$route.name === 'issuesDetail' || this.$route.name === 'aboutUs') && '0')
+        if (!this.$route.path.includes('issues')) {
+          this.$store.commit('SET_NUM', '')
+        }
       }
     }
   }

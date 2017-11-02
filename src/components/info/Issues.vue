@@ -2,9 +2,9 @@
   <section class="issues">
     <div class="issues_box">
       <div class="issues_lists">
-        <div :class="['item', {active:k===0}]" v-for="n,k in nav" @click="fetchData(n.help_class_id,$event,k)">{{n.name}}</div>
+        <div class="item" v-for="n,k in nav" @click="fetchData(n.help_class_id,k)">{{n.name}}</div>
       </div>
-      <div class="issues_list" v-show="!show">
+      <div class="issues_list">
         <router-link class="item" v-for="l,k in list" :to="'/webInfo/issuesDetail/'+l.id" :key="list.id">{{l.title}}</router-link>
       </div>
       <!-- <div class="issues_content" v-show="show">
@@ -25,40 +25,32 @@
     data () {
       return {
         nav: [],
-        nowClass: -1,
-        list: [],
-        // nowItem: {title: '', content: ''},
-        show: false
+        list: []
       }
     },
     methods: {
-      fetchData (id, ev, k) {
-        if (k) {
-          this.$store.commit('SET_NUM', k)
+      fetchData (id, k) {
+        var eles = document.querySelector('.issues_lists').children
+        for (var key = 0; key < eles.length; key++) {
+          eles[key].classList.remove('active')
         }
-        if (ev) {
-          ev.target.classList.add('active')
-          for (var key = 0; key < ev.target.parentNode.childNodes.length; key++) {
-            if (ev.target.parentNode.childNodes[key] !== ev.target) {
-              ev.target.parentNode.childNodes[key].classList.remove('active')
-            }
-          }
-        }
-        this.show = false
-        if (id === this.nowClass) return false
-        this.nowClass = id
         this.list = []
         var self = this
-        util.post('getHelp', {sign: api.serialize({token: this.token, help_class_id: this.nowClass})}).then(function (res) {
+        util.post('getHelp', {sign: api.serialize({token: this.token, help_class_id: id})}).then(function (res) {
           self.list = res
         })
+        setTimeout(() => {
+          this.$store.commit('SET_NUM', k)
+          eles[k].classList.add('active')
+        }, 0)
       }
     },
     mounted () {
+      console.log(this.num)
       var self = this
       util.post('getHelpClass', {sign: api.serialize({token: this.token})}).then(function (res) {
         self.nav = res
-        self.fetchData(res[self.num ? self.num : 0].help_class_id)
+        self.fetchData(res[self.num || 0].help_class_id, self.num || 0)
       })
     },
     computed: {
