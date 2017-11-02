@@ -7,8 +7,8 @@
           <div class="line"></div>
           <div class="icons">
             <span class="iconfont active"></span>
-            <span :class="['iconfont', {active: true_name&&true_name.status===1}]"></span>
-            <span :class="['iconfont', {active: bank_card&&bank_card.status===2}]"></span>
+            <span :class="['iconfont', {active: true_name}]"></span>
+            <span :class="['iconfont', {active: bank_card}]"></span>
             <span>上次登录时间：{{new Date(last_login_time*1000)|date}}</span>
           </div>
         </div>

@@ -33,17 +33,16 @@ const getters = {
       {opr: '修改', status: 1, setting: true},
       {opr: '设置', status: 0, setting: true}
     ]
-    var tipInfo = ['正在审核', '认证成功', '认证不一致', '无结果']
-    var tipInfo2 = ['正在审核', '正在审核', '重新绑定', '认证失败']
+    var tipInfo = ['正在审核', '认证成功']
     if (state.info.true_name) {
-      arr[1].status = state.info.true_name.status > 1 ? 0 : 1
+      arr[1].status = state.info.true_name.status
       arr[1].opr = state.info.true_name.status > 1 ? tipInfo[state.info.true_name.status] + ' 请重新认证' : tipInfo[state.info.true_name.status]
-      arr[1].setting = state.info.true_name.status > 1
+      arr[1].setting = 0
     }
     if (state.info.bank_card) {
-      arr[2].status = 1
-      arr[2].opr = tipInfo2[state.info.bank_card.status]
-      arr[2].setting = state.info.bank_card.status > 1
+      arr[2].status = state.info.bank_card.status
+      arr[2].opr = tipInfo[state.info.bank_card.status]
+      arr[2].setting = state.info.bank_card.status
     }
     if (state.info.address.length) {
       arr[3].status = 1
