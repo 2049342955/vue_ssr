@@ -37,7 +37,7 @@
       fetchData () {
         var self = this
         var obj = {}
-        if (this.$route.params.sort === 'default') {
+        if (this.$route.params.sort === 'all') {
           obj = {token: this.token, product_type: this.$route.params.type, page: this.now}
         } else {
           obj = {token: this.token, product_type: this.$route.params.type, sort: this.$route.params.sort, page: this.now}

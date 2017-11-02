@@ -24,19 +24,10 @@
         nowItem: []
       }
     },
-    methods: {
-      fetchData (id, ev) {
-        var self = this
-        util.post('getHelpContent', {sign: api.serialize({token: this.token, help_id: this.$route.params.id})}).then(function (res) {
-          self.nowItem = res
-        })
-      }
-    },
     mounted () {
       var self = this
-      util.post('getHelpClass', {sign: api.serialize({token: this.token})}).then(function (res) {
-        self.nav = res
-        self.fetchData(res[0].help_class_id)
+      util.post('getHelpContent', {sign: api.serialize({token: this.token, help_id: this.$route.params.id})}).then(function (res) {
+        self.nowItem = res
       })
     },
     computed: {

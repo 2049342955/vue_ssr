@@ -38,7 +38,7 @@
         var self = this
         this.show = false
         var obj = {}
-        if (this.$route.params.sort === 'default') {
+        if (this.$route.params.sort === 'all') {
           obj = {token: this.token, product_hash_type: this.$route.params.type, page: this.now}
         } else {
           obj = {token: this.token, product_hash_type: this.$route.params.type, order_type: this.$route.params.sort, page: this.now}

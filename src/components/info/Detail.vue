@@ -21,7 +21,7 @@
       var self = this
       util.post('content', {sign: 'token=0&news_id=' + this.$route.params.id}).then(function (res) {
         api.checkAjax(self, res, () => {
-          self.content = res[0]
+          self.content = res
         })
       })
     }
