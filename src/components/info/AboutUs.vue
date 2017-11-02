@@ -2,8 +2,8 @@
   <section class="about_us">
     <div class="summarize">
         <h3>关于我们</h3>
-        <p>算力网（www.suanLi.com）是由浙江数秦科技有限公司开发的云算力租赁及云矿机托管一站式电商服务平台，公司成立于2017年，由浙江数秦科技有限公司及多家上市公司、独立基金共同打造，并由浙江数秦科技有限公司独立运营，目前算力网以矿机托管，云矿机出售，云算力租赁为主营业务。</p>
-        <p>算力网支持各大主流比特币矿机，例如A7，S9，E9等，连接全球最大比特币矿机生产商、矿池等资源，让用户通过网络即可实现远程挖矿，体验科技的同时享受算力产生的比特币。</p>
+        <p style="line-height:29px;">算力网（www.suanLi.com）是由浙江数秦科技有限公司开发的云算力租赁及云矿机托管一站式电商服务平台，公司成立于2017年，由浙江数秦科技有限公司及多家上市公司、独立基金共同打造，并由浙江数秦科技有限公司独立运营，目前算力网以矿机托管，云矿机出售，云算力租赁为主营业务。</p>
+        <p style="line-height:29px;">算力网支持各大主流比特币矿机，例如A7，S9，E9等，连接全球最大比特币矿机生产商、矿池等资源，让用户通过网络即可实现远程挖矿，体验科技的同时享受算力产生的比特币。</p>
     </div>
     <div class="site">
       <h3>公司地址</h3>
@@ -31,14 +31,6 @@
       <h3>{{data.title}}</h3>
       <p v-html="data.text"></p>
     </div>
-    <!-- <div class="media">
-      <h3>媒体采访</h3>
-      <p>如果有媒体采访需求，请将您的媒体名称、采访提纲、联系方式发至： lzy@baoquan.com ，我们会尽快与您联系。</p>
-    </div>
-    <div class="cooperate">
-      <h3>商务合作</h3>
-      <p>如果贵公司希望与我们建立商务合作关系，形成优势互补，请将合作意向进行简要描述并发送邮件至： BD@suanli.com ，我们会尽快与您联系。</p>
-    </div> -->
   </section>
 </template>
 
@@ -143,7 +135,7 @@
           content:'>';
           font-size:18px;
           color:white;
-          font-family: "宋体";
+          font-family: "宋体" !important;
           font-weight:800;
           width:18px;
           height:18px;
@@ -173,5 +165,8 @@
         }
       }
     }
+  }
+  .about_us .site .mapImg h4:after{
+    font-family: "宋体" !important;
   }
 </style>
