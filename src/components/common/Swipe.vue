@@ -124,7 +124,7 @@
         this.transitioning = false
         this.transitionDuration = 0
         this.delta = 0
-        if (this.currentPage === 0) {
+        if (this.currentPage <= 0) {
           this.currentPage = this.banners.length
         }
         if (this.currentPage >= this.banners.length + 1) {
@@ -173,7 +173,7 @@
       next () {
         var page = this.currentPage
         if (page < this.banners.length || this.loop) {
-          this.setPage(page + 1)
+          this.setPage((page + 1) > 5 ? 5 : (page + 1))
         } else {
           this.setPage(this.currentPage)
         }
