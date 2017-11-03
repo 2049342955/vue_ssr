@@ -48,7 +48,7 @@
           })
           return false
         }
-        if (!(this.bank_card && this.bank_card.status === 2)) {
+        if (!(this.bank_card && this.bank_card.status === 1)) {
           api.tips(this.$refs.tips, '请先绑定银行卡', () => {
             this.$router.push({name: 'account'})
           })
