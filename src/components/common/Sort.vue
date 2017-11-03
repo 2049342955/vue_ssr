@@ -1,6 +1,6 @@
 <template>
   <div class="sort">
-    <div :class="['item', 'next', {active1: activeOne==true}]" @click="setSort('default')">默认</div>
+    <div :class="['item', 'next', {active1: activeOne==true}]" @click="setSort('all')">默认</div>
     <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont"></span></div>
   </div>
 </template>
@@ -36,7 +36,8 @@
           obj.value = +(!obj.value)
           str = obj.option[obj.value]
         } else {
-          str = 'default'
+          this.activeOne = true
+          str = n
         }
         if (this.page === 'computeTransfer' || this.page === 'cloudCompute') {
           this.$router.push({path: '/' + this.page + '/list/' + this.$route.params.type + '/' + str})

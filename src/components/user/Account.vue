@@ -34,10 +34,7 @@
         edit: '',
         title: '',
         product_hash_type: '',
-        card_type: '中国大陆身份证',
-        card: [],
-        val: '',
-        value: ''
+        card_type: '中国大陆身份证'
       }
     },
     methods: {
@@ -115,14 +112,13 @@
         })
       },
       onChange (e) {
-        this.city = card
-        console.log(this.city)
-        if (e.target.value.length >= 6) {
-          this.val = e.target.value.substr(0, 6)
-          this.value = e.target.value.substr(0, 5)
-          for (var i = 0; i < this.city.length; i++) {
-            if (this.val === this.city[i].id || this.value === this.city[i].id) {
-              document.getElementsByName('open_bank')[0].value = this.city[i].name
+        var val = e.target.value
+        var val1 = val.substr(0, 6)
+        var val2 = val.substr(0, 5)
+        if (val.length >= 6) {
+          for (var i = 0; i < card.length; i++) {
+            if (val1 === card[i].id || val2 === card[i].id) {
+              document.getElementsByName('open_bank')[0].value = card[i].name
             }
           }
         }
