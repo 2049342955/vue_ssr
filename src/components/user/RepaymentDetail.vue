@@ -36,8 +36,24 @@
     </div>
     <router-link to="javascript:;" class="submit">提前还款</router-link>
     <div class="button">
-      <h4>确认还款<span>x</span></h4>
-      
+      <div class="opaction">
+        <h4>确认还款<span>x</span></h4>
+        <div class="one">
+          <label>还款方式</label>
+          <select>
+            <option>算力收益</option>
+          </select>
+        </div>
+        <div class="one">
+          <label>还款总额</label>
+          <input type="text" value="0.0024562 btc"/>
+        </div>
+        <div class="one">
+          <label>交易密码</label>
+          <input type="password" placeholder="请输入交易密码"/>
+        </div>
+        <button>提交</button>
+      </div>
     </div>
   </section>
 </template>
@@ -156,6 +172,52 @@
       margin-bottom: 125px;
       border-radius: 5px;
       margin-right:10px;
+    }
+    .button{
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      background:rgba(0,0,0,.2);
+      top:0;
+      left:0;
+    }
+    .button .opaction{
+      width: 476px;
+      height: 380px;
+      background: white;
+      position: absolute;
+      left: 50%;
+      top:50%;
+      margin-left:-238px;
+      margin-top:-190px;
+      h4{
+        width: 100%;
+        margin-top: 29px;
+        font-size: 18px;
+        text-align: center;
+        span{
+          position: absolute;
+          right: 0;
+          margin-right: 42px;
+          font-family: cursive;
+        }
+      }
+      .one{
+        width: 100%;
+        padding:70px;
+        box-sizing: border-box;
+        label{
+          display:inline-block;
+          width: 70px;
+          font-size: 16px;
+          height: 28px;
+        }
+        input{
+          width: 250px;
+          height: 28px;
+          border:1px solid #999;
+        }
+      }
     }
   }
 </style>
