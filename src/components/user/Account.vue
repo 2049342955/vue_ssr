@@ -116,14 +116,13 @@
       },
       onChange (e) {
         this.city = card
+        console.log(this.city)
         if (e.target.value.length >= 6) {
           this.val = e.target.value.substr(0, 6)
           this.value = e.target.value.substr(0, 5)
           for (var i = 0; i < this.city.length; i++) {
             if (this.val === this.city[i].id || this.value === this.city[i].id) {
               document.getElementsByName('open_bank')[0].value = this.city[i].name
-            } else {
-              document.getElementsByName('open_bank')[0].value = '该卡号暂时没有开户地'
             }
           }
         }
