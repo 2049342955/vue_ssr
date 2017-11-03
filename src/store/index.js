@@ -34,6 +34,7 @@ const getters = {
       {opr: '设置', status: 0, setting: true}
     ]
     var tipInfo = ['正在审核', '认证成功']
+    var tipInfo2 = ['正在审核', '重新绑卡']
     if (state.info.true_name) {
       arr[1].status = state.info.true_name.status
       arr[1].opr = state.info.true_name.status > 1 ? tipInfo[state.info.true_name.status] + ' 请重新认证' : tipInfo[state.info.true_name.status]
@@ -41,7 +42,7 @@ const getters = {
     }
     if (state.info.bank_card) {
       arr[2].status = state.info.bank_card.status
-      arr[2].opr = tipInfo[state.info.bank_card.status]
+      arr[2].opr = tipInfo2[state.info.bank_card.status]
       arr[2].setting = state.info.bank_card.status
     }
     if (state.info.address.length) {
