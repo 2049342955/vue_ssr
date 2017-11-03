@@ -40,7 +40,7 @@
           <input :type="f.type" :name="f.name" :value="$parent[f.name]||$parent.$parent[f.name]" disabled :isChange="f.isChange" v-if="f.name!=='product_hash_type'">
           <input :type="f.type" :name="f.name" :value="$parent.$parent[f.name]&&$parent.$parent[f.name].toUpperCase()" disabled>
         </template>
-        <input :type="f.type" :name="f.name" disabled v-else>
+        <input :type="f.type" :name="f.name" :isChange="f.isChange" disabled v-else>
       </template>
       <!-- tips_info -->
       <div class="tips_info" v-if="f.tipsInfo">
