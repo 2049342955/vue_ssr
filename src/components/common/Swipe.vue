@@ -8,7 +8,7 @@
             <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-else :style="[{transform: 'translate3d('+offsetX+'px, '+offsetY+'px, 0px)'}]">
           </template>
           <router-link to="/cloudCompute/list/1/all" class="btn" v-if="k===5||k===1">即刻开始</router-link>
-          <router-link to="/bdc/list" class="btn" v-else-if="k===2">查看详情</router-link>
+          <router-link to="/bdc" class="btn" v-else-if="k===2">查看详情</router-link>
           <router-link to="/user/computeProperty" class="btn" v-else-if="k===3">查看详情</router-link>
           <router-link to="/cloudCompute/list/1/all" class="btn" v-else-if="k===0||k===4">查看详情</router-link>
         </div>
@@ -124,7 +124,7 @@
         this.transitioning = false
         this.transitionDuration = 0
         this.delta = 0
-        if (this.currentPage === 0) {
+        if (this.currentPage <= 0) {
           this.currentPage = this.banners.length
         }
         if (this.currentPage >= this.banners.length + 1) {
@@ -173,7 +173,7 @@
       next () {
         var page = this.currentPage
         if (page < this.banners.length || this.loop) {
-          this.setPage(page + 1)
+          this.setPage((page + 1) > 5 ? 5 : (page + 1))
         } else {
           this.setPage(this.currentPage)
         }
