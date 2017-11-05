@@ -2,7 +2,7 @@
   <div class="cloud_list">
     <h2>
       <span>云矿机推荐</span>
-      <span>由保全网提供存证、保全服务</span>
+      <span>全球算力输出服务由保全网提供全流程区块连存证、保全服务</span>
       <router-link to="/cloudCompute/list/1/all">更多云矿机 ></router-link>
     </h2>
     <table>
