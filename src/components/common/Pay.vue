@@ -21,6 +21,34 @@
           </div>
         </div>
       </div>
+      <div class="orderMsg" v-show="$parent.show">
+        <h3 class="title">贷款详情</h3>
+        <div class="orderDetail">
+          <div class="detailH">
+            <div class="borderR" v-for="d,k in proData3">
+              <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
+              <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
+              <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
+              <p>{{d.title}}</p>
+            </div>
+          </div>
+          <div class="detailF">
+            <p>
+              <span>贷款期限 ： </span>
+              <select>
+                <option>6个月</option>
+                <option>12个月</option>
+              </select>
+            </p>
+            <p v-for="t,k in proText3">{{t}}：
+              <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
+              <span class="value" v-else-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
+              <span class="value" v-else>{{$parent.detail[k]}}</span>
+            </p>
+            <p><a href="javascript:;" @click="close(true)">查看分期计划</a></p>
+          </div>
+        </div>
+      </div>
       <div class="orderPay">
         <div class="detail">
           <div class="img">
@@ -59,6 +87,37 @@
         </form>
       </div>
       <div class="web_tips" ref="tips"></div>
+      <div class="Installment_plan" v-show="showpay">
+        <div class="opacity">
+          <p class="title">分期计划<span @click="close(false)">X</span></p>
+          <div class="item" style="margin-bottom:34px;overflow:hidden;">
+            <p>{{items.month.title}} : {{items.month.unit}}</p>
+            <p>{{items.pay.title}} : {{items.pay.unit}}</p>
+            <p>{{items.shou.title}} : {{items.shou.unit}}</p>
+            <p>{{items.all.title}} : {{items.all.unit}}</p>
+          </div>
+          <table border="1">
+             <thead>
+               <tr>
+                 <th>期数</th>
+                 <th>还款日期</th>
+                 <th>贷款余额</th>
+                 <th>手续费</th>
+                 <th>本期还款额</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr v-for="n,k in table">
+                 <td>{{n.day}}</td>
+                 <td>{{n.week}}</td>
+                 <td>{{n.yu}}</td>
+                 <td>{{n.fei}}</td>
+                 <td>{{n.hai}}</td>
+               </tr>
+             </tbody>
+          </table>
+        </div>
+      </div>
     </template>
     <div v-else-if="showAgreement===1" class="agreement_text">
       <div class="" v-html="$parent.content"></div>
@@ -85,6 +144,15 @@
       },
       proText: {
         type: Object
+      },
+      proData3: {
+        type: Object
+      },
+      proText3: {
+        type: Object
+      },
+      show: {
+        type: String
       }
     },
     components: {
@@ -93,10 +161,13 @@
     data () {
       return {
         form: [{name: 'password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
+        items: {month: {title: '月还款', unit: '元'}, pay: {title: '分期期数', unit: '期'}, shou: {title: '手续费', unit: '元'}, all: {title: '费用总计', unit: '元'}},
+        table: [{day: '2', week: '2017-02-31', yu: '300', fei: '23', hai: '300'}],
         tips: '请同意服务条款',
         totalPrice: 0,
         showAgreement: 0,
-        toggle: false
+        toggle: false,
+        showpay: ''
       }
     },
     methods: {
@@ -147,6 +218,9 @@
       },
       agree () {
         this.showAgreement = 0
+      },
+      close (sh) {
+        this.showpay = sh
       }
     },
     mounted () {
@@ -205,6 +279,20 @@
           padding: 20px 25px;
           p{
             padding: 0 48px 0 42px;
+            select{
+              width:178px;
+              height:22px;
+              border:1px solid #dcdcdc;
+              border-radius:4px;
+              background:#f7f8fa;
+              padding-left:15px;
+              font-size:12px;
+              box-sizing:border-box;
+              display:inline-block;
+            }
+            a{
+              color: #327fff;
+            }
           }
         }
       }
@@ -318,6 +406,63 @@
           width:100px;
           margin:30px auto;
           @include button($blue)
+        }
+      }
+    }
+    .Installment_plan{
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.2);
+      left: 0;
+      top:0;
+      position: fixed;
+      .opacity{
+        width: 666px;
+        height: 672px;
+        background: white;
+        top:50%;
+        left: 50%;
+        margin-left: -333px;
+        margin-top:-386px;
+        position: absolute;
+        padding:0 93px;
+        box-sizing: border-box;
+        .title{
+          width: 100%;
+          text-align: center;
+          font-size: 18px;
+          margin-top: 37px;
+          color: black;
+          span{
+            font-size: 14px;
+            font-family: cursive;
+            position: absolute;
+            right: 0;
+            margin-right: 40px;
+            cursor: pointer;
+          }
+        }
+        .item{
+          width: 100%;
+          p{
+            float: left;
+            font-size: 14px;
+            color: black;
+            width: 50%;
+            text-align: left;
+            margin-top: 18px;
+          }
+        }
+        table{
+          width: 100%;
+          th{
+            color: black;
+            text-align: center;
+          }
+          td{
+            color: black;
+            text-align: center;
+          }
         }
       }
     }

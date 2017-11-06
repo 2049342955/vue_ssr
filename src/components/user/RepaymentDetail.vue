@@ -25,7 +25,7 @@
        <li v-for="n,k in monrynav">
          {{n[0]}} : <span>{{n[1]}}</span>
        </li>
-       <li><router-link to="javascript:;" style="color:#327fff;">查看计算公式</router-link></li>
+       <li><a to="javascript:;" style="color:#327fff;cursor: pointer;" @click="showpay(true)">查看计算公式</a></li>
      </ol>
      <div class="table">
        <div class="item" v-for="n,k in data">
@@ -34,10 +34,10 @@
        </div>
      </div>
     </div>
-    <router-link to="javascript:;" class="submit">提前还款</router-link>
-    <div class="button">
+    <div class="submit" @click="showButton(true)">提前还款</div>
+    <div class="button" v-show="show">
       <div class="opaction">
-        <h4>确认还款<span>x</span></h4>
+        <h4>确认还款<span @click="showButton(false)">x</span></h4>
         <div class="one">
           <label>还款方式</label>
           <select>
@@ -46,7 +46,7 @@
         </div>
         <div class="one">
           <label>还款总额</label>
-          <input type="text" value="0.0024562 btc"/>
+          <input type="text" placeholder="0.0024562 btc"/>
         </div>
         <div class="one">
           <label>交易密码</label>
@@ -54,6 +54,17 @@
         </div>
         <button>提交</button>
       </div>
+    </div>
+    <div class="design_formulas" v-show = "showpa">
+       <div class="opaction">
+         <h4>分期业务计算<span @click="showpay(false)">x</span></h4>
+         <p>利息=贷款额*手续费率</p>
+         <p>贷款总额=利息+贷款额</p>
+         <p>每期需还款=贷款额/期数</p>
+         <p>贷款余额=贷款总额-期数*每期需还款</p>
+         <p>手续费=利息/期数</p>
+         <p>本期还款额=每期需还款+手续费 ||   本期还款额=贷款总额/期数</p>
+       </div>
     </div>
   </section>
 </template>
@@ -65,9 +76,19 @@
   export default {
     data () {
       return {
-        data: {type: ['算力类型', 'BTC'], num: ['购买数量', '100 * 1台 = 10台'], time: ['购买日期', '2017-09-12 18:00'], money: ['购买金额', '10 * 9000.00元 = 90000.00元'], shou: ['收益方式', '每日结算，次日发放'], all: ['总算力', '90T'], fu: ['服务器类型', '阿瓦隆'], address: ['所在区域', '']},
+        data: {type: ['期数', '2'], num: ['还款日期', '2017-06-23'], time: ['贷款余额', '355.25'], money: ['手续费', '20'], shou: ['本期还款额', '300']},
         moneydata: {title: '阿瓦隆1号矿机', money: '10000.00', lv: '15', year: '2017', month: '06', day: '22'},
-        monrynav: {'0': ['分期期限', '12个月'], '1': ['预期时间', '20天'], '2': ['逾期罚息', '0.00']}
+        monrynav: {'0': ['分期期限', '12个月'], '1': ['预期时间', '20天'], '2': ['逾期罚息', '0.00']},
+        show: false,
+        showpa: false
+      }
+    },
+    methods: {
+      showButton (type) {
+        this.show = type
+      },
+      showpay (type) {
+        this.showpa = type
       }
     }
   }
@@ -199,23 +220,88 @@
           position: absolute;
           right: 0;
           margin-right: 42px;
+          cursor: pointer;
           font-family: cursive;
         }
       }
       .one{
         width: 100%;
-        padding:70px;
+        padding:0 70px;
         box-sizing: border-box;
+        margin-top: 42px;
         label{
           display:inline-block;
           width: 70px;
           font-size: 16px;
+          line-height: 28px;
           height: 28px;
         }
         input{
           width: 250px;
           height: 28px;
-          border:1px solid #999;
+          border:1px solid #dcd7d7;
+          margin-left: 10px;
+          padding-left: 22px;
+          box-sizing: border-box;
+        }
+        select{
+          width: 250px;
+          height: 28px;
+          border:1px solid #dcd7d7;
+          margin-left: 10px;
+          padding-left: 22px;
+          box-sizing: border-box;
+        }
+      }
+      button{
+        width: 180px;
+        height: 28px;
+        background: $blue;
+        border:0;
+        margin-top: 45px;
+        margin-left: 147px;
+        color: white;
+        border-radius: 0;
+        &:hover{
+          background: #2470ef;
+        }
+      }
+    }
+    .design_formulas{
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      background:rgba(0,0,0,.2);
+      top:0;
+      left:0;
+      .opaction{
+        width: 476px;
+        height: 380px;
+        background: white;
+        position: absolute;
+        left: 50%;
+        top:50%;
+        margin-left:-238px;
+        margin-top:-190px;
+        h4{
+          width: 100%;
+          margin-top: 29px;
+          font-size: 18px;
+          text-align: center;
+          span{
+            position: absolute;
+            right: 0;
+            margin-right: 42px;
+            cursor: pointer;
+            font-family: cursive;
+          }
+        }
+        p{
+          width: 100%;
+          text-align: center;
+          font-size: 14px;
+          color: black;
+          margin-top: 20px;
         }
       }
     }

@@ -20,6 +20,10 @@
             <th>分期时间</th>
           </template>
           <template v-else>
+            <th>分期金额</th>
+            <th>手续费率</th>
+            <th>分期期限</th>
+            <th>已还期数</th>
             <th>分期时间</th>
           </template>
           <th>操作</th>
