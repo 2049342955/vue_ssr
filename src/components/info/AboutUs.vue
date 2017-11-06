@@ -103,7 +103,6 @@
       .mapImg{
         width:100%;
         height:470px;
-        // background: url(../../assets/images/address.png);
         .anchorBL{
           display: none;
         }
