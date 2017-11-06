@@ -1,7 +1,7 @@
 <template>
   <section class="compute_detail">
     <div class="main">
-      <Pay v-if="next" page="cloudCompute" :proData="proData2" :proText="proText2"></Pay>
+      <Pay v-if="next" page="cloudCompute" :proData="proData2" :proText="proText2" :proData3="proData3" :proText3="proText3"></Pay>
       <Product v-else page="cloudCompute" :proData="proData" :proText="proText"></Product>
     </div>
     <div class="web_tips" ref="tips"></div>
@@ -26,6 +26,8 @@
         proText: {hashType: '算力类型', status: '购买类型', incomeType: '结算方式'},
         proData2: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '每日电费约', unit: 'btc'}},
         proText2: {hashType: '算力类型', hash: '每台矿机算力', status: '购买类型', incomeType: '结算方式'},
+        proData3: {name: {title: '贷款方式', unit: ''}, one_amount_value: {title: '贷款金额', unit: '元'}, number: {title: '贷款利率', unit: '%'}, income: {title: '还款来源', unit: ''}, electricityFees: {title: '还款方式', unit: ''}},
+        proText3: {hash: '贷款利息'},
         totalPrice: 0,
         totalHash: 0,
         number: '',
@@ -36,11 +38,13 @@
         overStatus: false,
         content: '',
         content1: '',
-        str: {4: '预热', 5: '可售'}
+        str: {4: '预热', 5: '可售'},
+        show: ''
       }
     },
     methods: {
-      goPay (e) {
+      goPay (e, show) {
+        this.show = show
         if (!this.trade_password) {
           api.tips(this.$refs.tips, '请先设置交易密码', () => {
             this.$router.push({name: 'password'})
