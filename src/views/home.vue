@@ -129,7 +129,13 @@
             margin-bottom:10px
           }
           .item_desc{
+            text-align: left;
             color:$light_black;
+          }
+          &:nth-child(1),&:nth-child(6),&:nth-child(8){
+            .item_desc{
+              text-align: center
+            }
           }
           &.item_another,& .iconfont{
             font-size: 36px;
@@ -161,7 +167,7 @@
             content:'\e6dc'
           }
           &:nth-child(9) .iconfont:before{
-            content:'\e6d4'
+            content:'\e6da'
           }
           &:hover{
             // border-color:$blue;

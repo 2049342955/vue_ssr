@@ -9,27 +9,47 @@
   export default {
     data () {
       return {
-        dataAxis: ['点', '击', '柱', '子', '或', '者', '两', '指', '在', '触', '屏', '上', '滑', '动', '能', '够', '自', '动', '缩', '放'],
         data: [220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149, 210, 122, 133, 334, 198, 123, 125, 220],
         yMax: 500,
         dataShadow: []
       }
     },
     methods: {
+      getdays (year, month) {
+        var days = []
+        if ((year % 100 !== 100 && year % 4 === 0) || (year % 400 === 100)) {
+          days = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+          return days[month]
+        } else {
+          days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+          return days[month]
+        }
+      },
       drawMap (chart, v) {
+        var dataAxis = []
+        var y1 = new Date().getFullYear()
+        var d1 = new Date().getDate()
+        var m1 = new Date().getMonth()
+        var l = 20 - d1
+        var days = this.getdays(y1, m1 - 1)
+        for (var j = d1; j > 0; j--) {
+          dataAxis.unshift(m1 + 1 + '-' + j)
+        }
+        if (l > 0) {
+          for (var n = days, z = 0; z < l; n--, z++) {
+            dataAxis.unshift(m1 + '-' + n)
+          }
+        }
         for (var i = 0; i < this.data.length; i++) {
           this.dataShadow.push(this.yMax)
         }
         var myChart = echarts.init(document.querySelector('.myChart2'))
         myChart.setOption({
+          tooltip: {
+            trigger: 'item'
+          },
           xAxis: {
-            data: this.dataAxis,
-            axisLabel: {
-              inside: true,
-              textStyle: {
-                color: '#fff'
-              }
-            },
+            data: dataAxis,
             axisTick: {
               show: false
             },
