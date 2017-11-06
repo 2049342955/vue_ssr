@@ -90,13 +90,10 @@
       <div class="Installment_plan" v-show="showpay">
         <div class="opacity">
           <p class="title">分期计划<span @click="close(false)">X</span></p>
-          <div class="item" style="margin-bottom:34px;overflow:hidden;">
-            <p>{{items.month.title}} : {{items.month.unit}}</p>
-            <p>{{items.pay.title}} : {{items.pay.unit}}</p>
-            <p>{{items.shou.title}} : {{items.shou.unit}}</p>
-            <p>{{items.all.title}} : {{items.all.unit}}</p>
+          <div class="item" style="overflow:hidden;">
+            <p  v-for="n,k in $parent.items">{{n.title}} : {{$parent.detail[k]}}{{n.unit}}</p>
           </div>
-          <table border="1">
+          <table border="1" style="margin-top:24px;">
              <thead>
                <tr>
                  <th>期数</th>
@@ -107,12 +104,12 @@
                </tr>
              </thead>
              <tbody>
-               <tr v-for="n,k in table">
-                 <td>{{n.day}}</td>
-                 <td>{{n.week}}</td>
-                 <td>{{n.yu}}</td>
-                 <td>{{n.fei}}</td>
-                 <td>{{n.hai}}</td>
+               <tr v-for="n,k in $parent.table">
+                 <td>{{n.rate}}</td>
+                 <td>{{n.datetime}}</td>
+                 <td>{{n.loan_money_balance}}</td>
+                 <td>{{n.fee}}</td>
+                 <td>{{n.repaymoney}}</td>
                </tr>
              </tbody>
           </table>
@@ -153,6 +150,9 @@
       },
       show: {
         type: String
+      },
+      items: {
+        type: Object
       }
     },
     components: {
@@ -161,8 +161,6 @@
     data () {
       return {
         form: [{name: 'password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
-        items: {month: {title: '月还款', unit: '元'}, pay: {title: '分期期数', unit: '期'}, shou: {title: '手续费', unit: '元'}, all: {title: '费用总计', unit: '元'}},
-        table: [{day: '2', week: '2017-02-31', yu: '300', fei: '23', hai: '300'}],
         tips: '请同意服务条款',
         totalPrice: 0,
         showAgreement: 0,
@@ -194,13 +192,23 @@
         var self = this
         ff.btn.setAttribute('disabled', true)
         if (this.page === 'cloudCompute') {
-          util.post('productMall', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(data.password)})}).then(function (res) {
-            api.checkAjax(self, res, () => {
-              api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
-                self.$router.push({path: '/user/order/0/1'})
-              })
-            }, ff.btn)
-          })
+          if (this.$parent.show) {
+            util.post('productMall', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(data.password)})}).then(function (res) {
+              api.checkAjax(self, res, () => {
+                api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
+                  self.$router.push({path: '/user/repayment/1'})
+                })
+              }, ff.btn)
+            })
+          } else {
+            util.post('productMall', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(data.password)})}).then(function (res) {
+              api.checkAjax(self, res, () => {
+                api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
+                  self.$router.push({path: '/user/order/0/1'})
+                })
+              }, ff.btn)
+            })
+          }
         } else {
           // 100002:参数缺失，200004：账户余额不足，1000：交易成功，800007：交易失败，800003：禁止交易，200006：交易密码错误，800004：转让已结束，800005：产品已撤销,800008:不能购买自己的产品
           util.post('doTransfer_Hashrate', {sign: api.serialize({token: this.$parent.token, user_id: this.$parent.user_id, transfer_order_id: this.$route.params.id, trade_password: md5(data.password)})}).then(function (res) {
@@ -225,7 +233,11 @@
     },
     mounted () {
       if (this.page === 'cloudCompute') {
-        this.totalPrice = this.$parent.detail.one_amount_value * this.$parent.number
+        if (this.$parent.show) {
+          this.totalPrice = this.$parent.detail.one_amount_value * this.$parent.number / 2
+        } else {
+          this.totalPrice = this.$parent.detail.one_amount_value * this.$parent.number
+        }
       } else {
         this.totalPrice = this.$parent.detail.total_price
       }
