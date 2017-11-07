@@ -1,13 +1,25 @@
 <template>
   <section class="notice">
     <h3>{{str[$route.params.type]}}</h3>
-    <div class="display">
-      <router-link :class="['item',{active: true}]" :to="'/webInfo/detail/'+$route.params.type+'/'+list.id" v-for="list in lists" :key="lists.id">
-        <span class="title">{{list.title}}</span>
-        <span class="time">{{list.dateline}}</span>
+    <template v-if="$route.params.type !== 'news'">
+      <div class="display">
+        <router-link :class="['item',{active: true}]" :to="'/webInfo/detail/'+$route.params.type+'/'+list.id" v-for="list in lists" :key="lists.id">
+          <span class="title">{{list.title}}</span>
+          <span class="time">{{list.dateline}}</span>
+        </router-link>
+      </div>
+    </template>
+    <template v-else>
+      <router-link :class="['item', 'img_text', {active: true}]" :to="'/webInfo/detail/'+$route.params.type+'/'+list.id" v-for="list in lists" :key="lists.id">
+        <img :src="img1"/>
+        <div class="right">
+          <p class="title">{{list.title}}</p>
+          <p class="time"><span style="margin-right:10px;">《算力网》</span>|<span style="margin-left:10px;">{{list.dateline}}</span></p>
+          <p class="content">解决电动车小女生教学能手继续说喜上加喜你实习就实习下数据小女生教解决电动车小女生教学能手继续说喜上加喜你实习就实习下数据小女生教学能手销声匿解决电动车小女生教学能手继续说喜上加喜你实习就实习下数据小女生教学能手销声匿解决电动车小女生教学能手继续说喜上加喜你实习就实习下数据小女生教学能手销声匿解决电动车小女生教学能手继续说喜上加喜你实习就实习下数据小女生教学能手销声匿解决电动车小女生教学能手继续说喜上加喜你实习就实习下数据小女生教学能手销声匿迹虚拟机鲜食啥还是叫现代化萨迦县杀伤性按顺序......</p>
+        </div>
       </router-link>
-      <router-view class="content"></router-view>
-    </div>
+    </template>
+      <!-- <router-view class="content"></router-view> -->
     <div class="web_tips" ref="tips"></div>
   </section>
 </template>
@@ -20,7 +32,8 @@
       return {
         lists: [],
         str: {website: '网站动态', product: '产品公告', news: '算力资讯'},
-        requestUrl: {website: 'webDynamic', product: 'webAnnouncoment', news: 'suanliMessage'}
+        requestUrl: {website: 'webDynamic', product: 'webAnnouncoment', news: 'suanliMessage'},
+        img1: require('@/assets/images/zx.jpg')
       }
     },
     methods: {
@@ -82,6 +95,36 @@
       .page{
         display: block;
       }
+    }
+  }
+  .img_text{
+    width: 100%;
+    padding-bottom: 27px;
+    display: block;
+    border-bottom:1px dashed #e5e5e5;
+    overflow: hidden;
+    margin-bottom: 28px;
+    img{
+      width: 200px;
+      height: 120px;
+      float: left;
+      margin-right: 30px;
+    }
+    .title{
+      color: black;
+      font-size: 15px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    .time{
+      font-size: 12px;
+    }
+    .content{
+      margin-top: 10px;
+      font-size: 12px;
+      line-height: 20px;
+      height: 57px;
+      overflow: hidden;
     }
   }
 </style>

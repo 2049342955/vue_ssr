@@ -20,7 +20,7 @@
             <th>分期时间</th>
           </template>
           <template v-else>
-            <th>分期金额1</th>
+            <th>分期金额</th>
             <th>手续费率</th>
             <th>分期期限</th>
             <th>已还期数</th>
@@ -30,9 +30,9 @@
         </tr>
         <tr v-for="d,k in item">
           <template v-if="status==='0'">
-            <td>{{d.product_name}}</td>
+            <td>{{d.product_name}}<i :class="'icon_currency '+d.product_hash_type"></i></td>
             <td>{{d.loan_money}}</td>
-            <td>{{d.loan_interest / d.loan_total * 100 |format}}%</td>
+            <td>{{d.fee_value * 100}}%</td>
             <td>{{d.loan_deadline}}</td>
             <td>{{d.complete_number}}</td>
             <td>{{d.loan_start_time}}</td>
@@ -41,9 +41,9 @@
             </td>
           </template>
           <template v-if="status==='1'">
-            <td>{{d.product_name}}</td>
+            <td>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
             <td>{{d.loan_money}}</td>
-            <td>{{d.loan_interest / d.loan_total * 100 |format}}%</td>
+            <td>{{d.fee_value}}%</td>
             <td>{{d.loan_deadline}}</td>
             <td>{{d.complete_number}}</td>
             <td>{{d.loan_start_time}}</td>
