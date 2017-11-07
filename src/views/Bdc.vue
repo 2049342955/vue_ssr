@@ -2,36 +2,30 @@
   <article class="bdc">
     <div class="bg-box">
       <div class="bg"></div>
-      <!-- <div class="mask"></div> -->
     </div>
-    <div class="top-box-row">
-      <div class="top-box">
-        <div class="float-left bdc-box">
-          <div><span class="big-title">BDC</span><span class="subtitle">（Blockchain   Data   Center）</span></div>
-          <div class="bdc-detail">BDC是平台整合优质品牌商与分销商，通过平台的优势及服务以吸引广大消费者的一种形式，算力网通过自身的优势整合筛选出行业内优质合规的BDC机房，算力服务器生产商，为算力爱好者提供算力服务器托管，算力服务器采购，算力服务器租赁等服务，打通算力及衍生商品产业链的完整交易，做到平台，供应商，消费者三方互惠互利。</div>
-          <div><span class="service">客服：</span><span class="tel">0571- 28221076</span><span class="time">工作日（9:00~18:00）</span></div>
-        </div>
-        <div class="float-right form-box">
-          <div class="form-header">提交托管矿机申请</div>
-          <form class="data_form" @submit.prevent="submit" novalidate v-if="!success">
-            <div class="form-line"><span class="label">申请人</span><input type="text" v-model.trim="depName" placeholder="请输入您的姓名" @blur="test"></div>
-            <div class="form-line"><span class="label">手机号码</span><input type="text" name="depTel" v-model.trim="depTel" pattern="^1[3578][0-9]{9}$" placeholder="请输入手机号码" @blur="test" title="请输入11位手机号"></div>
-            <div class="form-line"><span class="label">手机验证码</span><input type="text" v-model.trim="code" pattern="^[0-9]{6}$" placeholder="手机验证码" @blur="test" title="请输入6位数字" class="yan"><div  ref="count_btn" class="form_btn" @click="getCode">{{str}}</div></div>
-            <div class="form-line"><span class="label">选择BDC</span>
-              <select v-model="depBdc">
-                <option v-for="(item, index) in list" :key="item.bdc_name" :value="item.bdc_name">{{item.bdc_name}}</option>
-              </select>
-            </div>
-            <div class="form-line"><span class="label">服务器类型</span><input type="text" v-model.trim="depType" placeholder="请输入算力服务器类型" @blur="test"></div>
-            <div class="form-line"><span class="label">服务器数量</span><input type="text" v-model.trim="depNumber" placeholder="输入托管算力服务器数量" @blur="test" pattern="^\d+$" title="请输入整数" maxlength="5"></div>
-            <div class="tips">{{tips}}</div>
-            <button class="btn">提交申请</button>
-          </form>
-          <div class="success" v-else>
-            <div>
-              <div class="icon"></div>
-              <p>提交成功，稍后工作人员会与您联系</p>
-            </div>
+    <div class="top-box">
+      <div class="float-left bdc-box">
+        <div><span class="big-title">BDC</span><span class="subtitle">（Blockchain   Data   Center）</span></div>
+        <div class="bdc-detail">{{text}}</div>
+        <div><span class="service">客服：</span><span class="tel">0571- 28221076</span><span class="time">工作日（9:00~18:00）</span></div>
+      </div>
+      <div class="float-right form-box">
+        <div class="form-header">提交托管矿机申请</div>
+        <form class="data_form" @submit.prevent="submit" novalidate v-if="!success">
+          <div class="form-line" v-for="f in form">
+            <span class="label">{{f.title}}</span><input :class="{yan: f.addon}" type="text" :name="f.name" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" :title="f.tips" :maxlength="f.maxlength" v-if="f.type==='text'">
+            <div ref="count_btn" class="form_btn" @click="getCode" v-if="f.addon">{{str}}</div>
+            <select :name="f.name" v-if="f.type==='select'">
+              <option v-for="(item, index) in list" :key="item.bdc_name" :value="item.bdc_name">{{item.bdc_name}}</option>
+            </select>
+          </div>
+          <div class="tips">{{tips}}</div>
+          <button class="btn">提交申请</button>
+        </form>
+        <div class="success" v-else>
+          <div>
+            <div class="icon"></div>
+            <p>提交成功，稍后工作人员会与您联系</p>
           </div>
         </div>
       </div>
@@ -61,15 +55,11 @@
   export default {
     data () {
       return {
+        form: [{name: 'dep_name', type: 'text', title: '申请人', placeholder: '请输入您的姓名'}, {name: 'dep_tel', type: 'text', title: '手机号码', placeholder: '请输入手机号码', tips: '请输入11位手机号', pattern: '^1[3578][0-9]{9}$'}, {name: 'code', type: 'text', title: '手机验证码', placeholder: '手机验证码', addon: true, tips: '请输入6位数字', pattern: '^[0-9]{6}$'}, {name: 'dep_bdc', type: 'select', title: '选择BDC'}, {name: 'dep_type', type: 'text', title: '服务器类型', placeholder: '请输入算力服务器类型'}, {name: 'dep_number', type: 'text', title: '服务器数量', placeholder: '输入托管算力服务器数量', tips: '请输入整数', pattern: '^[0-9]+$', maxlength: 5}],
+        text: 'BDC是平台整合优质品牌商与分销商，通过平台的优势及服务以吸引广大消费者的一种形式，算力网通过自身的优势整合筛选出行业内优质合规的BDC机房，算力服务器生产商，为算力爱好者提供算力服务器托管，算力服务器采购，算力服务器租赁等服务，打通算力及衍生商品产业链的完整交易，做到平台，供应商，消费者三方互惠互利。',
         list: [],
-        depName: '',
-        depTel: '',
-        depBdc: '',
-        depType: '',
-        depNumber: '',
         tips: '',
         success: false,
-        code: '',
         str: '验证码'
       }
     },
@@ -87,7 +77,7 @@
           ff[data.n].focus()
           return false
         }
-        util.post('depositMessage', {sign: api.serialize({token: this.token, dep_name: encodeURIComponent(this.depName), dep_tel: this.depTel, dep_bdc: encodeURIComponent(this.depBdc), dep_type: encodeURIComponent(this.depType), dep_number: this.depNumber, code: this.code})}).then(function (res) {
+        util.post('depositMessage', {sign: api.serialize({token: this.token, dep_name: encodeURIComponent(ff.dep_name.value), dep_tel: ff.dep_tel.value, dep_bdc: encodeURIComponent(ff.dep_bdc.value), dep_type: encodeURIComponent(ff.dep_type.value), dep_number: ff.dep_number.value, code: ff.code.value})}).then(function (res) {
           if (!res.code) {
             self.success = true
           }
@@ -139,11 +129,10 @@
         }, 1000)
       }
     },
-    beforeMount () {
+    mounted () {
       let self = this
       util.post('bdcinfoList', {sign: 'token=0'}).then(function (data) {
         self.list = data
-        self.depBdc = data[0].bdc_name
       })
     },
     computed: {
@@ -160,31 +149,221 @@
     padding-top:80px;
     font-size: 18px;
     color: #fff;
-  }
-  .bg-box{
-    width: 100%;
-    height: 558px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    background: #15121c;
-    z-index: -1;
-    & .mask{
-      position: absolute;
+    .bg-box{
       width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5);
+      height: 558px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      background: #15121c;
+      z-index: -1;
+      .bg{
+        background: url('../assets/images/bdc_bg.jpg') no-repeat;
+        width:100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        margin-left: -960px;
+      }
     }
-  }
-  .bg{
-    background: url('../assets/images/bdc_bg.jpg') no-repeat;
-    width:100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    margin-left: -960px;
+    .top-box{
+      margin: 0 auto;
+      width: 1180px;
+      overflow: hidden;
+      padding: 20px 0;
+      .bdc-box{
+        width: 670px;
+        margin-top: 85px;
+        .bdc-detail{
+          margin: 30px 0;
+          font-size: 16px;
+        }
+      }
+      .form-box{
+        background-color: #15121c;
+        width: 410px;
+        height: 438px;
+        padding: 10px 45px;
+        .form-header{
+          font-weight: bold;
+          text-align: center;
+          margin-bottom: 10px;
+          color: #fff;
+        }
+        .data_form{
+          .form-line{
+            position: relative;
+            height: 40px;
+            border-radius: 5px;
+            background-color: #fff;
+            font-size: 16px;
+            line-height: 40px;
+            &:not(:nth-child(6)){
+              margin-bottom: 12px;
+            }
+            & .tip{
+              position: absolute;
+            }
+            & .label{
+              font-size: 16px;
+              width: 105px;
+              height: 20px;
+              line-height: 20px;
+              display: inline-block;
+              border-right: 1px solid #ccc;
+              margin-left: 12px;
+              color: #666;
+            }
+            & input{
+              display: inline-block;
+              width: 200px;
+              padding-left: 20px;
+              font-size: 16px;
+            }
+            & select{
+              border: none;
+              font-size: 16px;
+              outline: none;
+              width: 190px;
+              padding-left: 20px;
+              height: 40px;
+            }
+            .yan{
+              width:113px;
+              height:20px;
+              border-right:1px solid #ccc;
+            }
+            div{
+              display: inline-block;
+              color: white;
+              width: 70px;
+              text-align: center;
+              background: #327fff;
+              height: 30px;
+              line-height: 30px;
+              margin-left: 10px;
+              font-size: 12px;
+              border-radius: 3px;
+              cursor: pointer;
+              vertical-align: middle;
+              position: relative;
+              top: -2px;
+            }
+          }
+          .tips{
+            height:30px;
+            line-height:30px;
+            text-align: center;
+            color:$red;
+            font-size: 12px;
+          }
+          .btn{
+            color: #fff;
+            width:100%;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background-color: #327fff;
+            border-radius: 5px;
+            cursor: pointer;
+            border:0
+          }
+        }
+        .success{
+          height:calc(100% - 52px);
+          @include flex(center)
+          .icon{
+            position: relative;
+            width:50px;
+            height:50px;
+            margin:0 auto 20px auto;
+            border-radius:50%;
+            background:$white;
+            &:before{
+              content:'';
+              @include right(22,12,#15121c)
+              border-width: 0 0 3px 3px;
+            }
+          }
+        }
+      }
+    }
+    .item-box-row{
+      background-color: #15121c;
+      padding-bottom: 35px;
+      .item-box{
+        width: 1180px;
+        margin: 0 auto;
+        padding-top: 55px;
+        border-bottom: 1px solid #000;
+        padding-bottom: 45px;
+        background-color: #15121c;
+        &:last-child{
+          border: none;
+        }
+        & img{
+          width: 590px;
+          height: 460px;
+        }
+        & .line{
+          margin-bottom: 40px;
+        }
+        .tip{
+          padding-top: 80px;
+        }
+        .working{
+          width: 260px;
+          height: 40px;
+          line-height: 40px;
+          background-color: #15121c;
+          margin-top: 120px;
+          margin-left: 170px;
+          text-align: center;
+        }
+        & .overflow{
+          background-color: #25212f;
+          & span{
+            font-weight: bold;
+            display: inline-block;
+            width: 145px;
+            height: 45px;
+            line-height: 45px;
+            text-align: center;
+            margin-right: 50px;
+            margin-left: 65px;
+            background-color: #15121c;
+          }
+        }
+        .header{
+          font-size: 24px;
+          text-align: center;
+          margin: 0 auto;
+          color: #fff;
+          background-color: transparent;
+          margin-bottom: 40px;
+          &:before{
+            content: '';
+            display: inline-block;
+            background: url('../assets/images/css_sprites.png') -10px -168px;
+            width: 122px;
+            height: 36px;
+            vertical-align: middle;
+            margin-right: 80px;
+          }
+          &:after{
+            content: '';
+            display: inline-block;
+            background: url('../assets/images/css_sprites.png') -210px -68px;
+            width: 122px;
+            height: 37px;
+            vertical-align: middle;
+            margin-left: 80px;
+          }
+        }
+      }
+    }
   }
   .overflow{
     overflow: hidden;
@@ -194,221 +373,5 @@
   }
   .float-right{
     float: right;
-  }
-  .big-title{
-    font-size: 48px;
-    font-weight: bold;
-  }
-  .top-box{
-    margin: 0 auto;
-    width: 1180px;
-    // background-color: ;
-    // height: 500px;
-    overflow: hidden;
-    padding: 20px 0; 
-  }
-  .subtitle{
-    font-size: 18px;
-    margin-left: 20px;
-  }
-  .service{
-    font-size: 14px;
-    color: #fff;
-  }
-  .tel{
-    font-weight: bold;
-    margin-right: 10px;
-  }
-  .time{
-    font-size: 12px;
-    color: #666;
-  }
-  .bdc-box{
-    width: 670px;
-    margin-top: 85px;
-  }
-  .bdc-detail{
-    margin: 30px 0;
-    font-size: 16px;
-  }
-  .form-box{
-    background-color: #15121c;
-    width: 410px;
-    height: 438px;
-    padding: 10px 45px;
-    .tips{
-      height:30px;
-      line-height:30px;
-      text-align: center;
-      color:$red;
-      font-size: 12px;
-    }
-    .btn{
-      color: #fff;
-      width:100%;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      background-color: #327fff;
-      border-radius: 5px;
-      cursor: pointer;
-      border:0
-    }
-    .success{
-      height:calc(100% - 52px);
-      @include flex(center)
-      .icon{
-        position: relative;
-        width:50px;
-        height:50px;
-        margin:0 auto 20px auto;
-        border-radius:50%;
-        background:$white;
-        &:before{
-          content:'';
-          @include right(22,12,#15121c)
-          border-width: 0 0 3px 3px;
-        }
-      }
-    }
-  }
-  .form-header{
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 10px;
-    color: #fff;
-  }
-  .form-line{
-    position: relative;
-    height: 40px;
-    border-radius: 5px;
-    background-color: #fff;
-    font-size: 16px;
-    line-height: 40px;
-    &:not(:nth-child(6)){
-      margin-bottom: 12px;
-    }
-    & .tip{
-      position: absolute;
-    }
-    & .label{
-      font-size: 16px;
-      width: 105px;
-      height: 20px;
-      line-height: 20px;
-      display: inline-block;
-      border-right: 1px solid #ccc;
-      margin-left: 12px;
-      color: #666;
-    }
-    & input{
-      display: inline-block;
-      width: 200px;
-      padding-left: 20px;
-      font-size: 16px;
-    }
-    & select{
-      border: none;
-      font-size: 16px;
-      outline: none;
-      width: 190px;
-      padding-left: 20px;
-      height: 40px;
-    }
-    .yan{
-      width:113px;
-      height:20px;
-      border-right:1px solid #ccc;
-    }
-    div{
-          display: inline-block;
-    color: white;
-    width: 70px;
-    text-align: center;
-    background: #327fff;
-    height: 30px;
-    line-height: 30px;
-    margin-left: 10px;
-    font-size: 12px;
-    border-radius: 3px;
-    cursor: pointer;
-    vertical-align: middle;
-    position: relative;
-    top: -2px;
-    }
-  }
-  .item-box-row{
-    background-color: #15121c;
-    padding-bottom: 35px;
-  }
-  .item-box{
-    width: 1180px;
-    margin: 0 auto;
-    padding-top: 55px;
-    border-bottom: 1px solid #000;
-    padding-bottom: 45px;
-    background-color: #15121c;
-    &:last-child{
-      border: none;
-    }
-    & img{
-      width: 590px;
-      height: 460px;
-    }
-    & .line{
-      margin-bottom: 40px;
-    }
-    .tip{
-      padding-top: 80px;
-    }
-    .working{
-      width: 260px;
-      height: 40px;
-      line-height: 40px;
-      background-color: #15121c;
-      margin-top: 120px;
-      margin-left: 170px;
-      text-align: center;
-    }
-    & .overflow{
-      background-color: #25212f;
-      & span{
-        font-weight: bold;
-        display: inline-block;
-        width: 145px;
-        height: 45px;
-        line-height: 45px;
-        text-align: center;
-        margin-right: 50px;
-        margin-left: 65px;
-        background-color: #15121c;
-      }
-    }
-  }
-  .header{
-    font-size: 24px;
-    text-align: center;
-    margin: 0 auto;
-    color: #fff;
-    background-color: transparent;
-    margin-bottom: 40px;
-    &:before{
-      content: '';
-      display: inline-block;
-      background: url('../assets/images/css_sprites.png') -10px -168px;
-      width: 122px;
-      height: 36px;
-      vertical-align: middle;
-      margin-right: 80px;
-    }
-    &:after{
-      content: '';
-      display: inline-block;
-      background: url('../assets/images/css_sprites.png') -210px -68px;
-      width: 122px;
-      height: 37px;
-      vertical-align: middle;
-      margin-left: 80px;
-    }
   }
 </style>

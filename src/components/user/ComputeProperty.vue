@@ -12,7 +12,11 @@
         <div class="line"></div>
         <template v-for="d,k in moneyNav">
           <div class="item">
-            <p>{{d}}</p>
+            <div class="frozeeData">
+              <span>{{d}}</span>
+              <span class="problem" v-if="k==='freeze_account'">?</span>
+              <div class="frozee_tips" v-if="k==='freeze_account'">暂时不能提现的资金</div>
+            </div>
             <span class="currency">{{moneyData[k]|currency}}</span>
             <span class="">元</span>
           </div>
@@ -156,6 +160,7 @@
         } else if (str === 'GetIncome') {
           requestUrl = 'showWithdrawCoin'
           data = {token: this.token, user_id: this.user_id, product_hash_type: this.hashType[this.nowEdit] && this.hashType[this.nowEdit].id}
+          this.product_hash_type = this.hashType[this.nowEdit].name.toUpperCase()
         }
         var self = this
         util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
@@ -170,7 +175,6 @@
             } else if (str === 'GetIncome') {
               self.fee = res.withdraw_coin_fee
               self.amount = res.coin_account
-              self.product_hash_type = self.hashType[self.nowEdit].name.toLowerCase()
             }
           })
         })
@@ -278,6 +282,37 @@
       .data{
         flex:1;
         @include detail_data
+        .frozeeData{
+          position: relative;
+          span{
+            color:$text;
+            &.problem{
+              display: inline-block;
+              width:18px;
+              text-align: center;
+              line-height: 16px;
+              cursor: pointer;
+              border:1px solid $text;
+              border-radius:50%;
+              font-size: 12px;
+              margin-left:5px;
+              &:hover + .frozee_tips{
+                display: block;
+              }
+            }
+          }
+          .frozee_tips{
+            font-size: 12px;
+            height:20px;
+            line-height: 20px;
+            color:$light_text;
+            width:130px;
+            @include position(0,88)
+            padding:0 10px;
+            background: $border;
+            display: none;
+          }
+        }
       }
       .btn{
         @include detail_btn

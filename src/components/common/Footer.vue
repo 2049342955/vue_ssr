@@ -6,10 +6,6 @@
           <h4>联系我们</h4>
           <h3>
             <a to="#" v-for="item,k in items" :class="{'active':show===k}">{{item.title}}</a>
-            <!-- <router-link to="#">北京</router-link>
-            <router-link to="#">山西</router-link>
-            <router-link to="#">广东</router-link>
-            <router-link to="#">广西</router-link> -->
           </h3>
           <p>咨询电话：<span class="active">0571-28221076</span>工作日（9:00~18:00）</p>
           <p>客服邮箱：V@suanLi.com</p>
@@ -25,7 +21,7 @@
           </div>
           <div class="copyright">
             <div class="copyright_img"></div>
-            <p class="copyright_text">Copyright © 2013-2017 Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. <router-link to="#">算力网</router-link> 版权所有</p>
+            <p class="copyright_text">Copyright © 2013-2017 Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. 浙江数秦科技有限公司 版权所有 <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602008747" target="_blank"><br><img :src="require('@/assets/images/copyright.png')" alt="" style="width:20px"> 浙公网安备 33010602008747号</a></p>
           </div>
         </aside>
         <div class="follow">

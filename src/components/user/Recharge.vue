@@ -20,9 +20,12 @@
       </div>
     </div>
     <h3>充值申请</h3>
+    <nav>
+      <div :class="['item', {active:rechargeNo===k}]" v-for="r,k in rechargeType" @click="changeType(k)">{{r}}</div>
+    </nav>
     <form class="form" @submit.prevent="submit" novalidate>
-      <FormField :form="form"></FormField>
-      <button name="btn">提交申请</button>
+      <FormField :form="form[rechargeNo]"></FormField>
+      <button name="btn">{{rechargeNo?'去支付':'提交申请'}}</button>
     </form>
     <div class="web_tips" ref="tips"></div>
   </section>
@@ -46,7 +49,9 @@
       return {
         processText: ['银行转账', '提交申请', '审核通过'],
         processStatus: 2,
-        form: [{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', pattern: 'bigMoney', len: 7}, {name: 'bank_num', type: 'text', title: '充值银行卡', value: 'bank_card'}, {name: 'request_id', type: 'text', title: '充值流水号', placeholder: '请输入充值流水号', pattern: 'int'}]
+        form: [[{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', pattern: 'bigMoney', len: 7}, {name: 'bank_num', type: 'text', title: '充值银行卡', value: 'bank_card', pattern: 'bankCard'}, {name: 'request_id', type: 'text', title: '充值流水号', placeholder: '请输入充值流水号', pattern: 'int'}], [{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', len: 7}]],
+        rechargeType: ['银行卡充值', '支付宝充值'],
+        rechargeNo: 0
       }
     },
     methods: {
@@ -57,15 +62,31 @@
         if (!data) return false
         var self = this
         form.btn.setAttribute('disabled', true)
-        util.post('balance_recharge', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            form.amount.value = ''
-            form.request_id.value = ''
-            api.tips(self.$refs.tips, '提交成功，请等待工作人员确认', () => {
-              form.btn.removeAttribute('disabled')
+        var callbackUrl = location.protocol + '//' + location.host + '/user/moneyFlow/default'
+        if (this.rechargeNo) {
+          util.post('applyBalanceRecharge', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
+            api.checkAjax(self, res, () => {
+              util.post('alipay', {sign: api.serialize(Object.assign({url: callbackUrl, token: self.token}, res))}).then((resData) => {
+                api.checkAjax(self, data, () => {
+                  location.href = resData.url
+                })
+              })
             })
-          }, form.btn)
-        })
+          })
+        } else {
+          util.post('balance_recharge', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
+            api.checkAjax(self, res, () => {
+              form.amount.value = ''
+              form.request_id.value = ''
+              api.tips(self.$refs.tips, '提交成功，请等待工作人员确认', () => {
+                form.btn.removeAttribute('disabled')
+              })
+            }, form.btn)
+          })
+        }
+      },
+      changeType (n) {
+        this.rechargeNo = n
       }
     },
     computed: {
@@ -107,15 +128,33 @@
         }
       }
     }
+    nav{
+      @include flex(center)
+      margin-top:30px;
+      margin-bottom:10px;
+      .item{
+        margin:0 15px;
+        line-height: 1.8;
+        cursor: pointer;
+        border-bottom:2px solid transparent;
+        &:hover,&.active{
+          color:$blue;
+          border-color:$blue;
+        }
+      }
+    }
     .form{
-      margin: 0 auto;
-      padding:40px 130px;
+      margin: 0 auto 20px auto;
+      padding:20px 130px;
       @include form(v)
       width:450px;
       .input{
         span:first-child {
           width: 80px;
         }
+      }
+      button{
+        margin:0
       }
     }
   }

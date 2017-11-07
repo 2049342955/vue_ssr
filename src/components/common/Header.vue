@@ -5,8 +5,8 @@
       <nav>
         <span v-if="$route.path.includes('regist')">用户注册</span>
         <span v-else-if="$route.path.includes('passwordRetrieval')">找回密码</span>
-        <div :class="['item',{active:i === 0}]" v-for="(i,k) in nav" v-else>
-          <router-link :to="i">{{ k }}</router-link>
+        <div :class="['item',{active:$route.path.includes(i.name)}]" v-for="(i,k) in nav" v-else>
+          <router-link :to="i.link">{{ i.text }}</router-link>
         </div>
       </nav>
       <div class="side_nav">
@@ -42,7 +42,7 @@
     name: 'header',
     data () {
       return {
-        nav: {'算力商城': '/cloudCompute/list/1/all', '算力转让': '/computeTransfer/list/1/all', '算力托管': '/bdc', '算力资讯': '/webInfo/list/news'}
+        nav: [{name: 'cloudCompute', text: '算力商城', link: '/cloudCompute/list/1/all'}, {name: 'computeTransfer', text: '算力转让', link: '/computeTransfer/list/1/all'}, {name: 'bdc', text: '算力托管', link: '/bdc'}, {name: 'news', text: '算力资讯', link: '/webInfo/list/news'}, {name: 'dataTrade', text: '数据交易', link: ''}, {name: 'computeTrade', text: '算法交易', link: ''}]
       }
     },
     created () {
@@ -138,14 +138,16 @@
       .logo{
         background: url('../../assets/images/css_sprites.png') -210px -10px;
       }
-      nav .item a{
-        color:$text;
-        &.router-link-active::after{
-              content: "●";
-              display: block;
-              color: balck;
-              position: relative;
-              font-size: 12px;
+      nav .item{
+        a{
+          color:$text;
+        }
+        &.active a::after{
+          content: "●";
+          display: block;
+          color: balck;
+          position: relative;
+          font-size: 12px;
         }
       }
       nav .item:hover a::after{
@@ -194,22 +196,22 @@
           text-align:center;
           width:100px;
           height:25px;
+          &.active a::after{
+            content: "●";
+            display: block;
+            color: white;
+            position: relative;
+            font-size: 12px;
+          }
           a{
             font-size: 16px;
-            &.router-link-active::after{
-              content: "●";
-              display: block;
-              color: white;
-              position: relative;
-              font-size: 12px;
-            }
           }
           &:hover a::after{
-              content: "●";
-              display: block;
-              color: white !important;
-              position: relative;
-              font-size: 12px;
+            content: "●";
+            display: block;
+            color: white !important;
+            position: relative;
+            font-size: 12px;
           }
         }
         span{

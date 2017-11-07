@@ -1,6 +1,7 @@
 <template>
   <section class="web_info_detail">
     <h3>{{content.title}}</h3>
+    <p class="dateline">{{content.dateline}}</p>
     <div class="info_detail" v-html="content.content"></div>
     <div class="web_tips" ref="tips"></div>
     <router-link class="button" :to="'/webInfo/list/'+$route.params.type">返回</router-link>
@@ -46,8 +47,14 @@
     }
     h3{
       text-align: center;
-      font-size: 18px;
-      line-height: 3;
+      font-size: 20px;
+      line-height: 2;
+      font-weight: bold;
+    }
+    .dateline{
+      text-align: center;
+      color:$light_black;
+      margin-bottom:10px;
     }
     .info_detail{
       img{

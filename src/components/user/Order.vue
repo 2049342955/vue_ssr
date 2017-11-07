@@ -24,8 +24,8 @@
       <table>
         <tr>
           <th>算力服务器</th>
+          <th v-if="nowEdit==0||status==1||status==4">总算力</th>
           <template v-if="nowEdit==0&&(status==2||status==3)">
-            <th>总算力</th>
             <th>出售数量</th>
             <th>出售金额</th>
             <th>出售时间</th>
@@ -36,8 +36,7 @@
             <th>转让单价</th>
             <th>转让时间</th>
           </template>
-          <template v-if="status!=2&&status!=3">
-            <th>总算力</th>
+          <template v-if="status==1||status==4">
             <th v-if="nowEdit!=1">购买数量</th>
             <th>购买金额</th>
             <th>购买时间</th>
@@ -49,22 +48,21 @@
           <template v-if="nowEdit==2&&status==1">
             <th>剩余可出租</th>
           </template>
-          <th>操作</th>
+          <th v-if="status!=3">操作</th>
         </tr>
         <tr v-for="d,k in data" :class="{active: nowEdit==0&&status==1}">
           <td>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
+          <td v-if="nowEdit==0||status==1||status==4">{{d.total_hash|format}}T</td>
           <template v-if="nowEdit==0&&(status==2||status==3)">
-            <td>{{d.total_hash|format}}T</td>
             <td>{{d.selling_amount}}台</td>
             <td>{{d.total_price}}元</td>
           </template>
-          <template v-else-if="(nowEdit==1||nowEdit==2)&&(status==2||status==3)">
+          <template v-if="(nowEdit!=0)&&(status==2||status==3)">
             <td>{{d.total_price}}元</td>
             <td>{{d.transfer_amount|format}}T</td>
             <td>{{d.transfer_price}}元</td>
           </template>
-          <template v-else>
-            <td>{{d.total_hash|format}}T</td>
+          <template v-if="status==1||status==4">
             <td v-if="nowEdit!=1">{{d.buy_amount}}台</td>
             <td>{{d.total_price}}元</td>
           </template>
@@ -77,7 +75,7 @@
           <template v-if="nowEdit==2&&status==1">
             <td>{{d.remain_hash|format}}T</td>
           </template>
-          <td>
+          <td v-if="status!=3">
             <template v-if="nowEdit==0&&status==1">
               <button class="sold" @click="openMask('sold', '出售云矿机', d.id)" :disabled="!d.remain_miner">出售云矿机</button>
               <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash">出租算力</button>

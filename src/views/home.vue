@@ -62,6 +62,7 @@
     <SideBar></SideBar>
   </article>
 </template>
+
 <script>
   import Swiper from '../components/common/Swipe'
   import Chart from '../components/home/Chart'
@@ -97,6 +98,7 @@
     }
   }
 </script>
+
 <style type="text/css" lang="scss">
   @import '../assets/css/style.scss';
   @import '../assets/fonts/iconfont.css';
@@ -170,29 +172,13 @@
             content:'\e6da'
           }
           &:hover{
-            // border-color:$blue;
-            .item_title{
-              color:$blue
+            background: $blue;
+            &,.iconfont,.item_desc{
+              color:$white
             }
           }
           &.item_another{
-            // position:relative;
             @include flex(center)
-            // &:before{
-            //   content:'';
-            //   width:30px;
-            //   height:1px;
-            //   background: $light_black
-            // }
-            // &:after{
-            //   position:absolute;
-            //   top:calc(50% - 15px);
-            //   left:calc(50% - 0.5px);
-            //   content:'';
-            //   height:30px;
-            //   width:1px;
-            //   background: $light_black
-            // }
             &:before{
               content:'\e6d7'
             }
