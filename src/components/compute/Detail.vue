@@ -21,7 +21,7 @@
     data () {
       return {
         next: false,
-        detail: {incomeType: '每日结算，次日发放'},
+        detail: {incomeType: '每日结算，次日发放', fee: ''},
         proData: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台服务器算力', unit: 'T'}, amount: {title: '服务器总台数', unit: '台'}},
         proText: {hashType: '算力类型', status: '购买类型', incomeType: '结算方式'},
         proData2: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '每日电费约', unit: 'btc'}},
@@ -41,7 +41,9 @@
         content: '',
         content1: '',
         str: {4: '预热', 5: '可售'},
-        show: ''
+        show: '',
+        rateshow: '',
+        sort: ['12', '15']
       }
     },
     methods: {
@@ -65,21 +67,24 @@
           return false
         }
         var self = this
+        var rate = 6
+        console.log(rate)
         if (show) {
-          util.post('getRate', {sign: api.serialize({token: this.token, rate_name: 6})}).then(function (res) {
+          util.post('getRate', {sign: api.serialize({token: this.token, rate_name: rate})}).then(function (res) {
             api.checkAjax(self, res, () => {
-              self.detail.one_amount = self.detail.one_amount_value / 2
+              self.detail.one_amount = self.detail.one_amount_value * self.number / 2
               self.detail.fee = res.fee * 100
               self.detail.hashfee = self.detail.one_amount * res.fee
             })
           })
           var loanAmount = self.detail.one_amount_value / 2
-          util.post('getLoanDetail', {sign: api.serialize({token: this.token, rate_name: 6, loan_money: loanAmount})}).then(function (res) {
+          util.post('getLoanDetail', {sign: api.serialize({token: this.token, rate_name: rate, loan_money: loanAmount})}).then(function (res) {
             api.checkAjax(self, res, () => {
               self.detail.month_money = res.month_money
               self.detail.fee_money = res.fee_money
               self.detail.rate = res.rate
               self.detail.total_money = res.total_money
+              self.table = res.list
             })
           })
         }
@@ -106,6 +111,9 @@
         this.totalHash = this.detail.hash * this.number
         var leftAmount = this.initNum - this.number
         this.leftNum = leftAmount < 0 ? 0 : leftAmount
+      },
+      onChange (e) {
+        this.detail.fee = this.sort[e.target.value]
       }
     },
     mounted () {

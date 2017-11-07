@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="orderMsg" v-show="$parent.show">
-        <h3 class="title">贷款详情</h3>
+        <h3 class="title">贷款详情{{$parent.detail.fee}}</h3>
         <div class="orderDetail">
           <div class="detailH">
             <div class="borderR" v-for="d,k in proData3">
@@ -35,9 +35,8 @@
           <div class="detailF">
             <p>
               <span>贷款期限 ： </span>
-              <select>
-                <option>6个月</option>
-                <option>12个月</option>
+              <select @change="$parent.onChange">
+                <option v-for="n,k in month" :value="k">{{n.day}}</option>
               </select>
             </p>
             <p v-for="t,k in proText3">{{t}}：
@@ -161,6 +160,7 @@
     data () {
       return {
         form: [{name: 'password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
+        month: [{day: '6个月'}, {day: '12个月'}],
         tips: '请同意服务条款',
         totalPrice: 0,
         showAgreement: 0,

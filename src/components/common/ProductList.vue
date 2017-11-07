@@ -3,7 +3,7 @@
     <div class="box">
       <Sort :page="page" :sort="sort"></Sort>
       <div class="data">
-        <div class="item" v-for="d,k in $parent.computeDate" @click="goPay(d.id)" :disabled="d.status&&(d.status===2||d.status===3)||(d.amount-d.buyed_amount<=0)">
+        <div class="item" v-for="d,k in $parent.computeDate" @click="goPay(d.id, '', d.sell_type)" :disabled="d.status&&(d.status===2||d.status===3)||(d.amount-d.buyed_amount<=0)">
           <h3>{{page==='computeTransfer'?d.product_name:d.name}}<span :class="'icon_currency '+d.hashtype.name"></span><span class="sell_type" v-if="page==='cloudCompute'&&d.status!==7">{{(d.sell_type===2&&'转售')||str[d.status]}}</span></h3>
           <div class="info_box">
             <template v-for="n,i in dataNav">
@@ -68,8 +68,12 @@
       }
     },
     methods: {
-      goPay (id, status) {
-        this.$router.push({path: '/' + this.page + '/detail/' + id})
+      goPay (id, status, selltype) {
+        if (selltype === 2) {
+          this.$router.push({path: '/' + this.page + '/detail/no/' + id})
+        } else {
+          this.$router.push({path: '/' + this.page + '/detail/yes/' + id})
+        }
       }
     }
   }

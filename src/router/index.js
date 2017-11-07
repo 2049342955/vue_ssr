@@ -109,7 +109,7 @@
         name: 'computeShop',
         component: ComputeShop
       }, {
-        path: 'detail/:id',
+        path: 'detail/:type/:id',
         name: 'computeDetail',
         component: ComputeDetail
       }]
@@ -186,7 +186,7 @@
         name: 'messageDetail',
         component: MessageDetail
       }, {
-        path: 'repayment/:type',
+        path: 'repayment/:status',
         name: 'repayment',
         component: Repayment
       }, {

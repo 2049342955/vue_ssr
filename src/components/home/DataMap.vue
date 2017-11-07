@@ -4,7 +4,6 @@
     <div class="point-area" style="top:99px; left: 100px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
       <a class="point point-dot"></a>
       <div class="split">
-        <img :src="img1"/>
         <h1>北美算力中心节点</h1>
         <p>1624.46 PH/s</p>
       </div>
@@ -15,8 +14,7 @@
     <div class="point-area" style="top: 86px; left: 530px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
       <a class="point point-dot"></a>
       <div class="split">
-        <img :src="img1"/>
-        <h1>北美算力中心节点</h1>
+        <h1>欧洲算力中心节点</h1>
         <p>1624.46 PH/s</p>
       </div>
       <div class="point point-10"></div>
@@ -26,8 +24,7 @@
     <div class="point-area" style="top: 100px; right: 186px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
       <a class="point point-dot"></a>
       <div class="split">
-        <img :src="img1"/>
-        <h1>北美算力中心节点</h1>
+        <h1>亚洲算力中心节点</h1>
         <p>1624.46 PH/s</p>
       </div>
       <div class="point point-10"></div>
@@ -37,8 +34,7 @@
     <div class="point-area" style="top: 400px; right: 86px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
       <a class="point point-dot"></a>
       <div class="split">
-        <img :src="img1"/>
-        <h1>北美算力中心节点</h1>
+        <h1>大洋洲算力中心节点</h1>
         <p>1624.46 PH/s</p>
       </div>
       <div class="point point-10"></div>
@@ -53,8 +49,7 @@
     name: 'chart',
     data () {
       return {
-        img: require('@/assets/images/world.png'),
-        img1: require('@/assets/images/one.jpg')
+        img: require('@/assets/images/world.png')
       }
     },
     methods: {
@@ -82,17 +77,21 @@
             }
         }
         .split{
-          width: 305px;
+          min-width: 305px;
           height: 96px;
           margin-left: 58px;
           margin-top: 58px;
           position: relative;
           display: none;
+          background-image: url('../../assets/images/one.jpg');
           h1{
             position: absolute;
             left: 106px;
             top: 26px;
             font-size: 16px;
+            padding-right: 20px;
+            width: 100%;
+            text-align: left;
           }
           p{
             position: absolute;
@@ -101,7 +100,7 @@
             font-size: 16px;
           }
         }
-        a{color: #00c1de;}
+        a{color: #349ee8;}
 
         .point-area .point {
             position: absolute;
@@ -122,8 +121,8 @@
         }
         .point-area .point-dot {
             z-index: 1;
-            background-color: #6ad7e9;
-            border: 1px solid rgba(0,205,236,.37);
+            background-color: #349ee8;
+            border: 1px solid #349ee8;
         }
         .point-area .point-10:after {
             content: "";
@@ -134,7 +133,7 @@
             bottom: 0;
             left: 0;
             border-radius: 50%;
-            border: 2px solid #00cdec;
+            border: 2px solid #349ee8;
             opacity: 0;
             -webkit-animation: ripple 4.5s ease-out 225ms infinite;
             -ms-animation: ripple 4.5s ease-out 225ms infinite;
@@ -149,7 +148,7 @@
             bottom: 0;
             left: 0;
             border-radius: 50%;
-            border: 2px solid #00cdec;
+            border: 2px solid #349ee8;
             opacity: 0;
             -webkit-animation: ripple 4.5s ease-out .9s infinite;
             -ms-animation: ripple 4.5s ease-out .9s infinite;
@@ -164,7 +163,7 @@
             bottom: 0;
             left: 0;
             border-radius: 50%;
-            border: 2px solid #00cdec;
+            border: 2px solid #349ee8;
             opacity: 0;
             -webkit-animation: ripple 4.5s ease-out 1.8s infinite;
             -ms-animation: ripple 4.5s ease-out 1.8s infinite;
@@ -199,7 +198,7 @@
             bottom: 0;
             left: 0;
             border-radius: 50%;
-            border: 2px solid #00cdec;
+            border: 2px solid #349ee8;
             opacity: 0;
             -webkit-animation: ripple 4.5s ease-out 675ms infinite;
             -ms-animation: ripple 4.5s ease-out 675ms infinite;
@@ -225,7 +224,7 @@
             bottom: 0;
             left: 0;
             border-radius: 50%;
-            border: 2px solid #00cdec;
+            border: 2px solid #349ee8;
             opacity: 0;
             -webkit-animation: ripple 4.5s ease-out 1125ms infinite;
             -ms-animation: ripple 4.5s ease-out 1125ms infinite;
@@ -246,7 +245,7 @@
             bottom: 0;
             left: 0;
             border-radius: 50%;
-            border: 2px solid #00cdec;
+            border: 2px solid #349ee8;
             opacity: 0;
             -webkit-animation: ripple 4.5s ease-out 1.35s infinite;
             -ms-animation: ripple 4.5s ease-out 1.35s infinite;
@@ -267,7 +266,7 @@
             bottom: 0;
             left: 0;
             border-radius: 50%;
-            border: 2px solid #00cdec;
+            border: 2px solid #349ee8;
             opacity: 0;
             -webkit-animation: ripple 4.5s ease-out 1575ms infinite;
             -ms-animation: ripple 4.5s ease-out 1575ms infinite;
@@ -288,7 +287,7 @@
             bottom: 0;
             left: 0;
             border-radius: 50%;
-            border: 2px solid #00cdec;
+            border: 2px solid #349ee8;
             opacity: 0;
             -webkit-animation: ripple 4.5s ease-out 1.8s infinite;
             -ms-animation: ripple 4.5s ease-out 1.8s infinite;
@@ -309,7 +308,7 @@
             bottom: 0;
             left: 0;
             border-radius: 50%;
-            border: 2px solid #00cdec;
+            border: 2px solid #349ee8;
             opacity: 0;
             -webkit-animation: ripple 4.5s ease-out 2025ms infinite;
             -ms-animation: ripple 4.5s ease-out 2025ms infinite;
@@ -330,7 +329,7 @@
             bottom: 0;
             left: 0;
             border-radius: 50%;
-            border: 2px solid #00cdec;
+            border: 2px solid #349ee8;
             opacity: 0;
             -webkit-animation: ripple 4.5s ease-out 2.25s infinite;
             -ms-animation: ripple 4.5s ease-out 2.25s infinite;

@@ -30,7 +30,7 @@
             <div class="product_word">
               <div class="item" v-for="t,k in proText">
                 <span class="tips">{{t}}:</span>
-                <span v-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
+                <span v-if="k==='status'" class="">{{$parent.str[$parent.detail[k]]}}</span>
                 <span v-else>{{$parent.detail[k]}}</span>
               </div>
             </div>
@@ -54,7 +54,7 @@
           <div class="price_text">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
          <button class="btn" disabled v-if="$parent.leftStatus">已售罄</button>
          <button :class="['btn', {over: $parent.overStatus}]" :disabled="$parent.overStatus" v-else @click="checkPay($event, false)" style="margin-top:10px;">立即支付</button>
-         <button class="btn" style="background:#327fff;border:0;margin-top:10px;" @click="checkPay($event, true)">贷款购买</button>
+         <button class="btn" style="background:#327fff;border:0;margin-top:10px;" @click="checkPay($event, true)" v-show="$parent.rateshow">贷款购买</button>
         </div>
       </div>
       <div class="price transfer" v-else>
@@ -110,6 +110,9 @@
       },
       text: {
         type: Object
+      },
+      rateshow: {
+        type: String
       }
     },
     methods: {
@@ -131,6 +134,13 @@
           return false
         }
         this.$parent.goPay(e, sh)
+      }
+    },
+    mounted () {
+      if (this.$route.path.includes('no')) {
+        this.$parent.rateshow = false
+      } else {
+        this.$parent.rateshow = true
       }
     },
     filters: {

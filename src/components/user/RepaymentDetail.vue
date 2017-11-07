@@ -5,54 +5,97 @@
     <div class="data">
      <ul>
        <li>
-         <h4>{{moneydata.title}}</h4>
+         <h4>{{moneydata.product_name}}</h4>
          <p>算力服务器</p>
        </li>
        <li>
-         <h4>{{moneydata.money}} <span>元</span></h4>
+         <h4>{{moneydata.loan_money}} <span>元</span></h4>
          <p>分期金额</p>
        </li>
        <li>
-         <h4>{{moneydata.lv}} <span>%</span></h4>
+         <h4>{{moneydata.fee_value*100}} <span>%</span></h4>
          <p>手续费率</p>
        </li>
        <li style="border-right:0;">
-         <h4>{{moneydata.year}} <span> 年 </span>{{moneydata.month}}<span> 月 </span>{{moneydata.day}}<span> 日 </span></h4>
+         <h4>{{moneydata.loan_start_time.split('-')[0]}} <span> 年 </span>{{moneydata.loan_start_time.split('-')[1]}}<span> 月 </span>{{moneydata.loan_start_time.split('-')[2]}}<span> 日 </span></h4>
          <p>分期时间</p>
        </li>
      </ul>
      <ol>
-       <li v-for="n,k in monrynav">
-         {{n[0]}} : <span>{{n[1]}}</span>
+       <li>
+         分期期限 ： <span>{{moneydata.rate_time}}个月</span>
+       </li>
+       <li>
+         逾期时间 ： <span>{{moneydata.overdue_day}}天</span>
+       </li>
+       <li>
+         逾期罚息 ： <span>{{moneydata.overdue_interest}}元</span>
        </li>
        <li><a to="javascript:;" style="color:#327fff;cursor: pointer;" @click="showpay(true)">查看计算公式</a></li>
      </ol>
-     <div class="table">
-       <div class="item" v-for="n,k in data">
-         <div class="title">{{n[0]}}</div>
-         <div class="value">{{n[1]}}</div>
-       </div>
-     </div>
+     <table border="1">
+       <thead>
+         <tr>
+           <th>期数</th>
+           <th>还款日期</th>
+           <th>贷款余额</th>
+           <th>手续费</th>
+           <th>本期还款额</th>
+           <th>状态</th>
+           <th>还款类型</th>
+           <th>操作</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr v-for="n,k in item">
+           <td>{{n.repayment_number}}</td>
+           <td>{{n.repayment_time}}</td>
+           <td>{{n.repayment_balance}}</td>
+           <td>{{n.repayment_charge}}</td>
+           <td>{{n.repayment_money}}</td>
+           <template v-if="status==='0' && repayment_method==='0'">
+             <td class="green">已还款</td>
+             <td class="gay">算力收益</td>
+           </template>
+           <template v-if="status==='0' && repayment_method==='1'">
+             <td class="green">已还款</td>
+             <td class="gay">资金账户</td>
+           </template>
+           <template v-else>
+             <td class="red">未还款</td>
+             <td class="gay">算力收益 / 资金账户</td>
+           </template>
+           <template v-if="status==='0'">
+             <td><button disabled="disabled" class="no" style="background:none;color:gray;">已还款</button></td>
+           </template>
+           <template v-else>
+             <td><button class="yes" @click="showButton(true, n.id)">去还款</button></td>
+           </template>
+         </tr>
+       </tbody>
+     </table>
     </div>
-    <div class="submit" @click="showButton(true)">提前还款</div>
     <div class="button" v-show="show">
       <div class="opaction">
-        <h4>确认还款<span @click="showButton(false)">x</span></h4>
-        <div class="one">
-          <label>还款方式</label>
-          <select>
-            <option>算力收益</option>
-          </select>
-        </div>
-        <div class="one">
-          <label>还款总额</label>
-          <input type="text" placeholder="0.0024562 btc"/>
-        </div>
-        <div class="one">
-          <label>交易密码</label>
-          <input type="password" placeholder="请输入交易密码"/>
-        </div>
-        <button>提交</button>
+        <form class="form" action="" @submit.prevent="submit">
+            <h4>确认还款<span @click="showButton(false)"><img :src="close" style="width:12px;height:12px;position:relative;top:-6px;"/></span></h4>
+            <div class="one">
+              <label>还款方式</label>
+              <select @click="onChange">
+                <option v-for="n,k in sort" :value="k">{{n.type}}</option>
+              </select>
+            </div>
+            <div class="one">
+              <label>还款总额</label>
+              <input type="text" placeholder="0.0024562 btc" class="total" :value="total" onfocus="this.blur()"/>
+            </div>
+            <div class="one">
+              <label>交易密码</label>
+              <input type="password" placeholder="请输入交易密码" class="passwordone"/>
+            </div>
+            <p class="block1" style="color:red;font-size:12px;padding-left:160px;padding-top:10px;display:none;">请输入交易密码</p>
+            <button name="btn" @click="submit()">提交</button>
+        </form>
       </div>
     </div>
     <div class="design_formulas" v-show = "showpa">
@@ -66,30 +109,95 @@
          <p>本期还款额=每期需还款+手续费 ||   本期还款额=贷款总额/期数</p>
        </div>
     </div>
+    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
 <script>
-  // import util from '@/util'
-  // import api from '@/util/function'
-  // import { mapState } from 'vuex'
+  import util from '@/util'
+  import api from '@/util/function'
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
-        data: {type: ['期数', '2'], num: ['还款日期', '2017-06-23'], time: ['贷款余额', '355.25'], money: ['手续费', '20'], shou: ['本期还款额', '300']},
-        moneydata: {title: '阿瓦隆1号矿机', money: '10000.00', lv: '15', year: '2017', month: '06', day: '22'},
-        monrynav: {'0': ['分期期限', '12个月'], '1': ['预期时间', '20天'], '2': ['逾期罚息', '0.00']},
-        show: false,
-        showpa: false
+        detail: {},
+        item: {},
+        moneydata: {},
+        show: '',
+        showpa: '',
+        status: '',
+        repayment_method: 0,
+        close: require('@/assets/images/close1.jpg'),
+        total: '',
+        password: '',
+        mode: '',
+        repayment_id: '',
+        sort: [{type: '算力收益', unit: 'btc'}, {type: '资金用户', unit: '元'}]
       }
     },
     methods: {
-      showButton (type) {
+      showButton (type, id) {
+        this.repayment_id = id
         this.show = type
+        this.select()
+      },
+      select () {
+        var self = this
+        this.model = document.querySelector('select').value
+        util.post('showRepayment', {sign: api.serialize({token: this.token, user_id: this.user_id, repayment_id: this.repayment_id, product_hash_type: 1, mode: this.model})}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            if (self.model === '0') {
+              self.total = res.coin_repayment + ' btc'
+            } else {
+              self.total = res.repayment + ' 元'
+            }
+          })
+        })
       },
       showpay (type) {
         this.showpa = type
+      },
+      items () {
+        var self = this
+        util.post('getLoanListDetail', {sign: api.serialize({token: this.token, user_id: this.user_id, loan_id: this.$route.params.id})}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.moneydata = res
+            self.item = res.list
+          })
+        })
+      },
+      submit () {
+        this.password = document.getElementsByClassName('passwordone')[0].value
+        this.model = document.querySelector('select').value
+        // var self = this
+        if (!this.password) {
+          document.querySelector('.block1').style = 'display:block;color:red;font-size:12px;padding-left:160px;padding-top:10px;'
+          return false
+        } else {
+          document.querySelector('.block1').style = 'display:none;color:red;font-size:12px;padding-left:160px;padding-top:10px;'
+        }
+        // util.post('showRepayment', {sign: api.serialize({token: this.token, user_id: this.user_id, repayment_id: this.repayment_id, product_hash_type: 1, mode: this.model})}).then(function (res) {
+        //   api.checkAjax(self, res, () => {
+        //     self.total = res.repayment
+        //     api.tips(self.$refs.tips, '提交成功')
+        //   })
+        // })
+      },
+      onChange () {
+        this.select()
       }
+    },
+    mounted () {
+      this.items()
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token,
+        user_id: state => state.info.user_id
+      })
+    },
+    filters: {
+      format: api.decimal
     }
   }
 </script>
@@ -180,20 +288,6 @@
         }
       }
     }
-    .submit{
-      width: 86px;
-      height: 34px;
-      background: #327fff;
-      font-size:12px;
-      text-align:center;
-      float:right;
-      margin-top: 23px;
-      color: white;
-      line-height: 34px;
-      margin-bottom: 125px;
-      border-radius: 5px;
-      margin-right:10px;
-    }
     .button{
       width: 100%;
       height: 100%;
@@ -201,6 +295,7 @@
       background:rgba(0,0,0,.2);
       top:0;
       left:0;
+      z-index:999;
     }
     .button .opaction{
       width: 476px;
@@ -303,6 +398,36 @@
           color: black;
           margin-top: 20px;
         }
+      }
+    }
+  }
+  table{
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    thead tr{
+      height: 40px;
+      background: #f0f7fd;
+    }
+    tbody tr{
+      height: 30px;
+      text-align: center;
+      .green{
+        color: #009944;
+      }
+      .red{
+        color: #fe5039;
+      }
+      .gay{
+        color: rgb(50, 127, 255);
+      }
+      button{
+        width: 60px;
+        height: 30px;
+        border:0;
+        background: #327fff;
+        color: white;
+        margin:5px 0;
       }
     }
   }
