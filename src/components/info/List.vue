@@ -11,11 +11,26 @@
     </template>
     <template v-else>
       <router-link :class="['item', 'img_text', {active: true}]" :to="'/webInfo/detail/'+$route.params.type+'/'+list.id" v-for="list in lists" :key="lists.id">
-        <img :src="img1"/>
+        <template v-if="list.image">
+          <img :src="list.image"/>
+        </template>
+        <template v-else>
+          <img :src="img1"/>
+        </template>
         <div class="right">
           <p class="title">{{list.title}}</p>
-          <p class="time"><span style="margin-right:10px;">《算力网》</span>|<span style="margin-left:10px;">{{list.dateline}}</span></p>
-          <p class="content">解决电动车小女生教学能手继续说喜上加喜你实习就实习下数据小女生教解决电动车小女生教学能手继续说喜上加喜你实习就实习下数据小女生教学能手销声匿解决电动车小女生教学能手继续说喜上加喜你实习就实习下数据小女生教学能手销声匿解决电动车小女生教学能手继续说喜上加喜你实习就实习下数据小女生教学能手销声匿解决电动车小女生教学能手继续说喜上加喜你实习就实习下数据小女生教学能手销声匿解决电动车小女生教学能手继续说喜上加喜你实习就实习下数据小女生教学能手销声匿迹虚拟机鲜食啥还是叫现代化萨迦县杀伤性按顺序......</p>
+          <template v-if="list.source">
+            <p class="time"><span style="margin-right:10px;">{{list.source}}</span>|<span style="margin-left:10px;">{{list.dateline}}</span></p>
+          </template>
+          <template v-else>
+            <p class="time"><span style="margin-right:10px;">《算力网》</span>|<span style="margin-left:10px;">{{list.dateline}}</span></p>
+          </template>
+          <template v-if="list.resume">
+            <p class="content">{{list.resume}}......</p>
+          </template>
+          <template v-else>
+            <p class="content">暂无简介</p>
+          </template>
         </div>
       </router-link>
     </template>
