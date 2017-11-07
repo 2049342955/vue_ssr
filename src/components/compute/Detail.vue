@@ -41,7 +41,8 @@
         content: '',
         content1: '',
         str: {4: '预热', 5: '可售'},
-        show: ''
+        show: '',
+        rateshow: ''
       }
     },
     methods: {
@@ -65,21 +66,24 @@
           return false
         }
         var self = this
+        var rate = 6
+        console.log(rate)
         if (show) {
-          util.post('getRate', {sign: api.serialize({token: this.token, rate_name: 6})}).then(function (res) {
+          util.post('getRate', {sign: api.serialize({token: this.token, rate_name: rate})}).then(function (res) {
             api.checkAjax(self, res, () => {
-              self.detail.one_amount = self.detail.one_amount_value / 2
+              self.detail.one_amount = self.detail.one_amount_value * self.number / 2
               self.detail.fee = res.fee * 100
               self.detail.hashfee = self.detail.one_amount * res.fee
             })
           })
           var loanAmount = self.detail.one_amount_value / 2
-          util.post('getLoanDetail', {sign: api.serialize({token: this.token, rate_name: 6, loan_money: loanAmount})}).then(function (res) {
+          util.post('getLoanDetail', {sign: api.serialize({token: this.token, rate_name: rate, loan_money: loanAmount})}).then(function (res) {
             api.checkAjax(self, res, () => {
               self.detail.month_money = res.month_money
               self.detail.fee_money = res.fee_money
               self.detail.rate = res.rate
               self.detail.total_money = res.total_money
+              self.table = res.list
             })
           })
         }
