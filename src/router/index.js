@@ -186,7 +186,7 @@
         name: 'messageDetail',
         component: MessageDetail
       }, {
-        path: 'repayment/:type',
+        path: 'repayment/:status',
         name: 'repayment',
         component: Repayment
       }, {

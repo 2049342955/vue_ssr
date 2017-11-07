@@ -21,7 +21,7 @@
     data () {
       return {
         next: false,
-        detail: {incomeType: '每日结算，次日发放'},
+        detail: {incomeType: '每日结算，次日发放', fee: ''},
         proData: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台服务器算力', unit: 'T'}, amount: {title: '服务器总台数', unit: '台'}},
         proText: {hashType: '算力类型', status: '购买类型', incomeType: '结算方式'},
         proData2: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '每日电费约', unit: 'btc'}},
@@ -42,7 +42,8 @@
         content1: '',
         str: {4: '预热', 5: '可售'},
         show: '',
-        rateshow: ''
+        rateshow: '',
+        sort: ['12', '15']
       }
     },
     methods: {
@@ -110,6 +111,9 @@
         this.totalHash = this.detail.hash * this.number
         var leftAmount = this.initNum - this.number
         this.leftNum = leftAmount < 0 ? 0 : leftAmount
+      },
+      onChange (e) {
+        this.detail.fee = this.sort[e.target.value]
       }
     },
     mounted () {
