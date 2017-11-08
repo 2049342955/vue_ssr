@@ -53,11 +53,11 @@
            <td>{{n.repayment_balance}}</td>
            <td>{{n.repayment_charge}}</td>
            <td>{{n.repayment_money}}</td>
-           <template v-if="status==='0' && repayment_method==='0'">
+           <template v-if="n.status == '0' && n.repayment_method == '0'">
              <td class="green">已还款</td>
              <td class="gay">算力收益</td>
            </template>
-           <template v-if="status==='0' && repayment_method==='1'">
+           <template v-else-if="n.status == '0' && n.repayment_method == '1'">
              <td class="green">已还款</td>
              <td class="gay">资金账户</td>
            </template>
@@ -65,7 +65,7 @@
              <td class="red">未还款</td>
              <td class="gay">算力收益 / 资金账户</td>
            </template>
-           <template v-if="status==='0'">
+           <template v-if="n.status == '0'">
              <td><button disabled="disabled" class="no" style="background:none;color:gray;">已还款</button></td>
            </template>
            <template v-else>
@@ -182,6 +182,7 @@
           api.checkAjax(self, res, () => {
             api.tips(self.$refs.tips, '提交成功', () => {
               self.show = false
+              window.location.reload()
             })
           })
         })
