@@ -1,5 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
+import util from './function'
 
 let api = axios.create({
   // baseURL: 'http://suanli.baoquan.com/background/api',
@@ -9,6 +10,7 @@ let api = axios.create({
 })
 // 修改返回数据格式
 api.defaults.transformResponse = (res) => {
+  console.log(res)
   if (typeof res === 'string') {
     res = JSON.parse(res)
   }
@@ -38,7 +40,11 @@ api.interceptors.response.use(res => {
 api.interceptors.request.use(config => {
   if (config.data) {
     if (config.data['sign']) {
-      config.data['sign'] = btoa(config.data['sign'])
+      if (window.btoa) {
+        config.data['sign'] = window.btoa(config.data['sign'])
+      } else {
+        config.data['sign'] = util.btoa(config.data['sign'])
+      }
     }
     config.data = qs.stringify(config.data)
   }

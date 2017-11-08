@@ -98,17 +98,18 @@
       getCode () {
         var self = this
         var form = document.querySelector('.data_form')
-        if (form.depTel.value) {
-          if (!api.checkFiled(form.depTel)) {
+        console.log(form.dep_tel)
+        if (form.dep_tel.value) {
+          if (!api.checkFiled(form.dep_tel)) {
             this.tips = form.depTel.title
             return false
           }
         } else {
-          this.tips = form.depTel.placeholder
+          this.tips = form.dep_tel.placeholder
           return false
         }
         if (self.$refs['count_btn'].getAttribute('disabled') === 'true') return false
-        util.post('send_code', {sign: api.serialize({token: this.token, mobile: form.depTel.value})}).then(res => {
+        util.post('send_code', {sign: api.serialize({token: this.token, mobile: form.dep_tel.value})}).then(res => {
           this.tips = '短信验证码发送成功'
           self.conntDown()
           self.$refs['count_btn'].setAttribute('disabled', true)

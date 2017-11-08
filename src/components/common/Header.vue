@@ -55,11 +55,15 @@
         api.checkAjax(self, res, () => {
           self.$store.commit('SET_INFO', res)
         })
+      }).catch(res => {
+        console.log(res)
       })
       util.post('getCurrencys', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.$store.commit('SET_HASH_TYPE', res)
         })
+      }).catch(res => {
+        console.log(res)
       })
     },
     computed: {
