@@ -125,7 +125,7 @@
         name: 'transferList',
         component: TransferList
       }, {
-        path: 'detail/:id',
+        path: 'detail/:type/:id',
         name: 'transferDetail',
         component: TransferDetail
       }]
