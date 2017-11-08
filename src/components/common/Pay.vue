@@ -198,9 +198,9 @@
           if (this.$parent.show) {
             util.post('productMallLoan', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(data.password), rate_name: this.$parent.rate})}).then(function (res) {
               api.checkAjax(self, res, () => {
-                // api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
-                //   self.$router.push({path: '/user/repayment/0'})
-                // })
+                api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
+                  self.$router.push({path: '/user/repayment/0'})
+                })
               }, ff.btn)
             })
           } else {
