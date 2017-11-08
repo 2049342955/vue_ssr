@@ -10,7 +10,7 @@
       <baidu-map class="mapImg" :center="center" :zoom="zoom" @ready="handler" :scroll-wheel-zoom="false">
         <bm-marker :position="center"  :markerStyle="{width:'20px'}" :dragging="false">
            <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
-           <bm-label content="<h4>杭州总部</h4><h5>地址 ： 浙江省杭州市学院路77号黄龙国际中心G座-907</h5> <h6>咨询电话 ： 0571-28221076</h6><h1><span></span></h1>" :labelStyle="{border:'0px', color: '#666666',whiteSpace:'normal', fontSize : '12px',padding: '0px',boxSizing:'border-box',width:'250px',wordBreak:'break-all !important',lineHeight:'24px'}" :offset="{width: -498, height: -130}"/>
+           <bm-label content="<h4>杭州总部</h4><h5>地址 ： 浙江省杭州市学院路77号黄龙国际中心G座-907</h5> <h6>咨询电话 ： 0571-28031736</h6><h1><span></span></h1>" :labelStyle="{border:'0px', color: '#666666',whiteSpace:'normal', fontSize : '12px',padding: '0px',boxSizing:'border-box',width:'250px',wordBreak:'break-all !important',lineHeight:'24px'}" :offset="{width: -498, height: -130}"/>
         </bm-marker>
       </baidu-map>
     </div>
@@ -20,7 +20,7 @@
       <div class="site_con">
         <p>
           客服电话：
-          <span>0571-28221076</span>
+          <span>0571-28031736</span>
         </p>
         <p>
           工作时间：9:00 — 18:00
@@ -44,8 +44,8 @@
     name: 'aboutUs',
     data () {
       return {
-        datas: [{title: '媒体采访', text: '如果有媒体采访需求，请将您的媒体名称、采访提纲、联系方式电话告知我们的工作人员 ： <span>0571-28221076</span> ，我们会尽快与您联系。'}, {title: '商务合作', text: '如果贵公司希望与我们建立商务合作关系，形成优势互补，请将合作意向进行简要描述并发送邮件至：<span> BD@suanLi.com</span> ，我们会尽快与您联系。'}],
-        distribute: [{name: '杭州总部', address: '浙江省杭州市学院路77号黄龙国际中心G座-907', telNumber: '0571-28221076'}, {name: '北京分部', address: '北京市学院路77号黄龙国际中心G座', telNumber: '011-28221076'}],
+        datas: [{title: '媒体采访', text: '如果有媒体采访需求，请将您的媒体名称、采访提纲、联系方式电话告知我们的工作人员 ： <span>0571-28031736</span> ，我们会尽快与您联系。'}, {title: '商务合作', text: '如果贵公司希望与我们建立商务合作关系，形成优势互补，请将合作意向进行简要描述并发送邮件至：<span> BD@suanLi.com</span> ，我们会尽快与您联系。'}],
+        distribute: [{name: '杭州总部', address: '浙江省杭州市学院路77号黄龙国际中心G座-907', telNumber: '0571-28031736'}, {name: '北京分部', address: '北京市学院路77号黄龙国际中心G座', telNumber: '011-28221076'}],
         center: {lng: 120.13255, lat: 30.281902},
         zoom: 16
       }

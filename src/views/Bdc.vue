@@ -7,7 +7,7 @@
       <div class="float-left bdc-box">
         <div><span class="big-title">BDC</span><span class="subtitle">（Blockchain   Data   Center）</span></div>
         <div class="bdc-detail">{{text}}</div>
-        <div><span class="service">客服：</span><span class="tel">0571- 28221076</span><span class="time">工作日（9:00~18:00）</span></div>
+        <div><span class="service">客服：</span><span class="tel">0571-28031736</span><span class="time">工作日（9:00~18:00）</span></div>
       </div>
       <div class="float-right form-box">
         <div class="form-header">提交托管矿机申请</div>
