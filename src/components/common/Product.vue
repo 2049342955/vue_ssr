@@ -54,7 +54,7 @@
           <div class="price_text">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
          <button class="btn" disabled v-if="$parent.leftStatus">已售罄</button>
          <button :class="['btn', {over: $parent.overStatus}]" :disabled="$parent.overStatus" v-else @click="checkPay($event, false)" style="margin-top:10px;">立即支付</button>
-         <button class="btn" style="background:#327fff;border:0;margin-top:10px;" @click="checkPay($event, true)" v-show="$parent.rateshow">贷款购买</button>
+         <button class="btn" style="background:#327fff;border:0;margin-top:10px;" @click="checkPay($event, true)" v-show="$parent.rateshow">分期购买</button>
         </div>
       </div>
       <div class="price transfer" v-else>

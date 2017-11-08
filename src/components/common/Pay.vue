@@ -22,10 +22,10 @@
         </div>
       </div>
       <div class="orderMsg" v-show="$parent.show">
-        <h3 class="title">贷款详情</h3>
+        <h3 class="title">分期详情</h3>
         <div class="orderDetail">
           <div class="detailH">
-            <div class="borderR" v-for="d,k in proData3">
+            <div class="borderR" v-for="d,k in proData3" style="width:33.3%;">
               <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
               <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
               <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
@@ -34,9 +34,9 @@
           </div>
           <div class="detailF">
             <p>
-              <span>贷款期限 ： </span>
+              <span>分期期限 ： </span>
               <select @change="$parent.onChange" class="mont">
-                <option v-for="n,k in $parent.month" :value="k">{{n}}</option>
+                <option v-for="n,k in $parent.month" :value="k">{{n}}个月</option>
               </select>
             </p>
             <p v-for="t,k in proText3">{{t}}：
