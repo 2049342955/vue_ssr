@@ -246,5 +246,8 @@
           next()
         }
       }]
+    }, {
+      path: '/mobile',
+      component: Mine
     }]
   })

@@ -214,4 +214,48 @@ api.checkAjax = (obj, res, callback, btn, failback) => {
     callback()
   }
 }
+api.btoa = (input) => {
+  var _keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
+  var output = ''
+  var chr1 = ''
+  var chr2 = ''
+  var chr3 = ''
+  var enc1 = ''
+  var enc2 = ''
+  var enc3 = ''
+  var enc4 = ''
+  var i = 0
+  // input = this._utf8_encode(input)
+  while (i < input.length) {
+    chr1 = input.charCodeAt(i++)
+    chr2 = input.charCodeAt(i++)
+    chr3 = input.charCodeAt(i++)
+    enc1 = chr1 >> 2
+    enc2 = ((chr1 & 3) << 4) | (chr2 >> 4)
+    enc3 = ((chr2 & 15) << 2) | (chr3 >> 6)
+    enc4 = chr3 & 63
+    if (isNaN(chr2)) {
+      enc3 = enc4 = 64
+    } else if (isNaN(chr3)) {
+      enc4 = 64
+    }
+    output = output + _keyStr.charAt(enc1) + _keyStr.charAt(enc2) + _keyStr.charAt(enc3) + _keyStr.charAt(enc4)
+  }
+  return output
+}
+api.checkEquipment = () => {
+  console.log(11)
+  var sUserAgent = navigator.userAgent.toLowerCase()
+  var bIsIpad = sUserAgent.match(/ipad/i) === 'ipad'
+  var bIsIphoneOs = sUserAgent.match(/iphone os/i) === 'iphone os'
+  var bIsMidp = sUserAgent.match(/midp/i) === 'midp'
+  var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) === 'rv:1.2.3.4'
+  var bIsUc = sUserAgent.match(/ucweb/i) === 'ucweb'
+  var bIsAndroid = sUserAgent.match(/android/i) === 'android'
+  var bIsCE = sUserAgent.match(/windows ce/i) === 'windows ce'
+  var bIsWM = sUserAgent.match(/windows mobile/i) === 'windows mobile'
+  if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+    return true
+  }
+}
 export default api

@@ -45,7 +45,12 @@
         nav: [{name: 'cloudCompute', text: '算力商城', link: '/cloudCompute/list/1/all'}, {name: 'computeTransfer', text: '算力转让', link: '/computeTransfer/list/1/all'}, {name: 'bdc', text: '算力托管', link: '/bdc'}, {name: 'news', text: '算力资讯', link: '/webInfo/list/news'}, {name: 'dataTrade', text: '数据交易', link: ''}, {name: 'computeTrade', text: '算法交易', link: ''}]
       }
     },
-    created () {
+    mounted () {
+      if (api.checkEquipment()) {
+        console.log(11)
+        location.href = '/mobile'
+        return false
+      }
       window.addEventListener('scroll', this.test, false)
       if (this.token === 0) {
         this.$store.dispatch('getInfo')
@@ -55,11 +60,15 @@
         api.checkAjax(self, res, () => {
           self.$store.commit('SET_INFO', res)
         })
+      }).catch(res => {
+        console.log(res)
       })
       util.post('getCurrencys', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.$store.commit('SET_HASH_TYPE', res)
         })
+      }).catch(res => {
+        console.log(res)
       })
     },
     computed: {

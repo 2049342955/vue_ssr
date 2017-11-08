@@ -64,7 +64,7 @@
     data () {
       return {
         img: require('@/assets/images/nodata.jpg'),
-        str: {4: '预热', 5: '可售'}
+        str: {4: '预热', 5: '预售'}
       }
     },
     methods: {
