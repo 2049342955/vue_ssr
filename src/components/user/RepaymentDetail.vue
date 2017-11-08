@@ -117,6 +117,7 @@
   import util from '@/util'
   import api from '@/util/function'
   import { mapState } from 'vuex'
+  import md5 from 'js-md5'
   export default {
     data () {
       return {
@@ -177,7 +178,7 @@
         } else {
           document.querySelector('.block1').style = 'display:none;color:red;font-size:12px;padding-left:160px;padding-top:10px;'
         }
-        util.post('repayment', {sign: api.serialize({token: this.token, user_id: this.user_id, repayment_id: this.repayment_id, product_hash_type: 1, mode: this.model, trade_password: this.password})}).then(function (res) {
+        util.post('repayment', {sign: api.serialize({token: this.token, user_id: this.user_id, repayment_id: this.repayment_id, product_hash_type: 1, mode: this.model, trade_password: md5(this.password)})}).then(function (res) {
           api.checkAjax(self, res, () => {
             api.tips(self.$refs.tips, '提交成功', () => {
               self.show = false
