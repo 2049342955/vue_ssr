@@ -66,6 +66,7 @@
         if (this.rechargeNo) {
           util.post('applyBalanceRecharge', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
             api.checkAjax(self, res, () => {
+              res.subject = encodeURIComponent(res.subject)
               util.post('alipay', {sign: api.serialize(Object.assign({url: callbackUrl, token: self.token}, res))}).then((resData) => {
                 api.checkAjax(self, data, () => {
                   location.href = resData.url

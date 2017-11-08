@@ -111,7 +111,7 @@
       }
       h1{
         font-size: 30px;
-        line-height: 2;
+        line-height: 1.8;
       }
       p{
         font-size: 18px
@@ -171,16 +171,29 @@
           &:nth-child(9) .iconfont:before{
             content:'\e6da'
           }
-          &:hover{
+          &:not(:last-child):hover{
             background: $blue;
             &,.iconfont,.item_desc{
               color:$white
             }
           }
           &.item_another{
+            position: relative;
             @include flex(center)
             &:before{
-              content:'\e6d7'
+              content: "";
+              width: 30px;
+              height: 1px;
+              background: #999;
+            }
+            &:after{
+              position: absolute;
+              top: calc(50% - 15px);
+              left: calc(50% - .5px);
+              content: "";
+              height: 30px;
+              width: 1px;
+              background: #999;
             }
           }
         }
