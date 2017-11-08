@@ -26,7 +26,7 @@
         proText: {hashType: '算力类型', status: '购买类型', incomeType: '结算方式'},
         proData2: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '每日电费约', unit: 'btc'}},
         proText2: {hashType: '算力类型', hash: '每台矿机算力', status: '购买类型', incomeType: '结算方式'},
-        proData3: {name_type: {title: '贷款方式', unit: ''}, one_amount: {title: '贷款金额', unit: '元'}, fee: {title: '贷款利率', unit: '%'}, payment: {title: '还款来源', unit: ''}, payment_methods: {title: '还款方式', unit: ''}},
+        proData3: {name_type: {title: '贷款方式', unit: ''}, one_amount: {title: '分期金额', unit: '元'}, fee: {title: '手续费率', unit: '%'}, payment: {title: '还款来源', unit: '算力收益/资金余额'}, payment_methods: {title: '还款方式', unit: ''}},
         proText3: {hashfee: '贷款利息'},
         items: {month_money: {title: '月还款', unit: '元'}, rate: {title: '分期期数', unit: '期'}, fee_money: {title: '手续费', unit: '元'}, total_money: {title: '费用总计', unit: '元'}},
         table: [],
@@ -43,7 +43,9 @@
         str: {4: '预热', 5: '可售'},
         show: '',
         rateshow: '',
-        sort: ['12', '15']
+        sort: ['24', '36'],
+        month: ['6', '3'],
+        rate: 6
       }
     },
     methods: {
@@ -66,28 +68,8 @@
           api.tips(this.$refs.tips, '暂不能购买')
           return false
         }
+        this.det(this.rate)
         var self = this
-        var rate = 6
-        console.log(rate)
-        if (show) {
-          util.post('getRate', {sign: api.serialize({token: this.token, rate_name: rate})}).then(function (res) {
-            api.checkAjax(self, res, () => {
-              self.detail.one_amount = self.detail.one_amount_value * self.number / 2
-              self.detail.fee = res.fee * 100
-              self.detail.hashfee = self.detail.one_amount * res.fee
-            })
-          })
-          var loanAmount = self.detail.one_amount_value / 2
-          util.post('getLoanDetail', {sign: api.serialize({token: this.token, rate_name: rate, loan_money: loanAmount})}).then(function (res) {
-            api.checkAjax(self, res, () => {
-              self.detail.month_money = res.month_money
-              self.detail.fee_money = res.fee_money
-              self.detail.rate = res.rate
-              self.detail.total_money = res.total_money
-              self.table = res.list
-            })
-          })
-        }
         util.post('productOrder', {sign: api.serialize({token: this.token, product_id: this.$route.params.id, num: this.number})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.next = true
@@ -112,7 +94,30 @@
         var leftAmount = this.initNum - this.number
         this.leftNum = leftAmount < 0 ? 0 : leftAmount
       },
+      det (rate) {
+        var self = this
+        util.post('getRate', {sign: api.serialize({token: this.token, rate_name: rate})}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.detail.one_amount = self.detail.one_amount_value * self.number / 2
+            self.detail.fee = res.fee * 100
+            self.detail.hashfee = self.detail.one_amount * res.fee
+          })
+        })
+        var loanAmount = this.detail.one_amount_value / 2
+        console.log(this.detail.one_amount_value)
+        util.post('getLoanDetail', {sign: api.serialize({token: this.token, rate_name: rate, loan_money: loanAmount})}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.detail.month_money = res.month_money
+            self.detail.fee_money = res.fee_money
+            self.detail.rate = res.rate
+            self.detail.total_money = res.total_money
+            self.table = res.list
+          })
+        })
+      },
       onChange (e) {
+        this.rate = this.month[e.target.value]
+        this.det(this.rate)
         this.detail.fee = this.sort[e.target.value]
       }
     },

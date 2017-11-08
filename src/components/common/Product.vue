@@ -70,7 +70,7 @@
     </div>
     <div class="info">
       <div class="info_item">
-        <h3>产品介绍</h3>
+        <h3>产品介绍1</h3>
         <div class="box" v-html="$parent.detail.machine_intro"></div>
       </div>
       <div class="info_item">

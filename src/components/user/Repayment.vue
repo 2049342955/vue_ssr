@@ -88,7 +88,6 @@
         var self = this
         this.item = []
         this.status = this.$route.params.status
-        console.log(this.status)
         util.post('getLoanList', {sign: api.serialize({token: this.token, user_id: this.user_id, status: this.status, page: this.now})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.item = res
