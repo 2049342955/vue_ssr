@@ -169,19 +169,20 @@
       submit () {
         this.password = document.getElementsByClassName('passwordone')[0].value
         this.model = document.querySelector('select').value
-        // var self = this
+        var self = this
         if (!this.password) {
           document.querySelector('.block1').style = 'display:block;color:red;font-size:12px;padding-left:160px;padding-top:10px;'
           return false
         } else {
           document.querySelector('.block1').style = 'display:none;color:red;font-size:12px;padding-left:160px;padding-top:10px;'
         }
-        // util.post('showRepayment', {sign: api.serialize({token: this.token, user_id: this.user_id, repayment_id: this.repayment_id, product_hash_type: 1, mode: this.model})}).then(function (res) {
-        //   api.checkAjax(self, res, () => {
-        //     self.total = res.repayment
-        //     api.tips(self.$refs.tips, '提交成功')
-        //   })
-        // })
+        util.post('showRepayment', {sign: api.serialize({token: this.token, user_id: this.user_id, repayment_id: this.repayment_id, product_hash_type: 1, mode: this.model, trade_password: this.password})}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            api.tips(self.$refs.tips, '提交成功', () => {
+              self.show = false
+            })
+          })
+        })
       },
       onChange () {
         this.select()
@@ -430,5 +431,8 @@
         margin:5px 0;
       }
     }
+  }
+  .web_tips{
+    z-index: 99999;
   }
 </style>
