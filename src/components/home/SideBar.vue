@@ -42,8 +42,9 @@
       },
       test (e) {
         var ele = document.querySelector('.frame_header')
+        var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
         if (!ele || !this.$refs.bar) return false
-        if (e.target.scrollingElement.scrollTop > 0) {
+        if (scrollTop > 0) {
           this.$refs.bar.style.display = 'block'
         } else {
           this.$refs.bar.style.display = 'none'

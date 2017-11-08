@@ -52,6 +52,8 @@
               self.$router.push({name: 'home'})
             })
           }, form.btn)
+        }).catch(res => {
+          api.tips(self.$refs.tips, '您的网络情况不太好，请稍后再尝试')
         })
       }
     }

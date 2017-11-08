@@ -80,7 +80,6 @@
     </template>
     <div class="fund_btn">
       <router-link to="/user/order/0/1">出售云矿机</router-link>
-      <router-link to="/user/order/1/1">出租算力</router-link>
       <router-link to="/user/order/0/1">查看订单</router-link>
     </div>
     <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>

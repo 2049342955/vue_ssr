@@ -15,11 +15,8 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
-    "babel-polyfill": "^6.26.0",
     "echarts": "^3.7.1",
-    "es6-shim": "^0.35.3",
     "js-md5": "^0.6.1",
-    "promise-polyfill": "^6.0.2",
     "qs": "^6.5.1",
     "vue": "^2.4.4",
     "vue-baidu-map": "^0.18.2",
@@ -27,6 +24,7 @@
     "vuex": "^2.4.0"
   },
   "devDependencies": {
+    "babel-polyfill": "^6.26.0",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",

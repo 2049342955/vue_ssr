@@ -78,7 +78,6 @@
           <td v-if="status!=3">
             <template v-if="nowEdit==0&&status==1">
               <button class="sold" @click="openMask('sold', '出售云矿机', d.id)" :disabled="!d.remain_miner">出售云矿机</button>
-              <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash">出租算力</button>
             </template>
             <template v-if="nowEdit==0&&status==2">
               <button @click="quit('sold', d.id)">撤销出售</button>
@@ -120,8 +119,8 @@
     },
     data () {
       return {
-        title: ['云矿机', '算力'],
-        title2: ['云矿机', '算力', '基金'],
+        title: ['云矿机'],
+        title2: ['云矿机', '基金'],
         nav: [{'0': '已购买', '1': '出售中', '2': '已出售', '3': '已结束'}, {'0': '已租赁', '1': '出租中', '2': '已出租', '3': '已结束'}, {'0': '持有', '1': '出租中', '2': '已出租', '3': '已结束'}],
         data: [],
         nowEdit: 0,
