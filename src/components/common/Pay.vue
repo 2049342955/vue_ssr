@@ -88,7 +88,7 @@
       <div class="web_tips" ref="tips"></div>
       <div class="Installment_plan" v-show="showpay">
         <div class="opacity">
-          <p class="title">分期计划<span @click="close(false)">X</span></p>
+          <p class="title">分期计划<span @click="close(false)"><img :src="close2" style="width:12px;height:12px;position:relative;top:-6px;"/></span></p>
           <div class="item" style="overflow:hidden;">
             <p  v-for="n,k in $parent.items">{{n.title}} : {{$parent.detail[k]}}{{n.unit}}</p>
           </div>
@@ -167,7 +167,8 @@
         totalPrice: 0,
         showAgreement: 0,
         toggle: false,
-        showpay: ''
+        showpay: '',
+        close2: require('@/assets/images/close1.jpg')
       }
     },
     methods: {
@@ -431,15 +432,15 @@
       top:0;
       position: fixed;
       .opacity{
-        width: 666px;
-        height: 672px;
+        width: 566px;
+        height: 472px;
         background: white;
         top:50%;
         left: 50%;
         margin-left: -333px;
         margin-top:-386px;
         position: absolute;
-        padding:0 93px;
+        padding:0 43px;
         box-sizing: border-box;
         .title{
           width: 100%;

@@ -21,7 +21,7 @@
          <p>分期时间</p>
        </li>
      </ul>
-     <ol>
+     <!-- <ol>
        <li>
          分期期限 ： <span>{{moneydata.rate_time}}个月</span>
        </li>
@@ -32,7 +32,7 @@
          逾期罚息 ： <span>{{moneydata.overdue_interest}}元</span>
        </li>
        <li><a to="javascript:;" style="color:#327fff;cursor: pointer;" @click="showpay(true)">查看计算公式</a></li>
-     </ol>
+     </ol> -->
      <table border="1">
        <thead>
          <tr>
@@ -68,6 +68,9 @@
            <template v-if="n.status == '0'">
              <td><button disabled="disabled" class="no" style="background:none;color:gray;">已还款</button></td>
            </template>
+           <template v-else-if="n.status == '2'">
+             <td><button disabled="disabled" class="no" style="background:none;color:gray;width:120px;">还不到还款日期</button></td>
+           </template>
            <template v-else>
              <td><button class="yes" @click="showButton(true, n.id)">去还款</button></td>
            </template>
@@ -94,7 +97,7 @@
               <input type="password" placeholder="请输入交易密码" class="passwordone"/>
             </div>
             <p class="block1" style="color:red;font-size:12px;padding-left:160px;padding-top:10px;display:none;">请输入交易密码</p>
-            <button name="btn" @click="submit()">提交</button>
+            <button name="btn" @click="submit()" id="btn">提交</button>
         </form>
       </div>
     </div>
@@ -133,7 +136,8 @@
         password: '',
         mode: '',
         repayment_id: '',
-        sort: [{type: '算力收益', unit: 'btc'}, {type: '资金用户', unit: '元'}]
+        sort: [{type: '算力收益', unit: 'btc'}, {type: '资金用户', unit: '元'}],
+        buttonshow: false
       }
     },
     methods: {
@@ -149,9 +153,19 @@
         util.post('showRepayment', {sign: api.serialize({token: this.token, user_id: this.user_id, repayment_id: this.repayment_id, product_hash_type: 1, mode: this.model})}).then(function (res) {
           api.checkAjax(self, res, () => {
             if (self.model === '0') {
-              self.total = res.coin_repayment + ' btc'
+              if (res.user_coin_value < res.coin_repayment) {
+                self.total = '您的币余额不足'
+                return false
+              } else {
+                self.total = res.coin_repayment + ' btc'
+              }
             } else {
-              self.total = res.repayment + ' 元'
+              if (res.user_balance < res.repayment) {
+                self.total = '您的账户余额不足'
+                return false
+              } else {
+                self.total = res.repayment + ' 元'
+              }
             }
           })
         })
@@ -169,6 +183,9 @@
         })
       },
       submit () {
+        if (this.buttonshow) {
+          return false
+        }
         this.password = document.getElementsByClassName('passwordone')[0].value
         this.model = document.querySelector('select').value
         var self = this
@@ -181,6 +198,7 @@
         util.post('repayment', {sign: api.serialize({token: this.token, user_id: this.user_id, repayment_id: this.repayment_id, product_hash_type: 1, mode: this.model, trade_password: md5(this.password)})}).then(function (res) {
           api.checkAjax(self, res, () => {
             api.tips(self.$refs.tips, '提交成功', () => {
+              // self.buttonshow = true
               self.show = false
               window.location.reload()
             })
