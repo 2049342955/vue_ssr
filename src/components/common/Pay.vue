@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="orderMsg" v-show="$parent.show">
-        <h3 class="title">贷款详情{{$parent.detail.fee}}</h3>
+        <h3 class="title">贷款详情</h3>
         <div class="orderDetail">
           <div class="detailH">
             <div class="borderR" v-for="d,k in proData3">
@@ -35,7 +35,7 @@
           <div class="detailF">
             <p>
               <span>贷款期限 ： </span>
-              <select @change="$parent.onChange">
+              <select @change="$parent.onChange" class="mont">
                 <option v-for="n,k in $parent.month" :value="k">{{n}}</option>
               </select>
             </p>
@@ -195,10 +195,10 @@
         ff.btn.setAttribute('disabled', true)
         if (this.page === 'cloudCompute') {
           if (this.$parent.show) {
-            util.post('productMall', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(data.password)})}).then(function (res) {
+            util.post('productMallLoan', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(data.password), rate_name: this.$parent.rate})}).then(function (res) {
               api.checkAjax(self, res, () => {
                 api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
-                  self.$router.push({path: '/user/repayment/1'})
+                  self.$router.push({path: '/user/repayment/0'})
                 })
               }, ff.btn)
             })
