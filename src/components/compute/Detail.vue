@@ -103,7 +103,7 @@
             self.detail.hashfee = self.detail.one_amount * res.fee
           })
         })
-        var loanAmount = this.detail.one_amount_value / 2
+        var loanAmount = this.detail.one_amount_value * this.number / 2
         console.log(this.detail.one_amount_value)
         util.post('getLoanDetail', {sign: api.serialize({token: this.token, rate_name: rate, loan_money: loanAmount})}).then(function (res) {
           api.checkAjax(self, res, () => {
