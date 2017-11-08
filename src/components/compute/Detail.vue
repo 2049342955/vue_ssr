@@ -43,7 +43,9 @@
         str: {4: '预热', 5: '可售'},
         show: '',
         rateshow: '',
-        sort: ['12', '15']
+        sort: ['12', '15'],
+        month: ['6', '12'],
+        rate: ''
       }
     },
     methods: {
@@ -67,8 +69,7 @@
           return false
         }
         var self = this
-        var rate = 6
-        console.log(rate)
+        var rate = this.rate
         if (show) {
           util.post('getRate', {sign: api.serialize({token: this.token, rate_name: rate})}).then(function (res) {
             api.checkAjax(self, res, () => {
@@ -113,6 +114,8 @@
         this.leftNum = leftAmount < 0 ? 0 : leftAmount
       },
       onChange (e) {
+        this.rate = this.month[e.target.value]
+        console.log(this.rate)
         this.detail.fee = this.sort[e.target.value]
       }
     },

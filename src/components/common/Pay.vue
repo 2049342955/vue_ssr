@@ -36,7 +36,7 @@
             <p>
               <span>贷款期限 ： </span>
               <select @change="$parent.onChange">
-                <option v-for="n,k in month" :value="k">{{n.day}}</option>
+                <option v-for="n,k in $parent.month" :value="k">{{n}}</option>
               </select>
             </p>
             <p v-for="t,k in proText3">{{t}}：
@@ -152,6 +152,9 @@
       },
       items: {
         type: Object
+      },
+      month: {
+        type: Object
       }
     },
     components: {
@@ -160,7 +163,6 @@
     data () {
       return {
         form: [{name: 'password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
-        month: [{day: '6个月'}, {day: '12个月'}],
         tips: '请同意服务条款',
         totalPrice: 0,
         showAgreement: 0,
