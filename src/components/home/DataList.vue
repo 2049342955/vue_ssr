@@ -54,7 +54,7 @@
           })
           return false
         }
-        this.$router.push({path: '/cloudCompute/detail/' + id})
+        this.$router.push({path: '/cloudCompute/detail/yes/' + id})
       }
     },
     mounted () {

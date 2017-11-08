@@ -22,10 +22,10 @@
         </div>
       </div>
       <div class="orderMsg" v-show="$parent.show">
-        <h3 class="title">贷款详情</h3>
+        <h3 class="title">分期详情</h3>
         <div class="orderDetail">
           <div class="detailH">
-            <div class="borderR" v-for="d,k in proData3">
+            <div class="borderR" v-for="d,k in proData3" style="width:33.3%;">
               <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
               <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
               <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
@@ -34,9 +34,9 @@
           </div>
           <div class="detailF">
             <p>
-              <span>贷款期限 ： </span>
+              <span>分期期限 ： </span>
               <select @change="$parent.onChange" class="mont">
-                <option v-for="n,k in $parent.month" :value="k">{{n}}</option>
+                <option v-for="n,k in $parent.month" :value="k">{{n}}个月</option>
               </select>
             </p>
             <p v-for="t,k in proText3">{{t}}：
@@ -88,7 +88,7 @@
       <div class="web_tips" ref="tips"></div>
       <div class="Installment_plan" v-show="showpay">
         <div class="opacity">
-          <p class="title">分期计划<span @click="close(false)">X</span></p>
+          <p class="title">分期计划<span @click="close(false)"><img :src="close2" style="width:12px;height:12px;position:relative;top:-6px;"/></span></p>
           <div class="item" style="overflow:hidden;">
             <p  v-for="n,k in $parent.items">{{n.title}} : {{$parent.detail[k]}}{{n.unit}}</p>
           </div>
@@ -97,7 +97,7 @@
                <tr>
                  <th>期数</th>
                  <th>还款日期</th>
-                 <th>贷款余额</th>
+                 <th>分期余额</th>
                  <th>手续费</th>
                  <th>本期还款额</th>
                </tr>
@@ -167,7 +167,8 @@
         totalPrice: 0,
         showAgreement: 0,
         toggle: false,
-        showpay: ''
+        showpay: '',
+        close2: require('@/assets/images/close1.jpg')
       }
     },
     methods: {
@@ -197,9 +198,9 @@
           if (this.$parent.show) {
             util.post('productMallLoan', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(data.password), rate_name: this.$parent.rate})}).then(function (res) {
               api.checkAjax(self, res, () => {
-                api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
-                  self.$router.push({path: '/user/repayment/0'})
-                })
+                // api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
+                //   self.$router.push({path: '/user/repayment/0'})
+                // })
               }, ff.btn)
             })
           } else {
@@ -431,15 +432,15 @@
       top:0;
       position: fixed;
       .opacity{
-        width: 666px;
-        height: 672px;
+        width: 566px;
+        height: 472px;
         background: white;
         top:50%;
         left: 50%;
         margin-left: -333px;
         margin-top:-386px;
         position: absolute;
-        padding:0 93px;
+        padding:0 43px;
         box-sizing: border-box;
         .title{
           width: 100%;
