@@ -12,8 +12,8 @@
 </template>
 
 <script>
-  import util from '@/util'
-  import api from '@/util/function'
+  // import util from '@/util'
+  // import api from '@/util/function'
   import { mapState } from 'vuex'
   import ProductList from '../common/ProductList'
   import ProductNav from '../common/ProductNav'
@@ -35,22 +35,22 @@
     },
     methods: {
       fetchData () {
-        var self = this
-        this.show = false
-        var obj = {}
-        if (this.$route.params.sort === 'all') {
-          obj = {token: this.token, product_hash_type: this.$route.params.type, page: this.now}
-        } else {
-          obj = {token: this.token, product_hash_type: this.$route.params.type, order_type: this.$route.params.sort, page: this.now}
-        }
-        util.post('getHashrates', {sign: api.serialize(obj)}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            self.computeDate = res.list
-            self.show = !res.list.length
-            if (self.now > 1) return false
-            self.len = res.total_page
-          })
-        })
+        // var self = this
+        this.show = true
+        // var obj = {}
+        // if (this.$route.params.sort === 'all') {
+        //   obj = {token: this.token, product_hash_type: this.$route.params.type, page: this.now}
+        // } else {
+        //   obj = {token: this.token, product_hash_type: this.$route.params.type, order_type: this.$route.params.sort, page: this.now}
+        // }
+        // util.post('getHashrates', {sign: api.serialize(obj)}).then(function (res) {
+        //   api.checkAjax(self, res, () => {
+        //     self.computeDate = res.list
+        //     self.show = !res.list.length
+        //     if (self.now > 1) return false
+        //     self.len = res.total_page
+        //   })
+        // })
       },
       getList () {
         this.fetchData()

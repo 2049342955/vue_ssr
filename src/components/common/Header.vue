@@ -78,7 +78,8 @@
       test (e) {
         var ele = document.querySelector('.frame_header')
         if (!ele) return false
-        if (e.target.scrollingElement.scrollTop > 0 || this.showNav) {
+        var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+        if (scrollTop > 0 || this.showNav) {
           ele.classList.add('bg_opacity')
           this.scroll = true
         } else {
