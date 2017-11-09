@@ -80,7 +80,7 @@
     </div>
     <div class="button" v-show="show">
       <div class="opaction">
-        <form class="form" action="" @submit.prevent="submit">
+        <form class="form" action="" @submit.prevent="submit" novalidate>
             <h4>确认还款<span @click="showButton(false)"><img :src="close" style="width:12px;height:12px;position:relative;top:-6px;"/></span></h4>
             <div class="one">
               <label>还款方式</label>
@@ -101,7 +101,7 @@
               <input type="password" placeholder="请输入交易密码" class="passwordone"/>
             </div>
             <p class="block1" style="color:red;font-size:12px;padding-left:160px;padding-top:10px;display:none;">请输入交易密码</p>
-            <button name="btn" @click="submit()" id="btn">提交</button>
+            <button name="btn">提交</button>
         </form>
       </div>
     </div>
@@ -192,10 +192,10 @@
         })
       },
       submit () {
-        if (this.showbutton) {
-          return false
-        }
-        this.showbutton = true
+        var ff = document.querySelector('.form')
+        var data = api.checkFrom(ff)
+        if (!data) return false
+        ff.btn.setAttribute('disabled', true)
         this.password = document.getElementsByClassName('passwordone')[0].value
         this.model = document.querySelector('select').value
         var self = this
@@ -211,7 +211,7 @@
               self.show = false
               window.location.reload()
             })
-          })
+          }, ff.btn)
         })
       },
       onChange () {
