@@ -89,6 +89,10 @@
               </select>
             </div>
             <div class="one">
+              <label>账户余额</label>
+              <input type="text" placeholder="0.0024562 btc" class="total" :value="banlance" onfocus="this.blur()"/>
+            </div>
+            <div class="one">
               <label>还款总额</label>
               <input type="text" placeholder="0.0024562 btc" class="total" :value="total" onfocus="this.blur()"/>
             </div>
@@ -133,6 +137,7 @@
         repayment_method: 0,
         close: require('@/assets/images/close1.jpg'),
         total: '',
+        banlance: '',
         password: '',
         mode: '',
         repayment_id: '',
@@ -154,16 +159,20 @@
           api.checkAjax(self, res, () => {
             if (self.model === '0') {
               if (res.user_coin_value < res.coin_repayment) {
+                self.banlance = res.user_coin_value + ' btc'
                 self.total = '您的币余额不足'
                 return false
               } else {
+                self.banlance = res.user_coin_value + ' btc'
                 self.total = res.coin_repayment + ' btc'
               }
             } else {
               if (res.user_balance < res.repayment) {
+                self.banlance = res.user_balance + ' 元'
                 self.total = '您的账户余额不足'
                 return false
               } else {
+                self.banlance = res.user_balance + ' 元'
                 self.total = res.repayment + ' 元'
               }
             }
@@ -183,9 +192,6 @@
         })
       },
       submit () {
-        if (this.buttonshow) {
-          return false
-        }
         this.password = document.getElementsByClassName('passwordone')[0].value
         this.model = document.querySelector('select').value
         var self = this
@@ -198,7 +204,6 @@
         util.post('repayment', {sign: api.serialize({token: this.token, user_id: this.user_id, repayment_id: this.repayment_id, product_hash_type: 1, mode: this.model, trade_password: md5(this.password)})}).then(function (res) {
           api.checkAjax(self, res, () => {
             api.tips(self.$refs.tips, '提交成功', () => {
-              // self.buttonshow = true
               self.show = false
               window.location.reload()
             })
@@ -321,7 +326,7 @@
     }
     .button .opaction{
       width: 476px;
-      height: 380px;
+      height: 450px;
       background: white;
       position: absolute;
       left: 50%;
