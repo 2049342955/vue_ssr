@@ -157,23 +157,28 @@
         this.model = document.querySelector('select').value
         util.post('showRepayment', {sign: api.serialize({token: this.token, user_id: this.user_id, repayment_id: this.repayment_id, product_hash_type: 1, mode: this.model})}).then(function (res) {
           api.checkAjax(self, res, () => {
+            var ff = document.querySelector('.form')
             if (self.model === '0') {
               if (res.user_coin_value < res.coin_repayment) {
                 self.banlance = res.user_coin_value + ' btc'
                 self.total = '您的币余额不足'
-                return false
+                ff.btn.setAttribute('disabled', true)
+                // return false
               } else {
                 self.banlance = res.user_coin_value + ' btc'
                 self.total = res.coin_repayment + ' btc'
+                ff.btn.removeAttribute('disabled')
               }
             } else {
               if (res.user_balance < res.repayment) {
                 self.banlance = res.user_balance + ' 元'
                 self.total = '您的账户余额不足'
-                return false
+                ff.btn.setAttribute('disabled', true)
+                // return false
               } else {
                 self.banlance = res.user_balance + ' 元'
                 self.total = res.repayment + ' 元'
+                ff.btn.removeAttribute('disabled')
               }
             }
           })
