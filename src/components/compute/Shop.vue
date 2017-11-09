@@ -3,7 +3,7 @@
     <div class="bg_box">
       <div class="bg">
         <h1>您最新的挖矿设备已经在运行！</h1>
-        <button to="/cloudCompute/mining" class="button">了解挖矿</button>
+        <router-link to="/cloudCompute/mining" class="button">了解挖矿</router-link>
       </div>
     </div>
     <ProductNav page="cloudCompute"></ProductNav>
@@ -79,7 +79,6 @@
   .compute_shop{
     .bg_box{
       @include bg(1920,420px,#1863f0)
-      z-index: -1;
       .bg{
         background:url(../../assets/images/cloudCompute1.jpg) no-repeat;
         h1{
@@ -109,8 +108,6 @@
         }
         .button:hover{
           cursor: pointer !important;
-          background: none;
-          border:1px solid white;
         }
       }
     }
