@@ -142,7 +142,7 @@
         mode: '',
         repayment_id: '',
         sort: [{type: '算力收益', unit: 'btc'}, {type: '资金用户', unit: '元'}],
-        buttonshow: false
+        showbutton: false
       }
     },
     methods: {
@@ -192,6 +192,10 @@
         })
       },
       submit () {
+        if (this.showbutton) {
+          return false
+        }
+        this.showbutton = true
         this.password = document.getElementsByClassName('passwordone')[0].value
         this.model = document.querySelector('select').value
         var self = this
