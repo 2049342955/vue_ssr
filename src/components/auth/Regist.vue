@@ -5,7 +5,7 @@
       <FormField :form="form"></FormField>
       <label for="accept">
         <input type="checkbox" id="accept" name="accept" checked>
-        <span>阅读并接受<a href="javascript:;" @click="userAgreement">《用户使用协议》</a></span>
+        <span>阅读并接受<a href="javascript:;" @click="userAgreement" style="color:#327fff;">《用户使用协议》</a></span>
         <span class="select_accept">请选择</span>
       </label>
       <button name="btn">注册</button>
