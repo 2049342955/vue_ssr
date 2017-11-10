@@ -20,7 +20,6 @@
         <td><a href="javascript:;">申购</a></td>
       </tr>
     </table>
-    <div class="web_tips" ref="tips"></div>
   </div>
 </template>
 
@@ -39,19 +38,19 @@
     methods: {
       goPay (id) {
         if (this.token === 0) {
-          api.tips(this.$refs.tips, '请先登录', () => {
+          api.tips('请先登录', () => {
             this.$router.push({name: 'login'})
           })
           return false
         }
         if (!(this.true_name && this.true_name.status === 1)) {
-          api.tips(this.$refs.tips, '请先实名认证', () => {
+          api.tips('请先实名认证', () => {
             this.$router.push({name: 'account'})
           })
           return false
         }
         if (!(this.bank_card && this.bank_card.status === 1)) {
-          api.tips(this.$refs.tips, '请先绑定银行卡', () => {
+          api.tips('请先绑定银行卡', () => {
             this.$router.push({name: 'account'})
           })
           return false

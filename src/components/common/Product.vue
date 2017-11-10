@@ -90,7 +90,6 @@
         </div>
       </div>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -122,13 +121,13 @@
           return false
         }
         if (!(this.true_name && this.true_name.status === 1)) {
-          api.tips(this.$refs.tips, '请先实名认证', () => {
+          api.tips('请先实名认证', () => {
             this.$router.push({name: 'account'})
           })
           return false
         }
         if (!(this.bank_card && this.bank_card.status === 1)) {
-          api.tips(this.$refs.tips, '请先绑定银行卡', () => {
+          api.tips('请先绑定银行卡', () => {
             this.$router.push({name: 'account'})
           })
           return false

@@ -222,20 +222,9 @@
           a{
             color:$text;
           }
-          &.active a::after{
-            content: "●";
-            display: block;
+          &.active a::after,&:hover a::after{
             color: balck;
-            position: relative;
-            font-size: 12px;
           }
-        }
-        nav .item:hover a::after{
-          content: "●";
-          display: block;
-          color: black;
-          position: relative;
-          font-size: 12px;
         }
         .side_nav{
           a{
@@ -261,6 +250,11 @@
       }
       .box nav .item a,.box .side_nav a,.box .side_nav a.tel{
         color:#fff
+      }
+      nav .item{
+        &.active a::after,&:hover a::after{
+          color:#fff
+        }
       }
     }
     &.border{

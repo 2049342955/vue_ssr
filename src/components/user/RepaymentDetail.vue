@@ -116,7 +116,6 @@
          <p>本期还款额=每期需还款+手续费 ||   本期还款额=贷款总额/期数</p>
        </div>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -212,7 +211,7 @@
         }
         util.post('repayment', {sign: api.serialize({token: this.token, user_id: this.user_id, repayment_id: this.repayment_id, product_hash_type: 1, mode: this.model, trade_password: md5(this.password)})}).then(function (res) {
           api.checkAjax(self, res, () => {
-            api.tips(self.$refs.tips, '提交成功', () => {
+            api.tips('提交成功', () => {
               self.show = false
               window.location.reload()
             })

@@ -5,7 +5,6 @@
     <div class="chart_btn">
       <router-link class="back" to="/user/computeProperty">返回</router-link>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 

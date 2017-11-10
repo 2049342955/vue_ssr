@@ -15,7 +15,6 @@
       </div>
       <button name="btn">提交</button>
     </form>
-    <div class="web_tips" ref="tips"></div>
   </div>
 </template>
 
@@ -59,7 +58,7 @@
           form.btn.setAttribute('disabled', true)
           util.post('forgitPwd', {sign: api.serialize(Object.assign(data, {token: this.token, valid_code: this.valid_code, code_id: this.code_id, mobile: this.mobile}))}).then(res => {
             api.checkAjax(self, res, () => {
-              api.tips(self.$refs.tips, '重置密码成功', () => {
+              api.tips('重置密码成功', () => {
                 self.$router.push({name: 'login'})
               })
             }, form.btn)

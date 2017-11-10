@@ -4,7 +4,6 @@
       <Pay v-if="next" page="cloudCompute" :proData="proData2" :proText="proText2" :proData3="proData3" :proText3="proText3"></Pay>
       <Product v-else page="cloudCompute" :proData="proData" :proText="proText"></Product>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -52,7 +51,7 @@
       goPay (e, show) {
         this.show = show
         if (!this.trade_password) {
-          api.tips(this.$refs.tips, '请先设置交易密码', () => {
+          api.tips('请先设置交易密码', () => {
             this.$router.push({name: 'password'})
           })
           return false
@@ -65,7 +64,7 @@
           return false
         }
         if (this.detail.status === 4) {
-          api.tips(this.$refs.tips, '暂不能购买')
+          api.tips('暂不能购买')
           return false
         }
         this.det(this.rate)

@@ -17,7 +17,6 @@
         <router-link to="/auth/regist">免费注册</router-link>
       </div>
     </form>
-    <div class="web_tips" ref="tips"></div>
   </div>
 </template>
 
@@ -48,12 +47,12 @@
             util.post('getAll', {sign: api.serialize(res)}).then(function (data) {
               self.$store.commit('SET_INFO', data)
             })
-            api.tips(self.$refs.tips, '欢迎来到算力网！', () => {
+            api.tips('欢迎来到算力网！', () => {
               self.$router.push({name: 'home'})
             })
           }, form.btn)
         }).catch(res => {
-          api.tips(self.$refs.tips, '您的网络情况不太好，请稍后再尝试')
+          api.tips('您的网络情况不太好，请稍后再尝试')
         })
       }
     }

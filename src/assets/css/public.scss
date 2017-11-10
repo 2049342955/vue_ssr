@@ -90,3 +90,17 @@ input::-webkit-input-placeholder {
       background: url('./assets/images/css_sprites.png') -210px -125px;
     }
   }
+// 提示
+  .web_tips{
+    @include position
+    position: fixed;
+    top:auto;
+    line-height:50px;
+    text-align: center;
+    background: $blue;
+    color:$white;
+    transition:all .5s;
+    opacity:0;
+    height: 0;
+    z-index: 10
+  }

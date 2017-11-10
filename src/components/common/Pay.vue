@@ -85,7 +85,6 @@
           <button name="btn">确认支付</button>
         </form>
       </div>
-      <div class="web_tips" ref="tips"></div>
       <div class="Installment_plan" v-show="showpay">
         <div class="opacity">
           <p class="title">分期计划<span @click="close(false)"><img :src="close2" style="width:12px;height:12px;position:relative;top:-6px;"/></span></p>
@@ -198,7 +197,7 @@
           if (this.$parent.show) {
             util.post('productMallLoan', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(data.password), rate_name: this.$parent.rate})}).then(function (res) {
               api.checkAjax(self, res, () => {
-                api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
+                api.tips('恭喜您购买成功！', () => {
                   self.$router.push({path: '/user/repayment/0'})
                 })
               }, ff.btn)
@@ -206,7 +205,7 @@
           } else {
             util.post('productMall', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(data.password)})}).then(function (res) {
               api.checkAjax(self, res, () => {
-                api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
+                api.tips('恭喜您购买成功！', () => {
                   self.$router.push({path: '/user/order/0/1'})
                 })
               }, ff.btn)
@@ -216,7 +215,7 @@
           // 100002:参数缺失，200004：账户余额不足，1000：交易成功，800007：交易失败，800003：禁止交易，200006：交易密码错误，800004：转让已结束，800005：产品已撤销,800008:不能购买自己的产品
           util.post('doTransfer_Hashrate', {sign: api.serialize({token: this.$parent.token, user_id: this.$parent.user_id, transfer_order_id: this.$route.params.id, trade_password: md5(data.password)})}).then(function (res) {
             api.checkAjax(self, res, () => {
-              api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
+              api.tips('恭喜您购买成功！', () => {
                 self.$router.push({path: '/user/order/1/1'})
               })
             }, ff.btn)

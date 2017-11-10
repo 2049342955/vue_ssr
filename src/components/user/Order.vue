@@ -102,7 +102,6 @@
       <Pager :len="len"></Pager>
     </div>
     <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -217,7 +216,7 @@
         var self = this
         util.post(requestUrl, {sign: api.serialize({token: this.token, user_id: this.user_id, order_id: id})}).then(function (res) {
           api.checkAjax(self, res, () => {
-            api.tips(self.$refs.tips, '操作成功', () => {
+            api.tips('操作成功', () => {
               self.fetchData()
             })
           })
@@ -255,7 +254,7 @@
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.closeEdit()
-            api.tips(self.$refs.tips, tipsStr, () => {
+            api.tips(tipsStr, () => {
               self.fetchData()
             })
           })

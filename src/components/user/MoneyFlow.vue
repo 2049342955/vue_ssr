@@ -39,7 +39,6 @@
       <Pager :len="len"></Pager>
     </div>
     <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -78,7 +77,7 @@
     methods: {
       openMask (str, title) {
         if ((str === 'Withdrawals') && !this.bank_card) {
-          api.tips(this.$refs.tips, '请先绑定银行卡', () => {
+          api.tips('请先绑定银行卡', () => {
             this.$router.push({name: 'account'})
           })
           return false
@@ -132,7 +131,7 @@
         util.post('withdraw', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.closeEdit()
-            api.tips(self.$refs.tips, '提现成功')
+            api.tips('提现成功')
           }, form.btn)
         })
       },

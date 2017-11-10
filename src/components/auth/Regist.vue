@@ -149,7 +149,6 @@
         <div class="btn"><a href="javascript:;" @click="userAgreement">返回</a></div>
       </div>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </div>
 </template>
 
@@ -181,7 +180,7 @@
         var self = this
         util.post('/register', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
           api.checkAjax(self, res, () => {
-            api.tips(self.$refs.tips, '恭喜您注册成功！', () => {
+            api.tips('恭喜您注册成功！', () => {
               self.$router.push({name: 'login'})
             })
           }, form.btn)

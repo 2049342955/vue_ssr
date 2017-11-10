@@ -79,7 +79,6 @@
       <router-link to="/user/order/0/1">查看订单</router-link>
     </div>
     <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -121,13 +120,13 @@
       openMask (str, title) {
         this.total_price = 0
         if (!(this.true_name && this.true_name.status === 1)) {
-          api.tips(this.$refs.tips, '请先实名认证', () => {
+          api.tips('请先实名认证', () => {
             this.$router.push({name: 'account'})
           })
           return false
         }
         if (!(this.bank_card && this.bank_card.status === 1)) {
-          api.tips(this.$refs.tips, '请先绑定银行卡', () => {
+          api.tips('请先绑定银行卡', () => {
             this.$router.push({name: 'account'})
           })
           return false
@@ -136,16 +135,16 @@
           this.$router.push({name: 'recharge'})
         }
         if (str === 'GetIncome' && !this.address.length) {
-          api.tips(this.$refs.tips, '请先绑定算力地址', () => {
+          api.tips('请先绑定算力地址', () => {
             this.$router.push({name: 'account'})
           })
           return false
         }
         if (str === 'Withdrawals' && +this.moneyData.balance_account <= 0) {
-          api.tips(this.$refs.tips, '您的账户余额不足，不能提现')
+          api.tips('您的账户余额不足，不能提现')
           return false
         } else if (str === 'GetIncome' && +this.computeData.balance_account <= 0) {
-          api.tips(this.$refs.tips, '您的账户余额不足，不能提取收益')
+          api.tips('您的账户余额不足，不能提取收益')
           return false
         }
         var requestUrl = ''
@@ -225,7 +224,7 @@
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.closeEdit()
-            api.tips(self.$refs.tips, tipsStr)
+            api.tips(tipsStr)
           }, form.btn)
         })
       },

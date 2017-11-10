@@ -757,20 +757,6 @@
     }
     @include nodata
   }
-// 提示
-  .web_tips{
-    @include position
-    position: fixed;
-    top:auto;
-    line-height:50px;
-    text-align: center;
-    background: $blue;
-    color:$white;
-    transition:all .5s;
-    opacity:0;
-    height: 0;
-    z-index: 10
-  }
 // process
   @mixin process{
     padding:25px 30px;
