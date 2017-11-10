@@ -74,6 +74,8 @@
         })
       })
       setInterval(_ => {
+        let first = this.reslist.splice(0, 1)
+        this.reslist.push(...first)
         if (this.activeIndex < this.reslist.length) {
           this.activeIndex += 1
         } else {
@@ -83,7 +85,7 @@
     },
     computed: {
       top () {
-        return -this.activeIndex * 50 + 'px'
+        return -this.activeIndex * 47 + 'px'
       },
       ...mapState({
         token: state => state.info.token
@@ -270,8 +272,8 @@
         height: 202px;
         border-radius: 100%;
         position: absolute;
-        top:-10px;
-        left:-20px;
+        top: -14px;
+        left: -15px;
         }
         .header{
           background: url('../../assets/images/color.png');
