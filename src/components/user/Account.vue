@@ -3,7 +3,6 @@
     <h2>账户管理</h2>
     <Setting :nav="nav" type="account"></Setting>
     <MyMask :form="form[edit]" :title="title" v-if="edit"></MyMask>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -79,12 +78,12 @@
         var self = this
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           api.checkAjax(self, res, () => {
-            api.tips(self.$refs.tips, tipsStr)
+            api.tips(tipsStr)
             if (self.edit !== 'address') {
               self.$store.commit('SET_INFO', {[val]: {status: 0}})
               setTimeout(() => {
                 self.requestData(callbackUrl, sendData, no, val, () => {
-                  api.tips(self.$refs.tips, tipsStr2)
+                  api.tips(tipsStr2)
                 })
               }, 7000)
             } else {

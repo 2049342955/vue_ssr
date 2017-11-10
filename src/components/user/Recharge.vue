@@ -27,7 +27,6 @@
       <FormField :form="form[rechargeNo]"></FormField>
       <button name="btn">{{rechargeNo?'去支付':'提交申请'}}</button>
     </form>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -79,7 +78,7 @@
             api.checkAjax(self, res, () => {
               form.amount.value = ''
               form.request_id.value = ''
-              api.tips(self.$refs.tips, '提交成功，请等待工作人员确认', () => {
+              api.tips('提交成功，请等待工作人员确认', () => {
                 form.btn.removeAttribute('disabled')
               })
             }, form.btn)

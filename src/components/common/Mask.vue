@@ -46,15 +46,12 @@
         @include form(v)
         .input{
           .select{
-            @include flex
+            @include flex(space-between)
             select{
-              flex:1;
+              width:33%;
               height:32px;
               line-height: 32px;
               border:none;
-              & + select{
-                margin-left:3px
-              }
             }
           }
         }

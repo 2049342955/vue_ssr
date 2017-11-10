@@ -22,8 +22,7 @@
       <div class="box">
         <aside class="con">
           <router-link :class="['item', {active:$route.path.includes(n.name)}]" :to="n.path" v-for="n,k in nav" :key="k">{{n.title}}</router-link>
-        </aside>
-        <router-view class="content"></router-view>
+        </aside><router-view class="content"></router-view>
       </div>
     </section>
   </article>
@@ -77,17 +76,22 @@
       height: 140px;
       background: #1d2433 url('../assets/images/user_bg.jpg') repeat-x 50%;
       .box{
+        line-height: 140px;
         @include main
         @include flex(space-between)
         height:100%;
+        .welcome,.message{
+          line-height: 1.5;
+        }
         .welcome{
-          flex:1;
           h2{
             color:$white
           }
           .line{
+            width:100%;
             height: 1px;
             background: linear-gradient(to right, #5c6474 40%, transparent 80%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5c6474', endColorstr='#fff',GradientType=1 );
             margin:15px 0
           }
           .icons{
@@ -157,6 +161,9 @@
       .box{
         @include flex(flex-start,stretch)
         @include main
+        & > *{
+          vertical-align:top;
+        }
         .con{
           width:210px;
           background: $white;

@@ -6,7 +6,6 @@
     <ProductNav page="computeTransfer"></ProductNav>
     <ProductList :sort="sort" :dataNav="dataNav" page="computeTransfer"></ProductList>
     <Pager :len="len"></Pager>
-    <div class="web_tips" ref="tips"></div>
     <SideBar></SideBar>
   </section>
 </template>

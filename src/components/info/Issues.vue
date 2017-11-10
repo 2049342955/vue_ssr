@@ -7,11 +7,6 @@
       <div class="issues_list">
         <router-link class="item" v-for="l,k in list" :to="'/webInfo/issuesDetail/'+l.id" :key="list.id">{{l.title}}</router-link>
       </div>
-      <!-- <div class="issues_content" v-show="show">
-        <h3>{{nowItem.title}}</h3>
-        <div class="issues_con" v-html="nowItem.content"></div>
-        <button @click="back">返回</button>
-      </div> -->
     </div>
   </section>
 </template>
@@ -32,7 +27,7 @@
       fetchData (id, k) {
         var eles = document.querySelector('.issues_lists').children
         for (var key = 0; key < eles.length; key++) {
-          eles[key].classList.remove('active')
+          eles[key].className = 'item'
         }
         this.list = []
         var self = this
@@ -41,7 +36,7 @@
         })
         setTimeout(() => {
           this.$store.commit('SET_NUM', k)
-          eles[k].classList.add('active')
+          eles[k].className = 'item active'
         }, 0)
       }
     },
@@ -68,10 +63,10 @@
     .issues_box{
       background: #fff;
       min-height:calc(100vh - 536px);
-      @include flex(flex-start,stretch)
+      @include flex(space-between,stretch)
       padding:40px;
       .issues_lists{
-        width:210px;
+        width:20%;
         border-right:1px solid $border;
         padding:15px;
         .item{
@@ -94,8 +89,8 @@
           }
         }
       }
-      .issues_content,.issues_list{
-        flex:1;
+      .issues_list{
+        width:79%;
         padding:15px 30px;
         line-height: 2;
         .item{
@@ -104,30 +99,6 @@
           display:block;
           &:hover{
             color:#327fff;
-          }
-        }
-        h3{
-          margin-bottom:30px
-        }
-        p{
-          text-indent: 2em;
-        }
-        button{
-           width:60px;
-           height: 30px;
-           float: right;
-           background:#f5f8ff;
-           color:#327fff;
-           border:0;
-        }
-        button:hover{
-          background: #327fff;
-          color:#f5f8ff;
-        }
-        .issues_con{
-          img{
-            width:auto;
-            max-width:100%
           }
         }
       }

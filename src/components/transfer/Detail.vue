@@ -4,7 +4,6 @@
       <Pay v-if="next" page="computeTransfer" :proData="proData" :proText="proText"></Pay>
       <Product v-else page="computeTransfer" :proData="proData" :proText="proText"></Product>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -32,7 +31,7 @@
     methods: {
       goPay () {
         if (!this.trade_password) {
-          api.tips(this.$refs.tips, '请先设置交易密码', () => {
+          api.tips('请先设置交易密码', () => {
             this.$router.push({name: 'password'})
           })
           return false
