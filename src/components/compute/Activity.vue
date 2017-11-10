@@ -112,15 +112,19 @@
           this.check(ele, '请同意服务条款')
           return false
         }
-        // var data = {product_id: this.data.product, number: this.number, mode: '1', token: this.token, user_id: this.user_id, amount: this.totalPrice}
-        // var callbackUrl = location.protocol + '//' + location.host + '/user/order/0/1'
-        // var self = this
-        // util.post('showProduct', {sign: api.serialize(data)}).then(function (res) {
-        //   api.checkAjax(self, res, () => {
-        //     self.data = res
-        //     self.content = self.format(res.content) + '<hr>' + self.format(res.content1)
-        //   })
-        // })
+        var callbackUrl = location.protocol + '//' + location.host + '/user/order/0/1'
+        var data = {product_id: this.data.product, number: this.number, mode: '1', token: this.token, user_id: this.user_id, amount: this.totalPrice, url: callbackUrl}
+        var self = this
+        util.post('applyBalanceRecharge', {sign: api.serialize(data)}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            res.subject = encodeURIComponent(res.subject)
+            util.post('alipay_buy', {sign: api.serialize(Object.assign({token: self.token}, res))}).then((resData) => {
+              api.checkAjax(self, data, () => {
+                location.href = resData.url
+              })
+            })
+          })
+        })
       },
       closeEdit () {
         this.edit = ''
