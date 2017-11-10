@@ -50,8 +50,8 @@
             })
             api.tips('欢迎来到算力网！', () => {
               if (self.callUrl) {
-                this.$store.commit('SET_URL', '')
                 location.href = self.callUrl
+                self.$store.commit('SET_URL', '')
               } else {
                 self.$router.push({name: 'home'})
               }

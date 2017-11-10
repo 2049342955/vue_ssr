@@ -31,7 +31,7 @@
           <p>需支付：<span>{{totalPrice}}元</span></p>
           <button @click="gobuy()">立即支付</button>
           <label for="accept">
-            <input type="checkbox" value="accept" id="accept" name="accept">
+            <input type="checkbox" :value="accept" id="accept" name="accept">
             <span @click="openContract(1)">阅读并接受<a href="javascript:;">《云矿机购买协议》</a>和<a href="javascript:;">《矿机托管协议》</a></span>
             <span class="select_accept">{{tips}}</span>
           </label>
@@ -78,6 +78,7 @@
         this.totalPrice = this.number * this.data.one_amount_value
       },
       openContract (n) {
+        this.accept = true
         window.scroll(0, 0)
         document.body.style.overflow = 'hidden'
         this.edit = n
@@ -103,6 +104,15 @@
           this.check(ele, '请同意服务条款')
           return false
         }
+        // var data = {product_id: this.data.product, number: this.number, mode: '1', token: this.token}
+        // var callbackUrl = location.protocol + '//' + location.host + '/user/order/0/1'
+        // var self = this
+        // util.post('showProduct', {sign: api.serialize(data)}).then(function (res) {
+        //   api.checkAjax(self, res, () => {
+        //     self.data = res
+        //     self.content = self.format(res.content) + '<hr>' + self.format(res.content1)
+        //   })
+        // })
       },
       closeEdit () {
         this.edit = ''
@@ -170,13 +180,14 @@
       if (!this.token) {
         this.$store.commit('SET_URL', this.$route.path)
         this.$router.push({name: 'login'})
+        self.$store.commit('LOGOUT')
         return false
       }
       var self = this
       util.post('showProduct', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.data = res
-          self.content = self.format(res.content) + self.format(res.content1)
+          self.content = self.format(res.content) + '<hr>' + self.format(res.content1)
         })
       })
     }
