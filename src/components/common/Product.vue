@@ -165,9 +165,9 @@
     }
     .items{
       margin-bottom:30px;
-      @include flex(flex-start,strech)
+      @include flex(space-between,strech)
       .text{
-        flex:1;
+        width:69%;
         .product_title{
           @include flex(space-between)
           padding-bottom:10px;
@@ -178,20 +178,21 @@
           @include flex(flex-start,strech)
           margin-bottom:25px;
           .product_img{
-            width:230px;
-            margin-right:20px;
+            width:30%;
+            margin-right:5%;
             img{
               height:210px;
               object-fit:cover
             }
           }
           .product_text{
-            flex:1;
+            width:64%;
             .product_data{
               @include flex(space-between)
               background: #fff9f3;
               padding:25px;
               .item{
+                padding:0 15px;
                 .item_word{
                   .num{
                     font-size: 24px;
@@ -227,8 +228,7 @@
       }
       .price{
         background:$white;
-        width:330px;
-        margin-left:30px;
+        width:28%;
         .price_title{
           padding:15px 30px;
           border-bottom:1px solid $border
@@ -246,9 +246,9 @@
             line-height: 40px;
             border:1px solid $border;
             margin-bottom:30px;
-            @include flex
+            @include flex(space-between)
             span{
-              width:25px;
+              width:10%;
               text-align: center;
               background: $border;
               font-size: 18px;
@@ -261,8 +261,7 @@
               }
             }
             input{
-              flex:1;
-              padding:0 10px
+              width:75%
             }
           }
           .btn{

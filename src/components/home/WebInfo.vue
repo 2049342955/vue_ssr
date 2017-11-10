@@ -15,8 +15,7 @@
             <span class="date">{{a.dateline}}</span>
           </router-link>
         </div>
-      </div>
-      <div class="box">
+      </div><div class="box">
         <h3>
           <span class="icon"></span>
           <span class="text">产品公告</span>
@@ -64,10 +63,10 @@
     border-bottom:1px solid $border;
     margin-bottom:60px;
     .main{
-      @include flex(flex-start,stretch)
+      @include flex(space-between,stretch)
       @include main
       .box{
-        flex:1;
+        width:50%;
         padding-bottom:5px;
         &:first-child{
           padding-right:60px;
@@ -116,7 +115,7 @@
               z-index: -1;
             }
             .text{
-              flex:1;
+              width:75%;
               padding-left:14px;
             }
             .date{

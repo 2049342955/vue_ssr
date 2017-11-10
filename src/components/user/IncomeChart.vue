@@ -13,11 +13,11 @@
   import util from '@/util'
   import api from '@/util/function'
   import { mapState } from 'vuex'
-  import echarts from 'echarts/lib/echarts'
-  import 'echarts/lib/chart/line'
-  import 'echarts/lib/component/tooltip'
-  import 'echarts/lib/component/title'
-  import 'echarts/lib/component/legend'
+  // import echarts from 'echarts/lib/echarts'
+  // import 'echarts/lib/chart/line'
+  // import 'echarts/lib/component/tooltip'
+  // import 'echarts/lib/component/title'
+  // import 'echarts/lib/component/legend'
   export default {
     data () {
       return {
@@ -27,7 +27,7 @@
     },
     methods: {
       drawLine () {
-        let myChart = echarts.init(document.querySelector('.myChart'))
+        // let myChart = echarts.init(document.querySelector('.myChart'))
         // var now = +new Date(2017, 8, 30)
         // var oneDay = 24 * 3600 * 1000
         // for (var i = 0; i < 10; i++) {
@@ -35,75 +35,75 @@
         //   this.date.push([now.getMonth() + 1, now.getDate()].join('-'))
         //   this.val.push(Math.round(Math.random() * 5) / 10000)
         // }
-        myChart.setOption({
-          tooltip: {
-            trigger: 'axis'
-          },
-          legend: {
-            right: 10,
-            data: ['获得收益'],
-            top: 20
-          },
-          title: {
-            text: '',
-            top: 20
-          },
-          grid: {
-            show: true,
-            borderColor: '#eee',
-            left: '15%',
-            top: '20%'
-          },
-          xAxis: {
-            type: 'category',
-            axisLabel: {
-              color: '#333',
-              margin: 15
-            },
-            axisTick: {
-              length: 0
-            },
-            axisLine: {
-              lineStyle: {
-                color: '#327fff'
-              }
-            },
-            data: this.date
-          },
-          yAxis: {
-            type: 'value',
-            boundaryGap: [0, '100%'],
-            splitLine: {
-              lineStyle: {
-                color: '#eee'
-              }
-            },
-            axisLabel: {
-              color: '#333',
-              margin: 15
-            },
-            axisTick: {
-              length: 0
-            },
-            axisLine: {
-              lineStyle: {
-                color: '#327fff'
-              }
-            }
-          },
-          series: [{
-            name: '获得收益',
-            type: 'line',
-            showSymbol: true,
-            hoverAnimation: true,
-            data: this.val,
-            lineStyle: {
-              normal: {
-                color: '#ff721f'
-              }
-            }
-          }]
-        })
+        // myChart.setOption({
+        //   tooltip: {
+        //     trigger: 'axis'
+        //   },
+        //   legend: {
+        //     right: 10,
+        //     data: ['获得收益'],
+        //     top: 20
+        //   },
+        //   title: {
+        //     text: '',
+        //     top: 20
+        //   },
+        //   grid: {
+        //     show: true,
+        //     borderColor: '#eee',
+        //     left: '15%',
+        //     top: '20%'
+        //   },
+        //   xAxis: {
+        //     type: 'category',
+        //     axisLabel: {
+        //       color: '#333',
+        //       margin: 15
+        //     },
+        //     axisTick: {
+        //       length: 0
+        //     },
+        //     axisLine: {
+        //       lineStyle: {
+        //         color: '#327fff'
+        //       }
+        //     },
+        //     data: this.date
+        //   },
+        //   yAxis: {
+        //     type: 'value',
+        //     boundaryGap: [0, '100%'],
+        //     splitLine: {
+        //       lineStyle: {
+        //         color: '#eee'
+        //       }
+        //     },
+        //     axisLabel: {
+        //       color: '#333',
+        //       margin: 15
+        //     },
+        //     axisTick: {
+        //       length: 0
+        //     },
+        //     axisLine: {
+        //       lineStyle: {
+        //         color: '#327fff'
+        //       }
+        //     }
+        //   },
+        //   series: [{
+        //     name: '获得收益',
+        //     type: 'line',
+        //     showSymbol: true,
+        //     hoverAnimation: true,
+        //     data: this.val,
+        //     lineStyle: {
+        //       normal: {
+        //         color: '#ff721f'
+        //       }
+        //     }
+        //   }]
+        // })
       }
     },
     mounted () {
@@ -112,7 +112,7 @@
         api.checkAjax(self, res, () => {
           self.date = res.time
           self.val = res.data
-          self.drawLine()
+          // self.drawLine()
         })
       })
     },

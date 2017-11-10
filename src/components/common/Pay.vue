@@ -318,18 +318,17 @@
       border: 5px solid #ffe6d7;
       background:$white;
       padding: 20px 25px;
-      @include flex(space-between);
+      @include flex(space-between)
       .detail{
-        flex:1;
+        width:60%;
         background: #f7f8fa;
         height: 290px;
-        margin-right: 115px;
-        @include flex
+        @include flex(space-between)
         .img{
           @include fitimg(295,235)
         }
         .text{
-          flex:1;
+          width:50%;
           padding:25px;
           p{
             color:$light_text;

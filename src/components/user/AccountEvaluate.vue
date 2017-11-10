@@ -36,10 +36,13 @@
           var ele = this.$refs['question' + i][0]
           if ((form['question' + i].value) !== '') {
             scoreArr.push(form['question' + i].value)
-            ele.classList.remove('active')
+            ele.className = 'question'
           } else {
             form['question' + i][0].focus()
-            ele.classList.add('active')
+            ele.className = 'question active'
+            setTimeout(() => {
+              ele.className = 'question'
+            }, 2000)
             return false
           }
         }

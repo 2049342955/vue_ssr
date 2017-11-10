@@ -1,9 +1,9 @@
 <template>
-  <section class="issues">
-    <div class="issues_box">
-      <div class="issues_content">
-        <h3>{{nowItem.title}}</h3>
-        <div class="issues_con" v-html="nowItem.content"></div>
+  <section class="issues_detail">
+    <div class="issues_content">
+      <h3>{{nowItem.title}}</h3>
+      <div class="issues_con" v-html="nowItem.content"></div>
+      <div class="btn_box">
         <router-link to="/webInfo/issues" class="button">返回</router-link>
       </div>
     </div>
@@ -40,69 +40,40 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  .issues{
-    .issues_box{
+  .issues_detail{
+    .issues_content{
       background: #fff;
       min-height:calc(100vh - 536px);
-      @include flex(flex-start,stretch)
       padding:40px;
-      .issues_lists{
-        width:210px;
-        border-right:1px solid $border;
-        padding:15px;
-        .item{
-          cursor: pointer;
-          width:100px;
-          background: $border;
-          text-align: center;
-          color:$text;
-          line-height: 2.4;
-          & + .item{
-            margin-top:15px
-          }
-          &:hover{
-              background:#f5f8ff;
-              color:#327fff;
-          }
-          &.active{
-             background:#f5f8ff;
-              color:#327fff;
-          }
+      line-height: 2;
+      h3{
+        margin-bottom:30px
+      }
+      p{
+        text-indent: 2em;
+      }
+      .button{
+         width:60px;
+         height: 30px;
+         text-align: center;
+         float: right;
+         background:#f5f8ff;
+         color:#327fff;
+         border:0;
+         border-radius:3px;
+      }
+      .button:hover{
+        background: #327fff;
+        color:#f5f8ff;
+      }
+      .issues_con{
+        img{
+          width:auto;
+          max-width:100%
         }
       }
-      .issues_content,.issues_list{
-        flex:1;
-        padding:15px 30px;
-        line-height: 2;
-        .item{
-          cursor: pointer;
-        }
-        h3{
-          margin-bottom:30px
-        }
-        p{
-          text-indent: 2em;
-        }
-        .button{
-           width:60px;
-           height: 30px;
-           text-align: center;
-           float: right;
-           background:#f5f8ff;
-           color:#327fff;
-           border:0;
-           border-radius:3px;
-        }
-        .button:hover{
-          background: #327fff;
-          color:#f5f8ff;
-        }
-        .issues_con{
-          img{
-            width:auto;
-            max-width:100%
-          }
-        }
+      .btn_box{
+        overflow:hidden
       }
     }
   }

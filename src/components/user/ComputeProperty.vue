@@ -56,13 +56,9 @@
     <h3>算力资产</h3>
     <div class="detail_table">
       <div class="item" v-for="d,k in computeProperty">
-        <div class="item_title">{{d[0]}}</div>
-        <div class="item_value" v-if="k==='total_hash'">{{dataProperty[k]|format}}{{d[1]}}</div>
-        <div class="item_value" v-else>{{dataProperty[k]}}{{d[1]}}</div>
-      </div>
-      <div class="item" v-if="7%2">
-        <div class="item_title"></div>
-        <div class="item_value"></div>
+        <div class="item_title">{{d[0]}}</div><div class="item_value" v-if="k==='total_hash'">{{dataProperty[k]|format}}{{d[1]}}</div><div class="item_value" v-else>{{dataProperty[k]}}{{d[1]}}</div>
+      </div><div class="item" v-if="7%2">
+        <div class="item_title"></div><div class="item_value"></div>
       </div>
     </div>
     <template v-if="scode">
@@ -277,11 +273,14 @@
     }
     .compute_box{
       @include gap(25,v)
-      @include flex
+      @include flex(space-between)
       margin-bottom:10px;
       .data{
-        flex:1;
+        width:79%;
         @include detail_data
+        .item{
+          width:32%;
+        }
         .frozeeData{
           position: relative;
           span{
@@ -381,11 +380,11 @@
       }
     }
     .fund_btn{
-      text-align: right;
+      text-align: right !important;
       padding:0 15px 30px 15px;
       a{
         display: inline-block;
-        text-align: center;
+        text-align: center !important;
         width:85px;
         border-radius:5px;
         line-height: 2;

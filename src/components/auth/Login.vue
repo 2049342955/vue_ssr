@@ -67,6 +67,7 @@
     @include flex(space-between)
     color:$white;
     .info{
+      width:58%;
       line-height:2;
       h1{
         font-size: 46px;
@@ -84,9 +85,13 @@
       padding:35px;
       @include form(v)
       h3{
-        @include flex(space-between,flex-end)
+        overflow:hidden;
         span{
           font-size: 24px;
+        }
+        a{
+          margin-top:8px;
+          float: right;
         }
         margin-bottom:35px
       }

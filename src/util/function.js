@@ -244,7 +244,6 @@ api.btoa = (input) => {
   return output
 }
 api.checkEquipment = () => {
-  console.log(11)
   var sUserAgent = navigator.userAgent.toLowerCase()
   var bIsIpad = sUserAgent.match(/ipad/i) === 'ipad'
   var bIsIphoneOs = sUserAgent.match(/iphone os/i) === 'iphone os'

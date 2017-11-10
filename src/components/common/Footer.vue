@@ -21,7 +21,10 @@
           </div>
           <div class="copyright">
             <div class="copyright_img"></div>
-            <p class="copyright_text">Copyright © 2013-2017 Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. 浙江数秦科技有限公司 版权所有 <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602008747" target="_blank"><br><img :src="require('@/assets/images/copyright.png')" alt="" style="width:20px"> 浙公网安备 33010602008747号</a></p>
+            <div class="copyright_text">
+              <span>Copyright © 2013-2017 Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. 浙江数秦科技有限公司 版权所有 </span>
+              <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602008747" target="_blank"><br><img :src="require('@/assets/images/copyright.png')" alt="" style="width:20px"> 浙公网安备 33010602008747号</a>
+            </div>
           </div>
         </aside>
         <div class="follow">
@@ -90,6 +93,9 @@
         margin-bottom:10px;
         @include main
         line-height: 2.4;
+        & > *{
+          vertical-align:top;
+        }
         aside{
           .copyright{
             @include flex
@@ -100,7 +106,7 @@
               background: url('../../assets/images/css_sprites.png') -152px -168px;
             }
             .copyright_text{
-              width:400px;
+              width: 360px;
               margin-left:20px;
               font-size: 12px;
               line-height: 1.6;
@@ -128,11 +134,16 @@
           }
         }
         .follow{
-          text-align: center;
+          h4,a{
+            text-align: center;
+          }
           .outside{
+            width:86px;
             background: #fff;
             margin-top:10px;
             padding:3px;
+            margin-left: auto;
+            margin-right: auto;
             .qrcode{
               width: 80px;
               height: 80px;
@@ -150,8 +161,6 @@
         h3{
           font-size: 15px;
           a{
-            // width:82px;
-            // height:25px;
             padding:0px 12px;
             text-align:center;
             margin-right:10px;
@@ -191,7 +200,6 @@
           border-right:1px solid $light_text
         }
         div{
-          flex:1;
           @include gap(30,h)
           @include flex
           a{
@@ -204,7 +212,7 @@
     h4{
       color:#f5f8fb;
     }
-    h3,a,p,span{
+    h3,a,p,span,.copyright_text{
       color:#adaeb1;
     }
     a:hover,.active{

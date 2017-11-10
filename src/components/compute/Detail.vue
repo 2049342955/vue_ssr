@@ -58,9 +58,9 @@
           return false
         }
         if (this.number < 1) {
-          e.target.classList.add('error')
+          e.target.className = 'btn error'
           setTimeout(() => {
-            e.target.classList.remove('error')
+            e.target.className = 'btn'
           }, 2000)
           return false
         }

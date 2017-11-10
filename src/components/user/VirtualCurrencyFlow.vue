@@ -130,6 +130,9 @@
       .data{
         width:70%;
         @include detail_data
+        .item{
+          width:48%;
+        }
         .item:first-child{
           span.currency{
             color:$blue

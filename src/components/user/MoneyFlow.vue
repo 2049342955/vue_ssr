@@ -174,11 +174,14 @@
     }
     .detail_box{
       @include gap(25,v)
-      @include flex
+      @include flex(space-between)
       margin-bottom:10px;
       .data{
-        flex:1;
+        width:79%;
         @include detail_data
+        .item{
+          width:32%;
+        }
         .item:nth-child(5){
           span.currency{
             color:$orange

@@ -1,14 +1,16 @@
 <template>
-  <header :class="[{frame_header: !$route.path.includes('user')&&!$route.path.includes('/detail')&&!$route.path.includes('account')&&!$route.path.includes('webInfo')&&!$route.path.includes('article/agreement')}, {border_box: $route.path.includes('bdc')||$route.path.includes('login')}, {auth_box:$route.path.includes('auth')&&!$route.path.includes('login')}, {user_box:$route.path.includes('user')||$route.path.includes('account')||$route.path.includes('/detail')||$route.path.includes('webInfo')||$route.path.includes('article/agreement')}, {web_box:$route.path.includes('webInfo')}]" :disabled="$route.name==='notFound'">
+  <header :class="headerClass" :disabled="$route.name==='notFound'">
     <section class="box">
-      <router-link class="logo" to="/"></router-link>
-      <nav>
-        <span v-if="$route.path.includes('regist')">用户注册</span>
-        <span v-else-if="$route.path.includes('passwordRetrieval')">找回密码</span>
-        <div :class="['item',{active:$route.path.includes(i.name)}]" v-for="(i,k) in nav" v-else>
-          <router-link :to="i.link">{{ i.text }}</router-link>
-        </div>
-      </nav>
+      <div class="nav_left">
+        <router-link class="logo" to="/"></router-link>
+        <nav>
+          <span v-if="$route.path.includes('regist')">用户注册</span>
+          <span v-else-if="$route.path.includes('passwordRetrieval')">找回密码</span>
+          <div :class="['item',{active:$route.path.includes(i.name)}]" v-for="(i,k) in nav" v-else>
+            <router-link :to="i.link">{{ i.text }}</router-link>
+          </div>
+        </nav>
+      </div>
       <div class="side_nav">
         <template v-if="$route.path.includes('auth')">
           <router-link to="/" v-if="$route.path.includes('login')">返回首页</router-link>
@@ -42,7 +44,9 @@
     name: 'header',
     data () {
       return {
-        nav: [{name: 'cloudCompute', text: '算力商城', link: '/cloudCompute/list/1/all'}, {name: 'computeTransfer', text: '算力转让', link: '/computeTransfer/list/1/all'}, {name: 'bdc', text: '算力托管', link: '/bdc'}, {name: 'news', text: '算力资讯', link: '/webInfo/list/news'}, {name: 'dataTrade', text: '数据交易', link: ''}, {name: 'computeTrade', text: '算法交易', link: ''}]
+        nav: [{name: 'cloudCompute', text: '算力商城', link: '/cloudCompute/list/1/all'}, {name: 'computeTransfer', text: '算力转让', link: '/computeTransfer/list/1/all'}, {name: 'bdc', text: '算力托管', link: '/bdc'}, {name: 'news', text: '算力资讯', link: '/webInfo/list/news'}, {name: 'dataTrade', text: '数据交易', link: ''}, {name: 'computeTrade', text: '算法交易', link: ''}],
+        path: {frame_header: ['regist', 'passwordRetrieval', 'user', 'account', '/detail', 'webInfo', 'article/agreement'], border: ['login', 'bdc'], shadow: ['regist', 'passwordRetrieval'], web_box: ['webInfo']},
+        headerClass: ''
       }
     },
     mounted () {
@@ -51,6 +55,7 @@
         location.href = '/mobile'
         return false
       }
+      this.updateClass()
       window.addEventListener('scroll', this.test, false)
       if (this.token === 0) {
         this.$store.dispatch('getInfo')
@@ -85,15 +90,30 @@
         this.$store.commit('LOGOUT')
       },
       test (e) {
-        var ele = document.querySelector('.frame_header')
+        var ele = document.querySelector('.fixed_header')
         if (!ele) return false
         var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
         if (scrollTop > 0 || this.showNav) {
-          ele.classList.add('bg_opacity')
+          ele.className = 'fixed_header bg_opacity'
           this.scroll = true
         } else {
-          ele.classList.remove('bg_opacity')
+          ele.className = 'fixed_header'
           this.scroll = false
+        }
+      },
+      updateClass () {
+        var path = this.$route.path
+        this.headerClass = ''
+        for (var i in this.path) {
+          for (var j = 0; j < this.path[i].length; j++) {
+            if (path.includes(this.path[i][j])) {
+              this.headerClass += i + ' '
+              break
+            }
+          }
+        }
+        if (!this.headerClass.includes('frame_header')) {
+          this.headerClass += 'fixed_header' + ' '
         }
       }
     },
@@ -103,6 +123,9 @@
     beforeDestroy: function () {
       this.$router.push({name: 'home'})
       this.$store.commit('LOGOUT')
+    },
+    watch: {
+      '$route': 'updateClass'
     }
   }
 </script>
@@ -110,125 +133,47 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   @import '../../assets/fonts/iconfont.css';
-  .logo{
-    display: block;
-    width: 130px;
-    height: 38px;
-  }
-  .frame_header{
-    @include position(0,0,auto,0)
-    position: fixed;
-    z-index: 5;
-    &.bg_opacity{
-      background: rgba(0,0,0,.8);
-    }
-    .box .logo{
-      background: url('../../assets/images/css_sprites.png') -10px -110px;
-    }
-    a{
-      color:$white
-    }
-    .tel{
-      color:$white
-    }
-  }
-  .border_box{
-    border-bottom:1px solid $light_text;
-  }
-  .auth_box{
-    position: relative;
-    z-index: 2;
-    box-shadow:0px 4px 7px 0px rgba(138, 126, 126, 0.21);
-    &.bg_opacity{
-      background: transparent
-    }
-  }
-  .auth_box,.user_box{
-    .box{
-      .logo{
-        background: url('../../assets/images/css_sprites.png') -210px -10px;
-      }
-      nav .item{
-        a{
-          color:$text;
-        }
-        &.active a::after{
-          content: "●";
-          display: block;
-          color: balck;
-          position: relative;
-          font-size: 12px;
-        }
-      }
-      nav .item:hover a::after{
-        content: "●";
-        display: block;
-        color: black;
-        position: relative;
-        font-size: 12px;
-      }
-      .side_nav{
-        a{
-          color:$text;
-        }
-        .text{
-          color:$light_text;
-          a{
-            color:$blue
-          }
-        }
-        .tel{
-          color: $blue;
-          font-weight: bold;
-        }
-      }
-    }
-  }
-  .web_box{
-    background: #242528;
-    .box .logo{
-      background: url('../../assets/images/css_sprites.png') -10px -110px;
-    }
-    .box nav .item a,.box .side_nav a,.box .side_nav a.tel{
-      color:#fff
-    }
-  }
   header{
     .box{
       @include main
-      @include flex
+      @include flex(space-between)
       height:80px;
-      nav{
-        flex:1;
+      line-height: 80px;
+      .nav_left{
+        width:74%;
         @include flex
-        margin-left:60px;
-        .item{
-          text-align:center;
-          width:100px;
-          height:25px;
-          &.active a::after{
-            content: "●";
-            display: block;
-            color: white;
-            position: relative;
-            font-size: 12px;
-          }
-          a{
-            font-size: 16px;
-          }
-          &:hover a::after{
-            content: "●";
-            display: block;
-            color: white !important;
-            position: relative;
-            font-size: 12px;
-          }
+        .logo{
+          display: inline-block;
+          width: 130px;
+          height: 38px;
+          margin-right:60px;
         }
-        span{
-          color:$light_text;
-          margin-left:-45px;
-          padding-left:15px;
-          border-left:1px solid $border
+        nav{
+          @include flex
+          .item{
+            height:80px;
+            line-height: 80px;
+            text-align:center;
+            width:100px;
+            a{
+              position: relative;
+              font-size: 16px;
+            }
+            &.active a::after,&:hover a::after{
+              position: absolute;
+              top:-10px;
+              left:29px;
+              content: "●";
+              color: white;
+              font-size: 12px;
+            }
+          }
+          span{
+            color:$light_text;
+            margin-left:-45px;
+            padding-left:15px;
+            border-left:1px solid $border
+          }
         }
       }
       .side_nav{
@@ -250,6 +195,87 @@
     }
     &[disabled]{
       display: none;
+    }
+    &.fixed_header{
+      @include position(0,0,auto,0)
+      position: fixed;
+      z-index: 5;
+      &.bg_opacity{
+        background: rgba(0,0,0,.8);
+      }
+      .box .logo{
+        background: url('../../assets/images/css_sprites.png') -10px -110px;
+      }
+      a{
+        color:$white
+      }
+      .tel{
+        color:$white
+      }
+    }
+    &.frame_header{
+      .box{
+        .logo{
+          background: url('../../assets/images/css_sprites.png') -210px -10px;
+        }
+        nav .item{
+          a{
+            color:$text;
+          }
+          &.active a::after{
+            content: "●";
+            display: block;
+            color: balck;
+            position: relative;
+            font-size: 12px;
+          }
+        }
+        nav .item:hover a::after{
+          content: "●";
+          display: block;
+          color: black;
+          position: relative;
+          font-size: 12px;
+        }
+        .side_nav{
+          a{
+            color:$text;
+          }
+          .text{
+            color:$light_text;
+            a{
+              color:$blue
+            }
+          }
+          .tel{
+            color: $blue;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+    &.web_box{
+      background: #242528;
+      .box .logo{
+        background: url('../../assets/images/css_sprites.png') -10px -110px;
+      }
+      .box nav .item a,.box .side_nav a,.box .side_nav a.tel{
+        color:#fff
+      }
+    }
+    &.border{
+      border-bottom:1px solid $light_text;
+    }
+    &.shadow{
+      position: relative;
+      z-index: 2;
+      box-shadow:0px 4px 7px 0px rgba(138, 126, 126, 0.21);
+      &.bg_opacity{
+        background: transparent
+      }
+      nav span{
+        line-height: 1.5;
+      }
     }
   }
 </style>

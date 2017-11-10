@@ -195,16 +195,6 @@
         .now{
           position: relative;
           width:140px;
-          @include flex
-          @include gap(10,h)
-          cursor: pointer;
-          .text{
-            flex:1;
-            padding-left:10px
-          }
-          .arrow{
-            @include triangle(bottom)
-          }
         }
         .other{
           @include position
@@ -212,20 +202,23 @@
           z-index: 4;
           transition: all 1s;
           .item{
-            @include flex
-            @include gap(10,h)
-            cursor: pointer;
             background:#232428;
-            .text{
-              flex:1;
-              padding-left:10px
-            }
             &:hover,&.active{
               background:#44444f
             }
-            .arrow{
-              @include triangle(bottom)
-            }
+          }
+        }
+        .now,.other .item{
+          @include flex(space-between)
+          @include gap(10,h)
+          cursor: pointer;
+          .text{
+            width:75%;
+            padding-left:10px
+          }
+          .arrow{
+            @include position(25,auto,auto,15)
+            @include triangle(bottom)
           }
         }
         &:hover{

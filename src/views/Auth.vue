@@ -44,7 +44,6 @@
       }
     }
     .box{
-      @include flex(center,flex-start)
       @include main
     }
     .copyright{

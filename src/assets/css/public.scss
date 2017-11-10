@@ -54,6 +54,7 @@ button:focus,select:focus,input:focus,a:hover{
 img{
   width:100%;
   vertical-align: bottom;
+  border:0;
 }
 table{
   border-collapse: collapse
@@ -70,7 +71,7 @@ input::-webkit-input-placeholder {
 // 币种
   .icon_currency{
     @include block(18)
-    &.ETC,&.LTC{
+    &.ETH,&.LTC{
       @include block(20)
     }
     &.BTC{
@@ -80,7 +81,7 @@ input::-webkit-input-placeholder {
       background: url('./assets/images/css_sprites.png') -264px -168px;
     }
     &.ETH{
-      background: url('./assets/images/css_sprites.png') -280px -161px;
+      background: url('./assets/images/css_sprites.png') -250px -125px;
     }
     &.ETC{
       background: url('./assets/images/css_sprites.png') -290px -125px;
