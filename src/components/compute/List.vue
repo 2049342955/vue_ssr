@@ -20,31 +20,20 @@
         <ul class="thead">
             <li v-for="n,k in res">{{n}}</li>
         </ul>
-        <ul class="tbody">
-          <li v-for="n,k in reslist">
-            <span>{{n.mobile|format}}</span>
-            <span>{{n.ammount}} 台</span>
-            <span>{{n.pay_value}} 元</span>
-            <span>{{n.buy_time.split(" ")[0]}} {{n.buy_time.split(" ")[1].split("-")[0]}} : {{n.buy_time.split(" ")[1].split("-")[1]}} : {{n.buy_time.split(" ")[1].split("-")[2]}}</span>
-            <span>{{n.status}}</span>
-          </li>
-        </ul>
+        <div class="scroll">
+          <ul class="tbody" :style="{top}">
+            <li v-for="n,k in reslist">
+              <span>{{n.mobile|format}}</span>
+              <span>{{n.ammount}} 台</span>
+              <span>{{n.pay_value}} 元</span>
+              <span>{{n.buy_time.split(" ")[0]}} {{n.buy_time.split(" ")[1].split("-")[0]}} : {{n.buy_time.split(" ")[1].split("-")[1]}} : {{n.buy_time.split(" ")[1].split("-")[2]}}</span>
+              <span>{{n.status}}</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="info">
-      <!-- <div class="mainone" v-for="n, k in info">
-        <div class="left">
-          <img src="../../assets/images/header.png" class="header"/>
-           <img src="../../assets/images/color.png" class="index"/> 
-          <h5>{{n.name}}</h5>
-          <p>{{n.time}}</p>
-        </div>
-        <div class="right">{{n.content}}</div>
-      </div>
-      <div class="button">
-        <button style="margin-right:7px;"><img src="../../assets/images/leftjian.png" class="trans"/></button>
-        <button><img src="../../assets/images/leftjian.png"/></button>
-      </div>  -->
       <div class="opacity" style="width:1070px;overflow:hidden;margin-left:50px;">
         <el-carousel :interval="5000" arrow="always" height="500px">
           <el-carousel-item class="mainone" v-for="n, k in info" :key="item">
@@ -73,6 +62,7 @@
         res: ['用户名', '购买数量', '购买金额', '购买时间', '状态'],
         reslist: [],
         pay_value: '',
+        activeIndex: 0,
         info: [{url: '../../assets/images/header.png', name: '高新技术主管', time: 'Shsx jsxk ', content: ' 比特币的价格今年迄今为止的涨幅已达600%以上，目前的交易价格接近每枚7200美元，今后可能会涨至8000美元。但这将是它最后一个高点，至少一段时间内是如此。比特币自突破6044美元以来，显示出强劲的涨势。下一重点关注7941美元，再进一步走高前可能在该水平整固。”'}, {url: '../../assets/images/header.png', name: '高新技术主管', time: 'Shsx jsxk ', content: ' 比特币的价格今年迄今为止的涨幅已达600%以上，目前的交易价格接近每枚7200美元，今后可能会涨至8000美元。但这将是它最后一个高点，至少一段时间内是如此。比特币自突破6044美元以来，显示出强劲的涨势。下一重点关注7941美元，再进一步走高前可能在该水平整固。”'}]
       }
     },
@@ -83,8 +73,20 @@
           self.reslist = res
         })
       })
+      setInterval(_ => {
+        let first = this.reslist.splice(0, 1)
+        this.reslist.push(...first)
+        if (this.activeIndex < this.reslist.length) {
+          this.activeIndex += 1
+        } else {
+          this.activeIndex = 0
+        }
+      }, 1000)
     },
     computed: {
+      top () {
+        return -this.activeIndex * 47 + 'px'
+      },
       ...mapState({
         token: state => state.info.token
       })
@@ -130,6 +132,9 @@
     }
     .and ul{
       width: 100%;
+      position: relative;
+      transition: top 0.5s;
+      height: 416px;
     }
     .and ul li{
       margin-bottom: 1px;
@@ -203,10 +208,16 @@
       width: 100%;
       margin-bottom: 35px;
     }
+    .scroll{
+      height: 416px;
+      overflow: hidden;
+      width: 100%;
+    }
     .res .table{
       width: 100%;
       background: url('../../assets/images/bgbig.png') no-repeat left center;
       height: 480px;
+      overflow: hidden;
       box-sizing: border-box;
       border-collapse: inherit
     }
@@ -224,8 +235,8 @@
     }
     .res .table .tbody{
       width: 100%;
-      overflow-y: auto;
-      height: 416px;
+      position: relative;
+      transition: top 0.5s;
       padding-top: 27px;
     }
     .res .table .tbody li{
@@ -261,8 +272,8 @@
         height: 202px;
         border-radius: 100%;
         position: absolute;
-        top:-10px;
-        left:-20px;
+        top: -14px;
+        left: -15px;
         }
         .header{
           background: url('../../assets/images/color.png');
