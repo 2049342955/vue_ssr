@@ -13,6 +13,7 @@
   import ComputeShop from '@/components/compute/Shop'
   import ComputeDetail from '@/components/compute/Detail'
   import Mining from '@/components/compute/mining'
+  import Activity from '@/components/compute/activity'
   import ComputeTransfer from '@/views/ComputeTransfer'
   import TransferList from '@/components/transfer/List'
   import TransferDetail from '@/components/transfer/Detail'
@@ -117,6 +118,10 @@
         path: 'mining',
         name: 'mining',
         component: Mining
+      }, {
+        path: 'activity',
+        name: 'activity',
+        component: Activity
       }]
     }, {
       path: '/computeTransfer',

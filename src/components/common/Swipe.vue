@@ -10,7 +10,7 @@
           <router-link to="/cloudCompute/list/1/all" class="btn" v-if="k===5||k===1">即刻开始</router-link>
           <router-link to="/bdc" class="btn" v-else-if="k===2">查看详情</router-link>
           <router-link to="/user/computeProperty" class="btn" v-else-if="k===3">查看详情</router-link>
-          <router-link to="/cloudCompute/list/1/all" class="btn" v-else-if="k===0||k===4">查看详情</router-link>
+          <router-link to="/cloudCompute/activity" class="btn" v-else-if="k===0||k===4">活动详情</router-link>
         </div>
         <div class="swiper_box" v-else :style="{width: width+'px'}">
           <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-for="b in n">
