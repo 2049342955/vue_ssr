@@ -14,7 +14,6 @@
       </aside>
       <div class="btn"><button>确认提交</button></div>
     </form>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -36,10 +35,13 @@
           var ele = this.$refs['question' + i][0]
           if ((form['question' + i].value) !== '') {
             scoreArr.push(form['question' + i].value)
-            ele.classList.remove('active')
+            ele.className = 'question'
           } else {
             form['question' + i][0].focus()
-            ele.classList.add('active')
+            ele.className = 'question active'
+            setTimeout(() => {
+              ele.className = 'question'
+            }, 2000)
             return false
           }
         }
@@ -66,7 +68,7 @@
             util.post('show_risk_score', {sign: api.serialize(sendData)}).then(function (data) {
               if (data && !data.code) {
                 self.$store.commit('SET_INFO', {risk: data})
-                api.tips(self.$refs.tips, '测评成功', () => {
+                api.tips('测评成功', () => {
                   self.$router.push({name: 'lpCenter'})
                 })
               }

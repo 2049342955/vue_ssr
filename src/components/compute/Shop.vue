@@ -9,7 +9,6 @@
     <ProductNav page="cloudCompute"></ProductNav>
     <ProductList :sort="sort" :dataNav="dataNav" page="cloudCompute"></ProductList>
     <Pager :len="len"></Pager>
-    <div class="web_tips" ref="tips"></div>
     <SideBar></SideBar>
   </section>
 </template>

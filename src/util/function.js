@@ -174,7 +174,8 @@ api.setTips = (ele, str) => {
     ele.setAttribute('data-status', '')
   }, 2000)
 }
-api.tips = (ele, str, callback) => {
+api.tips = (str, callback) => {
+  var ele = document.querySelector('.web_tips')
   ele.innerHTML = str
   ele.style.height = '50px'
   ele.style.opacity = 1
@@ -188,21 +189,21 @@ api.tips = (ele, str, callback) => {
 }
 api.checkAjax = (obj, res, callback, btn, failback) => {
   if (res === 'repeatLogin') {
-    api.tips(obj.$refs.tips, '您的账号在别处登录', () => {
+    api.tips('您的账号在别处登录', () => {
       obj.$router.push({name: 'home'})
       obj.$store.commit('LOGOUT')
     })
     return false
   }
   if (res === 'overtime') {
-    api.tips(obj.$refs.tips, '账户登录超时，请重新登录', () => {
+    api.tips('账户登录超时，请重新登录', () => {
       obj.$router.push({name: 'login'})
       obj.$store.commit('LOGOUT')
     })
     return false
   }
   if (res && res.code) {
-    api.tips(obj.$refs.tips, res.msg, () => {
+    api.tips(res.msg, () => {
       if (btn) {
         btn.removeAttribute('disabled')
       }
@@ -244,7 +245,6 @@ api.btoa = (input) => {
   return output
 }
 api.checkEquipment = () => {
-  console.log(11)
   var sUserAgent = navigator.userAgent.toLowerCase()
   var bIsIpad = sUserAgent.match(/ipad/i) === 'ipad'
   var bIsIphoneOs = sUserAgent.match(/iphone os/i) === 'iphone os'

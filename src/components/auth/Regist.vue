@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="rigist_block">
     <form class="form regist" action="" @submit.prevent="regist" novalidate v-show="!show">
       <h2>欢迎注册算力网</h2>
       <FormField :form="form"></FormField>
@@ -149,9 +149,7 @@
         <div class="btn"><a href="javascript:;" @click="userAgreement">返回</a></div>
       </div>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </div>
-    
 </template>
 
 <script>
@@ -182,7 +180,7 @@
         var self = this
         util.post('/register', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
           api.checkAjax(self, res, () => {
-            api.tips(self.$refs.tips, '恭喜您注册成功！', () => {
+            api.tips('恭喜您注册成功！', () => {
               self.$router.push({name: 'login'})
             })
           }, form.btn)
@@ -198,26 +196,34 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  form.regist{
-    @include form;
-    .select_accept{
-      color:$red;
-      font-size: 12px;
-    }
-    input{
-      & ~ span.select_accept{
-        display: none;
+  .rigist_block{
+    width:420px;
+    margin:0 auto;
+    padding-top:35px;
+    form.regist{
+      @include form;
+      h2{
+        margin-top:0;
       }
-      &[data-status='invalid'] ~ span.select_accept{
-        display: inline;
+      .select_accept{
+        color:$red;
+        font-size: 12px;
+      }
+      input{
+        & ~ span.select_accept{
+          display: none;
+        }
+        &[data-status='invalid'] ~ span.select_accept{
+          display: inline;
+        }
       }
     }
-  }
-  .agreement{
-    @include article
-    .foot{
-      font-size: 24px;
-      text-align: right;
+    .agreement{
+      @include article
+      .foot{
+        font-size: 24px;
+        text-align: right;
+      }
     }
   }
 </style>

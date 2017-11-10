@@ -43,6 +43,22 @@
     align-items: $v;
     flex-direction: $direction;
     flex-wrap: $wrap;
+    @if ($h == space-between) {
+      text-align: justify;
+      text-align-last:justify;
+      & > *{
+        text-align: left;
+        text-align-last:auto
+      }
+    }
+    & > *{
+      display: inline-block;
+      vertical-align:middle;
+    }
+    & *{
+      // text-align: auto;
+      // text-align-last:auto
+    }
   }
 // 全部
   @mixin all($w:100%,$h:100%){
@@ -162,6 +178,8 @@
       &:not(:nth-child(#{$v}n)){
         margin-right: $gap;
       }
+      display: inline-block;
+      vertical-align:middle;
     }
   }
 // 宽度
@@ -253,10 +271,11 @@
       }
     }
     input,.sel,.select{
-      line-height:2;
+      height:50px;
+      line-height:32px;
       border: 1px solid $blue_border;
       border-radius: 5px;
-      flex:1;
+      width:100%;
       padding:8px;
       padding-left:140px;
       font-size: 16px;
@@ -491,7 +510,7 @@
 // menu
   @mixin menu{
     &:not(.address_item){
-      @include flex
+      @include flex(space-between)
       padding:15px;
       border:1px solid #e5e5e5;
     }
@@ -532,25 +551,24 @@
       .item:not(:first-child){
         .val{
           text-align: left;
-          padding-left:167px;
-          flex:1
+          padding-left:19%;
+          width:80%
         }
       }
     }
     .icon{
       @include block(18,50%)
-      margin-right:10px
     }
     .con_title{
-      width: 140px;
+      width: 13%;
       font-size: 16px;
       font-weight: bold;
     }
     .desc{
-      flex:1
+      width:38%;
     }
     .val{
-      width: 200px;
+      width: 22%;
       color: $light_text;
       text-align: center;
       span{
@@ -558,7 +576,7 @@
       }
     }
     .opr{
-      width: 150px;
+      width: 17%;
       text-align: right;
       color: $blue;
       cursor: pointer;
@@ -609,18 +627,6 @@
         width:auto;
         @include gap(20,h)
       }
-    }
-  }
-// time_icon
-  @mixin time{
-    img{
-      width:12px
-    }
-    span{
-      flex:1;
-      padding-left:10px;
-      color: $light_dark;
-      font-size: 12px;
     }
   }
 // item
@@ -682,10 +688,10 @@
   }
 // detail_box
   @mixin detail_data{
-    @include flex
+    @include flex(space-between)
     .item{
-      flex:1;
-      padding-left:40px;
+      padding-left:30px;
+      padding-right:30px;
       span{
         color:$light_black;
         &.currency{
@@ -708,10 +714,10 @@
     width:185px;
     a{
       display: block;
-      text-align: center;
       border-radius:5px
     }
     button,a{
+      text-align: center;
       width:100%;
       line-height: 2.5;
       & + button,& + a{
@@ -751,27 +757,19 @@
     }
     @include nodata
   }
-// 提示
-  .web_tips{
-    @include position
-    position: fixed;
-    top:auto;
-    line-height:50px;
-    text-align: center;
-    background: $blue;
-    color:$white;
-    transition:all .5s;
-    opacity:0;
-    height: 0;
-    z-index: 10
-  }
 // process
   @mixin process{
     padding:25px 30px;
     @include flex
     .item{
       &:not(:last-child){
-        flex:1;
+        width:37%;
+        .line{
+          margin:0 15px;
+          width:30%;
+          height: 1px;
+          background: $border;
+        }
       }
       @include flex
       color:$blue;
@@ -803,12 +801,6 @@
             color:$light_black
           }
         }
-      }
-      .line{
-        margin:0 15px;
-        flex:1;
-        height: 1px;
-        background: $border;
       }
     }
   }

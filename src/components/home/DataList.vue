@@ -1,8 +1,10 @@
 <template>
   <div class="cloud_list">
     <h2>
-      <span>云矿机推荐</span>
-      <span>全球算力输出服务由保全网提供全流程区块链存证、保全服务</span>
+      <div>
+        <span>云矿机推荐</span>
+        <span>全球算力输出服务由保全网提供全流程区块链存证、保全服务</span>
+      </div>
       <router-link to="/cloudCompute/list/1/all">更多云矿机 ></router-link>
     </h2>
     <table>
@@ -18,7 +20,6 @@
         <td><a href="javascript:;">申购</a></td>
       </tr>
     </table>
-    <div class="web_tips" ref="tips"></div>
   </div>
 </template>
 
@@ -37,19 +38,19 @@
     methods: {
       goPay (id) {
         if (this.token === 0) {
-          api.tips(this.$refs.tips, '请先登录', () => {
+          api.tips('请先登录', () => {
             this.$router.push({name: 'login'})
           })
           return false
         }
         if (!(this.true_name && this.true_name.status === 1)) {
-          api.tips(this.$refs.tips, '请先实名认证', () => {
+          api.tips('请先实名认证', () => {
             this.$router.push({name: 'account'})
           })
           return false
         }
         if (!(this.bank_card && this.bank_card.status === 1)) {
-          api.tips(this.$refs.tips, '请先绑定银行卡', () => {
+          api.tips('请先绑定银行卡', () => {
             this.$router.push({name: 'account'})
           })
           return false
@@ -84,7 +85,7 @@
     margin-bottom:60px;
     overflow: hidden;
     h2{
-      @include flex
+      @include flex(space-between)
       @include gap(15,v,margin);
       @include main
       position: relative;
@@ -94,16 +95,17 @@
         font-weight: bold;
       }
       span:nth-child(2){
+        width:452px;
+        height:27px;
         margin-left:20px;
         font-size: 16px;
         background: linear-gradient(to right, #b28850, #cfa972);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b28850', endColorstr='#cfa972',GradientType=1 );
         color:$white;
         padding:3px 10px
       }
       a{
         font-size: 16px;
-        flex:1;
-        text-align: right;
         color:#999;
         &:hover{
           color:$blue
