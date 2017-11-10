@@ -3,7 +3,6 @@
     <h3>{{content.title}}</h3>
     <p class="dateline">{{content.dateline}}</p>
     <div class="info_detail" v-html="content.content"></div>
-    <div class="web_tips" ref="tips"></div>
     <router-link class="button" :to="'/webInfo/list/'+$route.params.type">返回</router-link>
   </section>
 </template>

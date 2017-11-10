@@ -59,7 +59,6 @@
       </div>
       <Pager :len="len"></Pager>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 

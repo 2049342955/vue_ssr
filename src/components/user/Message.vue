@@ -14,7 +14,6 @@
       <img :src="img" alt="">
       <p>暂无列表信息</p>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 

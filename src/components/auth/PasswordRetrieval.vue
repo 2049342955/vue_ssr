@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="password_found_block">
     <form class="password form" action="" @submit.prevent="submit(1)" novalidate v-if="!next">
       <h2>找回密码</h2>
       <FormField :form="form"></FormField>
@@ -15,7 +15,6 @@
       </div>
       <button name="btn">提交</button>
     </form>
-    <div class="web_tips" ref="tips"></div>
   </div>
 </template>
 
@@ -59,7 +58,7 @@
           form.btn.setAttribute('disabled', true)
           util.post('forgitPwd', {sign: api.serialize(Object.assign(data, {token: this.token, valid_code: this.valid_code, code_id: this.code_id, mobile: this.mobile}))}).then(res => {
             api.checkAjax(self, res, () => {
-              api.tips(self.$refs.tips, '重置密码成功', () => {
+              api.tips('重置密码成功', () => {
                 self.$router.push({name: 'login'})
               })
             }, form.btn)
@@ -82,7 +81,15 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  form.password,form.next_form{
-    @include form
+  .password_found_block{
+    width:420px;
+    margin:0 auto;
+    padding-top:35px;
+    form.password,form.next_form{
+      @include form
+      h2{
+        margin-top:0;
+      }
+    }
   }
 </style>

@@ -46,7 +46,6 @@
         <button @click="back">返回</button>
       </div>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -86,7 +85,7 @@
         util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
             if (res === '暂无协议') {
-              api.tips(self.$refs.tips, res)
+              api.tips(res)
             } else {
               self.show = true
               self.contract = res

@@ -26,7 +26,6 @@
         </div>
       </template>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </div>
 </template>
 
@@ -47,7 +46,7 @@
       setEdit (str, title, setting, n) {
         if (str === 'card' || str === 'address' || str === 'trade') {
           if (!(this.true_name && this.true_name.status === 1)) {
-            api.tips(this.$refs.tips, '请先实名认证')
+            api.tips('请先实名认证')
             return false
           }
         }

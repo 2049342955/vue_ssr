@@ -7,7 +7,6 @@
       <div class="time">{{data.created_at}}</div>
       <div class="text" v-html="data.msg"></div>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
