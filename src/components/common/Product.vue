@@ -245,23 +245,7 @@
             line-height: 40px;
             border:1px solid $border;
             margin-bottom:30px;
-            @include flex(space-between)
-            span{
-              width:10%;
-              text-align: center;
-              background: $border;
-              font-size: 18px;
-              font-weight: bold;
-              color: #c5c5c5;
-              cursor: pointer;
-              user-select:none;
-              &:last-child{
-                color: $orange;
-              }
-            }
-            input{
-              width:75%
-            }
+            @include number_box
           }
           .btn{
             width:100%;

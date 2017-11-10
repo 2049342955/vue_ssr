@@ -20,7 +20,8 @@ const state = {
     last_login_time: ''
   },
   hashType: [],
-  num: ''
+  num: '',
+  callUrl: ''
 }
 
 const getters = {

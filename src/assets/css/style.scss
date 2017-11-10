@@ -203,7 +203,7 @@
     overflow: hidden;
     background: $color;
     padding-top:$h;
-    .bg{
+    .bg,img{
       position: absolute;
       top: 0;
       left: calc(50% - #{$w/2}px);
@@ -492,10 +492,15 @@
 // mask
   @mixin mask{
     @include position
-    @include flex(center)
     background: rgba(0,0,0,.5);
     z-index: 10;
     .form_box{
+      position: absolute;
+      top:50%;
+      left:50%;
+      width:680px;
+      margin-left:-340px;
+      margin-top:-323px;
       position: relative;
       background: $white;
       .close{
@@ -910,6 +915,44 @@
           font-size: 16px;
           border-radius:5px
         }
+      }
+    }
+  }
+// number_input
+  @mixin number_box{
+    @include flex(space-between)
+    span{
+      width:10%;
+      text-align: center;
+      background: $border;
+      font-size: 18px;
+      font-weight: bold;
+      color: #c5c5c5;
+      cursor: pointer;
+      user-select:none;
+      &:last-child{
+        color: $orange;
+      }
+    }
+    input{
+      width:75%
+    }
+  }
+// accept_label
+  @mixin accept_label{
+    color: #666;
+    input{
+      &:checked{
+        background: #ff721f;
+        border-color: #ff721f;
+      }
+      & ~ span.select_accept{
+        display: none;
+        color: #ff721f;
+        font-size: 12px;
+      }
+      &[data-status='invalid'] ~ span.select_accept{
+        display: inline;
       }
     }
   }
