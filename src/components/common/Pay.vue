@@ -79,7 +79,7 @@
           <FormField :form="form" class="form"></FormField>
           <label for="accept">
             <input type="checkbox" v-model="toggle" id="accept" name="accept">
-            <span @click="openContract(1)">阅读并接受<a href="javascript:;">《算力网{{page === 'cloudCompute'?'购买':'转让'}}协议》</a>和<a href="javascript:;">《算力网托管协议》</a></span>
+            <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《算力网{{page === 'cloudCompute'?'购买':'转让'}}协议》</a>和<a href="javascript:;" style="color:#327fff;">《算力网托管协议》</a></span>
             <span class="select_accept">{{tips}}</span>
           </label>
           <button name="btn">确认支付</button>

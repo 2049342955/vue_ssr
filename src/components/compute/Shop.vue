@@ -1,7 +1,10 @@
 <template>
   <section class="compute_shop">
     <div class="bg_box">
-      <div class="bg"></div>
+      <div class="bg">
+        <h1>您最新的挖矿设备已经在运行！</h1>
+        <router-link to="/cloudCompute/mining" class="button">了解挖矿</router-link>
+      </div>
     </div>
     <ProductNav page="cloudCompute"></ProductNav>
     <ProductList :sort="sort" :dataNav="dataNav" page="cloudCompute"></ProductList>
@@ -76,9 +79,36 @@
   .compute_shop{
     .bg_box{
       @include bg(1920,420px,#1863f0)
-      z-index: -1;
       .bg{
-        background:url(../../assets/images/cloudCompute.jpg) no-repeat;
+        background:url(../../assets/images/cloudCompute1.jpg) no-repeat;
+        h1{
+          width: 100%;
+          text-align: center;
+          font-size: 35px;
+          color: white;
+          margin-top:163px;
+          margin-bottom: 30px;
+        }
+        .button{
+          width: 190px;
+          height: 45px;
+          display: block;
+          text-align: center;
+          line-height: 45px;
+          border-radius: 5px;
+          background: white;
+          border:0;
+          position: absolute;
+          left: 50%;
+          margin-left: -95px;
+          color: #327fff;
+          font-size: 16px;
+          z-index: 9999;
+          cursor: pointer !important;
+        }
+        .button:hover{
+          cursor: pointer !important;
+        }
       }
     }
     .pager{

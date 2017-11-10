@@ -76,7 +76,7 @@
             <td>{{d.remain_hash|format}}T</td>
           </template>
           <td v-if="status!=3">
-            <template v-if="nowEdit==0&&status==1">
+            <template v-if="nowEdit==0&&status==1&&!d.is_loan">
               <button class="sold" @click="openMask('sold', '出售云矿机', d.id)" :disabled="!d.remain_miner">出售云矿机</button>
             </template>
             <template v-if="nowEdit==0&&status==2">

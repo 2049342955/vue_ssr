@@ -12,6 +12,7 @@
   import CloudCompute from '@/views/CloudCompute'
   import ComputeShop from '@/components/compute/Shop'
   import ComputeDetail from '@/components/compute/Detail'
+  import Mining from '@/components/compute/mining'
   import ComputeTransfer from '@/views/ComputeTransfer'
   import TransferList from '@/components/transfer/List'
   import TransferDetail from '@/components/transfer/Detail'
@@ -112,6 +113,10 @@
         path: 'detail/:type/:id',
         name: 'computeDetail',
         component: ComputeDetail
+      }, {
+        path: 'mining',
+        name: 'mining',
+        component: Mining
       }]
     }, {
       path: '/computeTransfer',

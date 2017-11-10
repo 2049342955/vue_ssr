@@ -24,7 +24,7 @@
         detail: {incomeType: '每日结算，次日发放', fee: ''},
         proData: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台服务器算力', unit: 'T'}, amount: {title: '服务器总台数', unit: '台'}},
         proText: {hashType: '算力类型', status: '购买类型', incomeType: '结算方式'},
-        proData2: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '每日电费约', unit: 'btc'}},
+        proData2: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '运维费约', unit: 'btc'}},
         proText2: {hashType: '算力类型', hash: '每台矿机算力', status: '购买类型', incomeType: '结算方式'},
         proData3: {one_amount: {title: '分期金额', unit: '元'}, fee: {title: '手续费率', unit: '%'}, payment: {title: '还款来源', unit: '算力收益/资金余额'}},
         proText3: {hashfee: '手续费'},
