@@ -10,7 +10,6 @@ let api = axios.create({
 })
 // 修改返回数据格式
 api.defaults.transformResponse = (res) => {
-  console.log(res)
   if (typeof res === 'string') {
     res = JSON.parse(res)
   }

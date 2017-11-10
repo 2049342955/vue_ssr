@@ -31,7 +31,7 @@
           <p>需支付：<span>{{totalPrice}}元</span></p>
           <button @click="gobuy()">立即支付</button>
           <label for="accept">
-            <input type="checkbox" value="accept" id="accept" name="accept">
+            <input type="checkbox" :value="accept" id="accept" name="accept">
             <span @click="openContract(1)">阅读并接受<a href="javascript:;">《云矿机购买协议》</a>和<a href="javascript:;">《矿机托管协议》</a></span>
             <span class="select_accept">{{tips}}</span>
           </label>
@@ -73,11 +73,16 @@
     methods: {
       changeNum (n) {
         var maxNum = +this.data.amount - (+this.data.sell_amount)
+        if (this.data.num < 1) {
+          api.tips('您已超过购买限制')
+          return false
+        }
         this.number = n < 1 ? 1 : n > this.data.num ? this.data.num : n > maxNum ? maxNum : n
         this.totalHash = this.number * this.data.hash
         this.totalPrice = this.number * this.data.one_amount_value
       },
       openContract (n) {
+        this.accept = true
         window.scroll(0, 0)
         document.body.style.overflow = 'hidden'
         this.edit = n
@@ -90,6 +95,10 @@
         }
       },
       gobuy () {
+        if (this.data.num < 1) {
+          api.tips('您已超过购买限制')
+          return false
+        }
         if (!this.true_name) {
           this.openContract(2)
           return false
@@ -103,19 +112,29 @@
           this.check(ele, '请同意服务条款')
           return false
         }
+        var callbackUrl = location.protocol + '//' + location.host + '/user/order/0/1'
+        var data = {product_id: this.data.product, number: this.number, mode: '1', token: this.token, user_id: this.user_id, amount: this.totalPrice, url: callbackUrl}
+        var self = this
+        util.post('applyBalanceRecharge', {sign: api.serialize(data)}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            res.subject = encodeURIComponent(res.subject)
+            util.post('alipay_buy', {sign: api.serialize(Object.assign({token: self.token}, res))}).then((resData) => {
+              api.checkAjax(self, data, () => {
+                location.href = resData.url
+              })
+            })
+          })
+        })
       },
       closeEdit () {
         this.edit = ''
         document.body.style.overflow = 'auto'
       },
-      format (s) {
-        s = s.replace('\\s', '')
-        s = s.replace('\\n', '')
-        s = s.replace('\\r', '')
-        s = s.replace('\\t', '')
-        return s
-      },
       check (ele, str) {
+        if (this.data.num < 1) {
+          api.tips('您已超过购买限制')
+          return false
+        }
         this.tips = str
         ele.setAttribute('data-status', 'invalid')
         setTimeout(() => {
@@ -170,13 +189,14 @@
       if (!this.token) {
         this.$store.commit('SET_URL', this.$route.path)
         this.$router.push({name: 'login'})
+        this.$store.commit('LOGOUT')
         return false
       }
       var self = this
       util.post('showProduct', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.data = res
-          self.content = self.format(res.content) + self.format(res.content1)
+          self.content = res.content + '<hr>' + res.content1
         })
       })
     }
