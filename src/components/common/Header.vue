@@ -240,6 +240,9 @@
             color: $blue;
             font-weight: bold;
           }
+          .btn{
+            color:$white
+          }
         }
       }
     }
