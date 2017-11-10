@@ -73,6 +73,10 @@
     methods: {
       changeNum (n) {
         var maxNum = +this.data.amount - (+this.data.sell_amount)
+        if (this.data.num < 1) {
+          api.tips('您已超过购买限制')
+          return false
+        }
         this.number = n < 1 ? 1 : n > this.data.num ? this.data.num : n > maxNum ? maxNum : n
         this.totalHash = this.number * this.data.hash
         this.totalPrice = this.number * this.data.one_amount_value
@@ -91,6 +95,10 @@
         }
       },
       gobuy () {
+        if (this.data.num < 1) {
+          api.tips('您已超过购买限制')
+          return false
+        }
         if (!this.true_name) {
           this.openContract(2)
           return false
@@ -104,7 +112,7 @@
           this.check(ele, '请同意服务条款')
           return false
         }
-        // var data = {product_id: this.data.product, number: this.number, mode: '1', token: this.token}
+        // var data = {product_id: this.data.product, number: this.number, mode: '1', token: this.token, user_id: this.user_id, amount: this.totalPrice}
         // var callbackUrl = location.protocol + '//' + location.host + '/user/order/0/1'
         // var self = this
         // util.post('showProduct', {sign: api.serialize(data)}).then(function (res) {
@@ -118,14 +126,11 @@
         this.edit = ''
         document.body.style.overflow = 'auto'
       },
-      format (s) {
-        s = s.replace('\\s', '')
-        s = s.replace('\\n', '')
-        s = s.replace('\\r', '')
-        s = s.replace('\\t', '')
-        return s
-      },
       check (ele, str) {
+        if (this.data.num < 1) {
+          api.tips('您已超过购买限制')
+          return false
+        }
         this.tips = str
         ele.setAttribute('data-status', 'invalid')
         setTimeout(() => {
@@ -180,14 +185,14 @@
       if (!this.token) {
         this.$store.commit('SET_URL', this.$route.path)
         this.$router.push({name: 'login'})
-        self.$store.commit('LOGOUT')
+        this.$store.commit('LOGOUT')
         return false
       }
       var self = this
       util.post('showProduct', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.data = res
-          self.content = self.format(res.content) + '<hr>' + self.format(res.content1)
+          self.content = res.content + '<hr>' + res.content1
         })
       })
     }
