@@ -5,12 +5,13 @@
         <span class="icon"  style="position: absolute;top: 45px;right: 20px;"></span>
       </div>
       <h2>{{title}}</h2>
-      <form :class="['form form_content', {card_form: $parent.edit==='card'}]" @submit.prevent="$parent.submit" novalidate>
+      <form :class="['form form_content', {card_form: $parent.edit==='card'}]" @submit.prevent="$parent.submit" novalidate v-if="!contract">
         <FormField :form="form"></FormField>
         <p v-if="$parent.fee&&$parent.edit!=='GetIncome'">手续费：{{$parent.total_price * $parent.fee|format}}元<span class="fee">({{$parent.fee*100+'%'}})</span></p>
         <p v-if="$parent.fee&&$parent.edit==='GetIncome'">手续费：{{$parent.total_price * $parent.fee|format(8)}}btc<span class="fee">({{$parent.fee*100+'%'}})</span></p>
         <button name="btn">确认提交</button>
       </form>
+      <div class="contract" v-html="contract" v-else></div>
     </div>
   </section>
 </template>
@@ -27,6 +28,9 @@
         type: Array
       },
       title: {
+        type: String
+      },
+      contract: {
         type: String
       }
     },
@@ -74,6 +78,14 @@
           color: $light_black;
           margin-left:5px
         }
+      }
+    }
+    .contract{
+      padding:30px;
+      height:680px;
+      overflow:auto;
+      p, p > *{
+        white-space:wrap !important;
       }
     }
   }

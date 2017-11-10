@@ -79,7 +79,7 @@
     .bg_box{
       @include bg(1920,420px,#1863f0)
       .bg{
-        background:url(../../assets/images/cloudCompute1.jpg) no-repeat;
+        background:url(../../assets/images/cloudCompute.jpg) no-repeat;
         h1{
           width: 100%;
           text-align: center;

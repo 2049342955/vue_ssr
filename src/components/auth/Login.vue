@@ -24,6 +24,7 @@
   import util from '@/util/index'
   import api from '@/util/function'
   import FormField from '@/components/common/FormField'
+  import { mapState } from 'vuex'
   export default {
     name: 'login',
     components: {
@@ -48,13 +49,23 @@
               self.$store.commit('SET_INFO', data)
             })
             api.tips('欢迎来到算力网！', () => {
-              self.$router.push({name: 'home'})
+              if (self.callUrl) {
+                this.$store.commit('SET_URL', '')
+                location.href = self.callUrl
+              } else {
+                self.$router.push({name: 'home'})
+              }
             })
           }, form.btn)
         }).catch(res => {
           api.tips('您的网络情况不太好，请稍后再尝试')
         })
       }
+    },
+    computed: {
+      ...mapState({
+        callUrl: state => state.callUrl
+      })
     }
   }
 </script>

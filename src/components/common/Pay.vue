@@ -174,21 +174,13 @@
       pay () {
         var ff = document.querySelector('.payForm')
         if (this.totalPrice > this.$parent.balance) {
-          this.tips = '余额不足，请充值'
-          ff.accept.setAttribute('data-status', 'invalid')
-          setTimeout(() => {
-            ff.accept.setAttribute('data-status', '')
-          }, 2000)
+          this.check(ff.accept, '余额不足，请充值')
           return false
         }
         var data = api.checkFrom(ff)
         if (!data) return false
         if (!ff.accept.checked) {
-          this.tips = '请同意服务条款'
-          ff.accept.setAttribute('data-status', 'invalid')
-          setTimeout(() => {
-            ff.accept.setAttribute('data-status', '')
-          }, 2000)
+          this.check(ff.accept, '请同意服务条款')
           return false
         }
         var self = this
@@ -231,6 +223,13 @@
       },
       close (sh) {
         this.showpay = sh
+      },
+      check (ele, str) {
+        this.tips = str
+        ele.setAttribute('data-status', 'invalid')
+        setTimeout(() => {
+          ele.setAttribute('data-status', '')
+        }, 2000)
       }
     },
     mounted () {
@@ -386,21 +385,7 @@
           }
         }
         label{
-          color: #666;
-          input{
-            &:checked{
-              background: #ff721f;
-              border-color: #ff721f;
-            }
-            & ~ span.select_accept{
-              display: none;
-              color: #ff721f;
-              font-size: 12px;
-            }
-            &[data-status='invalid'] ~ span.select_accept{
-              display: inline;
-            }
-          }
+          @include accept_label
         }
         button{
           background: #ff721f;
