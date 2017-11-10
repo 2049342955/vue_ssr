@@ -113,7 +113,7 @@
           return false
         }
         var callbackUrl = location.protocol + '//' + location.host + '/user/order/0/1'
-        var data = {product_id: this.data.product, number: this.number, mode: '1', token: this.token, user_id: this.user_id, amount: this.totalPrice, url: callbackUrl}
+        var data = {product_id: this.data.product_id, number: this.number, mode: '1', token: this.token, user_id: this.user_id, amount: this.totalPrice, url: callbackUrl}
         var self = this
         util.post('applyBalanceRecharge', {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
