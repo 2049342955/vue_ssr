@@ -56,10 +56,14 @@
         var self = this
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           api.checkAjax(self, res, () => {
-            api.tips(tipStr)
             self.closeEdit()
-            if (!icon) return false
-            self.$store.commit('SET_INFO', {trade_password: 1})
+            if (icon) {
+              self.$store.commit('SET_INFO', {trade_password: 1})
+            }
+            api.tips(tipStr, () => {
+              self.$router.push({name: 'login'})
+              self.$store.commit('LOGOUT')
+            })
           })
         })
       },
