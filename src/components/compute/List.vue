@@ -21,7 +21,7 @@
             <li v-for="n,k in res">{{n}}</li>
         </ul>
         <div class="scroll">
-          <ul class="tbody" :style="{top}">
+          <ul class="tbody">
             <li v-for="n,k in reslist">
               <span>{{n.mobile|format}}</span>
               <span>{{n.ammount}} 台</span>
@@ -62,7 +62,7 @@
         res: ['用户名', '购买数量', '购买金额', '购买时间', '状态'],
         reslist: [],
         pay_value: '',
-        activeIndex: 0,
+        // activeIndex: 0,
         info: [{url: '../../assets/images/header.png', name: '高新技术主管', time: 'Shsx jsxk ', content: ' 比特币的价格今年迄今为止的涨幅已达600%以上，目前的交易价格接近每枚7200美元，今后可能会涨至8000美元。但这将是它最后一个高点，至少一段时间内是如此。比特币自突破6044美元以来，显示出强劲的涨势。下一重点关注7941美元，再进一步走高前可能在该水平整固。”'}, {url: '../../assets/images/header.png', name: '高新技术主管', time: 'Shsx jsxk ', content: ' 比特币的价格今年迄今为止的涨幅已达600%以上，目前的交易价格接近每枚7200美元，今后可能会涨至8000美元。但这将是它最后一个高点，至少一段时间内是如此。比特币自突破6044美元以来，显示出强劲的涨势。下一重点关注7941美元，再进一步走高前可能在该水平整固。”'}]
       }
     },
@@ -73,20 +73,20 @@
           self.reslist = res
         })
       })
-      setInterval(_ => {
-        let first = this.reslist.splice(0, 1)
-        this.reslist.push(...first)
-        if (this.activeIndex < this.reslist.length) {
-          this.activeIndex += 1
-        } else {
-          this.activeIndex = 0
-        }
-      }, 1000)
+      // setInterval(_ => {
+      //   let first = this.reslist.unshift()
+      //   this.reslist.push(...first)
+      //   if (this.activeIndex < this.reslist.length) {
+      //     this.activeIndex += 1
+      //   } else {
+      //     this.activeIndex = 0
+      //   }
+      // }, 1000)
     },
     computed: {
-      top () {
-        return -this.activeIndex * 47 + 'px'
-      },
+      // top () {
+      //   return -this.activeIndex * 47 + 'px'
+      // },
       ...mapState({
         token: state => state.info.token
       })
