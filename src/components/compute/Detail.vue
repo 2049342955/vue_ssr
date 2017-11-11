@@ -4,7 +4,6 @@
       <Pay v-if="next" page="cloudCompute" :proData="proData2" :proText="proText2" :proData3="proData3" :proText3="proText3"></Pay>
       <Product v-else page="cloudCompute" :proData="proData" :proText="proText"></Product>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -24,7 +23,7 @@
         detail: {incomeType: '每日结算，次日发放', fee: ''},
         proData: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台服务器算力', unit: 'T'}, amount: {title: '服务器总台数', unit: '台'}},
         proText: {hashType: '算力类型', status: '购买类型', incomeType: '结算方式'},
-        proData2: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '每日电费约', unit: 'btc'}},
+        proData2: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '运维费约', unit: 'btc'}},
         proText2: {hashType: '算力类型', hash: '每台矿机算力', status: '购买类型', incomeType: '结算方式'},
         proData3: {one_amount: {title: '分期金额', unit: '元'}, fee: {title: '手续费率', unit: '%'}, payment: {title: '还款来源', unit: '算力收益/资金余额'}},
         proText3: {hashfee: '手续费'},
@@ -52,20 +51,20 @@
       goPay (e, show) {
         this.show = show
         if (!this.trade_password) {
-          api.tips(this.$refs.tips, '请先设置交易密码', () => {
+          api.tips('请先设置交易密码', () => {
             this.$router.push({name: 'password'})
           })
           return false
         }
         if (this.number < 1) {
-          e.target.classList.add('error')
+          e.target.className = 'btn error'
           setTimeout(() => {
-            e.target.classList.remove('error')
+            e.target.className = 'btn'
           }, 2000)
           return false
         }
         if (this.detail.status === 4) {
-          api.tips(this.$refs.tips, '暂不能购买')
+          api.tips('暂不能购买')
           return false
         }
         this.det(this.rate)

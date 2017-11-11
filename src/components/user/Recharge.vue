@@ -27,7 +27,6 @@
       <FormField :form="form[rechargeNo]"></FormField>
       <button name="btn">{{rechargeNo?'去支付':'提交申请'}}</button>
     </form>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -49,7 +48,7 @@
       return {
         processText: ['银行转账', '提交申请', '审核通过'],
         processStatus: 2,
-        form: [[{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', pattern: 'bigMoney', len: 7}, {name: 'bank_num', type: 'text', title: '充值银行卡', value: 'bank_card', pattern: 'bankCard'}, {name: 'request_id', type: 'text', title: '充值流水号', placeholder: '请输入充值流水号', pattern: 'int'}], [{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', len: 7}]],
+        form: [[{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', pattern: 'bigMoney', len: 7}, {name: 'bank_num', type: 'text', title: '充值银行卡', value: 'bank_card', pattern: 'bankCard'}, {name: 'request_id', type: 'text', title: '充值流水号', placeholder: '请输入充值流水号', pattern: 'int'}], [{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', len: 6}]],
         rechargeType: ['银行卡充值', '支付宝充值'],
         rechargeNo: 0
       }
@@ -79,7 +78,7 @@
             api.checkAjax(self, res, () => {
               form.amount.value = ''
               form.request_id.value = ''
-              api.tips(self.$refs.tips, '提交成功，请等待工作人员确认', () => {
+              api.tips('提交成功，请等待工作人员确认', () => {
                 form.btn.removeAttribute('disabled')
               })
             }, form.btn)

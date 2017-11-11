@@ -3,7 +3,6 @@
     <h2>密码管理</h2>
     <Setting :nav="nav" type="password"></Setting>
     <MyMask :form="form[edit]" :title="title" v-if="edit"></MyMask>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -57,10 +56,14 @@
         var self = this
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           api.checkAjax(self, res, () => {
-            api.tips(self.$refs.tips, tipStr)
             self.closeEdit()
-            if (!icon) return false
-            self.$store.commit('SET_INFO', {trade_password: 1})
+            if (icon) {
+              self.$store.commit('SET_INFO', {trade_password: 1})
+            }
+            api.tips(tipStr, () => {
+              self.$router.push({name: 'login'})
+              self.$store.commit('LOGOUT')
+            })
           })
         })
       },

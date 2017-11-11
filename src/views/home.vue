@@ -1,6 +1,6 @@
 <template>
   <article class="home">
-    <Swiper :pagination-visible="true" :loop="true" :paginationClickable="true" :autoPlay="0"></Swiper>
+    <Swiper :pagination-visible="true" :loop="true" :paginationClickable="true" :autoPlay="5000"></Swiper>
     <!-- <Chart></Chart> -->
     <div class="home_title">
       <div class="main">
@@ -11,8 +11,7 @@
             <div class="iconfont"></div>
             <div class="item_title">{{s.title}}</div>
             <div class="item_desc">{{s.desc}}</div>
-          </div>
-          <div class="item item_another iconfont"></div>
+          </div><div class="item"></div>
         </div>
       </div>
     </div>
@@ -119,13 +118,14 @@
       .list{
         @include row(5,0)
         margin-top:20px;
-        text-align: center;
         border-bottom: 1px solid $border;
         border-right: 1px solid $border;
         .item{
+          text-align: center;
           border-top: 1px solid $border;
           border-left: 1px solid $border;
           padding:15px;
+          height:146px;
           .item_title{
             font-size: 18px;
             margin-bottom:10px
@@ -139,7 +139,7 @@
               text-align: center
             }
           }
-          &.item_another,& .iconfont{
+          & .iconfont{
             font-size: 36px;
             color:#538fee;
             line-height: 1;
@@ -177,23 +177,26 @@
               color:$white
             }
           }
-          &.item_another{
+          &:nth-child(10){
             position: relative;
-            @include flex(center)
-            &:before{
+            display: inline-block;
+            vertical-align:middle;
+            &:before,&:after{
+              position: absolute;
               content: "";
-              width: 30px;
-              height: 1px;
               background: #999;
             }
+            &:before{
+              left: calc(50% - 15px);
+              top: calc(50% - .5px);
+              width: 30px;
+              height: 1px;
+            }
             &:after{
-              position: absolute;
               top: calc(50% - 15px);
               left: calc(50% - .5px);
-              content: "";
               height: 30px;
               width: 1px;
-              background: #999;
             }
           }
         }
@@ -215,7 +218,7 @@
         .item{
           position: relative;
           height: 170px;
-          flex:1;
+          width:20%;
           padding:20px;
           padding-right:18px;
           &:not(:last-child){
@@ -277,7 +280,6 @@
     position: relative;
     height:315px;
     overflow: hidden;
-    @include flex(flex-start,center)
     .pre{
       @include position
       height:100%;
@@ -289,6 +291,7 @@
       transform:scale(1.1); 
     }
     .text{
+      margin-top:85px;
       @include main
       text-align: center;
       h2{
@@ -360,6 +363,8 @@
         border-top:1px solid $border;
         .item{
           height:80px;
+          line-height: 80px;
+          text-align: center;
           border-right:1px solid $border;
           border-bottom:1px solid $border;
           @include flex(center)
@@ -370,7 +375,7 @@
             display: none;
           }
           .img_hover,&:hover .img{
-            display: block;
+            display: inline-block;
           }
           .img1,.img_hover1{
             height: 49px;

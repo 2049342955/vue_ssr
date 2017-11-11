@@ -34,8 +34,6 @@
         </div>
       </router-link>
     </template>
-      <!-- <router-view class="content"></router-view> -->
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 

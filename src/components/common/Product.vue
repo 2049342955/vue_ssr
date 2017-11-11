@@ -90,7 +90,6 @@
         </div>
       </div>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 
@@ -122,13 +121,13 @@
           return false
         }
         if (!(this.true_name && this.true_name.status === 1)) {
-          api.tips(this.$refs.tips, '请先实名认证', () => {
+          api.tips('请先实名认证', () => {
             this.$router.push({name: 'account'})
           })
           return false
         }
         if (!(this.bank_card && this.bank_card.status === 1)) {
-          api.tips(this.$refs.tips, '请先绑定银行卡', () => {
+          api.tips('请先绑定银行卡', () => {
             this.$router.push({name: 'account'})
           })
           return false
@@ -165,9 +164,9 @@
     }
     .items{
       margin-bottom:30px;
-      @include flex(flex-start,strech)
+      @include flex(space-between,strech)
       .text{
-        flex:1;
+        width:69%;
         .product_title{
           @include flex(space-between)
           padding-bottom:10px;
@@ -178,20 +177,21 @@
           @include flex(flex-start,strech)
           margin-bottom:25px;
           .product_img{
-            width:230px;
-            margin-right:20px;
+            width:30%;
+            margin-right:5%;
             img{
               height:210px;
               object-fit:cover
             }
           }
           .product_text{
-            flex:1;
+            width:64%;
             .product_data{
               @include flex(space-between)
               background: #fff9f3;
               padding:25px;
               .item{
+                padding:0 15px;
                 .item_word{
                   .num{
                     font-size: 24px;
@@ -227,8 +227,7 @@
       }
       .price{
         background:$white;
-        width:330px;
-        margin-left:30px;
+        width:28%;
         .price_title{
           padding:15px 30px;
           border-bottom:1px solid $border
@@ -246,24 +245,7 @@
             line-height: 40px;
             border:1px solid $border;
             margin-bottom:30px;
-            @include flex
-            span{
-              width:25px;
-              text-align: center;
-              background: $border;
-              font-size: 18px;
-              font-weight: bold;
-              color: #c5c5c5;
-              cursor: pointer;
-              user-select:none;
-              &:last-child{
-                color: $orange;
-              }
-            }
-            input{
-              flex:1;
-              padding:0 10px
-            }
+            @include number_box
           }
           .btn{
             width:100%;

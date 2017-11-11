@@ -79,13 +79,12 @@
           <FormField :form="form" class="form"></FormField>
           <label for="accept">
             <input type="checkbox" v-model="toggle" id="accept" name="accept">
-            <span @click="openContract(1)">阅读并接受<a href="javascript:;">《算力网{{page === 'cloudCompute'?'购买':'转让'}}协议》</a>和<a href="javascript:;">《算力网托管协议》</a></span>
+            <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《算力网{{page === 'cloudCompute'?'购买':'转让'}}协议》</a>和<a href="javascript:;" style="color:#327fff;">《算力网托管协议》</a></span>
             <span class="select_accept">{{tips}}</span>
           </label>
           <button name="btn">确认支付</button>
         </form>
       </div>
-      <div class="web_tips" ref="tips"></div>
       <div class="Installment_plan" v-show="showpay">
         <div class="opacity">
           <p class="title">分期计划<span @click="close(false)"><img :src="close2" style="width:12px;height:12px;position:relative;top:-6px;"/></span></p>
@@ -175,21 +174,13 @@
       pay () {
         var ff = document.querySelector('.payForm')
         if (this.totalPrice > this.$parent.balance) {
-          this.tips = '余额不足，请充值'
-          ff.accept.setAttribute('data-status', 'invalid')
-          setTimeout(() => {
-            ff.accept.setAttribute('data-status', '')
-          }, 2000)
+          this.check(ff.accept, '余额不足，请充值')
           return false
         }
         var data = api.checkFrom(ff)
         if (!data) return false
         if (!ff.accept.checked) {
-          this.tips = '请同意服务条款'
-          ff.accept.setAttribute('data-status', 'invalid')
-          setTimeout(() => {
-            ff.accept.setAttribute('data-status', '')
-          }, 2000)
+          this.check(ff.accept, '请同意服务条款')
           return false
         }
         var self = this
@@ -198,7 +189,7 @@
           if (this.$parent.show) {
             util.post('productMallLoan', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(data.password), rate_name: this.$parent.rate})}).then(function (res) {
               api.checkAjax(self, res, () => {
-                api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
+                api.tips('恭喜您购买成功！', () => {
                   self.$router.push({path: '/user/repayment/0'})
                 })
               }, ff.btn)
@@ -206,7 +197,7 @@
           } else {
             util.post('productMall', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(data.password)})}).then(function (res) {
               api.checkAjax(self, res, () => {
-                api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
+                api.tips('恭喜您购买成功！', () => {
                   self.$router.push({path: '/user/order/0/1'})
                 })
               }, ff.btn)
@@ -216,7 +207,7 @@
           // 100002:参数缺失，200004：账户余额不足，1000：交易成功，800007：交易失败，800003：禁止交易，200006：交易密码错误，800004：转让已结束，800005：产品已撤销,800008:不能购买自己的产品
           util.post('doTransfer_Hashrate', {sign: api.serialize({token: this.$parent.token, user_id: this.$parent.user_id, transfer_order_id: this.$route.params.id, trade_password: md5(data.password)})}).then(function (res) {
             api.checkAjax(self, res, () => {
-              api.tips(self.$refs.tips, '恭喜您购买成功！', () => {
+              api.tips('恭喜您购买成功！', () => {
                 self.$router.push({path: '/user/order/1/1'})
               })
             }, ff.btn)
@@ -232,6 +223,13 @@
       },
       close (sh) {
         this.showpay = sh
+      },
+      check (ele, str) {
+        this.tips = str
+        ele.setAttribute('data-status', 'invalid')
+        setTimeout(() => {
+          ele.setAttribute('data-status', '')
+        }, 2000)
       }
     },
     mounted () {
@@ -318,18 +316,17 @@
       border: 5px solid #ffe6d7;
       background:$white;
       padding: 20px 25px;
-      @include flex(space-between);
+      @include flex(space-between)
       .detail{
-        flex:1;
+        width:60%;
         background: #f7f8fa;
         height: 290px;
-        margin-right: 115px;
-        @include flex
+        @include flex(space-between)
         .img{
           @include fitimg(295,235)
         }
         .text{
-          flex:1;
+          width:50%;
           padding:25px;
           p{
             color:$light_text;
@@ -388,21 +385,7 @@
           }
         }
         label{
-          color: #666;
-          input{
-            &:checked{
-              background: #ff721f;
-              border-color: #ff721f;
-            }
-            & ~ span.select_accept{
-              display: none;
-              color: #ff721f;
-              font-size: 12px;
-            }
-            &[data-status='invalid'] ~ span.select_accept{
-              display: inline;
-            }
-          }
+          @include accept_label
         }
         button{
           background: #ff721f;

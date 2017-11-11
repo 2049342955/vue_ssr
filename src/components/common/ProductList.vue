@@ -40,7 +40,6 @@
         </div>
       </div>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </section>
 </template>
 

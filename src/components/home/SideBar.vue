@@ -10,7 +10,7 @@
       </div>
       <div class="popup tel" v-if="n==='tel'">
         <span>0571-</span>
-        <span>28221076</span>
+        <span>28031736</span>
       </div>
       <div class="popup" v-if="n==='wechat'">
         <div class="wechat"></div>

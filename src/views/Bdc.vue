@@ -25,7 +25,7 @@
         <div class="success" v-else>
           <div>
             <div class="icon"></div>
-            <p>提交成功，稍后工作人员会与您联系</p>
+            <p>提交成功，稍后工作人员会与您联系.</p>
           </div>
         </div>
       </div>
@@ -44,7 +44,6 @@
         </div>
       </div>
     </div>
-    <div class="web_tips" ref="tips"></div>
   </article>
 </template>
 
