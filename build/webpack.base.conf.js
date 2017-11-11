@@ -11,9 +11,6 @@ module.exports = {
   entry: {
     app: ['./node_modules/babel-polyfill/dist/polyfill.js', './src/main.js']
   },
-  externals: {
-    "BMap": "BMap"
-  },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
