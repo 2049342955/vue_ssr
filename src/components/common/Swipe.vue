@@ -140,7 +140,7 @@
         if (this.currentPage <= 0) {
           this.currentPage = this.data ? this.data.length : this.banners.length
         }
-        if (this.currentPage >= this.data ? (this.data.length + 1) : (this.banners.length + 1)) {
+        if (this.currentPage >= (this.data ? (this.data.length + 1) : (this.banners.length + 1))) {
           this.currentPage = 1
         }
         if (this.autoPlay) {
@@ -183,7 +183,7 @@
       },
       next () {
         var page = this.currentPage
-        if (page < this.banners.length || this.loop) {
+        if ((page < (this.data ? this.data.length : this.banners.length)) || this.loop) {
           this.setPage((page + 1) > 5 ? 5 : (page + 1))
         } else {
           this.setPage(this.currentPage)
