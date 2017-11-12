@@ -1,6 +1,6 @@
 <template>
   <article class="home">
-    <Swiper :pagination-visible="true" :loop="true" :paginationClickable="true" :autoPlay="5000"></Swiper>
+    <Swiper :pagination-visible="true" :loop="true" :autoPlay="5000"></Swiper>
     <!-- <Chart></Chart> -->
     <div class="home_title">
       <div class="main">
@@ -101,351 +101,462 @@
 <style type="text/css" lang="scss">
   @import '../assets/css/style.scss';
   @import '../assets/fonts/iconfont.css';
-  .home_title{
-    .main{
-      @include main
-      @include gap(30,v,margin)
-      h1,p{
-        text-align: center
-      }
-      h1{
-        font-size: 30px;
-        line-height: 1.8;
-      }
-      p{
-        font-size: 18px
-      }
-      .list{
-        @include row(5,0)
-        margin-top:20px;
-        border-bottom: 1px solid $border;
-        border-right: 1px solid $border;
-        .item{
-          text-align: center;
-          border-top: 1px solid $border;
-          border-left: 1px solid $border;
-          padding:15px;
-          height:146px;
-          .item_title{
-            font-size: 18px;
-            margin-bottom:10px
-          }
-          .item_desc{
-            text-align: left;
-            color:$light_black;
-          }
-          &:nth-child(1),&:nth-child(6),&:nth-child(8){
-            .item_desc{
-              text-align: center
-            }
-          }
-          & .iconfont{
-            font-size: 36px;
-            color:#538fee;
-            line-height: 1;
-          }
-          &:nth-child(1) .iconfont:before{
-            content:'\e6ca'
-          }
-          &:nth-child(2) .iconfont:before{
-            content:'\e6cd'
-          }
-          &:nth-child(3) .iconfont:before{
-            content:'\e6d8'
-          }
-          &:nth-child(4) .iconfont:before{
-            content:'\e6cb'
-          }
-          &:nth-child(5) .iconfont:before{
-            content:'\e6ce'
-          }
-          &:nth-child(6) .iconfont:before{
-            content:'\e6dd'
-          }
-          &:nth-child(7) .iconfont:before{
-            content:'\e6d0'
-          }
-          &:nth-child(8) .iconfont:before{
-            content:'\e6dc'
-          }
-          &:nth-child(9) .iconfont:before{
-            content:'\e6da'
-          }
-          &:not(:last-child):hover{
-            background: $blue;
-            &,.iconfont,.item_desc{
-              color:$white
-            }
-          }
-          &:nth-child(10){
-            position: relative;
-            display: inline-block;
-            vertical-align:middle;
-            &:before,&:after{
-              position: absolute;
-              content: "";
-              background: #999;
-            }
-            &:before{
-              left: calc(50% - 15px);
-              top: calc(50% - .5px);
-              width: 30px;
-              height: 1px;
-            }
-            &:after{
-              top: calc(50% - 15px);
-              left: calc(50% - .5px);
-              height: 30px;
-              width: 1px;
-            }
-          }
-        }
-      }
-    }
-  }
-  .home_text{
-    background:#f7f8fa;
-    border-bottom:1px solid $border;
-    margin-bottom:50px;
-    .main{
-      @include main
-      line-height: 2;
-      .list{
-        @include flex
-        border:1px solid $border;
-        border-top:0;
-        border-bottom:0;
-        .item{
+  .home{
+    .swiper{
+      .swiper_wrap{
+        .swiper_one{
           position: relative;
-          height: 170px;
-          width:20%;
-          padding:20px;
-          padding-right:18px;
-          &:not(:last-child){
-            border-right:1px solid $border;
-          }
-          h3{
-            font-size: 20px;
-          }
-          .line{
-            width:45px;
-            border-bottom:2px solid $blue;
-            margin-top:5px;
-            margin-bottom:7px;
-          }
-          p{
-            position: relative;
-            text-align: left;
-            line-height: 1.5;
-            font-size: 14px;
-            color:$light_text;
-            z-index: 2;
-          }
-          span{
+          height: 520px;
+          background: #0c1235 url('../assets/images/banner.jpg');
+          img{
             position: absolute;
-            top:calc(50% - 35px);
-            right:20px;
-            @include block(70)
-            &:before{
-              font-size: 70px;
-              color:#e6e6e6
+            transition: all .2s;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            &:first-child{
+              left:calc(50% - 590px);
+            }
+            &:nth-child(2){
+              right:calc(50% - 590px);
+            }
+            @media screen and (max-width: 1178px) and (min-width: 340px){
+              object-fit:contain
             }
           }
-          .icon0:before{
-            content: "\e60a"
+          a.btn{
+            position: absolute;
+            width:200px;
+            height:50px;
+            line-height: 50px;
+            text-align: center;
+            left:calc(50% - 590px);
+            top:330px;
+            color:#fff;
+            border:1px solid #fff;
+            border-radius:5px;
+            font-size: 18px;
+            &:hover{
+              background: #fff;
+              color:#1e396c
+            }
           }
-          .icon1:before{
-            content: "\e60b"
+          img:first-child,a.btn{
+            @media screen and (max-width: 1178px) and (min-width: 340px){
+              left:0;
+            }
           }
-          .icon2:before{
-            content: "\e606"
+          img:nth-child(2){
+            @media screen and (max-width: 1178px) and (min-width: 340px){
+              right:0;
+            }
           }
-          .icon3:before{
-            content: "\e604"
+          &:nth-child(6),&:nth-child(2){
+            img{
+              top:0;
+              width:1180px;
+              height:100%;
+              @media screen and (max-width: 1178px) and (min-width: 340px){
+                width:100%;
+              }
+            }
+            a.btn{
+              border-color:#327fff;
+              background: #327fff;
+              color:#fff;
+              &:hover{
+                border-color:#327fff;
+                background: #327fff;
+                color:#fff
+              }
+            }
           }
-          .icon4:before{
-            content: "\e608"
+          &:nth-child(3) img:first-child{
+            width:563px;
+            top:calc(50% - 45px);
+            height:90px;
           }
-          &:hover{
-            background: $white;
+          &:nth-child(3) img:nth-child(2){
+            top:calc(50% - 139.5px);
+            width:532px;
+            height:279px;
+          }
+          &:nth-child(4){
+            img:first-child{
+              width:626px;
+              top:calc(50% - 44px);
+              height:88px;
+            }
+          }
+          &:nth-child(4){
+            img:nth-child(2){
+              top:calc(50% - 137.5px);
+              width:404px;
+              height:275px;
+            }
+          }
+          &:nth-child(5),&:nth-child(1){
+            img:first-child{
+              width:493px;
+              top:calc(50% - 54.5px);
+              height:99px;
+            }
+          }
+          &:nth-child(5),&:nth-child(1){
+            img:nth-child(2){
+              top:calc(50% - 143.5px);
+              width:564px;
+              height:287px;
+            }
+          }
+        }
+      }
+    }
+    .home_title{
+      .main{
+        @include main
+        @include gap(30,v,margin)
+        h1,p{
+          text-align: center
+        }
+        h1{
+          font-size: 30px;
+          line-height: 1.8;
+        }
+        p{
+          font-size: 18px
+        }
+        .list{
+          @include row(5,0)
+          margin-top:20px;
+          border-bottom: 1px solid $border;
+          border-right: 1px solid $border;
+          .item{
+            text-align: center;
+            border-top: 1px solid $border;
+            border-left: 1px solid $border;
+            padding:15px;
+            height:146px;
+            .item_title{
+              font-size: 18px;
+              margin-bottom:10px
+            }
+            .item_desc{
+              text-align: left;
+              color:$light_black;
+            }
+            &:nth-child(1),&:nth-child(6),&:nth-child(8){
+              .item_desc{
+                text-align: center
+              }
+            }
+            & .iconfont{
+              font-size: 36px;
+              color:#538fee;
+              line-height: 1;
+            }
+            &:nth-child(1) .iconfont:before{
+              content:'\e6ca'
+            }
+            &:nth-child(2) .iconfont:before{
+              content:'\e6cd'
+            }
+            &:nth-child(3) .iconfont:before{
+              content:'\e6d8'
+            }
+            &:nth-child(4) .iconfont:before{
+              content:'\e6cb'
+            }
+            &:nth-child(5) .iconfont:before{
+              content:'\e6ce'
+            }
+            &:nth-child(6) .iconfont:before{
+              content:'\e6dd'
+            }
+            &:nth-child(7) .iconfont:before{
+              content:'\e6d0'
+            }
+            &:nth-child(8) .iconfont:before{
+              content:'\e6dc'
+            }
+            &:nth-child(9) .iconfont:before{
+              content:'\e6da'
+            }
+            &:not(:last-child):hover{
+              background: $blue;
+              &,.iconfont,.item_desc{
+                color:$white
+              }
+            }
+            &:nth-child(10){
+              position: relative;
+              display: inline-block;
+              vertical-align:middle;
+              &:before,&:after{
+                position: absolute;
+                content: "";
+                background: #999;
+              }
+              &:before{
+                left: calc(50% - 15px);
+                top: calc(50% - .5px);
+                width: 30px;
+                height: 1px;
+              }
+              &:after{
+                top: calc(50% - 15px);
+                left: calc(50% - .5px);
+                height: 30px;
+                width: 1px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .home_text{
+      background:#f7f8fa;
+      border-bottom:1px solid $border;
+      margin-bottom:50px;
+      .main{
+        @include main
+        line-height: 2;
+        .list{
+          @include flex
+          border:1px solid $border;
+          border-top:0;
+          border-bottom:0;
+          .item{
+            position: relative;
+            height: 170px;
+            width:20%;
+            padding:20px;
+            padding-right:18px;
+            &:not(:last-child){
+              border-right:1px solid $border;
+            }
             h3{
-              color:$blue
+              font-size: 20px;
+            }
+            .line{
+              width:45px;
+              border-bottom:2px solid $blue;
+              margin-top:5px;
+              margin-bottom:7px;
+            }
+            p{
+              position: relative;
+              text-align: left;
+              line-height: 1.5;
+              font-size: 14px;
+              color:$light_text;
+              z-index: 2;
+            }
+            span{
+              position: absolute;
+              top:calc(50% - 35px);
+              right:20px;
+              @include block(70)
+              &:before{
+                font-size: 70px;
+                color:#e6e6e6
+              }
+            }
+            .icon0:before{
+              content: "\e60a"
+            }
+            .icon1:before{
+              content: "\e60b"
+            }
+            .icon2:before{
+              content: "\e606"
+            }
+            .icon3:before{
+              content: "\e604"
+            }
+            .icon4:before{
+              content: "\e608"
+            }
+            &:hover{
+              background: $white;
+              h3{
+                color:$blue
+              }
             }
           }
         }
       }
     }
-  }
-  .wq{
-    position: relative;
-    height:315px;
-    overflow: hidden;
-    .pre{
-      @include position
-      height:100%;
-      object-fit:cover;
-      z-index: -1;
-      transition:2s;
-    }
-    &:hover .pre{
-      transform:scale(1.1); 
-    }
-    .text{
-      margin-top:85px;
-      @include main
-      text-align: center;
-      h2{
-        font-size: 30px;
-        margin-bottom:20px;
-        color:$white
+    .wq{
+      position: relative;
+      height:315px;
+      overflow: hidden;
+      .pre{
+        @include position
+        height:100%;
+        object-fit:cover;
+        z-index: -1;
+        transition:2s;
       }
-      p{
-        font-size: 16px;
-        color:#d7d8d9
+      &:hover .pre{
+        transform:scale(1.1); 
       }
-      a{
-        display: inline-block;
-        padding:10px 50px;
-        border-radius:5px;
-        @include button($blue)
-        margin-top:30px;
-        &:hover{
-          background:#166cfb;
-          border:1px solid #166cfb;
-        }
-      }
-    }
-  }
-  .my_map{
-    &:not(.active){
-      background: #333333;
-      color:#fff;
-    }
-    .main{
-      @include main
-      h3{
-        font-size: 24px;
-        padding-top:30px;
-        margin-bottom:20px;
+      .text{
+        margin-top:85px;
+        @include main
         text-align: center;
-      }
-      .data_title{
-        @include flex(center);
-        .item{
-          margin:0 20px;
-          padding-bottom:10px;
-          cursor: pointer;
-          color:#999;
-          border-bottom: 2px solid transparent;
-          &.active,&:hover{
-            color:#32b4ff;
-            border-color:#32b4ff;
+        h2{
+          font-size: 30px;
+          margin-bottom:20px;
+          color:$white
+        }
+        p{
+          font-size: 16px;
+          color:#d7d8d9
+        }
+        a{
+          display: inline-block;
+          padding:10px 50px;
+          border-radius:5px;
+          @include button($blue)
+          margin-top:30px;
+          &:hover{
+            background:#166cfb;
+            border:1px solid #166cfb;
           }
         }
       }
-      .data_chart{
-        padding:30px 0
+    }
+    .my_map{
+      &:not(.active){
+        background: #333333;
+        color:#fff;
+      }
+      .main{
+        @include main
+        h3{
+          font-size: 24px;
+          padding-top:30px;
+          margin-bottom:20px;
+          text-align: center;
+        }
+        .data_title{
+          @include flex(center);
+          .item{
+            margin:0 20px;
+            padding-bottom:10px;
+            cursor: pointer;
+            color:#999;
+            border-bottom: 2px solid transparent;
+            &.active,&:hover{
+              color:#32b4ff;
+              border-color:#32b4ff;
+            }
+          }
+        }
+        .data_chart{
+          padding:30px 0
+        }
       }
     }
-  }
-  .partner{
-    .box{
-      @include main
-      text-align: center;
-      margin-bottom:60px;
-      h3{
-        font-size: 24px;
-        margin-bottom:30px
-      }
-      .list{
-        @include row(6,0)
-        border-left:1px solid $border;
-        border-top:1px solid $border;
-        .item{
-          height:80px;
-          line-height: 80px;
-          text-align: center;
-          border-right:1px solid $border;
-          border-bottom:1px solid $border;
-          @include flex(center)
-          &:hover .date{
-           color:#ff721f;
-          }
-          .img,&:hover .img_hover{
-            display: none;
-          }
-          .img_hover,&:hover .img{
-            display: inline-block;
-          }
-          .img1,.img_hover1{
-            height: 49px;
-            width: 150px;
-          }
-          .img1{
-            background: url('../assets/images/partner.png') -10px -216px;
-          }
-          .img_hover1{
-            background: url('../assets/images/partner.png') -180px -216px;
-          }
-          // .img2,.img_hover2{
-          //   height: 50px;
-          //   width: 180px;
-          // }
-          // .img2{
-          //   background: url('../assets/images/partner.png') -360px -117px;
-          // }
-          // .img_hover2{
-          //   background: url('../assets/images/partner.png') -0px -171px;
-          // }
-          .img3,.img_hover3{
-            height: 49px;
-            width: 150px;
-          }
-          .img3{
-            background: url('../assets/images/partner.png') -180px -10px;
-          }
-          .img_hover3{
-            background: url('../assets/images/partner.png') -180px -79px;
-          }
-          .img4,.img_hover4{
-            height: 46px;
-            width: 150px;
-          }
-          .img4{
-            background: url('../assets/images/partner.png') -10px -150px;
-          }
-          .img_hover4{
-            background: url('../assets/images/partner.png') -180px -150px;
-          }
-          .img5,.img_hover5{
-            height: 32px;
-            width: 150px;
-          }
-          .img5{
-            background: url('../assets/images/partner.png') -10px -281px;
-          }
-          .img_hover5{
-            background: url('../assets/images/partner.png') -180px -281px;
-          }
-          .img6,.img_hover6{
-            height: 50px;
-            width: 150px;
-          }
-          .img6{
-            background: url('../assets/images/partner.png') -10px -10px;
-          }
-          .img_hover6{
-            background: url('../assets/images/partner.png') -10px -80px;
-          }
-          .img7,.img_hover7{
-            height: 20px;
-            width: 150px;
-          }
-          .img7{
-            background: url('../assets/images/partner.png') -350px -10px;
-          }
-          .img_hover7{
-            background: url('../assets/images/partner.png') -350px -50px;
+    .partner{
+      .box{
+        @include main
+        text-align: center;
+        margin-bottom:60px;
+        h3{
+          font-size: 24px;
+          margin-bottom:30px
+        }
+        .list{
+          @include row(6,0)
+          border-left:1px solid $border;
+          border-top:1px solid $border;
+          .item{
+            height:80px;
+            line-height: 80px;
+            text-align: center;
+            border-right:1px solid $border;
+            border-bottom:1px solid $border;
+            @include flex(center)
+            &:hover .date{
+             color:#ff721f;
+            }
+            .img,&:hover .img_hover{
+              display: none;
+            }
+            .img_hover,&:hover .img{
+              display: inline-block;
+            }
+            .img1,.img_hover1{
+              height: 49px;
+              width: 150px;
+            }
+            .img1{
+              background: url('../assets/images/partner.png') -10px -216px;
+            }
+            .img_hover1{
+              background: url('../assets/images/partner.png') -180px -216px;
+            }
+            // .img2,.img_hover2{
+            //   height: 50px;
+            //   width: 180px;
+            // }
+            // .img2{
+            //   background: url('../assets/images/partner.png') -360px -117px;
+            // }
+            // .img_hover2{
+            //   background: url('../assets/images/partner.png') -0px -171px;
+            // }
+            .img3,.img_hover3{
+              height: 49px;
+              width: 150px;
+            }
+            .img3{
+              background: url('../assets/images/partner.png') -180px -10px;
+            }
+            .img_hover3{
+              background: url('../assets/images/partner.png') -180px -79px;
+            }
+            .img4,.img_hover4{
+              height: 46px;
+              width: 150px;
+            }
+            .img4{
+              background: url('../assets/images/partner.png') -10px -150px;
+            }
+            .img_hover4{
+              background: url('../assets/images/partner.png') -180px -150px;
+            }
+            .img5,.img_hover5{
+              height: 32px;
+              width: 150px;
+            }
+            .img5{
+              background: url('../assets/images/partner.png') -10px -281px;
+            }
+            .img_hover5{
+              background: url('../assets/images/partner.png') -180px -281px;
+            }
+            .img6,.img_hover6{
+              height: 50px;
+              width: 150px;
+            }
+            .img6{
+              background: url('../assets/images/partner.png') -10px -10px;
+            }
+            .img_hover6{
+              background: url('../assets/images/partner.png') -10px -80px;
+            }
+            .img7,.img_hover7{
+              height: 20px;
+              width: 150px;
+            }
+            .img7{
+              background: url('../assets/images/partner.png') -350px -10px;
+            }
+            .img_hover7{
+              background: url('../assets/images/partner.png') -350px -50px;
+            }
           }
         }
       }

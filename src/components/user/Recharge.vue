@@ -5,8 +5,8 @@
     <div class="recharge_text">
       <div class="recharge_info">
         <p>账号主体：浙江数秦科技有限公司</p>
-        <p>对公银行：杭州银行</p>
-        <p>银行卡号：3301 0401 6000 4867 449</p>
+        <p>开户银行：杭州联合农村商业银行股份有限公司吴山支行</p>
+        <p>银行卡号：2010 0018 4219 726</p>
         <div class="recharge_process">
           <div>流程说明：</div>
           <div class="process">

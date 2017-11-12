@@ -16,11 +16,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "babel-polyfill": "^6.26.0",
-<<<<<<< HEAD
     "echarts": "^3.7.2",
-=======
-    "echarts": "3.7.2",
->>>>>>> d485c8a309a0dacd74e41f54f3b0b9533aee480e
     "element-ui": "^2.0.4",
     "js-md5": "^0.6.1",
     "qs": "^6.5.1",

@@ -186,12 +186,12 @@
       })
     },
     mounted () {
-      if (!this.token) {
-        this.$store.commit('SET_URL', this.$route.path)
-        this.$router.push({name: 'login'})
-        this.$store.commit('LOGOUT')
-        return false
-      }
+      // if (!this.token) {
+      //   this.$store.commit('SET_URL', this.$route.path)
+      //   this.$router.push({name: 'login'})
+      //   this.$store.commit('LOGOUT')
+      //   return false
+      // }
       var self = this
       util.post('showProduct', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
