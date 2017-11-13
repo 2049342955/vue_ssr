@@ -337,6 +337,7 @@
         position:absolute;
         bottom:160px;
         border-radius: 3px;
+        font-family: "宋体";
         background: #6151ae;
         width: 30px;
         height: 40px;
