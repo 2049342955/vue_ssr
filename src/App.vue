@@ -25,4 +25,9 @@
 
 <style type="text/css" lang="scss">
   @import './assets/css/public.scss';
+  @media screen and (max-width: $mobile) {
+    #app > header,#app > footer{
+      display: none;
+    }
+  }
 </style>
