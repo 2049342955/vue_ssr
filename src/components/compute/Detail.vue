@@ -73,7 +73,11 @@
           api.checkAjax(self, res, () => {
             self.next = true
             self.balance = res.balance
-            self.content = res.content
+            if (self.$route.path.includes('yes')) {
+              self.content = res.part_content
+            } else if (self.$route.path.includes('no')) {
+              self.content = res.content
+            }
             self.content1 = res.content1
           })
         })
