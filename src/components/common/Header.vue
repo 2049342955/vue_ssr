@@ -144,7 +144,7 @@
         @include flex
         .logo{
           display: inline-block;
-          width: 130px;
+          width: 152px;
           height: 38px;
           margin-right:60px;
         }
@@ -204,7 +204,7 @@
         background: rgba(0,0,0,.8);
       }
       .box .logo{
-        background: url('../../assets/images/css_sprites.png') -10px -110px;
+        background: url('../../assets/images/logo.png');
       }
       a{
         color:$white
@@ -216,7 +216,7 @@
     &.frame_header{
       .box{
         .logo{
-          background: url('../../assets/images/css_sprites.png') -210px -10px;
+          background: url('../../assets/images/logo2.png');
         }
         nav .item{
           a{
