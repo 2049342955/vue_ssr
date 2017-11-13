@@ -145,7 +145,7 @@
         .logo{
           display: inline-block;
           width: 152px;
-          height: 38px;
+          height: 35px;
           margin-right:60px;
         }
         nav{
