@@ -1,6 +1,6 @@
 <template>
   <article class="mobile">
-    <router-view class="content"></router-view>
+    <router-view></router-view>
   </article>
 </template>
 
