@@ -40,6 +40,12 @@
   import WebInfoList from '@/components/info/List'
   import WebInfoDetail from '@/components/info/Detail'
   import IssuesDetail from '@/components/info/IssuesDetail'
+// mobile
+  import MbdcForm from '@/components/mobile/MbdcForm'
+  import Mhelp from '@/components/mobile/Mhelp'
+  import Mnotice from '@/components/mobile/Mnotice'
+  import MnoticeDetail from '@/components/mobile/MnoticeDetail'
+  import Mmessage from '@/components/mobile/Mmessage'
 // use plugin
   Vue.use(Router)
 // export
@@ -258,6 +264,31 @@
       }]
     }, {
       path: '/mobile',
-      component: Mine
+      component: Mine,
+      children: [{
+        path: 'bdcForm',
+        name: 'bdcForm',
+        component: MbdcForm
+      },
+      {
+        path: 'help',
+        name: 'help',
+        component: Mhelp
+      },
+      {
+        path: 'notice',
+        name: 'notice',
+        component: Mnotice
+      },
+      {
+        path: 'noticeDetail',
+        name: 'noticeDetail',
+        component: MnoticeDetail
+      },
+      {
+        path: 'message',
+        name: 'message',
+        component: Mmessage
+      }]
     }]
   })
