@@ -1,6 +1,6 @@
 <template>
   <!-- <router-view class="mobile"></router-view> -->
-  <section class="bdcform" to="#">
+  <section class="bdcform">
     <div class="header">
       <span class="left">< <em>返回</em></span>
       <span>算力托管申请</span>
