@@ -25,7 +25,6 @@
     </div>
   </section>
 </template>
-
 <script>
 export default {
   data () {
@@ -35,8 +34,6 @@ export default {
   }
 }
 </script>
-
-
 <style scoped lang="scss">
   .bdcform{
     width: 100%;
