@@ -41,6 +41,7 @@
   import WebInfoDetail from '@/components/info/Detail'
   import IssuesDetail from '@/components/info/IssuesDetail'
 // mobile
+  import Mobile from '@/views/Mobile'
   import MbdcForm from '@/components/mobile/MbdcForm'
   import Mhelp from '@/components/mobile/Mhelp'
   import Mnotice from '@/components/mobile/Mnotice'
@@ -266,40 +267,40 @@
       }]
     }, {
       path: '/mobile',
-      component: Mine,
+      component: Mobile,
       children: [{
         path: 'bdcForm',
-        name: 'bdcForm',
+        name: 'mbdcForm',
         component: MbdcForm
       },
       {
         path: 'help',
-        name: 'help',
+        name: 'mhelp',
         component: Mhelp
       },
       {
         path: 'notice',
-        name: 'notice',
+        name: 'mnotice',
         component: Mnotice
       },
       {
         path: 'noticeDetail',
-        name: 'noticeDetail',
+        name: 'mnoticeDetail',
         component: MnoticeDetail
       },
       {
         path: 'message',
-        name: 'message',
+        name: 'mmessage',
         component: Mmessage
       },
       {
         path: 'property',
-        name: 'property',
+        name: 'mproperty',
         component: Mproperty
       },
       {
         path: 'moneyFlow',
-        name: 'moneyFlow',
+        name: 'mmoneyFlow',
         component: MmoneyFlow
       }]
     }]

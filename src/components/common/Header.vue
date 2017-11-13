@@ -50,11 +50,6 @@
       }
     },
     mounted () {
-      if (api.checkEquipment()) {
-        console.log(11)
-        location.href = '/mobile'
-        return false
-      }
       this.updateClass()
       window.addEventListener('scroll', this.test, false)
       if (this.token === 0) {

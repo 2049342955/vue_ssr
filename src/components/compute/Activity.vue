@@ -197,6 +197,8 @@
         api.checkAjax(self, res, () => {
           self.data = res
           self.content = res.content + '<hr>' + res.content1
+        }, '', () => {
+          this.$router.push({name: 'home'})
         })
       })
     }
