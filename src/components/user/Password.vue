@@ -59,11 +59,12 @@
             self.closeEdit()
             if (icon) {
               self.$store.commit('SET_INFO', {trade_password: 1})
+            } else {
+              api.tips(tipStr, () => {
+                self.$router.push({name: 'login'})
+                self.$store.commit('LOGOUT')
+              })
             }
-            api.tips(tipStr, () => {
-              self.$router.push({name: 'login'})
-              self.$store.commit('LOGOUT')
-            })
           })
         })
       },
