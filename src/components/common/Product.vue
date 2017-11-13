@@ -90,10 +90,45 @@
         </div>
       </div>
     </div>
+    <div class="mobile_box">
+      <div class="first_box">
+        <div class="base_info">
+          <div class="item" v-for="n,k in mobileNav1">
+            <div class="item_data">{{k==='status'?$parent.str[$parent.detail[k]]:$parent.detail[k]}}<span>{{n.unit}}</span></div>
+            <div class="item_text">{{n.title}}</div>
+          </div>
+        </div>
+        <div class="progress_info">
+          <div class="progress_box">
+            <div class="box" :style="{width:((1-$parent.leftNum/$parent.detail.amount)*100).toFixed(1)+'%'}"></div>
+          </div>
+          <div class="progress_text">
+            <div class="item">进度{{((1-$parent.leftNum/$parent.detail.amount)*100).toFixed(1)+'%'}}</div>
+            <div class="item">剩余可售台数{{$parent.leftNum}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="some_info">
+        <div class="item" v-for="n,k in mobileNav2">
+          <span>{{n.title}}</span>
+          <span>{{$parent.detail[k]}}{{n.unit}}</span>
+        </div>
+      </div>
+      <div class="product_desc">
+        <p class="title">产品介绍</p>
+        <div class="content" v-html="$parent.detail.machine_intro"></div>
+      </div>
+      <div class="mobile_btn">
+        <mt-button type="primary">primary</mt-button>
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
+  import Vue from 'vue'
+  import { Button } from 'mint-ui'
+  Vue.component(Button.name, Button)
   import api from '../../util/function'
   import { mapState } from 'vuex'
   export default {
@@ -112,6 +147,12 @@
       },
       rateshow: {
         type: String
+      }
+    },
+    data () {
+      return {
+        mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台算力', unit: 'T'}, status: {title: '项目状态', unit: ''}},
+        mobileNav2: {hashType: {title: '算力类型', unit: ''}, amount: {title: '服务器总数', unit: '台'}, incomeType: {title: '结算方式', unit: ''}}
       }
     },
     methods: {
@@ -319,6 +360,83 @@
     .items .text,.info{
       padding:15px 30px;
       background:$white;
+    }
+    .mobile_box{
+      @include mobile_show
+      .first_box,.product_desc{
+        background: #fff;
+        padding: 15px;
+      }
+      .first_box{
+        margin-top:-15px;
+        .base_info{
+          padding-bottom:20px;
+          @include flex(space-between)
+          border-bottom:1px solid $border;
+          .item{
+            .item_data{
+              font-size: 18px;
+              span{
+                font-size: 14px;
+                opacity: .7;
+              }
+            }
+            .item_text{
+              color:$light_black
+            }
+            &:first-child{
+              .item_data{
+                color:$orange
+              }
+            }
+          }
+        }
+        .progress_info{
+          padding-top:20px;
+          .progress_box{
+            position: relative;
+            overflow:hidden;
+            border-radius:5px;
+            height:10px;
+            background: $border;
+            margin-bottom:10px;
+            .box{
+              @include position
+              background: $orange;
+            }
+          }
+          .progress_text{
+            @include flex(space-between)
+            color:$light_black;
+            .item{
+
+            }
+          }
+        }
+      }
+      .some_info{
+        margin-top:15px;
+        .item{
+          @include flex(space-between)
+          line-height: 50px;
+          background: #fff;
+          padding: 0 15px;
+          &:nth-child(2){
+            background: #f6f6f6;
+          }
+        }
+      }
+      .product_desc{
+        margin-top:15px;
+        border-bottom:1px solid $border;
+        p.title{
+          color:$text;
+          font-size: 16px;
+        }
+        .content{
+          color:$light_black
+        }
+      }
     }
   }
 </style>

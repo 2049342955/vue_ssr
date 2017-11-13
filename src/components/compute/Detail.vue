@@ -17,6 +17,7 @@
   import Pay from '../common/Pay'
   import Product from '../common/Product'
   import { mapState } from 'vuex'
+  import { Toast } from 'mint-ui'
   export default {
     components: {
       Pay, Product
@@ -24,7 +25,7 @@
     data () {
       return {
         next: false,
-        detail: {incomeType: '每日结算，次日发放', fee: ''},
+        detail: {incomeType: '每日结算，次日发放', fee: '', product_name: ''},
         proData: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台服务器算力', unit: 'T'}, amount: {title: '服务器总台数', unit: '台'}},
         proText: {hashType: '算力类型', status: '购买类型', incomeType: '结算方式'},
         proData2: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '运维费约', unit: 'btc'}},
@@ -140,6 +141,11 @@
           self.detail.hashType = res.hashtype.name
         })
       })
+      Toast({
+        message: '提示',
+        position: 'bottom',
+        duration: 5000
+      })
     },
     computed: {
       ...mapState({
@@ -161,7 +167,7 @@
       @include main
     }
     @media screen and (max-width: $mobile) {
-      padding:0
+      padding:0;
     }
   }
 </style>

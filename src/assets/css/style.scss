@@ -961,3 +961,10 @@
       display: none;
     }
   }
+// mobile show
+  @mixin mobile_show{
+    display: none;
+    @media screen and (max-width: $mobile) {
+      display: block;
+    }
+  }
