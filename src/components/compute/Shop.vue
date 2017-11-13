@@ -130,11 +130,5 @@
       border:0;
       border-bottom: 1px solid #e8e8e8;
     }
-    .mobile_header{
-      display: none;
-      @media screen and (max-width: $mobile) {
-        display: block;
-      }
-    }
   }
 </style>

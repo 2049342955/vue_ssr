@@ -69,6 +69,9 @@ table{
   #app > header,#app > footer{
     display: none;
   }
+  .body{
+    min-height: 100vh;
+  }
 }
 input::-webkit-input-placeholder {
   color:#bfbfbf;
@@ -111,6 +114,7 @@ input::-webkit-input-placeholder {
   }
 // mobile_header
   .mobile_header{
+    display: none;
     height: 60px;
     background: #373d41;
     text-align: center;
@@ -130,5 +134,8 @@ input::-webkit-input-placeholder {
         position: relative;
         top:-.08rem;
       }
+    }
+    @media screen and (max-width: $mobile) {
+      display: block;
     }
   }
