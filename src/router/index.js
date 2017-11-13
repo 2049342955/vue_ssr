@@ -46,6 +46,8 @@
   import Mnotice from '@/components/mobile/Mnotice'
   import MnoticeDetail from '@/components/mobile/MnoticeDetail'
   import Mmessage from '@/components/mobile/Mmessage'
+  import Mproperty from '@/components/mobile/Mproperty'
+  import MmoneyFlow from '@/components/mobile/MmoneyFlow'
 // use plugin
   Vue.use(Router)
 // export
@@ -289,6 +291,16 @@
         path: 'message',
         name: 'message',
         component: Mmessage
+      },
+      {
+        path: 'property',
+        name: 'property',
+        component: Mproperty
+      },
+      {
+        path: 'moneyFlow',
+        name: 'moneyFlow',
+        component: MmoneyFlow
       }]
     }]
   })
