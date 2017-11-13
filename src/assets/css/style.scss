@@ -10,7 +10,7 @@
     $light_text:#666;
     $light_black:#999;
     $black:#444;
-    $border:#e8e8e8;
+    $border:#e5e5e5;
     $blue:#327fff;
     $light_blue:#75b7f3;
     $blue_border:#b1c4e5;
@@ -674,13 +674,12 @@
   @mixin main($w:$main_width){
     width:$w;
     @include center
-    @media screen and (max-width: 1178px) and (min-width: 340px){
+    @media screen and (max-width: 1178px) and (min-width: 768px){
       width:100%;
       @include gap(20,h)
     }
-    @media screen and (max-width: 340px){
+    @media screen and (max-width: 768px){
       width:100%;
-      @include gap(15,h)
     }
   }
 // table
@@ -954,5 +953,11 @@
       &[data-status='invalid'] ~ span.select_accept{
         display: inline;
       }
+    }
+  }
+// mobile hide
+  @mixin mobile_hide{
+    @media screen and (max-width: $mobile) {
+      display: none;
     }
   }

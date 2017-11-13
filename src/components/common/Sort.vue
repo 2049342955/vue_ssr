@@ -90,5 +90,6 @@
         color:$blue;
       }
     }
+    @include mobile_hide
   }
 </style>

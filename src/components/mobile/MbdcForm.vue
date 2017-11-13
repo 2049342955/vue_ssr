@@ -1,7 +1,6 @@
 <template>
-  <!-- <router-view class="mobile"></router-view> -->
   <section class="bdcform" to="#">
-    <div class="header">
+    <div class="mobile_header">
       <span class="left">< <em>返回</em></span>
       <span>算力托管申请</span>
     </div>
@@ -43,29 +42,6 @@ export default {
     width: 100%;
     height: 100vh;
     background: #f5f5f9;
-    .header{
-      width: 100%;
-      height: 1.5rem;
-      background: #327fff;
-      text-align: center;
-      color: white;
-      font-size: 0.6rem;
-      line-height: 1.5rem;
-      position: relative;
-      margin-bottom:.5rem;
-      .left{
-        position: absolute;
-        left: .5rem;
-        font-family: "宋体";
-        font-size: 0.7rem;
-        em{
-          font-size: 0.5rem;
-          font-style: normal;
-          position: relative;
-          top:-.08rem;
-        }
-      }
-    }
     .bodyform{
       width: 100%;
       padding:0;

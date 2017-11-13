@@ -4,7 +4,7 @@
       <Sort :page="page" :sort="sort"></Sort>
       <div class="data">
         <div class="item" v-for="d,k in $parent.computeDate" @click="goPay(d.id, '', d.sell_type)" :disabled="d.status&&(d.status===2||d.status===3)||(d.amount-d.buyed_amount<=0)">
-          <h3>{{page==='computeTransfer'?d.product_name:d.name}}<span :class="'icon_currency '+d.hashtype.name"></span><span class="sell_type" v-if="page==='cloudCompute'&&d.status!==7">{{(d.sell_type===2&&'转售')||str[d.status]}}</span></h3>
+          <h3>{{page==='computeTransfer'?d.product_name:d.name}}<span :class="'icon_currency '+d.hashtype.name"></span><span :class="['sell_type', {active: d.sell_type===2}]" v-if="page==='cloudCompute'&&d.status!==7">{{(d.sell_type===2&&'转售')||str[d.status]}}</span></h3>
           <div class="info_box">
             <template v-for="n,i in dataNav">
               <div class="info" v-if="i==='leftNum'">
@@ -32,6 +32,16 @@
               <button class="btn" v-if="d.amount-d.buyed_amount>0">立即购买</button>
               <button class="btn" disabled v-else>已售罄</button>
             </template>
+          </div>
+          <div class="mobile_info_box">
+            <div class="mobile_info">
+              <h4>每台服务器价格<span><b>{{d.one_amount_value}}</b>元</span></h4>
+              <div class="mobile_text">
+                <div class="mobile_text_item">每台服务器价格<b>{{d.hash}}T</b></div>
+                <div class="mobile_text_item">剩余可售<b>{{d.amount-d.buyed_amount}}台</b></div>
+              </div>
+            </div>
+            <div class="sell_progress">{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(0)+'%'}}</div>
           </div>
         </div>
         <div class="nodata" v-if="$parent.show">
@@ -113,7 +123,8 @@
               display: inline-block;
               border:1px solid #ff721f;
               &.active{
-                @include button($orange)
+                border-color:$blue;
+                color:$blue;
               }
             }
           }
@@ -151,6 +162,9 @@
               }
             }
           }
+          .mobile_info_box{
+            display: none;
+          }
           &:not(:last-child){
             margin-bottom:10px;
           }
@@ -174,6 +188,76 @@
         p{
           color:$light_black;
           margin-top:15px
+        }
+      }
+    }
+    @media screen and (max-width: $mobile) {
+      margin-top:0;
+      padding:15px 0;
+      .box .data .item{
+        padding:0 15px;
+        border-top:1px solid $border;
+        border-bottom:1px solid $border;
+        h3{
+          margin-bottom:0;
+          border-bottom:1px solid $border;
+          line-height: 40px;
+          .icon_currency{
+            display: none;
+          }
+          .sell_type{
+            width:45px;
+            border-radius:5px;
+            background: #ff721f;
+            color:$white;
+            &.active{
+              background: $blue;
+              color:$white;
+            }
+          }
+        }
+        .info_box{
+          display: none;
+        }
+        .mobile_info_box{
+          display: block;
+          color:$light_black;
+          line-height: 2;
+          padding:5px 0 10px 0;
+          @include flex(space-between)
+          .mobile_info{
+            width:75%;
+            h4{
+              span{
+                margin-left:10px;
+                color:#ffb386;
+                b{
+                  font-weight: normal;
+                  font-size: 24px;
+                  color:$orange;
+                }
+              }
+            }
+            .mobile_text{
+              @include flex(space-between)
+              .mobile_text_item{
+                b{
+                  font-weight: normal;
+                  color:$text;
+                  margin:0 4px;
+                }
+              }
+            }
+          }
+          .sell_progress{
+            width:70px;
+            height:70px;
+            line-height: 70px;
+            text-align: center;
+            border-radius:50%;
+            border:2px solid $border;
+            color:$orange
+          }
         }
       }
     }
