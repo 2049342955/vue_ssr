@@ -44,11 +44,13 @@
   import Mobile from '@/views/Mobile'
   import MbdcForm from '@/components/mobile/MbdcForm'
   import Mhelp from '@/components/mobile/Mhelp'
+  import Mnews from '@/components/mobile/Mnews'
   import Mnotice from '@/components/mobile/Mnotice'
   import MnoticeDetail from '@/components/mobile/MnoticeDetail'
   import Mmessage from '@/components/mobile/Mmessage'
   import Mproperty from '@/components/mobile/Mproperty'
   import MmoneyFlow from '@/components/mobile/MmoneyFlow'
+  import Minformation from '@/components/mobile/Minformation'
 // use plugin
   Vue.use(Router)
 // export
@@ -277,6 +279,11 @@
         path: 'help',
         name: 'mhelp',
         component: Mhelp
+      },
+      {
+        path: 'news',
+        name: 'mnews',
+        component: Mnews
       },
       {
         path: 'notice',

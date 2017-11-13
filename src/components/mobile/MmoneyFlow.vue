@@ -1,91 +1,78 @@
 <template>
-  <section class="mask">
-    <div class="form_box">
-      <div class="close" @click="$parent.closeEdit()">
-        <span class="icon"  style="position: absolute;top: 45px;right: 20px;"></span>
-      </div>
-      <h2>{{title}}</h2>
-      <form :class="['form form_content', {card_form: $parent.edit==='card'}]" @submit.prevent="$parent.submit" novalidate v-if="!contract">
-        <FormField :form="form"></FormField>
-        <p v-if="$parent.fee&&$parent.edit!=='GetIncome'">手续费：{{$parent.total_price * $parent.fee|format}}元<span class="fee">({{$parent.fee*100+'%'}})</span></p>
-        <p v-if="$parent.fee&&$parent.edit==='GetIncome'">手续费：{{$parent.total_price * $parent.fee|format(8)}}btc<span class="fee">({{$parent.fee*100+'%'}})</span></p>
-        <button name="btn">确认提交</button>
-      </form>
-      <div class="contract" v-html="contract" v-else></div>
+  <section class="bdcform" to="#">
+    <div class="mobile_header">
+      <span class="left">< <em>我的</em></span>
+      <span>资金流水</span>
     </div>
+    <p>
+      <span>资金用途</span>
+      <span>金额（元）</span>
+    </p>
+    <ul>
+      <li>
+        <span class="left">
+          <i>算力租钱投资</i>
+          <em>2015-09-30</em>
+        </span>
+        <span class="right">+30</span>
+      </li>
+    </ul>
   </section>
 </template>
-
 <script>
-  import FormField from '@/components/common/FormField'
-  import api from '@/util/function'
-  export default {
-    components: {
-      FormField
-    },
-    props: {
-      form: {
-        type: Array
-      },
-      title: {
-        type: String
-      },
-      contract: {
-        type: String
-      }
-    },
-    filters: {
-      format: api.decimal
+export default {
+  data () {
+    return {
+      option: {'title': '请选择BDC'}
     }
   }
+}
 </script>
-
-<style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
-  .mask{
-    @include mask
-    .form_box{
-      .form_content{
-        padding:40px 130px;
-        @include form(v)
-        .input{
-          .select{
-            @include flex(space-between)
-            select{
-              width:33%;
-              height:32px;
-              line-height: 32px;
-              border:none;
-            }
-          }
-        }
-        &.card_form .input{
-          span{
-            &:first-child {
-              width: 120px;
-              text-align: right;
-            }
-            &:nth-child(2) {
-              left: 135px
-            }
-          }
-          input,.sel,.select{
-            padding-left:185px
-          }
-        }
-        .fee{
-          font-size: 12px;
-          color: $light_black;
-          margin-left:5px
-        }
-      }
+<style scoped lang="scss">
+  .bdcform{
+    width: 100%;
+    height: 100vh;
+    background: #f5f5f9;
+    p{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding:0 .5rem;
+      color: #999999;
+      font-size: 0.6rem;
+      border-bottom:1px solid #ddd;
+      padding-bottom:.4rem;
     }
-    .contract{
-      padding:30px;
-      height:680px;
-      overflow:auto;
-      p, p > *{
-        white-space:wrap !important;
+    ul{
+      width: 100%;
+      height: 3rem;
+      background: white;
+      padding:0 .5rem;
+      border-bottom:1px solid #ddd;
+      box-sizing: border-box;
+      li{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        .left i{
+          display: block;
+          font-size: .6rem;
+          padding-top: .5rem;
+        }
+        .left em{
+          display: block;
+          font-size: .45rem;
+          padding-top: .3rem;
+          color: #a9a9a9;
+          font-style: normal;
+        }
+        .right{
+          line-height: 3rem;
+          color: #01beb5;
+          font-weight: 800;
+          font-size: 0.6rem;
+        }
       }
     }
   }

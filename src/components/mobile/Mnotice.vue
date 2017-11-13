@@ -1,6 +1,17 @@
 <template>
   <section class="mask">
+    <div class="mobile_header">
+      <span class="left">< <em>返回</em></span>
+      <span>新闻公告</span>
+    </div>
     <div class="list">
+      <router-link to="#" class="route">
+        <span class="left">
+          <i>算力网正式上线</i>
+          <em>2015.10.22 17:14:25</em>
+        </span>
+        <span class="right">加上你看下三星陕西安康三姓家奴刷卡机想那些实习就阿克苏新年开始向纳税是希纳斯希纳斯</span>
+      </router-link>
       <router-link to="#" class="route">
         <span class="left">
           <i>算力网正式上线</i>
@@ -18,10 +29,14 @@
 </script>
 
 <style type="text/css" lang="scss">
-  .list{
+  .mask{
     width: 100%;
     height: 100vh;
     background: #f5f5f9 !important;
+  }
+  .list{
+    width: 100%;
+    overflow: hidden;
     .route{
       width: 100%;
       height: 3rem;
