@@ -44,17 +44,6 @@
     </div>
     <div class="info">
       <Swiper :pagination-visible="true" :loop="true" :autoPlay="5000" :data="info" oneWidth="1070" :button="true" :paginationVisiable="false"></Swiper>
-      <!-- <el-carousel :interval="5000" arrow="always" height="500px">
-        <el-carousel-item class="swiper_one" v-for="n, k in info" :key="item">
-          <div class="left">
-            <img src="../../assets/images/header.png" class="header"/>
-            <img src="../../assets/images/color.png" class="index"/> 
-            <h5>{{n.name}}</h5>
-            <p>{{n.time}}</p>
-          </div>
-          <div class="right">{{n.content}}</div>
-        </el-carousel-item>
-      </el-carousel> -->
     </div>
   </div>
 </template>
@@ -74,7 +63,7 @@
         reslist: [],
         reslist2: [],
         pay_value: '',
-        info: [{url: '../../assets/images/header.png', name: '高新技术主管', time: 'Shsx jsxk ', content: ' 比特币的价格今年迄今为止的涨幅已达600%以上，目前的交易价格接近每枚7200美元，今后可能会涨至8000美元。但这将是它最后一个高点，至少一段时间内是如此。比特币自突破6044美元以来，显示出强劲的涨势。下一重点关注7941美元，再进一步走高前可能在该水平整固。”'}, {url: '../../assets/images/header.png', name: '高新技术主管', time: 'Shsx jsxk ', content: ' 比特币的价格今年迄今为止的涨幅已达600%以上，目前的交易价格接近每枚7200美元，今后可能会涨至8000美元。但这将是它最后一个高点，至少一段时间内是如此。比特币自突破6044美元以来，显示出强劲的涨势。下一重点关注7941美元，再进一步走高前可能在该水平整固。”'}],
+        info: [{url: '../../assets/images/header.png', name: '孔剑平', time: 'Sun Jianping ', content: '算力网是目前唯一一家使用了区块链技术对比特币挖矿进行全程数据存证的平台，并且数据实时上链，对区块链技术做到了灵活应用，因为比特币认识区块链，区块链让比特币挖矿变的更加透明。”'}, {url: '../../assets/images/header.png', name: '孔华威', time: 'Sun Huawei ', content: '算力网诠释了算力驱动未来 信任链接天下这句话的真正意义，区块链技术所提供的存证保全服务，保障用户每一份挖矿收益”'}, {url: '../../assets/images/header.png', name: '胡东', time: 'Hu Dong ', content: '我看好算力网，是因为对高航的认可，一个靠谱的人，带着一帮靠谱的伙伴，做着意义非凡的事，算力网一定行！”'}, {url: '../../assets/images/header.png', name: '赵千捷', time: 'Zhao Qianjie ', content: '中国必定是比特币生产的重镇，因为中国本身就是比特币挖矿机的最大生产国，目前还有很多人不了解比特币，对比特币有误解，算力网可以帮助大家更好的体验比特币的产生与价值”'}, {url: '../../assets/images/header.png', name: '邓迪', time: 'Deng Di', content: '不忘初心，方得始终，算力网让全球见证算力的魅力”'}, {url: '../../assets/images/header.png', name: '徐明星', time: 'Xu Mingxing', content: '所有新兴行业都有曲折，但是技术的发展不可逆转，大家稍安勿躁，加速推进手头工作，与时间赛跑，我相信我们这个团队可以成为区块链时代的辉煌。”'}, {url: '../../assets/images/header.png', name: '李林', time: 'Li Lin', content: '我看好算力网，是因为对高航的认可，一个靠谱的人，带着一帮靠谱的伙伴，做着意义非凡的事，算力网一定行随着信息互联网向价值互联网的进化，网络的基础设施也将面临革新。算力作为区块链价值网络的基础，不仅具有投资价值，也将推动互联网＋更上一步台阶！”'}],
         t: ''
       }
     },
