@@ -140,7 +140,7 @@
         .logo{
           display: inline-block;
           width: 152px;
-          height: 35px;
+          height: 38px;
           margin-right:60px;
         }
         nav{

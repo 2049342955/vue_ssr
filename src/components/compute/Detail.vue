@@ -1,6 +1,10 @@
 <template>
   <section class="compute_detail">
     <div class="main">
+      <div class="mobile_header">
+        <span class="left">< <em>返回</em></span>
+        <span>{{detail.product_name}}</span>
+      </div>
       <Pay v-if="next" page="cloudCompute" :proData="proData2" :proText="proText2" :proData3="proData3" :proText3="proText3"></Pay>
       <Product v-else page="cloudCompute" :proData="proData" :proText="proText"></Product>
     </div>
@@ -155,6 +159,9 @@
     background: #f7f8fa;
     .main{
       @include main
+    }
+    @media screen and (max-width: $mobile) {
+      padding:0
     }
   }
 </style>

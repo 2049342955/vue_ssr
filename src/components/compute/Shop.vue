@@ -6,6 +6,10 @@
         <router-link to="/cloudCompute/mining" class="button">了解挖矿</router-link>
       </div>
     </div>
+    <div class="mobile_header">
+      <span class="left">< <em>返回</em></span>
+      <span>算力商城</span>
+    </div>
     <ProductNav page="cloudCompute"></ProductNav>
     <ProductList :sort="sort" :dataNav="dataNav" page="cloudCompute"></ProductList>
     <Pager :len="len"></Pager>
@@ -109,6 +113,7 @@
           cursor: pointer !important;
         }
       }
+      @include mobile_hide
     }
     .pager{
       background: #f7f8fa;

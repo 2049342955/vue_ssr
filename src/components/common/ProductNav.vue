@@ -2,7 +2,7 @@
   <section class="product_nav">
     <router-link class="item" :to="'/'+page+'/list/'+(k+1)+'/'+$route.params.sort" v-for="n,k in nav" :key="k">
       <span :class="['iconfont', 'icon'+n.name]"></span>
-      <span>{{n.name}}挖矿</span>
+      <span class="iconfont_name">{{n.name}}</span>
     </router-link>
   </section>
 </template>
@@ -71,6 +71,27 @@
         &.iconLTC:before{
           font-size: 26px;
           content: "\e612"
+        }
+      }
+      .iconfont_name:after{
+        content:'挖矿'
+      }
+    }
+    @media screen and (max-width: $mobile) {
+      margin-top:0;
+      box-shadow:none;
+      line-height: 40px;
+      .item{
+        .iconfont{
+          display: none;
+        }
+        .iconfont_name:after{
+          content:''
+        }
+        &:hover,&.router-link-active{
+          background:$white;
+          border-color:$blue;
+          color:$blue
         }
       }
     }

@@ -292,6 +292,7 @@
       .tips{
         color: $light_black;
       }
+      @include mobile_hide
     }
     .info{
       .info_item{
@@ -313,6 +314,7 @@
           }
         }
       }
+      @include mobile_hide
     }
     .items .text,.info{
       padding:15px 30px;
