@@ -1,42 +1,33 @@
 <template>
   <section class="mask">
-    <div class="form_box">
-      <div class="close" @click="$parent.closeEdit()">
-        <span class="icon"  style="position: absolute;top: 45px;right: 20px;"></span>
-      </div>
-      <h2>{{title}}</h2>
-      <form :class="['form form_content', {card_form: $parent.edit==='card'}]" @submit.prevent="$parent.submit" novalidate v-if="!contract">
-        <FormField :form="form"></FormField>
-        <p v-if="$parent.fee&&$parent.edit!=='GetIncome'">手续费：{{$parent.total_price * $parent.fee|format}}元<span class="fee">({{$parent.fee*100+'%'}})</span></p>
-        <p v-if="$parent.fee&&$parent.edit==='GetIncome'">手续费：{{$parent.total_price * $parent.fee|format(8)}}btc<span class="fee">({{$parent.fee*100+'%'}})</span></p>
-        <button name="btn">确认提交</button>
-      </form>
-      <div class="contract" v-html="contract" v-else></div>
+    <div>
+      sjznzsjzsnsjznsjzns
     </div>
+    <!-- <mt-navbar class="page-part" :selected.sync="selected">
+      <mt-tab-item id="1">选项一</mt-tab-item>
+      <mt-tab-item id="2">选项二</mt-tab-item>
+      <mt-tab-item id="3">选项三</mt-tab-item>
+    </mt-navbar>
+
+    <!-- tab-container -->
+    <!-- <mt-tab-container :active.sync="selected">
+      <mt-tab-container-item id="1">
+        <mt-cell v-for="n in 10" :title="'内容 ' + n"></mt-cell>
+      </mt-tab-container-item>
+      <mt-tab-container-item id="2">
+        <mt-cell v-for="n in 4" :title="'测试 ' + n"></mt-cell>
+      </mt-tab-container-item>
+      <mt-tab-container-item id="3">
+        <mt-cell v-for="n in 6" :title="'选项 ' + n"></mt-cell>
+      </mt-tab-container-item>
+    </mt-tab-container> -->
   </section>
 </template>
 
 <script>
-  import FormField from '@/components/common/FormField'
-  import api from '@/util/function'
+  // import FormField from '@/components/common/FormField'
+  // import api from '@/util/function'
   export default {
-    components: {
-      FormField
-    },
-    props: {
-      form: {
-        type: Array
-      },
-      title: {
-        type: String
-      },
-      contract: {
-        type: String
-      }
-    },
-    filters: {
-      format: api.decimal
-    }
   }
 </script>
 

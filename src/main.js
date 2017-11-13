@@ -5,9 +5,11 @@ import App from './App'
 import ElementUI from 'element-ui'
 import router from './router'
 import store from './store'
+import MintUI from 'mint-ui'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+Vue.use(MintUI)
 
 /* eslint-disable no-new */
 new Vue({
