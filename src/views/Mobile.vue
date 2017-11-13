@@ -1,9 +1,12 @@
 <template>
-  <article class="mobile">
-    <router-view></router-view>
-  </article>
+  <section class="mask">
+    <button>NEIVNEI</button>
+  </section>
 </template>
 
 <style type="text/css" lang="scss">
-  @import '../assets/css/style.scss';
+  @import '../../assets/css/style.scss';
+  .mask{
+    
+  }
 </style>
