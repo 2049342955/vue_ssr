@@ -65,6 +65,11 @@ table{
 .user_box + .body{
   min-height: calc(100vh - 386px)
 }
+@media screen and (max-width: $mobile) {
+  #app > header,#app > footer{
+    display: none;
+  }
+}
 input::-webkit-input-placeholder {
   color:#bfbfbf;
 }
