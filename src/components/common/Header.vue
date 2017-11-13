@@ -249,7 +249,7 @@
     &.web_box{
       background: #242528;
       .box .logo{
-        background: url('../../assets/images/css_sprites.png') -10px -110px;
+        background: url('../../assets/images/logo.png');
       }
       .box nav .item a,.box .side_nav a,.box .side_nav a.tel{
         color:#fff
