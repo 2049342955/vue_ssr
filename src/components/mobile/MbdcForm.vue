@@ -1,5 +1,5 @@
 <template>
-  <section class="bdcform" to="#">
+  <section class="bdcform">
     <div class="mobile_header">
       <span class="left">< <em>返回</em></span>
       <span>算力托管申请</span>

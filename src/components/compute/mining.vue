@@ -1,7 +1,7 @@
 <template>
   <div class="mining">
     <div class="bigbg">
-        <video src="../../assets/images/wakuang.mp4" width="820" height="548" controls="" loop="" muted=""  autoplay="autoplay" poster="https://www.suanlibao.com/static/images/vd.jpg" style="position: relative;top:102px;left:50%;margin-left:-410px;"></video>
+        <video src="../../assets/images/wakuang.mp4" width="820" height="548" controls="" loop="" muted=""  autoplay="autoplay" poster="" style="position: relative;top:102px;left:50%;margin-left:-410px;"></video>
     </div>
     <div class="side">
       <h1>比特币挖矿的五个时代</h1>
@@ -161,18 +161,29 @@
             width: 20%;
             text-align: center;
             float: left;
+            display: block;
             padding-bottom: 5px;
             img{
                 width: 90px; 
+                height: 90px;
+                display: block;
+                margin:0 auto;
                 margin-bottom: 10px;
             }
             h4{
                 font-size: 16px;
                 color: #121212;
+                width: 100%;
+                display: block;
+                line-height: 40px;
             }
             p{
                 color: #666;
+                width: 100%;
                 margin-top: 5px;
+                display: block;
+                line-height: 10px;
+                padding-bottom: 20px;
             }
         }
     }
