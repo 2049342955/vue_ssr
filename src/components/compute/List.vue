@@ -1,20 +1,7 @@
 <template>
-  <div class="activity_list">
-    <div class="and">
-      <h1>
-        <span class="left">云矿机挖机</span>
-        <span class="p">PK</span>
-        <span class="right">自己挖机</span>
-      </h1>
-      <ul>
-        <li v-for="n,k in item">
-          <span class="left">{{n.left}}</span>
-          <span class="con"><i>{{n.con}}</i></span>
-          <span class="right">{{n.right}}</span>
-        </li>
-       </ul>
-    </div>
-    <div class="res">
+  <div class="activity_list" style="width:100%;text-align:center;">
+    <img src="../../assets/images/2.png" style="width:1160px;margin-top:60px;margin-bottom:60px;"/>
+    <!-- <div class="res">
       <h2>云矿机购买记录</h2>
       <div class="table">
         <ul class="thead">
@@ -41,10 +28,10 @@
           </ul>
         </div>
       </div>
-    </div>
-    <div class="info">
+    </div> -->
+    <!-- <div class="info">
       <Swiper :pagination-visible="true" :loop="true" :autoPlay="5000" :data="info" oneWidth="1070" :button="true" :paginationVisiable="false"></Swiper>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>

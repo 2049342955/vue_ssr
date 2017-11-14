@@ -31,6 +31,9 @@
        </div>
        <button class="submit">立即支付</button>
        <p class="radio"><input type="checkbox"/>阅读并同意 <span>《云算力购买协议》</span> <span>《矿机托管协议》</span></p>
+       <img src="../../assets/images/data.png" class="imagesall"/>
+       <img src="../../assets/images/logo.png" class="logo"/>
+       <p class="tel">咨询电话： 0571-28031736</p>
     </div>
   </section>
 </template>
@@ -173,6 +176,23 @@ export default {
                 position: relative;
                 top: .1rem;
             }
+        }
+        .imagesall{
+            width: 94%;
+            margin-left: 3%;
+            margin-top: 2rem;
+        }
+        .logo{
+            width: 30%;
+            margin-left: 35%;
+            margin-top: 1.5rem;
+        }
+        .tel{
+            width: 100%;
+            color: white;
+            text-align: center;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
         }
     }
 </style>
