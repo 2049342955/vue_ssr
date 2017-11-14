@@ -1,18 +1,28 @@
 <template>
   <article class="bdc">
-    <div class="bg-box">
+    <div class="bg_box">
       <div class="bg"></div>
     </div>
-    <div class="top-box">
-      <div class="float-left bdc-box">
-        <div><span class="big-title">BDC</span><span class="subtitle">（Blockchain   Data   Center）</span></div>
-        <div class="bdc-detail">{{text}}</div>
-        <div><span class="service">客服：</span><span class="tel">0571-28031736</span><span class="time">工作日（9:00~18:00）</span></div>
+    <div class="top_box">
+      <div class="float_left bdc_box">
+        <div class="bdc_box_text">
+          <span class="big">BDC</span>
+          <span class="subtitle">（Blockchain   Data   Center）</span>
+        </div>
+        <div class="bdc_detail">{{text}}</div>
+        <div class="service_box">
+          <span class="service">客服：</span>
+          <span class="tel">0571-28031736</span>
+          <span class="time">工作日（9:00~18:00）</span>
+        </div>
+        <div class="btn_box">
+          <router-link to="">申请入口</router-link>
+        </div>
       </div>
-      <div class="float-right form-box">
-        <div class="form-header">提交托管矿机申请</div>
+      <div class="float_right form_box">
+        <div class="form_header">提交托管矿机申请</div>
         <form class="data_form" @submit.prevent="submit" novalidate v-if="!success">
-          <div class="form-line" v-for="f in form">
+          <div class="form_line" v-for="f in form">
             <span class="label">{{f.title}}</span><input :class="{yan: f.addon}" type="text" :name="f.name" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" :title="f.tips" :maxlength="f.maxlength" v-if="f.type==='text'">
             <div ref="count_btn" class="form_btn" @click="getCode" v-if="f.addon">{{str}}</div>
             <select :name="f.name" v-if="f.type==='select'">
@@ -30,16 +40,42 @@
         </div>
       </div>
     </div>
-    <div class="item-box-row">
-      <div class="item-box" v-for="(item, index) in list" :key="item.bdc_name">
-        <div class="header">{{item.bdc_name}}</div>
-        <div class="overflow">
-          <img class="float-left" :src="item.bdc_img" alt="">
-          <div class="float-left tip">
-            <div class="line"><span>算力机房规模</span>{{item.bdc_scope}}</div>
-            <div class="line"><span>供电类型</span>{{item.bdc_electric_type}}</div>
-            <div class="line"><span>散热方式</span>{{item.bdc_radiating_type}}</div>
-            <div class="line"><span>支持服务器</span>{{item.bdc_Mills_type}}</div>
+    <div class="item_box_row">
+      <div class="item_box" v-for="(item, index) in list" :key="item.bdc_name">
+        <div class="pc_box">
+          <div class="header">{{item.bdc_name}}</div>
+          <div class="overflow">
+            <img class="float_left" :src="item.bdc_img" alt="">
+            <div class="float_left tip">
+              <div class="line"><span>算力机房规模</span>{{item.bdc_scope}}</div>
+              <div class="line"><span>供电类型</span>{{item.bdc_electric_type}}</div>
+              <div class="line"><span>散热方式</span>{{item.bdc_radiating_type}}</div>
+              <div class="line"><span>支持服务器</span>{{item.bdc_Mills_type}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="mobile_box">
+          <div class="header">{{item.bdc_name}}</div>
+          <div class="box_img">
+            <img :src="item.bdc_img" alt="">
+          </div>
+          <div class="box_text">
+            <div class="line">
+              <span>算力机房规模</span>
+              <span>{{item.bdc_scope}}</span>
+            </div>
+            <div class="line">
+              <span>供电类型</span>
+              <span>{{item.bdc_electric_type}}</span>
+            </div>
+            <div class="line">
+              <span>散热方式</span>
+              <span>{{item.bdc_radiating_type}}</span>
+            </div>
+            <div class="line">
+              <span>支持服务器</span>
+              <span>{{item.bdc_Mills_type}}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -142,57 +178,69 @@
   }
 </script>
 
-<style type="text/css" lang="scss" scoped>
+<style type="text/css" lang="scss">
   @import '../assets/css/style.scss';
   .bdc{
-    padding-top:80px;
     font-size: 18px;
     color: #fff;
-    .bg-box{
-      width: 100%;
-      height: 558px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      overflow: hidden;
-      background: #15121c;
-      z-index: -1;
+    .bg_box{
+      @include bg(1920,558px,#15121c)
+      padding-top:638px;
       .bg{
         background: url('../assets/images/bdc_bg.jpg') no-repeat;
-        width:100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        margin-left: -960px;
       }
+      z-index:-1
     }
-    .top-box{
-      margin: 0 auto;
-      width: 1180px;
+    .top_box{
+      margin-top:-558px;
+      @include main
       overflow: hidden;
       padding: 20px 0;
-      .bdc-box{
+      .bdc_box{
         width: 670px;
         margin-top: 85px;
-        .bdc-detail{
+        .bdc_detail{
           margin: 30px 0;
           font-size: 16px;
+          line-height: 2;
+        }
+        .bdc_box_text{
+          .big{
+            font-weight: bold;
+            font-size: 48px;
+          }
+        }
+        .service_box{
+          font-size: 14px;
+          color:$light_black;
+          .tel{
+            color:$white;
+            font-size: 18px;
+            font-weight: bold;
+          }
+          .time{
+            font-size: 12px;
+            margin-left:10px
+          }
+          @include mobile_hide
+        }
+        .btn_box{
+          @include mobile_show
         }
       }
-      .form-box{
+      .form_box{
         background-color: #15121c;
         width: 410px;
         height: 438px;
         padding: 10px 45px;
-        .form-header{
+        .form_header{
           font-weight: bold;
           text-align: center;
           margin-bottom: 10px;
           color: #fff;
         }
         .data_form{
-          .form-line{
+          .form_line{
             position: relative;
             height: 40px;
             border-radius: 5px;
@@ -287,54 +335,14 @@
             }
           }
         }
+        @include mobile_hide
       }
     }
-    .item-box-row{
+    .item_box_row{
       background-color: #15121c;
       padding-bottom: 35px;
-      .item-box{
-        width: 1180px;
-        margin: 0 auto;
-        padding-top: 55px;
-        border-bottom: 1px solid #000;
-        padding-bottom: 45px;
-        background-color: #15121c;
-        &:last-child{
-          border: none;
-        }
-        & img{
-          width: 590px;
-          height: 460px;
-        }
-        & .line{
-          margin-bottom: 40px;
-        }
-        .tip{
-          padding-top: 80px;
-        }
-        .working{
-          width: 260px;
-          height: 40px;
-          line-height: 40px;
-          background-color: #15121c;
-          margin-top: 120px;
-          margin-left: 170px;
-          text-align: center;
-        }
-        & .overflow{
-          background-color: #25212f;
-          & span{
-            font-weight: bold;
-            display: inline-block;
-            width: 145px;
-            height: 45px;
-            line-height: 45px;
-            text-align: center;
-            margin-right: 50px;
-            margin-left: 65px;
-            background-color: #15121c;
-          }
-        }
+      .item_box{
+        padding:0 15px;
         .header{
           font-size: 24px;
           text-align: center;
@@ -360,6 +368,115 @@
             vertical-align: middle;
             margin-left: 80px;
           }
+          @media screen and (max-width: $mobile) {
+            // width:800px;
+            // font-size: 20px;
+            &:before{
+              // width: 61px;
+              // height: 18px;
+              margin-right: 10px;
+            }
+            &:after{
+              // width: 61px;
+              // height: 17.5px;
+              margin-left: 10px;
+            }
+            // transform:scale(.8)
+          }
+        }
+        .pc_box{
+          @include main
+          padding-top: 55px;
+          border-bottom: 1px solid #000;
+          padding-bottom: 45px;
+          background-color: #15121c;
+          &:last-child{
+            border: none;
+          }
+          & img{
+            width: 590px;
+            height: 460px;
+          }
+          & .line{
+            margin-bottom: 40px;
+          }
+          .tip{
+            padding-top: 80px;
+          }
+          .working{
+            width: 260px;
+            height: 40px;
+            line-height: 40px;
+            background-color: #15121c;
+            margin-top: 120px;
+            margin-left: 170px;
+            text-align: center;
+          }
+          & .overflow{
+            background-color: #25212f;
+            & span{
+              font-weight: bold;
+              display: inline-block;
+              width: 145px;
+              height: 45px;
+              line-height: 45px;
+              text-align: center;
+              margin-right: 50px;
+              margin-left: 65px;
+              background-color: #15121c;
+            }
+          }
+          @include mobile_hide
+        }
+        .mobile_box{
+          @include mobile_show
+        }
+      }
+    }
+    @media screen and (max-width: $mobile) {
+      padding-top:0;
+      .bg_box{
+        width:100%;
+        height:400px;
+        padding:0;
+        .bg{
+          position: relative;
+          left:0;
+          width:100%;
+          height:400px;
+          background: url('../assets/images/bdc_mobile.jpg') no-repeat 100%;
+        }
+      }
+      .top_box{
+        margin-top:-400px;
+        padding:15px;
+        .bdc_box{
+          width:100%;
+          margin-top: 0;
+          color:#bfbfbf;
+          .bdc_detail{
+            line-height: 1.5;
+            margin: 15px 0;
+          }
+          .bdc_box_text{
+            color:#fff;
+            text-align: center;
+            margin-top:15px;
+            .big{
+              font-size: 24px;
+              font-weight: normal;
+            }
+          }
+          .btn_box{
+            text-align: center;
+            a{
+              display: inline-block;
+              @include button($blue)
+              width:300px;
+              line-height: 2;
+              border-radius:5px
+            }
+          }
         }
       }
     }
@@ -367,10 +484,10 @@
   .overflow{
     overflow: hidden;
   }
-  .float-left{
+  .float_left{
     float: left;
   }
-  .float-right{
+  .float_right{
     float: right;
   }
 </style>
