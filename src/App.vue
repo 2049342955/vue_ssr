@@ -24,5 +24,5 @@
 </script>
 
 <style type="text/css" lang="scss">
-  // @import './assets/css/public.scss';
+  @import './assets/css/public.scss';
 </style>

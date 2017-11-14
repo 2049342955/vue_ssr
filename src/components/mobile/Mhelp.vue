@@ -1,9 +1,5 @@
 <template>
   <section class="issues">
-    <div class="mobile_header">
-      <span class="left">< <em>返回</em></span>
-      <span>帮助中心</span>
-    </div>
     <div class="issues_box" v-show="show">
       <div class="issues_lists">
         <div class="item" v-for="n,k in nav" @click="fetchData(n.help_class_id,k)">

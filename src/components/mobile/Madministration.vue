@@ -1,9 +1,5 @@
 <template>
   <section class="admin">
-    <div class="mobile_header">
-      <span class="left">< <em>返回</em></span>
-      <span>账户管理</span>
-    </div>
     <div class="list">
       <div class="item" v-for="k in 2" @click="setInfo(list[k-1].name,menu[k-1].status)">
         <span>{{list[k-1].title}}</span>
