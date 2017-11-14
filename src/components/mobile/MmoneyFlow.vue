@@ -1,9 +1,5 @@
 <template>
   <section class="bdcform" to="#">
-    <div class="mobile_header">
-      <span class="left">< <em>我的</em></span>
-      <span>资金流水</span>
-    </div>
     <p>
       <span>资金用途</span>
       <span>金额（元）</span>

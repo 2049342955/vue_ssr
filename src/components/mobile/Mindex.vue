@@ -36,7 +36,7 @@
   @import '../../assets/css/style.scss';
   .m_home{
     min-height:100vh;
-    padding-bottom:15px;
+    padding-bottom:60px;
     background: #f4f4f4;
     .swiper{
       .swiper_wrap{
@@ -59,15 +59,17 @@
         }
         @include flex
         .item_img{
-          width:60px;
+          width:1.7rem;
         }
         .item_text{
           margin-left:10px;
           h3{
             font-weight: bold;
+            font-size:0.6rem;
           }
           p{
-            color:$light_black
+            color:$light_black;
+            font-size: 0.5rem;
           }
         }
       }

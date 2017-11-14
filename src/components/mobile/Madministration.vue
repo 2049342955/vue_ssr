@@ -1,9 +1,5 @@
 <template>
   <section class="admin">
-    <div class="mobile_header">
-      <span class="left">< <em>返回</em></span>
-      <span>账户管理</span>
-    </div>
     <div class="list">
       <div class="item" v-for="k in 2" @click="setInfo(list[k-1].name,menu[k-1].status)">
         <span>{{list[k-1].title}}</span>
@@ -14,7 +10,7 @@
     <div class="list">
       <div class="item" v-for="k in 4" @click="setInfo(list[k+1].name,menu[k+1].status)">
         <span>{{list[k+1].title}}</span>
-        <i>设置<em>></em></i>
+        <i>设置<em style="margin-left:.3rem;">></em></i>
       </div>
     </div>
     <div class="list">
@@ -182,10 +178,10 @@
       box-sizing: border-box;
       .item{
         width: 100%;
-        height: 1.5rem;
+        height: 2rem;
         display: flex;
         justify-content: space-between;
-        line-height: 1.5rem;
+        line-height: 2rem;
         span{
           color: #121212;
           font-size: 0.6rem;
