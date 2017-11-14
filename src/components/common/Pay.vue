@@ -79,7 +79,7 @@
           <FormField :form="form" class="form"></FormField>
           <label for="accept">
             <input type="checkbox" v-model="toggle" id="accept" name="accept">
-            <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《算力网{{page === 'cloudCompute'? ($route.path.includes('yes')?'分期':'购买'):'转让'}}协议》</a>和<a href="javascript:;" style="color:#327fff;">《算力网托管协议》</a></span>
+            <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《算力网{{page === 'cloudCompute'? ($parent.show?'分期':'购买'):'转让'}}协议》</a>和<a href="javascript:;" style="color:#327fff;">《算力网托管协议》</a></span>
             <span class="select_accept">{{tips}}</span>
           </label>
           <button name="btn">确认支付</button>
@@ -115,8 +115,14 @@
       </div>
     </template>
     <div v-else-if="showAgreement===1" class="agreement_text">
-      <div class="" v-html="$parent.content"></div>
-      <div class="" v-html="$parent.content1"></div>
+      <template v-if="!$parent.show">
+        <div class="" v-html="$parent.content"></div>
+        <div class="" v-html="$parent.content1"></div>
+      </template>
+      <template v-else="$parent.show">
+        <div class="" v-html="$parent.content"></div>
+        <div class="" v-html="$parent.part_content"></div>
+      </template>
       <div class="btn_box">
         <button @click="agree">我同意</button>
       </div>
