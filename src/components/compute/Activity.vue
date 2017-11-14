@@ -1,7 +1,10 @@
 <template>
   <div class="activity_box">
     <div class="bg_box">
-      <img :src="data.activity_picture" alt="">
+      <img :src="require('@/assets/images/6.png')"/>
+    </div>
+    <div class="mobile_bg_box">
+      <img :src="require('@/assets/images/5.png')" alt="">
     </div>
     <div class="buy_form">
       <div class="form_bg">
@@ -38,32 +41,84 @@
         </div>
       </div>
     </div>
-    <List></List>
+    <div class="mobile_form">
+      <h1>{{data.name}}</h1>
+      <div class="side">
+        <ul>
+          <li v-for="t,k in text">
+            <p class="price"><em>{{data[k]}}</em> {{t.unit}}</p>
+            <p class="title">{{t.title}}</p>
+          </li>
+        </ul>
+        <div class="bottom">
+          <div class="one" style="margin-bottom:1rem;">
+            <span class="title">购买数量</span>
+            <span class="flex">
+              <span class="aes" @click="changeNum(+number-1)">-</span>
+              <input type="number" v-model="number" name="number" placeholder="购买数量" class="number" @blur="changeNum(number)"/>
+              <span class="desc" @click="changeNum(+number+1)">+</span>
+            </span>
+          </div>
+          <div class="one">
+            <span class="title">购买算力</span>
+            <span class="price">{{totalHash}}T</span>
+          </div>
+          <div class="one">
+            <span class="title">支付金额</span>
+            <span class="price">{{totalPrice}}元</span>
+          </div>
+        </div>
+      </div>
+      <button class="submit" @click="gobuy(1)">立即支付</button>
+      <label for="accept">
+        <input type="checkbox" :value="accept" id="accept" name="accept">
+        <span @click="openContract(3)">阅读并接受<a href="javascript:;">《云矿机购买协议》</a>和<a href="javascript:;">《矿机托管协议》</a></span>
+        <span class="select_accept">{{tips}}</span>
+      </label>
+      <img src="../../assets/images/data.png" class="imagesall"/>
+      <img src="../../assets/images/logo.png" class="logo"/>
+      <p class="tel">咨询电话： 0571-28031736</p>
+    </div>
+    <!-- <List></List> -->
+    <div class="activity_img">
+      <img :src="require('@/assets/images/2.png')"/>
+    </div>
     <MyMask :form="auth" :title="title" :contract="contract" v-if="edit"></MyMask>
+    <mt-popup position="bottom" v-model="mobileEdit">
+      <div class="mobile_contract" v-if="contract" v-html="contract"></div>
+      <form class="form" @submit.prevent="submit" novalidate v-else>
+        <FormField :form="auth"></FormField>
+        <button name="btn">提交</button>
+      </form>
+    </mt-popup>
   </div>
 </template>
 
 <script>
+  import { Toast } from 'mint-ui'
   import util from '@/util'
   import api from '@/util/function'
   import List from './List'
   import MyMask from '@/components/common/Mask'
+  import FormField from '@/components/common/FormField'
   import { mapState } from 'vuex'
   export default {
     components: {
-      List, MyMask
+      List, MyMask, FormField
     },
     data () {
       return {
-        text: {one_amount_value: {unit: '元/台', title: '算力服务器价格'}, hash: {unit: 'T/台', title: '服务器算力'}, amount: {unit: '台', title: '出售总量'}},
+        text: {one_amount_value: {unit: '元/台', title: '算力服务器价格'}, hash: {unit: 'T/台', title: '服务器算力'}, left_amount: {unit: '台', title: '剩余数量'}},
         data: {},
         auth: [{name: 'truename', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'card_type', type: 'text', title: '证件类型', edit: 'card_type', isChange: true}, {name: 'idcard', type: 'text', title: '证件号码', placeholder: '请输入您的证件号码', pattern: 'idCard'}, {name: 'mobile', type: 'text', title: '手机号码', edit: 'mobile'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}],
+        mobileData: [{title: '算力服务器价格', unit: '元/台'}, {title: '服务器算力', unit: 'T'}, {title: '剩余总量', unit: '台'}],
         totalHash: '0.00',
         totalPrice: '0.00',
         number: '',
         tips: '',
         accept: false,
         edit: 0,
+        mobileEdit: false,
         title: '',
         contract: '',
         content: '',
@@ -72,20 +127,31 @@
     },
     methods: {
       changeNum (n) {
-        var maxNum = +this.data.amount - (+this.data.sell_amount)
+        // var maxNum = +this.data.amount - (+this.data.sell_amount)
         if (this.data.num < 1) {
           api.tips('您已超过购买限制')
           return false
         }
-        this.number = n < 1 ? 1 : n > this.data.num ? this.data.num : n > maxNum ? maxNum : n
+        // this.number = n < 1 ? 1 : n > this.data.num ? this.data.num : n > maxNum ? maxNum : n
+        this.number = n < 1 ? 1 : n > 11 ? 11 : n
         this.totalHash = this.number * this.data.hash
         this.totalPrice = this.number * this.data.one_amount_value
       },
-      openContract (n) {
+      openContract (n, mobile) {
         this.accept = true
-        window.scroll(0, 0)
-        document.body.style.overflow = 'hidden'
-        this.edit = n
+        if (mobile && n === 1) {
+          this.mobileEdit = true
+          this.contract = ''
+          return false
+        }
+        if (n === 3) {
+          this.mobileEdit = true
+          this.contract = this.content
+        } else {
+          window.scroll(0, 0)
+          document.body.style.overflow = 'hidden'
+          this.edit = n
+        }
         if (n === 1) {
           this.contract = this.content
           this.title = '协议详情'
@@ -94,22 +160,28 @@
           this.title = '实名认证'
         }
       },
-      gobuy () {
-        if (this.data.num < 1) {
-          api.tips('您已超过购买限制')
+      gobuy (mobile) {
+        // if (this.data.num < 1) {
+        //   api.tips('您已超过购买限制')
+        //   return false
+        // }
+        if (!this.token) {
+          this.$store.commit('SET_URL', this.$route.path)
+          this.$router.push({name: 'login'})
+          this.$store.commit('LOGOUT')
           return false
         }
         if (!this.true_name) {
-          this.openContract(2)
+          this.openContract(2, mobile)
           return false
         }
         var ele = document.querySelector('#accept')
         if (!this.number) {
-          this.check(ele, '请填写数量')
+          this.check(ele, '请填写数量', mobile)
           return false
         }
         if (!ele.checked) {
-          this.check(ele, '请同意服务条款')
+          this.check(ele, '请同意服务条款', mobile)
           return false
         }
         var callbackUrl = location.protocol + '//' + location.host + '/user/order/0/1'
@@ -130,16 +202,24 @@
         this.edit = ''
         document.body.style.overflow = 'auto'
       },
-      check (ele, str) {
-        if (this.data.num < 1) {
-          api.tips('您已超过购买限制')
-          return false
+      check (ele, str, mobile) {
+        // if (this.data.num < 1) {
+        //   api.tips('您已超过购买限制')
+        //   return false
+        // }
+        if (mobile) {
+          Toast({
+            message: str,
+            position: 'middle',
+            duration: 3000
+          })
+        } else {
+          this.tips = str
+          ele.setAttribute('data-status', 'invalid')
+          setTimeout(() => {
+            ele.setAttribute('data-status', '')
+          }, 2000)
         }
-        this.tips = str
-        ele.setAttribute('data-status', 'invalid')
-        setTimeout(() => {
-          ele.setAttribute('data-status', '')
-        }, 2000)
       },
       submit () {
         var form = document.querySelector('.form_content')
@@ -186,14 +266,8 @@
       })
     },
     mounted () {
-      if (!this.token) {
-        this.$store.commit('SET_URL', this.$route.path)
-        this.$router.push({name: 'login'})
-        this.$store.commit('LOGOUT')
-        return false
-      }
       var self = this
-      util.post('showProduct', {sign: api.serialize({token: this.token})}).then(function (res) {
+      util.post('showMiner', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.data = res
           self.content = res.content + '<hr>' + res.content1
@@ -214,6 +288,10 @@
     background: #151136;
     .bg_box{
       @include bg(1920,445px,#110d30)
+      @include mobile_hide
+    }
+    .mobile_bg_box{
+      @include mobile_show
     }
     .buy_form{
       height:530px;
@@ -291,31 +369,202 @@
           margin:10px 0;
         }
         label{
-          display: block;
           width:360px;
-          @include accept_label
-          &, & a{
-            color:#fff;
+        }
+      }
+      @include mobile_hide
+    }
+    .mobile_form{
+      @include mobile_show
+      background: #151136;
+      h1{
+        width: 100%;
+        color: white;
+        font-size: 0.7rem;
+        text-align: center;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .side{
+        width: 96%;
+        margin-left: 2%;
+        overflow: hidden;
+        background: url('../../assets/images/4.png') no-repeat;
+        background-size: 100% 100%;
+        padding:0 .3rem;
+        box-sizing: border-box;
+        padding-bottom: 0.5rem;
+        ul{
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          padding-top: 0.5rem;
+          border-bottom: 1px dashed white;
+          padding-bottom: 0.7rem;
+          li{
+            width:  33.3%;
+            text-align: center;
+            .price{
+              color: #fede00;
+              font-size: 0.5rem;
+              em{
+                font-style: normal;
+                font-size: 0.7rem;
+                font-weight: 800;
+              }
+            }
+            .title{
+              font-size: 0.5rem;
+              color: white;
+              padding-top: 0.1rem;
+            }
           }
-          input{
-            @include checkbox(18,2px)
-            background: #fff;
-            &:checked{
-              background: #fff;
-              border-color: #fff;
-              &:before{
-                border-color: $text;
+        }
+       .bottom{
+          padding-top: 1rem;
+          .one{
+            width: 100%;
+            padding: 0 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: .5rem;
+            .title{
+              font-size: 0.6rem;
+            }
+            .price{
+              color: #fede00;
+              font-size: 0.6rem;
+            }
+            span{
+              color:white;
+              &.flex{
+                display: flex;
+                justify-content: space-between;
+                .number{
+                  width: 3rem;
+                  height: 1rem;
+                  background: white;
+                  text-align: center;
+                  line-height: 1rem;
+                }
+                .aes{
+                  width: 1.2rem;
+                  height: 1rem;
+                  border-top-left-radius: .1rem;
+                  border-bottom-left-radius: .1rem;
+                  text-align: center;
+                  color:#666666;
+                  background: #e5e5e5;
+                  font-weight: 800;
+                  font-size: 0.8rem;
+                  line-height: 1rem;
+                }
+                .desc{
+                  width: 1.2rem;
+                  height: 1rem;
+                  border-top-right-radius: .1rem;
+                  border-bottom-right-radius: .1rem;
+                  text-align: center;
+                  color:#666666;
+                  background: #e5e5e5;
+                  font-weight: 800;
+                  font-size: 0.8rem;
+                  line-height: 1rem;
+                }
               }
             }
           }
         }
       }
+      .submit{
+        width: 94%;
+        height: 1.8rem;
+        background: url('../../assets/images/1.png');
+        background-size: 100% 100%;
+        margin-top: 1rem;
+        margin-left: 3%;
+        color:white;
+        border:0;
+      }
+      .radio{
+        color: white;
+        font-size: 0.5rem;
+        width: 100%;
+        text-align: center;
+        margin-top: 0.5rem;
+        input{
+          width: 0.6rem;
+          background: white;
+          height: 0.6rem;
+          border-radius: .1rem;
+          margin-right: .2rem;
+          position: relative;
+          top: .1rem;
+        }
+      }
+      .imagesall{
+        width: 94%;
+        margin-left: 3%;
+        margin-top: 2rem;
+      }
+      .logo{
+        width: 30%;
+        margin-left: 35%;
+        margin-top: 1.5rem;
+      }
+      .tel{
+        width: 100%;
+        color: white;
+        text-align: center;
+        margin-top: 0.5rem;
+        padding-bottom: 1rem;
+      }
+      label{
+        width:100%;
+        padding:15px;
+      }
+    }
+    .buy_form .buy_input,.mobile_form{
+      label{
+        display: block;
+        @include accept_label
+        &, & a{
+          color:#fff;
+        }
+        input{
+          @include checkbox(18,2px)
+          background: #fff;
+          &:checked{
+            background: #fff;
+            border-color: #fff;
+            &:before{
+              border-color: $text;
+            }
+          }
+        }
+      }
+    }
+    .activity_img{
+      @include mobile_hide
+      @include main
+      padding:60px 0
     }
     .mask{
       h2{
         line-height: 52px;
         padding:0 28px;
         border-bottom: 1px solid $border;
+      }
+    }
+    .mint-popup{
+      .form,.mobile_contract{
+        width:100vw;
+        max-height:90vh;
+        padding:15px;
+        overflow:auto;
+      }
+      .mobile_contract{
+        
       }
     }
   }

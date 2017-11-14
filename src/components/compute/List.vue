@@ -1,7 +1,6 @@
 <template>
-  <div class="activity_list" style="width:100%;text-align:center;">
-    <img src="../../assets/images/2.png" style="width:1160px;margin-top:60px;margin-bottom:60px;"/>
-    <!-- <div class="res">
+  <div class="activity_list">
+    <div class="res">
       <h2>云矿机购买记录</h2>
       <div class="table">
         <ul class="thead">
@@ -28,12 +27,13 @@
           </ul>
         </div>
       </div>
-    </div> -->
-    <!-- <div class="info">
+    </div>
+    <div class="info">
       <Swiper :pagination-visible="true" :loop="true" :autoPlay="5000" :data="info" oneWidth="1070" :button="true" :paginationVisiable="false"></Swiper>
-    </div> -->
+    </div>
   </div>
 </template>
+
 <script>
   import api from '../../util/function'
   import util from '../../util'
@@ -97,6 +97,7 @@
     }
   }
 </script>
+
 <style lang="scss">
   @import '../../assets/css/style.scss';
   .activity_list{

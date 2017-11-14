@@ -41,6 +41,7 @@
       @include mobile_hide
     }
     .mobile_logo{
+      @include mobile_show
       text-align: center;
       padding-top:30px;
       img{
