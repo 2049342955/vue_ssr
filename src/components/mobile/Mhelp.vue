@@ -6,12 +6,14 @@
     </div>
     <div class="issues_box">
       <div class="issues_lists">
-        <div class="item" v-for="n,k in nav" @click="fetchData(n.help_class_id,k)">{{n.name}}</div>
-      </div>
-      <div class="issues_list">
-        <a class="item" v-for="l,k in list">
-          <span :class="{active: show}">{{l.title}}<em>></em></span>
-        </a>
+        <div class="item" v-for="n,k in nav" @click="fetchData(n.help_class_id,k)">
+          <p class="titleall">{{n.name}}</p>
+          <div class="issues_list" v-show="show">
+            <a class="item" v-for="l,k in list">
+              <span :class="{active: show}">{{l.title}}</span>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -76,17 +78,19 @@
       height: 100vh;
       .issues_lists{
         width:100%;
-        display: flex;
-        justify-content: space-between;
-        background:white;
         padding:0;
         .item{
           cursor: pointer;
-          width:100px;
-          background: white;
+          width: 100%;
           text-align: center;
           color:#121212;
+          // border-bottom:1px solid #ddd;
           line-height: 3;
+          .titleall{
+            width: 100%;
+            height: 1.5rem;
+            background: white;
+          }
           &:hover{
               color:#327fff;
           }
@@ -98,12 +102,10 @@
       .issues_list{
         width:100%;
         line-height: 2;
-        margin-top: 0.5rem;
         .item{
           border-top:1px solid #ddd;
           overflow: hidden;
           line-height: 1.5rem;
-          background: white;
           cursor: pointer;
           width: 100%;
           display: block;
