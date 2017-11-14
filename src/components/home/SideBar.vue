@@ -41,7 +41,7 @@
         }
       },
       test (e) {
-        var ele = document.querySelector('.frame_header')
+        var ele = document.querySelector('.fixed_header')
         var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
         if (!ele || !this.$refs.bar) return false
         if (scrollTop > 0) {
@@ -123,7 +123,8 @@
           background: url('../../assets/images/css_sprites.png') -110px -10px;
         }
         .wechat{
-          background: url('../../assets/images/css_sprites.png') -10px -10px;
+          background: url('../../assets/images/qrcode.jpg');
+          background-size: 100% 100%;
         }
       }
       &:hover{

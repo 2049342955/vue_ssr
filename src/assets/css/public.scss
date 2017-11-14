@@ -66,11 +66,12 @@ table{
   min-height: calc(100vh - 386px)
 }
 @media screen and (max-width: $mobile) {
-  #app > header,#app > footer{
+  #app > header{
     display: none;
   }
   .body{
     min-height: 100vh;
+    padding-bottom:46px;
   }
 }
 input::-webkit-input-placeholder {

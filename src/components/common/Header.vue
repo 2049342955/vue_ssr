@@ -50,7 +50,7 @@
       }
     },
     mounted () {
-      if (api.checkEquipment) {
+      if (api.checkEquipment()) {
         if (this.$route.name === 'home') {
           this.$router.push({name: 'mobileHome'})
         }
@@ -144,8 +144,8 @@
         @include flex
         .logo{
           display: inline-block;
-          width: 152px;
-          height: 38px;
+          width: 140px;
+          height: 29px;
           margin-right:60px;
         }
         nav{
