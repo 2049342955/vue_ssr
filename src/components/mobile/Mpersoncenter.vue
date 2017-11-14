@@ -87,7 +87,7 @@ export default {
                 text-align: center;
                 line-height: 1.2rem;
                 margin-left: 1.5rem;
-                margin-top: 1.5rem;
+                margin-top: 1.4rem;
                 img{
                   width: 1.2rem;
                   height: auto;
