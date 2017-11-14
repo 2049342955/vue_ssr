@@ -195,70 +195,7 @@
       margin-top:0;
       padding:15px 0;
       .box .data .item{
-        padding:0 15px;
-        border-top:1px solid $border;
-        border-bottom:1px solid $border;
-        h3{
-          margin-bottom:0;
-          border-bottom:1px solid $border;
-          line-height: 40px;
-          .icon_currency{
-            display: none;
-          }
-          .sell_type{
-            width:45px;
-            border-radius:5px;
-            background: #ff721f;
-            color:$white;
-            &.active{
-              background: $blue;
-              color:$white;
-            }
-          }
-        }
-        .info_box{
-          display: none;
-        }
-        .mobile_info_box{
-          display: block;
-          color:$light_black;
-          line-height: 2;
-          padding:5px 0 10px 0;
-          @include flex(space-between)
-          .mobile_info{
-            width:75%;
-            h4{
-              span{
-                margin-left:10px;
-                color:#ffb386;
-                b{
-                  font-weight: normal;
-                  font-size: 24px;
-                  color:$orange;
-                }
-              }
-            }
-            .mobile_text{
-              @include flex(space-between)
-              .mobile_text_item{
-                b{
-                  font-weight: normal;
-                  color:$text;
-                  margin:0 4px;
-                }
-              }
-            }
-          }
-          .sell_progress{
-            width:70px;
-            height:70px;
-            line-height: 70px;
-            text-align: center;
-            border-radius:50%;
-            border:2px solid $border;
-            color:$orange
-          }
-        }
+        @include mobile_data
       }
     }
   }

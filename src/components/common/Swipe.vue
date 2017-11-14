@@ -22,13 +22,26 @@
       </template>
       <template velse>
         <div class="swiper_one"  :style="{width:oneWidth+'px'}" v-for="n,k in slideEls">
-          <div class="left">
-            <img :src="require('@/assets/images/header.png')" class="header"/>
-            <img :src="require('@/assets/images/color.png')" class="index"/> 
-            <h5>{{n.name}}</h5>
-            <p>{{n.time}}</p>
-          </div>
-          <div class="right">{{n.content}}</div>
+          <template v-if="n.name">
+            <div class="left">
+              <img :src="require('@/assets/images/header.png')" class="header"/>
+              <img :src="require('@/assets/images/color.png')" class="index"/> 
+              <h5>{{n.name}}</h5>
+              <p>{{n.time}}</p>
+            </div>
+            <div class="right">{{n.content}}</div>
+          </template>
+          <template v-else>
+            <router-link to="/user/computeProperty" v-if="k<=1">
+              <img :src="require('@/assets/images/mobile1.jpg')" alt="">
+            </router-link>
+            <router-link to="/bdc" v-else-if="k>=3">
+              <img :src="require('@/assets/images/mobile3.jpg')" alt="">
+            </router-link>
+            <router-link to="/cloudCompute/activity" v-else>
+              <img :src="require('@/assets/images/mobile2.jpg')" alt="">
+            </router-link>
+          </template>
         </div>
       </template>
     </div>
@@ -76,6 +89,7 @@
     data () {
       return {
         banners: [1, 2, 2, 2],
+        bannersMobile: 5,
         slideEls: [],
         currentPage: 1,
         delta: 0,
@@ -204,8 +218,7 @@
         this.translateX = value
       },
       getTouchPos (e) {
-        var key = this.pageX
-        return e.changedTouches ? e.changedTouches[0][key] : e[key]
+        return e.changedTouches ? e.changedTouches[0]['pageX'] : e['pageX']
       },
       onInit () {
         this.width = document.body.clientWidth || document.documentElement.clientWidth
@@ -229,6 +242,7 @@
 </script>
 
 <style type="text/css" lang="scss">
+  @import '../../assets/css/style.scss';
   .swiper {
     position: relative;
     overflow: hidden;
@@ -256,6 +270,19 @@
         &.active {
           border-bottom: 2px solid #fff;
           opacity: 1;
+        }
+      }
+      @media screen and (max-width: $mobile) {
+        bottom: 2px;
+        .swiper-pagination-bullet{
+          width: 10px;
+          border-bottom: 10px solid #000000;
+          border-top:0;
+          border-radius:50%;
+          &.active {
+            border-bottom: 10px solid #fff;
+            opacity: 1;
+          }
         }
       }
     }

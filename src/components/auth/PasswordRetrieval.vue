@@ -89,7 +89,13 @@
       @include form
       h2{
         margin-top:0;
+        @include mobile_hide
       }
+    }
+    @media screen and (max-width: $mobile) {
+      width:100%;
+      padding:30px 15px;
+      background: #fff;
     }
   }
 </style>

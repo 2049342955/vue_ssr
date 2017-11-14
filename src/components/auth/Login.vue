@@ -13,8 +13,11 @@
       <FormField :form="form"></FormField>
       <button name="btn">登录</button>
       <div class="go_regist">
-        <span>还没有账号？</span>
-        <router-link to="/auth/regist">免费注册</router-link>
+        <router-link class="link_btn" to="/auth/passwordRetrieval">忘记密码</router-link>
+        <div class="regist_link">
+          <span>还没有账号？</span>
+          <router-link to="/auth/regist">免费注册</router-link>
+        </div>
       </div>
     </form>
   </div>
@@ -88,6 +91,7 @@
       h3{
         font-size: 18px;
       }
+      @include mobile_hide
     }
     .form{
       color:$light_text;
@@ -103,12 +107,18 @@
           margin-top:8px;
           float: right;
         }
-        margin-bottom:35px
+        margin-bottom:35px;
+        @include mobile_hide
       }
       .go_regist{
         border-top:1px dashed $border;
         padding-top:15px;
-        text-align: center;
+        .link_btn{
+          @include mobile_show
+        }
+        .regist_link{
+          text-align: center;
+        }
         a{
           color:$blue
         }
@@ -128,6 +138,19 @@
       }
       button{
         margin-top:0
+      }
+    }
+    @media screen and (max-width: $mobile) {
+      .form .go_regist{
+        border-top:0;
+        padding-top:0;
+        @include flex(space-between)
+        &,a{
+          font-size: 14px;
+        }
+      }
+      .form .input input{
+        padding-left:15px;
       }
     }
   }

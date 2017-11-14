@@ -113,6 +113,42 @@
           </table>
         </div>
       </div>
+      <div class="mobile_box">
+        <div class="price">
+          <span>应付金额</span>
+          <span class="val">{{$parent.totalPrice}}元</span>
+        </div>
+        <div class="confirm_info">
+          <div class="item" v-for="m,k in mobileNav">
+            <span>{{m.title}}</span>
+            <span v-if="k==='number'&&page==='cloudCompute'">{{$parent.number}}{{m.unit}}</span>
+            <span v-else-if="k==='number'&&page!=='cloudCompute'">{{$parent.detail.hash}}{{m.unit}}</span>
+            <span v-else>{{$parent.detail[k]}}{{m.unit}}</span>
+          </div>
+        </div>
+        <form action="" class="form payForm2" @submit.prevent="pay(1)" novalidate>
+          <div class="pay_info">
+            <div class="pay_item">
+              <div>
+                <span>可用余额</span>
+                <span class="val">{{$parent.balance}}元</span>
+              </div>
+              <router-link to="/user/recharge">充值</router-link>
+            </div>
+            <div class="pay_item">
+              <mt-field type="password" label="交易密码" name="password" placeholder="请输入交易密码" state="" @blur="test"></mt-field>
+            </div>
+          </div>
+          <div class="mobile_btn">
+            <mt-button type="primary" size="large" name="btn">立即支付</mt-button>
+            <label for="accept">
+              <input type="checkbox" v-model="toggle" id="accept" name="accept">
+              <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《算力网{{page === 'cloudCompute'? ($parent.show?'分期':'购买'):'转让'}}协议》</a>、<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></span>
+              <span class="select_accept">{{tips}}</span>
+            </label>
+          </div>
+        </form>
+      </div>
     </template>
     <div v-else-if="showAgreement===1" class="agreement_text">
       <template v-if="!$parent.show">
@@ -131,6 +167,7 @@
 </template>
 
 <script>
+  import { Toast } from 'mint-ui'
   import util from '@/util/index'
   import api from '@/util/function'
   import FormField from '@/components/common/FormField'
@@ -173,49 +210,55 @@
         showAgreement: 0,
         toggle: false,
         showpay: '',
-        close2: require('@/assets/images/close1.jpg')
+        close2: require('@/assets/images/close1.jpg'),
+        mobileNav: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '运维费约', unit: 'btc'}, batch_area: {title: '批次所在区域', unit: ''}}
       }
     },
     methods: {
-      pay () {
-        var ff = document.querySelector('.payForm')
+      pay (mobile) {
+        var ff = (mobile === 1) ? document.querySelector('.payForm2') : document.querySelector('.payForm')
+        var val = ff[0].value
         if (this.totalPrice > this.$parent.balance) {
-          this.check(ff.accept, '余额不足，请充值')
+          this.tip(mobile, '余额不足，请充值', ff.accept)
           return false
         }
-        var data = api.checkFrom(ff)
-        if (!data) return false
+        if (!val) {
+          this.tip(mobile, '交易密码不能为空', ff.accept)
+          return false
+        } else if (!api.check('^[0-9]{6}$', ff[0].value)) {
+          if (mobile === 1) {
+            Toast({
+              message: '请输入6位数字',
+              position: 'middle',
+              duration: 3000
+            })
+          }
+          return false
+        }
         if (!ff.accept.checked) {
-          this.check(ff.accept, '请同意服务条款')
+          this.tip(mobile, '请同意服务条款', ff.accept)
           return false
         }
         var self = this
         ff.btn.setAttribute('disabled', true)
         if (this.page === 'cloudCompute') {
           if (this.$parent.show) {
-            util.post('productMallLoan', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(data.password), rate_name: this.$parent.rate})}).then(function (res) {
+            util.post('productMallLoan', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(val), rate_name: this.$parent.rate})}).then(function (res) {
               api.checkAjax(self, res, () => {
-                api.tips('恭喜您购买成功！', () => {
-                  self.$router.push({path: '/user/repayment/0'})
-                })
+                self.paySuccess(mobile, '/user/repayment/0')
               }, ff.btn)
             })
           } else {
-            util.post('productMall', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(data.password)})}).then(function (res) {
+            util.post('productMall', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(val)})}).then(function (res) {
               api.checkAjax(self, res, () => {
-                api.tips('恭喜您购买成功！', () => {
-                  self.$router.push({path: '/user/order/0/1'})
-                })
+                self.paySuccess(mobile, '/user/order/0/1')
               }, ff.btn)
             })
           }
         } else {
-          // 100002:参数缺失，200004：账户余额不足，1000：交易成功，800007：交易失败，800003：禁止交易，200006：交易密码错误，800004：转让已结束，800005：产品已撤销,800008:不能购买自己的产品
-          util.post('doTransfer_Hashrate', {sign: api.serialize({token: this.$parent.token, user_id: this.$parent.user_id, transfer_order_id: this.$route.params.id, trade_password: md5(data.password)})}).then(function (res) {
+          util.post('doTransfer_Hashrate', {sign: api.serialize({token: this.$parent.token, user_id: this.$parent.user_id, transfer_order_id: this.$route.params.id, trade_password: md5(val)})}).then(function (res) {
             api.checkAjax(self, res, () => {
-              api.tips('恭喜您购买成功！', () => {
-                self.$router.push({path: '/user/order/1/1'})
-              })
+              self.paySuccess(mobile, '/user/order/1/1')
             }, ff.btn)
           })
         }
@@ -236,6 +279,39 @@
         setTimeout(() => {
           ele.setAttribute('data-status', '')
         }, 2000)
+      },
+      test (e) {
+        var ele = e.target
+        var ff = document.querySelector('.form')
+        api.checkFiled(ele, ff)
+      },
+      tip (mobile, str, ele) {
+        if (mobile === 1) {
+          Toast({
+            message: str,
+            position: 'middle',
+            duration: 3000
+          })
+        } else {
+          this.check(ele, str)
+        }
+      },
+      paySuccess (mobile, url) {
+        var str = '恭喜您购买成功！'
+        if (mobile === 1) {
+          Toast({
+            message: str,
+            position: 'middle',
+            duration: 3000
+          })
+          setTimeout(() => {
+            this.$router.push({path: url})
+          }, 3000)
+        } else {
+          api.tips(str, () => {
+            this.$router.push({path: url})
+          })
+        }
       }
     },
     mounted () {
@@ -315,6 +391,7 @@
           }
         }
       }
+      @include mobile_hide
     }
     .orderPay{
       margin-top: 20px;
@@ -396,9 +473,10 @@
         button{
           background: #ff721f;
           border-color: #ff721f;
-          margin: 15px 0;
+          margin: 10px 0;
         }
       }
+      @include mobile_hide
     }
     .agreement_text{
       padding:15px;
@@ -468,6 +546,94 @@
             text-align: center;
           }
         }
+      }
+    }
+    .mobile_box{
+      @include mobile_show
+      margin-top:-15px;
+      font-size: 0.56rem;
+      color:$text;
+      .price,.confirm_info,.pay_info{
+        padding:0 15px;
+        background: #fff;
+      }
+      .price{
+        @include flex(space-between)
+        line-height: 60px;
+        margin-bottom:15px;
+        .val{
+          color:$orange
+        }
+      }
+      .confirm_info{
+        margin-bottom:15px;
+        .item{
+          @include flex(space-between)
+          line-height: 50px;
+          span:last-child{
+            color:$light_black
+          }
+          &:not(:last-child){
+            border-bottom:1px solid $border;
+          }
+        }
+      }
+      .pay_info{
+        padding-bottom:15px;
+        .pay_item{
+          @include flex(space-between)
+          line-height: 50px;
+          div span.val{
+            color:$light_text;
+            margin-left:15px;
+          }
+          a{
+            color:$blue
+          }
+          .mint-cell{
+            width:100%;
+            .mint-cell-wrapper{
+              padding:10px 0;
+              border:0;
+              .mint-cell-title{
+                width:85px;
+                color:$text
+              }
+              .mint-cell-value{
+                width:calc(100% - 85px);
+                input{
+                  width:100%;
+                  height:40px;
+                  line-height: 40px;
+                  border:1px solid $border;
+                  border-radius:3px;
+                  padding: 0 10px;
+                }
+                .mint-field-state{
+                  position: absolute;
+                  right:15px;
+                }
+              }
+            }
+          }
+        }
+      }
+      .mobile_btn{
+        padding:15px;
+        button{
+          margin-bottom:10px;
+          label{
+            color:$white;
+          }
+        }
+        label{
+          font-size: 0.5rem;
+          @include accept_label
+          input{
+            @include checkbox(18,0)
+          }
+        }
+        // margin-top:15px
       }
     }
   }

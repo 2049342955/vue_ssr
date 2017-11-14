@@ -240,6 +240,7 @@
       &:first-child{
         width:70px;
         left:20px;
+        @include mobile_hide
       }
       &:nth-child(2){
         top:10px;
@@ -247,7 +248,8 @@
         left:90px;
         @include gap(15,h)
         color:$red;
-        border-right:1px solid $border
+        border-right:1px solid $border;
+        @include mobile_hide
       }
       &:last-child{
         &:before{
@@ -269,6 +271,7 @@
         &:after{
           content:attr(tips)
         }
+        @include mobile_hide
       }
     }
     input,.sel,.select{
@@ -323,6 +326,24 @@
           }
         }
       }
+      @media screen and (max-width: $mobile) {
+        padding-left:10px;
+        border-color:$border;
+        &[data-status='invalid'],&[data-status='null'],&[data-status='error'],&[data-status='success']{
+          & ~ span{
+            display:none
+          }
+        }
+      }
+    }
+    .select{
+      @include flex(space-between)
+      select{
+        width:33%;
+        height:32px;
+        line-height: 32px;
+        border:none;
+      }
     }
     select{
       height:29px;
@@ -337,7 +358,12 @@
       text-align: center;
       @include button($blue)
       font-size: 14px;
-      line-height: 38px
+      line-height: 38px;
+      @media screen and (max-width: $mobile) {
+        background: #ececec;
+        border-color:#ececec;
+        color:$light_text
+      }
     }
     &.addon{
       input{
@@ -392,6 +418,9 @@
           left:10px
         }
       }
+      @media screen and (max-width: $mobile) {
+        margin-bottom:15px;
+      }
     }
     label input{
       @include checkbox(18,0)
@@ -402,6 +431,9 @@
       @include button($blue)
       line-height:2.6;
       @include gap(20,v,margin)
+    }
+    @media screen and (max-width: $mobile) {
+      width:100%
     }
   }
 // good_table
@@ -946,12 +978,12 @@
         border-color: #ff721f;
       }
       & ~ span.select_accept{
-        display: none;
+        opacity: 0;
         color: #ff721f;
         font-size: 12px;
       }
       &[data-status='invalid'] ~ span.select_accept{
-        display: inline;
+        opacity: 1;
       }
     }
   }
@@ -966,5 +998,72 @@
     display: none;
     @media screen and (max-width: $mobile) {
       display: block;
+    }
+  }
+// mobile data
+  @mixin mobile_data{
+    padding:0 15px;
+    border-top:1px solid $border;
+    border-bottom:1px solid $border;
+    h3{
+      margin-bottom:0;
+      border-bottom:1px solid $border;
+      line-height: 40px;
+      .icon_currency{
+        display: none;
+      }
+      .sell_type{
+        width:45px;
+        border-radius:5px;
+        background: #ff721f;
+        color:$white;
+        &.active{
+          background: $blue;
+          color:$white;
+        }
+      }
+    }
+    .info_box{
+      display: none;
+    }
+    .mobile_info_box{
+      display: block;
+      color:$light_black;
+      line-height: 2;
+      padding:5px 0 10px 0;
+      @include flex(space-between)
+      .mobile_info{
+        width:75%;
+        h4{
+          span{
+            margin-left:10px;
+            color:#ffb386;
+            b{
+              font-weight: normal;
+              font-size: 24px;
+              color:$orange;
+            }
+          }
+        }
+        .mobile_text{
+          @include flex(space-between)
+          .mobile_text_item{
+            b{
+              font-weight: normal;
+              color:$text;
+              margin:0 4px;
+            }
+          }
+        }
+      }
+      .sell_progress{
+        width:70px;
+        height:70px;
+        line-height: 70px;
+        text-align: center;
+        border-radius:50%;
+        border:2px solid $border;
+        color:$orange
+      }
     }
   }

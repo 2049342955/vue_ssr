@@ -12,12 +12,12 @@
 </template>
 
 <script>
+  import { Toast } from 'mint-ui'
   import util from '@/util'
   import api from '@/util/function'
   import Pay from '../common/Pay'
   import Product from '../common/Product'
   import { mapState } from 'vuex'
-  import { Toast } from 'mint-ui'
   export default {
     components: {
       Pay, Product
@@ -53,7 +53,7 @@
       }
     },
     methods: {
-      goPay (e, show) {
+      goPay (e, show, mobile) {
         this.show = show
         if (!this.trade_password) {
           api.tips('请先设置交易密码', () => {
@@ -62,10 +62,18 @@
           return false
         }
         if (this.number < 1) {
-          e.target.className = 'btn error'
-          setTimeout(() => {
-            e.target.className = 'btn'
-          }, 2000)
+          if (!mobile) {
+            e.target.className = 'btn error'
+            setTimeout(() => {
+              e.target.className = 'btn'
+            }, 2000)
+          } else {
+            Toast({
+              message: '请输入或添加至少1台矿机',
+              position: 'middle',
+              duration: 3000
+            })
+          }
           return false
         }
         if (this.detail.status === 4) {
@@ -141,11 +149,6 @@
           self.detail.hashType = res.hashtype.name
         })
       })
-      Toast({
-        message: '提示',
-        position: 'bottom',
-        duration: 5000
-      })
     },
     computed: {
       ...mapState({
@@ -168,6 +171,7 @@
     }
     @media screen and (max-width: $mobile) {
       padding:0;
+      min-height: 100vh;
     }
   }
 </style>

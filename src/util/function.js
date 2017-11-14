@@ -143,10 +143,12 @@ api.checkOne = (form, obj) => {
   return data
 }
 api.checkFiled = (ele, form) => {
-  if (!ele.checkValidity()) {
+  if (!(ele.checkValidity ? ele.checkValidity() : api.check(ele.pattern, ele.value))) {
     api.setTips(ele, 'invalid')
+    return false
   } else if ((ele.name === 'imgCode' && ele.value.toLowerCase() !== localStorage.getItem('code').toLowerCase()) || (ele.name === 'password1' && ele.value !== form.password.value) || (ele.name === 'trade_password1' && ele.value !== form.trade_password.value)) {
     api.setTips(ele, 'error')
+    return false
   } else {
     api.setTips(ele, 'valid')
     return true
@@ -257,5 +259,12 @@ api.checkEquipment = () => {
   if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
     return true
   }
+}
+api.check = (pattern, value) => {
+  var re = new RegExp(pattern)
+  if (pattern && !re.test(value)) {
+    return false
+  }
+  return true
 }
 export default api

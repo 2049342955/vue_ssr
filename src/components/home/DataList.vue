@@ -1,25 +1,45 @@
 <template>
   <div class="cloud_list">
-    <h2>
-      <div>
-        <span>云矿机推荐</span>
-        <span>全球算力输出服务由保全网提供全流程区块链存证、保全服务</span>
+    <div class="box">
+      <h2>
+        <div>
+          <span>云矿机推荐</span>
+          <span>全球算力输出服务由保全网提供全流程区块链存证、保全服务</span>
+        </div>
+        <router-link to="/cloudCompute/list/1/all">更多云矿机 ></router-link>
+      </h2>
+      <table>
+        <tr>
+          <th v-for="n in nav">{{n.title}}</th>
+          <th>操作</th>
+        </tr>
+        <tr v-for="l,i in list" @click="goPay(l.product_id)">
+          <td v-for="v,k in nav">
+            <template v-if="k==='name'"><i class="iconfont">&#xe605;</i>{{l[k]}}</template>
+            <template v-else>{{l[k]+[v.unit]}}</template>
+          </td>
+          <td><a href="javascript:;">申购</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="mobile_box">
+      <h2>云矿机第一波</h2>
+      <div class="mobile_list_box">
+        <div class="item" v-for="d,i in list">
+          <h3>{{d.name}}</h3>
+          <div class="mobile_info_box">
+            <div class="mobile_info">
+              <h4>每台服务器价格<span><b>{{d.one_amount_value}}</b>元</span></h4>
+              <div class="mobile_text">
+                <div class="mobile_text_item">每台算力<b>{{d.hash}}T</b></div>
+                <div class="mobile_text_item">剩余可售<b>{{d.amount-d.sell_amount}}台</b></div>
+              </div>
+            </div>
+            <div class="sell_progress">{{d.plan}}</div>
+          </div>
+        </div>
       </div>
-      <router-link to="/cloudCompute/list/1/all">更多云矿机 ></router-link>
-    </h2>
-    <table>
-      <tr>
-        <th v-for="n in nav">{{n.title}}</th>
-        <th>操作</th>
-      </tr>
-      <tr v-for="l,i in list" @click="goPay(l.product_id)">
-        <td v-for="v,k in nav">
-          <template v-if="k==='name'"><i class="iconfont">&#xe605;</i>{{l[k]}}</template>
-          <template v-else>{{l[k]+[v.unit]}}</template>
-        </td>
-        <td><a href="javascript:;">申购</a></td>
-      </tr>
-    </table>
+    </div>
   </div>
 </template>
 
@@ -84,73 +104,96 @@
   .cloud_list{
     margin-bottom:60px;
     overflow: hidden;
-    h2{
-      @include flex(space-between)
-      @include gap(15,v,margin);
-      @include main
-      position: relative;
-      top: -20px;
-      span:nth-child(1){
-        font-size: 24px;
-        font-weight: bold;
+    .box{
+      h2{
+        @include flex(space-between)
+        @include gap(15,v,margin);
+        @include main
+        position: relative;
+        top: -20px;
+        span:nth-child(1){
+          font-size: 24px;
+          font-weight: bold;
+        }
+        span:nth-child(2){
+          width:452px;
+          height:27px;
+          margin-left:20px;
+          font-size: 16px;
+          background: linear-gradient(to right, #b28850, #cfa972);
+          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b28850', endColorstr='#cfa972',GradientType=1 );
+          color:$white;
+          padding:3px 10px
+        }
+        a{
+          font-size: 16px;
+          color:#999;
+          &:hover{
+            color:$blue
+          }
+        }
       }
-      span:nth-child(2){
-        width:452px;
-        height:27px;
-        margin-left:20px;
-        font-size: 16px;
-        background: linear-gradient(to right, #b28850, #cfa972);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b28850', endColorstr='#cfa972',GradientType=1 );
-        color:$white;
-        padding:3px 10px
+      table{
+        @include table;
+        @include main;
+        margin:0 auto;
+        th{
+          font-size: 18px;
+          line-height: 65px;
+          background: #ecf3ff
+        }
+        td{
+          font-size: 16px;
+          color:$light_text;
+          line-height: 75px;
+          border-bottom: 1px solid $border;
+          .iconfont{
+            color:$orange;
+            font-size: 24px
+          }
+        }
+        tr:not(:first-child){
+          cursor: pointer;
+          &:hover{
+            background: #ecf3ff;
+          }
+          td:nth-child(3),a{
+            color:$orange
+          }
+          td:last-child{
+            a{
+              width:130px;
+              padding:5px 25px;
+              border-radius:5px
+            }
+          }
+          &:hover a{
+            background:$orange;
+            color:$white
+          }
+        }
       }
-      a{
-        font-size: 16px;
-        color:#999;
-        &:hover{
-          color:$blue
+      @include mobile_hide
+    }
+    .mobile_box{
+      @include mobile_show
+      h2{
+        font-size: 18px;
+        padding:10px 15px;
+        background: #fff;
+      }
+      .mobile_list_box{
+        .item{
+          background: #fff;
+          @include mobile_data
+          &:not(:last-child){
+            margin-bottom:10px;
+          }
         }
       }
     }
-    table{
-      @include table;
-      @include main;
-      margin:0 auto;
-      th{
-        font-size: 18px;
-        line-height: 65px;
-        background: #ecf3ff
-      }
-      td{
-        font-size: 16px;
-        color:$light_text;
-        line-height: 75px;
-        border-bottom: 1px solid $border;
-        .iconfont{
-          color:$orange;
-          font-size: 24px
-        }
-      }
-      tr:not(:first-child){
-        cursor: pointer;
-        &:hover{
-          background: #ecf3ff;
-        }
-        td:nth-child(3),a{
-          color:$orange
-        }
-        td:last-child{
-          a{
-            width:130px;
-            padding:5px 25px;
-            border-radius:5px
-          }
-        }
-        &:hover a{
-          background:$orange;
-          color:$white
-        }
-      }
+    @media screen and (max-width: $mobile) {
+      margin-bottom:0;
     }
   }
 </style>

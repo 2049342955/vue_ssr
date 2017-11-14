@@ -13,7 +13,7 @@
         </template>
         <!-- select -->
         <div class="sel" v-else-if="f.option">
-          <select :name="f.name" isChange="f.isChange">
+          <select :name="f.name" id="">
             <template v-if="f.name==='product_hash_type'">
               <option :value="v.name" v-for="v,k in hashType">{{v.name}}</option>
             </template>
@@ -116,7 +116,7 @@
         var form = document.querySelector('.form')
         if (!api.checkCode(form)) return false
         if (self.$refs['count_btn'][0].getAttribute('disabled') === 'true') return false
-        util.post('send_code', {sign: api.serialize({token: this.token, mobile: form.dep_tel ? form.dep_tel.value : form.mobile.value})}).then(res => {
+        util.post('send_code', {sign: api.serialize({token: this.token, mobile: form.mobile.value})}).then(res => {
           api.setTips(form.code, 'success')
           self.conntDown()
           self.$refs['count_btn'][0].setAttribute('disabled', true)
