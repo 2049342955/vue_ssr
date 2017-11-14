@@ -25,7 +25,7 @@
     },
     data () {
       return {
-        nav: [{title: '算力托管', desc: '优质合规', url: '/bdc'}, {title: '算力商城', desc: '优质合规', url: '/cloudCompute/list/1/all'}, {title: '算力转让', desc: '优质合规', url: '/computeTransfer/list/1/all'}, {title: '算力资讯', desc: '优质合规', url: '/webInfo/list/news'}],
+        nav: [{title: '算力托管', desc: '优质合规', url: '/bdc'}, {title: '算力商城', desc: '优质合规', url: '/cloudCompute/list/1/all'}, {title: '算力转让', desc: '优质合规', url: '/computeTransfer/list/1/all'}, {title: '算力资讯', desc: '优质合规', url: '/mobile/information'}],
         data: [1, 1, 1]
       }
     }

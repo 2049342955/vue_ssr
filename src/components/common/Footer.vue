@@ -1,47 +1,65 @@
 <template>
   <footer class="footer" v-if="!$route.path.includes('auth')" :disabled="$route.name==='notFound'">
-    <div class="box">
-      <div class="box_foot">
-        <aside>
-          <h4>联系我们</h4>
-          <h3>
-            <a to="#" v-for="item,k in items" :class="{'active':show===k}">{{item.title}}</a>
-          </h3>
-          <p>咨询电话：<span class="active">0571-28031736</span>工作日（9:00~18:00）</p>
-          <p>客服邮箱：V@suanLi.com</p>
-          <p>公司地址：浙江省杭州市学院路77号黄龙国际中心G座-907</p>
-        </aside>
-        <aside>
-          <div class="help_support">
-            <router-link :to="l" v-for="l,k in link" :key="k">{{k}}</router-link>
-          </div>
-          <div class="service">
-            <h4>产品及服务</h4>
-            <router-link :to="s" v-for="s,k in service" :key="k">{{k}}</router-link>
-          </div>
-          <div class="copyright">
-            <div class="copyright_img"></div>
-            <div class="copyright_text">
-              <span>Copyright © 2013-2017 Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. 浙江数秦科技有限公司 版权所有 </span>
-              <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602008747" target="_blank"><br><img :src="require('@/assets/images/copyright.png')" alt="" style="width:20px"> 浙公网安备 33010602008747号</a>
+    <div class="pc_box">
+      <div class="box">
+        <div class="box_foot">
+          <aside>
+            <h4>联系我们</h4>
+            <h3>
+              <a to="#" v-for="item,k in items" :class="{'active':show===k}">{{item.title}}</a>
+            </h3>
+            <p>咨询电话：<span class="active">0571-28031736</span>工作日（9:00~18:00）</p>
+            <p>客服邮箱：V@suanLi.com</p>
+            <p>公司地址：浙江省杭州市学院路77号黄龙国际中心G座-907</p>
+          </aside>
+          <aside>
+            <div class="help_support">
+              <router-link :to="l" v-for="l,k in link" :key="k">{{k}}</router-link>
             </div>
+            <div class="service">
+              <h4>产品及服务</h4>
+              <router-link :to="s" v-for="s,k in service" :key="k">{{k}}</router-link>
+            </div>
+            <div class="copyright">
+              <div class="copyright_img"></div>
+              <div class="copyright_text">
+                <span>Copyright © 2013-2017 Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. 浙江数秦科技有限公司 版权所有 </span>
+                <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602008747" target="_blank"><br><img :src="require('@/assets/images/copyright.png')" alt="" style="width:20px"> 浙公网安备 33010602008747号</a>
+              </div>
+            </div>
+          </aside>
+          <div class="follow">
+            <h4>关注我们</h4>
+            <router-link :to="i" v-for="i,k in info" :key="k">{{k}}</router-link>
+            <div class="outside">
+              <div class="qrcode"></div>
+            </div>
+            <!-- <div class="active">最新区块链资讯</div> -->
           </div>
-        </aside>
-        <div class="follow">
-          <h4>关注我们</h4>
-          <router-link :to="i" v-for="i,k in info" :key="k">{{k}}</router-link>
-          <div class="outside">
-            <div class="qrcode"></div>
+        </div>
+        <div class="partner">
+          <span>友情<br>链接</span>
+          <div>
+            <a :href="p.FriendlyLink_address" target="_blank" v-for="p,k in partner" :key="k">{{p.FriendlyLink_name}}</a>
           </div>
-          <!-- <div class="active">最新区块链资讯</div> -->
         </div>
       </div>
-      <div class="partner">
-        <span>友情<br>链接</span>
-        <div>
-          <a :href="p.FriendlyLink_address" target="_blank" v-for="p,k in partner" :key="k">{{p.FriendlyLink_name}}</a>
-        </div>
-      </div>
+    </div>
+    <div class="mobile_box">
+      <mt-tabbar :fixed="true" selected="1">
+        <router-link to="/mHome" id="1" class="mint-tab-item">
+          <i class="iconfont">&#xe605;</i>
+          <p>首页</p>
+        </router-link>
+        <router-link to="/mobile/property" id="2" class="mint-tab-item">
+          <i class="iconfont">&#xe6cd;</i>
+          <p>算力资产</p>
+        </router-link>
+        <router-link to="/mobile/administration" id="3" class="mint-tab-item">
+          <i class="iconfont">&#xe63f;</i>
+          <p>个人中心</p>
+        </router-link>
+      </mt-tabbar>
     </div>
   </footer>
 </template>
@@ -83,143 +101,156 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .footer{
-    background: $black;
-    color: $light_text;
-    padding-bottom:40px;
-    .box{
-      .box_foot{
-        @include flex(space-between,flex-start)
-        @include gap(25,v)
-        margin-bottom:10px;
-        @include main
-        line-height: 2.4;
-        & > *{
-          vertical-align:top;
-        }
-        aside{
-          .copyright{
-            @include flex
-            .copyright_img{
-              width: 92px;
-              height: 35px;
-              border-radius:5px;
-              background: url('../../assets/images/css_sprites.png') -152px -168px;
-            }
-            .copyright_text{
-              width: 360px;
-              margin-left:20px;
-              font-size: 12px;
-              line-height: 1.6;
-            }
+    .pc_box{
+      background: $black;
+      color: $light_text;
+      padding-bottom:40px;
+      .box{
+        .box_foot{
+          @include flex(space-between,flex-start)
+          @include gap(25,v)
+          margin-bottom:10px;
+          @include main
+          line-height: 2.4;
+          & > *{
+            vertical-align:top;
           }
-          .help_support{
-            margin-bottom:5px;
-            a{
-              @include gap(20,h)
-              border-left:1px solid $light_text;
-              &:first-child{
-                padding-left:0;
-                border-left:0
+          aside{
+            .copyright{
+              @include flex
+              .copyright_img{
+                width: 92px;
+                height: 35px;
+                border-radius:5px;
+                background: url('../../assets/images/css_sprites.png') -152px -168px;
+              }
+              .copyright_text{
+                width: 360px;
+                margin-left:20px;
+                font-size: 12px;
+                line-height: 1.6;
+              }
+            }
+            .help_support{
+              margin-bottom:5px;
+              a{
+                @include gap(20,h)
+                border-left:1px solid $light_text;
+                &:first-child{
+                  padding-left:0;
+                  border-left:0
+                }
+              }
+            }
+            .service{
+              margin-bottom:20px;
+              a{
+                @include gap(30,h)
+                &:nth-child(2){
+                  padding-left:0
+                }
               }
             }
           }
-          .service{
-            margin-bottom:20px;
-            a{
-              @include gap(30,h)
-              &:nth-child(2){
-                padding-left:0
+          .follow{
+            h4,a{
+              text-align: center;
+            }
+            .outside{
+              width:86px;
+              background: #fff;
+              margin-top:10px;
+              padding:3px;
+              margin-left: auto;
+              margin-right: auto;
+              .qrcode{
+                width: 80px;
+                height: 80px;
+                background: url('../../assets/images/css_sprites.png') -10px -10px;
               }
             }
-          }
-        }
-        .follow{
-          h4,a{
-            text-align: center;
-          }
-          .outside{
-            width:86px;
-            background: #fff;
-            margin-top:10px;
-            padding:3px;
-            margin-left: auto;
-            margin-right: auto;
-            .qrcode{
-              width: 80px;
-              height: 80px;
-              background: url('../../assets/images/css_sprites.png') -10px -10px;
+            .active{
+              font-size: 12px
+            }
+            a{
+              display: block;
+              line-height: 2;
             }
           }
-          .active{
-            font-size: 12px
-          }
-          a{
-            display: block;
-            line-height: 2;
-          }
-        }
-        h3{
-          font-size: 15px;
-          a{
-            padding:0px 12px;
-            text-align:center;
-            margin-right:10px;
-            line-height:25px;
-            display:inline-block;
-            box-sizing: border-box;
-            font-size:14px;
-            cursor: pointer;
-            &:hover{
-              color:white;
-              font-size:14px;
-            }
-            &.active:nth-of-type(1){
-              line-height:25px;
+          h3{
+            font-size: 15px;
+            a{
+              padding:0px 12px;
               text-align:center;
-              color:white;
-              font-size:14px;
-              border-radius:5px;
-              background: #327fff;
+              margin-right:10px;
+              line-height:25px;
+              display:inline-block;
               box-sizing: border-box;
+              font-size:14px;
+              cursor: pointer;
+              &:hover{
+                color:white;
+                font-size:14px;
+              }
+              &.active:nth-of-type(1){
+                line-height:25px;
+                text-align:center;
+                color:white;
+                font-size:14px;
+                border-radius:5px;
+                background: #327fff;
+                box-sizing: border-box;
+              }
+            }
+          }
+          span.active{
+            font-weight: bold;
+            margin-right:10px
+          }
+        }
+        .partner{
+          @include main
+          @include flex
+          padding:10px;
+          border:1px dashed $light_text;
+          line-height: 1.2;
+          span{
+            padding-right:10px;
+            border-right:1px solid $light_text
+          }
+          div{
+            @include gap(30,h)
+            @include flex
+            a{
+              width:100px;
+              text-align: center;
             }
           }
         }
-        span.active{
-          font-weight: bold;
-          margin-right:10px
-        }
       }
-      .partner{
-        @include main
-        @include flex
-        padding:10px;
-        border:1px dashed $light_text;
-        line-height: 1.2;
-        span{
-          padding-right:10px;
-          border-right:1px solid $light_text
-        }
-        div{
-          @include gap(30,h)
-          @include flex
-          a{
-            width:100px;
-            text-align: center;
-          }
-        }
+      h4{
+        color:#f5f8fb;
       }
+      h3,a,p,span,.copyright_text{
+        color:#adaeb1;
+      }
+      a:hover,.active{
+        color:$white
+      }
+      &[disabled]{
+        display: none;
+      }
+      @include mobile_hide
     }
-    h4{
-      color:#f5f8fb;
-    }
-    h3,a,p,span,.copyright_text{
-      color:#adaeb1;
-    }
-    a:hover,.active{
-      color:$white
-    }
-    &[disabled]{
-      display: none;
-    }
+    .mobile_box{
+      @include mobile_show
+      i{
+        font-size: 20px;
+      }
+      .router-link-active{
+        background-color: #eaeaea;
+        color: #26a2ff;
+      }
+    } 
   }
 </style>

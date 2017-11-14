@@ -17,6 +17,12 @@
         <i>设置<em>></em></i>
       </div>
     </div>
+    <div class="list">
+      <router-link :to="'/mobile/'+k" class="item" v-for="l,k in list2">
+        <span>{{l}}</span>
+        <i><em>></em></i>
+      </router-link>
+    </div>
     <mt-popup position="bottom" v-model="showModal">
       <form class="form" @submit.prevent="submit" novalidate>
         <FormField :form="form[edit]"></FormField>
@@ -40,6 +46,7 @@
     data () {
       return {
         list: [{name: 'tel', title: '用户名'}, {name: 'auth', title: '实名认证'}, {name: 'card', title: '银行卡'}, {name: 'address', title: '算力收益地址'}, {name: 'login', title: '登录密码'}, {name: 'trade', title: '交易密码'}],
+        list2: {'news': '消息中心', 'message': '意见反馈'},
         form: {
           auth: [{name: 'truename', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'card_type', type: 'text', title: '证件类型', edit: 'card_type', isChange: true}, {name: 'idcard', type: 'text', title: '证件号码', placeholder: '请输入您的证件号码', pattern: 'idCard'}, {name: 'mobile', type: 'text', title: '手机号码', edit: 'mobile'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}],
           card: [{name: 'card_no', type: 'text', title: '银行卡号', placeholder: '请输入银行卡号', pattern: 'bankCard', changeEvent: true}, {name: 'open_bank', type: 'text', title: '开户银行', placeholder: '请输入开户银行名称', isChange: true, edit: 'open_bank'}, {name: 'bank_branch', type: 'text', title: '开户支行', placeholder: '请输入开户支行名称', isChange: true}, {name: 'bank', type: 'select', title: '开户行地址', isChange: true}, {name: 'mobile', type: 'text', title: '银行预留手机号', placeholder: '请输入银行预留手机号', pattern: 'tel'}, {name: 'code', type: 'text', title: '手机验证码', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}],
