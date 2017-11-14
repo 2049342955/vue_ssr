@@ -54,6 +54,7 @@
   import Madministration from '@/components/mobile/Madministration'
   import Mactive from '@/components/mobile/Mactive'
   import Mpersoncenter from '@/components/mobile/Mpersoncenter'
+  import Morder from '@/components/mobile/Morder'
 // use plugin
   Vue.use(Router)
 // export
@@ -321,6 +322,11 @@
         path: 'message',
         name: 'mmessage',
         component: Mmessage
+      },
+      {
+        path: 'order',
+        name: 'morder',
+        component: Morder
       },
       {
         path: 'property',
