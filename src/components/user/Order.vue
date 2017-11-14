@@ -1,106 +1,130 @@
 <template>
   <section class="order">
-    <div class="order_title">
-      <div class="text">
-        <span class="text_title">订单管理</span>
-        <div class="title_content">
-          <span class="title_now" v-if="scode">{{title2[nowEdit]}}</span>
-          <span class="title_now" v-else>{{title[nowEdit]}}</span>
-          <div class="title_list">
-            <template v-if="scode">
-              <router-link :to="'/user/order/'+k+'/1'" v-for="n,k in title2" :key="k">{{n}}</router-link>
-            </template>
-            <template v-else>
-              <router-link :to="'/user/order/'+k+'/1'" v-for="n,k in title" :key="k">{{n}}</router-link>
-            </template>
+    <div v-if="show" class="agreement_text">
+      <div class="" v-html="contract"></div>
+      <div class="btn_box">
+        <button @click="back">返回</button>
+      </div>
+    </div>
+    <template v-else>
+      <div class="order_title">
+        <div class="text">
+          <span class="text_title">订单管理</span>
+          <div class="title_content">
+            <span class="title_now" v-if="scode">{{title2[nowEdit]}}</span>
+            <span class="title_now" v-else>{{title[nowEdit]}}</span>
+            <div class="title_list">
+              <template v-if="scode">
+                <router-link :to="'/user/order/'+k+'/1'" v-for="n,k in title2" :key="k">{{n}}</router-link>
+              </template>
+              <template v-else>
+                <router-link :to="'/user/order/'+k+'/1'" v-for="n,k in title" :key="k">{{n}}</router-link>
+              </template>
+            </div>
           </div>
         </div>
+        <nav>
+          <!-- <router-link :to="'/user/order/'+nowEdit+'/'+(+k+1)" v-for="n,k in nav[nowEdit]" :key="k">{{n}}</router-link> -->
+          <a href="javascript:;">已购买</a>
+        </nav>
       </div>
-      <nav>
-        <router-link :to="'/user/order/'+nowEdit+'/'+(+k+1)" v-for="n,k in nav[nowEdit]" :key="k">{{n}}</router-link>
-      </nav>
-    </div>
-    <div class="order_box">
-      <table>
-        <tr>
-          <th>算力服务器</th>
-          <th v-if="nowEdit==0||status==1||status==4">总算力</th>
-          <template v-if="nowEdit==0&&(status==2||status==3)">
-            <th>出售数量</th>
-            <th>出售金额</th>
-            <th>出售时间</th>
-          </template>
-          <template v-if="nowEdit!=0&&(status==2||status==3)">
-            <th>转让金额</th>
-            <th>转让数量</th>
-            <th>转让单价</th>
-            <th>转让时间</th>
-          </template>
-          <template v-if="status==1||status==4">
-            <th v-if="nowEdit!=1">购买数量</th>
-            <th>购买金额</th>
-            <th>购买时间</th>
-          </template>
-          <template v-if="nowEdit==0&&(status==1||status==4)">
-            <th>剩余可出售</th>
-            <th>剩余可出租</th>
-          </template>
-          <template v-if="nowEdit==2&&status==1">
-            <th>剩余可出租</th>
-          </template>
-          <th v-if="status!=3">操作</th>
-        </tr>
-        <tr v-for="d,k in data" :class="{active: nowEdit==0&&status==1}">
-          <td>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
-          <td v-if="nowEdit==0||status==1||status==4">{{d.total_hash|format}}T</td>
-          <template v-if="nowEdit==0&&(status==2||status==3)">
-            <td>{{d.selling_amount}}台</td>
-            <td>{{d.total_price}}元</td>
-          </template>
-          <template v-if="(nowEdit!=0)&&(status==2||status==3)">
-            <td>{{d.total_price}}元</td>
-            <td>{{d.transfer_amount|format}}T</td>
-            <td>{{d.transfer_price}}元</td>
-          </template>
-          <template v-if="status==1||status==4">
-            <td v-if="nowEdit!=1">{{d.buy_amount}}台</td>
-            <td>{{d.total_price}}元</td>
-          </template>
-          <td v-if="nowEdit==1&&(status==2||status==3)">{{d.transfer_time}}天</td>
-          <td v-else>{{d.create_time}}</td>
-          <template v-if="nowEdit==0&&(status==1||status==4)">
-            <td>{{d.remain_miner}}台</td>
-            <td>{{d.remain_hash|format}}T</td>
-          </template>
-          <template v-if="nowEdit==2&&status==1">
-            <td>{{d.remain_hash|format}}T</td>
-          </template>
-          <td v-if="status!=3">
-            <template v-if="nowEdit==0&&status==1&&!d.is_loan">
-              <button class="sold" @click="openMask('sold', '出售云矿机', d.id)" :disabled="!d.remain_miner">出售云矿机</button>
+      <div class="order_box">
+        <table>
+          <tr>
+          <!--  <th>算力服务器</th>
+            <th v-if="nowEdit==0||status==1||status==4">总算力</th>
+            <template v-if="nowEdit==0&&(status==2||status==3)">
+              <th>出售数量</th>
+              <th>出售金额</th>
+              <th>出售时间</th>
             </template>
-            <template v-if="nowEdit==0&&status==2">
-              <button @click="quit('sold', d.id)">撤销出售</button>
+            <template v-if="nowEdit!=0&&(status==2||status==3)">
+              <th>转让金额</th>
+              <th>转让数量</th>
+              <th>转让单价</th>
+              <th>转让时间</th>
             </template>
-            <template v-if="nowEdit==1&&status==1">
-              <button @click="openMask('againRent', '转租算力', d.id)" :disabled="!d.remain_hash">转租算力</button>
+            <template v-if="status==1||status==4">
+              <th v-if="nowEdit!=1">购买数量</th>
+              <th>购买金额</th>
+              <th>购买时间</th>
             </template>
-            <template v-if="(nowEdit==1||nowEdit==2)&&status==2">
-              <button @click="quit('rent', d.id)">撤销出租</button>
+            <template v-if="nowEdit==0&&(status==1||status==4)">
+              <th>剩余可出售</th>
+              <th>剩余可出租</th>
             </template>
             <template v-if="nowEdit==2&&status==1">
-              <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash">出租算力</button>
+              <th>剩余可出租</th>
+            </template> -->
+            <!-- <th v-if="status!=3">操作</th> -->
+            <th>矿机名称</th>
+            <th>总算力</th>
+            <th>购买数量</th>
+            <th>购买金额</th>
+            <th>购买时间</th>
+            <th>操作</th>
+          </tr>
+          <tr v-for="d,k in data" :class="{active: nowEdit==0&&status==1}">
+            <!-- <td>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
+            <td v-if="nowEdit==0||status==1||status==4">{{d.total_hash|format}}T</td>
+            <template v-if="nowEdit==0&&(status==2||status==3)">
+              <td>{{d.selling_amount}}台</td>
+              <td>{{d.total_price}}元</td>
             </template>
-            <router-link :to="'/user/orderDetail/'+nowEdit+'/'+d.id"  v-if="nowEdit!=2&&status!=2&&status!=3">查看详情</router-link>
-          </td>
-        </tr>
-      </table>
-      <div class="nodata" v-if="showImg">
-        <img :src="img" alt="">
-        <p>暂无列表信息</p>
+            <template v-if="(nowEdit!=0)&&(status==2||status==3)">
+              <td>{{d.total_price}}元</td>
+              <td>{{d.transfer_amount|format}}T</td>
+              <td>{{d.transfer_price}}元</td>
+            </template>
+            <template v-if="status==1||status==4">
+              <td v-if="nowEdit!=1">{{d.buy_amount}}台</td>
+              <td>{{d.total_price}}元</td>
+            </template>
+            <td v-if="nowEdit==1&&(status==2||status==3)">{{d.transfer_time}}天</td>
+            <td v-else>{{d.create_time}}</td>
+            <template v-if="nowEdit==0&&(status==1||status==4)">
+              <td>{{d.remain_miner}}台</td>
+              <td>{{d.remain_hash|format}}T</td>
+            </template>
+            <template v-if="nowEdit==2&&status==1">
+              <td>{{d.remain_hash|format}}T</td>
+            </template>
+            <td v-if="status!=3">
+              <template v-if="nowEdit==0&&status==1&&!d.is_loan">
+                <button class="sold" @click="openMask('sold', '出售云矿机', d.id)" :disabled="!d.remain_miner">出售云矿机</button>
+              </template>
+              <template v-if="nowEdit==0&&status==2">
+                <button @click="quit('sold', d.id)">撤销出售</button>
+              </template>
+              <template v-if="nowEdit==1&&status==1">
+                <button @click="openMask('againRent', '转租算力', d.id)" :disabled="!d.remain_hash">转租算力</button>
+              </template>
+              <template v-if="(nowEdit==1||nowEdit==2)&&status==2">
+                <button @click="quit('rent', d.id)">撤销出租</button>
+              </template>
+              <template v-if="nowEdit==2&&status==1">
+                <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash">出租算力</button>
+              </template>
+              <router-link :to="'/user/orderDetail/'+nowEdit+'/'+d.id"  v-if="nowEdit!=2&&status!=2&&status!=3">查看详情</router-link>
+            </td> -->
+            <td>{{d.miner.name}}</td>
+            <td>{{+d.miner.hash*(+d.buy_amount)}}T</td>
+            <td>{{d.buy_amount}}</td>
+            <td>{{d.pay_value}}</td>
+            <td>{{d.created_time}}</td>
+            <td>
+              <button class="sold" @click="getContract(d.id)">查看协议</button>
+              <button class="sold" @click="getBaoquan(d.id)">查看保全</button>
+            </td>
+          </tr>
+        </table>
+        <div class="nodata" v-if="showImg">
+          <img :src="img" alt="">
+          <p>暂无列表信息</p>
+        </div>
+        <Pager :len="len"></Pager>
       </div>
-      <Pager :len="len"></Pager>
-    </div>
+    </template>
     <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
   </section>
 </template>
@@ -118,7 +142,7 @@
     },
     data () {
       return {
-        title: ['云矿机'],
+        title: ['矿机'],
         title2: ['云矿机', '基金'],
         nav: [{'0': '已购买', '1': '出售中', '2': '已出售', '3': '已结束'}, {'0': '已租赁', '1': '出租中', '2': '已出租', '3': '已结束'}, {'0': '持有', '1': '出租中', '2': '已出租', '3': '已结束'}],
         data: [],
@@ -144,7 +168,8 @@
         now: 1,
         fee: 0,
         img: require('@/assets/images/no_data.jpg'),
-        showImg: false
+        showImg: false,
+        show: false
       }
     },
     methods: {
@@ -153,11 +178,10 @@
         this.data = []
         this.nowEdit = this.$route.params.type
         this.status = this.$route.params.status
-        this.show = false
-        util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id, type: this.$route.params.type, status: this.$route.params.status, page: this.now})}).then(function (res) {
+        util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id, type: '3', status: this.$route.params.status, page: this.now})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.data = res.list
-            self.showImg = !res.list.length
+            self.showImg = !res.total_num
             if (self.now > 1) return false
             self.len = Math.ceil(res.total_num / 15)
           })
@@ -280,6 +304,33 @@
           this.total_price = api.decimal(this.inputAmount * this.inputPrice)
           this.total_price = isNaN(this.total_price) ? 0 : this.total_price
         }
+      },
+      getContract (id) {
+        var self = this
+        var data = {token: this.token, user_id: this.user_id, order_id: id}
+        util.post('miner_contract', {sign: api.serialize(data)}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            if (!res.miner_res) {
+              api.tips('暂无协议')
+            } else {
+              self.show = true
+              self.contract = res.miner_res.content
+            }
+          })
+        })
+      },
+      getBaoquan (id) {
+        var data = {token: this.token, order_id: id, security_hash_type: 3, user_id: this.user_id}
+        var self = this
+        var newTab = window.open('about:blank')
+        util.post('getBaoquan', {sign: api.serialize(data)}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            newTab.location.href = 'https://www.baoquan.com/attestations/' + res
+          })
+        })
+      },
+      back () {
+        this.show = false
       }
     },
     computed: {
@@ -304,6 +355,18 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .order{
+    .agreement_text{
+      padding:15px;
+      .btn_box{
+        text-align: center;
+        button{
+          line-height: 2;
+          width:120px;
+          margin:30px auto;
+          @include button($blue)
+        }
+      }
+    }
     .order_title{
       @include gap(25,h)
       padding-top:15px;
