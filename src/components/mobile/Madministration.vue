@@ -178,10 +178,10 @@
       box-sizing: border-box;
       .item{
         width: 100%;
-        height: 1.5rem;
+        height: 2rem;
         display: flex;
         justify-content: space-between;
-        line-height: 1.5rem;
+        line-height: 2rem;
         span{
           color: #121212;
           font-size: 0.6rem;

@@ -1,14 +1,10 @@
 <template>
-  <section class="bdcform" to="#">
-    <div class="mobile_header">
-      <span class="left">< <em>返回</em></span>
-      <span>意见反馈</span>
-      <button>提交</button>
-    </div>
+  <section class="bdcform">
     <div class="message">
       <textarea placeholder="欢迎您向我们反馈使用过程中的任何意见和建议！"></textarea>
       <p>0/150</p>
     </div>
+    <button>提交</button>
   </section>
 </template>
 <script>
@@ -26,13 +22,15 @@ export default {
     height: 100vh;
     background: #f5f5f9;
     button{
-      background:none;
+      background:#327fff;
+      height: 2rem;
       border:0;
       color: white;
-      font-size:  0.5rem;
-      position: absolute;
-      right: 0.5rem;
-      top:.7rem;
+      font-size:  0.7rem;
+      width: 94%;
+      margin-top: 20px;
+      margin-left: 3%;
+      border-radius: 3px;
     }
     .bodyform{
       width: 100%;

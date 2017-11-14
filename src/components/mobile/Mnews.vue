@@ -109,7 +109,8 @@
 .mask{
   width: 100%;
   height: 100vh;
-  background: #f5f5f9;
+  background: white;
+  padding-bottom: 60px;
 }
  ul{
    width: 100%;

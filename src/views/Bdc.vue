@@ -369,10 +369,11 @@
             margin-left: 80px;
           }
           @media screen and (max-width: $mobile) {
-            font-size: 20px;
+            padding-top: 1rem;
+            font-size: 0.7rem;
             &:before,&:after{
               position: absolute;
-              transform:scale(.7)
+              transform:scale(.7);
             }
             &:before{
               left: 10px;
@@ -431,7 +432,7 @@
           @include mobile_show
           .box_text{
             margin-top:20px;
-            font-size: 16px;
+            font-size: 0.6rem;
             line-height: 2.8;
             .line{
               @include flex(space-between)
@@ -468,15 +469,20 @@
           margin-top: 0;
           color:#bfbfbf;
           .bdc_detail{
-            line-height: 1.5;
-            margin: 15px 0;
+            line-height: 2;
+            margin: 0.5rem 0;
+            font-size: 0.6rem;
           }
           .bdc_box_text{
             color:#fff;
             text-align: center;
-            margin-top:15px;
+            margin-top:0.5rem;
             .big{
-              font-size: 24px;
+              font-size: .7rem;
+              font-weight: normal;
+            }
+            .subtitle{
+              font-size: .7rem;
               font-weight: normal;
             }
           }
@@ -485,7 +491,7 @@
             a{
               display: inline-block;
               @include button($blue)
-              width:300px;
+              width:94%;
               line-height: 2;
               border-radius:5px
             }
