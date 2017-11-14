@@ -396,6 +396,7 @@
       table{
         width: 100%;
         text-align: center;
+        margin:0;
         tr{
           // line-height: 55px;
           border-bottom:1px solid $border;

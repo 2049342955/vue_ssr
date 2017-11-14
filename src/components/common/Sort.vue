@@ -73,7 +73,7 @@
         
         &:before{
           font-size: 24px;
-          content:'\e60e';
+          content:'\e669';
         }
       }
       &.active{
