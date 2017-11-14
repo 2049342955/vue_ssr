@@ -13,7 +13,11 @@
                 <p>{{n.dateline}}</p>
             </div>
         </div>
-        <div class="detail" v-show="!status" v-html="content.content"></div>
+        <div class="detail" v-show="!status">
+          <h3>{{content.title}}</h3>
+          <h6>{{content.dateline}}</h6>
+          <p v-html="content.content"></p>
+        </div>
     </div>
   </section>
 </template>
@@ -72,7 +76,6 @@
     }
   .information{
     width: 100%;
-    height: 100vh;
     background: #f5f5f9;
     .list{
         width: 100%;
@@ -98,7 +101,7 @@
             h4{
                 font-size: 0.55rem;
                 color: #121212;
-                height: 1.77rem;
+                height: 1.67rem;
                 width: 100%;
                 overflow: hidden;
                 text-align: left;
@@ -110,5 +113,18 @@
             }
         }
     }
+  }
+  .detail{
+    margin-bottom: 60px;
+  }
+  .detail h3{
+    color:#121212;
+    font-size: 0.6rem;
+    text-align: center;
+  }
+  .detail h6{
+    color:#999;
+    text-align: center;
+    padding-top: 0.5rem;
   }
 </style>
