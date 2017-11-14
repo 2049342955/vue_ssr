@@ -16,9 +16,10 @@
         <tr v-for="l,i in list" @click="goPay(l.product_id)">
           <td v-for="v,k in nav">
             <template v-if="k==='name'"><i class="iconfont">&#xe605;</i>{{l[k]}}</template>
+            <template v-else-if="k==='left_num'">{{l.amount-l.buyed_amount+v.unit}}</template>
             <template v-else>{{l[k]+[v.unit]}}</template>
           </td>
-          <td><a href="javascript:;">申购</a></td>
+          <td><a href="javascript:;">购买</a></td>
         </tr>
       </table>
     </div>
@@ -32,7 +33,7 @@
               <h4>每台服务器价格<span><b>{{d.one_amount_value}}</b>元</span></h4>
               <div class="mobile_text">
                 <div class="mobile_text_item">每台算力<b>{{d.hash}}T</b></div>
-                <div class="mobile_text_item">剩余可售<b>{{d.amount-d.sell_amount}}台</b></div>
+                <div class="mobile_text_item">剩余可售<b>{{d.amount-d.buyed_amount}}台</b></div>
               </div>
             </div>
             <div class="sell_progress">{{d.plan}}</div>
@@ -51,7 +52,8 @@
     name: 'chart',
     data () {
       return {
-        nav: {'name': {title: '矿机名称', unit: ''}, 'amount': {title: '总数量', unit: '台'}, 'one_amount_value': {title: '单价', unit: '元'}, 'buy_step_amount': {title: '最小购买单位', unit: '台'}, 'hash': {title: '算力', unit: 'T'}, 'type_name': {title: '算力类型', unit: ''}, 'plan': {title: '项目进度', unit: ''}},
+        // nav: {'name': {title: '矿机名称', unit: ''}, 'amount': {title: '总数量', unit: '台'}, 'one_amount_value': {title: '单价', unit: '元'}, 'buy_step_amount': {title: '最小购买单位', unit: '台'}, 'hash': {title: '算力', unit: 'T'}, 'type_name': {title: '算力类型', unit: ''}, 'plan': {title: '项目进度', unit: ''}},
+        nav: {'name': {title: '矿机名称', unit: ''}, 'amount': {title: '总数量', unit: '台'}, 'one_amount_value': {title: '单价', unit: '元'}, 'hash': {title: '算力', unit: 'T'}, 'left_num': {title: '剩余数量', unit: '台'}},
         list: []
       }
     },
@@ -80,7 +82,7 @@
     },
     mounted () {
       var self = this
-      util.post('product_top_list', {sign: api.serialize({token: this.token})}).then(function (res) {
+      util.post('showTopMiner', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.list = res
         })
