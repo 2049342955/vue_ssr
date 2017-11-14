@@ -11,8 +11,6 @@
         <img :src="require('@/assets/images/buy_bg.png')" alt="">
         <div class="buy_title">
           <b>{{data.name}}</b>
-          <span class="title_key">批次所在区域：</span>
-          <span class="title_val">{{data.area}}</span>
         </div>
         <div class="buy_desc">
           <div class="item" v-for="t,k in text">
@@ -35,7 +33,7 @@
           <button @click="gobuy()">立即支付</button>
           <label for="accept">
             <input type="checkbox" :value="accept" id="accept" name="accept">
-            <span @click="openContract(1)">阅读并接受<a href="javascript:;">《云矿机购买协议》</a>和<a href="javascript:;">《矿机托管协议》</a></span>
+            <span @click="openContract(1)">阅读并接受<a href="javascript:;">《矿机购买协议》</a></span>
             <span class="select_accept">{{tips}}</span>
           </label>
         </div>
@@ -72,7 +70,7 @@
       <button class="submit" @click="gobuy(1)">立即支付</button>
       <label for="accept">
         <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
-        <span @click="openContract(1, 1)">阅读并接受<a href="javascript:;">《云矿机购买协议》</a>和<a href="javascript:;">《矿机托管协议》</a></span>
+        <span @click="openContract(1, 1)">阅读并接受<a href="javascript:;">《矿机购买协议》</a></span>
         <span class="select_accept">{{tips}}</span>
       </label>
       <img src="../../assets/images/data.png" class="imagesall"/>
