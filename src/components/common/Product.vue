@@ -54,7 +54,7 @@
           <div class="price_text">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
          <button class="btn" disabled v-if="$parent.leftStatus">已售罄</button>
          <button :class="['btn', {over: $parent.overStatus}]" :disabled="$parent.overStatus" v-else @click="checkPay($event, false)" style="margin-top:10px;">立即支付</button>
-         <button class="btn" style="background:#327fff;border:0;margin-top:10px;" @click="checkPay($event, true)" v-show="$parent.rateshow">分期购买</button>
+         <button class="btn" style="background:#327fff;border:0;margin-top:10px;" @click="checkPay($event, true)" v-if="$parent.rateshow&&!$parent.leftStatus">分期购买</button>
         </div>
       </div>
       <div class="price transfer" v-else>
@@ -119,16 +119,48 @@
         <div class="content" v-html="$parent.detail.machine_intro"></div>
       </div>
       <div class="mobile_btn">
-        <mt-button type="primary">primary</mt-button>
+        <mt-button type="primary" size="large" @click="openMask">立即购买</mt-button>
       </div>
+      <mt-popup position="bottom" v-model="sheetVisible">
+        <div class="buy_box">
+          <div class="img_text">
+            <div class="img">
+              <img :src="$parent.detail.product_img" alt="">
+            </div>
+            <div class="text">
+              <div class="price">￥{{$parent.detail.one_amount_value}}</div>
+              <div class="name">{{$parent.detail.product_name}}</div>
+              <div class="left">剩余可售{{$parent.leftNum}}台</div>
+            </div>
+          </div>
+          <div class="buy_num">
+            <div>购买数量</div>
+            <div class="input_box">
+              <span @click="$parent.changeNum(+$parent.number-1)">-</span>
+              <input type="text" v-model="$parent.number" placeholder="购买数量" @blur="$parent.changeNum($parent.number)">
+              <span @click="$parent.changeNum(+$parent.number+1)">+</span>
+            </div>
+          </div>
+          <div class="buy_text">
+            <div class="item">购买算力</div>
+            <div class="item">{{$parent.totalHash|format}}T</div>
+          </div>
+          <div class="buy_text last">
+            <div class="item">支付金额</div>
+            <div class="item">{{$parent.totalPrice|format}}元</div>
+          </div>
+          <div class="mobile_btn">
+            <mt-button type="default" size="large" disabled v-if="$parent.leftStatus">已售罄</mt-button>
+            <mt-button type="primary" size="large" @click="checkPay($event, false, 1)" v-else>立即支付</mt-button>
+            <!-- <mt-button type="danger" size="large" @click="checkPay($event, true, 1)" v-show="$parent.rateshow&&!$parent.leftStatus">分期购买</mt-button> -->
+          </div>
+        </div>
+      </mt-popup>
     </div>
   </section>
 </template>
 
 <script>
-  import Vue from 'vue'
-  import { Button } from 'mint-ui'
-  Vue.component(Button.name, Button)
   import api from '../../util/function'
   import { mapState } from 'vuex'
   export default {
@@ -152,11 +184,12 @@
     data () {
       return {
         mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台算力', unit: 'T'}, status: {title: '项目状态', unit: ''}},
-        mobileNav2: {hashType: {title: '算力类型', unit: ''}, amount: {title: '服务器总数', unit: '台'}, incomeType: {title: '结算方式', unit: ''}}
+        mobileNav2: {hashType: {title: '算力类型', unit: ''}, amount: {title: '服务器总数', unit: '台'}, incomeType: {title: '结算方式', unit: ''}},
+        sheetVisible: false
       }
     },
     methods: {
-      checkPay (e, sh) {
+      checkPay (e, sh, mobile) {
         if (this.token === 0) {
           this.$router.push({name: 'login'})
           return false
@@ -173,7 +206,10 @@
           })
           return false
         }
-        this.$parent.goPay(e, sh)
+        this.$parent.goPay(e, sh, mobile)
+      },
+      openMask () {
+        this.sheetVisible = true
       }
     },
     mounted () {
@@ -295,18 +331,23 @@
             margin-top:30px;
             position: relative;
             &.error:before{
-              @include position(-40)
+              @include position(-36)
               content:'请输入或添加至少1台矿机';
               color: $orange;
             }
             &.over:before{
-              @include position(-40)
+              @include position(-36)
               content:'剩余可售量不足您所需求的量';
               color: $orange;
             }
             &:disabled{
               background: #f5b48f;
               border-color: #f5b48f;
+            }
+            &:last-child{
+              &.error:before,&.over:before{
+                top:-85px
+              }
             }
           }
         }
@@ -363,7 +404,7 @@
     }
     .mobile_box{
       @include mobile_show
-      .first_box,.product_desc{
+      .first_box,.product_desc,.mobile_btn{
         background: #fff;
         padding: 15px;
       }
@@ -428,13 +469,69 @@
       }
       .product_desc{
         margin-top:15px;
-        border-bottom:1px solid $border;
         p.title{
           color:$text;
           font-size: 16px;
+          margin-bottom:5px;
         }
         .content{
           color:$light_black
+        }
+      }
+      .mobile_btn{
+        text-align: center;
+        border-top:1px solid $border;
+        .mint-button--primary {
+          background-color: $blue;
+        }
+        .mint-button--danger {
+          background-color: $orange;
+          margin-top:15px;
+        }
+      }
+      .mint-popup{
+        .buy_box{
+          width:100vw;
+          padding:0 15px;
+          .img_text,.buy_num{
+            padding: 15px 0;
+          }
+          .img_text{
+            @include flex
+            .img{
+              width:130px;
+              margin-right:15px;
+              height:90px;
+              img{
+                height:90px;
+                object-fit:cover
+              }
+            }
+          }
+          .buy_num{
+            border-top:1px solid $border;
+            border-bottom:1px solid $border;
+            @include flex(space-between)
+            .input_box{
+              line-height: 30px;
+              border:1px solid $border;
+              @include number_box
+              span{
+                width:18%;
+                color:$text !important
+              }
+              input{
+                width:58%
+              }
+            }
+          }
+          .buy_text{
+            @include flex(space-between)
+            padding-top:15px;
+            &.last{
+              padding-bottom:20px;
+            }
+          }
         }
       }
     }
