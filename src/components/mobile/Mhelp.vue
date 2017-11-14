@@ -1,10 +1,10 @@
 <template>
   <section class="issues">
     <div class="issues_box" v-show="show">
-      <div class="issues_lists">
+      <div class="issues_listsoneone">
         <div class="item" v-for="n,k in nav" @click="fetchData(n.help_class_id,k)">
           <p class="titleall">{{n.name}}<em>></em></p>
-          <div class="issues_list" v-if="num===k">
+          <div class="issues_listoneone" v-if="num===k">
             <a class="item" v-for="l,k in list" @click="detailcontent(l.id)">
               <span>{{l.title}}</span>
             </a>
@@ -37,7 +37,7 @@
           this.$store.commit('SET_NUM', -1)
           return false
         }
-        var eles = document.querySelector('.issues_lists').children
+        var eles = document.querySelector('.issues_listsone').children
         for (var key = 0; key < eles.length; key++) {
           eles[key].className = 'item'
         }
@@ -101,7 +101,7 @@
       background: #f5f5f9;
       width: 100%;
       height: 100vh;
-      .issues_lists{
+      .issues_listsone{
         width:100%;
         padding:0;
         .item{
@@ -138,7 +138,7 @@
           }
         }
       }
-      .issues_list{
+      .issues_listone{
         width:100%;
         line-height: 2;
         .item{
