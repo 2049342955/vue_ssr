@@ -22,7 +22,7 @@
       <div class="box">
         <aside class="con">
           <router-link :class="['item', {active:$route.path.includes(n.name)}]" :to="n.path" v-for="n,k in nav" :key="k">{{n.title}}</router-link>
-        </aside><router-view class="content"></router-view>
+        </aside><router-view class="main_content"></router-view>
       </div>
     </section>
   </article>
@@ -196,7 +196,7 @@
             }
           }
         }
-        .content{
+        .main_content{
           background: $white;
           width:leave(235);
           min-height: 600px;

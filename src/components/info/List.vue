@@ -26,10 +26,10 @@
             <p class="time"><span style="margin-right:10px;">《算力网》</span>|<span style="margin-left:10px;">{{list.dateline}}</span></p>
           </template>
           <template v-if="list.resume">
-            <p class="content">{{list.resume}}......</p>
+            <p class="notice_content">{{list.resume}}......</p>
           </template>
           <template v-else>
-            <p class="content">暂无简介</p>
+            <p class="notice_content">暂无简介</p>
           </template>
         </div>
       </router-link>
@@ -132,7 +132,7 @@
     .time{
       font-size: 12px;
     }
-    .content{
+    .notice_content{
       margin-top: 10px;
       font-size: 12px;
       line-height: 20px;

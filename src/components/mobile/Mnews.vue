@@ -11,7 +11,7 @@
       <img :src="img" alt="">
       <p>暂无列表信息</p>
     </div>
-    <div class="content" v-show="!contentshow">
+    <div class="mask_content" v-show="!contentshow">
       <h3>{{content.title}}</h3>
       <p style="color:#999;">{{content.created_at}}</p>
       <p v-html="content.msg"></p>
@@ -134,7 +134,7 @@
      }
    }
  }
- .content{
+ .mask_content{
    width: 100%;
    height: 100%;
    background:white;
