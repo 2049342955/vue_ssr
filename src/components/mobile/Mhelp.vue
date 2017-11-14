@@ -12,7 +12,7 @@
         </div>
       </div>
     </div>
-    <div class="content" v-show="!show" v-html="nowItem.content">
+    <div class="issues_content" v-show="!show" v-html="nowItem.content">
     </div>
   </section>
 </template>
@@ -81,7 +81,7 @@
   margin:0;
 }
   .issues{
-    .content{
+    .issues_content{
             width: 100%;
             overflow: hidden;
             height: 100vh;

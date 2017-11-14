@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="list">
-      <router-link :to="'/mobile/'+k" class="item" v-for="l,k in list2">
+      <router-link :to="'/mobile/'+k" class="item" v-for="l,k in list2" :key="k">
         <span>{{l}}</span>
         <i><em>></em></i>
       </router-link>

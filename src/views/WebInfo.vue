@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="swip">
-      <router-view class="content"></router-view>
+      <router-view class="swip_content"></router-view>
     </div>
   </article>
 </template>
@@ -63,7 +63,7 @@
         color:#327fff;
       }
     }
-    .content{
+    .swip_content{
       margin-top: 30px;
     }
   }

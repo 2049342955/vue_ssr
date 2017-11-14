@@ -157,6 +157,7 @@ api.checkFiled = (ele, form) => {
 api.checkCode = (form) => {
   var c = true
   var i = 0
+  console.log(form)
   while (form[i].name !== 'code') {
     if (form[i].value) {
       if (!api.checkFiled(form[i])) {

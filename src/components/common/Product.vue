@@ -116,7 +116,7 @@
       </div>
       <div class="product_desc">
         <p class="title">产品介绍</p>
-        <div class="content" v-html="$parent.detail.machine_intro"></div>
+        <div class="product_content" v-html="$parent.detail.machine_intro"></div>
       </div>
       <div class="mobile_btn">
         <mt-button type="primary" size="large" @click="openMask">立即购买</mt-button>
@@ -474,7 +474,7 @@
           font-size: 16px;
           margin-bottom:5px;
         }
-        .content{
+        .product_content{
           color:$light_black
         }
       }

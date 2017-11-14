@@ -139,7 +139,7 @@
       },
       openContract (n, mobile) {
         this.accept = true
-        if (mobile && n === 1) {
+        if (mobile && n === 2) {
           this.mobileEdit = true
           this.contract = ''
           return false
@@ -222,7 +222,8 @@
         }
       },
       submit () {
-        var form = document.querySelector('.form_content')
+        var form = document.querySelector('.form_content') || document.querySelector('.form')
+        console.log(form)
         var data = api.checkFrom(form)
         var val = 'true_name'
         var sendData = {token: this.token, user_id: this.user_id}
@@ -557,14 +558,12 @@
       }
     }
     .mint-popup{
-      .form,.mobile_contract{
-        width:100vw;
-        max-height:90vh;
-        padding:15px;
-        overflow:auto;
-      }
-      .mobile_contract{
-        
+      width:100vw;
+      max-height:90vh;
+      overflow:auto;
+      padding:15px;
+      .form{
+        @include form(v)
       }
     }
   }
