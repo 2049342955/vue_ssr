@@ -613,4 +613,7 @@
       }
     }
   }
+  hr{
+    display:none;
+  }
 </style>

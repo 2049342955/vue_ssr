@@ -30,7 +30,7 @@
         </span>
         <img src="../../assets/images/leftjian.png" class="leftjian"/>
       </router-link>
-      <router-link to="/mobile/administration" class="route">
+      <router-link to="/mobile/order" class="route">
           <span class="left">
               <img src="../../assets/images/ding.png"/>
               订单管理
