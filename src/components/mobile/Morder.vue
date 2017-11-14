@@ -24,7 +24,7 @@
           </div>
           <div class="nodata" v-if="showImg">
              <img :src="img" alt="">
-             <p>暂无列表信息</p>
+             <p style="text-align:center;">暂无列表信息</p>
            </div>
           <Pager :len="len"></Pager>
       </div>
