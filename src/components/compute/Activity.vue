@@ -233,7 +233,7 @@
         var sendData = {token: this.token, user_id: this.user_id}
         if (this.nowForm === 'address') {
           this.addressData = data
-          this.prompt('您的地址已保存')
+          this.prompt('收货地址已提交，点击“立即支付”完成购买')
           this.closeEdit(this.isMobile)
         } else {
           var val = 'true_name'
@@ -309,7 +309,8 @@
       util.post('showMiner', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.data = res
-          self.content = res.content + '<hr>' + res.content1
+          // self.content = res.content + '<hr>' + res.content1
+          self.content = res.content
         }, '', () => {
           this.$router.push({name: 'home'})
         })
