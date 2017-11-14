@@ -11,7 +11,7 @@
     <div class="box">
       <router-view></router-view>
     </div>
-    <div class="regist_mobile" v-if="$route.path.includes('regist')">已有账号？<router-link to="/auth/login">立即登录</router-link></div>
+    <div class="regist_mobile" v-if="$route.path.includes('passwordRetrieval')">已有账号？<router-link to="/auth/login">立即登录</router-link></div>
     <p class="copyright">算力网 版权所有 Copyright © 2013-2017<br>Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. </p>
   </section>
 </template>
@@ -105,14 +105,14 @@
     @media screen and (max-width: $mobile) {
       background: #f4f4f4;
       .box{
-        padding:20px;
+        padding:15px;
         .form button{
           line-height: 2;
           margin-top:30px;
         }
       }
       &.login_block .box{
-        padding:20px;
+        padding:15px;
         .form{
           padding:30px 15px;
         }
