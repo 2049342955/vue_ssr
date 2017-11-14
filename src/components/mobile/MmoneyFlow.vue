@@ -65,12 +65,17 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.nodata{
+  width: 100%;
+  text-align: center;
+}
 .nodata img{
-  width: 100px;
-  left: 50%;
-  position: absolute;
-  margin-left: -50px;
-  margin-top: 200px;
+  width: 130px;
+  display: block;
+  margin-top: 140px;
+  margin-bottom: 20px;
+}
+.nodata p{
 }
 .pager .pager_box{
   border-top: 1px solid #ddd !important;

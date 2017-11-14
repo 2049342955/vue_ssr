@@ -6,7 +6,7 @@
       <div class="data">
         <div class="item">
           <p>总资金</p>
-          <span class="currency">{{(+moneyData.freeze_account+moneyData.balance_account)|currency}}</span>
+          <span class="currency">{{priceall|currency}}</span>
           <span class="">元</span>
         </div>
         <div class="line"></div>
@@ -95,6 +95,7 @@
     data () {
       return {
         nowEdit: 0,
+        priceall: '',
         moneyNav: {freeze_account: '冻结资金', balance_account: '账户余额'},
         moneyData: {freeze_account: 0, balance_account: 0},
         computeNav: {today_hash: '今日收益', balance_account: '账户余额', total_hash: '累积已获得收益'},
@@ -241,6 +242,7 @@
       util.post('myAccount', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.moneyData = res
+          self.priceall = (parseInt(self.moneyData.freeze_account) + parseInt(self.moneyData.balance_account))
         })
       })
       this.getList()
