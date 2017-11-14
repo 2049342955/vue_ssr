@@ -46,7 +46,7 @@
       </div>
     </div>
     <div class="mobile_box">
-      <mt-tabbar :fixed="true" selected="1">
+      <mt-tabbar :fixed="true" selected="1" style="width:100%;height:2rem;">
         <router-link to="/mHome" id="1" class="mint-tab-item">
           <i class="iconfont">&#xe605;</i>
           <p>首页</p>
@@ -55,7 +55,7 @@
           <i class="iconfont">&#xe6cd;</i>
           <p>算力资产</p>
         </router-link>
-        <router-link to="/mobile/administration" id="3" class="mint-tab-item">
+        <router-link to="/mobile/personcenter" id="3" class="mint-tab-item">
           <i class="iconfont">&#xe63f;</i>
           <p>个人中心</p>
         </router-link>
@@ -244,6 +244,10 @@
     }
     .mobile_box{
       @include mobile_show
+      p{
+        position: relative;
+        top:-.25rem;
+      }
       i{
         font-size: 20px;
       }

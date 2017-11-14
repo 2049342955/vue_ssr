@@ -53,6 +53,7 @@
   import Minformation from '@/components/mobile/Minformation'
   import Madministration from '@/components/mobile/Madministration'
   import Mactive from '@/components/mobile/Mactive'
+  import Mpersoncenter from '@/components/mobile/Mpersoncenter'
 // use plugin
   Vue.use(Router)
 // export
@@ -305,6 +306,11 @@
         path: 'news',
         name: 'mnews',
         component: Mnews
+      },
+      {
+        path: 'personcenter',
+        name: 'mpersoncenter',
+        component: Mpersoncenter
       },
       {
         path: 'notice',
