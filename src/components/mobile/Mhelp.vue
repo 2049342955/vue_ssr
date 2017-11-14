@@ -1,66 +1,143 @@
 <template>
-  <section class="helplist">
-    <div class="header">
+  <section class="issues">
+    <div class="mobile_header">
       <span class="left">< <em>返回</em></span>
       <span>帮助中心</span>
     </div>
-    <mt-navbar v-model="selected">
-      <mt-tab-item id="1">选项一</mt-tab-item>
-      <mt-tab-item id="2">选项二</mt-tab-item>
-      <mt-tab-item id="3">选项三</mt-tab-item>
-    </mt-navbar>
-
-    <!-- tab-container -->
-    <mt-tab-container v-model="selected">
-      <mt-tab-container-item id="1">
-        <mt-cell v-for="n in 10" :title="'内容 ' + n" />
-      </mt-tab-container-item>
-      <mt-tab-container-item id="2">
-        <mt-cell v-for="n in 4" :title="'测试 ' + n" />
-      </mt-tab-container-item>
-      <mt-tab-container-item id="3">
-        <mt-cell v-for="n in 6" :title="'选项 ' + n" />
-      </mt-tab-container-item>
-    </mt-tab-container>
+    <div class="issues_box">
+      <div class="issues_lists">
+        <div class="item" v-for="n,k in nav" @click="fetchData(n.help_class_id,k)">{{n.name}}</div>
+      </div>
+      <div class="issues_list">
+        <a class="item" v-for="l,k in list">
+          <span :class="{active: show}">{{l.title}}<em>></em></span>
+        </a>
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
+  import util from '@/util'
+  import api from '@/util/function'
+  import { mapState } from 'vuex'
   export default {
+    name: 'Issues',
     data () {
       return {
-        selected: 1
+        nav: [],
+        list: [],
+        nowItem: [],
+        show: false
       }
+    },
+    methods: {
+      fetchData (id, k) {
+        var eles = document.querySelector('.issues_lists').children
+        for (var key = 0; key < eles.length; key++) {
+          eles[key].className = 'item'
+        }
+        this.list = []
+        var self = this
+        util.post('getHelp', {sign: api.serialize({token: this.token, help_class_id: id})}).then(function (res) {
+          self.list = res
+        })
+        setTimeout(() => {
+          this.$store.commit('SET_NUM', k)
+          eles[k].className = 'item active'
+        }, 0)
+      }
+    },
+    mounted () {
+      console.log(this.num)
+      var self = this
+      util.post('getHelpClass', {sign: api.serialize({token: this.token})}).then(function (res) {
+        self.nav = res
+        self.fetchData(res[self.num || 0].help_class_id, self.num || 0)
+      })
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token,
+        num: state => state.num
+      })
     }
   }
 </script>
 
 <style type="text/css" lang="scss">
-  .helplist{
-    width: 100%;
-    height: 100vh;
-    background: #f5f5f9;
-    .header{
+.mobile_header{
+  margin:0;
+}
+  .issues{
+    .issues_box{
+      background: #f5f5f9;
       width: 100%;
-      height: 1.5rem;
-      background: #327fff;
-      text-align: center;
-      color: white;
-      font-size: 0.6rem;
-      line-height: 1.5rem;
-      position: relative;
-      margin-bottom:.5rem;
-      .left{
-        position: absolute;
-        left: .5rem;
-        font-family: "宋体";
-        font-size: 0.7rem;
-        em{
-          font-size: 0.5rem;
-          font-style: normal;
-          position: relative;
-          top:-.08rem;
+      height: 100vh;
+      .issues_lists{
+        width:100%;
+        display: flex;
+        justify-content: space-between;
+        background:white;
+        padding:0;
+        .item{
+          cursor: pointer;
+          width:100px;
+          background: white;
+          text-align: center;
+          color:#121212;
+          line-height: 3;
+          &:hover{
+              color:#327fff;
+          }
+          &.active{
+              color:#327fff;
+          }
         }
+      }
+      .issues_list{
+        width:100%;
+        line-height: 2;
+        margin-top: 0.5rem;
+        .item{
+          border-top:1px solid #ddd;
+          overflow: hidden;
+          line-height: 1.5rem;
+          background: white;
+          cursor: pointer;
+          width: 100%;
+          display: block;
+          span{
+            width: 100%;
+            display:flex;
+            justify-content: space-between;
+            height: 1.5rem;
+            padding:0 .5rem;
+          }
+          em{
+            font-family: "宋体";
+            font-style: normal;
+            transform: rotate(90deg);
+          }
+          .active em{
+            transform: rotate(-90deg);
+            transform-style: 4s;
+          }
+          &:hover{
+            color:#327fff;
+          }
+        }
+        .content{
+            width: 100%;
+            overflow: hidden;
+            padding:0 .5rem;
+            background: #f5f5f9;
+            box-sizing: border-box;
+            box-sizing: border-box;
+            img{
+              width: 80%;
+            }
+          }
       }
     }
   }

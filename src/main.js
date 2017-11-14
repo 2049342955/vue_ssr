@@ -6,9 +6,11 @@ import router from './router'
 import store from './store'
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
+// import VueCarbon from 'vue-carbon'
 
 Vue.config.productionTip = false
 Vue.use(MintUI)
+// Vue.use(MintUI)
 
 /* eslint-disable no-new */
 new Vue({

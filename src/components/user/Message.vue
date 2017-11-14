@@ -5,7 +5,7 @@
     <div class="data">
       <router-link :to="'/user/messageDetail/'+d.id" :class="['item', {isread: d.is_read}]" v-for="d,k in data" :key="k">
         <div class="title">{{d.title}}</div>
-        <div class="text">{{d.dealtContent}}</div>
+        <div class="text">{{d.dealtContent.split(" ")[0]}}</div>
         <div class="time">{{d.created_at}}</div>
       </router-link>
       <Pager :len="len"></Pager>

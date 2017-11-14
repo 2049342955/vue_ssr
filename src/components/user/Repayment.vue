@@ -191,6 +191,9 @@
               }
               a{
                 display: inline-block;
+                width: 88px;
+                height: 36px !important;
+                padding:0;
                 @include button($blue,border)
                 border-radius: 5px;
                 .btn:not(:disabled){

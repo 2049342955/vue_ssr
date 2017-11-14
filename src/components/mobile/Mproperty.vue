@@ -1,92 +1,142 @@
 <template>
-  <section class="mask">
-    <div class="form_box">
-      <div class="close" @click="$parent.closeEdit()">
-        <span class="icon"  style="position: absolute;top: 45px;right: 20px;"></span>
-      </div>
-      <h2>{{title}}</h2>
-      <form :class="['form form_content', {card_form: $parent.edit==='card'}]" @submit.prevent="$parent.submit" novalidate v-if="!contract">
-        <FormField :form="form"></FormField>
-        <p v-if="$parent.fee&&$parent.edit!=='GetIncome'">手续费：{{$parent.total_price * $parent.fee|format}}元<span class="fee">({{$parent.fee*100+'%'}})</span></p>
-        <p v-if="$parent.fee&&$parent.edit==='GetIncome'">手续费：{{$parent.total_price * $parent.fee|format(8)}}btc<span class="fee">({{$parent.fee*100+'%'}})</span></p>
-        <button name="btn">确认提交</button>
-      </form>
-      <div class="contract" v-html="contract" v-else></div>
+  <section class="bdcform">
+    <div class="mobile_header">
+      <span class="left">< <em>返回</em></span>
+      <select>
+        <option>BTC资产</option>
+      </select>
     </div>
+    <div class="property">
+      <div class="property_top">
+        <div class="left">
+          <h1>今日获得收益</h1>
+          <p>0.0056485 <i>BTC</i></p>
+        </div>
+        <div class="right">提取收益</div>
+      </div>
+      <div class="property_bottom">
+        <div class="left" style="border-right:1px solid white;">
+          <h1>累积获得收益</h1>
+          <p>0.0056485 <i>BTC</i></p>
+        </div>
+        <div class="left" style="padding-left:1rem;">
+          <h1>账户余额</h1>
+          <p>0.0056485 <i>BTC</i></p>
+        </div>
+      </div>
+    </div>
+    <ul>
+      <li>
+        <span>购入云矿机</span>
+        <i>10.000.00元</i>
+      </li>
+      <li>
+        <span>出售中云矿机</span>
+        <i>10.000.00元</i>
+      </li>
+      <li>
+        <span>已出售云矿机</span>
+        <i>80.00元</i>
+      </li>
+      <li>
+        <span>算力总和</span>
+        <i>10%</i>
+      </li>
+      <li style="border:0;">
+        <span>算力收益图表</span>
+      </li>
+    </ul>
   </section>
 </template>
-
 <script>
-  import FormField from '@/components/common/FormField'
-  import api from '@/util/function'
-  export default {
-    components: {
-      FormField
-    },
-    props: {
-      form: {
-        type: Array
-      },
-      title: {
-        type: String
-      },
-      contract: {
-        type: String
+export default {
+}
+</script>
+<style scoped lang="scss">
+.bdcform{
+  background:#f5f5f9;
+}
+.mobile_header{
+  margin-bottom: 0;
+}
+  select{
+    color: white;
+    width: 4rem;
+    font-size: 0.7rem;
+  }
+  .property{
+    width: 100%;
+    overflow: hidden;
+    padding:0 .5rem;
+    box-sizing: border-box;
+    background:white;
+    background: #4b98ff;
+    padding-bottom: 0.8rem;
+    .property_top{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding-top: 0.5rem;
+      color: white;
+      .left p{
+         margin-top: 0.15rem;
+         font-size: 0.7rem;
       }
-    },
-    filters: {
-      format: api.decimal
+      .left i{
+        font-weight: 100;
+        font-size: 0.5rem;
+      }
+      .right{
+        width: 3.3rem;
+        height: 1rem;
+        line-height: 0.9rem;
+        text-align: center;
+        border-radius: 1rem;
+        border:1px solid white;
+        margin-top: 0.6rem;
+      }
+    }
+    .property_bottom{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding-top: 0.5rem;
+      color: white;
+      margin-top: 0.8rem;
+      .left{
+        width: 50%;
+      }
+      .left p{
+         margin-top: 0.15rem;
+         font-size: 0.7rem;
+      }
+      .left i{
+        font-weight: 100;
+        font-size: 0.5rem;
+      }
     }
   }
-</script>
-
-<style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
-  .mask{
-    @include mask
-    .form_box{
-      .form_content{
-        padding:40px 130px;
-        @include form(v)
-        .input{
-          .select{
-            @include flex(space-between)
-            select{
-              width:33%;
-              height:32px;
-              line-height: 32px;
-              border:none;
-            }
-          }
+  ul{
+      width: 100%;
+      margin-top: 0.5rem;
+      overflow: hidden;
+      background:white;
+      li{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        height: 1.5rem;
+        border-bottom:1px solid #ddd;
+        padding:0 .5rem;
+        box-sizing: border-box;
+        line-height: 1.5rem;
+        span{
+          color: #121212;
+          font-size: 0.6rem;
         }
-        &.card_form .input{
-          span{
-            &:first-child {
-              width: 120px;
-              text-align: right;
-            }
-            &:nth-child(2) {
-              left: 135px
-            }
-          }
-          input,.sel,.select{
-            padding-left:185px
-          }
-        }
-        .fee{
-          font-size: 12px;
-          color: $light_black;
-          margin-left:5px
+        i{
+          color: #999999;
         }
       }
-    }
-    .contract{
-      padding:30px;
-      height:680px;
-      overflow:auto;
-      p, p > *{
-        white-space:wrap !important;
-      }
-    }
   }
 </style>

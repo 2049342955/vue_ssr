@@ -51,6 +51,7 @@
   import Mproperty from '@/components/mobile/Mproperty'
   import MmoneyFlow from '@/components/mobile/MmoneyFlow'
   import Minformation from '@/components/mobile/Minformation'
+  import Madministration from '@/components/mobile/Madministration'
 // use plugin
   Vue.use(Router)
 // export
@@ -279,6 +280,16 @@
         path: 'help',
         name: 'mhelp',
         component: Mhelp
+      },
+      {
+        path: 'administration',
+        name: 'madministration',
+        component: Madministration
+      },
+      {
+        path: 'information',
+        name: 'minformation',
+        component: Minformation
       },
       {
         path: 'news',
