@@ -10,7 +10,7 @@
     <div class="list">
       <div class="item" v-for="k in 4" @click="setInfo(list[k+1].name,menu[k+1].status)">
         <span>{{list[k+1].title}}</span>
-        <i>设置<em>></em></i>
+        <i>设置<em style="margin-left:.3rem;">></em></i>
       </div>
     </div>
     <div class="list">

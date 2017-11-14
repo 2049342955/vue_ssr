@@ -1,11 +1,5 @@
 <template>
   <section class="bdcform">
-    <div class="mobile_header">
-      <span class="left">< <em>返回</em></span>
-      <select>
-        <option>BTC资产</option>
-      </select>
-    </div>
     <div class="property">
       <img src="../../assets/images/beaut.png" style="width:100%;position:absolute;"/>
       <div class="property_top">
@@ -13,7 +7,9 @@
           <h1>今日获得收益</h1>
           <p>0.0056485 <i>BTC</i></p>
         </div>
-        <div class="right">提取收益</div>
+        <select style="z-index:99;">
+          <option>BTC资产</option>
+        </select>
       </div>
       <div class="property_bottom">
         <div class="left" style="border-right:1px solid white;">
@@ -42,6 +38,9 @@
       <li>
         <span>算力总和</span>
         <i>10%</i>
+      </li>
+      <li>
+        <span>提取收益</span>
       </li>
       <li style="border:0;">
         <span>算力收益图表</span>

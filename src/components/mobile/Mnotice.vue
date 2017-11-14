@@ -1,9 +1,5 @@
 <template>
   <section class="mask">
-    <div class="mobile_header">
-      <span class="left">< <em>返回</em></span>
-      <span>新闻公告</span>
-    </div>
     <div class="list" v-show="contentshow">
       <div class="route" v-for="n, k in lists" @click="created(n.id)">
         <span class="left">

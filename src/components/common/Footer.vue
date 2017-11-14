@@ -253,4 +253,7 @@
       }
     } 
   }
+  .mint-tab-item{
+    padding:0 !important;
+  }
 </style>

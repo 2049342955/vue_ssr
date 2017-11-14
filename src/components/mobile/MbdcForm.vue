@@ -1,9 +1,5 @@
 <template>
   <section class="bdcform">
-    <div class="mobile_header">
-      <span class="left">< <em>返回</em></span>
-      <span>算力托管申请</span>
-    </div>
     <div class="bodyform">
       <form class="form" action="" @submit.prevent="submit" novalidate>
         <FormField :form="form"></FormField>

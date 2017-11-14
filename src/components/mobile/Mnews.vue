@@ -1,9 +1,5 @@
 <template>
   <section class="mask">
-    <div class="mobile_header">
-      <span class="left">< <em>我的</em></span>
-      <span>我的消息</span>
-    </div>
     <ul v-show="contentshow">
       <li v-for="d,k in data" :key="k" @click="detailcli(d.id)">
         <span>{{d.title}}</span>

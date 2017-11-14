@@ -1,9 +1,5 @@
 <template>
   <section class="information">
-    <div class="mobile_header">
-      <span class="left">< <em>返回</em></span>
-      <span>算力资讯</span>
-    </div>
     <div class="list">
        <div class="infor-detail" v-for="n,k in lists" @click="detailcli(n.id)" v-show="status">
            <template v-if="n.image">
