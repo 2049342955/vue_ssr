@@ -5,7 +5,7 @@
       <div class="property_top">
         <div class="left">
           <h1>今日获得收益</h1>
-          <p>0.0056485 <i>BTC</i></p>
+           <p>{{computeData[computeNav.today_hash]|format(8)}} <i>{{hashType[nowEdit]&&hashType[nowEdit].name&&hashType[nowEdit].name.toLowerCase()}}</i></p> 
         </div>
         <select style="z-index:99;" :value="hashType[nowEdit]&&hashType[nowEdit].name">
           <option @click="setList(k)" v-for="n,k in hashType" style="color:black;">{{n.name}}资产</option>
@@ -14,11 +14,11 @@
       <div class="property_bottom">
         <div class="left" style="border-right:1px solid white;">
           <h1>累积获得收益</h1>
-          <p>0.0056485 <i>BTC</i></p>
+           <p>{{computeData[computeNav.balance_account]|format(8)}} <i>{{hashType[nowEdit]&&hashType[nowEdit].name&&hashType[nowEdit].name.toLowerCase()}}</i></p> 
         </div>
         <div class="left" style="padding-left:1rem;">
           <h1>账户余额</h1>
-          <p>0.0056485 <i>BTC</i></p>
+           <p>{{computeData[computeNav.total_hash]|format(8)}} <i>{{hashType[nowEdit]&&hashType[nowEdit].name&&hashType[nowEdit].name.toLowerCase()}}</i></p> 
         </div>
       </div>
     </div>
@@ -53,12 +53,8 @@
   import util from '@/util'
   import api from '@/util/function'
   import { mapState } from 'vuex'
-  import MyMask from '@/components/common/Mask'
   import md5 from 'js-md5'
   export default {
-    components: {
-      MyMask
-    },
     data () {
       return {
         nowEdit: 0,
@@ -87,27 +83,27 @@
     methods: {
       openMask (str, title) {
         this.total_price = 0
-        if (!(this.true_name && this.true_name.status === 1)) {
-          api.tips('请先实名认证', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
-        if (!(this.bank_card && this.bank_card.status === 1)) {
-          api.tips('请先绑定银行卡', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
-        if (str === 'recharge') {
-          this.$router.push({name: 'recharge'})
-        }
-        if (str === 'GetIncome' && !this.address.length) {
-          api.tips('请先绑定算力地址', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
+        // if (!(this.true_name && this.true_name.status === 1)) {
+        //   api.tips('请先实名认证', () => {
+        //     this.$router.push({name: 'account'})
+        //   })
+        //   return false
+        // }
+        // if (!(this.bank_card && this.bank_card.status === 1)) {
+        //   api.tips('请先绑定银行卡', () => {
+        //     this.$router.push({name: 'account'})
+        //   })
+        //   return false
+        // }
+        // if (str === 'recharge') {
+        //   this.$router.push({name: 'recharge'})
+        // }
+        // if (str === 'GetIncome' && !this.address.length) {
+        //   api.tips('请先绑定算力地址', () => {
+        //     this.$router.push({name: 'account'})
+        //   })
+        //   return false
+        // }
         if (str === 'Withdrawals' && +this.moneyData.balance_account <= 0) {
           api.tips('您的账户余额不足，不能提现')
           return false
@@ -147,11 +143,13 @@
         document.body.style.overflow = 'auto'
       },
       setList (n) {
+        alert(1)
         this.nowEdit = n
         this.getList()
       },
       getList () {
         var self = this
+        console.log(this.user_id)
         var sendData = {token: this.token, user_id: this.user_id, product_hash_type: (this.hashType[this.nowEdit] && this.hashType[this.nowEdit].id) || '1'}
         util.post('myHashAccount', {sign: api.serialize(sendData)}).then(function (res) {
           api.checkAjax(self, res, () => {
