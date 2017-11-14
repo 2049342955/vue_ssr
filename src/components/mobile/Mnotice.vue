@@ -4,27 +4,54 @@
       <span class="left">< <em>返回</em></span>
       <span>新闻公告</span>
     </div>
-    <div class="list">
-      <router-link to="#" class="route">
+    <div class="list" v-show="contentshow">
+      <div class="route" v-for="n, k in lists" @click="created(n.id)">
         <span class="left">
-          <i>算力网正式上线</i>
-          <em>2015.10.22 17:14:25</em>
+          <i>{{n.title}}</i>
+          <em>{{n.dateline}}</em>
         </span>
-        <span class="right">加上你看下三星陕西安康三姓家奴刷卡机想那些实习就阿克苏新年开始向纳税是希纳斯希纳斯</span>
-      </router-link>
-      <router-link to="#" class="route">
-        <span class="left">
-          <i>算力网正式上线</i>
-          <em>2015.10.22 17:14:25</em>
-        </span>
-        <span class="right">加上你看下三星陕西安康三姓家奴刷卡机想那些实习就阿克苏新年开始向纳税是希纳斯希纳斯</span>
-      </router-link>
+        <span class="right">{{n.resume?n.resume:'暂无简介'}}</span>
+      </div>
+    </div>
+    <div class="content" v-show="!contentshow">
+      <h3>{{content.title}}</h3>
+      <p style="color:#999;">{{content.dateline}}</p>
+      <p v-html="content.content"></p>
     </div>
   </section>
 </template>
 
 <script>
+  import util from '../../util'
+  import api from '../../util/function'
   export default {
+    data () {
+      return {
+        lists: '',
+        content: '',
+        contentshow: true
+      }
+    },
+    methods: {
+      created (id) {
+        var self = this
+        var newsid = id
+        this.contentshow = false
+        util.post('content', {sign: 'token=0&news_id=' + newsid}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.content = res
+          })
+        })
+      }
+    },
+    mounted () {
+      var self = this
+      util.post('webAnnouncoment', {sign: 'token=0'}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.lists = res
+        })
+      })
+    }
   }
 </script>
 

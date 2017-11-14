@@ -51,7 +51,7 @@ export default {
         self.list = res.value_list
         self.show = !res.value_list.length
         if (self.now > 1) return false
-        self.len = Math.ceil(res.total_num / 1)
+        self.len = Math.ceil(res.total_num / 15)
       })
     })
   },

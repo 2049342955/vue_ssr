@@ -46,7 +46,6 @@
   import Mhelp from '@/components/mobile/Mhelp'
   import Mnews from '@/components/mobile/Mnews'
   import Mnotice from '@/components/mobile/Mnotice'
-  import MnoticeDetail from '@/components/mobile/MnoticeDetail'
   import Mmessage from '@/components/mobile/Mmessage'
   import Mproperty from '@/components/mobile/Mproperty'
   import MmoneyFlow from '@/components/mobile/MmoneyFlow'
@@ -300,11 +299,6 @@
         path: 'notice',
         name: 'mnotice',
         component: Mnotice
-      },
-      {
-        path: 'noticeDetail',
-        name: 'mnoticeDetail',
-        component: MnoticeDetail
       },
       {
         path: 'message',
