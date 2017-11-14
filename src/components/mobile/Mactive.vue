@@ -4,8 +4,8 @@
     <div class="body">
        <h1>标题</h1>
        <div class="side">
-        <ul>
-          <li v-for="n, k in data">
+        <ul class="flexfu">
+          <li v-for="n, k in data" class="flexfulist">
             <p class="price"><em>1180</em> {{n.unit}}</p>
             <p class="title">{{n.title}}</p>
           </li>
@@ -67,14 +67,14 @@ export default {
         padding:0 .3rem;
         box-sizing: border-box;
         padding-bottom: 0.5rem;
-        ul{
+        .flexfu{
             width: 100%;
             display: flex;
             justify-content: space-between;
             padding-top: 0.5rem;
             border-bottom: 1px dashed white;
             padding-bottom: 0.7rem;
-            li{
+            .flexfulist{
                 width:  33.3%;
                 text-align: center;
                 .price{
