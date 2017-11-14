@@ -65,6 +65,13 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.nodata img{
+  width: 100px;
+  left: 50%;
+  position: absolute;
+  margin-left: -50px;
+  margin-top: 200px;
+}
 .pager .pager_box{
   border-top: 1px solid #ddd !important;
 }
