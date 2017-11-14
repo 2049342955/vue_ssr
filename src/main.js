@@ -6,13 +6,10 @@ import router from './router'
 import store from './store'
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
-import iView from 'iview'
-import 'iview/dist/styles/iview.css'
 // import VueCarbon from 'vue-carbon'
 
 Vue.config.productionTip = false
 Vue.use(MintUI)
-Vue.use(iView)
 
 /* eslint-disable no-new */
 new Vue({
