@@ -7,7 +7,7 @@
     <div class="issues_box">
       <div class="issues_lists">
         <div class="item" v-for="n,k in nav" @click="fetchData(n.help_class_id,k)">
-          <p class="titleall">{{n.name}}</p>
+          <p class="titleall">{{n.name}}<em>></em></p>
           <div class="issues_list" v-show="show">
             <a class="item" v-for="l,k in list">
               <span :class="{active: show}">{{l.title}}</span>
@@ -82,14 +82,28 @@
         .item{
           cursor: pointer;
           width: 100%;
-          text-align: center;
+          text-align: left;
           color:#121212;
           // border-bottom:1px solid #ddd;
           line-height: 3;
           .titleall{
             width: 100%;
-            height: 1.5rem;
+            height: 2rem;
+            padding:0 .5rem;
+            line-height: 2rem;
+            box-sizing: border-box;
             background: white;
+            border-bottom:1px solid #ddd;
+            em{
+              font-family: "宋体";
+              font-style: normal;
+              transform: rotate(90deg);
+              float:right;
+            }
+            .active em{
+              transform: rotate(-90deg);
+              transform-style: 4s;
+            }
           }
           &:hover{
               color:#327fff;
@@ -115,15 +129,6 @@
             justify-content: space-between;
             height: 1.5rem;
             padding:0 .5rem;
-          }
-          em{
-            font-family: "宋体";
-            font-style: normal;
-            transform: rotate(90deg);
-          }
-          .active em{
-            transform: rotate(-90deg);
-            transform-style: 4s;
           }
           &:hover{
             color:#327fff;
