@@ -23,7 +23,7 @@
       </table>
     </div>
     <div class="mobile_box">
-      <h2>云矿机第一波</h2>
+      <h2>矿机推荐</h2>
       <div class="mobile_list_box">
         <div class="item" v-for="d,i in list">
           <h3>{{d.name}}</h3>
@@ -181,6 +181,12 @@
         font-size: 18px;
         padding:10px 15px;
         background: #fff;
+        &:before{
+          content:'|';
+          color:$blue;
+          font-weight: bold;
+          margin-right:5px
+        }
       }
       .mobile_list_box{
         .item{
