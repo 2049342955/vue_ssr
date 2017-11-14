@@ -16,7 +16,7 @@
           <span class="time">工作日（9:00~18:00）</span>
         </div>
         <div class="btn_box">
-          <router-link to="">申请入口</router-link>
+          <router-link to="/mobile/bdcForm">申请入口</router-link>
         </div>
       </div>
       <div class="float_right form_box">
@@ -369,17 +369,16 @@
             margin-left: 80px;
           }
           @media screen and (max-width: $mobile) {
-            // width:800px;
-            // font-size: 20px;
+            font-size: 20px;
+            &:before,&:after{
+              position: absolute;
+              transform:scale(.7)
+            }
             &:before{
-              // width: 61px;
-              // height: 18px;
-              margin-right: 10px;
+              left: 10px;
             }
             &:after{
-              // width: 61px;
-              // height: 17.5px;
-              margin-left: 10px;
+              right: 10px;
             }
             // transform:scale(.8)
           }
@@ -430,6 +429,20 @@
         }
         .mobile_box{
           @include mobile_show
+          .box_text{
+            margin-top:20px;
+            font-size: 16px;
+            line-height: 2.8;
+            .line{
+              @include flex(space-between)
+              span:nth-child(2){
+                color:$light_black
+              }
+              &:not(:last-child){
+                border-bottom:1px solid #3a3a3a
+              }
+            }
+          }
         }
       }
     }

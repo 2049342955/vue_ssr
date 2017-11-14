@@ -51,7 +51,9 @@
     },
     mounted () {
       if (api.checkEquipment) {
-        this.$router.push({name: 'mobileHome'})
+        if (this.$route.name === 'home') {
+          this.$router.push({name: 'mobileHome'})
+        }
       }
       this.updateClass()
       window.addEventListener('scroll', this.test, false)

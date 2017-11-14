@@ -3,10 +3,14 @@
     <div class="bg_box">
       <div class="bg"></div>
     </div>
+    <div class="mobile_logo">
+      <img :src="require('@/assets/images/logo2.png')" alt="">
+    </div>
     <div class="box">
       <router-view></router-view>
     </div>
-    <p class="copyright">Copyright © 2013-2017 Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. 算力网 版权所有</p>
+    <div class="regist_mobile" v-if="$route.path.includes('regist')">已有账号？<router-link to="/auth/login">立即登录</router-link></div>
+    <p class="copyright">算力网 版权所有 Copyright © 2013-2017<br>Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. </p>
   </section>
 </template>
 
@@ -34,6 +38,14 @@
       .bg{
         background:url(../assets/images/auth_bg.jpg) no-repeat;
       }
+      @include mobile_hide
+    }
+    .mobile_logo{
+      text-align: center;
+      padding-top:30px;
+      img{
+        width:140px;
+      }
     }
     &:not(.login_block){
       min-height:calc(100vh - 80px);
@@ -45,6 +57,13 @@
     }
     .box{
       @include main
+    }
+    .regist_mobile{
+      text-align: center;
+      @include mobile_show
+      a{
+        color:$blue
+      }
     }
     .copyright{
       text-align: center;
@@ -78,6 +97,26 @@
       padding:40px 0;
       .bg_box,.copyright{
         display: none;
+      }
+    }
+    @media screen and (max-width: $mobile) {
+      background: #f4f4f4;
+      .box{
+        padding:20px;
+        .form button{
+          line-height: 2;
+          margin-top:30px;
+        }
+      }
+      &.login_block .box{
+        padding:20px;
+        .form{
+          padding:30px 15px;
+        }
+      }
+      .copyright{
+        font-size: 12px;
+        color:$light_text
       }
     }
   }

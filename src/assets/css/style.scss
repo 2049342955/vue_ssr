@@ -240,6 +240,7 @@
       &:first-child{
         width:70px;
         left:20px;
+        @include mobile_hide
       }
       &:nth-child(2){
         top:10px;
@@ -247,7 +248,8 @@
         left:90px;
         @include gap(15,h)
         color:$red;
-        border-right:1px solid $border
+        border-right:1px solid $border;
+        @include mobile_hide
       }
       &:last-child{
         &:before{
@@ -269,6 +271,7 @@
         &:after{
           content:attr(tips)
         }
+        @include mobile_hide
       }
     }
     input,.sel,.select{
@@ -323,6 +326,24 @@
           }
         }
       }
+      @media screen and (max-width: $mobile) {
+        padding-left:10px;
+        border-color:$border;
+        &[data-status='invalid'],&[data-status='null'],&[data-status='error'],&[data-status='success']{
+          & ~ span{
+            display:none
+          }
+        }
+      }
+    }
+    .select{
+      @include flex(space-between)
+      select{
+        width:33%;
+        height:32px;
+        line-height: 32px;
+        border:none;
+      }
     }
     select{
       height:29px;
@@ -337,7 +358,12 @@
       text-align: center;
       @include button($blue)
       font-size: 14px;
-      line-height: 38px
+      line-height: 38px;
+      @media screen and (max-width: $mobile) {
+        background: #ececec;
+        border-color:#ececec;
+        color:$light_text
+      }
     }
     &.addon{
       input{
@@ -392,6 +418,9 @@
           left:10px
         }
       }
+      @media screen and (max-width: $mobile) {
+        margin-bottom:15px;
+      }
     }
     label input{
       @include checkbox(18,0)
@@ -402,6 +431,9 @@
       @include button($blue)
       line-height:2.6;
       @include gap(20,v,margin)
+    }
+    @media screen and (max-width: $mobile) {
+      width:100%
     }
   }
 // good_table

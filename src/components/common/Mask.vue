@@ -48,17 +48,6 @@
       .form_content{
         padding:40px 130px;
         @include form(v)
-        .input{
-          .select{
-            @include flex(space-between)
-            select{
-              width:33%;
-              height:32px;
-              line-height: 32px;
-              border:none;
-            }
-          }
-        }
         &.card_form .input{
           span{
             &:first-child {
