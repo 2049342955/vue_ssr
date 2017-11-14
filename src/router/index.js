@@ -52,6 +52,8 @@
   import MmoneyFlow from '@/components/mobile/MmoneyFlow'
   import Minformation from '@/components/mobile/Minformation'
   import Madministration from '@/components/mobile/Madministration'
+  import Mactive from '@/components/mobile/Mactive'
+  import Mfooter from '@/components/mobile/Mfooter'
 // use plugin
   Vue.use(Router)
 // export
@@ -286,6 +288,11 @@
         component: Mhelp
       },
       {
+        path: 'active',
+        name: 'mactive',
+        component: Mactive
+      },
+      {
         path: 'administration',
         name: 'madministration',
         component: Madministration
@@ -304,6 +311,11 @@
         path: 'notice',
         name: 'mnotice',
         component: Mnotice
+      },
+      {
+        path: 'footer',
+        name: 'mfooter',
+        component: Mfooter
       },
       {
         path: 'message',
