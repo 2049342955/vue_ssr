@@ -32,13 +32,13 @@
             </span>
             <img src="../../assets/images/leftjian.png" class="leftjian"/>
         </router-link>
-        <!-- <router-link to="/mobile/administration" class="route">
+        <router-link to="/mobile/order" class="route">
             <span class="left">
                 <img src="../../assets/images/ding.png"/>
                 订单管理
             </span>
             <img src="../../assets/images/leftjian.png" class="leftjian"/>
-        </router-link> -->
+        </router-link> 
         <router-link to="/mobile/help" class="route" style="border-bottom:0;">
             <span class="left">
                 <img src="../../assets/images/wen.png"/>
