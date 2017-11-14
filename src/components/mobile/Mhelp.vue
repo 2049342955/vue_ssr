@@ -8,9 +8,9 @@
       <div class="issues_lists">
         <div class="item" v-for="n,k in nav" @click="fetchData(n.help_class_id,k)">
           <p class="titleall">{{n.name}}<em>></em></p>
-          <div class="issues_list" v-show="show">
+          <div class="issues_list" v-if="num===k">
             <a class="item" v-for="l,k in list">
-              <span :class="{active: show}">{{l.title}}</span>
+              <span>{{l.title}}</span>
             </a>
           </div>
         </div>
@@ -29,12 +29,15 @@
       return {
         nav: [],
         list: [],
-        nowItem: [],
-        show: false
+        nowItem: []
       }
     },
     methods: {
       fetchData (id, k) {
+        if (k === this.num) {
+          this.$store.commit('SET_NUM', -1)
+          return false
+        }
         var eles = document.querySelector('.issues_lists').children
         for (var key = 0; key < eles.length; key++) {
           eles[key].className = 'item'
