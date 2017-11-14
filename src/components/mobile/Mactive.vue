@@ -3,7 +3,7 @@
     <img :src="img1"/>
     <div class="body">
        <h1>标题</h1>
-       <div class="side">
+       <div class="sideone">
         <ul class="flexfu">
           <li v-for="n, k in data" class="flexfulist">
             <p class="price"><em>1180</em> {{n.unit}}</p>
@@ -58,7 +58,7 @@ export default {
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
     }
-    .side{
+    .sideone{
         width: 96%;
         margin-left: 2%;
         overflow: hidden;
