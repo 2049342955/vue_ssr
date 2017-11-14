@@ -563,7 +563,6 @@
     }
     .buy_form .buy_input,.mobile_form{
       label{
-        font-size: 0.5rem;
         display: block;
         span:nth-child(2){
           display: inline-block;
@@ -583,6 +582,9 @@
               border-color: $text;
             }
           }
+        }
+        @media screen and (max-width: $mobile) {
+          font-size: 0.5rem;
         }
       }
     }
