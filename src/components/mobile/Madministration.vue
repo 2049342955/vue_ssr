@@ -204,7 +204,9 @@
     }
     .mint-popup{
       width:100vw;
+      max-height:90vh;
       padding:15px;
+      overflow:auto;
       .form{
         @include form(v)
       }

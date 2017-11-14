@@ -4,7 +4,9 @@
       <div class="bg"></div>
     </div>
     <div class="mobile_logo">
-      <img :src="require('@/assets/images/logo2.png')" alt="">
+      <router-link to="/mHome">
+        <img :src="require('@/assets/images/logo2.png')" alt="">
+      </router-link>
     </div>
     <div class="box">
       <router-view></router-view>

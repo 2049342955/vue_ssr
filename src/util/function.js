@@ -102,9 +102,8 @@ api.line = () => {
   line.y = Math.floor(Math.random() * 40)
   return line
 }
-api.checkFrom = (form) => {
+api.checkFrom = (form, obj, ismobile) => {
   var data = {}
-  var c = true
   for (var i = 0; i <= form.length - 2; i++) {
     if (form[i].value) {
       if (api.checkFiled(form[i], form)) {
@@ -114,18 +113,20 @@ api.checkFrom = (form) => {
           data[form[i].name] = form[i].value
         }
       } else {
-        c = false
+        if (ismobile) {
+          obj.myToast(form[i].title)
+        }
+        break
       }
     } else {
+      if (ismobile) {
+        obj.myToast(form[i].placeholder)
+      }
       api.setTips(form[i], 'null')
-      c = false
+      break
     }
   }
-  if (!c) {
-    return false
-  } else {
-    return data
-  }
+  return data
 }
 api.checkOne = (form, obj) => {
   var data = {}
@@ -157,7 +158,6 @@ api.checkFiled = (ele, form) => {
 api.checkCode = (form) => {
   var c = true
   var i = 0
-  console.log(form)
   while (form[i].name !== 'code') {
     if (form[i].value) {
       if (!api.checkFiled(form[i])) {
@@ -193,7 +193,7 @@ api.tips = (str, callback) => {
 api.checkAjax = (obj, res, callback, btn, failback) => {
   if (res === 'repeatLogin') {
     api.tips('您的账号在别处登录', () => {
-      obj.$router.push({name: 'home'})
+      obj.$router.push({name: 'login'})
       obj.$store.commit('LOGOUT')
     })
     return false

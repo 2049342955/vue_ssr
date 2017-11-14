@@ -71,8 +71,8 @@
       </div>
       <button class="submit" @click="gobuy(1)">立即支付</button>
       <label for="accept">
-        <input type="checkbox" :value="accept" id="accept" name="accept">
-        <span @click="openContract(3)">阅读并接受<a href="javascript:;">《云矿机购买协议》</a>和<a href="javascript:;">《矿机托管协议》</a></span>
+        <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
+        <span @click="openContract(1, 1)">阅读并接受<a href="javascript:;">《云矿机购买协议》</a>和<a href="javascript:;">《矿机托管协议》</a></span>
         <span class="select_accept">{{tips}}</span>
       </label>
       <img src="../../assets/images/data.png" class="imagesall"/>
@@ -83,11 +83,11 @@
     <div class="activity_img">
       <img :src="require('@/assets/images/2.png')"/>
     </div>
-    <MyMask :form="auth" :title="title" :contract="contract" v-if="edit"></MyMask>
+    <MyMask :form="form[nowForm]" :title="title" :contract="contract" v-if="edit"></MyMask>
     <mt-popup position="bottom" v-model="mobileEdit">
       <div class="mobile_contract" v-if="contract" v-html="contract"></div>
       <form class="form" @submit.prevent="submit" novalidate v-else>
-        <FormField :form="auth"></FormField>
+        <FormField :form="form[nowForm]"></FormField>
         <button name="btn">提交</button>
       </form>
     </mt-popup>
@@ -110,7 +110,7 @@
       return {
         text: {one_amount_value: {unit: '元/台', title: '算力服务器价格'}, hash: {unit: 'T/台', title: '服务器算力'}, left_amount: {unit: '台', title: '剩余数量'}},
         data: {},
-        auth: [{name: 'truename', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'card_type', type: 'text', title: '证件类型', edit: 'card_type', isChange: true}, {name: 'idcard', type: 'text', title: '证件号码', placeholder: '请输入您的证件号码', pattern: 'idCard'}, {name: 'mobile', type: 'text', title: '手机号码', edit: 'mobile'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}],
+        form: {auth: [{name: 'truename', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'card_type', type: 'text', title: '证件类型', edit: 'card_type', isChange: true}, {name: 'idcard', type: 'text', title: '证件号码', placeholder: '请输入您的证件号码', pattern: 'idCard'}, {name: 'mobile', type: 'text', title: '手机号码', edit: 'mobile'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}], address: [{name: 'post_user', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'post_mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号码', pattern: 'tel'}, {name: 'address', type: 'select', title: '地址', isChange: true}, {name: 'area_details', type: 'text', title: '详细地址', placeholder: '请输入详细地址', isChange: true}]},
         mobileData: [{title: '算力服务器价格', unit: '元/台'}, {title: '服务器算力', unit: 'T'}, {title: '剩余总量', unit: '台'}],
         totalHash: '0.00',
         totalPrice: '0.00',
@@ -122,45 +122,43 @@
         title: '',
         contract: '',
         content: '',
-        card_type: '中国大陆身份证'
+        card_type: '中国大陆身份证',
+        nowForm: 'auth',
+        addressData: '',
+        isMobile: false
       }
     },
     methods: {
       changeNum (n) {
         // var maxNum = +this.data.amount - (+this.data.sell_amount)
-        if (this.data.num < 1) {
-          api.tips('您已超过购买限制')
-          return false
-        }
+        // if (this.data.num < 1) {
+        //   api.tips('您已超过购买限制')
+        //   return false
+        // }
         // this.number = n < 1 ? 1 : n > this.data.num ? this.data.num : n > maxNum ? maxNum : n
         this.number = n < 1 ? 1 : n > 11 ? 11 : n
         this.totalHash = this.number * this.data.hash
         this.totalPrice = this.number * this.data.one_amount_value
       },
       openContract (n, mobile) {
-        this.accept = true
-        if (mobile && n === 2) {
-          this.mobileEdit = true
-          this.contract = ''
-          return false
-        }
-        if (n === 3) {
-          this.mobileEdit = true
-          this.contract = this.content
-        } else {
-          window.scroll(0, 0)
-          document.body.style.overflow = 'hidden'
-          this.edit = n
-        }
+        this.isMobile = mobile
+        this.openMask(mobile, n)
+        console.log(n, n === 3)
         if (n === 1) {
           this.contract = this.content
           this.title = '协议详情'
+          this.accept = true
         } else if (n === 2) {
           this.contract = ''
           this.title = '实名认证'
+        } else if (n === 3) {
+          this.nowForm = 'address'
+          this.contract = ''
+          this.title = '收货地址'
         }
       },
       gobuy (mobile) {
+        this.isMobile = mobile
         // if (this.data.num < 1) {
         //   api.tips('您已超过购买限制')
         //   return false
@@ -175,22 +173,27 @@
           this.openContract(2, mobile)
           return false
         }
+        if (!this.addressData) {
+          this.openContract(3, mobile)
+          return false
+        }
         var ele = document.querySelector('#accept')
         if (!this.number) {
           this.check(ele, '请填写数量', mobile)
           return false
         }
-        if (!ele.checked) {
+        console.log(ele, ele.checked, this.accept)
+        if (!(ele.checked || this.accept)) {
           this.check(ele, '请同意服务条款', mobile)
           return false
         }
         var callbackUrl = location.protocol + '//' + location.host + '/user/order/0/1'
-        var data = {product_id: this.data.product_id, number: this.number, mode: '1', token: this.token, user_id: this.user_id, amount: this.totalPrice, url: callbackUrl}
+        var data = {miner_id: this.data.miner_id, number: this.number, mode: '2', token: this.token, user_id: this.user_id, amount: this.totalPrice, url: callbackUrl}
         var self = this
-        util.post('applyBalanceRecharge', {sign: api.serialize(data)}).then(function (res) {
+        util.post('saveMiner', {sign: api.serialize(Object.assign(this.addressData, data))}).then(function (res) {
           api.checkAjax(self, res, () => {
             res.subject = encodeURIComponent(res.subject)
-            util.post('alipay_buy', {sign: api.serialize(Object.assign({token: self.token}, res))}).then((resData) => {
+            util.post('alipay_wap', {sign: api.serialize(Object.assign({token: self.token}, res))}).then((resData) => {
               api.checkAjax(self, data, () => {
                 location.href = resData.url
               })
@@ -198,21 +201,21 @@
           })
         })
       },
-      closeEdit () {
-        this.edit = ''
-        document.body.style.overflow = 'auto'
+      closeEdit (mobile) {
+        if (mobile) {
+          this.mobileEdit = false
+        } else {
+          this.edit = ''
+          document.body.style.overflow = 'auto'
+        }
       },
-      check (ele, str, mobile) {
+      check (ele, str) {
         // if (this.data.num < 1) {
         //   api.tips('您已超过购买限制')
         //   return false
         // }
-        if (mobile) {
-          Toast({
-            message: str,
-            position: 'middle',
-            duration: 3000
-          })
+        if (this.isMobile) {
+          this.myToast(str)
         } else {
           this.tips = str
           ele.setAttribute('data-status', 'invalid')
@@ -223,26 +226,32 @@
       },
       submit () {
         var form = document.querySelector('.form_content') || document.querySelector('.form')
-        console.log(form)
-        var data = api.checkFrom(form)
-        var val = 'true_name'
+        var data = api.checkFrom(form, this, this.isMobile)
         var sendData = {token: this.token, user_id: this.user_id}
-        var tipsStr = '实名认证已提交，请您耐心等待几秒即可看到认证结果'
-        var tipsStr2 = '恭喜您实名认证成功'
-        if (!data) return false
-        var self = this
-        util.post('user_truename', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            api.tips(tipsStr)
-            self.$store.commit('SET_INFO', {[val]: {status: 0}})
-            setTimeout(() => {
-              self.requestData('show_user_truename', sendData, val, () => {
-                api.tips(tipsStr2)
-              })
-            }, 7000)
-            self.closeEdit()
+        if (this.nowForm === 'address') {
+          this.addressData = data
+          this.prompt('您的地址已保存')
+          this.closeEdit(this.isMobile)
+        } else {
+          var val = 'true_name'
+          var tipsStr = '实名认证已提交，请您耐心等待几秒即可看到认证结果'
+          var tipsStr2 = '恭喜您实名认证成功，请填写收货地址'
+          if (!data) return false
+          var self = this
+          util.post('user_truename', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
+            api.checkAjax(self, res, () => {
+              self.prompt(tipsStr)
+              self.$store.commit('SET_INFO', {[val]: {status: 0}})
+              setTimeout(() => {
+                self.requestData('show_user_truename', sendData, val, () => {
+                  self.prompt(tipsStr2)
+                  self.openContract(3, self.isMobile)
+                })
+              }, 7000)
+              self.closeEdit(self.isMobile)
+            })
           })
-        })
+        }
       },
       requestData (url, sendData, val, callback) {
         var self = this
@@ -256,6 +265,32 @@
             self.$store.commit('SET_INFO', {[val]: ''})
           })
         })
+      },
+      prompt (str) {
+        if (this.isMobile) {
+          this.myToast(str)
+        } else {
+          api.tips(str)
+        }
+      },
+      openMask (mobile, n) {
+        if (mobile) {
+          this.mobileEdit = true
+        } else {
+          window.scroll(0, 0)
+          document.body.style.overflow = 'hidden'
+          this.edit = n
+        }
+      },
+      myToast (str) {
+        Toast({
+          message: str,
+          position: 'middle',
+          duration: 3000
+        })
+      },
+      setAssept (e) {
+        this.accept = e.target.checked
       }
     },
     computed: {
@@ -447,6 +482,7 @@
                   background: white;
                   text-align: center;
                   line-height: 1rem;
+                  border-radius:0
                 }
                 .aes{
                   width: 1.2rem;
@@ -527,7 +563,12 @@
     }
     .buy_form .buy_input,.mobile_form{
       label{
+        font-size: 0.5rem;
         display: block;
+        span:nth-child(2){
+          display: inline-block;
+          vertical-align: middle;
+        }
         @include accept_label
         &, & a{
           color:#fff;
