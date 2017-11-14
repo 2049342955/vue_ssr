@@ -228,10 +228,6 @@
     }
     @media screen and (max-width: $mobile) {
       width:100%;
-      overflow: hidden;
-      &.rigist_block .agreement .box_content{
-        padding:0 !important;
-      }
     }
   }
 </style>
