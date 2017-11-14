@@ -37,10 +37,17 @@
           </span>
           <img src="../../assets/images/leftjian.png" class="leftjian"/>
       </router-link>
-      <router-link to="/mobile/help" class="route" style="border-bottom:0;">
+      <router-link to="/mobile/help" class="route">
         <span class="left">
           <img src="../../assets/images/wen.png"/>
           常见问题
+        </span>
+        <img src="../../assets/images/leftjian.png" class="leftjian"/>
+      </router-link>
+      <router-link to="/mobile/news" class="route" style="border-bottom:0;">
+        <span class="left">
+          <img src="../../assets/images/xiao.png"/>
+          消息中心
         </span>
         <img src="../../assets/images/leftjian.png" class="leftjian"/>
       </router-link>
