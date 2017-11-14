@@ -33,7 +33,7 @@
           <button @click="gobuy()">立即支付</button>
           <label for="accept">
             <input type="checkbox" :value="accept" id="accept" name="accept">
-            <span @click="openContract(1)">阅读并接受<a href="javascript:;">《矿机购买协议》</a></span>
+            <span @click="openContract(1)">阅读并接受<a href="javascript:;">《矿机销售协议》</a></span>
             <span class="select_accept">{{tips}}</span>
           </label>
         </div>
@@ -70,7 +70,7 @@
       <button class="submit" @click="gobuy(1)">立即支付</button>
       <label for="accept">
         <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
-        <span @click="openContract(1, 1)">阅读并接受<a href="javascript:;">《矿机购买协议》</a></span>
+        <span @click="openContract(1, 1)">阅读并接受<a href="javascript:;">《矿机销售协议》</a></span>
         <span class="select_accept">{{tips}}</span>
       </label>
       <img src="../../assets/images/data.png" class="imagesall"/>
@@ -180,17 +180,22 @@
           this.check(ele, '请填写数量', mobile)
           return false
         }
-        console.log(ele, ele.checked, this.accept)
         if (!(ele.checked || this.accept)) {
           this.check(ele, '请同意服务条款', mobile)
           return false
         }
-        var callbackUrl = location.protocol + '//' + location.host + '/user/order/0/1'
+        var callbackUrl = location.protocol + '//' + location.host + '/'
         var data = {miner_id: this.data.miner_id, number: this.number, mode: '2', token: this.token, user_id: this.user_id, amount: this.totalPrice, url: callbackUrl}
+
         var self = this
         util.post('saveMiner', {sign: api.serialize(Object.assign(this.addressData, data))}).then(function (res) {
           api.checkAjax(self, res, () => {
             res.subject = encodeURIComponent(res.subject)
+            if (mobile) {
+              res = Object.assign(res, {is_mobile: 1})
+            } else {
+              res = Object.assign(res, {is_mobile: 0})
+            }
             util.post('alipay_wap', {sign: api.serialize(Object.assign({token: self.token}, res))}).then((resData) => {
               api.checkAjax(self, data, () => {
                 location.href = resData.url
@@ -607,5 +612,8 @@
         @include form(v)
       }
     }
+  }
+  hr{
+    display:none;
   }
 </style>

@@ -63,6 +63,7 @@
 </template>
 
 <script>
+  import api from '../util/function'
   import Swiper from '../components/common/Swipe'
   import Chart from '../components/home/Chart'
   import MyData from '../components/home/DataList'
@@ -93,6 +94,11 @@
         } else {
           this.mapType = 0
         }
+      }
+    },
+    mounted () {
+      if (api.checkEquipment()) {
+        this.$router.push({name: 'mobileHome'})
       }
     }
   }

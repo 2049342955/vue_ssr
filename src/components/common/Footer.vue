@@ -48,15 +48,15 @@
     <div class="mobile_box">
       <mt-tabbar :fixed="true" selected="1" style="width:100%;height:2rem;">
         <router-link to="/mHome" id="1" class="mint-tab-item">
-          <i class="iconfont">&#xe605;</i>
+          <i class="iconfont">&#xe661;</i>
           <p>首页</p>
         </router-link>
         <router-link to="/mobile/property" id="2" class="mint-tab-item">
-          <i class="iconfont">&#xe6cd;</i>
+          <i class="iconfont">&#xe623;</i>
           <p>算力资产</p>
         </router-link>
         <router-link to="/mobile/personcenter" id="3" class="mint-tab-item">
-          <i class="iconfont">&#xe63f;</i>
+          <i class="iconfont">&#xe66a;</i>
           <p>个人中心</p>
         </router-link>
       </mt-tabbar>
