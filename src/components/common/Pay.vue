@@ -151,8 +151,14 @@
       </div>
     </template>
     <div v-else-if="showAgreement===1" class="agreement_text">
-      <div class="" v-html="$parent.content"></div>
-      <div class="" v-html="$parent.content1"></div>
+      <template v-if="!$parent.show">
+        <div class="" v-html="$parent.content"></div>
+        <div class="" v-html="$parent.content1"></div>
+      </template>
+      <template v-else="$parent.show">
+        <div class="" v-html="$parent.content"></div>
+        <div class="" v-html="$parent.part_content"></div>
+      </template>
       <div class="btn_box">
         <button @click="agree">我同意</button>
       </div>

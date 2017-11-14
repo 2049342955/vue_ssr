@@ -4,8 +4,8 @@
       <span class="left">< <em>我的</em></span>
       <span>我的消息</span>
     </div>
-    <ul>
-      <li v-for="d,k in data" :key="k">
+    <ul v-show="contentshow">
+      <li v-for="d,k in data" :key="k" @click="detailcli(d.id)">
         <span>{{d.title}}</span>
         <i>{{d.created_at.split(" ")[0]}}</i>
       </li>
@@ -14,6 +14,11 @@
     <div class="nodata" v-if="show">
       <img :src="img" alt="">
       <p>暂无列表信息</p>
+    </div>
+    <div class="content" v-show="!contentshow">
+      <h3>{{content.title}}</h3>
+      <p style="color:#999;">{{content.created_at}}</p>
+      <p v-html="content.msg"></p>
     </div>
   </section>
 </template>
@@ -31,11 +36,13 @@
       return {
         data: [],
         now: 1,
+        content: '',
         leftSibling: 0,
         rightSibling: 0,
         len: 0,
         img: require('@/assets/images/no_data.jpg'),
-        show: false
+        show: false,
+        contentshow: true
       }
     },
     methods: {
@@ -47,7 +54,17 @@
             self.data = res.list
             self.show = !res.list.length
             if (self.now > 1) return false
-            self.len = Math.ceil(res.total_num / 1)
+            self.len = Math.ceil(res.total_num / 15)
+          })
+        })
+      },
+      detailcli (id) {
+        var self = this
+        var messageid = id
+        this.contentshow = false
+        util.post('Messagecontent', {sign: api.serialize({token: this.token, user_id: this.user_id, message_id: messageid})}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.content = res
           })
         })
       }
@@ -66,6 +83,33 @@
 </script>
 
 <style type="text/css" lang="scss">
+.nodata{
+  width: 100%;
+  text-align: center;
+  height: 100%;
+  background:white;
+}
+.nodata img{
+  width: 130px;
+  display: block;
+  margin:0 auto;
+  margin-top: 140px;
+  margin-bottom: 20px;
+}
+.nodata p{
+  text-align: center !important;
+  width: 40% !important;
+  margin-left:30%;
+}
+.pager .pager_box{
+  border-top: 1px solid #ddd !important;
+}
+.pager{
+  padding-top: 20px;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+  text-align: center !important;
+}
 .mask{
   width: 100%;
   height: 100vh;
@@ -91,6 +135,16 @@
        color: #a9a9a9;
        font-size: 0.45rem;
      }
+   }
+ }
+ .content{
+   width: 100%;
+   height: 100%;
+   background:white;
+   padding:0 .5rem;
+   h3{
+     color:#121212;
+     font-size: 0.7rem;
    }
  }
 </style>

@@ -51,7 +51,7 @@ export default {
         self.list = res.value_list
         self.show = !res.value_list.length
         if (self.now > 1) return false
-        self.len = Math.ceil(res.total_num / 1)
+        self.len = Math.ceil(res.total_num / 15)
       })
     })
   },
@@ -68,14 +68,20 @@ export default {
 .nodata{
   width: 100%;
   text-align: center;
+  height: 100%;
+  background:white;
 }
 .nodata img{
   width: 130px;
   display: block;
+  margin:0 auto;
   margin-top: 140px;
   margin-bottom: 20px;
 }
 .nodata p{
+  text-align: center !important;
+  width: 40% !important;
+  margin-left:30%;
 }
 .pager .pager_box{
   border-top: 1px solid #ddd !important;

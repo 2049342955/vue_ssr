@@ -7,6 +7,7 @@
       </select>
     </div>
     <div class="property">
+      <img src="../../assets/images/beaut.png" style="width:100%;position:absolute;"/>
       <div class="property_top">
         <div class="left">
           <h1>今日获得收益</h1>
@@ -67,14 +68,14 @@ export default {
   .property{
     width: 100%;
     overflow: hidden;
-    padding:0 .5rem;
-    box-sizing: border-box;
     background:white;
-    background: #4b98ff;
+    background: #327fff;
     padding-bottom: 0.8rem;
     .property_top{
       width: 100%;
       display: flex;
+      padding:0 .5rem;
+      box-sizing: border-box;
       justify-content: space-between;
       padding-top: 0.5rem;
       color: white;
@@ -99,6 +100,8 @@ export default {
     .property_bottom{
       width: 100%;
       display: flex;
+      padding:0 .5rem;
+      box-sizing: border-box;
       justify-content: space-between;
       padding-top: 0.5rem;
       color: white;
@@ -121,15 +124,15 @@ export default {
       margin-top: 0.5rem;
       overflow: hidden;
       background:white;
+      padding:0 .5rem;
+      box-sizing: border-box;
       li{
         width: 100%;
         display: flex;
         justify-content: space-between;
-        height: 1.5rem;
+        height:2rem;
         border-bottom:1px solid #ddd;
-        padding:0 .5rem;
-        box-sizing: border-box;
-        line-height: 1.5rem;
+        line-height: 2rem;
         span{
           color: #121212;
           font-size: 0.6rem;
