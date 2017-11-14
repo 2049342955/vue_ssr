@@ -1,5 +1,5 @@
 <template>
-  <section class="order">
+  <section class="pc_order">
     <div v-if="show" class="agreement_text">
       <div class="" v-html="contract"></div>
       <div class="btn_box">
@@ -354,7 +354,7 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  .order{
+  .pc_order{
     .agreement_text{
       padding:15px;
       .btn_box{
