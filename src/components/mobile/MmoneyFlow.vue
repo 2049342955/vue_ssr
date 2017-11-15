@@ -1,5 +1,5 @@
 <template>
-  <section class="bdcform" to="#">
+  <section class="bdcform" style="margin-bottom:20px;">
     <p>
       <span>资金用途</span>
       <span>金额（元）</span>
@@ -89,7 +89,6 @@ export default {
 }
   .bdcform{
     width: 100%;
-    height: 100vh;
     background: #f5f5f9;
     p{
       width: 100%;
