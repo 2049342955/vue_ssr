@@ -159,6 +159,7 @@
       background:white;
       border-bottom: 1px solid #ddd;
       padding:0.5rem;
+      font-size: 0.6rem;
       p{
         color: #999;
       }
@@ -182,6 +183,7 @@
         line-height: 2rem;
         .left{
           width: 90%;
+          font-size: 0.6rem;
           img{
             width: 0.8rem;
             margin-right: 1rem;
