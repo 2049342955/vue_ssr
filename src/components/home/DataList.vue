@@ -26,7 +26,7 @@
     <div class="mobile_box">
       <h2>矿机推荐</h2>
       <div class="mobile_list_box">
-        <div class="item" v-for="d,i in list">
+        <div class="item" v-for="d,i in list" @click="goPay(d.product_id)">
           <h3>{{d.name}}</h3>
           <div class="mobile_info_box">
             <div class="mobile_info">
@@ -59,25 +59,26 @@
     },
     methods: {
       goPay (id) {
-        if (this.token === 0) {
-          api.tips('请先登录', () => {
-            this.$router.push({name: 'login'})
-          })
-          return false
-        }
-        if (!(this.true_name && this.true_name.status === 1)) {
-          api.tips('请先实名认证', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
-        if (!(this.bank_card && this.bank_card.status === 1)) {
-          api.tips('请先绑定银行卡', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
-        this.$router.push({path: '/cloudCompute/detail/yes/' + id})
+        // if (this.token === 0) {
+        //   api.tips('请先登录', () => {
+        //     this.$router.push({name: 'login'})
+        //   })
+        //   return false
+        // }
+        // if (!(this.true_name && this.true_name.status === 1)) {
+        //   api.tips('请先实名认证', () => {
+        //     this.$router.push({name: 'account'})
+        //   })
+        //   return false
+        // }
+        // if (!(this.bank_card && this.bank_card.status === 1)) {
+        //   api.tips('请先绑定银行卡', () => {
+        //     this.$router.push({name: 'account'})
+        //   })
+        //   return false
+        // }
+        // this.$router.push({path: '/cloudCompute/detail/yes/' + id})
+        this.$router.push({name: 'activity'})
       }
     },
     mounted () {
