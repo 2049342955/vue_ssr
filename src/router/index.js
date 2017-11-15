@@ -139,7 +139,11 @@
       }, {
         path: 'activity',
         name: 'activity',
-        component: Activity
+        component: Activity,
+        beforeEnter: (to, from, next) => {
+          document.querySelector('title').innerHTML = '全新E9+ 限时秒杀'
+          next()
+        }
       }]
     }, {
       path: '/computeTransfer',
