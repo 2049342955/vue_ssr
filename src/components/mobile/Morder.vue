@@ -112,6 +112,7 @@
           background:white;
           padding:0 .5rem;
           box-sizing: border-box;
+          margin-bottom: 0.5rem;
           .top{
               width: 100%;
               display: flex;
