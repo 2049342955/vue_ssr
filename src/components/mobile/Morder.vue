@@ -3,20 +3,20 @@
       <div class="listall" v-show="showxie">
           <div class="item" v-for="n,k in lists">
               <p class="top"><span>{{n.miner&&n.miner.name}}</span><em>{{n.created_time}}</em></p>
-              <ul class="listlist">
-                  <li>
+              <div class="listlist">
+                  <div class="listone">
                       <h4 style="color:#ff721f;">{{n.pay_value}}<em> 元</em></h4>
                       <p>购买金额</p>
-                  </li>
-                  <li>
+                  </div>
+                  <div class="listone">
                       <h4>{{+n.buy_amount * (+n.miner.hash)}}<em> T</em></h4>
                       <p>总算力</p>
-                  </li>
-                  <li>
+                  </div>
+                  <div class="listone">
                       <h4>{{n.buy_amount}}<em> 台</em></h4>
                       <p>购买数量</p>
-                  </li>
-              </ul>
+                  </div>
+              </div>
               <div class="orderbutton">
                   <button class="left" @click="clickdetail(n.id)">查看协议</button>
                   <button class="right" @click="getBaoquan(n.id)">查看保全</button>
@@ -135,7 +135,7 @@
               justify-content: space-between;
               padding:0.8rem 0;
               border-bottom: 1px solid #ddd;
-              li{
+              .listone{
                   width: 33.3%;
                   text-align: center;
                   h4{
