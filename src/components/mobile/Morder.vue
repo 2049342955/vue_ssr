@@ -28,7 +28,7 @@
            </div>
           <Pager :len="len"></Pager>
       </div>
-      <div class="contentdetail" style="text-align:center;width:100%;height:100vh;background:white;" v-show="!showxie" v-html="contentdetail.content?contentdetail.content:'暂无内容'">
+      <div class="contentdetail" style="text-align:center;width:100%;height:100vh;background:white;padding:0 .5rem;box-sizing:border-box;" v-show="!showxie" v-html="contentdetail.content?contentdetail.content:'暂无内容'">
       </div>
   </div>
 </template>
