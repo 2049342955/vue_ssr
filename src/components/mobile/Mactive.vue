@@ -4,12 +4,12 @@
     <div class="body">
        <h1>标题</h1>
        <div class="sideone">
-        <ul class="flexfu">
-          <li v-for="n, k in data" class="flexfulist">
+        <div class="flexfu">
+          <div v-for="n, k in data" class="flexfulist">
             <p class="price"><em>1180</em> {{n.unit}}</p>
             <p class="title">{{n.title}}</p>
-          </li>
-        </ul>
+          </div>
+        </div>
         <div class="bottom">
           <div class="one" style="margin-bottom:1rem;">
             <span class="title">购买数量</span>
@@ -77,6 +77,7 @@ export default {
             .flexfulist{
                 width:  33.3%;
                 text-align: center;
+                background:none !important;
                 .price{
                     color: #fede00;
                     font-size: 0.5rem;
