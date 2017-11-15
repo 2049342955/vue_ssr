@@ -3,7 +3,7 @@
       <div class="listall" v-show="showxie">
           <div class="item" v-for="n,k in lists">
               <p class="top"><span>{{n.miner&&n.miner.name}}</span><em>{{n.created_time}}</em></p>
-              <ul>
+              <ul class="listlist">
                   <li>
                       <h4 style="color:#ff721f;">{{n.pay_value}}<em> 元</em></h4>
                       <p>购买金额</p>
@@ -129,7 +129,7 @@
                   font-size: 0.5rem;
               }
           }
-          ul{
+          .listlist{
               width: 100%;
               display: flex;
               justify-content: space-between;

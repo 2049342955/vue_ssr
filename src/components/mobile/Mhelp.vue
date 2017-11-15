@@ -37,7 +37,7 @@
           this.$store.commit('SET_NUM', -1)
           return false
         }
-        var eles = document.querySelector('.issues_listsone').children
+        var eles = document.querySelector('.issues_listsoneone').children
         for (var key = 0; key < eles.length; key++) {
           eles[key].className = 'item'
         }
@@ -101,7 +101,7 @@
       background: #f5f5f9;
       width: 100%;
       height: 100vh;
-      .issues_listsone{
+      .issues_listsoneone{
         width:100%;
         padding:0;
         .item{
@@ -138,7 +138,7 @@
           }
         }
       }
-      .issues_listone{
+      .issues_listoneone{
         width:100%;
         line-height: 2;
         .item{
