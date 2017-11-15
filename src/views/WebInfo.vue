@@ -1,11 +1,11 @@
 <template>
   <article class="web_info">
-    <div class="box">
-      <div class="swip">
+    <div class="web_info_nav">
+      <div class="box">
         <router-link class="tab" :to="n.path" v-for="n in nav[no]" :key="n.id">{{n.title}}</router-link>
       </div>
     </div>
-    <div class="swip">
+    <div class="web_info_content">
       <router-view class="swip_content"></router-view>
     </div>
   </article>
@@ -40,31 +40,32 @@
 <style type="text/css" lang="scss">
   @import '../assets/css/style.scss';
   @import '../assets/fonts/iconfont.css';
-  .swip{
-    width:1180px;
-    margin: 0 auto;
-  }
   .web_info{
     width: 100%;
     background: #f7f8fa;
     padding-bottom: 60px;
-    .box{
-      margin: 0 auto;
+    .web_info_nav{
       height: 60px;
       line-height: 60px;
       background: #fff;
-      .tab{
-        font-size: 16px;
-        color: #666;
-        margin-right: 36px;
-        font-weight: 100;
-      }
-      .router-link-active{
-        color:#327fff;
+      .box{
+        @include main
+        .tab{
+          font-size: 16px;
+          color: #666;
+          margin-right: 36px;
+          font-weight: 100;
+        }
+        .router-link-active{
+          color:#327fff;
+        }
       }
     }
-    .swip_content{
-      margin-top: 30px;
+    .web_info_content{
+      @include main
+      .swip_content{
+        margin-top: 30px;
+      }
     }
   }
 </style>

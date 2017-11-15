@@ -2,21 +2,21 @@
   <div class="order" style="margin-bottom:60px;">
       <div class="listall" v-show="showxie">
           <div class="item" v-for="n,k in lists">
-              <p class="top"><span>{{n.miner.name}}</span><em>{{n.created_time}}</em></p>
-              <ul>
-                  <li>
+              <p class="top"><span>{{n.miner&&n.miner.name}}</span><em>{{n.created_time}}</em></p>
+              <div class="listlist">
+                  <div class="listone">
                       <h4 style="color:#ff721f;">{{n.pay_value}}<em> 元</em></h4>
                       <p>购买金额</p>
-                  </li>
-                  <li>
-                      <h4>{{n.buy_amount * n.miner.hash}}<em> T</em></h4>
+                  </div>
+                  <div class="listone">
+                      <h4>{{+n.buy_amount * (+n.miner.hash)}}<em> T</em></h4>
                       <p>总算力</p>
-                  </li>
-                  <li>
+                  </div>
+                  <div class="listone">
                       <h4>{{n.buy_amount}}<em> 台</em></h4>
                       <p>购买数量</p>
-                  </li>
-              </ul>
+                  </div>
+              </div>
               <div class="orderbutton">
                   <button class="left" @click="clickdetail(n.id)">查看协议</button>
                   <button class="right" @click="getBaoquan(n.id)">查看保全</button>
@@ -28,7 +28,7 @@
            </div>
           <Pager :len="len"></Pager>
       </div>
-      <div class="contentdetail" style="text-align:center;width:100%;height:100vh;background:white;" v-show="!showxie" v-html="contentdetail.content?contentdetail.content:'暂无内容'">
+      <div class="contentdetail" style="text-align:center;width:100%;height:100vh;background:white;padding:0 .5rem;box-sizing:border-box;" v-show="!showxie" v-html="contentdetail.content?contentdetail.content:'暂无内容'">
       </div>
   </div>
 </template>
@@ -80,8 +80,8 @@
       var self = this
       util.post('getMinerList', {sign: api.serialize({token: this.token, user_id: this.user_id, page: this.now})}).then(function (res) {
         api.checkAjax(self, res, () => {
-          self.lists = res.list
-          self.showImg = !res.list.length
+          self.lists = res.list.list
+          self.showImg = !res.list.list.length
           if (self.now > 1) return false
           self.len = Math.ceil(res.total_num / 15)
         })
@@ -112,6 +112,7 @@
           background:white;
           padding:0 .5rem;
           box-sizing: border-box;
+          margin-bottom: 0.5rem;
           .top{
               width: 100%;
               display: flex;
@@ -128,13 +129,13 @@
                   font-size: 0.5rem;
               }
           }
-          ul{
+          .listlist{
               width: 100%;
               display: flex;
               justify-content: space-between;
               padding:0.8rem 0;
               border-bottom: 1px solid #ddd;
-              li{
+              .listone{
                   width: 33.3%;
                   text-align: center;
                   h4{

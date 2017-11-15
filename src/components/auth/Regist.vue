@@ -147,7 +147,7 @@
           <p>16.3 本协议中的任何条款或部分条款因被认定为无效或无法实施的，不影响本协议其他条款的效力。</p>
           <p>16.4 您确认并同意本公司有权不时地根据法律、法规、政府要求透露、修改、屏蔽或删除必要的、合适的信息，以便更好地运营本网站并保护本公司用户的合法权益。</p>
           <p class="foot">浙江数秦科技有限公司</p>
-          <div class="btn"><a href="javascript:;" @click="userAgreement">返回</a></div>
+          <div class="btn"><a href="javascript:;" @click="userAgreement">返回</a></div> 
         </div>
       </div>
     </mt-popup>
@@ -221,35 +221,39 @@
         }
       }
     }
-    .agreement{
-      @include article
-      width:60vw;
-      max-height:90vh;
-      min-height: 50vh;
-      overflow:auto;
-      .foot{
-        font-size: 24px;
-        text-align: right;
+    .mint-popup{
+      .agreement{
+        @include article
+        width:60vw;
+        max-height:90vh;
+        min-height: 50vh;
+        overflow:auto;
+        .foot{
+          font-size: 24px;
+          text-align: right;
+        }
       }
     }
     @media screen and (max-width: $mobile) {
       width:100%;
       padding:30px 15px;
       background: #fff;
-      .agreement{
-        width:100vw;
-        .box_content{
-          padding:0 15px;
-          font-size: 0.5rem;
-          h3{
-            margin-top:10px;
-          }
-          .foot{
-            font-size: 16px;
-          }
-          .btn a{
-            padding:5px 30px;
-            font-size: 0.6rem;
+      .mint-popup{
+        .agreement{
+          width:100vw;
+          .box_content{
+            padding:0 15px;
+            font-size: 0.5rem;
+            h3{
+              margin-top:10px;
+            }
+            .foot{
+              font-size: 16px;
+            }
+            .btn a{
+              padding:5px 30px;
+              font-size: 0.6rem;
+            }
           }
         }
       }

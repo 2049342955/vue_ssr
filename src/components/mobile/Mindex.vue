@@ -25,7 +25,7 @@
     },
     data () {
       return {
-        nav: [{title: '算力托管', desc: '优质合规', url: '/bdc'}, {title: '算力商城', desc: '优质合规', url: '/cloudCompute/list/1/all'}, {title: '算力转让', desc: '优质合规', url: '/computeTransfer/list/1/all'}, {title: '算力资讯', desc: '优质合规', url: '/mobile/information'}],
+        nav: [{title: '算力托管', desc: '多个BDC中心', url: '/bdc'}, {title: '算力商城', desc: '无忧购买矿机', url: '/cloudCompute/list/1/all'}, {title: '算力转让', desc: '快速算力变现', url: '/computeTransfer/list/1/all'}, {title: '算力资讯', desc: '掌握产业动态', url: '/mobile/information'}],
         data: [1, 1, 1]
       }
     }
@@ -59,7 +59,7 @@
         }
         @include flex
         .item_img{
-          width:1.7rem;
+          width:1.4rem;
         }
         .item_text{
           margin-left:10px;

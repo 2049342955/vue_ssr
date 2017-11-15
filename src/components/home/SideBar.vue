@@ -93,10 +93,10 @@
           content:'\e697'
         }
         &.icon_2:before{
-          content:'\e61d'
+          content:'\e61f'
         }
         &.icon_3:before{
-          content:'\e60c'
+          content:'\e621'
         }
       }
       .popup{
@@ -135,6 +135,9 @@
           color:$blue
         }
       }
+    }
+    @media screen and (max-width: $mobile) {
+      display: none !important;
     }
   }
 </style>

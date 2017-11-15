@@ -1,10 +1,10 @@
 <template>
   <div class="activity_box">
     <div class="bg_box">
-      <img :src="require('@/assets/images/6.png')"/>
+      <img :src="require('@/assets/images/1_1.png')"/>
     </div>
     <div class="mobile_bg_box">
-      <img :src="require('@/assets/images/5.png')" alt="">
+      <img :src="require('@/assets/images/mobile1.jpg')" alt="">
     </div>
     <div class="buy_form">
       <div class="form_bg">
@@ -41,13 +41,13 @@
     </div>
     <div class="mobile_form">
       <h1>{{data.name}}</h1>
-      <div class="side">
-        <ul>
-          <li v-for="t,k in text">
+      <div class="sideone">
+        <div class="flexone">
+          <div v-for="t,k in text" class="flextwo">
             <p class="price"><em>{{data[k]}}</em> {{t.unit}}</p>
             <p class="title">{{t.title}}</p>
-          </li>
-        </ul>
+          </div>
+        </div>
         <div class="bottom">
           <div class="one" style="margin-bottom:1rem;">
             <span class="title">购买数量</span>
@@ -233,7 +233,7 @@
         var sendData = {token: this.token, user_id: this.user_id}
         if (this.nowForm === 'address') {
           this.addressData = data
-          this.prompt('您的地址已保存')
+          this.prompt('收货地址已提交，点击“立即支付”完成购买')
           this.closeEdit(this.isMobile)
         } else {
           var val = 'true_name'
@@ -305,11 +305,15 @@
       })
     },
     mounted () {
+      if (api.checkWechat()) {
+        this.myToast('请在浏览器里打开')
+      }
       var self = this
       util.post('showMiner', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.data = res
-          self.content = res.content + '<hr>' + res.content1
+          // self.content = res.content + '<hr>' + res.content1
+          self.content = res.content
         }, '', () => {
           this.$router.push({name: 'home'})
         })
@@ -326,7 +330,7 @@
     overflow: hidden;
     background: #151136;
     .bg_box{
-      @include bg(1920,445px,#110d30)
+      @include bg(1920,520px,#110d30)
       @include mobile_hide
     }
     .mobile_bg_box{
@@ -424,7 +428,7 @@
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
       }
-      .side{
+      .sideone{
         width: 96%;
         margin-left: 2%;
         overflow: hidden;
@@ -433,14 +437,14 @@
         padding:0 .3rem;
         box-sizing: border-box;
         padding-bottom: 0.5rem;
-        ul{
+        .flexone{
           width: 100%;
           display: flex;
           justify-content: space-between;
           padding-top: 0.5rem;
           border-bottom: 1px dashed white;
           padding-bottom: 0.7rem;
-          li{
+          .flextwo{
             width:  33.3%;
             text-align: center;
             .price{

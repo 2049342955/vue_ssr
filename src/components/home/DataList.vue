@@ -16,26 +16,28 @@
         <tr v-for="l,i in list" @click="goPay(l.product_id)">
           <td v-for="v,k in nav">
             <template v-if="k==='name'"><i class="iconfont">&#xe605;</i>{{l[k]}}</template>
+            <template v-else-if="k==='left_num'">{{l.amount-l.buyed_amount+v.unit}}</template>
             <template v-else>{{l[k]+[v.unit]}}</template>
           </td>
-          <td><a href="javascript:;">申购</a></td>
+          <td><a href="javascript:;">购买</a></td>
         </tr>
       </table>
     </div>
     <div class="mobile_box">
-      <h2>云矿机第一波</h2>
+      <h2>矿机推荐</h2>
       <div class="mobile_list_box">
-        <div class="item" v-for="d,i in list">
+        <div class="item" v-for="d,i in list" @click="goPay(d.product_id)">
           <h3>{{d.name}}</h3>
           <div class="mobile_info_box">
             <div class="mobile_info">
               <h4>每台服务器价格<span><b>{{d.one_amount_value}}</b>元</span></h4>
               <div class="mobile_text">
                 <div class="mobile_text_item">每台算力<b>{{d.hash}}T</b></div>
-                <div class="mobile_text_item">剩余可售<b>{{d.amount-d.sell_amount}}台</b></div>
+                <div class="mobile_text_item">剩余可售<b>{{d.amount-d.buyed_amount}}台</b></div>
               </div>
             </div>
-            <div class="sell_progress">{{d.plan}}</div>
+            <div class="sell_progress">{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)+"%"}}</div>
+            <!-- <div class="progress-radial progress-60"><b></b></div> -->
           </div>
         </div>
       </div>
@@ -51,36 +53,38 @@
     name: 'chart',
     data () {
       return {
-        nav: {'name': {title: '矿机名称', unit: ''}, 'amount': {title: '总数量', unit: '台'}, 'one_amount_value': {title: '单价', unit: '元'}, 'buy_step_amount': {title: '最小购买单位', unit: '台'}, 'hash': {title: '算力', unit: 'T'}, 'type_name': {title: '算力类型', unit: ''}, 'plan': {title: '项目进度', unit: ''}},
+        // nav: {'name': {title: '矿机名称', unit: ''}, 'amount': {title: '总数量', unit: '台'}, 'one_amount_value': {title: '单价', unit: '元'}, 'buy_step_amount': {title: '最小购买单位', unit: '台'}, 'hash': {title: '算力', unit: 'T'}, 'type_name': {title: '算力类型', unit: ''}, 'plan': {title: '项目进度', unit: ''}},
+        nav: {'name': {title: '矿机名称', unit: ''}, 'amount': {title: '总数量', unit: '台'}, 'one_amount_value': {title: '单价', unit: '元'}, 'hash': {title: '算力', unit: 'T'}, 'left_num': {title: '剩余数量', unit: '台'}},
         list: []
       }
     },
     methods: {
       goPay (id) {
-        if (this.token === 0) {
-          api.tips('请先登录', () => {
-            this.$router.push({name: 'login'})
-          })
-          return false
-        }
-        if (!(this.true_name && this.true_name.status === 1)) {
-          api.tips('请先实名认证', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
-        if (!(this.bank_card && this.bank_card.status === 1)) {
-          api.tips('请先绑定银行卡', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
-        this.$router.push({path: '/cloudCompute/detail/yes/' + id})
+        // if (this.token === 0) {
+        //   api.tips('请先登录', () => {
+        //     this.$router.push({name: 'login'})
+        //   })
+        //   return false
+        // }
+        // if (!(this.true_name && this.true_name.status === 1)) {
+        //   api.tips('请先实名认证', () => {
+        //     this.$router.push({name: 'account'})
+        //   })
+        //   return false
+        // }
+        // if (!(this.bank_card && this.bank_card.status === 1)) {
+        //   api.tips('请先绑定银行卡', () => {
+        //     this.$router.push({name: 'account'})
+        //   })
+        //   return false
+        // }
+        // this.$router.push({path: '/cloudCompute/detail/yes/' + id})
+        this.$router.push({name: 'activity'})
       }
     },
     mounted () {
       var self = this
-      util.post('product_top_list', {sign: api.serialize({token: this.token})}).then(function (res) {
+      util.post('showTopMiner', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.list = res
         })
@@ -181,6 +185,12 @@
         font-size: 18px;
         padding:10px 15px;
         background: #fff;
+        &:before{
+          content:'|';
+          color:$blue;
+          font-weight: bold;
+          margin-right:5px
+        }
       }
       .mobile_list_box{
         .item{
@@ -188,6 +198,37 @@
           @include mobile_data
           &:not(:last-child){
             margin-bottom:10px;
+          }
+        }
+        .progress-radial{
+          display: inline-block;
+          margin:15px;
+          position:relative;
+          width:180px;
+          height:180px;
+          border-radius:50%;
+          border:1px solid #5d6771;
+          background-color: #fffde8;
+          box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+          background-image: linear-gradient(-28.8deg, #fffde8 50%, transparent 50%, transparent), linear-gradient(270deg, #fffde8 50%, #5d6771 50%, #5d6771);
+          &:before,&:after{
+            content:'';
+            width:35px;
+            height:35px;
+            top:50%;
+            left:50%;
+            border-radius:50%;
+            margin-left:-17.5px;
+            margin-top:-17.5px;
+            background: #fffde8;
+            position: absolute;
+            z-index: 999;
+            box-shadow: 10px 0 10px rgba(0,0,0,0.2);
+          }
+          &:after{
+            z-index: 998;
+            box-shadow: none;
+            transform:translate(0,-72.5px)
           }
         }
       }
