@@ -1,5 +1,5 @@
 <template>
-  <section class="mask">
+  <section class="mask_con">
     <div class="form_box">
       <div class="close" @click="$parent.closeEdit()">
         <span class="icon"  style="position: absolute;top: 45px;right: 20px;"></span>
@@ -42,7 +42,7 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  .mask{
+  .mask_con{
     @include mask
     .form_box{
       .form_content{
