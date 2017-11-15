@@ -159,19 +159,22 @@
           &:nth-child(6),&:nth-child(2){
             img{
               top:0;
-              width:1180px;
+              left:0;
+              width:100%;
               height:100%;
+              object-fit:cover;
               @media screen and (max-width: 1178px) and (min-width: 340px){
                 width:100%;
               }
             }
             a.btn{
-              border-color:#327fff;
-              background: #327fff;
+              left:calc(50% - 100px);
+              background: linear-gradient(to right, #ffb001 20%, #f9580d);
+              filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffb001', endColorstr='#f9580d',GradientType=1 );
+              border:0;
               color:#fff;
               &:hover{
-                border-color:#327fff;
-                background: #327fff;
+                background: #f9580d;
                 color:#fff
               }
             }
@@ -202,9 +205,9 @@
           }
           &:nth-child(5),&:nth-child(1){
             img:first-child{
-              width:493px;
-              top:calc(50% - 54.5px);
-              height:99px;
+              width:1180px;
+              top:0;
+              height:520px;
             }
           }
           &:nth-child(5),&:nth-child(1){
