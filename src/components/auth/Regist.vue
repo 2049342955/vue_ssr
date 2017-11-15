@@ -221,35 +221,39 @@
         }
       }
     }
-    .agreement{
-      @include article
-      width:60vw;
-      max-height:90vh;
-      min-height: 50vh;
-      overflow:auto;
-      .foot{
-        font-size: 24px;
-        text-align: right;
+    .mint-popup{
+      .agreement{
+        @include article
+        width:60vw;
+        max-height:90vh;
+        min-height: 50vh;
+        overflow:auto;
+        .foot{
+          font-size: 24px;
+          text-align: right;
+        }
       }
     }
     @media screen and (max-width: $mobile) {
       width:100%;
       padding:30px 15px;
       background: #fff;
-      .agreement{
-        width:100vw;
-        .box_content{
-          padding:0 15px;
-          font-size: 0.5rem;
-          h3{
-            margin-top:10px;
-          }
-          .foot{
-            font-size: 16px;
-          }
-          .btn a{
-            padding:5px 30px;
-            font-size: 0.6rem;
+      .mint-popup{
+        .agreement{
+          width:100vw;
+          .box_content{
+            padding:0 15px;
+            font-size: 0.5rem;
+            h3{
+              margin-top:10px;
+            }
+            .foot{
+              font-size: 16px;
+            }
+            .btn a{
+              padding:5px 30px;
+              font-size: 0.6rem;
+            }
           }
         }
       }
