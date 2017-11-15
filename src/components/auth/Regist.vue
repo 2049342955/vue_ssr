@@ -173,6 +173,7 @@
       regist () {
         var form = document.querySelector('.regist')
         var data = api.checkFrom(form)
+        console.log(data)
         if (!data) return false
         if (!form.accept.checked) {
           form.accept.setAttribute('data-status', 'invalid')

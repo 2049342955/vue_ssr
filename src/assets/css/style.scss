@@ -355,7 +355,11 @@
     canvas,.btn{
       @include position(5,auto,5,5)
       width:90px;
-      cursor: pointer
+      cursor: pointer;
+      @media screen and (max-width: $mobile) {
+        height:34px;
+        line-height: 34px
+      }
     }
     .btn{
       text-align: center;
@@ -365,7 +369,8 @@
       @media screen and (max-width: $mobile) {
         background: #ececec;
         border-color:#ececec;
-        color:$light_text
+        color:$light_text;
+        line-height: 34px
       }
     }
     &.addon{
