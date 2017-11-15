@@ -261,6 +261,10 @@ api.checkEquipment = () => {
     return true
   }
 }
+api.checkWechat = () => {
+  var sUserAgent = navigator.userAgent.toLowerCase()
+  return sUserAgent.match(/MicroMessenger/i)
+}
 api.check = (pattern, value) => {
   var re = new RegExp(pattern)
   if (pattern && !re.test(value)) {

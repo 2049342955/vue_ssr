@@ -305,6 +305,9 @@
       })
     },
     mounted () {
+      if (api.checkWechat()) {
+        this.myToast('请在浏览器里打开')
+      }
       var self = this
       util.post('showMiner', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
