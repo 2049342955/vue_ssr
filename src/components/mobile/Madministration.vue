@@ -63,7 +63,7 @@
       },
       submit () {
         var form = document.querySelector('.form')
-        var data = api.checkFrom(form)
+        var data = api.checkFrom(form, this, api.checkEquipment())
         var url = ''
         var callbackUrl = ''
         var val = ''
@@ -108,12 +108,12 @@
         var self = this
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.toast(tipsStr)
+            self.myToast(tipsStr)
             if (self.edit === 'auth' || self.edit === 'card') {
               self.$store.commit('SET_INFO', {[val]: {status: 0}})
               setTimeout(() => {
                 self.requestData(callbackUrl, sendData, val, () => {
-                  self.toast(tipsStr2)
+                  self.myToast(tipsStr2)
                 })
               }, 7000)
             } else if (self.edit === 'address') {
@@ -136,7 +136,7 @@
           })
         })
       },
-      toast (str) {
+      myToast (str) {
         Toast({
           message: str,
           position: 'middle',

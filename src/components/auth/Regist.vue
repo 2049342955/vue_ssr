@@ -155,6 +155,7 @@
 </template>
 
 <script>
+  import { Toast } from 'mint-ui'
   import util from '@/util/index'
   import api from '@/util/function'
   import FormField from '@/components/common/FormField'
@@ -172,8 +173,7 @@
     methods: {
       regist () {
         var form = document.querySelector('.regist')
-        var data = api.checkFrom(form)
-        console.log(data)
+        var data = api.checkFrom(form, this, api.checkEquipment())
         if (!data) return false
         if (!form.accept.checked) {
           form.accept.setAttribute('data-status', 'invalid')
@@ -192,6 +192,13 @@
       userAgreement () {
         this.$parent.agree = !this.$parent.agree
         this.show = !this.show
+      },
+      myToast (str) {
+        Toast({
+          message: str,
+          position: 'middle',
+          duration: 3000
+        })
       }
     }
   }

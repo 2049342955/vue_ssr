@@ -19,6 +19,7 @@
 </template>
 
 <script>
+  import { Toast } from 'mint-ui'
   import util from '@/util/index'
   import api from '@/util/function'
   import { mapState } from 'vuex'
@@ -42,7 +43,7 @@
     methods: {
       submit (n) {
         var form = document.querySelector('.form')
-        var data = api.checkFrom(form)
+        var data = api.checkFrom(form, this, api.checkEquipment())
         if (!data) return false
         var self = this
         if (n === 1) {
@@ -69,6 +70,13 @@
         var ele = e.target
         var form = document.querySelector('.form')
         api.checkFiled(ele, form)
+      },
+      myToast (str) {
+        Toast({
+          message: str,
+          position: 'middle',
+          duration: 3000
+        })
       }
     },
     computed: {
