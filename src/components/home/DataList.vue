@@ -36,7 +36,8 @@
                 <div class="mobile_text_item">剩余可售<b>{{d.amount-d.buyed_amount}}台</b></div>
               </div>
             </div>
-            <div class="sell_progress">{{d.plan}}</div>
+            <div class="sell_progress">{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)+"%"}}</div>
+            <!-- <div class="progress-radial progress-60"><b></b></div> -->
           </div>
         </div>
       </div>
@@ -197,6 +198,37 @@
           @include mobile_data
           &:not(:last-child){
             margin-bottom:10px;
+          }
+        }
+        .progress-radial{
+          display: inline-block;
+          margin:15px;
+          position:relative;
+          width:180px;
+          height:180px;
+          border-radius:50%;
+          border:1px solid #5d6771;
+          background-color: #fffde8;
+          box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+          background-image: linear-gradient(-28.8deg, #fffde8 50%, transparent 50%, transparent), linear-gradient(270deg, #fffde8 50%, #5d6771 50%, #5d6771);
+          &:before,&:after{
+            content:'';
+            width:35px;
+            height:35px;
+            top:50%;
+            left:50%;
+            border-radius:50%;
+            margin-left:-17.5px;
+            margin-top:-17.5px;
+            background: #fffde8;
+            position: absolute;
+            z-index: 999;
+            box-shadow: 10px 0 10px rgba(0,0,0,0.2);
+          }
+          &:after{
+            z-index: 998;
+            box-shadow: none;
+            transform:translate(0,-72.5px)
           }
         }
       }
