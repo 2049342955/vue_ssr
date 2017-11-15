@@ -41,13 +41,13 @@
     </div>
     <div class="mobile_form">
       <h1>{{data.name}}</h1>
-      <div class="side">
-        <ul>
-          <li v-for="t,k in text">
+      <div class="sideone">
+        <div class="flexone">
+          <div v-for="t,k in text" class="flextwo">
             <p class="price"><em>{{data[k]}}</em> {{t.unit}}</p>
             <p class="title">{{t.title}}</p>
-          </li>
-        </ul>
+          </div>
+        </div>
         <div class="bottom">
           <div class="one" style="margin-bottom:1rem;">
             <span class="title">购买数量</span>
@@ -425,7 +425,7 @@
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
       }
-      .side{
+      .sideone{
         width: 96%;
         margin-left: 2%;
         overflow: hidden;
@@ -434,14 +434,14 @@
         padding:0 .3rem;
         box-sizing: border-box;
         padding-bottom: 0.5rem;
-        ul{
+        .flexone{
           width: 100%;
           display: flex;
           justify-content: space-between;
           padding-top: 0.5rem;
           border-bottom: 1px dashed white;
           padding-bottom: 0.7rem;
-          li{
+          .flextwo{
             width:  33.3%;
             text-align: center;
             .price{
