@@ -57,7 +57,7 @@
     },
     methods: {
       setInfo (k, s) {
-        if (k === 'tel' || (k === 'auth' && s === 1)) return false
+        if (k === 'tel' || (k === 'auth' && s)) return false
         this.showModal = true
         this.edit = k
       },
