@@ -1,10 +1,10 @@
 <template>
   <div class="activity_box">
     <div class="bg_box">
-      <img :src="require('@/assets/images/6.png')"/>
+      <img :src="require('@/assets/images/1_1.png')"/>
     </div>
     <div class="mobile_bg_box">
-      <img :src="require('@/assets/images/5.png')" alt="">
+      <img :src="require('@/assets/images/mobile1.jpg')" alt="">
     </div>
     <div class="buy_form">
       <div class="form_bg">
@@ -327,7 +327,7 @@
     overflow: hidden;
     background: #151136;
     .bg_box{
-      @include bg(1920,445px,#110d30)
+      @include bg(1920,520px,#110d30)
       @include mobile_hide
     }
     .mobile_bg_box{

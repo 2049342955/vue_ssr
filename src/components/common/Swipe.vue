@@ -9,10 +9,10 @@
                 <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-if="b===1">
                 <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-else :style="[{transform: 'translate('+offsetX+'px, '+offsetY+'px)'}]">
               </template>
-              <router-link to="/cloudCompute/list/1/all" class="btn" v-if="k===5||k===1">即刻开始</router-link>
+              <router-link to="/cloudCompute/activity" class="btn" v-if="k===5||k===1">立即抢购</router-link>
               <router-link to="/bdc" class="btn" v-else-if="k===2">查看详情</router-link>
               <router-link to="/user/computeProperty" class="btn" v-else-if="k===3">查看详情</router-link>
-              <router-link to="/cloudCompute/activity" class="btn" v-else-if="k===0||k===4">活动详情</router-link>
+              <router-link to="/cloudCompute/list/1/all" class="btn" v-else-if="k===0||k===4">即刻开始</router-link>
             </div>
             <div class="swiper_box" v-else :style="{width: width+'px'}">
               <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-for="b in n">
@@ -32,13 +32,13 @@
             <div class="right">{{n.content}}</div>
           </template>
           <template v-else>
-            <router-link to="/user/computeProperty" v-if="k<=1">
+            <router-link to="/cloudCompute/activity" v-if="k<=1">
               <img :src="require('@/assets/images/mobile1.jpg')" alt="">
             </router-link>
             <router-link to="/bdc" v-else-if="k>=3">
               <img :src="require('@/assets/images/mobile3.jpg')" alt="">
             </router-link>
-            <router-link to="/cloudCompute/activity" v-else>
+            <router-link to="/user/computeProperty" v-else>
               <img :src="require('@/assets/images/mobile2.jpg')" alt="">
             </router-link>
           </template>
@@ -88,7 +88,7 @@
     },
     data () {
       return {
-        banners: [1, 2, 2, 2],
+        banners: [1, 2, 2, 1],
         bannersMobile: 5,
         slideEls: [],
         currentPage: 1,
