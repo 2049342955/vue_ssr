@@ -80,6 +80,7 @@
       .bg{
         background:url(../../assets/images/cloudCompute.jpg) no-repeat;
       }
+      @include mobile_hide
     }
     .pager{
       background: #f7f8fa;
@@ -91,6 +92,7 @@
         background: #fff;
         padding:30px 15px;
       }
+      @include mobile_hide
     }
     .sort{
       border:0;

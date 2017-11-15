@@ -136,5 +136,8 @@
         }
       }
     }
+    @media screen and (max-width: $mobile) {
+      display: none !important;
+    }
   }
 </style>
