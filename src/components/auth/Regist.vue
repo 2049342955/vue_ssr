@@ -1,6 +1,6 @@
 <template>
   <div class="rigist_block">
-    <form class="form regist" action="" @submit.prevent="" novalidate v-show="!show">
+    <form class="form regist" action="" @submit.prevent="regist" novalidate v-show="!show">
       <h2>欢迎注册算力网</h2>
       <FormField :form="form"></FormField>
       <label for="accept">
@@ -155,8 +155,8 @@
 </template>
 
 <script>
-  // import util from '@/util/index'
-  // import api from '@/util/function'
+  import util from '@/util/index'
+  import api from '@/util/function'
   import FormField from '@/components/common/FormField'
   export default {
     name: 'regist',
@@ -170,24 +170,24 @@
       }
     },
     methods: {
-    //   regist () {
-    //     var form = document.querySelector('.regist')
-    //     var data = api.checkFrom(form)
-    //     if (!data) return false
-    //     if (!form.accept.checked) {
-    //       form.accept.setAttribute('data-status', 'invalid')
-    //       return false
-    //     }
-    //     form.btn.setAttribute('disabled', true)
-    //     var self = this
-    //     util.post('/register', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
-    //       api.checkAjax(self, res, () => {
-    //         api.tips('恭喜您注册成功！', () => {
-    //           self.$router.push({name: 'login'})
-    //         })
-    //       }, form.btn)
-    //     })
-    //   },
+      regist () {
+        var form = document.querySelector('.regist')
+        var data = api.checkFrom(form)
+        if (!data) return false
+        if (!form.accept.checked) {
+          form.accept.setAttribute('data-status', 'invalid')
+          return false
+        }
+        form.btn.setAttribute('disabled', true)
+        var self = this
+        util.post('/register', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
+          api.checkAjax(self, res, () => {
+            api.tips('恭喜您注册成功！', () => {
+              self.$router.push({name: 'login'})
+            })
+          }, form.btn)
+        })
+      },
       userAgreement () {
         this.$parent.agree = !this.$parent.agree
         this.show = !this.show
