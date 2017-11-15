@@ -52,7 +52,6 @@
   import MmoneyFlow from '@/components/mobile/MmoneyFlow'
   import Minformation from '@/components/mobile/Minformation'
   import Madministration from '@/components/mobile/Madministration'
-  import Mactive from '@/components/mobile/Mactive'
   import Mpersoncenter from '@/components/mobile/Mpersoncenter'
   import Morder from '@/components/mobile/Morder'
 // use plugin
@@ -287,11 +286,6 @@
         path: 'help',
         name: 'mhelp',
         component: Mhelp
-      },
-      {
-        path: 'active',
-        name: 'mactive',
-        component: Mactive
       },
       {
         path: 'administration',

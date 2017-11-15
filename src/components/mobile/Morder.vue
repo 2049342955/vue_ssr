@@ -2,14 +2,14 @@
   <div class="order" style="margin-bottom:60px;">
       <div class="listall" v-show="showxie">
           <div class="item" v-for="n,k in lists">
-              <p class="top"><span>{{n.miner.name}}</span><em>{{n.created_time}}</em></p>
+              <p class="top"><span>{{n.miner&&n.miner.name}}</span><em>{{n.created_time}}</em></p>
               <ul>
                   <li>
                       <h4 style="color:#ff721f;">{{n.pay_value}}<em> 元</em></h4>
                       <p>购买金额</p>
                   </li>
                   <li>
-                      <h4>{{n.buy_amount * n.miner.hash}}<em> T</em></h4>
+                      <h4>{{+n.buy_amount * (+n.miner.hash)}}<em> T</em></h4>
                       <p>总算力</p>
                   </li>
                   <li>
@@ -80,8 +80,8 @@
       var self = this
       util.post('getMinerList', {sign: api.serialize({token: this.token, user_id: this.user_id, page: this.now})}).then(function (res) {
         api.checkAjax(self, res, () => {
-          self.lists = res.list
-          self.showImg = !res.list.length
+          self.lists = res.list.list
+          self.showImg = !res.list.list.length
           if (self.now > 1) return false
           self.len = Math.ceil(res.total_num / 15)
         })
@@ -112,6 +112,7 @@
           background:white;
           padding:0 .5rem;
           box-sizing: border-box;
+          margin-bottom: 0.5rem;
           .top{
               width: 100%;
               display: flex;
