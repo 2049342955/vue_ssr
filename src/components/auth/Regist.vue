@@ -1,6 +1,6 @@
 <template>
   <div class="rigist_block">
-    <form class="form regist" action="" @submit.prevent="regist" novalidate v-show="!show">
+    <form class="form regist" action="" @submit.prevent="" novalidate v-show="!show">
       <h2>欢迎注册算力网</h2>
       <FormField :form="form"></FormField>
       <label for="accept">
@@ -147,7 +147,7 @@
           <p>16.3 本协议中的任何条款或部分条款因被认定为无效或无法实施的，不影响本协议其他条款的效力。</p>
           <p>16.4 您确认并同意本公司有权不时地根据法律、法规、政府要求透露、修改、屏蔽或删除必要的、合适的信息，以便更好地运营本网站并保护本公司用户的合法权益。</p>
           <p class="foot">浙江数秦科技有限公司</p>
-          <div class="btn"><a href="javascript:;" @click="userAgreement">返回</a></div>
+          <div class="btn"><a href="javascript:;" @click="userAgreement">返回</a></div> 
         </div>
       </div>
     </mt-popup>
@@ -168,8 +168,8 @@
         form: [{name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: 'tel'}, {name: 'imgCode', type: 'text', title: '图形验证', placeholder: '请输入图形验证码', addon: 1, pattern: 'imgCode'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}, {name: 'password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: 'password'}, {name: 'password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: 'password', error: '两次密码不一致'}],
         show: false
       }
-    }
-    // methods: {
+    },
+    methods: {
     //   regist () {
     //     var form = document.querySelector('.regist')
     //     var data = api.checkFrom(form)
@@ -188,11 +188,11 @@
     //       }, form.btn)
     //     })
     //   },
-    //   userAgreement () {
-    //     this.$parent.agree = !this.$parent.agree
-    //     this.show = !this.show
-    //   }
-    // }
+      userAgreement () {
+        this.$parent.agree = !this.$parent.agree
+        this.show = !this.show
+      }
+    }
   }
 </script>
 
