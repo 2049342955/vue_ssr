@@ -51,7 +51,8 @@
           trade: [{name: 'mobile', type: 'text', title: '手机号码', edit: 'mobile'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}, {name: 'trade_password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: 'telCode'}, {name: 'trade_password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: 'telCode', error: '两次密码不一致'}]
         },
         showModal: false,
-        edit: -1
+        edit: -1,
+        card_type: '中国大陆身份证'
       }
     },
     methods: {
