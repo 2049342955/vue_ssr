@@ -110,7 +110,7 @@
                   background: #4d83dd;
                 }
                 &:before{
-                  content:'\e694'
+                  content:'\e601'
                 }
               }
               &:nth-child(2){
