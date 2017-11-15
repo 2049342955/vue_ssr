@@ -37,7 +37,7 @@
               </div>
             </div>
             <div class="sell_progress">{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)+"%"}}</div>
-            <!-- <div class="progress-radial progress-60"><b></b></div> -->
+            <!-- <div id="progress"><span></span></div> -->
           </div>
         </div>
       </div>
@@ -199,37 +199,40 @@
           &:not(:last-child){
             margin-bottom:10px;
           }
-        }
-        .progress-radial{
-          display: inline-block;
-          margin:15px;
-          position:relative;
-          width:180px;
-          height:180px;
-          border-radius:50%;
-          border:1px solid #5d6771;
-          background-color: #fffde8;
-          box-shadow: 0 2px 15px rgba(0,0,0,0.3);
-          background-image: linear-gradient(-28.8deg, #fffde8 50%, transparent 50%, transparent), linear-gradient(270deg, #fffde8 50%, #5d6771 50%, #5d6771);
-          &:before,&:after{
-            content:'';
-            width:35px;
-            height:35px;
-            top:50%;
-            left:50%;
-            border-radius:50%;
-            margin-left:-17.5px;
-            margin-top:-17.5px;
-            background: #fffde8;
-            position: absolute;
-            z-index: 999;
-            box-shadow: 10px 0 10px rgba(0,0,0,0.2);
-          }
-          &:after{
-            z-index: 998;
-            box-shadow: none;
-            transform:translate(0,-72.5px)
-          }
+          // #progress{
+          //   width: 50%;
+          //   height: 30px;
+          //   border:1px solid #ccc;
+          //   border-radius: 15px;
+          //   margin: 50px 0 0 100px;
+          //   overflow: hidden;
+          //   box-shadow: 0 0 5px 0px #ddd inset;
+          //   span{
+          //     display: inline-block;
+          //     width: 100%;
+          //     height: 100%;
+          //     background: #2989d8; /* Old browsers */
+          //     background: -moz-linear-gradient(45deg, #2989d8 33%, #7db9e8 34%, #7db9e8 59%, #2989d8 60%); /* FF3.6+ */
+          //     background: -webkit-gradient(linear, left bottom, right top, color-stop(33%,#2989d8), color-stop(34%,#7db9e8), color-stop(59%,#7db9e8), color-stop(60%,#2989d8)); /* Chrome,Safari4+ */
+          //     background: -webkit-linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* Chrome10+,Safari5.1+ */
+          //     background: -o-linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* Opera 11.10+ */
+          //     background: -ms-linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* IE10+ */
+          //     background: linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* W3C */
+          //     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2989d8', endColorstr='#2989d8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+          //     background-size: 60px 30px;
+          //     text-align: center;
+          //     color:#fff;
+          //     -webkit-animation:load 3s ease-in;
+          //   }
+          //   @-webkit-keyframes load{
+          //     0%{
+          //       width: 0%;
+          //     }
+          //     100%{
+          //       width:100%;
+          //     }
+          //   }
+          // }
         }
       }
     }
