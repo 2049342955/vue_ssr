@@ -37,7 +37,7 @@
               </div>
             </div>
             <div class="sell_progress">{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)+"%"}}</div>
-            <div class="progress-radial progress-60"><b></b></div>
+            <!-- <div class="progress-radial progress-60"><b></b></div> -->
           </div>
         </div>
       </div>
