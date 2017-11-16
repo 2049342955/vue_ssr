@@ -14,7 +14,7 @@
       </li>
       <Pager :len="len"></Pager>
     </ul>
-    <div class="nodata" v-if="show">
+    <div class="mnodata" v-if="show">
       <img :src="img" alt="">
       <p>暂无列表信息</p>
     </div>
@@ -61,20 +61,22 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.nodata{
+.mnodata{
   width: 100%;
   text-align: center;
-  height: 100vh;
+  height: 100%;
+  position: absolute;
+  top:0;
   background:white;
 }
-.nodata img{
+.mnodata img{
   width: 130px;
   display: block;
   margin:0 auto;
   margin-top: 140px;
   margin-bottom: 20px;
 }
-.nodata p{
+.mnodata p{
   text-align: center !important;
   width: 40% !important;
   margin-left:30%;

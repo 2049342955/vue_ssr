@@ -24,7 +24,7 @@
           </div>
           <Pager :len="len"></Pager>
       </div>
-      <div class="nodata" v-if="showImg">
+      <div class="mnodata" v-if="showImg">
         <img :src="img" alt="">
         <p style="text-align:center;">暂无列表信息</p>
       </div>
@@ -103,7 +103,7 @@
       height: 100vh;
       background: #f4f4f4;
   }
-  .nodata{
+  .mnodata{
   width: 100%;
   text-align: center;
   height: 100%;
@@ -111,14 +111,14 @@
   position: fixed;
   top:0;
 }
-.nodata img{
+.mnodata img{
   width: 130px;
   display: block;
   margin:0 auto;
   margin-top: 140px;
   margin-bottom: 20px;
 }
-.nodata p{
+.mnodata p{
   text-align: center !important;
   width: 40% !important;
   margin-left:30%;
