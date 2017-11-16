@@ -67,6 +67,13 @@ export default {
   position: absolute;
   top:0;
   background:white;
+  .nodata_img{
+    display: inline-block;
+    width: 234px;
+    height: 215px;
+    margin-top: 100px;
+    background: url('../../assets/images/css_sprites.png') -335px -10px;
+  }
 }
 .mnodata img{
   width: 130px;

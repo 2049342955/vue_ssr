@@ -83,6 +83,13 @@
   text-align: center;
   height: 100%;
   background:white;
+  .nodata_img{
+    display: inline-block;
+    width: 234px;
+    height: 215px;
+    margin-top: 100px;
+    background: url('../../assets/images/css_sprites.png') -335px -10px;
+  }
 }
 .nodata img{
   width: 130px;

@@ -12,7 +12,7 @@
         </div>
       </div>
     </div>
-    <div class="issues_content" v-show="!show" v-html="nowItem.content">
+    <div class="issues_content" v-show="!show" v-html="nowItem.content" style="margin-bottom:60px;background:white;">
     </div>
   </section>
 </template>
