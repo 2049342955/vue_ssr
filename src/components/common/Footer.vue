@@ -46,7 +46,7 @@
       </div>
     </div>
     <div class="mobile_box">
-      <mt-tabbar :fixed="true" selected="1" style="width:100%;height:2rem;">
+      <mt-tabbar :fixed="true" selected="1" style="width:100%;height:2.3rem;">
         <router-link to="/mHome" id="1" class="mint-tab-item">
           <i class="iconfont">&#xe661;</i>
           <p>首页</p>
@@ -71,7 +71,8 @@
       return {
         // link: {'关于我们': '/webInfo/aboutUs', '安全保障': '/webInfo/safeGuarantee', '法律声明': '/webInfo/lawyer', '常见问题': '/webInfo/issues'},
         link: {'关于我们': '/webInfo/aboutUs', '常见问题': '/webInfo/issues'},
-        service: {'算力商城': '/cloudCompute/list/1/all', '算力转让': '/computeTransfer/list/1/all', '算力托管': '/bdc', '算力资讯': '/webInfo/list/news'},
+        // service: {'算力商城': '/cloudCompute/list/1/all', '算力转让': '/computeTransfer/list/1/all', '算力托管': '/bdc', '算力资讯': '/webInfo/list/news'},
+        service: {'矿机商城': '/cloudCompute/list/1/all', 'BDC托管': '/bdc', '产业资讯': '/webInfo/list/news'},
         partner: [],
         info: {'网站动态': '/webInfo/list/website', '产品公告': '/webInfo/list/product'},
         items: [
@@ -259,5 +260,8 @@
   }
   .mint-tab-item{
     padding:0 !important;
+  }
+  .mint-tabbar{
+    background:white;
   }
 </style>

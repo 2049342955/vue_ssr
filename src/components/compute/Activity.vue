@@ -1,10 +1,10 @@
 <template>
   <div class="activity_box">
     <div class="bg_box">
-      <img :src="require('@/assets/images/1_1.png')"/>
+      <img :src="require('@/assets/images/5_1.jpg')"/>
     </div>
     <div class="mobile_bg_box">
-      <img :src="require('@/assets/images/mobile1.jpg')" alt="">
+      <img :src="require('@/assets/images/mobile4.jpg')" alt="">
     </div>
     <div class="buy_form">
       <div class="form_bg">
