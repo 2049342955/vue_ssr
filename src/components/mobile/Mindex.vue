@@ -50,6 +50,8 @@
     }
     .nav_box{
       padding:15px;
+      background:white;
+      margin-bottom:0.5rem;
       @include row(2,5%)
       .item{
         background: #fbfbfb;

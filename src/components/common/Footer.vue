@@ -46,7 +46,7 @@
       </div>
     </div>
     <div class="mobile_box">
-      <mt-tabbar :fixed="true" selected="1" style="width:100%;height:2rem;">
+      <mt-tabbar :fixed="true" selected="1" style="width:100%;height:2.3rem;">
         <router-link to="/mHome" id="1" class="mint-tab-item">
           <i class="iconfont">&#xe661;</i>
           <p>首页</p>
@@ -259,5 +259,8 @@
   }
   .mint-tab-item{
     padding:0 !important;
+  }
+  .mint-tabbar{
+    background:white;
   }
 </style>
