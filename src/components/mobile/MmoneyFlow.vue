@@ -64,7 +64,9 @@ export default {
 .nodata{
   width: 100%;
   text-align: center;
-  height: 100vh;
+  height: 100%;
+  position: absolute;
+  top:0;
   background:white;
 }
 .nodata img{
