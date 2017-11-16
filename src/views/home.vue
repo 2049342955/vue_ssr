@@ -2,19 +2,7 @@
   <article class="home">
     <Swiper :pagination-visible="true" :loop="true" :autoPlay="5000"></Swiper>
     <!-- <Chart></Chart> -->
-    <div class="home_title">
-      <div class="main">
-        <h1>{{ad.title}}</h1>
-        <p>{{ad.desc}}</p>
-        <div class="list">
-          <div class="item" v-for="s,k in suanLi">
-            <div class="iconfont"></div>
-            <div class="item_title">{{s.title}}</div>
-            <div class="item_desc">{{s.desc}}</div>
-          </div><div class="item"></div>
-        </div>
-      </div>
-    </div>
+    <MyData></MyData>
     <div class="wq">
       <img :src="wqImg" alt="" class="pre">
       <div class="text">
@@ -34,14 +22,26 @@
         </div>
       </div>
     </div>
-    <MyData></MyData>
-    <div :class="['my_map', {active: dataSrc===1||dataSrc===2||dataSrc===3}]">
+    <div class="home_title">
+      <div class="main">
+        <h1>{{ad.title}}</h1>
+        <p>{{ad.desc}}</p>
+        <div class="list">
+          <div class="item" v-for="s,k in suanLi">
+            <div class="iconfont"></div>
+            <div class="item_title">{{s.title}}</div>
+            <div class="item_desc">{{s.desc}}</div>
+          </div><div class="item"></div>
+        </div>
+      </div>
+    </div>
+    <div :class="['my_map', {active: dataSrc===0||dataSrc===2||dataSrc===3}]">
       <div class="main">
         <h3>遍布全球，持续扩张的数据中心让跨域体验更流畅</h3>
         <div class="data_title">
           <div :class="['item', {active: k===dataSrc}]" v-for="dt,k in dataTitle" @click="setData(k)">{{dt}}</div>
         </div>
-        <DataChart class="data_chart" v-if="dataSrc===1||dataSrc===2" :mapType="mapType"></DataChart>
+        <DataChart class="data_chart" v-if="dataSrc===0||dataSrc===2" :mapType="mapType"></DataChart>
         <DataChart2 class="data_chart2" v-else-if="dataSrc===3"></DataChart2>
         <DataMap class="data_chart" v-else></DataMap>
       </div>
@@ -81,25 +81,29 @@
         ad: {title: '算力驱动未来，信任链接天下', desc: '全球算力产业链资源整合，基于区块链的分布式算力输出平台', items: [{title: '项目合规', desc: '所有项目出具法律意见书<br>并公开法律意见书'}, {title: '用电合规', desc: '项目为政府招商引资项目<br>全部国网供电，电力稳定持久'}, {title: '透明收益', desc: '全流程产业链对接，信息透明<br>避免踩坑'}, {title: '全程存证', desc: '对接保全网区块链电子凭证技术<br>实现全部在线协议的合规有效'}, {title: '算力管家', desc: '为用户投资的每一份算力<br>提供贴心的远程管家服务'}]},
         wqImg: require('@/assets/images/img.jpg'),
         suanLi: [{title: 'SHA256比特币算力', desc: 'Bitcoin数字货币算力', icon: 'ELbobeicesuan'}, {title: '卷积神经算法算力', desc: '为CNN卷积神经网络提供分布式加速服务', icon: 'guanlianxitongwenbenqueren'}, {title: 'EquiHash零币算力', desc: 'ZeroCASH提供隐私保护及零知识证明的基础算力', icon: 'wodegongzuo-liebiao'}, {title: '智能合约算力', desc: '全球贸易智能合约服务的分布式基础算力', icon: 'dianzihetongshenqing'}, {title: 'Curecoin算力', desc: '蛋白质折叠计算，生化反应模型，用于发现新药', icon: 'hebaoshenpi'}, {title: 'Scrypt莱特币算力', desc: 'Litecoin数字货币算力', icon: 'xinxichaxun'}, {title: '游戏币兑换算力', desc: '全球游戏产业虚拟货币通用兑换算力', icon: 'jiedongzhiquzhihang'}, {title: 'Ethash以太算力', desc: '以太坊网络，ETCETH算力', icon: 'yewuchaxun'}, {title: '公证算力', desc: '提供区块链公证服务，存证保全的基础算力', icon: 'shouqushenqingchaxun'}],
-        dataTitle: ['比特币全球节点数', '算力网BDC中心分布', '算力网注册用户数', '交易总算力'],
+        dataTitle: ['算力网BDC中心分布', '比特币全球节点数', '算力网注册用户数', '交易总算力'],
         dataSrc: 0,
-        mapType: 0
+        mapType: 1
       }
     },
     methods: {
       setData (n) {
         this.dataSrc = n
-        if (n === 1) {
+        if (n === 0) {
           this.mapType = 1
         } else {
           this.mapType = 0
         }
+      },
+      goMobile () {
+        if (api.checkEquipment()) {
+          this.$router.push({name: 'mobileHome'})
+        }
       }
     },
     mounted () {
-      if (api.checkEquipment()) {
-        this.$router.push({name: 'mobileHome'})
-      }
+      this.goMobile()
+      window.addEventListener('resize', this.goMobile, false)
     }
   }
 </script>
@@ -325,7 +329,6 @@
     .home_text{
       background:#f7f8fa;
       border-bottom:1px solid $border;
-      margin-bottom:50px;
       .main{
         @include main
         line-height: 2;

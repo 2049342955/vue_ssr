@@ -102,54 +102,67 @@ api.line = () => {
   line.y = Math.floor(Math.random() * 40)
   return line
 }
+api.countDown = () => {
+  var t = 60
+  var ele = document.querySelector('count_btn')
+  var tt = setInterval(() => {
+    if (t === 0) {
+      ele.innerHTML = '重新获取'
+      clearInterval(tt)
+      ele.setAttribute('disabled', false)
+    } else {
+      ele.innerHTML = t + 's'
+      t--
+    }
+  }, 1000)
+}
 api.checkFrom = (form, obj, ismobile) => {
+  var result = api.validityForm(form, obj, ismobile)
+  if (result !== 1 && result !== 2) {
+    return result
+  }
+}
+api.validityForm = (form, obj, ismobile) => {
   var data = {}
-  var icon = true
+  var icon = 0
+  var n = ''
   for (var i = 0; i <= form.length - 2; i++) {
-    if (form[i].value) {
-      if (api.checkFiled(form[i], form)) {
-        if (form[i].getAttribute('isChange')) {
-          data[form[i].name] = encodeURIComponent(form[i].value)
+    var ele = form[i]
+    if (ele.value) {
+      if (api.checkFiled(ele, form)) {
+        if (ele.getAttribute('isChange')) {
+          data[ele.name] = encodeURIComponent(ele.value)
         } else {
-          data[form[i].name] = form[i].value
+          data[ele.name] = ele.value
         }
       } else {
-        if (ismobile) {
-          obj.myToast(form[i].title)
-        }
-        icon = false
+        api.errorTip(ele, ele.title, ismobile, obj)
+        icon = 1
+        n = i
         break
       }
     } else {
-      if (ismobile) {
-        obj.myToast(form[i].placeholder)
-      }
-      api.setTips(form[i], 'null')
-      icon = false
+      api.errorTip(ele, ele.placeholder, ismobile, obj)
+      api.setTips(ele, 'null')
+      icon = 2
+      n = i
       break
     }
   }
-  if (icon) {
+  if (!icon) {
     return data
+  } else {
+    return {status: icon, n: n}
   }
 }
-api.checkOne = (form, obj) => {
-  var data = {}
-  for (var i = 0; i <= form.length - 2; i++) {
-    if (form[i].value) {
-      if (obj.check(form[i])) {
-        data[form[i].name] = form[i].value
-      } else {
-        return {status: 'invalid', n: i}
-      }
-    } else {
-      return {status: 'null', n: i}
-    }
+api.errorTip = (ele, str, ismobile, obj) => {
+  ele.focus()
+  if (ismobile) {
+    obj.myToast(str)
   }
-  return data
 }
 api.checkFiled = (ele, form) => {
-  if (!(ele.checkValidity ? ele.checkValidity() : api.check(ele.pattern, ele.value))) {
+  if (!(ele.checkValidity ? ele.checkValidity() : api.check(ele.pattern || ele.getAttribute('pattern'), ele.value))) {
     api.setTips(ele, 'invalid')
     return false
   } else if ((ele.name === 'imgCode' && ele.value.toLowerCase() !== localStorage.getItem('code').toLowerCase()) || (ele.name === 'password1' && ele.value !== form.password.value) || (ele.name === 'trade_password1' && ele.value !== form.trade_password.value)) {
@@ -160,21 +173,16 @@ api.checkFiled = (ele, form) => {
     return true
   }
 }
-api.checkCode = (form) => {
-  var c = true
-  var i = 0
-  while (form[i].name !== 'code') {
-    if (form[i].value) {
-      if (!api.checkFiled(form[i])) {
-        c = false
-      }
-    } else {
-      api.setTips(form[i], 'null')
-      c = false
+api.checkCode = (ele) => {
+  if (ele.value) {
+    if (!api.checkFiled(ele)) {
+      api.setTips(ele, 'invalid')
+      return 2
     }
-    i++
+  } else {
+    api.setTips(ele, 'null')
+    return 1
   }
-  return c
 }
 api.setTips = (ele, str) => {
   ele.setAttribute('data-status', str)
@@ -274,7 +282,8 @@ api.check = (pattern, value) => {
   var re = new RegExp(pattern)
   if (pattern && !re.test(value)) {
     return false
+  } else {
+    return true
   }
-  return true
 }
 export default api

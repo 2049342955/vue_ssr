@@ -24,7 +24,7 @@
         <form class="data_form" @submit.prevent="submit" novalidate v-if="!success">
           <div class="form_line" v-for="f in form">
             <span class="label">{{f.title}}</span><input :class="{yan: f.addon}" type="text" :name="f.name" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern" :title="f.tips" :maxlength="f.maxlength" v-if="f.type==='text'">
-            <div ref="count_btn" class="form_btn" @click="getCode" v-if="f.addon">{{str}}</div>
+            <div class="form_btn count_btn" @click="getCode" v-if="f.addon">{{str}}</div>
             <select :name="f.name" v-if="f.type==='select'">
               <option v-for="(item, index) in list" :key="item.bdc_name" :value="item.bdc_name">{{item.bdc_name}}</option>
             </select>
@@ -102,14 +102,12 @@
       submit () {
         let self = this
         var ff = document.querySelector('.data_form')
-        var data = api.checkOne(ff, this)
-        if (data.status === 'null') {
+        var data = api.validityForm(ff, this)
+        if (data.status && data.status === 2) {
           this.tips = ff[data.n].placeholder
-          ff[data.n].focus()
           return false
-        } else if (data.status === 'invalid') {
+        } else if (data.status && data.status === 1) {
           this.tips = ff[data.n].title
-          ff[data.n].focus()
           return false
         }
         util.post('depositMessage', {sign: api.serialize({token: this.token, dep_name: encodeURIComponent(ff.dep_name.value), dep_tel: ff.dep_tel.value, dep_bdc: encodeURIComponent(ff.dep_bdc.value), dep_type: encodeURIComponent(ff.dep_type.value), dep_number: ff.dep_number.value, code: ff.code.value})}).then(function (res) {
@@ -120,10 +118,7 @@
       },
       test (e) {
         var ele = e.target
-        this.check(ele)
-      },
-      check (ele) {
-        if (!ele.checkValidity()) {
+        if (!(ele.checkValidity ? ele.checkValidity() : api.check(ele.pattern || ele.getAttribute('pattern'), ele.value))) {
           this.tips = ele.title
         } else {
           this.tips = ''
@@ -133,35 +128,24 @@
       getCode () {
         var self = this
         var form = document.querySelector('.data_form')
-        if (form.dep_tel.value) {
-          if (!api.checkFiled(form.dep_tel)) {
-            this.tips = form.depTel.title
-            return false
+        var ele = document.querySelector('count_btn')
+        var telEle = form.dep_tel
+        var isTel = api.checkCode(telEle)
+        if (isTel) {
+          if (isTel === 1) {
+            this.tips = telEle.placeholder
+          } else {
+            this.tips = telEle.title
           }
-        } else {
-          this.tips = form.dep_tel.placeholder
+          telEle.focus()
           return false
         }
-        if (self.$refs['count_btn'][0].getAttribute('disabled') === 'true') return false
+        if (ele.getAttribute('disabled') === 'true') return false
         util.post('send_code', {sign: api.serialize({token: this.token, mobile: form.dep_tel.value})}).then(res => {
-          this.tips = '短信验证码发送成功'
-          self.conntDown()
-          self.$refs['count_btn'][0].setAttribute('disabled', true)
+          self.tips = '短信验证码发送成功'
+          api.countDown()
+          ele.setAttribute('disabled', true)
         })
-      },
-      conntDown () {
-        var self = this
-        var t = 60
-        var tt = setInterval(() => {
-          if (t === 0) {
-            self.str = '重新获取'
-            clearInterval(tt)
-            self.$refs['count_btn'][0].setAttribute('disabled', false)
-          } else {
-            self.str = t + 's'
-            t--
-          }
-        }, 1000)
       }
     },
     mounted () {

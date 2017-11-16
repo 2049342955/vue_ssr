@@ -56,7 +56,7 @@
       <!-- addon -->
       <template v-if="f.addon">
         <canvas id="code" width="90" height="40" v-if="f.addon===1" @click="changeCode"></canvas>
-        <div ref="count_btn" class="btn" v-if="f.addon===2" @click="getCode">{{str}}</div>
+        <div class="count_btn btn" v-if="f.addon===2" @click="getCode">{{str}}</div>
       </template>
       <!-- tips -->
       <span :title="f.pattern&&check[f.pattern].tips" :error="(f.pattern&&check[f.pattern].error)||f.error" :tips="f.placeholder" :success="f.pattern&&check[f.pattern].success" v-if="!f.edit"></span>
@@ -85,8 +85,7 @@
         c: '',
         n: '',
         str: '获取验证码',
-        check: {tel: {code: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, password: {code: '^[0-9a-zA-Z_]{6,16}$', tips: '密码应在6-16位之间的字母数字和下划线'}, imgCode: {code: '^[0-9a-zA-Z]{4}$', tips: '请输入4位字符', error: '图形验证码错误，请重新输入'}, telCode: {code: '^[0-9]{6}$', tips: '请输入6位数字', success: '发送成功'}, idCard: {code: '^([0-9]{15}$|^[0-9]{18}$|^[0-9]{17}([0-9]|X|x))$', tips: '身份证号应是18位'}, bankCard: {code: '^[0-9]{16,21}$', tips: '请输入16至21位的银行卡号'}, computeAddress: {code: '^[0-9a-zA-Z]{34,}$', tips: '请输入至少34位的字符'}, money: {code: '^[2-9][0-9]|[0-9]{3,}$', tips: '请输入至少20的整数'}, coin: {code: '^[1-9][0-9]*|[1-9][0-9]*[.][0-9]{1,8}|0[.][0-9]{1,8}$', tips: '请输入大于0的整数或8位小数'}, float: {code: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, int: {code: '^[0-9]+$', tips: '请输入整数'}, bigMoney: {code: '^[1-9][0-9]{2,}$', tips: '请输入至少100的整数'}},
-        tt: 0
+        check: {tel: {code: '^1[3578][0-9]{9}$', tips: '请输入11位手机号'}, password: {code: '^[0-9a-zA-Z_]{6,16}$', tips: '密码应在6-16位之间的字母数字和下划线'}, imgCode: {code: '^[0-9a-zA-Z]{4}$', tips: '请输入4位字符', error: '图形验证码错误，请重新输入'}, telCode: {code: '^[0-9]{6}$', tips: '请输入6位数字', success: '发送成功'}, idCard: {code: '^([0-9]{15}$|^[0-9]{18}$|^[0-9]{17}([0-9]|X|x))$', tips: '身份证号应是18位'}, bankCard: {code: '^[0-9]{16,21}$', tips: '请输入16至21位的银行卡号'}, computeAddress: {code: '^[0-9a-zA-Z]{34,}$', tips: '请输入至少34位的字符'}, money: {code: '^[2-9][0-9]|[0-9]{3,}$', tips: '请输入至少20的整数'}, coin: {code: '^[1-9][0-9]*|[1-9][0-9]*[.][0-9]{1,8}|0[.][0-9]{1,8}$', tips: '请输入大于0的整数或8位小数'}, float: {code: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, int: {code: '^[0-9]+$', tips: '请输入整数'}, bigMoney: {code: '^[1-9][0-9]{2,}$', tips: '请输入至少100的整数'}}
       }
     },
     mounted () {
@@ -95,11 +94,6 @@
       this.setCounty(this.c)
       if (!document.querySelector('#code')) return false
       this.changeCode()
-    },
-    destroyed () {
-      if (this.tt) {
-        clearInterval(this.tt)
-      }
     },
     methods: {
       test (e) {
@@ -112,29 +106,21 @@
         localStorage.setItem('code', api.createCode(ele))
       },
       getCode () {
-        var self = this
         var form = document.querySelector('.form')
-        if (!api.checkCode(form)) return false
-        if (self.$refs['count_btn'][0].getAttribute('disabled') === 'true') return false
+        var ele = document.querySelector('count_btn')
+        var telEle = form.dep_tel || form.mobile
+        var isTel = api.checkCode(telEle)
+        if (isTel) {
+          telEle.focus()
+          return false
+        }
+        if (!api.checkCode(form.dep_tel || form.mobile)) return false
+        if (ele.getAttribute('disabled') === 'true') return false
         util.post('send_code', {sign: api.serialize({token: this.token, mobile: form.dep_tel ? form.dep_tel.value : form.mobile.value})}).then(res => {
           api.setTips(form.code, 'success')
-          self.conntDown()
-          self.$refs['count_btn'][0].setAttribute('disabled', true)
+          api.countDown()
+          ele.setAttribute('disabled', true)
         })
-      },
-      conntDown () {
-        var self = this
-        var t = 60
-        this.tt = setInterval(() => {
-          if (t === 0) {
-            self.str = '重新获取'
-            clearInterval(self.tt)
-            self.$refs['count_btn'][0].setAttribute('disabled', false)
-          } else {
-            self.str = t + 's'
-            t--
-          }
-        }, 1000)
       },
       selectCity (arr, value) {
         return arr.filter((v) => v.name === value)
