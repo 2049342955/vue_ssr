@@ -15,7 +15,7 @@
       <Pager :len="len"></Pager>
     </ul>
     <div class="mnodata" v-if="show">
-      <img :src="img" alt="">
+      <div class="nodata_img"></div>
       <p>暂无列表信息</p>
     </div>
   </section>
