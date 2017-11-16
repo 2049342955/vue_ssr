@@ -237,7 +237,7 @@
       }
     }
     @media screen and (max-width: $mobile) {
-      margin-bottom:0;
+      margin:0;
     }
   }
 </style>
