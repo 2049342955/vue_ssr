@@ -144,7 +144,6 @@
         this.isMobile = mobile
         this.openMask(mobile, n)
         document.body.style.overflow = 'hidden'
-        console.log(n, n === 3)
         if (n === 1) {
           this.contract = this.content
           this.title = '协议详情'
@@ -187,9 +186,9 @@
           this.check(ele, '请同意服务条款', mobile)
           return false
         }
+        console.log(11)
         var callbackUrl = location.protocol + '//' + location.host + '/'
         var data = {miner_id: this.data.miner_id, number: this.number, mode: '2', token: this.token, user_id: this.user_id, amount: this.totalPrice, url: callbackUrl}
-
         var self = this
         util.post('saveMiner', {sign: api.serialize(Object.assign(this.addressData, data))}).then(function (res) {
           api.checkAjax(self, res, () => {
@@ -281,11 +280,10 @@
       },
       openMask (mobile, n) {
         window.scroll(0, 0)
-        // document.body.style.overflow = 'hidden'
         if (mobile) {
           this.mobileEdit = true
         } else {
-          window.scroll(0, 0)
+          this.edit = n
         }
       },
       myToast (str) {
@@ -608,7 +606,7 @@
       @include main
       padding:60px 0
     }
-    .mask{
+    .mask_con{
       h2{
         line-height: 52px;
         padding:0 28px;
