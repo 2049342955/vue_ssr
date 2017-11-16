@@ -46,17 +46,17 @@
       </div>
     </div>
     <div class="mobile_box">
-      <mt-tabbar :fixed="true" selected="1" style="width:100%;height:2.3rem;">
+      <mt-tabbar :fixed="true" selected="1">
         <router-link to="/mHome" id="1" class="mint-tab-item">
-          <i></i>
+          <i></i><br>
           <span>首页</span>
         </router-link>
         <router-link to="/mobile/property" id="2" class="mint-tab-item">
-          <i></i>
+          <i></i><br>
           <span>算力资产</span>
         </router-link>
         <router-link to="/mobile/personcenter" id="3" class="mint-tab-item">
-          <i></i>
+          <i></i><br>
           <span>个人中心</span>
         </router-link>
       </mt-tabbar>
@@ -251,6 +251,7 @@
       @include mobile_hide
     }
     .mobile_box{
+      width:100%;
       @include mobile_show
       a{
         text-align: center;
@@ -260,36 +261,40 @@
         }
         i{
           display: inline-block;
+          margin:10px 0;
         }
         &.router-link-active{
-          background-color: #eaeaea;
           color: #26a2ff;
         }
-        &.router-link-active i{
-          &:nth-child(1) i{
-            background: url('../../assets/images/mobile_icons.png') -285px -66px;
+        &:nth-child(1){
+          i{
+            width: 20px;
+            height: 21px;
+            background: url('../../assets/images/mobile_icons.png') -10px -52px;
           }
-          &:nth-child(2) i{
-            background: url('../../assets/images/mobile_icons.png') -230px -125px;
-          }
-          &:nth-child(3) i{
-            background: url('../../assets/images/mobile_icons.png') -230px -68px;
+          &.router-link-active i{
+            background: url('../../assets/images/mobile_icons.png') -90px -10px;
           }
         }
-        &:nth-child(1) i{
-          width: 35px;
-          height: 37px;
-          background: url('../../assets/images/mobile_icons.png') -285px -123px;
+        &:nth-child(2){
+          i{
+            width: 20px;
+            height: 20px;
+            background: url('../../assets/images/mobile_icons.png') -90px -52px;
+          }
+          &.router-link-active i{
+            background: url('../../assets/images/mobile_icons.png') -50px -52px;
+          }
         }
-        &:nth-child(2) i{
-          width: 36px;
-          height: 36px;
-          background: url('../../assets/images/mobile_icons.png') -285px -10px;
-        }
-        &:nth-child(3) i{
-          width: 35px;
-          height: 38px;
-          background: url('../../assets/images/mobile_icons.png') -230px -10px;
+        &:nth-child(3){
+          i{
+            width: 20px;
+            height: 22px;
+            background: url('../../assets/images/mobile_icons.png') -50px -10px;
+          }
+          &.router-link-active i{
+            background: url('../../assets/images/mobile_icons.png') -10px -10px;
+          }
         }
       }
     } 

@@ -35,13 +35,13 @@
         </div>
       </div>
     </div>
-    <div :class="['my_map', {active: dataSrc===0||dataSrc===2||dataSrc===3}]">
+    <div :class="['my_map', {active: dataSrc===1||dataSrc===2||dataSrc===3}]">
       <div class="main">
         <h3>遍布全球，持续扩张的数据中心让跨域体验更流畅</h3>
         <div class="data_title">
           <div :class="['item', {active: k===dataSrc}]" v-for="dt,k in dataTitle" @click="setData(k)">{{dt}}</div>
         </div>
-        <DataChart class="data_chart" v-if="dataSrc===0||dataSrc===2" :mapType="mapType"></DataChart>
+        <DataChart class="data_chart" v-if="dataSrc===1||dataSrc===2" :mapType="mapType"></DataChart>
         <DataChart2 class="data_chart2" v-else-if="dataSrc===3"></DataChart2>
         <DataMap class="data_chart" v-else></DataMap>
       </div>
@@ -89,7 +89,7 @@
     methods: {
       setData (n) {
         this.dataSrc = n
-        if (n === 0) {
+        if (n === 1) {
           this.mapType = 1
         } else {
           this.mapType = 0
