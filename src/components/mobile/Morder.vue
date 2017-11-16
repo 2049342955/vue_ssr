@@ -25,7 +25,7 @@
           <Pager :len="len"></Pager>
       </div>
       <div class="mnodata" v-if="showImg">
-        <div class="nodata_img"></div>
+        <img :src="img" alt="">
         <p style="text-align:center;">暂无列表信息</p>
       </div>
       <div class="contentdetail" style="text-align:center;width:100%;height:100vh;background:white;padding:0 .5rem;box-sizing:border-box;" v-show="!showxie" v-html="contentdetail.content?contentdetail.content:'暂无内容'">
