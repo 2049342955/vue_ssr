@@ -17,6 +17,7 @@
 </template>
 
 <script>
+  import api from '@/util/function'
   import Swiper from '@/components/common/Swipe'
   import MyData from '@/components/home/DataList'
   export default {
@@ -25,9 +26,21 @@
     },
     data () {
       return {
-        nav: [{title: '算力托管', desc: '多个BDC中心', url: '/bdc'}, {title: '算力商城', desc: '无忧购买矿机', url: '/cloudCompute/list/1/all'}, {title: '算力转让', desc: '快速算力变现', url: '/computeTransfer/list/1/all'}, {title: '算力资讯', desc: '掌握产业动态', url: '/mobile/information'}],
+        // nav: [{title: 'BDC托管', desc: '多个BDC中心', url: '/bdc'}, {title: '矿机商城', desc: '无忧购买矿机', url: '/cloudCompute/list/1/all'}, {title: '算力转让', desc: '快速算力变现', url: '/computeTransfer/list/1/all'}, {title: '产业资讯', desc: '掌握产业动态', url: '/mobile/information'}],
+        nav: [{title: '矿机商城', desc: '无忧购买矿机', url: '/cloudCompute/list/1/all'}, {title: 'BDC托管', desc: '多个BDC中心', url: '/bdc'}, {title: '产业资讯', desc: '掌握产业动态', url: '/mobile/information'}],
         data: [1, 1, 1]
       }
+    },
+    methods: {
+      goPc () {
+        if (!api.checkEquipment()) {
+          this.$router.push({name: 'home'})
+        }
+      }
+    },
+    mounted () {
+      this.goPc()
+      window.addEventListener('resize', this.goPc, false)
     }
   }
 </script>

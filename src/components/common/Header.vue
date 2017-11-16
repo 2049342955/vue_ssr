@@ -44,7 +44,8 @@
     name: 'header',
     data () {
       return {
-        nav: [{name: 'cloudCompute', text: '算力商城', link: '/cloudCompute/list/1/all'}, {name: 'computeTransfer', text: '算力转让', link: '/computeTransfer/list/1/all'}, {name: 'bdc', text: '算力托管', link: '/bdc'}, {name: 'news', text: '算力资讯', link: '/webInfo/list/news'}, {name: 'dataTrade', text: '数据交易', link: ''}, {name: 'computeTrade', text: '算法交易', link: ''}],
+        // nav: [{name: 'cloudCompute', text: '矿机商城', link: '/cloudCompute/list/1/all'}, {name: 'computeTransfer', text: '算力转让', link: '/computeTransfer/list/1/all'}, {name: 'bdc', text: 'BDC托管', link: '/bdc'}, {name: 'news', text: '产业资讯', link: '/webInfo/list/news'}, {name: 'dataTrade', text: '数据交易', link: ''}, {name: 'computeTrade', text: '算法交易', link: ''}],
+        nav: [{name: 'cloudCompute', text: '矿机商城', link: '/cloudCompute/list/1/all'}, {name: 'bdc', text: 'BDC托管', link: '/bdc'}, {name: 'news', text: '产业资讯', link: '/webInfo/list/news'}],
         path: {frame_header: ['regist', 'passwordRetrieval', 'user', 'account', '/detail', 'webInfo', 'article/agreement'], border: ['login', 'bdc'], shadow: ['regist', 'passwordRetrieval'], web_box: ['webInfo']},
         headerClass: ''
       }

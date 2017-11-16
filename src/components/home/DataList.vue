@@ -106,7 +106,7 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .cloud_list{
-    margin-bottom:60px;
+    margin:60px 0;
     overflow: hidden;
     .box{
       h2{
@@ -237,7 +237,7 @@
       }
     }
     @media screen and (max-width: $mobile) {
-      margin-bottom:0;
+      margin:0;
     }
   }
 </style>
