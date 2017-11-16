@@ -48,7 +48,6 @@
         now: 1,
         len: 0,
         showImg: false,
-        img: require('@/assets/images/no_data.jpg'),
         showxie: true,
         contentdetail: ''
       }

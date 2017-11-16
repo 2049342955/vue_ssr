@@ -54,7 +54,7 @@
         </tr>
       </table>
       <div class="nodata" v-if="showImg">
-        <img :src="img" alt="">
+        <div class="nodata_img"></div>
         <p>暂无列表信息</p>
       </div>
       <Pager :len="len"></Pager>
@@ -75,7 +75,6 @@
       return {
         nav: [{'0': '进行中', '1': '已结束'}],
         item: '',
-        img: require('@/assets/images/no_data.jpg'),
         showImg: false,
         status: 0,
         len: 0,

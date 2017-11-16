@@ -4,9 +4,7 @@
       <div class="bg"></div>
     </div>
     <div class="mobile_logo">
-      <router-link to="/mHome">
-        <img :src="require('@/assets/images/logo2.png')" alt="">
-      </router-link>
+      <router-link to="/mHome"></router-link>
     </div>
     <div class="box">
       <router-view></router-view>
@@ -46,8 +44,11 @@
       @include mobile_show
       text-align: center;
       padding-top:30px;
-      img{
+      a{
+        display: inline-block;
         width:140px;
+        height:29px;
+        background:url(../assets/images/css_sprites.png) -170px -364px;
       }
     }
     &:not(.login_block){

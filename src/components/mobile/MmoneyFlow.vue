@@ -32,7 +32,6 @@ export default {
   data () {
     return {
       show: false,
-      img: require('@/assets/images/no_data.jpg'),
       now: 1,
       len: 0,
       list: []
