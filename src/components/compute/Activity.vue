@@ -207,7 +207,7 @@
         })
       },
       closeEdit (mobile) {
-        // document.body.style.overflow = 'auto'
+        document.body.style.overflow = 'auto'
         if (mobile) {
           this.mobileEdit = false
         } else {
