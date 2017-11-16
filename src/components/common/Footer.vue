@@ -48,16 +48,16 @@
     <div class="mobile_box">
       <mt-tabbar :fixed="true" selected="1" style="width:100%;height:2.3rem;">
         <router-link to="/mHome" id="1" class="mint-tab-item">
-          <i class="iconfont">&#xe661;</i>
-          <p>首页</p>
+          <i></i>
+          <span>首页</span>
         </router-link>
         <router-link to="/mobile/property" id="2" class="mint-tab-item">
-          <i class="iconfont">&#xe623;</i>
-          <p>算力资产</p>
+          <i></i>
+          <span>算力资产</span>
         </router-link>
         <router-link to="/mobile/personcenter" id="3" class="mint-tab-item">
-          <i class="iconfont">&#xe66a;</i>
-          <p>个人中心</p>
+          <i></i>
+          <span>个人中心</span>
         </router-link>
       </mt-tabbar>
     </div>
@@ -252,16 +252,45 @@
     }
     .mobile_box{
       @include mobile_show
-      p{
-        position: relative;
-        top:-.25rem;
-      }
-      i{
-        font-size: 20px;
-      }
-      .router-link-active{
-        background-color: #eaeaea;
-        color: #26a2ff;
+      a{
+        text-align: center;
+        span{
+          position: relative;
+          top:-.25rem;
+        }
+        i{
+          display: inline-block;
+        }
+        &.router-link-active{
+          background-color: #eaeaea;
+          color: #26a2ff;
+        }
+        &.router-link-active i{
+          &:nth-child(1) i{
+            background: url('../../assets/images/mobile_icons.png') -285px -66px;
+          }
+          &:nth-child(2) i{
+            background: url('../../assets/images/mobile_icons.png') -230px -125px;
+          }
+          &:nth-child(3) i{
+            background: url('../../assets/images/mobile_icons.png') -230px -68px;
+          }
+        }
+        &:nth-child(1) i{
+          width: 35px;
+          height: 37px;
+          background: url('../../assets/images/mobile_icons.png') -285px -123px;
+        }
+        &:nth-child(2) i{
+          width: 36px;
+          height: 36px;
+          background: url('../../assets/images/mobile_icons.png') -285px -10px;
+        }
+        &:nth-child(3) i{
+          width: 35px;
+          height: 38px;
+          background: url('../../assets/images/mobile_icons.png') -230px -10px;
+        }
       }
     } 
   }
