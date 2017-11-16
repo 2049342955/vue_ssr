@@ -1,6 +1,6 @@
 <template>
   <section class="bdcform" style="margin-bottom:20px;">
-    <p>
+    <p class="flow_p" v-if="!show">
       <span>资金用途</span>
       <span>金额（元）</span>
     </p>
@@ -64,7 +64,7 @@ export default {
 .nodata{
   width: 100%;
   text-align: center;
-  height: 100%;
+  height: 100vh;
   background:white;
 }
 .nodata img{
@@ -90,11 +90,14 @@ export default {
   .bdcform{
     width: 100%;
     background: #f5f5f9;
-    p{
+    .flow_p{
       width: 100%;
       display: flex;
       justify-content: space-between;
       padding:0 .5rem;
+      height: 2rem;
+      line-height:2rem;
+      background: white;
       color: #999999;
       font-size: 0.6rem;
       padding-bottom:.4rem;

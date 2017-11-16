@@ -22,11 +22,11 @@
                   <button class="right" @click="getBaoquan(n.id)">查看保全</button>
               </div>
           </div>
-          <div class="nodata" v-if="showImg">
-             <img :src="img" alt="">
-             <p style="text-align:center;">暂无列表信息</p>
-           </div>
           <Pager :len="len"></Pager>
+      </div>
+      <div class="nodata" v-if="showImg">
+        <img :src="img" alt="">
+        <p style="text-align:center;">暂无列表信息</p>
       </div>
       <div class="contentdetail" style="text-align:center;width:100%;height:100vh;background:white;padding:0 .5rem;box-sizing:border-box;" v-show="!showxie" v-html="contentdetail.content?contentdetail.content:'暂无内容'">
       </div>
@@ -103,6 +103,34 @@
       height: 100vh;
       background: #f4f4f4;
   }
+  .nodata{
+  width: 100%;
+  text-align: center;
+  height: 100%;
+  background:white;
+  position: fixed;
+  top:0;
+}
+.nodata img{
+  width: 130px;
+  display: block;
+  margin:0 auto;
+  margin-top: 140px;
+  margin-bottom: 20px;
+}
+.nodata p{
+  text-align: center !important;
+  width: 40% !important;
+  margin-left:30%;
+}
+.pager .pager_box{
+  border-top: 1px solid #ddd !important;
+}
+.pager{
+  padding-top: 20px;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+}
   .listall{
       width:100%;
       overflow: hidden;

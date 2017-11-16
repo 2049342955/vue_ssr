@@ -211,7 +211,7 @@
                 font-size: 36px;
                 padding-bottom: 37px;
             }
-            .content{
+            .p_content{
                 line-height: 30px;
                 margin-bottom:20px;
             }

@@ -261,4 +261,7 @@
   .mint-tab-item{
     padding:0 !important;
   }
+  .mint-tabbar{
+    background:white;
+  }
 </style>

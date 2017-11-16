@@ -63,6 +63,8 @@
     }
     .nav_box{
       padding:15px;
+      background:white;
+      margin-bottom:0.5rem;
       @include row(2,5%)
       .item{
         background: #fbfbfb;
@@ -77,7 +79,6 @@
         .item_text{
           margin-left:10px;
           h3{
-            font-weight: bold;
             font-size:0.6rem;
           }
           p{
