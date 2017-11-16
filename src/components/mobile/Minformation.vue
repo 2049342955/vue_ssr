@@ -121,9 +121,11 @@
     color:#121212;
     font-size: 0.6rem;
     text-align: center;
+    padding-top: 0.5rem;
   }
   .detail h6{
     color:#999;
+    font-size: 0.5rem;
     text-align: center;
     padding-top: 0.5rem;
   }

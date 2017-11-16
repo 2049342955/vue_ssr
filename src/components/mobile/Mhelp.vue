@@ -3,7 +3,7 @@
     <div class="issues_box" v-show="show">
       <div class="issues_listsoneone">
         <div class="item" v-for="n,k in nav" @click="fetchData(n.help_class_id,k)">
-          <p class="titleall">{{n.name}}<em>></em></p>
+          <p class="titleall">{{n.name}}<em><img src="../../assets/images/leftjian.png" style="width:0.3rem;height:0.4rem;"/></em></p>
           <div class="issues_listoneone" v-if="num===k">
             <a class="item" v-for="l,k in list" @click="detailcontent(l.id)">
               <span>{{l.title}}</span>
@@ -118,6 +118,7 @@
             line-height: 2rem;
             box-sizing: border-box;
             background: white;
+            font-size:0.6rem;
             border-bottom:1px solid #ddd;
             em{
               font-family: "宋体";
@@ -154,6 +155,7 @@
             justify-content: space-between;
             height: 1.5rem;
             padding:0 .5rem;
+            font-size:0.5rem;
           }
           &:hover{
             color:#327fff;

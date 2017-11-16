@@ -64,7 +64,6 @@
         .item_text{
           margin-left:10px;
           h3{
-            font-weight: bold;
             font-size:0.6rem;
           }
           p{
