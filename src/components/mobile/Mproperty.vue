@@ -19,7 +19,7 @@
           <h1>累积获得收益</h1>
           <p>{{computeData.total_hash}} <i>{{hashType[nowEdit]&&hashType[nowEdit].name&&hashType[nowEdit].name.toLowerCase()}}</i></p>
         </div>
-        <div class="left" style="padding-left:1rem;">
+        <div class="left" style="padding-left:0.7rem;">
           <h1>账户余额</h1>
           <p>{{computeData.balance_account}} <i>{{hashType[nowEdit]&&hashType[nowEdit].name&&hashType[nowEdit].name.toLowerCase()}}</i></p>
         </div>
@@ -33,7 +33,7 @@
       <li>
         <span>提取收益</span>
       </li>
-      <li style="border:0;">
+      <li style="border-bottom:0;">
         <span>算力收益图表</span>
       </li>
     </ul>
@@ -166,6 +166,7 @@
       width: 100%;
       display: flex;
       padding:0 .5rem;
+      padding-right: 0;
       box-sizing: border-box;
       justify-content: space-between;
       color: white;

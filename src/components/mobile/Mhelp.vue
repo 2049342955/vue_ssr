@@ -126,16 +126,20 @@
               transform: rotate(90deg);
               float:right;
             }
-            .active em{
-              transform: rotate(-90deg);
-              transform-style: 4s;
-            }
+            // .active em{
+            //   transform: rotate(-90deg);
+            //   transform-style: 4s;
+            // }
           }
           &:hover{
               color:#327fff;
           }
           &.active{
               color:#327fff;
+          }
+          &.active .titleall img{
+            transform:rotate(-180deg);
+            transition: 0.5s;
           }
         }
       }
