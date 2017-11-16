@@ -1,7 +1,17 @@
 <template>
   <div class="data_map">
     <img :src="img"/>
-    <div class="point-area" style="top:99px; left: 100px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
+    <div class="point-area" style="top: 96px; left: 720px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
+      <a class="point point-dot"></a>
+      <div class="split">
+        <h1>哈萨克斯坦算力中心节点</h1>
+        <p>1624.46 PH/s</p>
+      </div>
+      <div class="point point-10"></div>
+      <div class="point point-40"></div>
+      <div class="point point-shadow point-80"></div>
+    </div>
+    <div class="point-area" style="top: 197px; right: 230px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
       <a class="point point-dot"></a>
       <div class="split">
         <h1>云南算力中心节点</h1>
@@ -11,7 +21,7 @@
       <div class="point point-40"></div>
       <div class="point point-shadow point-80"></div>
     </div>
-    <div class="point-area" style="top: 86px; left: 530px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
+    <div class="point-area" style="top: 147px; right: 210px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
       <a class="point point-dot"></a>
       <div class="split">
         <h1>山西算力中心节点</h1>
@@ -21,47 +31,7 @@
       <div class="point point-40"></div>
       <div class="point point-shadow point-80"></div>
     </div>
-    <div class="point-area" style="top: 100px; right: 186px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
-      <a class="point point-dot"></a>
-      <div class="split">
-        <h1>亚洲算力中心节点</h1>
-        <p>1624.46 PH/s</p>
-      </div>
-      <div class="point point-10"></div>
-      <div class="point point-40"></div>
-      <div class="point point-shadow point-80"></div>
-    </div>
-    <div class="point-area" style="top: 400px; right: 86px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
-      <a class="point point-dot"></a>
-      <div class="split">
-        <h1>大洋洲算力中心节点</h1>
-        <p>1624.46 PH/s</p>
-      </div>
-      <div class="point point-10"></div>
-      <div class="point point-40"></div>
-      <div class="point point-shadow point-80"></div>
-    </div>
-    <div class="point-area" style="top:99px; left: 100px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
-      <a class="point point-dot"></a>
-      <div class="split">
-        <h1>加拿大力中心节点</h1>
-        <p>1624.46 PH/s</p>
-      </div>
-      <div class="point point-10"></div>
-      <div class="point point-40"></div>
-      <div class="point point-shadow point-80"></div>
-    </div>
-    <div class="point-area" style="top:99px; left: 100px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
-      <a class="point point-dot"></a>
-      <div class="split">
-        <h1>俄罗斯力中心节点</h1>
-        <p>1624.46 PH/s</p>
-      </div>
-      <div class="point point-10"></div>
-      <div class="point point-40"></div>
-      <div class="point point-shadow point-80"></div>
-    </div>
-    <div class="point-area" style="top:99px; left: 100px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
+    <div class="point-area" style="top: 137px; right: 280px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
       <a class="point point-dot"></a>
       <div class="split">
         <h1>新疆算力中心节点</h1>
@@ -71,10 +41,30 @@
       <div class="point point-40"></div>
       <div class="point point-shadow point-80"></div>
     </div>
-    <div class="point-area" style="top:99px; left: 100px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
+    <div class="point-area" style="top: 47px; right: 220px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
       <a class="point point-dot"></a>
       <div class="split">
-        <h1>云南算力中心节点</h1>
+        <h1>俄罗斯算力中心节点</h1>
+        <p>1624.46 PH/s</p>
+      </div>
+      <div class="point point-10"></div>
+      <div class="point point-40"></div>
+      <div class="point point-shadow point-80"></div>
+    </div>
+    <div class="point-area" style="top: 130px;left: 166px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
+      <a class="point point-dot"></a>
+      <div class="split">
+        <h1>美国算力中心节点</h1>
+        <p>1624.46 PH/s</p>
+      </div>
+      <div class="point point-10"></div>
+      <div class="point point-40"></div>
+      <div class="point point-shadow point-80"></div>
+    </div>
+    <div class="point-area" style="top:79px; left: 130px; position: absolute; width: 110px; height: 110px; visibility: visible; opacity: 1;">
+      <a class="point point-dot"></a>
+      <div class="split">
+        <h1>加拿大算力中心节点</h1>
         <p>1624.46 PH/s</p>
       </div>
       <div class="point point-10"></div>
