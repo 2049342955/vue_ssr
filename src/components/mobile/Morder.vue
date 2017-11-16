@@ -25,7 +25,7 @@
           <Pager :len="len"></Pager>
       </div>
       <div class="nodata" v-if="showImg">
-        <img :src="img" alt="">
+        <div class="nodata_img"></div>
         <p style="text-align:center;">暂无列表信息</p>
       </div>
       <div class="contentdetail" style="text-align:center;width:100%;height:100vh;background:white;padding:0 .5rem;box-sizing:border-box;" v-show="!showxie" v-html="contentdetail.content?contentdetail.content:'暂无内容'">
@@ -48,7 +48,6 @@
         now: 1,
         len: 0,
         showImg: false,
-        img: require('@/assets/images/no_data.jpg'),
         showxie: true,
         contentdetail: ''
       }

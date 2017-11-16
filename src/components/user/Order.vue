@@ -119,7 +119,7 @@
           </tr>
         </table>
         <div class="nodata" v-if="showImg">
-          <img :src="img" alt="">
+          <div class="nodata_img"></div>
           <p>暂无列表信息</p>
         </div>
         <Pager :len="len"></Pager>
@@ -167,7 +167,6 @@
         len: 0,
         now: 1,
         fee: 0,
-        img: require('@/assets/images/no_data.jpg'),
         showImg: false,
         show: false
       }

@@ -104,7 +104,7 @@ api.line = () => {
 }
 api.countDown = () => {
   var t = 60
-  var ele = document.querySelector('count_btn')
+  var ele = document.querySelector('.count_btn')
   var tt = setInterval(() => {
     if (t === 0) {
       ele.innerHTML = '重新获取'
@@ -118,7 +118,7 @@ api.countDown = () => {
 }
 api.checkFrom = (form, obj, ismobile) => {
   var result = api.validityForm(form, obj, ismobile)
-  if (result !== 1 && result !== 2) {
+  if (!result.status) {
     return result
   }
 }
@@ -165,7 +165,7 @@ api.checkFiled = (ele, form) => {
   if (!(ele.checkValidity ? ele.checkValidity() : api.check(ele.pattern || ele.getAttribute('pattern'), ele.value))) {
     api.setTips(ele, 'invalid')
     return false
-  } else if ((ele.name === 'imgCode' && ele.value.toLowerCase() !== localStorage.getItem('code').toLowerCase()) || (ele.name === 'password1' && ele.value !== form.password.value) || (ele.name === 'trade_password1' && ele.value !== form.trade_password.value)) {
+  } else if ((ele.name === 'imgCode' && ele.value && (ele.value.toLowerCase() !== localStorage.getItem('code').toLowerCase())) || (ele.name === 'password1' && ele.value !== form.password.value) || (ele.name === 'trade_password1' && ele.value !== form.trade_password.value)) {
     api.setTips(ele, 'error')
     return false
   } else {

@@ -107,14 +107,13 @@
       },
       getCode () {
         var form = document.querySelector('.form')
-        var ele = document.querySelector('count_btn')
+        var ele = document.querySelector('.count_btn')
         var telEle = form.dep_tel || form.mobile
         var isTel = api.checkCode(telEle)
         if (isTel) {
           telEle.focus()
           return false
         }
-        if (!api.checkCode(form.dep_tel || form.mobile)) return false
         if (ele.getAttribute('disabled') === 'true') return false
         util.post('send_code', {sign: api.serialize({token: this.token, mobile: form.dep_tel ? form.dep_tel.value : form.mobile.value})}).then(res => {
           api.setTips(form.code, 'success')

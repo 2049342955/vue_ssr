@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="nodata" v-if="$parent.show">
-          <img :src="img" alt="">
+          <div class="nodata_img"></div>
           <p>即将上线，敬请期待</p>
         </div>
       </div>
@@ -72,7 +72,6 @@
     },
     data () {
       return {
-        img: require('@/assets/images/nodata.jpg'),
         str: {4: '预热', 5: '预售'}
       }
     },
@@ -182,8 +181,11 @@
         min-height:500px;
         padding-top:100px;
         text-align: center;
-        img{
-          width:305px
+        .nodata_img{
+          display: inline-block;
+          width: 305px;
+          height: 234px;
+          background: url('../../assets/images/css_sprites.png') -10px -10px;
         }
         p{
           color:$light_black;

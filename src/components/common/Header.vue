@@ -200,7 +200,7 @@
         background: rgba(0,0,0,.8);
       }
       .box .logo{
-        background: url('../../assets/images/logo.png');
+        background: url('../../assets/images/css_sprites.png') -10px -364px;
       }
       a{
         color:$white
@@ -212,7 +212,7 @@
     &.frame_header{
       .box{
         .logo{
-          background: url('../../assets/images/logo2.png');
+          background: url('../../assets/images/css_sprites.png') -170px -364px;
         }
         nav .item{
           a{
@@ -245,7 +245,7 @@
     &.web_box{
       background: #242528;
       .box .logo{
-        background: url('../../assets/images/logo.png');
+        background: url('../../assets/images/css_sprites.png') -10px -364px;
       }
       .box nav .item a,.box .side_nav a,.box .side_nav a.tel{
         color:#fff

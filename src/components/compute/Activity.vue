@@ -74,7 +74,9 @@
         <span class="select_accept">{{tips}}</span>
       </label>
       <img src="../../assets/images/data.png" class="imagesall"/>
-      <img src="../../assets/images/logo.png" class="logo"/>
+      <div class="logo">
+        <div class="logo_img"></div>
+      </div>
       <p class="tel">咨询电话： 0571-28031736</p>
     </div>
     <!-- <List></List> -->
@@ -553,9 +555,14 @@
         margin-top: 2rem;
       }
       .logo{
-        width: 30%;
-        margin-left: 35%;
-        margin-top: 1.5rem;
+        text-align: center;
+        margin-top:20px;
+        .logo_img{
+          display: inline-block;
+          width:140px;
+          height:29px;
+          background: url('../../assets/images/css_sprites.png') -10px -364px;
+        }
       }
       .tel{
         width: 100%;

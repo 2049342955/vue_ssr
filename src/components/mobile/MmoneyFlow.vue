@@ -15,7 +15,7 @@
       <Pager :len="len"></Pager>
     </ul>
     <div class="nodata" v-if="show">
-      <img :src="img" alt="">
+      <div class="nodata_img"></div>
       <p>暂无列表信息</p>
     </div>
   </section>
@@ -32,7 +32,6 @@ export default {
   data () {
     return {
       show: false,
-      img: require('@/assets/images/no_data.jpg'),
       now: 1,
       len: 0,
       list: []

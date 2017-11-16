@@ -906,8 +906,11 @@
       text-align: center;
       min-height:300px;
       margin-top:20px;
-      img{
-        width:234px
+      .nodata_img{
+        display: inline-block;
+        width: 234px;
+        height: 215px;
+        background: url('../../assets/images/css_sprites.png') -335px -10px;
       }
       p{
         color:$light_black;

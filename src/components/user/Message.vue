@@ -11,7 +11,7 @@
       <Pager :len="len"></Pager>
     </div>
     <div class="nodata" v-if="show">
-      <img :src="img" alt="">
+      <div class="nodata_img"></div>
       <p>暂无列表信息</p>
     </div>
   </section>
@@ -33,7 +33,6 @@
         leftSibling: 0,
         rightSibling: 0,
         len: 0,
-        img: require('@/assets/images/no_data.jpg'),
         show: false
       }
     },

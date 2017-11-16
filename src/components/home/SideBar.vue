@@ -120,11 +120,10 @@
         }
         .qq{
           display: block;
-          background: url('../../assets/images/css_sprites.png') -110px -10px;
+          background: url('../../assets/images/css_sprites.png') -110px -264px;
         }
         .wechat{
-          background: url('../../assets/images/qrcode.jpg');
-          background-size: 100% 100%;
+          background: url('../../assets/images/css_sprites.png') -10px -264px;
         }
       }
       &:hover{

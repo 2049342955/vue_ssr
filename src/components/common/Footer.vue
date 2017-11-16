@@ -24,7 +24,7 @@
               <div class="copyright_img"></div>
               <div class="copyright_text">
                 <span>Copyright © 2013-2017 Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. 浙江数秦科技有限公司 版权所有 </span>
-                <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602008747" target="_blank"><br><img :src="require('@/assets/images/copyright.png')" alt="" style="width:20px"> 浙公网安备 33010602008747号</a>
+                <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602008747" target="_blank"><br><span class="copyright_icon"></span> 浙公网安备 33010602008747号</a>
               </div>
             </div>
           </aside>
@@ -123,13 +123,20 @@
                 width: 92px;
                 height: 35px;
                 border-radius:5px;
-                background: url('../../assets/images/css_sprites.png') -152px -168px;
+                background: url('../../assets/images/css_sprites.png') -10px -413px;
               }
               .copyright_text{
                 width: 360px;
                 margin-left:20px;
                 font-size: 12px;
                 line-height: 1.6;
+                .copyright_icon{
+                  display: inline-block;
+                  width:20px;
+                  height:20px;
+                  background: url('../../assets/images/css_sprites.png') -534px -264px;
+                  vertical-align: bottom;
+                }
               }
             }
             .help_support{
@@ -167,7 +174,7 @@
               .qrcode{
                 width: 80px;
                 height: 80px;
-                background: url('../../assets/images/css_sprites.png') -10px -10px;
+                background: url('../../assets/images/css_sprites.png') -10px -264px;
               }
             }
             .active{

@@ -80,23 +80,23 @@ input::-webkit-input-placeholder {
 // 币种
   .icon_currency{
     @include block(18)
-    &.ETH,&.LTC{
+    &.ETC,&.LTC{
       @include block(20)
     }
     &.BTC{
-      background: url('./assets/images/css_sprites.png') -160px -110px;
+      background: url('./assets/images/css_sprites.png') -326px -321px;
     }
     &.BCC{
-      background: url('./assets/images/css_sprites.png') -264px -168px;
+      background: url('./assets/images/css_sprites.png') -250px -321px;
     }
     &.ETH{
-      background: url('./assets/images/css_sprites.png') -250px -125px;
+      background: url('./assets/images/css_sprites.png') -288px -321px;
     }
     &.ETC{
-      background: url('./assets/images/css_sprites.png') -290px -125px;
+      background: url('./assets/images/css_sprites.png') -494px -264px;
     }
     &.LTC{
-      background: url('./assets/images/css_sprites.png') -210px -125px;
+      background: url('./assets/images/css_sprites.png') -210px -321px;
     }
   }
 // 提示
