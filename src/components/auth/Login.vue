@@ -24,6 +24,7 @@
 </template>
 
 <script>
+  import { Toast } from 'mint-ui'
   import util from '@/util/index'
   import api from '@/util/function'
   import FormField from '@/components/common/FormField'
@@ -41,7 +42,7 @@
     methods: {
       login () {
         var form = document.querySelector('.form')
-        var data = api.checkFrom(form)
+        var data = api.checkFrom(form, this, api.checkEquipment())
         if (!data) return false
         var self = this
         form.btn.setAttribute('disabled', true)
@@ -62,6 +63,13 @@
           }, form.btn)
         }).catch(res => {
           api.tips('您的网络情况不太好，请稍后再尝试')
+        })
+      },
+      myToast (str) {
+        Toast({
+          message: str,
+          position: 'middle',
+          duration: 3000
         })
       }
     },

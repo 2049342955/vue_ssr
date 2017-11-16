@@ -104,6 +104,7 @@ api.line = () => {
 }
 api.checkFrom = (form, obj, ismobile) => {
   var data = {}
+  var icon = true
   for (var i = 0; i <= form.length - 2; i++) {
     if (form[i].value) {
       if (api.checkFiled(form[i], form)) {
@@ -116,6 +117,7 @@ api.checkFrom = (form, obj, ismobile) => {
         if (ismobile) {
           obj.myToast(form[i].title)
         }
+        icon = false
         break
       }
     } else {
@@ -123,10 +125,13 @@ api.checkFrom = (form, obj, ismobile) => {
         obj.myToast(form[i].placeholder)
       }
       api.setTips(form[i], 'null')
+      icon = false
       break
     }
   }
-  return data
+  if (icon) {
+    return data
+  }
 }
 api.checkOne = (form, obj) => {
   var data = {}

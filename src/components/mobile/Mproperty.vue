@@ -122,13 +122,15 @@
       justify-content: space-between;
       padding-top: 0.5rem;
       color: white;
+      .left h1{
+        font-size: 0.6rem;
+      }
       .left p{
-         margin-top: 0.15rem;
-         font-size: 0.7rem;
+         font-size: 0.8rem;
       }
       .left i{
         font-weight: 100;
-        font-size: 0.5rem;
+        font-size: 0.6rem;
       }
       .right{
         width: 3.3rem;
@@ -143,9 +145,10 @@
         @include position(15,auto,auto,15)
         .now_hash{
           padding:0 5px;
+          font-size: 0.6rem;
           span{
             @include triangle(bottom)
-            margin-left:10px
+            margin-left:10px;
           }
         }
         .other{
@@ -154,7 +157,7 @@
           color:#eee;
           line-height: 1.8;
           .item{
-
+            font-size: 0.6rem;
           }
         }
       }
@@ -165,19 +168,20 @@
       padding:0 .5rem;
       box-sizing: border-box;
       justify-content: space-between;
-      padding-top: 0.5rem;
       color: white;
-      margin-top: 0.8rem;
+      margin-top: 0.7rem;
       .left{
         width: 50%;
       }
+      .left h1{
+        font-size: 0.6rem;
+      }
       .left p{
-         margin-top: 0.15rem;
-         font-size: 0.7rem;
+         font-size: 0.8rem;
       }
       .left i{
         font-weight: 100;
-        font-size: 0.5rem;
+        font-size: 0.6rem;
       }
     }
   }
@@ -188,6 +192,7 @@
       background:white;
       padding:0 .5rem;
       box-sizing: border-box;
+      margin-bottom: 60px;
       li{
         width: 100%;
         display: flex;
@@ -201,6 +206,7 @@
         }
         i{
           color: #999999;
+          font-size: 0.5rem;
         }
       }
   }

@@ -51,18 +51,19 @@
           trade: [{name: 'mobile', type: 'text', title: '手机号码', edit: 'mobile'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}, {name: 'trade_password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: 'telCode'}, {name: 'trade_password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: 'telCode', error: '两次密码不一致'}]
         },
         showModal: false,
-        edit: -1
+        edit: -1,
+        card_type: '中国大陆身份证'
       }
     },
     methods: {
       setInfo (k, s) {
-        if (k === 'tel' || (k === 'auth' && s === 1)) return false
+        if (k === 'tel' || (k === 'auth' && s)) return false
         this.showModal = true
         this.edit = k
       },
       submit () {
         var form = document.querySelector('.form')
-        var data = api.checkFrom(form)
+        var data = api.checkFrom(form, this, api.checkEquipment())
         var url = ''
         var callbackUrl = ''
         var val = ''
@@ -107,12 +108,12 @@
         var self = this
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.toast(tipsStr)
+            self.myToast(tipsStr)
             if (self.edit === 'auth' || self.edit === 'card') {
               self.$store.commit('SET_INFO', {[val]: {status: 0}})
               setTimeout(() => {
                 self.requestData(callbackUrl, sendData, val, () => {
-                  self.toast(tipsStr2)
+                  self.myToast(tipsStr2)
                 })
               }, 7000)
             } else if (self.edit === 'address') {
@@ -135,7 +136,7 @@
           })
         })
       },
-      toast (str) {
+      myToast (str) {
         Toast({
           message: str,
           position: 'middle',

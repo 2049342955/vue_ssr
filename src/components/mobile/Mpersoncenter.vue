@@ -6,7 +6,7 @@
           <div class="img"><img src="../../assets/images/jie.png"/></div>
           <div class="cen">
              <h4>{{mobile|format}}</h4>
-             <p>欢迎来到算力网</p>
+             <p>欢迎来到算力网 !</p>
           </div>
           <div class="right"></div>
        </div>
@@ -53,6 +53,7 @@
       </router-link>
     </div>
     <button @click="logout">退出</button>
+    <div class="null"></div>
   </div>
 </template>
 
@@ -134,9 +135,9 @@
           }
         }
         .cen{
-          margin-top: 1.35rem;
+          margin-top: 1.5rem;
           position: relative;
-          left:-2rem;
+          left:-2.2rem;
           h4{
             color: white;
             font-size: 0.7rem;
@@ -185,10 +186,10 @@
           width: 90%;
           font-size: 0.6rem;
           img{
-            width: 0.8rem;
-            margin-right: 1rem;
+            width: 0.65rem;
+            margin-right: 0.5rem;
             position: relative;
-            top: -0.6rem;
+            top: -0.71rem;
           }
         }
         .leftjian{
@@ -205,8 +206,15 @@
       background:white;
       color:#999;
       border:0;
+      box-sizing: border-box;
       margin-top: 0.5rem;
       font-size: 0.7rem;
+    }
+    .null{
+      width: 100%;
+      height: 2rem;
+      background:#f4f4f4;
+      margin-bottom: 15px;
     }
   }
 </style>

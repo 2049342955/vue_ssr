@@ -141,6 +141,7 @@
       openContract (n, mobile) {
         this.isMobile = mobile
         this.openMask(mobile, n)
+        document.body.style.overflow = 'hidden'
         console.log(n, n === 3)
         if (n === 1) {
           this.contract = this.content
@@ -205,11 +206,11 @@
         })
       },
       closeEdit (mobile) {
+        // document.body.style.overflow = 'auto'
         if (mobile) {
           this.mobileEdit = false
         } else {
           this.edit = ''
-          document.body.style.overflow = 'auto'
         }
       },
       check (ele, str) {
@@ -230,6 +231,7 @@
       submit () {
         var form = document.querySelector('.form_content') || document.querySelector('.form')
         var data = api.checkFrom(form, this, this.isMobile)
+        if (!data) return false
         var sendData = {token: this.token, user_id: this.user_id}
         if (this.nowForm === 'address') {
           this.addressData = data
@@ -239,7 +241,6 @@
           var val = 'true_name'
           var tipsStr = '实名认证已提交，请您耐心等待几秒即可看到认证结果'
           var tipsStr2 = '恭喜您实名认证成功，请填写收货地址'
-          if (!data) return false
           var self = this
           util.post('user_truename', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
             api.checkAjax(self, res, () => {
@@ -277,12 +278,12 @@
         }
       },
       openMask (mobile, n) {
+        window.scroll(0, 0)
+        // document.body.style.overflow = 'hidden'
         if (mobile) {
           this.mobileEdit = true
         } else {
           window.scroll(0, 0)
-          document.body.style.overflow = 'hidden'
-          this.edit = n
         }
       },
       myToast (str) {
@@ -609,7 +610,7 @@
     }
     .mint-popup{
       width:100vw;
-      max-height:90vh;
+      max-height:80vh;
       overflow:auto;
       padding:15px;
       .form{
