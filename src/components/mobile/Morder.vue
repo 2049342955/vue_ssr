@@ -1,5 +1,18 @@
 <template>
   <div class="order" style="margin-bottom:60px;">
+      <div class="typeclass">
+        <div class="one">
+          <div class="hash active" @click="hashcli">云矿机<span class="active"></span></div>
+          <div class="other_hash" v-show="showtype">
+            <div class="hash_center">
+              <div  class="item" v-for="n,k in hashType"><span>{{n.unit}}</span><span class="yes">√</span></div>
+            </div>
+          </div>
+        </div>
+        <router-link class="one" :to="'/mobile/order/'+ k" v-for="n,k in statustype">
+          {{n.title}}
+        </router-link>
+      </div>
       <div class="listall" v-show="showxie">
           <div class="item" v-for="n,k in lists">
               <p class="top"><span>{{n.miner&&n.miner.name}}</span><em>{{n.created_time}}</em></p>
@@ -8,7 +21,7 @@
                       <h4 style="color:#ff721f;">{{n.pay_value}}<em> 元</em></h4>
                       <p>购买金额</p>
                   </div>
-                  <div class="listone">
+                  <div class="listone" style="border-left:1px solid #ddd;border-right:1px solid #ddd;">
                       <h4>{{+n.buy_amount * (+n.miner.hash)}}<em> T</em></h4>
                       <p>总算力</p>
                   </div>
@@ -17,10 +30,10 @@
                       <p>购买数量</p>
                   </div>
               </div>
-              <div class="orderbutton">
+              <!-- <div class="orderbutton">
                   <button class="left" @click="clickdetail(n.id)">查看协议</button>
                   <button class="right" @click="getBaoquan(n.id)">查看保全</button>
-              </div>
+              </div> -->
           </div>
           <Pager :len="len"></Pager>
       </div>
@@ -47,33 +60,39 @@
         lists: [],
         now: 1,
         len: 0,
+        hashType: [{unit: '云矿机'}, {unit: '算力'}, {unit: '基金'}, {unit: '矿机'}],
+        statustype: [{title: '已购买'}, {title: '进行中'}, {title: '已售出'}, {title: '已结束'}],
         showImg: false,
         showxie: true,
-        contentdetail: ''
+        contentdetail: '',
+        showtype: false
       }
     },
     methods: {
-      clickdetail (id) {
-        var self = this
-        this.showxie = false
-        var useid = id
-        util.post('miner_contract', {sign: api.serialize({token: this.token, user_id: this.user_id, order_id: useid})}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            self.contentdetail = res.miner_res
-          })
-        })
-      },
-      getBaoquan (id) {
-        var useid = id
-        var data = {token: this.token, order_id: useid, security_hash_type: 3, user_id: this.user_id}
-        var self = this
-        var newTab = window.open('about:blank')
-        util.post('getBaoquan', {sign: api.serialize(data)}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            newTab.location.href = 'https://www.baoquan.com/attestations/' + res
-          })
-        })
+      hashcli () {
+        this.showtype = !this.showtype
       }
+      // clickdetail (id) {
+      //   var self = this
+      //   this.showxie = false
+      //   var useid = id
+      //   util.post('miner_contract', {sign: api.serialize({token: this.token, user_id: this.user_id, order_id: useid})}).then(function (res) {
+      //     api.checkAjax(self, res, () => {
+      //       self.contentdetail = res.miner_res
+      //     })
+      //   })
+      // },
+      // getBaoquan (id) {
+      //   var useid = id
+      //   var data = {token: this.token, order_id: useid, security_hash_type: 3, user_id: this.user_id}
+      //   var self = this
+      //   var newTab = window.open('about:blank')
+      //   util.post('getBaoquan', {sign: api.serialize(data)}).then(function (res) {
+      //     api.checkAjax(self, res, () => {
+      //       newTab.location.href = 'https://www.baoquan.com/attestations/' + res
+      //     })
+      //   })
+      // }
     },
     mounted () {
       var self = this
@@ -97,10 +116,66 @@
 </script>
 
 <style lang="scss">
+@import '../../assets/css/style.scss';
   .order{
       width: 100%;
       height: 100vh;
       background: #f4f4f4;
+      .typeclass{
+        width: 100%;
+        height: 2rem;
+        line-height: 2rem;
+        background: white;
+        display: flex;
+        justify-content: space-between;
+        border-bottom:1px solid #ddd;
+        .one{
+          width: 20%;
+          text-align:center;
+          .hash{
+            span{
+               @include triangle(bottom)
+               border-top: 7px solid black;
+               margin-left:10px;
+               position: relative;
+               top:-2px;
+               &.active{
+                 border-top: 7px solid #327fff;
+               }
+            }
+          }
+          .other_hash{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top:2rem;
+            background:rgba(0,0,0,.3);
+            .hash_center{
+              width: 100%;
+              overflow: hidden;
+              background: white;
+              text-align: left;
+              padding-left:0.5rem;
+              line-height: 1.5rem;
+              .item{
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                padding-right: 0.5rem;
+                .yes{
+                  display:none;
+                }
+              }
+              &:hover,&.router-link-active{
+                color: #327fff;
+              }
+            }
+          }
+          .active{
+            color: #327fff;
+          }
+        }
+      }
   }
   .mnodata{
   width: 100%;
@@ -168,7 +243,6 @@
               display: flex;
               justify-content: space-between;
               padding:0.8rem 0;
-              border-bottom: 1px solid #ddd;
               .listone{
                   width: 33.3%;
                   text-align: center;
