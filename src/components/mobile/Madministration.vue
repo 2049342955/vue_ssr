@@ -30,6 +30,7 @@
     </mt-popup>
   </section>
 </template>
+
 <script>
   import { Toast } from 'mint-ui'
   import util from '@/util'
@@ -65,7 +66,7 @@
       },
       submit () {
         var form = document.querySelector('.form')
-        var data = api.checkFrom(form, this, api.checkEquipment())
+        var data = api.checkFrom(form, this, true)
         var url = ''
         var callbackUrl = ''
         var val = ''
@@ -166,11 +167,9 @@
     }
   }
 </script>
+
 <style lang="scss">
   @import '../../assets/css/style.scss';
-  .mobile_header{
-    margin-bottom:0;
-  }
   .admin{
     width: 100%;
     height: 100%;
