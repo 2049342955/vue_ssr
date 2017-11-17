@@ -9,7 +9,7 @@
             </div>
           </div>
         </div>
-        <router-link class="one" :to="'/mobile/order/'+ k" v-for="n,k in statustype">
+        <router-link class="one active" :to="'/mobile/order/'+ k" v-for="n,k in statustype">
           {{n.title}}
         </router-link>
       </div>
@@ -132,6 +132,9 @@
         .one{
           width: 20%;
           text-align:center;
+          &:hover,&.router-link-active{
+            color: #327fff;
+          }
           .hash{
             span{
                @include triangle(bottom)
@@ -165,9 +168,6 @@
                 .yes{
                   display:none;
                 }
-              }
-              &:hover,&.router-link-active{
-                color: #327fff;
               }
             }
           }
