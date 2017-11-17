@@ -4,16 +4,16 @@
       <span>资金用途</span>
       <span>金额（元）</span>
     </p>
-    <ul>
-      <li v-for="n, k in list">
+    <div class="moneyflow">
+      <div v-for="n, k in list" class="monrylist">
         <span class="left">
           <i>{{n.type_name}}</i>
           <em>{{n.create_time}}</em>
         </span>
         <span :class="['right', {active: n.value<=0}]">{{n.value}}</span>
-      </li>
+      </div>
       <Pager :len="len"></Pager>
-    </ul>
+    </div>
     <div class="mnodata" v-if="show">
       <div class="nodata_img"></div>
       <p>暂无列表信息</p>
@@ -111,12 +111,12 @@ export default {
       padding-bottom:.4rem;
       box-sizing: border-box;
     }
-    ul{
+    .moneyflow{
       width: 100%;
       overflow: hidden;
       background: white;
       
-      li{
+      .monrylist{
         width: 100%;
         height: 100%;
         padding:0 .5rem;

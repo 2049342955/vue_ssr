@@ -1,6 +1,6 @@
 <template>
   <section class="issues">
-    <div class="issues_box" v-show="show">
+    <div class="issues_boxleft" v-show="show">
       <div class="issues_listsoneone">
         <div class="item" v-for="n,k in nav" @click="fetchData(n.help_class_id,k)">
           <p class="titleall">{{n.name}}<em><img src="../../assets/images/leftjian.png" style="width:0.3rem;height:0.4rem;"/></em></p>
@@ -97,7 +97,7 @@
               text-indent:0rem !important;
             }
           }
-    .issues_box{
+   .issues_boxleft{
       background: #f5f5f9;
       width: 100%;
       height: 100vh;
