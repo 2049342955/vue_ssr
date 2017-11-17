@@ -12,8 +12,14 @@
        </div>
     </div>
     <div class="price">
-      <p>账户余额 (元)</p>
-      <h4>{{balance_account|decimal}}</h4>
+      <div class="left">
+        <p>账户余额 (元)</p>
+        <h4>{{balance_account|decimal}}</h4>
+      </div>
+      <div class="right">
+        <button style="background:#26a2ff;">充 值</button>
+        <button>提 现</button>
+      </div>
     </div>
     <div class="alllist">
       <router-link to="/mobile/administration" class="route" style="margin-bottom:0.5rem;border-bottom:0;">
@@ -44,10 +50,17 @@
         </span>
         <img src="../../assets/images/leftjian.png" class="leftjian"/>
       </router-link>
-      <router-link to="/mobile/news" class="route" style="border-bottom:0;">
+      <router-link to="/mobile/news" class="route">
         <span class="left">
           <img src="../../assets/images/xiao.png"/>
           消息中心
+        </span>
+        <img src="../../assets/images/leftjian.png" class="leftjian"/>
+      </router-link>
+      <router-link to="/mobile/message" class="route" style="border-bottom:0;">
+        <span class="left">
+          <img src="../../assets/images/message.jpg"/>
+          意见反馈
         </span>
         <img src="../../assets/images/leftjian.png" class="leftjian"/>
       </router-link>
@@ -159,8 +172,12 @@
       height: 3rem;
       background:white;
       border-bottom: 1px solid #ddd;
-      padding:0.5rem;
       font-size: 0.6rem;
+      display: flex;
+      justify-content: space-between;
+      .left{
+        padding:0.5rem;
+      }
       p{
         color: #999;
       }
@@ -168,6 +185,23 @@
         color: #ff721f;
         font-size: .9rem;
         font-weight: 900;
+      }
+      .right{
+        width:50%;
+        display: flex;
+        justify-content: space-between;
+        padding:0.5rem;
+        padding-left:0;
+        padding-top:0.2rem;
+        button{
+          display:inline-block;
+          width:3rem;
+          height:1.5rem;
+          line-height: 1.5rem;
+          background:red;
+          color:white;
+          font-size:0.6rem;
+        }
       }
     }
     .alllist{
@@ -214,7 +248,7 @@
       width: 100%;
       height: 2rem;
       background:#f4f4f4;
-      margin-bottom: 15px;
+      margin-bottom: 35px;
     }
   }
 </style>
