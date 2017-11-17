@@ -1,5 +1,5 @@
 <template>
-  <section class="bdcform">
+  <section class="mpropery">
     <div class="property">
       <img src="../../assets/images/beaut.png" style="width:100%;position:absolute;"/>
       <div class="property_top">
@@ -30,21 +30,37 @@
         <span>{{d[0]}}</span>
         <i>{{dataProperty[k]}}{{d[1]}}</i>
       </li>
-      <li>
+      <li @click="openMask(1)">
         <span>提取收益</span>
       </li>
-      <li style="border-bottom:0;">
+      <li @click="openMask(2)" style="border-bottom:0;">
         <span>算力收益图表</span>
       </li>
     </ul>
+    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false">
+      <div class="close" @click="closeEdit()">
+        <span class="icon"></span>
+      </div>
+      <form class="form" @submit="submit" novalidate v-if="edit===1">
+        <FormField :form="GetIncome"></FormField>
+        <button name="btn">提交</button>
+      </form>
+      <div class="popup_chart" v-if="edit===2">fgngn</div>
+    </mt-popup>
   </section>
 </template>
 
 <script>
   import util from '@/util'
   import api from '@/util/function'
+  import { Toast } from 'mint-ui'
   import { mapState } from 'vuex'
+  import FormField from '@/components/common/FormField'
+  import md5 from 'js-md5'
   export default {
+    components: {
+      FormField
+    },
     data () {
       return {
         nowEdit: 0,
@@ -52,7 +68,9 @@
         computeProperty: {total_miner: ['已购入云矿机', '台'], total_hash: ['算力总和', 'T'], selled_miner: ['已出售云矿机', '台'], selling_miner: ['出售中云矿机', '台']},
         dataProperty: {total_miner: 0, total_hash: 0, selled_miner: 0, selling_miner: 0},
         GetIncome: [{name: 'product_hash_type', type: 'text', title: '算力类型', edit: 'hashType'}, {name: 'amount', type: 'text', title: '提取额度', placeholder: '请输入提取额度', changeEvent: true, pattern: 'coin', tipsInfo: '余额', tipsUnit: 'hash'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
-        showSelect: false
+        showSelect: false,
+        edit: 0,
+        showModal: false
       }
     },
     methods: {
@@ -77,6 +95,39 @@
             self.dataProperty = res
           })
         })
+      },
+      openMask (k) {
+        this.showModal = true
+        this.edit = k
+      },
+      submit () {
+        var form = document.querySelector('.form')
+        var data = api.checkFrom(form, this, true)
+        var sendData = {token: this.token, user_id: this.user_id}
+        if (!data) return false
+        data.trade_password = md5(data.trade_password)
+        form.btn.setAttribute('disabled', true)
+        var self = this
+        util.post('withdrawCoin', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.showModal = false
+            self.myToast('提币成功')
+          }, form.btn)
+        })
+      },
+      onChange (e) {
+        console.log(this.amount)
+        if (parseFloat(e.target.value) > parseFloat(this.amount)) {
+          e.target.value = this.amount
+        }
+        this.total_price = e.target.value
+      },
+      myToast (str) {
+        Toast({
+          message: str,
+          position: 'middle',
+          duration: 3000
+        })
       }
     },
     mounted () {
@@ -97,118 +148,113 @@
 
 <style scoped lang="scss">
   @import '../../assets/css/style.scss';
-  .bdcform{
+  .mpropery{
     background:#f5f5f9;
-  }
-  .mobile_header{
-    margin-bottom: 0;
-  }
-  select{
-    color: white;
-    width: 4rem;
-    font-size: 0.7rem;
-  }
-  .property{
-    width: 100%;
-    overflow: hidden;
-    background:white;
-    background: #327fff;
-    padding-bottom: 0.8rem;
-    .property_top{
+    .property{
       width: 100%;
-      display: flex;
-      padding:0 .5rem;
-      box-sizing: border-box;
-      justify-content: space-between;
-      padding-top: 0.5rem;
-      color: white;
-      .left h1{
-        font-size: 0.6rem;
-      }
-      .left p{
-         font-size: 0.8rem;
-      }
-      .left i{
-        font-weight: 100;
-        font-size: 0.6rem;
-      }
-      .right{
-        width: 3.3rem;
-        height: 1rem;
-        line-height: 0.9rem;
-        text-align: center;
-        border-radius: 1rem;
-        border:1px solid white;
-        margin-top: 0.6rem;
-      }
-      .mobile_select_hash{
-        @include position(15,auto,auto,15)
-        .now_hash{
-          padding:0 5px;
-          font-size: 0.6rem;
-          span{
-            @include triangle(bottom)
-            margin-left:10px;
-          }
-        }
-        .other{
-          padding:0 5px;
-          background: rgba(12, 90, 220, 0.75);
-          color:#eee;
-          line-height: 1.8;
-          .item{
-            font-size: 0.6rem;
-          }
-        }
-      }
-    }
-    .property_bottom{
-      width: 100%;
-      display: flex;
-      padding:0 .5rem;
-      padding-right: 0;
-      box-sizing: border-box;
-      justify-content: space-between;
-      color: white;
-      margin-top: 0.7rem;
-      .left{
-        width: 50%;
-      }
-      .left h1{
-        font-size: 0.6rem;
-      }
-      .left p{
-         font-size: 0.8rem;
-      }
-      .left i{
-        font-weight: 100;
-        font-size: 0.6rem;
-      }
-    }
-  }
-  ul{
-      width: 100%;
-      margin-top: 0.5rem;
       overflow: hidden;
       background:white;
-      padding:0 .5rem;
-      box-sizing: border-box;
-      margin-bottom: 60px;
-      li{
+      background: #327fff;
+      padding-bottom: 0.8rem;
+      .property_top{
         width: 100%;
         display: flex;
+        padding:0 .5rem;
+        box-sizing: border-box;
         justify-content: space-between;
-        height:2rem;
-        border-bottom:1px solid #ddd;
-        line-height: 2rem;
-        span{
-          color: #121212;
+        padding-top: 0.5rem;
+        color: white;
+        .left h1{
           font-size: 0.6rem;
         }
-        i{
-          color: #999999;
-          font-size: 0.5rem;
+        .left p{
+           font-size: 0.8rem;
+        }
+        .left i{
+          font-weight: 100;
+          font-size: 0.6rem;
+        }
+        .right{
+          width: 3.3rem;
+          height: 1rem;
+          line-height: 0.9rem;
+          text-align: center;
+          border-radius: 1rem;
+          border:1px solid white;
+          margin-top: 0.6rem;
+        }
+        .mobile_select_hash{
+          @include position(15,auto,auto,15)
+          .now_hash{
+            padding:0 5px;
+            font-size: 0.6rem;
+            span{
+              @include triangle(bottom)
+              margin-left:10px;
+            }
+          }
+          .other{
+            padding:0 5px;
+            background: rgba(12, 90, 220, 0.75);
+            color:#eee;
+            line-height: 1.8;
+            .item{
+              font-size: 0.6rem;
+            }
+          }
         }
       }
+      .property_bottom{
+        width: 100%;
+        display: flex;
+        padding:0 .5rem;
+        padding-right: 0;
+        box-sizing: border-box;
+        justify-content: space-between;
+        color: white;
+        margin-top: 0.7rem;
+        .left{
+          width: 50%;
+        }
+        .left h1{
+          font-size: 0.6rem;
+        }
+        .left p{
+           font-size: 0.8rem;
+        }
+        .left i{
+          font-weight: 100;
+          font-size: 0.6rem;
+        }
+      }
+    }
+    ul{
+        width: 100%;
+        margin-top: 0.5rem;
+        overflow: hidden;
+        background:white;
+        padding:0 .5rem;
+        box-sizing: border-box;
+        margin-bottom: 60px;
+        li{
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          height:2rem;
+          border-bottom:1px solid #ddd;
+          line-height: 2rem;
+          span{
+            color: #121212;
+            font-size: 0.6rem;
+          }
+          i{
+            color: #999999;
+            font-size: 0.5rem;
+          }
+        }
+    }
+    .mint-popup{
+      @include popup
+    }
   }
 </style>

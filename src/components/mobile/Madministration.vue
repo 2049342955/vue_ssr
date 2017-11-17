@@ -66,7 +66,7 @@
       },
       submit () {
         var form = document.querySelector('.form')
-        var data = api.checkFrom(form, this, api.checkEquipment())
+        var data = api.checkFrom(form, this, true)
         var url = ''
         var callbackUrl = ''
         var val = ''
@@ -170,9 +170,6 @@
 
 <style lang="scss">
   @import '../../assets/css/style.scss';
-  .mobile_header{
-    margin-bottom:0;
-  }
   .admin{
     width: 100%;
     height: 100%;

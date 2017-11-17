@@ -208,7 +208,6 @@
         var url = ''
         var sendData = {token: this.token, user_id: this.user_id}
         var tipsStr = ''
-        data.trade_password = md5(data.trade_password)
         switch (this.edit) {
           case 'Withdrawals':
             url = 'withdraw'
@@ -220,6 +219,7 @@
             break
         }
         if (!data) return false
+        data.trade_password = md5(data.trade_password)
         form.btn.setAttribute('disabled', true)
         var self = this
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
