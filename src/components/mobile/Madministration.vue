@@ -13,13 +13,16 @@
         <i>设置<em style="margin-left:.3rem;"><img src="../../assets/images/leftjian.png" style="width:0.3rem;height:0.4rem;margin-left:0.5rem;position:relative;top:-0.8rem;"/></em></i>
       </div>
     </div>
-    <!-- <div class="list">
+    <div class="list">
       <router-link :to="'/mobile/'+k" class="item" v-for="l,k in list2" :key="k">
         <span>{{l}}</span>
         <i><em><img src="../../assets/images/leftjian.png" style="width:0.3rem;height:0.4rem;margin-left:0.4rem;line-height:1.5rem;position:relative;top:-0.8rem;"/></em></i>
       </router-link>
-    </div> -->
-    <mt-popup position="bottom" v-model="showModal">
+    </div>
+    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false">
+      <div class="close" @click="closeEdit()">
+        <span class="icon"></span>
+      </div>
       <form class="form" @submit.prevent="submit" novalidate>
         <FormField :form="form[edit]"></FormField>
         <button name="btn">提交</button>
@@ -27,7 +30,6 @@
     </mt-popup>
   </section>
 </template>
-
 <script>
   import { Toast } from 'mint-ui'
   import util from '@/util'
@@ -42,10 +44,10 @@
     data () {
       return {
         list: [{name: 'tel', title: '用户名'}, {name: 'auth', title: '实名认证'}, {name: 'card', title: '银行卡'}, {name: 'address', title: '算力收益地址'}, {name: 'login', title: '登录密码'}, {name: 'trade', title: '交易密码'}],
-        // list2: {'message': '意见反馈'},
+        list2: {'message': '意见反馈'},
         form: {
           auth: [{name: 'truename', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'card_type', type: 'text', title: '证件类型', edit: 'card_type', isChange: true}, {name: 'idcard', type: 'text', title: '证件号码', placeholder: '请输入您的证件号码', pattern: 'idCard'}, {name: 'mobile', type: 'text', title: '手机号码', edit: 'mobile'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}],
-          card: [{name: 'card_no', type: 'text', title: '银行卡号', placeholder: '请输入银行卡号', pattern: 'bankCard', changeEvent: true}, {name: 'open_bank', type: 'text', title: '开户银行', placeholder: '请输入开户银行名称', isChange: true, edit: 'open_bank'}, {name: 'bank_branch', type: 'text', title: '开户支行', placeholder: '请输入开户支行名称', isChange: true}, {name: 'bank', type: 'select', title: '开户行地址', isChange: true}, {name: 'mobile', type: 'text', title: '银行预留手机号', placeholder: '请输入银行预留手机号', pattern: 'tel'}, {name: 'code', type: 'text', title: '手机验证码', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}],
+          card: [{name: 'card_no', type: 'text', title: '银行卡号', placeholder: '请输入银行卡号', pattern: 'bankCard', changeEvent: true}, {name: 'open_bank', type: 'text', title: '开户银行', placeholder: '根据卡号可识别，若否，请手动输入', isChange: true}, {name: 'bank_branch', type: 'text', title: '开户支行', placeholder: '请输入开户支行名称', isChange: true}, {name: 'bank', type: 'select', title: '开户行地址', isChange: true}, {name: 'mobile', type: 'text', title: '银行预留手机号', placeholder: '请输入银行预留手机号', pattern: 'tel'}, {name: 'code', type: 'text', title: '手机验证码', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}],
           address: [{name: 'product_hash_type', type: 'select', title: '算力类型', option: []}, {name: 'address', type: 'text', title: '算力地址', placeholder: '请输入对应算力地址', pattern: 'computeAddress'}, {name: 'mobile', type: 'text', title: '手机号码', edit: 'mobile'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}],
           login: [{name: 'mobile', type: 'text', title: '手机号码', edit: 'mobile'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}, {name: 'password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: 'password'}, {name: 'password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: 'password', error: '两次密码不一致'}],
           trade: [{name: 'mobile', type: 'text', title: '手机号码', edit: 'mobile'}, {name: 'code', type: 'text', title: '短信验证', placeholder: '请输入短信验证码', addon: 2, pattern: 'telCode'}, {name: 'trade_password', type: 'password', title: '设置密码', placeholder: '请输入密码', pattern: 'telCode'}, {name: 'trade_password1', type: 'password', title: '确认密码', placeholder: '请再次输入密码', pattern: 'telCode', error: '两次密码不一致'}]
@@ -142,6 +144,9 @@
           position: 'middle',
           duration: 3000
         })
+      },
+      closeEdit () {
+        this.showModal = false
       }
     },
     computed: {
@@ -161,7 +166,6 @@
     }
   }
 </script>
-
 <style lang="scss">
   @import '../../assets/css/style.scss';
   .mobile_header{
@@ -204,13 +208,7 @@
       }
     }
     .mint-popup{
-      width:100vw;
-      max-height:90vh;
-      padding:15px;
-      overflow:auto;
-      .form{
-        @include form(v)
-      }
+      @include popup
     }
   }
 </style>
