@@ -255,13 +255,13 @@
       @include mobile_show
       a{
         text-align: center;
+        height:60px;
         span{
-          position: relative;
-          top:-.25rem;
+          font-size: 0.5rem;
         }
         i{
           display: inline-block;
-          margin:10px 0;
+          margin-top:10px;
         }
         &.router-link-active{
           color: #26a2ff;

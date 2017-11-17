@@ -10,7 +10,10 @@
       </label>
       <button name="btn">注册</button>
     </form>
-    <mt-popup position="bottom" v-model="show">
+    <mt-popup position="bottom" v-model="show" :closeOnClickModal="false">
+      <div class="close" @click="closeEdit()">
+        <span class="icon"></span>
+      </div>
       <div class="agreement">
         <h2>“算力网”用户使用协议</h2>
         <div class="box_content">
@@ -199,6 +202,9 @@
           position: 'middle',
           duration: 3000
         })
+      },
+      closeEdit () {
+        this.show = false
       }
     }
   }
@@ -230,12 +236,9 @@
       }
     }
     .mint-popup{
+      width:60vw;
       .agreement{
         @include article
-        width:60vw;
-        max-height:90vh;
-        min-height: 50vh;
-        overflow:auto;
         .foot{
           font-size: 24px;
           text-align: right;
@@ -247,21 +250,19 @@
       padding:30px 15px;
       background: #fff;
       .mint-popup{
-        .agreement{
-          width:100vw;
-          .box_content{
-            padding:0 15px;
-            font-size: 0.5rem;
-            h3{
-              margin-top:10px;
-            }
-            .foot{
-              font-size: 16px;
-            }
-            .btn a{
-              padding:5px 30px;
-              font-size: 0.6rem;
-            }
+        @include popup
+        .agreement .box_content{
+          padding:0;
+          font-size: 0.5rem;
+          h3{
+            margin-top:10px;
+          }
+          .foot{
+            font-size: 16px;
+          }
+          .btn a{
+            padding:5px 30px;
+            font-size: 0.6rem;
           }
         }
       }
