@@ -304,5 +304,6 @@
   }
   .mint-tabbar{
     background:white;
+    border-top:1px solid $border
   }
 </style>

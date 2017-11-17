@@ -134,6 +134,7 @@
         }
         if (str === 'recharge') {
           this.$router.push({name: 'recharge'})
+          return false
         }
         if (str === 'GetIncome' && !this.address.length) {
           api.tips('请先绑定算力地址', () => {

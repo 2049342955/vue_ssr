@@ -30,6 +30,7 @@
     </mt-popup>
   </section>
 </template>
+
 <script>
   import { Toast } from 'mint-ui'
   import util from '@/util'
@@ -166,6 +167,7 @@
     }
   }
 </script>
+
 <style lang="scss">
   @import '../../assets/css/style.scss';
   .admin{

@@ -1,15 +1,15 @@
 <template>
   <div class="personcenter">
     <div class="person_header">
-       <img src="../../assets/images/person.png" class="bg"/> 
-       <div class="left">
-          <div class="img"><img src="../../assets/images/jie.png"/></div>
-          <div class="cen">
-             <h4>{{mobile|format}}</h4>
-             <p>欢迎来到算力网 !</p>
-          </div>
-          <div class="right"></div>
-       </div>
+      <img src="../../assets/images/person.png" class="bg"/> 
+      <div class="left">
+        <div class="img"><img src="../../assets/images/jie.png"/></div>
+        <div class="cen">
+          <h4>{{mobile|format}}</h4>
+          <p>欢迎来到算力网 !</p>
+        </div>
+        <div class="right"></div>
+      </div>
     </div>
     <div class="price">
       <div class="left">
@@ -17,8 +17,8 @@
         <h4>{{balance_account|decimal}}</h4>
       </div>
       <div class="right">
-        <button style="background:#26a2ff;">充 值</button>
-        <button>提 现</button>
+        <button style="background:#26a2ff;"  @click="openMask(1)">充 值</button>
+        <button @click="openMask(2)">提 现</button>
       </div>
     </div>
     <div class="alllist">
@@ -37,11 +37,11 @@
         <img src="../../assets/images/leftjian.png" class="leftjian"/>
       </router-link>
       <router-link to="/mobile/order" class="route">
-          <span class="left">
-              <img src="../../assets/images/ding.png"/>
-              订单管理
-          </span>
-          <img src="../../assets/images/leftjian.png" class="leftjian"/>
+        <span class="left">
+          <img src="../../assets/images/ding.png"/>
+          订单管理
+        </span>
+        <img src="../../assets/images/leftjian.png" class="leftjian"/>
       </router-link>
       <router-link to="/mobile/help" class="route">
         <span class="left">
@@ -67,23 +67,48 @@
     </div>
     <button @click="logout">退出</button>
     <div class="null"></div>
+    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false">
+      <div class="close" @click="closeEdit()">
+        <span class="icon"></span>
+      </div>
+      <form class="form" @submit.prevent="submit" novalidate>
+        <FormField :form="Withdrawals"></FormField>
+        <button name="btn">提交</button>
+      </form>
+    </mt-popup>
   </div>
 </template>
 
 <script>
+  import { Toast } from 'mint-ui'
   import util from '@/util'
   import api from '@/util/function'
   import { mapState } from 'vuex'
+  import FormField from '@/components/common/FormField'
+  import md5 from 'js-md5'
   export default {
+    components: {
+      FormField
+    },
     data () {
       return {
-        balance_account: ''
+        Withdrawals: [{name: 'amount', type: 'text', title: '提现金额', placeholder: '请输入提现金额', changeEvent: true, pattern: 'money', len: 7, tipsInfo: '余额', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
+        balance_account: '',
+        edit: 0,
+        showModal: false,
+        fee: 0,
+        total_price: 0,
+        amount: 0,
+        product_hash_type: ''
       }
     },
     computed: {
       ...mapState({
         mobile: state => state.info.mobile,
-        token: state => state.info.token
+        user_id: state => state.info.user_id,
+        token: state => state.info.token,
+        true_name: state => state.info.true_name,
+        bank_card: state => state.info.bank_card
       })
     },
     filters: {
@@ -94,6 +119,76 @@
       logout () {
         this.$router.push({name: 'mobileHome'})
         this.$store.commit('LOGOUT')
+      },
+      openMask (k) {
+        this.total_price = 0
+        if (!(this.true_name && this.true_name.status === 1)) {
+          api.tips('请先实名认证', () => {
+            this.$router.push({name: 'madministration'})
+          })
+          return false
+        }
+        if (!(this.bank_card && this.bank_card.status === 1)) {
+          api.tips('请先绑定银行卡', () => {
+            this.$router.push({name: 'madministration'})
+          })
+          return false
+        }
+        if (k === 1) {
+          this.$router.push({name: 'mrecharge'})
+          return false
+        }
+        if (k === 2) {
+          if (+this.balance_account <= 0) {
+            api.tips('您的账户余额不足，不能提现')
+            return false
+          }
+          this.showModal = true
+          var requestUrl = 'showWithdraw'
+          var data = {token: this.token, user_id: this.user_id}
+          var self = this
+          util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
+            api.checkAjax(self, res, () => {
+              self.fee = res.withdraw_fee
+              self.amount = parseInt(res.balance_account)
+            })
+          })
+        }
+      },
+      closeEdit () {
+        this.showModal = false
+        document.body.style.overflow = 'auto'
+      },
+      submit () {
+        var form = document.querySelector('.form')
+        var data = api.checkFrom(form, this, api.checkEquipment())
+        var url = 'withdraw'
+        var sendData = {token: this.token, user_id: this.user_id}
+        var tipsStr = '提现成功'
+        if (!data) return false
+        data.trade_password = md5(data.trade_password)
+        form.btn.setAttribute('disabled', true)
+        var self = this
+        util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.closeEdit()
+            self.myToast(tipsStr)
+          }, form.btn)
+        })
+      },
+      onChange (e) {
+        console.log(this.amount)
+        if (parseFloat(e.target.value) > parseFloat(this.amount)) {
+          e.target.value = this.amount
+        }
+        this.total_price = e.target.value
+      },
+      myToast (str) {
+        Toast({
+          message: str,
+          position: 'middle',
+          duration: 3000
+        })
       }
     },
     mounted () {
@@ -111,6 +206,7 @@
 </script>
 
 <style type="text/css" lang="scss">
+  @import '../../assets/css/style.scss';
   .personcenter{
     width:100%;
     height:100vh;
@@ -249,6 +345,9 @@
       height: 2rem;
       background:#f4f4f4;
       margin-bottom: 35px;
+    }
+    .mint-popup{
+      @include popup
     }
   }
 </style>

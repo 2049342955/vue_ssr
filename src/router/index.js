@@ -54,6 +54,7 @@
   import Madministration from '@/components/mobile/Madministration'
   import Mpersoncenter from '@/components/mobile/Mpersoncenter'
   import Morder from '@/components/mobile/Morder'
+  import Mrecharge from '@/components/mobile/Mrecharge'
 // use plugin
   Vue.use(Router)
 // export
@@ -335,6 +336,11 @@
         path: 'moneyFlow',
         name: 'mmoneyFlow',
         component: MmoneyFlow
+      },
+      {
+        path: 'recharge',
+        name: 'mrecharge',
+        component: Mrecharge
       }]
     }]
   })

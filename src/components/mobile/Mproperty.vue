@@ -45,7 +45,9 @@
         <FormField :form="GetIncome"></FormField>
         <button name="btn">提交</button>
       </form>
-      <div class="popup_chart" v-if="edit===2">fgngn</div>
+      <div class="popup_chart" v-if="edit===2">
+        <IncomeChart/>
+      </div>
     </mt-popup>
   </section>
 </template>
@@ -56,10 +58,11 @@
   import { Toast } from 'mint-ui'
   import { mapState } from 'vuex'
   import FormField from '@/components/common/FormField'
+  import IncomeChart from '@/components/user/IncomeChart'
   import md5 from 'js-md5'
   export default {
     components: {
-      FormField
+      FormField, IncomeChart
     },
     data () {
       return {
@@ -70,7 +73,11 @@
         GetIncome: [{name: 'product_hash_type', type: 'text', title: '算力类型', edit: 'hashType'}, {name: 'amount', type: 'text', title: '提取额度', placeholder: '请输入提取额度', changeEvent: true, pattern: 'coin', tipsInfo: '余额', tipsUnit: 'hash'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
         showSelect: false,
         edit: 0,
-        showModal: false
+        showModal: false,
+        fee: 0,
+        total_price: 0,
+        amount: 0,
+        product_hash_type: ''
       }
     },
     methods: {
@@ -97,8 +104,33 @@
         })
       },
       openMask (k) {
+        this.total_price = 0
+        if (!(this.true_name && this.true_name.status === 1)) {
+          this.myToast('请先实名认证')
+          return false
+        }
+        if (!(this.bank_card && this.bank_card.status === 1)) {
+          this.myToast('请先绑定银行卡')
+          return false
+        }
+        if (+this.computeData.balance_account <= 0) {
+          this.myToast('您的账户余额不足，不能提取收益')
+          return false
+        }
         this.showModal = true
         this.edit = k
+        if (k === 1) {
+          var requestUrl = 'showWithdrawCoin'
+          var data = {token: this.token, user_id: this.user_id, product_hash_type: this.hashType[this.nowEdit] && this.hashType[this.nowEdit].id}
+          this.product_hash_type = this.hashType[this.nowEdit].name.toUpperCase()
+          var self = this
+          util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
+            api.checkAjax(self, res, () => {
+              self.fee = res.withdraw_coin_fee
+              self.amount = res.coin_account
+            })
+          })
+        }
       },
       submit () {
         var form = document.querySelector('.form')
@@ -128,6 +160,9 @@
           position: 'middle',
           duration: 3000
         })
+      },
+      closeEdit () {
+        this.showModal = false
       }
     },
     mounted () {
@@ -140,13 +175,15 @@
       ...mapState({
         token: state => state.info.token,
         user_id: state => state.info.user_id,
-        hashType: state => state.hashType
+        hashType: state => state.hashType,
+        true_name: state => state.info.true_name,
+        bank_card: state => state.info.bank_card
       })
     }
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   @import '../../assets/css/style.scss';
   .mpropery{
     background:#f5f5f9;
