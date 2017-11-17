@@ -13,12 +13,12 @@
         <i>设置<em style="margin-left:.3rem;"><img src="../../assets/images/leftjian.png" style="width:0.3rem;height:0.4rem;margin-left:0.5rem;position:relative;top:-0.8rem;"/></em></i>
       </div>
     </div>
-    <div class="list">
+    <!-- <div class="list">
       <router-link :to="'/mobile/'+k" class="item" v-for="l,k in list2" :key="k">
         <span>{{l}}</span>
         <i><em><img src="../../assets/images/leftjian.png" style="width:0.3rem;height:0.4rem;margin-left:0.4rem;line-height:1.5rem;position:relative;top:-0.8rem;"/></em></i>
       </router-link>
-    </div>
+    </div> -->
     <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false">
       <div class="close" @click="closeEdit()">
         <span class="icon"></span>
