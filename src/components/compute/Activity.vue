@@ -84,8 +84,11 @@
       <img :src="require('@/assets/images/2.png')"/>
     </div>
     <MyMask :form="form[nowForm]" :title="title" :contract="contract" v-if="edit"></MyMask>
-    <mt-popup position="bottom" v-model="mobileEdit">
-      <div class="mobile_contract" v-if="contract" v-html="contract"></div>
+    <mt-popup position="bottom" v-model="mobileEdit" :closeOnClickModal="false">
+      <div class="close" @click="closeEdit(1)">
+        <span class="icon"></span>
+      </div>
+      <div class="agreement" v-if="contract" v-html="contract"></div>
       <form class="form" @submit.prevent="submit" novalidate v-else>
         <FormField :form="form[nowForm]"></FormField>
         <button name="btn">提交</button>
@@ -433,9 +436,10 @@
         width: 96%;
         margin-left: 2%;
         overflow: hidden;
-        background: url('../../assets/images/4.png') no-repeat;
-        background-size: 100% 100%;
+        background: linear-gradient(45deg, #7524ED 10%, #DA1FE0);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7524ED', endColorstr='#DA1FE0',GradientType=1 );
         padding:0 .3rem;
+        border-radius:10px;
         box-sizing: border-box;
         padding-bottom: 0.5rem;
         .flexone{
@@ -524,8 +528,8 @@
       .submit{
         width: 94%;
         height: 1.8rem;
-        background: url('../../assets/images/1.png');
-        background-size: 100% 100%;
+        background: linear-gradient(to right, #ffaf01 10%, #f9580d);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf01', endColorstr='#f9580d',GradientType=1 );
         margin-top: 1rem;
         margin-left: 3%;
         color:white;
@@ -614,13 +618,7 @@
       }
     }
     .mint-popup{
-      width:100vw;
-      max-height:80vh;
-      overflow:auto;
-      padding:15px;
-      .form{
-        @include form(v)
-      }
+      @include popup
     }
   }
   hr{

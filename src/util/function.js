@@ -242,7 +242,6 @@ api.btoa = (input) => {
   var enc3 = ''
   var enc4 = ''
   var i = 0
-  // input = this._utf8_encode(input)
   while (i < input.length) {
     chr1 = input.charCodeAt(i++)
     chr2 = input.charCodeAt(i++)

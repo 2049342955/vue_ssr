@@ -117,7 +117,8 @@
         .swiper_one{
           position: relative;
           height: 520px;
-          background: #0c1235 url('../assets/images/banner.jpg');
+          background: linear-gradient(to bottom, #0D1B36 10%, #264683);
+          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0D1B36', endColorstr='#264683',GradientType=0 );
           img{
             position: absolute;
             transition: all .2s;
