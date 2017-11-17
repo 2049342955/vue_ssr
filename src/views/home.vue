@@ -103,7 +103,7 @@
     },
     mounted () {
       this.goMobile()
-      window.addEventListener('resize', this.goMobile, false)
+      // window.addEventListener('resize', this.goMobile, false)
     }
   }
 </script>

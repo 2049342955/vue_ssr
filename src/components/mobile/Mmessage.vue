@@ -10,8 +10,8 @@
 </template>
 <script>
 import { Toast } from 'mint-ui'
-// import util from '@/util'
-// import api from '@/util/function'
+import util from '@/util'
+import api from '@/util/function'
 import { mapState } from 'vuex'
 export default {
   data () {
@@ -21,25 +21,28 @@ export default {
   },
   methods: {
     content () {
-      // var self = this
-      this.myToast('成功')
-      // var contenthtml = document.getElementById('textarea').value
-      // if (!contenthtml) {
-      //   document.getElementById('block').style = 'display:block'
-      //   return false
-      // } else {
-      //   document.getElementById('block').style = 'display:none'
-      //   util.post('collectAdvice', {sign: api.serialize({token: this.token, user_id: this.user_id, content: encodeURIComponent(contenthtml)})}).then(function (res) {
-      //     api.checkAjax(self, res, () => {
-      //     })
-      //   })
-      // }
+      var self = this
+      var contenthtml = document.getElementById('textarea').value
+      if (!contenthtml) {
+        document.getElementById('block').style = 'display:block'
+        return false
+      } else {
+        document.getElementById('block').style = 'display:none'
+        util.post('collectAdvice', {sign: api.serialize({token: this.token, user_id: this.user_id, content: encodeURIComponent(contenthtml)})}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.myToast('提交成功 ！')
+            setTimeout(() => {
+              self.$router.push({name: 'mpersoncenter'})
+            }, 3000)
+          })
+        })
+      }
     },
     myToast (str) {
       Toast({
         message: str,
         position: 'middle',
-        duration: 3000
+        duration: 2000
       })
     }
   },
