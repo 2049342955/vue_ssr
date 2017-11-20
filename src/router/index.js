@@ -53,9 +53,6 @@
   import Minformation from '@/components/mobile/Minformation'
   import Madministration from '@/components/mobile/Madministration'
   import Mpersoncenter from '@/components/mobile/Mpersoncenter'
-  import Morder from '@/components/mobile/Morder'
-  import MorderDetail from '@/components/mobile/MorderDetail'
-  import Mrecharge from '@/components/mobile/Mrecharge'
 // use plugin
   Vue.use(Router)
 // export
@@ -324,14 +321,14 @@
         component: Mmessage
       },
       {
-        path: 'order/:status',
+        path: 'order/:type/:status',
         name: 'morder',
-        component: Morder,
-        children: [{
-          path: 'orderDetail',
-          name: 'morderDetail',
-          component: MorderDetail
-        }]
+        component: Order
+      },
+      {
+        path: 'orderDetail/:type/:status',
+        name: 'morderDetail',
+        component: OrderDetail
       },
       {
         path: 'property',
