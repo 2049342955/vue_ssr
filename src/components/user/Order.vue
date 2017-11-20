@@ -1,12 +1,12 @@
 <template>
-  <section class="pc_order">
+  <section class="order">
     <div v-if="show" class="agreement_text">
       <div class="" v-html="contract"></div>
       <div class="btn_box">
         <button @click="back">返回</button>
       </div>
     </div>
-    <template v-else>
+    <div class="pc_box" v-else>
       <div class="order_title">
         <div class="text">
           <span class="text_title">订单管理</span>
@@ -58,8 +58,10 @@
             <th v-if="status!=3">操作</th>
           </tr>
           <tr v-for="d,k in data" :class="{active: nowEdit==0&&status==1}">
-            <td>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
-            <td v-if="nowEdit==0||status==1||status==4">{{d.total_hash|format}}T</td>
+            <td v-if="nowEdit==3">{{d.miner.name}}</i></td>
+            <td v-else>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
+            <td v-if="nowEdit!=3&&(nowEdit==0||status==1||status==4)">{{d.total_hash|format}}T</td>
+            <td v-if="nowEdit==3">{{(+d.miner.hash*+d.buy_amount)|format}}T</td>
             <template v-if="nowEdit==0&&(status==2||status==3)">
               <td>{{d.selling_amount}}台</td>
               <td>{{d.total_price}}元</td>
@@ -71,10 +73,11 @@
             </template>
             <template v-if="status==1||status==4">
               <td v-if="nowEdit!=1">{{d.buy_amount}}台</td>
-              <td>{{d.total_price}}元</td>
+              <td v-if="nowEdit!=3">{{d.total_price}}元</td>
+              <td v-else>{{d.pay_value}}元</td>
             </template>
             <td v-if="nowEdit==1&&(status==2||status==3)">{{d.transfer_time}}天</td>
-            <td v-else>{{d.create_time}}</td>
+            <td v-else>{{d.create_time||d.created_time}}</td>
             <template v-if="nowEdit==0&&(status==1||status==4)">
               <td>{{d.remain_miner}}台</td>
               <td>{{d.remain_hash|format}}T</td>
@@ -98,17 +101,12 @@
               <template v-if="nowEdit==2&&status==1">
                 <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash">出租算力</button>
               </template>
-              <router-link :to="'/user/orderDetail/'+nowEdit+'/'+d.id"  v-if="nowEdit!=2&&status!=2&&status!=3">查看详情</router-link>
+              <router-link :to="'/user/orderDetail/'+nowEdit+'/'+d.id"  v-if="nowEdit!=3&&nowEdit!=2&&status!=2&&status!=3">查看详情</router-link>
+              <template v-if="nowEdit==3">
+                <button class="sold" @click="getContract(d.id)">查看协议</button>
+                <button class="sold" @click="getBaoquan(d.id)">查看保全</button>
+              </template>
             </td>
-            <!-- <td>{{d.miner.name}}</td>
-            <td>{{+d.miner.hash*(+d.buy_amount)}}T</td>
-            <td>{{d.buy_amount}}</td>
-            <td>{{d.pay_value}}</td>
-            <td>{{d.created_time}}</td>
-            <td>
-              <button class="sold" @click="getContract(d.id)">查看协议</button>
-              <button class="sold" @click="getBaoquan(d.id)">查看保全</button>
-            </td> -->
           </tr>
         </table>
         <div class="nodata" v-if="showImg">
@@ -117,7 +115,55 @@
         </div>
         <Pager :len="len"></Pager>
       </div>
-    </template>
+    </div>
+    <div class="mobile_box" v-if="!show">
+      <div class="typeclass">
+        <div class="one">
+          <div class="hash active" @click="hashcli" v-if="scode">{{title2[nowEdit]}}<span class="active"></span></div>
+          <div class="hash active" @click="hashcli" v-else>{{title[nowEdit]}}<span class="active"></span></div>
+          <div class="other_hash" v-show="showtype">
+            <div class="hash_center" v-if="scode">
+              <router-link class="item" :to="'/mobile/order/'+k+'/1'" v-for="n,k in title2" :key="k"><span>{{n}}</span><span class="yes">√</span></router-link>
+            </div>
+            <div class="hash_center" v-else>
+              <router-link class="item" :to="'/mobile/order/'+k+'/1'" v-for="n,k in title" :key="k"><span>{{n}}</span><span class="yes">√</span></router-link>
+            </div>
+          </div>
+        </div>
+        <router-link class="one" :to="'/mobile/order/'+nowEdit+'/'+(+k+1)" :key="k" v-for="n,k in nav[nowEdit]">{{n}}</router-link>
+      </div>
+      <div class="listall">
+        <div class="item" v-for="d,k in data">
+          <p class="top" v-if="nowEdit==3"><span>{{d.miner&&d.miner.name}}</span><em>{{d.created_time}}</em></p>
+          <p class="top" v-else><span>{{d.product_name}}</span><em>{{d.create_time}}</em></p>
+          <div class="listlist">
+            <div class="listone">
+              <h4 style="color:#ff721f;" v-if="nowEdit!=3">{{d.total_price}}<em> 元</em></h4>
+              <h4 style="color:#ff721f;" v-else>{{d.pay_value}}<em> 元</em></h4>
+              <p>购买金额</p>
+            </div>
+            <div class="listone" style="border-left:1px solid #ddd;border-right:1px solid #ddd;">
+              <h4 v-if="nowEdit!=3&&(nowEdit==0||status==1||status==4)">{{d.total_hash|format}}<em> T</em></h4>
+              <h4 v-if="nowEdit==3"><em>{{+d.buy_amount * (+d.miner.hash)}} T</em></h4>
+              <p>总算力</p>
+            </div>
+            <div class="listone">
+              <h4>{{d.buy_amount}}<em> 台</em></h4>
+              <p>购买数量</p>
+            </div>
+          </div>
+          <div class="orderbutton" v-if="nowEdit==3">
+            <button class="left" @click="getContract(d.id)">查看协议</button>
+            <button class="right" @click="getBaoquan(d.id)">查看保全</button>
+          </div>
+        </div>
+        <Pager :len="len"></Pager>
+      </div>
+      <div class="mnodata" v-if="showImg">
+        <div class="nodata_img"></div>
+        <p style="text-align:center;">暂无列表信息</p>
+      </div>
+    </div>
     <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
   </section>
 </template>
@@ -161,7 +207,8 @@
         now: 1,
         fee: 0,
         showImg: false,
-        show: false
+        show: false,
+        showtype: false
       }
     },
     methods: {
@@ -170,7 +217,8 @@
         this.data = []
         this.nowEdit = this.$route.params.type
         this.status = this.$route.params.status
-        util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id, type: '3', status: this.$route.params.status, page: this.now})}).then(function (res) {
+        this.showtype = false
+        util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id, type: this.$route.params.type, status: this.$route.params.status, page: this.now})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.data = res.list
             self.showImg = !res.total_num
@@ -323,6 +371,9 @@
       },
       back () {
         this.show = false
+      },
+      hashcli () {
+        this.showtype = !this.showtype
       }
     },
     computed: {
@@ -346,7 +397,7 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  .pc_order{
+  .order{
     .agreement_text{
       padding:15px;
       .btn_box{
@@ -359,91 +410,256 @@
         }
       }
     }
-    .order_title{
-      @include gap(25,h)
-      padding-top:15px;
-      border-bottom: 1px solid $border;
-      .text{
-        @include select_list
-        margin-bottom:30px;
-      }
-      nav{
-        a{
-          @include gap(10,h)
-          display: inline-block;
-          padding-bottom:10px;
-          border-bottom: 3px solid transparent;
-          color:#6b7d90;
-          & + a{
-            margin-left:30px
-          }
-          &:hover,&.router-link-active{
-            border-color:#7e92a8
+    .pc_box{
+      .order_title{
+        @include gap(25,h)
+        padding-top:15px;
+        border-bottom: 1px solid $border;
+        .text{
+          @include select_list
+          margin-bottom:30px;
+        }
+        nav{
+          a{
+            @include gap(10,h)
+            display: inline-block;
+            padding-bottom:10px;
+            border-bottom: 3px solid transparent;
+            color:#6b7d90;
+            & + a{
+              margin-left:30px
+            }
+            &:hover,&.router-link-active{
+              border-color:#7e92a8
+            }
           }
         }
       }
+      .order_box{
+        padding:20px 25px;
+        table{
+          width: 100%;
+          text-align: center;
+          margin:0;
+          tr{
+            // line-height: 55px;
+            border-bottom:1px solid $border;
+            &:first-child{
+              background: #f7f8fa;
+              color: $light_text;
+              border-top:1px solid $border;
+              border-bottom:0;
+              th{
+                font-size: 12px;
+                font-weight: normal;
+                line-height: 50px;
+              }
+            }
+            td{
+              line-height:56px;
+              i.icon_currency{
+                vertical-align: sub;
+                margin-left:5px
+              }
+              &:last-child{
+                width:180px;
+                button,a{
+                  font-size: 12px;
+                  line-height: 28px;
+                  @include gap(8,h)
+                }
+                button{
+                  @include button($blue)
+                  margin-right:5px;
+                  &:disabled{
+                    background: #759fe4;
+                    border-color:#759fe4;
+                    cursor: no-drop;
+                  }
+                }
+                a{
+                  display: inline-block;
+                  @include button($blue,border)
+                  border-radius: 5px;
+                  .btn:not(:disabled){
+                    @include button($orange)
+                    cursor: pointer;
+                  }
+                }
+              }
+            }
+            &.active{
+              td:last-child{
+                width:245px;
+              }
+            }
+          }
+        }
+        @include nodata
+      }
+      @include mobile_hide
     }
-    .order_box{
-      padding:20px 25px;
-      table{
+    .mobile_box{
+      @include mobile_show
+      width: 100%;
+      background: #f4f4f4;
+      .typeclass{
+        width: 100%;
+        height: 2rem;
+        line-height: 2rem;
+        background: white;
+        display: flex;
+        justify-content: space-between;
+        border-bottom:1px solid #ddd;
+        .one{
+          width: 20%;
+          text-align:center;
+          .hash{
+            span{
+              @include triangle(bottom)
+              border-top: 7px solid black;
+              margin-left:10px;
+              position: relative;
+              top:-2px;
+              &.active{
+                border-top: 7px solid #327fff;
+              }
+            }
+          }
+          .other_hash{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top:2rem;
+            background:rgba(0,0,0,.3);
+            .hash_center{
+              width: 100%;
+              overflow: hidden;
+              background: white;
+              text-align: left;
+              padding-left:0.5rem;
+              line-height: 1.5rem;
+              .item{
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                padding-right: 0.5rem;
+                .yes{
+                  display:none;
+                }
+                &.router-link-active{
+                  color: #327fff;
+                  .yes{
+                    display:block;
+                  }
+                }
+              }
+            }
+          }
+          .active{
+            color: #327fff;
+          }
+        }
+        a.one.router-link-active{
+          color:#327fff
+        }
+      }
+      .mnodata{
         width: 100%;
         text-align: center;
-        margin:0;
-        tr{
-          // line-height: 55px;
-          border-bottom:1px solid $border;
-          &:first-child{
-            background: #f7f8fa;
-            color: $light_text;
-            border-top:1px solid $border;
-            border-bottom:0;
-            th{
-              font-size: 12px;
-              font-weight: normal;
-              line-height: 50px;
+        height: 100%;
+        background:white;
+        top:0;
+        .nodata_img{
+          display: inline-block;
+          width: 234px;
+          height: 215px;
+          margin-top: 100px;
+          background: url('../../assets/images/css_sprites.png') -335px -10px;
+        }
+        img{
+          width: 130px;
+          display: block;
+          margin:0 auto;
+          margin-top: 140px;
+          margin-bottom: 20px;
+        }
+        p{
+          text-align: center !important;
+          width: 40% !important;
+          margin-left:30%;
+        }
+      }
+      .listall{
+        width:100%;
+        overflow: hidden;
+        .item{
+          width: 100%;
+          overflow: hidden;
+          background:white;
+          padding:0 .5rem;
+          box-sizing: border-box;
+          margin-bottom: 0.5rem;
+          .top{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding:.4rem 0;
+            border-bottom: 1px solid #ddd;
+            span{
+              color:#121212;
+              font-size: 0.7rem;
+            }
+            em{
+              color:#999;
+              font-style: normal;
+              font-size: 0.5rem;
             }
           }
-          td{
-            line-height:56px;
-            i.icon_currency{
-              vertical-align: sub;
-              margin-left:5px
-            }
-            &:last-child{
-              width:180px;
-              button,a{
-                font-size: 12px;
-                line-height: 28px;
-                @include gap(8,h)
-              }
-              button{
-                @include button($blue)
-                margin-right:5px;
-                &:disabled{
-                  background: #759fe4;
-                  border-color:#759fe4;
-                  cursor: no-drop;
+          .listlist{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding:0.8rem 0;
+            .listone{
+              width: 33.3%;
+              text-align: center;
+              h4{
+                font-size:0.9rem;
+                em{
+                  font-style: normal;
+                  font-size: 0.5rem;
                 }
               }
-              a{
-                display: inline-block;
-                @include button($blue,border)
-                border-radius: 5px;
-                .btn:not(:disabled){
-                  @include button($orange)
-                  cursor: pointer;
-                }
+              p{
+                color: #999;
               }
             }
           }
-          &.active{
-            td:last-child{
-              width:245px;
+          .orderbutton{
+            width: 100%;
+            text-align:right;
+            padding:0.5rem 0;
+            button{
+              background: #327fff;
+              color: #fff;
+              padding: .2rem .5rem;
+            }
+            .left{
+              margin-right:.5rem;
             }
           }
         }
+        .pager 
+        .pager{
+          padding-top: 20px;
+          padding-bottom: 20px;
+          box-sizing: border-box;
+          .pager_box{
+            border-top: 1px solid #ddd !important;
+          }
+        }
       }
-      @include nodata
     }
   }
 </style>
