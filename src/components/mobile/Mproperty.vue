@@ -37,7 +37,7 @@
         <span>算力收益图表</span>
       </li>
     </ul>
-    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false" style="width:12rem;">
+    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false">
       <div class="close" @click="closeEdit()">
         <span class="icon"></span>
       </div>
@@ -135,6 +135,11 @@
       },
       submit () {
         var form = document.querySelector('.form')
+        if (document.querySelector('.form')[1].value < 0.001) {
+          document.querySelector('.form')[1].value = '最小提取0.001'
+          document.querySelector('.form')[1].style = 'color:red'
+          form.btn.setAttribute('disabled', true)
+        }
         var data = api.checkFrom(form, this, true)
         var sendData = {token: this.token, user_id: this.user_id}
         if (!data) return false

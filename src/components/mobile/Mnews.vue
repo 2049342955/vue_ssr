@@ -50,7 +50,7 @@
         var self = this
         util.post('isRead', {sign: api.serialize({token: this.token, user_id: this.user_id, is_read: 0})}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.$router.push({name: 'message'})
+            self.$router.push({name: 'mnews'})
             self.fetchData()
           })
         })
