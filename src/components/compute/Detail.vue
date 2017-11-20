@@ -32,7 +32,7 @@
         proText2: {hashType: '算力类型', hash: '每台矿机算力', status: '购买类型', incomeType: '结算方式'},
         proData3: {one_amount: {title: '分期金额', unit: '元'}, fee: {title: '手续费率', unit: '%'}, payment: {title: '还款来源', unit: '算力收益/资金余额'}},
         proText3: {hashfee: '手续费'},
-        proData4: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, hashType: {title: '算力类型', unit: ''}, hash: {title: '每台服务器算力', unit: 'T'}},
+        proData4: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, hash: {title: '每台服务器算力', unit: 'T'}},
         items: {month_money: {title: '月还款', unit: '元'}, rate: {title: '分期期数', unit: '期'}, fee_money: {title: '手续费', unit: '元'}, total_money: {title: '费用总计', unit: '元'}},
         table: [],
         totalPrice: 0,
@@ -56,6 +56,8 @@
     methods: {
       goPay (e, show, mobile) {
         this.show = show
+        var url = ''
+        var data = {token: this.token, num: this.number}
         if (!this.trade_password) {
           api.tips('请先设置交易密码', () => {
             this.$router.push({name: 'password'})
@@ -84,8 +86,15 @@
         if (show) {
           this.det()
         }
+        if (this.$route.params.type === '1') {
+          url = 'buy_miner'
+          data = Object.assign({miner_id: this.$route.params.id}, data)
+        } else {
+          url = 'productOrder'
+          data = Object.assign({product_id: this.$route.params.id}, data)
+        }
         var self = this
-        util.post('productOrder', {sign: api.serialize({token: this.token, product_id: this.$route.params.id, num: this.number})}).then(function (res) {
+        util.post(url, {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.next = true
             self.balance = res.balance
