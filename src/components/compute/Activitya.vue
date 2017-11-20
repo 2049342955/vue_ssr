@@ -75,18 +75,21 @@
       </label>
        <!-- <img src="../../assets/images/data.png" class="imagesall"/>  -->
       <div class="imagesall">
-        <h5>翼比特矿机E9+ 官方参数</h5>
+        <h5>阿瓦隆A740 官方参数</h5>
         <div class="imagesbig">
-          <div class="activity_one"><span class="one_left">算   力</span><span class="one_right">9TH/S (-5%~+10%)</span></div>
-          <div class="activity_one"><span class="one_left">墙上功耗比</span><span class="one_right">145W/T（AC/DC 93%的效率）</span></div>
-          <div class="activity_one"><span class="one_left">额定电压</span><span class="one_right">11.8V～13.0V</span></div>
-          <div class="activity_one"><span class="one_left">电源接口</span><span class="one_right">9个6PIN接口</span></div>
-          <div class="activity_one"><span class="one_left">芯片数量</span><span class="one_right">DW1227 132颗（14nm LPP工艺）</span></div>
-          <div class="activity_one"><span class="one_left">几何尺寸</span><span class="one_right">290mm*126mm*155mm</span></div>
-          <div class="activity_one"><span class="one_left">重   量</span><span class="one_right">4.7KG</span></div>
+          <div class="activity_one"><span class="one_left">算   力</span><span class="one_right">额定算力6.6T，一般可以达到7.3T</span></div>
+          <div class="activity_one"><span class="one_left">功耗</span><span class="one_right">约1150W</span></div>
+          <div class="activity_one"><span class="one_left">额定电压</span><span class="one_right">最大12.53</span></div>
+          <div class="activity_one"><span class="one_left">芯片</span><span class="one_right">88xA3212 16nm SAIC</span></div>
+          <div class="activity_one"><span class="one_left">频率</span><span class="one_right">智能调节</span></div>
           <div class="activity_one"><span class="one_left">网络连接</span><span class="one_right">以太网</span></div>
-          <div class="activity_one"><span class="one_left">工作温度</span><span class="one_right">-10℃～40℃</span></div>
-          <div class="activity_one"><span class="one_left">工作湿度</span><span class="one_right">5%RH～95%RH 非凝露</span></div>
+          <div class="activity_one"><span class="one_left">噪音</span><span class="one_right">50-60db</span></div>
+          <div class="activity_one"><span class="one_left">规格</span><span class="one_right">320mm x 136mm x 150mm</span></div> 
+          <div class="activity_one"><span class="one_left">工作温度</span><span class="one_right">-5℃～40℃</span></div>
+          <div class="activity_one"><span class="one_left">进气湿度</span><span class="one_right">-5℃～40℃</span></div>
+          <div class="activity_one"><span class="one_left">总尺寸</span><span class="one_right">400mm x 210mm x 220mm</span></div>
+          <div class="activity_one"><span class="one_left">净重</span><span class="one_right">4.3KG</span></div>
+          <div class="activity_one"><span class="one_left">总重量</span><span class="one_right">4.8KG</span></div>
         </div>
       </div>
       <div class="logo">
@@ -96,34 +99,37 @@
     </div>
     <div class="activity_img">
       <h4>产品简介</h4>
-      <p>翼比特E9+矿机采用亿绑最新自助研发的14nm芯片，算力均值可达9TH/S，能耗比145W/T。低功耗、高算力，采用独立散热片，散热更好。散热片采用最新粘合技术，外壳材质更坚固，为您的矿机提供更好的保护，为全球的矿工带来高效益。</p>
+      <p>阿瓦隆A740 二手矿机，矿机带电源，不带托管资源卖，矿机已使用3-4个月，机器过保</p>
       <h4>官方参数</h4>
       <div class="activity_content">
         <div class="activity_left">
           <img :src="require('@/assets/images/kuan.png')"/>
-          <h6>翼比特矿机E9+</h6>
+          <h6>阿瓦隆A740</h6>
         </div>
         <div class="activity_right">
-          <div class="activity_one"><span class="one_left">算   力</span><span class="one_right">9TH/S (-5%~+10%)</span></div>
-          <div class="activity_one"><span class="one_left">墙上功耗比</span><span class="one_right">145W/T（AC/DC 93%的效率，25℃工作温度）</span></div>
-          <div class="activity_one"><span class="one_left">额定电压</span><span class="one_right">11.8V～13.0V</span></div>
-          <div class="activity_one"><span class="one_left">电源接口</span><span class="one_right">9个6PIN接口</span></div>
-          <div class="activity_one"><span class="one_left">芯片数量</span><span class="one_right">DW1227 132颗（14nm LPP工艺）</span></div>
-          <div class="activity_one"><span class="one_left">几何尺寸</span><span class="one_right">290mm*126mm*155mm</span></div>
-          <div class="activity_one"><span class="one_left">重   量</span><span class="one_right">4.7KG</span></div>
+          <div class="activity_one"><span class="one_left">算   力</span><span class="one_right">额定算力6.6T，一般可以达到7.3T</span></div>
+          <div class="activity_one"><span class="one_left">功耗</span><span class="one_right">约1150W</span></div>
+          <div class="activity_one"><span class="one_left">额定电压</span><span class="one_right">最大12.53</span></div>
+          <div class="activity_one"><span class="one_left">芯片</span><span class="one_right">88xA3212 16nm SAIC</span></div>
+          <div class="activity_one"><span class="one_left">频率</span><span class="one_right">智能调节</span></div>
           <div class="activity_one"><span class="one_left">网络连接</span><span class="one_right">以太网</span></div>
-          <div class="activity_one"><span class="one_left">工作温度</span><span class="one_right">-10℃～40℃</span></div>
-          <div class="activity_one"><span class="one_left">工作湿度</span><span class="one_right">5%RH～95%RH 非凝露</span></div>
+          <div class="activity_one"><span class="one_left">噪音</span><span class="one_right">50-60db</span></div>
+          <div class="activity_one"><span class="one_left">规格</span><span class="one_right">320mm x 136mm x 150mm</span></div> 
+          <div class="activity_one"><span class="one_left">工作温度</span><span class="one_right">-5℃～40℃</span></div>
+          <div class="activity_one"><span class="one_left">进气湿度</span><span class="one_right">-5℃～40℃</span></div>
+          <div class="activity_one"><span class="one_left">总尺寸</span><span class="one_right">400mm x 210mm x 220mm</span></div>
+          <div class="activity_one"><span class="one_left">净重</span><span class="one_right">4.3KG</span></div>
+          <div class="activity_one"><span class="one_left">总重量</span><span class="one_right">4.8KG</span></div>
         </div>
       </div>
     </div>
     <MyMask :form="form[nowForm]" :title="title" :contract="contract" v-if="edit"></MyMask>
-    <mt-popup position="bottom" v-model="mobileEdit" :closeOnClickModal="false"  style="width:12rem;">
+    <mt-popup position="bottom" v-model="mobileEdit" :closeOnClickModal="false">
       <div class="close" @click="closeEdit(1)">
         <span class="icon"></span>
       </div>
       <div class="agreement" v-if="contract" v-html="contract"></div>
-      <form class="form" @submit.prevent="submit" novalidate v-else  style="box-sizing:border-box;margin-top:1rem;">
+      <form class="form" @submit.prevent="submit" novalidate v-else>
         <FormField :form="form[nowForm]"></FormField>
         <button name="btn">提交</button>
       </form>

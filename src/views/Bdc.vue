@@ -128,7 +128,7 @@
       getCode () {
         var self = this
         var form = document.querySelector('.data_form')
-        var ele = document.querySelector('count_btn')
+        var ele = document.querySelector('.count_btn')
         var telEle = form.dep_tel
         var isTel = api.checkCode(telEle)
         if (isTel) {
