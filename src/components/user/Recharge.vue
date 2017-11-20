@@ -64,19 +64,16 @@
         if (!data) return false
         var self = this
         form.btn.setAttribute('disabled', true)
-        if (mobile) {
-          callbackUrl = location.protocol + '//' + location.host + '/user/moneyFlow/default'
-        } else {
-          callbackUrl = location.protocol + '//' + location.host + '/mobile/moneyFlow'
-        }
         if (this.rechargeNo) {
           util.post('applyBalanceRecharge', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
             api.checkAjax(self, res, () => {
               res.subject = encodeURIComponent(res.subject)
               if (mobile) {
                 res = Object.assign(res, {is_mobile: 1})
+                callbackUrl = location.protocol + '//' + location.host + '/mobile/moneyFlow'
               } else {
                 res = Object.assign(res, {is_mobile: 0})
+                callbackUrl = location.protocol + '//' + location.host + '/user/moneyFlow/default'
               }
               util.post('alipay', {sign: api.serialize(Object.assign({url: callbackUrl, token: self.token}, res))}).then((resData) => {
                 api.checkAjax(self, data, () => {
