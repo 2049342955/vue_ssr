@@ -1,22 +1,65 @@
 <template>
   <section class="bdcform">
     <div class="message">
-      <textarea placeholder="欢迎您向我们反馈使用过程中的任何意见和建议！"></textarea>
+      <textarea placeholder="欢迎您向我们反馈使用过程中的任何意见和建议！" id="textarea" maxlength="150" minlength="0"></textarea>
       <p>0/150</p>
     </div>
-    <button>提交</button>
+    <p style="display:none;" id="block">请输入意见!</p>
+    <button @click="content" id="button">提交</button>
   </section>
 </template>
 <script>
+import { Toast } from 'mint-ui'
+import util from '@/util'
+import api from '@/util/function'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
       option: {'title': '请选择BDC'}
     }
+  },
+  methods: {
+    content () {
+      var self = this
+      var contenthtml = document.getElementById('textarea').value
+      if (!contenthtml) {
+        document.getElementById('block').style = 'display:block'
+        return false
+      } else {
+        document.getElementById('block').style = 'display:none'
+        util.post('collectAdvice', {sign: api.serialize({token: this.token, user_id: this.user_id, content: encodeURIComponent(contenthtml)})}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.myToast('提交成功 ！')
+            setTimeout(() => {
+              self.$router.push({name: 'mpersoncenter'})
+            }, 3000)
+          })
+        })
+      }
+    },
+    myToast (str) {
+      Toast({
+        message: str,
+        position: 'middle',
+        duration: 2000
+      })
+    }
+  },
+  computed: {
+    ...mapState({
+      token: state => state.info.token,
+      user_id: state => state.info.user_id
+    })
   }
 }
 </script>
 <style scoped lang="scss">
+  #block{
+    color:red;
+    padding:0.5rem;
+    padding-bottom:0;
+  }
   .bdcform{
     width: 100%;
     height: 100vh;

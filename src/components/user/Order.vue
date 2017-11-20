@@ -24,14 +24,13 @@
           </div>
         </div>
         <nav>
-          <!-- <router-link :to="'/user/order/'+nowEdit+'/'+(+k+1)" v-for="n,k in nav[nowEdit]" :key="k">{{n}}</router-link> -->
-          <a href="javascript:;">已购买</a>
+          <router-link :to="'/user/order/'+nowEdit+'/'+(+k+1)" v-for="n,k in nav[nowEdit]" :key="k">{{n}}</router-link>
         </nav>
       </div>
       <div class="order_box">
         <table>
           <tr>
-          <!--  <th>算力服务器</th>
+           <th>算力服务器</th>
             <th v-if="nowEdit==0||status==1||status==4">总算力</th>
             <template v-if="nowEdit==0&&(status==2||status==3)">
               <th>出售数量</th>
@@ -55,17 +54,11 @@
             </template>
             <template v-if="nowEdit==2&&status==1">
               <th>剩余可出租</th>
-            </template> -->
-            <!-- <th v-if="status!=3">操作</th> -->
-            <th>矿机名称</th>
-            <th>总算力</th>
-            <th>购买数量</th>
-            <th>购买金额</th>
-            <th>购买时间</th>
-            <th>操作</th>
+            </template>
+            <th v-if="status!=3">操作</th>
           </tr>
           <tr v-for="d,k in data" :class="{active: nowEdit==0&&status==1}">
-            <!-- <td>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
+            <td>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
             <td v-if="nowEdit==0||status==1||status==4">{{d.total_hash|format}}T</td>
             <template v-if="nowEdit==0&&(status==2||status==3)">
               <td>{{d.selling_amount}}台</td>
@@ -106,8 +99,8 @@
                 <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash">出租算力</button>
               </template>
               <router-link :to="'/user/orderDetail/'+nowEdit+'/'+d.id"  v-if="nowEdit!=2&&status!=2&&status!=3">查看详情</router-link>
-            </td> -->
-            <td>{{d.miner.name}}</td>
+            </td>
+            <!-- <td>{{d.miner.name}}</td>
             <td>{{+d.miner.hash*(+d.buy_amount)}}T</td>
             <td>{{d.buy_amount}}</td>
             <td>{{d.pay_value}}</td>
@@ -115,7 +108,7 @@
             <td>
               <button class="sold" @click="getContract(d.id)">查看协议</button>
               <button class="sold" @click="getBaoquan(d.id)">查看保全</button>
-            </td>
+            </td> -->
           </tr>
         </table>
         <div class="nodata" v-if="showImg">
@@ -142,9 +135,9 @@
     },
     data () {
       return {
-        title: ['矿机'],
-        title2: ['云矿机', '基金'],
-        nav: [{'0': '已购买', '1': '出售中', '2': '已出售', '3': '已结束'}, {'0': '已租赁', '1': '出租中', '2': '已出租', '3': '已结束'}, {'0': '持有', '1': '出租中', '2': '已出租', '3': '已结束'}],
+        title: {0: '云矿机', 3: '矿机'},
+        title2: {0: '云矿机', 2: '基金', 3: '矿机'},
+        nav: [{'0': '已购买', '1': '出售中', '2': '已出售', '3': '已结束'}, {'0': '已租赁', '1': '出租中', '2': '已出租', '3': '已结束'}, {'0': '持有', '1': '出租中', '2': '已出租', '3': '已结束'}, {'0': '已购买'}],
         data: [],
         nowEdit: 0,
         status: 1,

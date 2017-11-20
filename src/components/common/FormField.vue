@@ -42,8 +42,8 @@
       <!-- tips_info -->
       <div class="tips_info" v-if="f.tipsInfo">
         <template v-if="f.tipsUnit==='hash'">
-          <span>{{$parent.$parent.product_hash_type.toLowerCase()}}</span>
-          <span>{{f.tipsInfo+'：'+$parent.$parent[f.name]+$parent.$parent.product_hash_type.toLowerCase()}}</span>
+          <span>{{($parent.product_hash_type||$parent.$parent.product_hash_type).toLowerCase()}}</span>
+          <span>{{f.tipsInfo+'：'+($parent[f.name]||$parent.$parent[f.name])+($parent.product_hash_type||$parent.$parent.product_hash_type).toLowerCase()}}</span>
         </template>
         <template v-else>
           <span>{{f.tipsUnit}}</span>

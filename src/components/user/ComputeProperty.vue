@@ -57,8 +57,6 @@
     <div class="detail_table">
       <div class="item" v-for="d,k in computeProperty">
         <div class="item_title">{{d[0]}}</div><div class="item_value" v-if="k==='total_hash'">{{dataProperty[k]|format}}{{d[1]}}</div><div class="item_value" v-else>{{dataProperty[k]}}{{d[1]}}</div>
-      </div><div class="item" v-if="7%2">
-        <div class="item_title"></div><div class="item_value"></div>
       </div>
     </div>
     <template v-if="scode">
@@ -100,7 +98,7 @@
         moneyData: {freeze_account: 0, balance_account: 0},
         computeNav: {today_hash: '今日收益', balance_account: '账户余额', total_hash: '累积已获得收益'},
         computeData: {today_hash: 0, balance_account: 0, total_hash: 0},
-        computeProperty: {total_miner: ['已购入云矿机', '台'], total_hash: ['算力总和', 'T'], buy_transfer_hash: ['已租赁算力', 'T'], selled_miner: ['已出售云矿机', '台'], selling_miner: ['出售中云矿机', '台']},
+        computeProperty: {total_miner: ['已购入云矿机', '台'], total_hash: ['算力总和', 'T'], selled_miner: ['已出售云矿机', '台'], selling_miner: ['出售中云矿机', '台']},
         // , selled_hash: ['已出租云矿机', '台'], selling_hash: ['出租中云矿机', '台']
         dataProperty: {total_miner: 0, total_hash: 0, buy_transfer_hash: 0, selled_miner: 0, selling_miner: 0, selled_hash: 0, selling_hash: 0},
         computeFund: {total_miner: ['云矿机', '台'], total_hash: ['云算力总和', 'T'], selled_miner: ['已出租云算力', 'T'], selling_miner: ['出租中云算力', 'T']},
@@ -134,6 +132,7 @@
         }
         if (str === 'recharge') {
           this.$router.push({name: 'recharge'})
+          return false
         }
         if (str === 'GetIncome' && !this.address.length) {
           api.tips('请先绑定算力地址', () => {
@@ -208,7 +207,6 @@
         var url = ''
         var sendData = {token: this.token, user_id: this.user_id}
         var tipsStr = ''
-        data.trade_password = md5(data.trade_password)
         switch (this.edit) {
           case 'Withdrawals':
             url = 'withdraw'
@@ -220,6 +218,7 @@
             break
         }
         if (!data) return false
+        data.trade_password = md5(data.trade_password)
         form.btn.setAttribute('disabled', true)
         var self = this
         util.post(url, {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {

@@ -40,7 +40,7 @@
     },
     mounted () {
       this.goPc()
-      window.addEventListener('resize', this.goPc, false)
+      // window.addEventListener('resize', this.goPc, false)
     }
   }
 </script>

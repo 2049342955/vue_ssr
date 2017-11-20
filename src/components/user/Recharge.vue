@@ -31,6 +31,7 @@
 </template>
 
 <script>
+  import { Toast } from 'mint-ui'
   import util from '@/util'
   import api from '@/util/function'
   import FormField from '@/components/common/FormField'
@@ -56,7 +57,7 @@
     methods: {
       submit () {
         var form = document.querySelector('.form')
-        var data = api.checkFrom(form)
+        var data = api.checkFrom(form, this, api.checkEquipment())
         var sendData = {token: this.token}
         if (!data) return false
         var self = this
@@ -87,6 +88,13 @@
       },
       changeType (n) {
         this.rechargeNo = n
+      },
+      myToast (str) {
+        Toast({
+          message: str,
+          position: 'middle',
+          duration: 3000
+        })
       }
     },
     computed: {
@@ -155,6 +163,83 @@
       }
       button{
         margin:0
+      }
+    }
+    @media screen and (max-width: $mobile) {
+      background:#f4f4f4;
+      padding:0;
+      h2{
+        display: none;
+      }
+      h3,.recharge_text,nav,.form{
+        padding:0 15px;
+        margin:0;
+        background: #fff;
+      }
+      h3{
+        line-height: 2;
+        padding-top:10px;
+        &:before{
+          content:'|';
+          color:$blue;
+          font-weight: bold;
+          font-size: 14px;
+          margin-right:8px;
+        }
+      }
+      nav{
+        padding-bottom:15px;
+      }
+      .recharge_text{
+        padding-bottom:15px;
+        margin-bottom:15px;
+        .recharge_info{
+          font-size: 0.6rem;
+          .recharge_process{
+            display: block;
+            .process{
+              width:100%;
+              .item{
+                position: relative;
+                display: inline-block;
+                text-align: center;
+                width:33%;
+                i,span{
+                  display: block;
+                  margin: 0 auto;
+                }
+                .line{
+                  position: absolute;
+                }
+                &:not(:last-child){
+                  .line{
+                    margin:0;
+                    top:12px;
+                    left:calc(50% + 21px);
+                    width:calc(100% - 42px);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .form{
+        width:100%;
+        padding:0;
+        .form_field{
+          margin-left:15px;
+          margin-right:15px;
+          .input{
+            line-height: 1.5;
+          }
+        }
+        button{
+          width:calc(100% - 30px);
+          font-size: 0.6rem;
+          margin-bottom:15px;
+          margin-left:15px;
+        }
       }
     }
   }
