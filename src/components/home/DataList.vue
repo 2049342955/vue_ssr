@@ -36,7 +36,7 @@
                 <div class="mobile_text_item">剩余可售<b>{{d.amount-(d.sell_amount||d.buyed_amount)}}台</b></div>
               </div>
             </div>
-            <div class="sell_progress">{{((d.amount-d.sell_amount)/d.amount*100).toFixed(1)+"%"}}</div>
+            <div class="sell_progress">{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)+"%"}}</div>
             <!-- <div id="progress"><span></span></div> -->
           </div>
         </div>
