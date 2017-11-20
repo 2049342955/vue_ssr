@@ -526,9 +526,10 @@
           }
           .other_hash{
             width: 100%;
-            height: 100%;
-            position: fixed;
+            height: 100vh;
+            position: absolute;
             top:2rem;
+            z-index:999;
             background:rgba(0,0,0,.3);
             .hash_center{
               width: 100%;

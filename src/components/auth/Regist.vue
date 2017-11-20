@@ -4,7 +4,7 @@
       <h2>欢迎注册算力网</h2>
       <FormField :form="form"></FormField>
       <label for="accept">
-        <input type="checkbox" id="accept" name="accept" checked>
+        <input type="checkbox" id="accept" name="accept">
         <span>阅读并接受<a href="javascript:;" @click="userAgreement" style="color:#327fff;">《用户使用协议》</a></span>
         <span class="select_accept">请选择</span>
       </label>
