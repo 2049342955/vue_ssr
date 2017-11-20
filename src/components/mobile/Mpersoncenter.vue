@@ -67,11 +67,11 @@
     </div>
     <button @click="logout">退出</button>
     <div class="null"></div>
-    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false">
+    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false" style="width:12rem;">
       <div class="close" @click="closeEdit()">
         <span class="icon"></span>
       </div>
-      <form class="form" @submit.prevent="submit" novalidate>
+      <form class="form" @submit.prevent="submit" novalidate  style="box-sizing:border-box;margin-top:1rem;">
         <FormField :form="Withdrawals"></FormField>
         <button name="btn">提交</button>
       </form>

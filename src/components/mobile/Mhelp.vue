@@ -12,8 +12,10 @@
         </div>
       </div>
     </div>
-    <div class="issues_content" v-show="!show" v-html="nowItem.content" style="margin-bottom:60px;background:white;">
+    <div class="issues_content" v-show="!show" style="background:white;">
+      <div v-html="nowItem.content"></div>
     </div>
+    <button @click="back()"  v-show="!show" style="margin-bottom:80px;">同 意</button>
   </section>
 </template>
 
@@ -58,6 +60,9 @@
         util.post('getHelpContent', {sign: api.serialize({token: this.token, help_id: helpid})}).then(function (res) {
           self.nowItem = res
         })
+      },
+      back () {
+        window.location.reload()
       }
     },
     mounted () {
@@ -81,6 +86,15 @@
   margin:0;
 }
   .issues{
+    button{
+              width: 3rem;
+              height: 1.5rem;
+              background: #327fff;
+              border:0;
+              color: white;
+              float: right;
+              margin-top: 20px;
+            }
     .issues_content{
             width: 100%;
             overflow: hidden;
@@ -104,6 +118,7 @@
       .issues_listsoneone{
         width:100%;
         padding:0;
+        overflow: hidden;
         .item{
           cursor: pointer;
           width: 100%;

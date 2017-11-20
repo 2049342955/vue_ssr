@@ -168,6 +168,7 @@
     @media screen and (max-width: $mobile) {
       background:#f4f4f4;
       padding:0;
+      margin-bottom: 60px;
       h2{
         display: none;
       }

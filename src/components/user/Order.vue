@@ -48,9 +48,8 @@
               <th>购买金额</th>
               <th>购买时间</th>
             </template>
-            <template v-if="nowEdit==0&&(status==1||status==4)">
+            <template v-if="nowEdit==0&&status==1">
               <th>剩余可出售</th>
-              <th>剩余可出租</th>
             </template>
             <template v-if="nowEdit==2&&status==1">
               <th>剩余可出租</th>
@@ -78,9 +77,8 @@
             </template>
             <td v-if="nowEdit==1&&(status==2||status==3)">{{d.transfer_time}}天</td>
             <td v-else>{{d.create_time||d.created_time}}</td>
-            <template v-if="nowEdit==0&&(status==1||status==4)">
+            <template v-if="nowEdit==0&&status==1">
               <td>{{d.remain_miner}}台</td>
-              <td>{{d.remain_hash|format}}T</td>
             </template>
             <template v-if="nowEdit==2&&status==1">
               <td>{{d.remain_hash|format}}T</td>

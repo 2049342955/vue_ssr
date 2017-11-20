@@ -37,11 +37,11 @@
         <span>算力收益图表</span>
       </li>
     </ul>
-    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false">
+    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false" style="width:12rem;">
       <div class="close" @click="closeEdit()">
         <span class="icon"></span>
       </div>
-      <form class="form" @submit="submit" novalidate v-if="edit===1">
+      <form class="form" @submit="submit" novalidate v-if="edit===1" style="box-sizing:border-box;margin-top:1rem;">
         <FormField :form="GetIncome"></FormField>
         <button name="btn">提交</button>
       </form>

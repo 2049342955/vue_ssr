@@ -4,7 +4,7 @@
       <div class="text">
         <div class="product_title">
           <h3>{{$parent.detail.product_name}}<span :class="'icon_currency '+$parent.detail.hashType"></span></h3>
-          <div v-if="$parent.detail.batch_area">
+          <div v-if="$parent.detail.batch_area&&$route.params.type!=='1'">
             <span class="tips">批次所在区域：</span>
             <span>{{$parent.detail.batch_area}}</span>
           </div>
@@ -28,9 +28,9 @@
               </template>
             </div>
             <div class="product_word">
-              <div class="item" v-for="t,k in proText">
+              <div :class="['item', {miner_hide:k==='incomeType'&&$route.params.type==='1'}]" v-for="t,k in proText">
                 <span class="tips">{{t}}:</span>
-                <span v-if="k==='status'" class="">{{$parent.str[$parent.detail[k]]}}</span>
+                <span v-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
                 <span v-else>{{$parent.detail[k]}}</span>
               </div>
             </div>
@@ -81,7 +81,7 @@
         <h3>协议说明</h3>
         <div class="box" v-html="$parent.detail.machine_agreement"></div>
       </div>
-      <div class="info_item">
+      <div class="info_item" v-if="$route.params.type!=='1'">
         <h3>矿场相册</h3>
         <div class="box">
            <div class="item"> 
@@ -212,13 +212,6 @@
         this.sheetVisible = true
       }
     },
-    mounted () {
-      if (this.$route.path.includes('no')) {
-        this.$parent.rateshow = false
-      } else {
-        this.$parent.rateshow = true
-      }
-    },
     filters: {
       format: api.decimal
     },
@@ -293,7 +286,10 @@
               @include flex(space-between)
               margin-top:10px;
               padding:15px;
-              border:1px solid $border
+              border:1px solid $border;
+              .miner_hide{
+                opacity: 0;
+              }
             }
             h4{
               margin-top:20px;
@@ -504,6 +500,7 @@
               height:90px;
               img{
                 height:90px;
+                width: 130px;
                 object-fit:cover
               }
             }
