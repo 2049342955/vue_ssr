@@ -105,10 +105,10 @@ api.line = () => {
 api.countDown = () => {
   var t = 60
   var ele = document.querySelector('.count_btn')
-  var tt = setInterval(() => {
+  window.tt = setInterval(() => {
     if (t === 0) {
       ele.innerHTML = '重新获取'
-      clearInterval(tt)
+      clearInterval(window.tt)
       ele.setAttribute('disabled', false)
     } else {
       ele.innerHTML = t + 's'
@@ -153,6 +153,17 @@ api.validityForm = (form, obj, ismobile) => {
     return data
   } else {
     return {status: icon, n: n}
+  }
+}
+api.clearForm = (form) => {
+  for (var i = 0; i <= form.length - 2; i++) {
+    form[i].value = ''
+  }
+  var ele = document.querySelector('.count_btn')
+  if (window.tt) {
+    ele.innerHTML = '获取验证码'
+    clearInterval(window.tt)
+    ele.setAttribute('disabled', false)
   }
 }
 api.errorTip = (ele, str, ismobile, obj) => {

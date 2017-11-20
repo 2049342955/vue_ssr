@@ -118,6 +118,7 @@
               self.requestData(callbackUrl, sendData, val)
             }
             self.showModal = false
+            api.clearForm(form)
           })
         })
       },
@@ -142,6 +143,8 @@
         })
       },
       closeEdit () {
+        var form = document.querySelector('.form')
+        api.clearForm(form)
         this.showModal = false
       }
     },
