@@ -4,7 +4,7 @@
       <div class="item" v-for="k in 2" @click="setInfo(list[k-1].name,menu[k-1].status)">
         <span>{{list[k-1].title}}</span>
         <i v-if="k===1">{{mobile|format}}</i>
-        <i v-else>{{!menu[k].status?'去认证':true_name.truename+'：'+true_name.idcard|cardformat}}</i>
+        <i v-else>{{!menu[k-1].status?'去认证':true_name.truename+'：'+true_name.idcard|cardformat}}</i>
       </div>
     </div>
     <div class="list">
