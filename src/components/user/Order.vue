@@ -167,6 +167,7 @@
 </template>
 
 <script>
+  import { Toast } from 'mint-ui'
   import util from '@/util'
   import api from '@/util/function'
   import { mapState } from 'vuex'
@@ -358,6 +359,9 @@
         })
       },
       getBaoquan (id) {
+        if (api.checkWechat()) {
+          this.myToast('请在浏览器里打开')
+        }
         var data = {token: this.token, order_id: id, security_hash_type: 3, user_id: this.user_id}
         var self = this
         var newTab = window.open('about:blank')
@@ -372,6 +376,13 @@
       },
       hashcli () {
         this.showtype = !this.showtype
+      },
+      myToast (str) {
+        Toast({
+          message: str,
+          position: 'middle',
+          duration: 3000
+        })
       }
     },
     computed: {
