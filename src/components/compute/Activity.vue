@@ -118,7 +118,7 @@
       </div>
     </div>
     <MyMask :form="form[nowForm]" :title="title" :contract="contract" v-if="edit"></MyMask>
-    <mt-popup position="bottom" v-model="mobileEdit" :closeOnClickModal="false"  style="width:12rem;">
+    <mt-popup position="bottom" v-model="mobileEdit" :closeOnClickModal="false">
       <div class="close" @click="closeEdit(1)">
         <span class="icon"></span>
       </div>
