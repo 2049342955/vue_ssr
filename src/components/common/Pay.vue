@@ -53,7 +53,7 @@
     </div>
     <div class="orderPay">
       <div class="detail">
-        <img :src="$parent.detail.miner_picture" alt="">
+        <img :src="$parent.detail.product_img||$parent.detail.minerPicture" alt="">
       </div>
       <form class="form payForm" action="" @submit.prevent="pay" novalidate>
         <div class="pay_text">
