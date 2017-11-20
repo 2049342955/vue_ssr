@@ -89,12 +89,12 @@
           api.checkAjax(self, res, () => {
             self.next = true
             self.balance = res.balance
-            if (this.$route.params.type === '2') {
+            if (self.$route.params.type === '2') {
               self.content = res.part_content
             } else {
               self.content = res.content
             }
-            if (this.$route.params.type !== '1') {
+            if (self.$route.params.type !== '1') {
               self.content1 = res.content1
             }
           })
@@ -143,19 +143,33 @@
     },
     mounted () {
       var self = this
+      var url = ''
+      var data = {token: this.token}
       if (this.$route.params.type !== '2') {
         this.rateshow = false
       } else {
         this.rateshow = true
       }
-      util.post('productDetail', {sign: api.serialize({token: this.token, product_id: this.$route.params.id})}).then(function (res) {
+      if (this.$route.params.type === '1') {
+        url = 'miner_detail'
+        data = Object.assign({miner_id: this.$route.params.id}, data)
+      } else {
+        url = 'productDetail'
+        data = Object.assign({product_id: this.$route.params.id}, data)
+      }
+      util.post(url, {sign: api.serialize(data)}).then(function (res) {
         api.checkAjax(self, res, () => {
+          console.log(res)
           self.initNum = res.amount - res.buyed_amount
           self.leftNum = self.initNum
           self.leftStatus = self.leftNum === 0
           self.detail = Object.assign(self.detail, res)
-          self.detail = Object.assign(self.detail, res.has_product_miner_base)
-          self.detail.hashType = res.hashtype.name
+          if (self.$route.params.type !== '1') {
+            self.detail = Object.assign(self.detail, res.has_product_miner_base)
+            self.detail.hashType = res.hashtype.name
+          } else {
+            self.detail.product_name = res.name
+          }
         })
       })
     },

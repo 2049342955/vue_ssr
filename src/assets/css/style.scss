@@ -1085,6 +1085,7 @@
   }
 // mobile_popup
   @mixin popup{
+    width:100%;
     .close{
       @include close
       top:5px;

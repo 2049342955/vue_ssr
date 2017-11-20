@@ -70,6 +70,7 @@
       },
       changeType (k) {
         this.active = k
+        this.fetchData()
       }
     },
     watch: {
@@ -133,7 +134,7 @@
       .box{
         @include main
         font-size: 20px;
-        color:$light_text;
+        color:$light_black;
         font-weight: bold;
         span{
           cursor: pointer;
