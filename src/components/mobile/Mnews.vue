@@ -1,7 +1,8 @@
 <template>
   <section class="mask">
     <ul v-show="contentshow">
-      <li v-for="d,k in data" :key="k" @click="detailcli(d.id)">
+      <li class="list_one" @click="weight()" v-if="unread_num"><span></span>全部标为已读</li>
+      <li v-for="d,k in data" :key="k" @click="detailcli(d.id)" class="itemlist">
         <span>{{d.title}}</span>
         <i>{{d.created_at.split(" ")[0]}}</i>
       </li>
@@ -15,6 +16,7 @@
       <h3>{{content.title}}</h3>
       <p style="color:#999;">{{content.created_at}}</p>
       <p v-html="content.msg"></p>
+      <button @click="back()">返回</button>
     </div>
   </section>
 </template>
@@ -41,6 +43,18 @@
       }
     },
     methods: {
+      back () {
+        window.location.reload()
+      },
+      setRead (i) {
+        var self = this
+        util.post('isRead', {sign: api.serialize({token: this.token, user_id: this.user_id, is_read: 0})}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.$router.push({name: 'message'})
+            self.fetchData()
+          })
+        })
+      },
       fetchData () {
         var self = this
         util.post('MessageList', {sign: api.serialize({token: this.token, user_id: this.user_id, page: this.now})}).then(function (res) {
@@ -121,6 +135,10 @@
  ul{
    width: 100%;
    overflow: hidden;
+   .list_one{
+     font-weight: 800;
+     color: #327fff;
+   }
    li{
      width: 100%;
      border-bottom:1px solid #dddddd;
@@ -130,9 +148,10 @@
      line-height: 2rem;
      background:white;
      padding:0 .5rem;
+     font-weight: 800;
      span{
        width: 70%;
-       columns: #121212;
+       color: #121212;
      }
      i{
        color: #a9a9a9;
@@ -145,6 +164,14 @@
    height: 100%;
    background:white;
    padding:0 .5rem;
+   button{
+     width: 3rem;
+     height: 1.5rem;
+     font-size: 0.6rem;
+     color:white;
+     background: #26a2ff;
+     border:0;
+   }
    h3{
      color:#121212;
      font-size: 0.7rem;
