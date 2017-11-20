@@ -121,8 +121,19 @@
           @include flex
           .process{
             font-size: 14px;
-            width:450px;
+            width:600px;
             @include process
+            .item{
+              i{
+                vertical-align: middle;
+              }
+              &:not(:last-child){
+                width: calc(50% - 50px);
+                .line {
+                  width: calc(100% - 130px);
+                }
+              }
+            }
             padding: 0;
             .item.active ~ .item{
               & i {

@@ -273,7 +273,7 @@
         ff.btn.setAttribute('disabled', true)
         util.post(url, {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
-            if (mobile) {
+            if (mobile === 1) {
               callbackUrl = '/mobile/' + callbackUrl
             } else {
               callbackUrl = '/user/' + callbackUrl
