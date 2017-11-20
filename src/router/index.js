@@ -14,6 +14,7 @@
   import ComputeDetail from '@/components/compute/Detail'
   import Mining from '@/components/compute/mining'
   import Activity from '@/components/compute/activity'
+  import Activitya from '@/components/compute/activitya'
   import ComputeTransfer from '@/views/ComputeTransfer'
   import TransferList from '@/components/transfer/List'
   import TransferDetail from '@/components/transfer/Detail'
@@ -144,6 +145,15 @@
         component: Activity,
         beforeEnter: (to, from, next) => {
           document.querySelector('title').innerHTML = '全新E9+ 限时秒杀'
+          next()
+        }
+      },
+      {
+        path: 'activitya',
+        name: 'activitya',
+        component: Activitya,
+        beforeEnter: (to, from, next) => {
+          document.querySelector('title').innerHTML = '阿瓦隆A740 限时抢购'
           next()
         }
       }]
