@@ -43,10 +43,11 @@
       </div>
       <form class="form" @submit="submit" novalidate v-if="edit===1" style="box-sizing:border-box;margin-top:1rem;">
         <FormField :form="GetIncome"></FormField>
+        <p>手续费：0.0002btc</p>
         <button name="btn">提交</button>
       </form>
       <div class="popup_chart" v-if="edit===2">
-        <IncomeChart/>
+        <IncomeChart></IncomeChart>
       </div>
     </mt-popup>
   </section>
@@ -293,5 +294,11 @@
     .mint-popup{
       @include popup
     }
+  }
+  .tips_info span{
+    font-size: 12px;
+  }
+  .mpropery .mint-popup .form .input .tips_info{
+    top:3px;
   }
 </style>

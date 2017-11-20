@@ -2,11 +2,11 @@
   <section class="mask">
     <ul v-show="contentshow">
       <li class="list_one" @click="weight()" v-if="unread_num"><span></span>全部标为已读</li>
-      <li v-for="d,k in data" :key="k" @click="detailcli(d.id)" class="itemlist">
+      <li v-for="d,k in data" :key="k" @click="detailcli(d.id)" :class="['itemlist', {isread: d.is_read}]">
         <span>{{d.title}}</span>
         <i>{{d.created_at.split(" ")[0]}}</i>
       </li>
-      <Pager :len="len"></Pager>
+      <Pager :len="len" class="mobilepager"></Pager>
     </ul>
     <div class="nodata" v-if="show">
       <div class="nodata_img"></div>
@@ -149,6 +149,10 @@
      background:white;
      padding:0 .5rem;
      font-weight: 800;
+     &.isread{
+       font-weight: 100;
+       font-size: #ccc;
+    }
      span{
        width: 70%;
        color: #121212;
@@ -171,10 +175,15 @@
      color:white;
      background: #26a2ff;
      border:0;
+     float: right;
+     margin-top: 20px;
    }
    h3{
      color:#121212;
      font-size: 0.7rem;
    }
+ }
+ .mobilepager{
+    padding:0;
  }
 </style>

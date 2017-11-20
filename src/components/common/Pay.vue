@@ -19,7 +19,10 @@
               <span class="value" v-else>{{$parent.detail[k]}}</span>
             </p>
           </div>
-          <div class="address_input" v-else>添加地址</div>
+          <div class="address_input" @click="openContract(2)" v-else>
+            <template v-if="addressData">{{decodeURIComponent(addressData.province_name+addressData.city_name+addressData.area_name+addressData.area_details+' '+addressData.post_user)+'('+addressData.post_mobile+')'}}</template>
+            <template v-else>+ 添加地址</template>
+          </div>
         </div>
       </div>
       <div class="orderMsg" v-show="$parent.show">
@@ -79,8 +82,8 @@
           </div>
           <FormField :form="form" class="form"></FormField>
           <label for="accept">
-            <input type="checkbox" v-model="toggle" id="accept" name="accept">
-            <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? ($parent.show?'分期':'购买'):'转让'}}协议》</a>和<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></span>
+            <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
+            <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? ($parent.show?'分期':'购买'):'转让'}}协议》</a><template v-if="$route.params.type!=='1'">和<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
             <span class="select_accept">{{tips}}</span>
           </label>
           <button name="btn">确认支付</button>
@@ -143,27 +146,14 @@
           <div class="mobile_btn">
             <mt-button type="primary" size="large" name="btn">立即支付</mt-button>
             <label for="accept">
-              <input type="checkbox" v-model="toggle" id="accept" name="accept">
-              <span @click="openContract(1,1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? ($parent.show?'分期':'购买'):'转让'}}协议》</a>、<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></span>
+              <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
+              <span @click="openContract(1,1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? ($parent.show?'分期':'购买'):'转让'}}协议》</a><template v-if="$route.params.type!=='1'">、<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
               <span class="select_accept">{{tips}}</span>
             </label>
           </div>
         </form>
       </div>
     </template>
-    <div v-else-if="showAgreement===1" class="agreement_text">
-      <template v-if="!$parent.show">
-        <div class="" v-html="$parent.content"></div>
-        <div class="" v-html="$parent.content1"></div>
-      </template>
-      <template v-else="$parent.show">
-        <div class="" v-html="$parent.content1"></div>
-        <div class="" v-html="$parent.part_content"></div>
-      </template>
-      <div class="btn_box">
-        <button @click="agree">我同意</button>
-      </div>
-    </div>
     <MyMask :form="address" :title="title" :contract="contract" v-if="edit"></MyMask>
     <mt-popup position="bottom" v-model="mobileEdit" :closeOnClickModal="false">
       <div class="close" @click="closeEdit(1)">
@@ -221,20 +211,25 @@
         tips: '请同意服务条款',
         totalPrice: 0,
         showAgreement: 0,
-        toggle: false,
+        accept: false,
         edit: 0,
         mobileEdit: false,
         contract: '',
         showpay: '',
         close2: require('@/assets/images/close1.jpg'),
         mobileNav: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '运维费约', unit: 'btc'}, batch_area: {title: '批次所在区域', unit: ''}},
-        address: [{name: 'post_user', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'post_mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号码', pattern: 'tel'}, {name: 'address', type: 'select', title: '地址', isChange: true}, {name: 'area_details', type: 'text', title: '详细地址', placeholder: '请输入详细地址', isChange: true}]
+        address: [{name: 'post_user', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'post_mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号码', pattern: 'tel'}, {name: 'address', type: 'select', title: '地址', isChange: true}, {name: 'area_details', type: 'text', title: '详细地址', placeholder: '请输入详细地址', isChange: true}],
+        isMobile: false,
+        addressData: ''
       }
     },
     methods: {
       pay (mobile) {
         var ff = (mobile === 1) ? document.querySelector('.payForm2') : document.querySelector('.payForm')
         var val = ff[0].value
+        var url = ''
+        var callbackUrl = ''
+        var data = {token: this.$parent.token, trade_password: md5(val)}
         if (this.totalPrice > this.$parent.balance) {
           this.tip(mobile, '余额不足，请充值', ff.accept)
           return false
@@ -256,40 +251,49 @@
           this.tip(mobile, '请同意服务条款', ff.accept)
           return false
         }
+        if (this.$route.params.type === '1') {
+          if (!this.addressData) {
+            this.tip(mobile, '请填写收货地址', ff.accept)
+            this.openContract(2)
+            return false
+          }
+          url = 'saveMiner'
+          data = Object.assign({user_id: this.$parent.user_id, miner_id: this.$route.params.id, number: this.$parent.number}, data, this.addressData)
+          callbackUrl = '/user/order/3/1'
+        } else {
+          if (this.page === 'cloudCompute') {
+            if (this.$parent.show) {
+              url = 'productMallLoan'
+              data = Object.assign({product_id: this.$route.params.id, rate_name: this.$parent.rate, num: this.$parent.number}, data)
+              callbackUrl = '/user/repayment/0'
+            } else {
+              url = 'productMall'
+              data = Object.assign({product_id: this.$route.params.id, num: this.$parent.number}, data)
+              callbackUrl = '/user/order/0/1'
+            }
+          } else {
+            url = 'doTransfer_Hashrate'
+            data = Object.assign({user_id: this.$parent.user_id, transfer_order_id: this.$route.params.id, num: this.$parent.number}, data)
+            callbackUrl = '/user/order/1/1'
+          }
+        }
         var self = this
         ff.btn.setAttribute('disabled', true)
-        if (this.page === 'cloudCompute') {
-          if (this.$parent.show) {
-            util.post('productMallLoan', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(val), rate_name: this.$parent.rate})}).then(function (res) {
-              api.checkAjax(self, res, () => {
-                self.paySuccess(mobile, '/user/repayment/0')
-              }, ff.btn)
-            })
-          } else {
-            util.post('productMall', {sign: api.serialize({token: this.$parent.token, product_id: this.$route.params.id, num: this.$parent.number, trade_password: md5(val)})}).then(function (res) {
-              api.checkAjax(self, res, () => {
-                self.paySuccess(mobile, '/user/order/0/1')
-              }, ff.btn)
-            })
-          }
-        } else {
-          util.post('doTransfer_Hashrate', {sign: api.serialize({token: this.$parent.token, user_id: this.$parent.user_id, transfer_order_id: this.$route.params.id, trade_password: md5(val)})}).then(function (res) {
-            api.checkAjax(self, res, () => {
-              self.paySuccess(mobile, '/user/order/1/1')
-            }, ff.btn)
-          })
-        }
+        util.post(url, {sign: api.serialize(data)}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.paySuccess(mobile, callbackUrl)
+          }, ff.btn)
+        })
       },
       openContract (n, mobile) {
         this.isMobile = mobile
         this.openMask(mobile, n)
         document.body.style.overflow = 'hidden'
         if (n === 1) {
-          this.contract = this.content
+          this.contract = this.$parent.content1 ? this.$parent.content + '<br>' + this.$parent.content : this.$parent.content
           this.title = '协议详情'
           this.accept = true
-        } else if (n === 3) {
-          this.nowForm = 'address'
+        } else if (n === 2) {
           this.contract = ''
           this.title = '收货地址'
         }
@@ -355,6 +359,31 @@
         } else {
           this.edit = n
         }
+      },
+      submit () {
+        var form = document.querySelector('.form_content') || document.querySelector('.form')
+        var data = api.checkFrom(form, this, this.isMobile)
+        if (!data) return false
+        this.addressData = data
+        this.prompt('收货地址已提交，点击“确认支付”完成购买')
+        this.closeEdit(this.isMobile)
+      },
+      prompt (str) {
+        if (this.isMobile) {
+          this.myToast(str)
+        } else {
+          api.tips(str)
+        }
+      },
+      myToast (str) {
+        Toast({
+          message: str,
+          position: 'middle',
+          duration: 3000
+        })
+      },
+      setAssept (e) {
+        this.accept = e.target.checked
       }
     },
     mounted () {
@@ -442,10 +471,6 @@
         text-align: center;
         color:$orange;
         cursor: pointer;
-        &:before{
-          content:'+';
-          margin-right:5px
-        }
       }
     }
     .orderPay{
@@ -532,19 +557,6 @@
         }
       }
       @include mobile_hide
-    }
-    .agreement_text{
-      padding:15px;
-      background: #fff;
-      .btn_box{
-        text-align: center;
-        button{
-          line-height: 2;
-          width:100px;
-          margin:30px auto;
-          @include button($blue)
-        }
-      }
     }
     .Installment_plan{
       width: 100%;
@@ -690,6 +702,16 @@
         }
         // margin-top:15px
       }
+    }
+    .mask_con{
+      h2{
+        line-height: 52px;
+        padding:0 28px;
+        border-bottom: 1px solid $border;
+      }
+    }
+    .mint-popup{
+      @include popup
     }
   }
 </style>

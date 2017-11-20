@@ -27,8 +27,8 @@
                 <div class="line"></div>
               </template>
             </div>
-            <div class="product_word">
-              <div :class="['item', {miner_hide:k==='incomeType'&&$route.params.type==='1'}]" v-for="t,k in proText">
+            <div class="product_word" v-if="$route.params.type!=='1'">
+              <div class="item" v-for="t,k in proText">
                 <span class="tips">{{t}}:</span>
                 <span v-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
                 <span v-else>{{$parent.detail[k]}}</span>
@@ -287,9 +287,6 @@
               margin-top:10px;
               padding:15px;
               border:1px solid $border;
-              .miner_hide{
-                opacity: 0;
-              }
             }
             h4{
               margin-top:20px;
