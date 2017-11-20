@@ -139,6 +139,7 @@
           document.querySelector('.form')[1].value = '最小提取0.001'
           document.querySelector('.form')[1].style = 'color:red'
           form.btn.setAttribute('disabled', true)
+          return false
         }
         var data = api.checkFrom(form, this, true)
         var sendData = {token: this.token, user_id: this.user_id}
