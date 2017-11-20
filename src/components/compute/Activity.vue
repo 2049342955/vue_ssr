@@ -118,12 +118,12 @@
       </div>
     </div>
     <MyMask :form="form[nowForm]" :title="title" :contract="contract" v-if="edit"></MyMask>
-    <mt-popup position="bottom" v-model="mobileEdit" :closeOnClickModal="false">
+    <mt-popup position="bottom" v-model="mobileEdit" :closeOnClickModal="false"  style="width:12rem;">
       <div class="close" @click="closeEdit(1)">
         <span class="icon"></span>
       </div>
       <div class="agreement" v-if="contract" v-html="contract"></div>
-      <form class="form" @submit.prevent="submit" novalidate v-else>
+      <form class="form" @submit.prevent="submit" novalidate v-else  style="box-sizing:border-box;margin-top:1rem;">
         <FormField :form="form[nowForm]"></FormField>
         <button name="btn">提交</button>
       </form>
