@@ -246,6 +246,9 @@
           text-align: center;
         }
         .box_content{
+          p{
+            text-indent: 0.2rem;
+          }
           .foot{
             font-size: 16px;
           }
