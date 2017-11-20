@@ -5,7 +5,7 @@
         <span class="left">< <em>返回</em></span>
         <span>{{detail.product_name}}</span>
       </div>
-      <Pay v-if="next" page="cloudCompute" :proData="proData2" :proText="proText2" :proData3="proData3" :proText3="proText3"></Pay>
+      <Pay v-if="next" page="cloudCompute" :proData="$route.params.type!=='1'?proData2:proData4" :proText="proText2" :proData3="proData3" :proText3="proText3"></Pay>
       <Product v-else page="cloudCompute" :proData="proData" :proText="proText"></Product>
     </div>
   </section>
@@ -32,6 +32,7 @@
         proText2: {hashType: '算力类型', hash: '每台矿机算力', status: '购买类型', incomeType: '结算方式'},
         proData3: {one_amount: {title: '分期金额', unit: '元'}, fee: {title: '手续费率', unit: '%'}, payment: {title: '还款来源', unit: '算力收益/资金余额'}},
         proText3: {hashfee: '手续费'},
+        proData4: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, hashType: {title: '算力类型', unit: ''}, hash: {title: '每台服务器算力', unit: 'T'}},
         items: {month_money: {title: '月还款', unit: '元'}, rate: {title: '分期期数', unit: '期'}, fee_money: {title: '手续费', unit: '元'}, total_money: {title: '费用总计', unit: '元'}},
         table: [],
         totalPrice: 0,
@@ -80,18 +81,22 @@
           api.tips('暂不能购买')
           return false
         }
-        this.det(this.rate)
+        if (show) {
+          this.det()
+        }
         var self = this
         util.post('productOrder', {sign: api.serialize({token: this.token, product_id: this.$route.params.id, num: this.number})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.next = true
             self.balance = res.balance
-            if (self.$route.path.includes('yes')) {
+            if (this.$route.params.type === '2') {
               self.content = res.part_content
-            } else if (self.$route.path.includes('no')) {
+            } else {
               self.content = res.content
             }
-            self.content1 = res.content1
+            if (this.$route.params.type !== '1') {
+              self.content1 = res.content1
+            }
           })
         })
       },
@@ -110,9 +115,9 @@
         var leftAmount = this.initNum - this.number
         this.leftNum = leftAmount < 0 ? 0 : leftAmount
       },
-      det (rate) {
+      det () {
         var self = this
-        util.post('getRate', {sign: api.serialize({token: this.token, rate_name: rate})}).then(function (res) {
+        util.post('getRate', {sign: api.serialize({token: this.token, rate_name: this.rate})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.detail.one_amount = self.detail.one_amount_value * self.number / 2
             self.detail.fee = res.fee * 100
@@ -120,8 +125,7 @@
           })
         })
         var loanAmount = this.detail.one_amount_value * this.number / 2
-        console.log(this.detail.one_amount_value)
-        util.post('getLoanDetail', {sign: api.serialize({token: this.token, rate_name: rate, loan_money: loanAmount})}).then(function (res) {
+        util.post('getLoanDetail', {sign: api.serialize({token: this.token, rate_name: this.rate, loan_money: loanAmount})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.detail.month_money = res.month_money
             self.detail.fee_money = res.fee_money
@@ -133,12 +137,17 @@
       },
       onChange (e) {
         this.rate = this.month[e.target.value]
-        this.det(this.rate)
+        this.det()
         this.detail.fee = this.sort[e.target.value]
       }
     },
     mounted () {
       var self = this
+      if (this.$route.params.type !== '2') {
+        this.rateshow = false
+      } else {
+        this.rateshow = true
+      }
       util.post('productDetail', {sign: api.serialize({token: this.token, product_id: this.$route.params.id})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.initNum = res.amount - res.buyed_amount
