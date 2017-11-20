@@ -46,7 +46,7 @@
         <button name="btn">提交</button>
       </form>
       <div class="popup_chart" v-if="edit===2">
-        <IncomeChart/>
+        <IncomeChart></IncomeChart>
       </div>
     </mt-popup>
   </section>
