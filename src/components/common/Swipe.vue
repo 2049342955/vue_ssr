@@ -38,7 +38,7 @@
             <router-link to="/bdc" v-else-if="k>=3">
               <img :src="require('@/assets/images/mobile3.jpg')" alt="">
             </router-link>
-            <router-link to="/user/computeProperty" v-else>
+            <router-link to="/mobile/property" v-else>
               <img :src="require('@/assets/images/mobile2.jpg')" alt="">
             </router-link>
           </template>
