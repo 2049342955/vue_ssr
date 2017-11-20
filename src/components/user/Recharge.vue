@@ -56,8 +56,9 @@
     },
     methods: {
       submit () {
+        var mobile = api.checkEquipment()
         var form = document.querySelector('.form')
-        var data = api.checkFrom(form, this, api.checkEquipment())
+        var data = api.checkFrom(form, this, mobile)
         var sendData = {token: this.token}
         if (!data) return false
         var self = this
@@ -67,6 +68,11 @@
           util.post('applyBalanceRecharge', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
             api.checkAjax(self, res, () => {
               res.subject = encodeURIComponent(res.subject)
+              if (mobile) {
+                res = Object.assign(res, {is_mobile: 1})
+              } else {
+                res = Object.assign(res, {is_mobile: 0})
+              }
               util.post('alipay', {sign: api.serialize(Object.assign({url: callbackUrl, token: self.token}, res))}).then((resData) => {
                 api.checkAjax(self, data, () => {
                   location.href = resData.url
