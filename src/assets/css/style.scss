@@ -1092,11 +1092,15 @@
       right:12px;
     }
     .form{
+      box-sizing:border-box;
+      margin-top:1rem;
       @include form(v)
     }
     .agreement,.form{
       padding:15px;
-      height:calc(90vh - 30px);
       overflow:auto;
+    }
+    .agreement{
+      height:calc(90vh - 30px);
     }
   }

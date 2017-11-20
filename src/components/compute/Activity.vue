@@ -123,7 +123,7 @@
         <span class="icon"></span>
       </div>
       <div class="agreement" v-if="contract" v-html="contract"></div>
-      <form class="form" @submit.prevent="submit" novalidate v-else  style="box-sizing:border-box;margin-top:1rem;">
+      <form class="form" @submit.prevent="submit" novalidate v-else>
         <FormField :form="form[nowForm]"></FormField>
         <button name="btn">提交</button>
       </form>
