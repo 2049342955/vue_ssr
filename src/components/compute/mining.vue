@@ -237,4 +237,14 @@
         margin-top: 30px;
     }
 }
+@media screen and (max-width: 1200px){
+      .fixed_header{
+          display:none;
+      }
+      .mining{
+         .side{
+             display:none;
+         }
+      }
+}
 </style>

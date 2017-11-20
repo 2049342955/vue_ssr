@@ -78,7 +78,7 @@
         <div class="box" v-html="$parent.detail.machine_advantage||$parent.detail.MinerAdvantage"></div>
       </div>
       <div class="info_item">
-        <h3>协议说明</h3>
+        <h3>补充说明</h3>
         <div class="box" v-html="$parent.detail.machine_agreement||$parent.detail.prProtocolSpeciaification"></div>
       </div>
       <div class="info_item" v-if="$route.params.type!=='1'">
