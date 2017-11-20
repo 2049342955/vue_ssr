@@ -223,7 +223,6 @@
           this.check(ele, '请同意服务条款', mobile)
           return false
         }
-        console.log(11)
         var callbackUrl = location.protocol + '//' + location.host + '/'
         var data = {miner_id: this.data.miner_id, number: this.number, mode: '2', token: this.token, user_id: this.user_id, amount: this.totalPrice, url: callbackUrl}
         var self = this

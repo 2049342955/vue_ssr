@@ -1,159 +1,150 @@
 <template>
   <section class="pay">
-    <template v-if="!showAgreement">
-      <div class="orderMsg">
-        <h3 class="title">确认订单信息</h3>
-        <div class="orderDetail">
-          <div class="detailH">
-            <div class="borderR" v-for="d,k in proData">
-              <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
-              <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
-              <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
-              <p>{{d.title}}</p>
-            </div>
+    <div class="orderMsg">
+      <h3 class="title">确认订单信息</h3>
+      <div class="orderDetail">
+        <div class="detailH">
+          <div class="borderR" v-for="d,k in proData">
+            <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
+            <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
+            <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
+            <p>{{d.title}}</p>
           </div>
-          <div class="detailF" v-if="$route.params.type!=='1'">
-            <p v-for="t,k in proText">{{t}}：
-              <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
-              <span class="value" v-else-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
-              <span class="value" v-else>{{$parent.detail[k]}}</span>
-            </p>
+        </div>
+        <div class="detailF" v-if="$route.params.type!=='1'">
+          <p v-for="t,k in proText">{{t}}：
+            <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
+            <span class="value" v-else-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
+            <span class="value" v-else>{{$parent.detail[k]}}</span>
+          </p>
+        </div>
+        <!-- <div class="address_input" @click="openContract(2)" v-else>
+          <template v-if="addressData">{{decodeURIComponent(addressData.province_name+addressData.city_name+addressData.area_name+addressData.area_details+' '+addressData.post_user)+'('+addressData.post_mobile+')'}}</template>
+          <template v-else>+ 添加地址</template>
+        </div> -->
+      </div>
+    </div>
+    <div class="orderMsg" v-show="$parent.show">
+      <h3 class="title">分期详情</h3>
+      <div class="orderDetail">
+        <div class="detailH">
+          <div class="borderR" v-for="d,k in proData3" style="width:33.3%;">
+            <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
+            <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
+            <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
+            <p>{{d.title}}</p>
           </div>
-          <div class="address_input" @click="openContract(2)" v-else>
-            <template v-if="addressData">{{decodeURIComponent(addressData.province_name+addressData.city_name+addressData.area_name+addressData.area_details+' '+addressData.post_user)+'('+addressData.post_mobile+')'}}</template>
-            <template v-else>+ 添加地址</template>
-          </div>
+        </div>
+        <div class="detailF">
+          <p>
+            <span>分期期限 ： </span>
+            <select @change="$parent.onChange" class="mont">
+              <option v-for="n,k in $parent.month" :value="k">{{n}}个月</option>
+            </select>
+          </p>
+          <p v-for="t,k in proText3">{{t}}：
+            <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
+            <span class="value" v-else-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
+            <span class="value" v-else>{{$parent.detail[k]}}</span>
+          </p>
+          <p><a href="javascript:;" @click="close(true)">查看分期计划</a></p>
         </div>
       </div>
-      <div class="orderMsg" v-show="$parent.show">
-        <h3 class="title">分期详情</h3>
-        <div class="orderDetail">
-          <div class="detailH">
-            <div class="borderR" v-for="d,k in proData3" style="width:33.3%;">
-              <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
-              <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
-              <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
-              <p>{{d.title}}</p>
-            </div>
+    </div>
+    <div class="orderPay">
+      <div class="detail">
+        <img :src="$parent.detail.product_img" alt="">
+      </div>
+      <form class="form payForm" action="" @submit.prevent="pay" novalidate>
+        <div class="pay_text">
+          <div class="pay_value">
+            应付金额：
+            <span class="value">{{(page==='cloudCompute'?totalPrice:$parent.detail.total_price)|format}}</span>
+            <span>元</span>
           </div>
-          <div class="detailF">
-            <p>
-              <span>分期期限 ： </span>
-              <select @change="$parent.onChange" class="mont">
-                <option v-for="n,k in $parent.month" :value="k">{{n}}个月</option>
-              </select>
-            </p>
-            <p v-for="t,k in proText3">{{t}}：
-              <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
-              <span class="value" v-else-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
-              <span class="value" v-else>{{$parent.detail[k]}}</span>
-            </p>
-            <p><a href="javascript:;" @click="close(true)">查看分期计划</a></p>
+        </div>
+        <div class="pay_text">
+          <div class="pay_money">
+            账户余额：
+            <span class="money">{{$parent.balance}}</span>
+            <span>元</span>
           </div>
+          <router-link to="/user/recharge">充值</router-link>
+        </div>
+        <FormField :form="form" class="form"></FormField>
+        <label for="accept">
+          <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
+          <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? ($parent.show?'分期':'购买'):'转让'}}协议》</a><template v-if="$route.params.type!=='1'">和<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
+          <span class="select_accept">{{tips}}</span>
+        </label>
+        <button name="btn">确认支付</button>
+        <!-- <div class="zhifubao_btn" @click="zhifubao">支付宝支付</div> -->
+      </form>
+    </div>
+    <div class="Installment_plan" v-show="showpay">
+      <div class="opacity">
+        <p class="title">分期计划<span @click="close(false)"><img :src="close2" style="width:12px;height:12px;position:relative;top:-6px;"/></span></p>
+        <div class="item" style="overflow:hidden;">
+          <p  v-for="n,k in $parent.items">{{n.title}} : {{$parent.detail[k]}}{{n.unit}}</p>
+        </div>
+        <table border="1" style="margin-top:24px;">
+           <thead>
+             <tr>
+               <th>期数</th>
+               <th>还款日期</th>
+               <th>分期余额</th>
+               <th>手续费</th>
+               <th>本期还款额</th>
+             </tr>
+           </thead>
+           <tbody>
+             <tr v-for="n,k in $parent.table">
+               <td>{{n.rate}}</td>
+               <td>{{n.datetime}}</td>
+               <td>{{n.loan_money_balance}}</td>
+               <td>{{n.fee}}</td>
+               <td>{{n.repaymoney}}</td>
+             </tr>
+           </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="mobile_box">
+      <div class="price">
+        <span>应付金额</span>
+        <span class="val">{{$parent.totalPrice}}元</span>
+      </div>
+      <div class="confirm_info">
+        <div class="item" v-for="m,k in mobileNav">
+          <span>{{m.title}}</span>
+          <span v-if="k==='number'&&page==='cloudCompute'">{{$parent.number}}{{m.unit}}</span>
+          <span v-else-if="k==='number'&&page!=='cloudCompute'">{{$parent.detail.hash}}{{m.unit}}</span>
+          <span v-else>{{$parent.detail[k]}}{{m.unit}}</span>
         </div>
       </div>
-      <div class="orderPay">
-        <div class="detail">
-          <div class="img">
-            <img :src="$parent.detail.product_img" alt="">
+      <form action="" class="form payForm2" @submit.prevent="pay(1)" novalidate>
+        <div class="pay_info">
+          <div class="pay_item">
+            <div>
+              <span>可用余额</span>
+              <span class="val">{{$parent.balance}}元</span>
+            </div>
+            <router-link to="/mobile/recharge">充值</router-link>
           </div>
-          <div class="text">
-            <p v-if="$route.params.type!=='1'">
-              <span class="title">批次所在区域：</span>
-              <span class="value">{{$parent.detail.batch_area}}</span>
-            </p>
+          <div class="pay_item">
+            <mt-field type="password" label="交易密码" name="password" placeholder="请输入交易密码" state="" @blur="test"></mt-field>
           </div>
         </div>
-        <form class="form payForm" action="" @submit.prevent="pay" novalidate>
-          <div class="pay_text">
-            <div class="pay_value">
-              应付金额：
-              <span class="value">{{(page==='cloudCompute'?totalPrice:$parent.detail.total_price)|format}}</span>
-              <span>元</span>
-            </div>
-          </div>
-          <div class="pay_text">
-            <div class="pay_money">
-              账户余额：
-              <span class="money">{{$parent.balance}}</span>
-              <span>元</span>
-            </div>
-            <router-link to="/user/recharge">充值</router-link>
-          </div>
-          <FormField :form="form" class="form"></FormField>
+        <div class="mobile_btn">
+          <mt-button type="primary" size="large" name="btn">确认支付</mt-button>
           <label for="accept">
             <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
-            <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? ($parent.show?'分期':'购买'):'转让'}}协议》</a><template v-if="$route.params.type!=='1'">和<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
+            <span @click="openContract(1,1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? ($parent.show?'分期':'购买'):'转让'}}协议》</a><template v-if="$route.params.type!=='1'">、<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
             <span class="select_accept">{{tips}}</span>
           </label>
-          <button name="btn">确认支付</button>
-        </form>
-      </div>
-      <div class="Installment_plan" v-show="showpay">
-        <div class="opacity">
-          <p class="title">分期计划<span @click="close(false)"><img :src="close2" style="width:12px;height:12px;position:relative;top:-6px;"/></span></p>
-          <div class="item" style="overflow:hidden;">
-            <p  v-for="n,k in $parent.items">{{n.title}} : {{$parent.detail[k]}}{{n.unit}}</p>
-          </div>
-          <table border="1" style="margin-top:24px;">
-             <thead>
-               <tr>
-                 <th>期数</th>
-                 <th>还款日期</th>
-                 <th>分期余额</th>
-                 <th>手续费</th>
-                 <th>本期还款额</th>
-               </tr>
-             </thead>
-             <tbody>
-               <tr v-for="n,k in $parent.table">
-                 <td>{{n.rate}}</td>
-                 <td>{{n.datetime}}</td>
-                 <td>{{n.loan_money_balance}}</td>
-                 <td>{{n.fee}}</td>
-                 <td>{{n.repaymoney}}</td>
-               </tr>
-             </tbody>
-          </table>
         </div>
-      </div>
-      <div class="mobile_box">
-        <div class="price">
-          <span>应付金额</span>
-          <span class="val">{{$parent.totalPrice}}元</span>
-        </div>
-        <div class="confirm_info">
-          <div class="item" v-for="m,k in mobileNav">
-            <span>{{m.title}}</span>
-            <span v-if="k==='number'&&page==='cloudCompute'">{{$parent.number}}{{m.unit}}</span>
-            <span v-else-if="k==='number'&&page!=='cloudCompute'">{{$parent.detail.hash}}{{m.unit}}</span>
-            <span v-else>{{$parent.detail[k]}}{{m.unit}}</span>
-          </div>
-        </div>
-        <form action="" class="form payForm2" @submit.prevent="pay(1)" novalidate>
-          <div class="pay_info">
-            <div class="pay_item">
-              <div>
-                <span>可用余额</span>
-                <span class="val">{{$parent.balance}}元</span>
-              </div>
-              <router-link to="/mobile/recharge">充值</router-link>
-            </div>
-            <div class="pay_item">
-              <mt-field type="password" label="交易密码" name="password" placeholder="请输入交易密码" state="" @blur="test"></mt-field>
-            </div>
-          </div>
-          <div class="mobile_btn">
-            <mt-button type="primary" size="large" name="btn">确认支付</mt-button>
-            <label for="accept">
-              <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
-              <span @click="openContract(1,1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? ($parent.show?'分期':'购买'):'转让'}}协议》</a><template v-if="$route.params.type!=='1'">、<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
-              <span class="select_accept">{{tips}}</span>
-            </label>
-          </div>
-        </form>
-      </div>
-    </template>
+      </form>
+    </div>
     <MyMask :form="address" :title="title" :contract="contract" v-if="edit"></MyMask>
     <mt-popup position="bottom" v-model="mobileEdit" :closeOnClickModal="false">
       <div class="close" @click="closeEdit(1)">
@@ -210,7 +201,6 @@
         form: [{name: 'password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
         tips: '请同意服务条款',
         totalPrice: 0,
-        showAgreement: 0,
         accept: false,
         edit: 0,
         mobileEdit: false,
@@ -292,7 +282,11 @@
           }, ff.btn)
         })
       },
+      zhifubao (mobile) {
+        console.log(mobile)
+      },
       openContract (n, mobile) {
+        console.log(n, mobile)
         this.isMobile = mobile
         this.openMask(mobile, n)
         document.body.style.overflow = 'hidden'
@@ -312,9 +306,6 @@
         } else {
           this.edit = ''
         }
-      },
-      agree () {
-        this.showAgreement = 0
       },
       close (sh) {
         this.showpay = sh
@@ -361,7 +352,7 @@
       },
       openMask (mobile, n) {
         window.scroll(0, 0)
-        if (mobile) {
+        if (mobile === 1) {
           this.mobileEdit = true
         } else {
           this.edit = n
@@ -493,35 +484,18 @@
       padding: 20px 25px;
       @include flex(space-between)
       .detail{
-        width:60%;
+        width:50%;
         background: #f7f8fa;
         height: 290px;
-        @include flex(space-between)
-        .img{
-          @include fitimg(295,235)
-        }
-        .text{
-          width:50%;
-          padding:25px;
-          p{
-            color:$light_text;
-            .title{
-              color: $light_black;
-            }
-            .value{
-              font-size: 18px;
-              font-weight: bold;
-              color:$text;
-            }
-            & + p{
-              margin-top:30px
-            }
-          }
+        img{
+          width:100%;
+          height:100%;
+          object-fit:cover
         }
       }
       form{
         @include form(v);
-        width:360px;
+        width:45%;
         .pay_text{
           margin-bottom: 20px;
           @include flex(space-between);
@@ -561,6 +535,16 @@
         }
         label{
           @include accept_label
+        }
+        .zhifubao_btn{
+          font-size: 16px;
+          color:#fff;
+          padding:5px 10px;
+          cursor: pointer;
+          border-radius:5px;
+          background: $blue;
+          text-align: center;
+          line-height: 38px;
         }
         button{
           background: #ff721f;
