@@ -116,7 +116,7 @@
       </div>
       <div class="product_desc">
         <p class="title">产品介绍</p>
-        <div class="product_content" v-html="$parent.detail.machine_intro"></div>
+        <div class="product_content" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief"></div>
       </div>
       <div class="mobile_btn">
         <mt-button type="primary" size="large" @click="openMask">立即购买</mt-button>
