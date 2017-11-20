@@ -43,7 +43,7 @@
       </div>
       <form class="form" @submit.prevent="submit" novalidate v-if="edit===1" style="box-sizing:border-box;margin-top:1rem;">
         <FormField :form="GetIncome"></FormField>
-        <p>手续费：0.0002btc</p>
+        <p>手续费：{{total_price * fee|format(8)}}btc<span class="fee">({{fee*100+'%'}})</span></p>
         <button name="btn">提交</button>
       </form>
       <div class="popup_chart" v-if="edit===2">
@@ -185,6 +185,9 @@
         true_name: state => state.info.true_name,
         bank_card: state => state.info.bank_card
       })
+    },
+    filters: {
+      format: api.decimal
     }
   }
 </script>
