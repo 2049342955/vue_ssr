@@ -196,13 +196,21 @@
         }
         if (!(this.true_name && this.true_name.status === 1)) {
           api.tips('请先实名认证', () => {
-            this.$router.push({name: 'account'})
+            if (api.checkEquipment) {
+              this.$router.push({name: 'maccount'})
+            } else {
+              this.$router.push({name: 'account'})
+            }
           })
           return false
         }
         if (!(this.bank_card && this.bank_card.status === 1)) {
           api.tips('请先绑定银行卡', () => {
-            this.$router.push({name: 'account'})
+            if (api.checkEquipment) {
+              this.$router.push({name: 'maccount'})
+            } else {
+              this.$router.push({name: 'account'})
+            }
           })
           return false
         }
