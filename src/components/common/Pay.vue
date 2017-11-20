@@ -133,7 +133,7 @@
                 <span>可用余额</span>
                 <span class="val">{{$parent.balance}}元</span>
               </div>
-              <router-link to="/user/recharge">充值</router-link>
+              <router-link to="/mobile/recharge">充值</router-link>
             </div>
             <div class="pay_item">
               <mt-field type="password" label="交易密码" name="password" placeholder="请输入交易密码" state="" @blur="test"></mt-field>
