@@ -236,12 +236,29 @@
       }
     }
     .mint-popup{
+      background: #fff;
+      @include popup
       width:60vw;
+      height:90vh;
       .agreement{
-        @include article
-        .foot{
-          font-size: 24px;
-          text-align: right;
+        height:calc(90vh - 30px);
+        h2{
+          text-align: center;
+        }
+        .box_content{
+          .foot{
+            font-size: 16px;
+          }
+          .btn{
+            text-align: center;
+            margin-top:15px;
+            a{
+              padding:5px 30px;
+              @include button($blue)
+              font-size: 16px;
+              border-radius:5px
+            }
+          }
         }
       }
     }
@@ -250,19 +267,18 @@
       padding:30px 15px;
       background: #fff;
       .mint-popup{
-        @include popup
-        .agreement .box_content{
-          padding:0;
-          font-size: 0.5rem;
-          h3{
-            margin-top:10px;
-          }
-          .foot{
-            font-size: 16px;
-          }
-          .btn a{
-            padding:5px 30px;
-            font-size: 0.6rem;
+        width:100vw;
+        height:80vh;
+        .agreement{
+          height:calc(80vh - 30px);
+          .box_content{
+            font-size: 0.5rem;
+            .foot{
+              font-size: 0.5rem;
+            }
+            .btn a{
+              font-size: 0.6rem;
+            }
           }
         }
       }
