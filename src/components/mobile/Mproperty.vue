@@ -106,6 +106,7 @@
       },
       openMask (k) {
         this.total_price = 0
+        this.edit = k
         if (!(this.true_name && this.true_name.status === 1)) {
           this.myToast('请先实名认证')
           return false
@@ -114,12 +115,11 @@
           this.myToast('请先绑定银行卡')
           return false
         }
-        if (+this.computeData.balance_account <= 0) {
+        if (+this.computeData.balance_account <= 0 && this.edit !== 2) {
           this.myToast('您的账户余额不足，不能提取收益')
           return false
         }
         this.showModal = true
-        this.edit = k
         if (k === 1) {
           var requestUrl = 'showWithdrawCoin'
           var data = {token: this.token, user_id: this.user_id, product_hash_type: this.hashType[this.nowEdit] && this.hashType[this.nowEdit].id}
