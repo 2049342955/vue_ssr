@@ -16,7 +16,7 @@
         <tr v-for="l,i in list" @click="goPay(l.product_id)">
           <td v-for="v,k in nav">
             <template v-if="k==='name'"><i class="iconfont">&#xe605;</i>{{l[k]}}</template>
-            <template v-else-if="k==='left_num'">{{l.amount-l.buyed_amount+v.unit}}</template>
+            <template v-else-if="k==='left_num'">{{l.amount-l.sell_amount+v.unit}}</template>
             <template v-else>{{l[k]+[v.unit]}}</template>
           </td>
           <td><a href="javascript:;">购买</a></td>
@@ -84,7 +84,7 @@
     },
     mounted () {
       var self = this
-      util.post('showTopMiner', {sign: api.serialize({token: this.token})}).then(function (res) {
+      util.post('product_top_list', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.list = res
         })
