@@ -805,18 +805,20 @@
 // process
   @mixin process{
     padding:25px 30px;
-    @include flex
+    @include flex(space-between)
     .item{
       &:not(:last-child){
-        width:37%;
+        position: relative;
+        width:calc(33% - 33px);
         .line{
+          display: inline-block;
           margin:0 15px;
-          width:30%;
+          width:calc(100% - 130px);
           height: 1px;
           background: $border;
+          vertical-align: middle;
         }
       }
-      @include flex
       color:$blue;
       i{
         position: relative;
@@ -824,6 +826,7 @@
         border: 1px solid $blue;
         text-align: center;
         margin-right:5px;
+        vertical-align: bottom;
         &:empty:before{
           content:'';
           @include right(8,5,$blue)
@@ -1082,10 +1085,6 @@
   }
 // mobile_popup
   @mixin popup{
-    width:100vw;
-    padding:15px;
-    padding-top:40px;
-    max-height:90vh;
     .close{
       @include close
       top:5px;
@@ -1095,8 +1094,8 @@
       @include form(v)
     }
     .agreement,.form{
-      max-height:70vh;
-      min-height: 50vh;
+      padding:15px;
+      height:calc(90vh - 30px);
       overflow:auto;
     }
   }

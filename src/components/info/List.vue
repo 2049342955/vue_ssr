@@ -44,7 +44,7 @@
     data () {
       return {
         lists: [],
-        str: {website: '网站动态', product: '产品公告', news: '算力资讯'},
+        str: {website: '网站动态', product: '产品公告', news: '产业资讯'},
         requestUrl: {website: 'webDynamic', product: 'webAnnouncoment', news: 'suanliMessage'},
         img1: require('@/assets/images/zx.jpg')
       }

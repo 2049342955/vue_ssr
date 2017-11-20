@@ -79,7 +79,7 @@
       },
       speed: {
         type: Number,
-        default: 500
+        default: 1000
       },
       autoPlay: {
         type: Number,
@@ -193,7 +193,7 @@
         this.setTranslate()
         this.transitioning = false
         this.transitionDuration = this.speed
-        setTimeout(this.onTransitionEnd, this.speed)
+        setTimeout(this.onTransitionEnd, this.speed - 500)
       },
       next () {
         var page = this.currentPage
