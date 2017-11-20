@@ -67,7 +67,7 @@
     </div>
     <button @click="logout">退出</button>
     <div class="null"></div>
-    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false" style="width:12rem;">
+    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false">
       <div class="close" @click="closeEdit()">
         <span class="icon"></span>
       </div>

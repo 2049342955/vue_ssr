@@ -149,8 +149,8 @@
         var self = this
         util.post('withdrawCoin', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.showModal = false
-            self.myToast('提币成功')
+            // self.showModal = false
+            // self.myToast('提币成功')
           }, form.btn)
         })
       },
