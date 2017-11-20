@@ -41,7 +41,7 @@
       <div class="close" @click="closeEdit()">
         <span class="icon"></span>
       </div>
-      <form class="form" @submit="submit" novalidate v-if="edit===1" style="box-sizing:border-box;margin-top:1rem;">
+      <form class="form" @submit.prevent="submit" novalidate v-if="edit===1" style="box-sizing:border-box;margin-top:1rem;">
         <FormField :form="GetIncome"></FormField>
         <p>手续费：0.0002btc</p>
         <button name="btn">提交</button>
@@ -135,12 +135,11 @@
       },
       submit () {
         var form = document.querySelector('.form')
-        if (document.querySelector('.form')[1].value < 0.001) {
-          document.querySelector('.form')[1].value = '最小提取0.001'
-          document.querySelector('.form')[1].style = 'color:red'
-          form.btn.setAttribute('disabled', true)
-          return false
-        }
+        // if (document.querySelector('.form')[1].value < 0.001) {
+        //   document.querySelector('.form')[1].value = '最小提取0.001'
+        //   document.querySelector('.form')[1].style = 'color:red'
+        //   return false
+        // }
         var data = api.checkFrom(form, this, true)
         var sendData = {token: this.token, user_id: this.user_id}
         if (!data) return false
@@ -149,8 +148,8 @@
         var self = this
         util.post('withdrawCoin', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           api.checkAjax(self, res, () => {
-            // self.showModal = false
-            // self.myToast('提币成功')
+            self.showModal = false
+            self.myToast('提币成功')
           }, form.btn)
         })
       },
