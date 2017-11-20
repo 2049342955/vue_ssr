@@ -60,10 +60,15 @@
         var form = document.querySelector('.form')
         var data = api.checkFrom(form, this, mobile)
         var sendData = {token: this.token}
+        var callbackUrl = ''
         if (!data) return false
         var self = this
         form.btn.setAttribute('disabled', true)
-        var callbackUrl = location.protocol + '//' + location.host + '/user/moneyFlow/default'
+        if (mobile) {
+          callbackUrl = location.protocol + '//' + location.host + '/user/moneyFlow/default'
+        } else {
+          callbackUrl = location.protocol + '//' + location.host + '/mobile/moneyFlow'
+        }
         if (this.rechargeNo) {
           util.post('applyBalanceRecharge', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
             api.checkAjax(self, res, () => {
