@@ -1,7 +1,7 @@
 <template>
   <section class="mask">
     <ul v-show="contentshow">
-      <li class="list_one" @click="weight()" v-if="unread_num"><span></span>全部标为已读</li>
+      <li class="list_one" @click="setRead()" v-if="unread_num"><span></span>全部标为已读</li>
       <li v-for="d,k in data" :key="k" @click="detailcli(d.id)" :class="['itemlist', {isread: d.is_read}]">
         <span>{{d.title}}</span>
         <i>{{d.created_at.split(" ")[0]}}</i>
