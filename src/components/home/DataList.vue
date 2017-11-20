@@ -33,10 +33,10 @@
               <h4>每台服务器价格<span><b>{{d.one_amount_value}}</b>元</span></h4>
               <div class="mobile_text">
                 <div class="mobile_text_item">每台算力<b>{{d.hash}}T</b></div>
-                <div class="mobile_text_item">剩余可售<b>{{d.amount-d.buyed_amount}}台</b></div>
+                <div class="mobile_text_item">剩余可售<b>{{d.amount-d.sell_amount}}台</b></div>
               </div>
             </div>
-            <div class="sell_progress">{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)+"%"}}</div>
+            <div class="sell_progress">{{((d.amount-d.sell_amount)/d.amount*100).toFixed(1)+"%"}}</div>
             <!-- <div id="progress"><span></span></div> -->
           </div>
         </div>
