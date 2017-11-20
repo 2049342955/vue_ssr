@@ -286,8 +286,7 @@
         console.log(mobile)
       },
       openContract (n, mobile) {
-        console.log(n, mobile)
-        this.isMobile = mobile
+        this.isMobile = (mobile === 1) && 1
         this.openMask(mobile, n)
         document.body.style.overflow = 'hidden'
         if (n === 1) {
@@ -301,7 +300,7 @@
       },
       closeEdit (mobile) {
         document.body.style.overflow = 'auto'
-        if (mobile) {
+        if (mobile === 1) {
           this.mobileEdit = false
         } else {
           this.edit = ''
