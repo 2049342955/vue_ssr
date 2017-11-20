@@ -12,7 +12,9 @@
         </div>
       </div>
     </div>
-    <div class="issues_content" v-show="!show" v-html="nowItem.content" style="margin-bottom:60px;background:white;">
+    <div class="issues_content" v-show="!show" style="margin-bottom:60px;background:white;">
+      <p v-html="nowItem.content"></p>
+      <button @click="back()">同 意</button>
     </div>
   </section>
 </template>
@@ -58,6 +60,9 @@
         util.post('getHelpContent', {sign: api.serialize({token: this.token, help_id: helpid})}).then(function (res) {
           self.nowItem = res
         })
+      },
+      back () {
+        window.location.reload()
       }
     },
     mounted () {
@@ -95,6 +100,14 @@
             }
             span{
               text-indent:0rem !important;
+            }
+            button{
+              width: 3rem;
+              height: 1.5rem;
+              background: #327fff;
+              border:0;
+              color: white;
+              float: right;
             }
           }
    .issues_boxleft{

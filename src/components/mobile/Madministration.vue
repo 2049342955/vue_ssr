@@ -19,11 +19,11 @@
         <i><em><img src="../../assets/images/leftjian.png" style="width:0.3rem;height:0.4rem;margin-left:0.4rem;line-height:1.5rem;position:relative;top:-0.8rem;"/></em></i>
       </router-link>
     </div> -->
-    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false">
+    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false" style="width:12rem;">
       <div class="close" @click="closeEdit()">
         <span class="icon"></span>
       </div>
-      <form class="form" @submit.prevent="submit" novalidate>
+      <form class="form" @submit.prevent="submit" novalidate style="box-sizing:border-box;margin-top:1rem;">
         <FormField :form="form[edit]"></FormField>
         <button name="btn">提交</button>
       </form>

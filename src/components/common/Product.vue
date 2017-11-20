@@ -504,6 +504,7 @@
               height:90px;
               img{
                 height:90px;
+                width: 130px;
                 object-fit:cover
               }
             }
