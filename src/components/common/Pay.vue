@@ -144,7 +144,7 @@
             </div>
           </div>
           <div class="mobile_btn">
-            <mt-button type="primary" size="large" name="btn">立即支付</mt-button>
+            <mt-button type="primary" size="large" name="btn">确认支付</mt-button>
             <label for="accept">
               <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
               <span @click="openContract(1,1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? ($parent.show?'分期':'购买'):'转让'}}协议》</a><template v-if="$route.params.type!=='1'">、<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
@@ -217,7 +217,9 @@
         contract: '',
         showpay: '',
         close2: require('@/assets/images/close1.jpg'),
-        mobileNav: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '运维费约', unit: 'btc'}, batch_area: {title: '批次所在区域', unit: ''}},
+        mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '运维费约', unit: 'btc'}, batch_area: {title: '批次所在区域', unit: ''}},
+        mobileNav2: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, hash: {title: '每台服务器算力', unit: 'T'}},
+        mobileNav: {},
         address: [{name: 'post_user', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'post_mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号码', pattern: 'tel'}, {name: 'address', type: 'select', title: '地址', isChange: true}, {name: 'area_details', type: 'text', title: '详细地址', placeholder: '请输入详细地址', isChange: true}],
         isMobile: false,
         addressData: ''
@@ -254,33 +256,38 @@
         if (this.$route.params.type === '1') {
           if (!this.addressData) {
             this.tip(mobile, '请填写收货地址', ff.accept)
-            this.openContract(2)
+            this.openContract(2, mobile)
             return false
           }
           url = 'saveMiner'
           data = Object.assign({user_id: this.$parent.user_id, miner_id: this.$route.params.id, number: this.$parent.number}, data, this.addressData)
-          callbackUrl = '/user/order/3/1'
+          callbackUrl = 'order/3/1'
         } else {
           if (this.page === 'cloudCompute') {
             if (this.$parent.show) {
               url = 'productMallLoan'
               data = Object.assign({product_id: this.$route.params.id, rate_name: this.$parent.rate, num: this.$parent.number}, data)
-              callbackUrl = '/user/repayment/0'
+              callbackUrl = 'repayment/0'
             } else {
               url = 'productMall'
               data = Object.assign({product_id: this.$route.params.id, num: this.$parent.number}, data)
-              callbackUrl = '/user/order/0/1'
+              callbackUrl = 'order/0/1'
             }
           } else {
             url = 'doTransfer_Hashrate'
             data = Object.assign({user_id: this.$parent.user_id, transfer_order_id: this.$route.params.id, num: this.$parent.number}, data)
-            callbackUrl = '/user/order/1/1'
+            callbackUrl = 'order/1/1'
           }
         }
         var self = this
         ff.btn.setAttribute('disabled', true)
         util.post(url, {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
+            if (mobile) {
+              callbackUrl = '/mobile/' + callbackUrl
+            } else {
+              callbackUrl = '/user/' + callbackUrl
+            }
             self.paySuccess(mobile, callbackUrl)
           }, ff.btn)
         })
@@ -360,8 +367,8 @@
           this.edit = n
         }
       },
-      submit () {
-        var form = document.querySelector('.form_content') || document.querySelector('.form')
+      submit (e) {
+        var form = e.target
         var data = api.checkFrom(form, this, this.isMobile)
         if (!data) return false
         this.addressData = data
@@ -395,6 +402,11 @@
         }
       } else {
         this.totalPrice = this.$parent.detail.total_price
+      }
+      if (this.$route.params.type === '1') {
+        this.mobileNav = this.mobileNav2
+      } else {
+        this.mobileNav = this.mobileNav1
       }
     },
     filters: {

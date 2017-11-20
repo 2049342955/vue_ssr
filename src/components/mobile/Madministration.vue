@@ -205,9 +205,6 @@
     }
     .mint-popup{
       @include popup
-      .form{
-        height:auto
-      }
     }
   }
 </style>
