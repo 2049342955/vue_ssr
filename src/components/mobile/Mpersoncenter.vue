@@ -73,12 +73,12 @@
       </div>
       <form class="form" @submit.prevent="submit" novalidate  style="box-sizing:border-box;margin-top:1rem;">
         <FormField :form="Withdrawals"></FormField>
+         <p>手续费：{{feedetail.balance_account * feedetail.withdraw_fee}}元<span class="fee">({{feedetail.withdraw_fee*100+'%'}})</span></p> 
         <button name="btn">提交</button>
       </form>
     </mt-popup>
   </div>
 </template>
-
 <script>
   import { Toast } from 'mint-ui'
   import util from '@/util'
@@ -98,6 +98,7 @@
         showModal: false,
         fee: 0,
         total_price: 0,
+        feedetail: '',
         amount: 0,
         product_hash_type: ''
       }
@@ -149,6 +150,7 @@
           var self = this
           util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
             api.checkAjax(self, res, () => {
+              self.feedetail = res
               self.fee = res.withdraw_fee
               self.amount = parseInt(res.balance_account)
             })
