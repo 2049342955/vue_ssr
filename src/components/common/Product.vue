@@ -11,7 +11,7 @@
         </div>
         <div class="product_con">
           <div class="product_img">
-            <img :src="$parent.detail.product_img" alt="">
+            <img :src="$parent.detail.product_img||$parent.detail.minerPicture" alt="">
           </div>
           <div class="product_text">
             <div class="product_data">
@@ -71,15 +71,15 @@
     <div class="info">
       <div class="info_item">
         <h3>产品介绍</h3>
-        <div class="box" v-html="$parent.detail.machine_intro"></div>
+        <div class="box" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief"></div>
       </div>
       <div class="info_item">
         <h3>产品优势</h3>
-        <div class="box" v-html="$parent.detail.machine_advantage"></div>
+        <div class="box" v-html="$parent.detail.machine_advantage||$parent.detail.MinerAdvantage"></div>
       </div>
       <div class="info_item">
         <h3>协议说明</h3>
-        <div class="box" v-html="$parent.detail.machine_agreement"></div>
+        <div class="box" v-html="$parent.detail.machine_agreement||$parent.detail.prProtocolSpeciaification"></div>
       </div>
       <div class="info_item" v-if="$route.params.type!=='1'">
         <h3>矿场相册</h3>
