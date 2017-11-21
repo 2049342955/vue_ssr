@@ -2,7 +2,7 @@
   <section class="issues">
     <div class="issues_boxleft" v-show="show">
       <div class="issues_listsoneone">
-        <div class="item" v-for="n,k in nav">
+        <div :class="['item', {open:num===k}]" v-for="n,k in nav">
           <p class="titleall" @click="fetchData(n.help_class_id,k,$event)">{{n.name}}<em></em></p>
           <div class="issues_listoneone" v-if="num===k">
             <a href="javascript:;" class="item" v-for="l,k in list" @click="detailcontent(l.id)">
@@ -14,7 +14,7 @@
     </div>
     <div class="issues_content" v-show="!show" style="background:white;margin-bottom:20px;">
       <div v-html="nowItem.content"></div>
-      <button @click="back()"  v-show="!show">同 意</button>
+      <button @click="back()"  v-show="!show">返回</button>
     </div>
   </section>
 </template>
@@ -39,20 +39,13 @@
           this.$store.commit('SET_NUM', -1)
           return false
         }
-        var eles = document.querySelector('.issues_listsoneone').children
-        for (var key = 0; key < eles.length; key++) {
-          eles[key].className = 'item'
-        }
         this.list = []
         var self = this
         util.post('getHelp', {sign: api.serialize({token: this.token, help_class_id: id})}).then(function (res) {
           self.list = res
         })
-        // e.target.parentNode.className = e.target.parentNode.className + ' open'
-        // console.log(e.target.parentNode, e.target.parentNode.className)
         setTimeout(() => {
           this.$store.commit('SET_NUM', k)
-          eles[k].className = 'item active'
         }, 0)
       },
       detailcontent (id) {
@@ -71,7 +64,7 @@
       var self = this
       util.post('getHelpClass', {sign: api.serialize({token: this.token})}).then(function (res) {
         self.nav = res
-        self.fetchData(res[self.num || 0].help_class_id, self.num || 0)
+        self.fetchData(res[self.num || 0] && res[self.num || 0].help_class_id, self.num || 0)
       })
     },
     computed: {
@@ -145,17 +138,11 @@
           &:hover{
             color:#327fff;
           }
-          &.active{
-            color:#327fff;
-          }
           &.open{
+            color:#327fff;
             em{
-              transform: rotate(135deg);
+              transform: rotate(-45deg);
             }
-          }
-          &.active .titleall img{
-            transform:rotate(-180deg);
-            transition: 0.5s;
           }
         }
       }
