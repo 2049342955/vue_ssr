@@ -199,7 +199,7 @@
         }
         if (!(this.true_name && this.true_name.status === 1)) {
           api.tips('请先实名认证', () => {
-            if (api.checkEquipment) {
+            if (this.$route.path.includes('mHome')) {
               this.$router.push({name: 'madministration'})
             } else {
               this.$router.push({name: 'account'})
@@ -209,7 +209,7 @@
         }
         if (!(this.bank_card && this.bank_card.status === 1)) {
           api.tips('请先绑定银行卡', () => {
-            if (api.checkEquipment) {
+            if (this.$route.path.includes('mHome')) {
               this.$router.push({name: 'madministration'})
             } else {
               this.$router.push({name: 'account'})
