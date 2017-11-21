@@ -22,47 +22,12 @@
       </div>
     </div>
     <div class="alllist">
-      <router-link to="/mobile/administration" class="route" style="margin-bottom:0.5rem;border-bottom:0;">
+      <router-link :to="n.link" class="route" v-for="n,k in nav" :key="k">
         <span class="left">
-          <img src="../../assets/images/zhang.png"/>
-          账户管理
+          <img :src="require('../../assets/images/icon'+(k+1)+'.png')"/>
+          {{n.name}}
         </span>
-        <img src="../../assets/images/leftjian.png" class="leftjian"/>
-      </router-link>
-      <router-link to="/mobile/moneyFlow" class="route">
-        <span class="left">
-          <img src="../../assets/images/liu.png"/>
-          资金流水
-        </span>
-        <img src="../../assets/images/leftjian.png" class="leftjian"/>
-      </router-link>
-      <router-link to="/mobile/order/0/1" class="route">
-        <span class="left">
-          <img src="../../assets/images/ding.png"/>
-          订单管理
-        </span>
-        <img src="../../assets/images/leftjian.png" class="leftjian"/>
-      </router-link>
-      <router-link to="/mobile/help" class="route">
-        <span class="left">
-          <img src="../../assets/images/wen.png"/>
-          常见问题
-        </span>
-        <img src="../../assets/images/leftjian.png" class="leftjian"/>
-      </router-link>
-      <router-link to="/mobile/news" class="route">
-        <span class="left">
-          <img src="../../assets/images/xiao.png"/>
-          消息中心
-        </span>
-        <img src="../../assets/images/leftjian.png" class="leftjian"/>
-      </router-link>
-      <router-link to="/mobile/message" class="route" style="border-bottom:0;">
-        <span class="left">
-          <img src="../../assets/images/message.jpg"/>
-          意见反馈
-        </span>
-        <img src="../../assets/images/leftjian.png" class="leftjian"/>
+        <em></em>
       </router-link>
     </div>
     <button @click="logout">退出</button>
@@ -93,6 +58,7 @@
     },
     data () {
       return {
+        nav: [{name: '账户管理', link: '/mobile/administration'}, {name: '资金流水', link: '/mobile/moneyFlow'}, {name: '订单管理', link: '/mobile/order/0/1'}, {name: '常见问题', link: '/mobile/help'}, {name: '消息中心', link: '/mobile/news'}, {name: '意见反馈', link: '/mobile/message'}],
         Withdrawals: [{name: 'amount', type: 'text', title: '提现金额', placeholder: '请输入提现金额', changeEvent: true, pattern: 'money', len: 7, tipsInfo: '余额', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
         balance_account: '',
         edit: 0,
@@ -322,7 +288,6 @@
         justify-content: space-between;
         padding:0 .5rem;
         box-sizing: border-box;
-        border-bottom:1px solid #ddd;
         line-height: 2rem;
         .left{
           width: 90%;
@@ -334,10 +299,17 @@
             top: -0.71rem;
           }
         }
-        .leftjian{
-          width: 0.3rem;
-          height: 0.5rem;
-          margin-top: 0.8rem;
+        em{
+          @include block(8)
+          @include arrow
+          margin-top:0.8rem
+        }
+        &:first-child{
+          margin-bottom:0.5rem;
+          border-bottom:0;
+        }
+        &:not(:last-child){
+          border-bottom:1px solid #ddd;
         }
       }
     }

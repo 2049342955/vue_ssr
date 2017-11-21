@@ -2,20 +2,20 @@
   <section class="issues">
     <div class="issues_boxleft" v-show="show">
       <div class="issues_listsoneone">
-        <div class="item" v-for="n,k in nav" @click="fetchData(n.help_class_id,k)">
-          <p class="titleall">{{n.name}}<em><img src="../../assets/images/leftjian.png" style="width:0.3rem;height:0.4rem;"/></em></p>
+        <div class="item" v-for="n,k in nav">
+          <p class="titleall" @click="fetchData(n.help_class_id,k,$event)">{{n.name}}<em></em></p>
           <div class="issues_listoneone" v-if="num===k">
-            <a class="item" v-for="l,k in list" @click="detailcontent(l.id)">
+            <a href="javascript:;" class="item" v-for="l,k in list" @click="detailcontent(l.id)">
               <span>{{l.title}}</span>
             </a>
           </div>
         </div>
       </div>
     </div>
-    <div class="issues_content" v-show="!show" style="background:white;">
+    <div class="issues_content" v-show="!show" style="background:white;margin-bottom:20px;">
       <div v-html="nowItem.content"></div>
+      <button @click="back()"  v-show="!show">同 意</button>
     </div>
-    <button @click="back()"  v-show="!show" style="margin-bottom:80px;">同 意</button>
   </section>
 </template>
 
@@ -34,7 +34,7 @@
       }
     },
     methods: {
-      fetchData (id, k) {
+      fetchData (id, k, e) {
         if (k === this.num) {
           this.$store.commit('SET_NUM', -1)
           return false
@@ -48,6 +48,8 @@
         util.post('getHelp', {sign: api.serialize({token: this.token, help_class_id: id})}).then(function (res) {
           self.list = res
         })
+        // e.target.parentNode.className = e.target.parentNode.className + ' open'
+        // console.log(e.target.parentNode, e.target.parentNode.className)
         setTimeout(() => {
           this.$store.commit('SET_NUM', k)
           eles[k].className = 'item active'
@@ -82,32 +84,33 @@
 </script>
 
 <style type="text/css" lang="scss">
+  @import '../../assets/css/style.scss';
   .issues{
     button{
-              width: 3rem;
-              height: 1.5rem;
-              background: #327fff;
-              border:0;
-              color: white;
-              float: right;
-              margin-top: 20px;
-            }
+      width: 3rem;
+      height: 1.5rem;
+      background: #327fff;
+      border:0;
+      color: white;
+      float: right;
+      margin-top: 20px;
+    }
     .issues_content{
-            width: 100%;
-            overflow: hidden;
-            height: 100vh;
-            padding:0.5rem;
-            background: #f5f5f9;
-            box-sizing: border-box;
-            text-indent:0rem !important;
-            img{
-              width: 100%;
-              height: auto;
-            }
-            span{
-              text-indent:0rem !important;
-            }
-          }
+      width: 100%;
+      overflow: hidden;
+      height: 100vh;
+      padding:0.5rem;
+      background: #f5f5f9;
+      box-sizing: border-box;
+      text-indent:0rem !important;
+      img{
+        width: 100%;
+        height: auto;
+      }
+      span{
+        text-indent:0rem !important;
+      }
+    }
    .issues_boxleft{
       background: #f5f5f9;
       width: 100%;
@@ -121,7 +124,6 @@
           width: 100%;
           text-align: left;
           color:#121212;
-          // border-bottom:1px solid #ddd;
           line-height: 3;
           .titleall{
             width: 100%;
@@ -133,17 +135,23 @@
             font-size:0.6rem;
             border-bottom:1px solid #ddd;
             em{
-              font-family: "宋体";
-              font-style: normal;
-              transform: rotate(90deg);
+              @include block(8)
+              @include arrow(down)
+              margin-top:0.8rem;
+              transform: rotate(135deg);
               float:right;
             }
           }
           &:hover{
-              color:#327fff;
+            color:#327fff;
           }
           &.active{
-              color:#327fff;
+            color:#327fff;
+          }
+          &.open{
+            em{
+              transform: rotate(135deg);
+            }
           }
           &.active .titleall img{
             transform:rotate(-180deg);

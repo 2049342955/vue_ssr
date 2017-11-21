@@ -17,6 +17,7 @@
           <h3>{{content.title}}</h3>
           <h6>{{content.dateline}}</h6>
           <p v-html="content.content"></p>
+          <button @click="back()">返回</button>
         </div>
     </div>
   </section>
@@ -42,6 +43,9 @@
             self.lists = res
           })
         })
+      },
+      back () {
+        window.location.reload()
       },
       detailcli (id) {
         var self = this
@@ -113,6 +117,14 @@
   }
   .detail{
     margin-bottom: 60px;
+    button{
+      width: 3rem;
+      height: 1.5rem;
+      background: rgb(38, 162, 255);
+      float: right;
+      color:white;
+      border:0;
+    }
   }
   .detail h3{
     color:#121212;
