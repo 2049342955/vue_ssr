@@ -3,15 +3,18 @@
     <div class="orderMsg">
       <h3 class="title">确认订单信息</h3>
       <div class="orderDetail">
-        <div class="detailH">
-          <div class="borderR" v-for="d,k in proData">
-            <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
-            <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
-            <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
-            <p>{{d.title}}</p>
-          </div>
+        <div class="order_detail_info1">
+          <template v-for="d,k in proData">
+            <div class="item">
+              <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
+              <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
+              <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
+              <p>{{d.title}}</p>
+            </div>
+            <div class="line"></div>
+          </template>
         </div>
-        <div class="detailF" v-if="$route.params.type!=='1'">
+        <div class="order_detail_info2" v-if="$route.params.type!=='1'">
           <p v-for="t,k in proText">{{t}}：
             <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
             <span class="value" v-else-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
@@ -27,15 +30,18 @@
     <div class="orderMsg" v-show="$parent.show">
       <h3 class="title">分期详情</h3>
       <div class="orderDetail">
-        <div class="detailH">
-          <div class="borderR" v-for="d,k in proData3" style="width:33.3%;">
-            <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
-            <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
-            <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
-            <p>{{d.title}}</p>
-          </div>
+        <div class="order_detail_info1">
+          <template v-for="d,k in proData3">
+            <div class="item">
+              <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
+              <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
+              <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
+              <p>{{d.title}}</p>
+            </div>
+            <div class="line"></div>
+          </template>
         </div>
-        <div class="detailF">
+        <div class="order_detail_info2">
           <p>
             <span>分期期限 ： </span>
             <select @change="$parent.onChange" class="mont">
@@ -426,22 +432,26 @@
         .value{
           color:#333;
         }
-        .detailH{
+        .order_detail_info1{
           @include flex(space-between);
           background: #fff9f3;
           padding: 25px;
           text-align: center;
-          div{
-            width: 20%;
+          .item{
             .value span{
               font-size: 20px;
             }
           }
-          .borderR:not(:last-child){
-            border-right: 1px solid #e5e5e5;
+          .line:not(:last-child){
+            width:1px;
+            height:35px;
+            background: $border;
+          }
+          .line:last-child{
+            display: none;
           }
         }
-        .detailF{
+        .order_detail_info2{
           @include flex(flex-start);
           margin: 20px 0;
           border: 1px solid #eee;

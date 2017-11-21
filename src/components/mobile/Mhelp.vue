@@ -82,9 +82,6 @@
 </script>
 
 <style type="text/css" lang="scss">
-.mobile_header{
-  margin:0;
-}
   .issues{
     button{
               width: 3rem;

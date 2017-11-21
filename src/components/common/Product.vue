@@ -44,7 +44,7 @@
           <span>台</span>
         </div>
         <div class="price_input">
-          <div class="price_text">购买数量（台）</div>
+          <div class="price_text">购买数量<span class="buy_tips">(最少5台)</span></div>
           <div class="input_box">
             <span @click="$parent.changeNum(+$parent.number-1)">-</span>
             <input type="text" v-model="$parent.number" placeholder="请输入购买数量，1台起售" @blur="$parent.changeNum($parent.number)">
@@ -83,7 +83,7 @@
       </div>
       <div class="info_item" v-if="$route.params.type!=='1'">
         <h3>矿场相册</h3>
-        <div class="box">
+        <div class="box miner_photos">
            <div class="item"> 
             <img :src="$parent.detail.product_photos" alt="">
            </div> 
@@ -91,10 +91,11 @@
       </div>
     </div>
     <div class="mobile_box">
+      <div class="img">
+        <img :src="$parent.detail.product_img||$parent.detail.minerPicture" alt="">
+      </div>
       <div class="first_box">
-        <div class="img">
-          <img :src="$parent.detail.product_img||$parent.detail.minerPicture" alt="">
-        </div>
+        <h4>{{$parent.detail.product_name}}</h4>
         <div class="base_info">
           <div class="item" v-for="n,k in mobileNav1">
             <div class="item_data">{{k==='status'?$parent.str[$parent.detail[k]]:$parent.detail[k]}}<span>{{n.unit}}</span></div>
@@ -120,6 +121,10 @@
       <div class="product_desc">
         <p class="title">产品介绍</p>
         <div class="product_content" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief"></div>
+        <p class="title">产品优势</p>
+        <div class="product_content" v-html="$parent.detail.machine_advantage||$parent.detail.MinerAdvantage"></div>
+        <p class="title">补充说明</p>
+        <div class="product_content" v-html="$parent.detail.machine_agreement||$parent.detail.prProtocolSpeciaification"></div>
       </div>
       <div class="mobile_btn">
         <mt-button type="primary" size="large" @click="openMask">立即购买</mt-button>
@@ -137,7 +142,7 @@
             </div>
           </div>
           <div class="buy_num">
-            <div>购买数量</div>
+            <div>购买数量<span class="buy_tips">(最少5台)</span></div>
             <div class="input_box">
               <span @click="$parent.changeNum(+$parent.number-1)">-</span>
               <input type="text" v-model="$parent.number" placeholder="购买数量" @blur="$parent.changeNum($parent.number)">
@@ -321,6 +326,11 @@
             .money{
               color: $orange
             }
+            .buy_tips{
+              font-size: 12px;
+              color:$orange;
+              margin-left:5px
+            }
           }
           .input_box{
             line-height: 40px;
@@ -390,13 +400,11 @@
           padding:30px 0;
           font-size: 16px
         }
-        &:last-child{
-          .box{
-            @include row(2)
-            .item img{
-              height:290px;
-              object-fit:cover
-            }
+        .miner_photos.box{
+          @include row(2)
+          .item img{
+            height:290px;
+            object-fit:cover
           }
         }
       }
@@ -414,6 +422,10 @@
       }
       .first_box{
         margin-top:-15px;
+        h4{
+          font-size: 0.7rem;
+          margin:10px 0;
+        }
         .img{
           padding-bottom:15px
         }
@@ -531,6 +543,10 @@
               input{
                 width:58%
               }
+            }
+            .buy_tips{
+              font-size: 0.4rem;
+              color:$orange
             }
           }
           .buy_text{

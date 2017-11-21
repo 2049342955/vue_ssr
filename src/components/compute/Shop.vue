@@ -9,7 +9,7 @@
     <ProductNav page="cloudCompute" v-if="active"></ProductNav>
     <div class="miner_type">
       <div class="box">
-        <span :class="[{active:active===k}]" v-for="n,k in nav" @click="changeType(k)" style="padding:0 .5rem;box-sizing:border-box;">{{n}}</span>
+        <span :class="[{active:active===k}]" v-for="n,k in nav" @click="changeType(k)">{{n}}</span>
       </div>
     </div>
     <ProductList :sort="sort" :dataNav="dataNav" page="cloudCompute"></ProductList>
@@ -140,12 +140,22 @@
           cursor: pointer;
           & + span{
             margin-left:20px;
-            padding-left:20px;
-            border-left:1px solid $border
+            &:before{
+              content:'|';
+              padding-right:20px;
+              font-weight:normal;
+              font-size: 16px;
+              color:$border;
+              vertical-align: text-bottom;
+            }
           }
         }
         span.active{
           color:$text;
+        }
+        @media screen and (max-width: $mobile) {
+          padding:0 15px;
+          font-size: 0.7rem;
         }
       }
     }

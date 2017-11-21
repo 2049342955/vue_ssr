@@ -72,8 +72,8 @@
         transition:all .3s;
         
         &:before{
-          font-size: 24px;
-          content:'\e669';
+          font-size: 18px;
+          content:'\e84b';
         }
       }
       &.active{

@@ -1,10 +1,6 @@
 <template>
   <section class="compute_detail">
     <div class="main">
-      <div class="mobile_header">
-        <span class="left">< <em>返回</em></span>
-        <span>{{detail.product_name}}</span>
-      </div>
       <Pay v-if="next" page="cloudCompute" :proData="$route.params.type!=='1'?proData2:proData4" :proText="proText2" :proData3="proData3" :proText3="proText3"></Pay>
       <Product v-else page="cloudCompute" :proData="proData" :proText="proText"></Product>
     </div>
@@ -111,7 +107,7 @@
       },
       changeNum (n) {
         if (this.leftStatus) return false
-        this.number = n < 1 || isNaN(+n) || typeof +n !== 'number' ? 1 : n > this.initNum ? this.initNum : n
+        this.number = n < 5 || isNaN(+n) || typeof +n !== 'number' ? 5 : n > this.initNum ? this.initNum : n
         this.number = parseInt(this.number)
         if (n > this.initNum) {
           this.overStatus = true
