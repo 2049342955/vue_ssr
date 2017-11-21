@@ -73,6 +73,7 @@
       </div>
       <form class="form" @submit.prevent="submit" novalidate  style="box-sizing:border-box;margin-top:1rem;">
         <FormField :form="Withdrawals"></FormField>
+        <p>手续费：{{total_price * fee|decimal}}元<span class="fee">({{fee*100+'%'}})</span></p>
         <button name="btn">提交</button>
       </form>
     </mt-popup>
@@ -98,6 +99,7 @@
         showModal: false,
         fee: 0,
         total_price: 0,
+        feedetail: '',
         amount: 0,
         product_hash_type: ''
       }
@@ -124,13 +126,22 @@
         this.total_price = 0
         if (!(this.true_name && this.true_name.status === 1)) {
           api.tips('请先实名认证', () => {
-            this.$router.push({name: 'madministration'})
+            // this.$router.push({name: 'madministration'})
+            if (api.checkEquipment) {
+              this.$router.push({name: 'madministration'})
+            } else {
+              this.$router.push({name: 'account'})
+            }
           })
           return false
         }
         if (!(this.bank_card && this.bank_card.status === 1)) {
           api.tips('请先绑定银行卡', () => {
-            this.$router.push({name: 'madministration'})
+            if (api.checkEquipment) {
+              this.$router.push({name: 'madministration'})
+            } else {
+              this.$router.push({name: 'account'})
+            }
           })
           return false
         }
@@ -149,6 +160,7 @@
           var self = this
           util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
             api.checkAjax(self, res, () => {
+              self.feedetail = res
               self.fee = res.withdraw_fee
               self.amount = parseInt(res.balance_account)
             })

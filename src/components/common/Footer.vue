@@ -37,7 +37,7 @@
             <!-- <div class="active">最新区块链资讯</div> -->
           </div>
         </div>
-        <div class="partner">
+        <div class="partner" v-if="$route.name === 'home'">
           <span>友情<br>链接</span>
           <div>
             <a :href="p.FriendlyLink_address" target="_blank" v-for="p,k in partner" :key="k">{{p.FriendlyLink_name}}</a>
@@ -91,11 +91,6 @@
         self.partner = res
       })
     }
-    // methods: {
-    //   select (k) {
-    //     this.show = k
-    //   }
-    // }
   }
 </script>
 
