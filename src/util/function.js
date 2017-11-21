@@ -104,7 +104,7 @@ api.line = () => {
 }
 api.countDown = () => {
   var t = 60
-  var ele = document.querySelector('.count_btn')
+  var ele = document.querySelector('.count_btn') || document.getElementsByClassName('count_btn')[0]
   window.tt = setInterval(() => {
     if (t === 0) {
       ele.innerHTML = '重新获取'
@@ -159,7 +159,7 @@ api.clearForm = (form) => {
   for (var i = 0; i <= form.length - 2; i++) {
     form[i].value = ''
   }
-  var ele = document.querySelector('.count_btn')
+  var ele = document.querySelector('.count_btn') || document.getElementsByClassName('count_btn')[0]
   if (window.tt) {
     ele.innerHTML = '获取验证码'
     clearInterval(window.tt)
@@ -202,7 +202,7 @@ api.setTips = (ele, str) => {
   }, 2000)
 }
 api.tips = (str, callback) => {
-  var ele = document.querySelector('.web_tips')
+  var ele = document.querySelector('.web_tips') || document.getElementsByClassName('web_tips')[0]
   ele.innerHTML = str
   ele.style.height = '50px'
   ele.style.opacity = 1
