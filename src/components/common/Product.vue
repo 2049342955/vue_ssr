@@ -83,7 +83,7 @@
       </div>
       <div class="info_item" v-if="$route.params.type!=='1'">
         <h3>矿场相册</h3>
-        <div class="box">
+        <div class="box miner_photos">
            <div class="item"> 
             <img :src="$parent.detail.product_photos" alt="">
            </div> 
@@ -390,13 +390,11 @@
           padding:30px 0;
           font-size: 16px
         }
-        &:last-child{
-          .box{
-            @include row(2)
-            .item img{
-              height:290px;
-              object-fit:cover
-            }
+        .miner_photos.box{
+          @include row(2)
+          .item img{
+            height:290px;
+            object-fit:cover
           }
         }
       }
