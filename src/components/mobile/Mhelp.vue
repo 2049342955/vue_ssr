@@ -84,35 +84,30 @@
 <style type="text/css" lang="scss">
   .issues{
     button{
-              width: 3rem;
-              height: 1.5rem;
-              background: #327fff;
-              border:0;
-              color: white;
-              float: right;
-              margin-top: 20px;
-              margin-right: 20px;
-            }
+      width: 3rem;
+      height: 1.5rem;
+      background: #327fff;
+      border:0;
+      color: white;
+      float: right;
+      margin-top: 20px;
+    }
     .issues_content{
-            width: 100%;
-            overflow: hidden;
-            height: 100%;
-            padding:0.5rem;
-            padding-left: 0.5rem;
-            background: #f5f5f9;
-            box-sizing: border-box;
-            text-indent:0rem !important;
-            img{
-              width: 100%;
-              height: auto;
-              position: relative;
-              left: -28px;
-              margin-top: 1rem;
-            }
-            span{
-              text-indent:0rem !important;
-            }
-          }
+      width: 100%;
+      overflow: hidden;
+      height: 100vh;
+      padding:0.5rem;
+      background: #f5f5f9;
+      box-sizing: border-box;
+      text-indent:0rem !important;
+      img{
+        width: 100%;
+        height: auto;
+      }
+      span{
+        text-indent:0rem !important;
+      }
+    }
    .issues_boxleft{
       background: #f5f5f9;
       width: 100%;
@@ -126,7 +121,6 @@
           width: 100%;
           text-align: left;
           color:#121212;
-          // border-bottom:1px solid #ddd;
           line-height: 3;
           .titleall{
             width: 100%;
@@ -138,17 +132,23 @@
             font-size:0.6rem;
             border-bottom:1px solid #ddd;
             em{
-              font-family: "宋体";
-              font-style: normal;
-              transform: rotate(90deg);
+              @include block(8)
+              @include arrow(down)
+              margin-top:0.8rem;
+              transform: rotate(135deg);
               float:right;
             }
           }
           &:hover{
-              color:#327fff;
+            color:#327fff;
           }
           &.active{
-              color:#327fff;
+            color:#327fff;
+          }
+          &.open{
+            em{
+              transform: rotate(135deg);
+            }
           }
           &.active .titleall img{
             transform:rotate(-180deg);
