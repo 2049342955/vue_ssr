@@ -8,7 +8,7 @@
       <form :class="['form form_content', {card_form: $parent.edit==='card'}]" @submit.prevent="$parent.submit" novalidate v-if="!contract">
         <FormField :form="form"></FormField>
         <p v-if="$parent.fee&&$parent.edit!=='GetIncome'">手续费：{{$parent.total_price * $parent.fee|format}}元<span class="fee">({{$parent.fee*100+'%'}})</span></p>
-        <p v-if="$parent.fee&&$parent.edit==='GetIncome'">手续费：{{$parent.total_price * $parent.fee|format(8)}}btc<span class="fee">({{$parent.fee*100+'%'}})</span></p>
+        <p v-if="$parent.fee&&$parent.edit==='GetIncome'">手续费：0.0002btc</p>
         <button name="btn">确认提交</button>
       </form>
       <div class="contract" v-html="contract" v-else></div>
