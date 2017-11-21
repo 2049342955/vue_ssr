@@ -12,10 +12,10 @@
         </div>
       </div>
     </div>
-    <div class="issues_content" v-show="!show" style="background:white;">
+    <div class="issues_content" v-show="!show" style="background:white;margin-bottom:20px;">
       <div v-html="nowItem.content"></div>
+      <button @click="back()"  v-show="!show">同 意</button>
     </div>
-    <button @click="back()"  v-show="!show" style="margin-bottom:80px;">同 意</button>
   </section>
 </template>
 
@@ -91,18 +91,23 @@
               color: white;
               float: right;
               margin-top: 20px;
+              margin-right: 20px;
             }
     .issues_content{
             width: 100%;
             overflow: hidden;
-            height: 100vh;
+            height: 100%;
             padding:0.5rem;
+            padding-left: 0.5rem;
             background: #f5f5f9;
             box-sizing: border-box;
             text-indent:0rem !important;
             img{
               width: 100%;
               height: auto;
+              position: relative;
+              left: -28px;
+              margin-top: 1rem;
             }
             span{
               text-indent:0rem !important;
