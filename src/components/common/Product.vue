@@ -125,7 +125,7 @@
         <div class="buy_box">
           <div class="img_text">
             <div class="img">
-              <img :src="$parent.detail.product_img" alt="">
+              <img :src="$parent.detail.product_img||$parent.detail.minerPicture" alt="">
             </div>
             <div class="text">
               <div class="price">￥{{$parent.detail.one_amount_value}}</div>
