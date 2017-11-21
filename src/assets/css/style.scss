@@ -1086,6 +1086,9 @@
 // mobile_popup
   @mixin popup{
     width:100%;
+    position:absolute !important;
+    bottom:0 !important;
+    overflow:scroll;
     .close{
       @include close
       top:5px;
