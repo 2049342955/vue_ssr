@@ -91,10 +91,11 @@
       </div>
     </div>
     <div class="mobile_box">
+      <div class="img">
+        <img :src="$parent.detail.product_img||$parent.detail.minerPicture" alt="">
+      </div>
       <div class="first_box">
-        <div class="img">
-          <img :src="$parent.detail.product_img||$parent.detail.minerPicture" alt="">
-        </div>
+        <h4>{{$parent.detail.product_name}}</h4>
         <div class="base_info">
           <div class="item" v-for="n,k in mobileNav1">
             <div class="item_data">{{k==='status'?$parent.str[$parent.detail[k]]:$parent.detail[k]}}<span>{{n.unit}}</span></div>
@@ -120,6 +121,10 @@
       <div class="product_desc">
         <p class="title">产品介绍</p>
         <div class="product_content" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief"></div>
+        <p class="title">产品优势</p>
+        <div class="product_content" v-html="$parent.detail.machine_advantage||$parent.detail.MinerAdvantage"></div>
+        <p class="title">补充说明</p>
+        <div class="product_content" v-html="$parent.detail.machine_agreement||$parent.detail.prProtocolSpeciaification"></div>
       </div>
       <div class="mobile_btn">
         <mt-button type="primary" size="large" @click="openMask">立即购买</mt-button>
@@ -412,6 +417,10 @@
       }
       .first_box{
         margin-top:-15px;
+        h4{
+          font-size: 0.7rem;
+          margin:10px 0;
+        }
         .img{
           padding-bottom:15px
         }

@@ -60,9 +60,6 @@
   }
 </script>
 <style scoped lang="scss">
- .mobile_header{
-     margin:0;
- }
  .button{
      width: 60px;
     height: 30px;
