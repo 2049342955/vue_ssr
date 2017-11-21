@@ -92,6 +92,9 @@
     </div>
     <div class="mobile_box">
       <div class="first_box">
+        <div class="img">
+          <img :src="$parent.detail.product_img||$parent.detail.minerPicture" alt="">
+        </div>
         <div class="base_info">
           <div class="item" v-for="n,k in mobileNav1">
             <div class="item_data">{{k==='status'?$parent.str[$parent.detail[k]]:$parent.detail[k]}}<span>{{n.unit}}</span></div>
@@ -109,7 +112,7 @@
         </div>
       </div>
       <div class="some_info">
-        <div class="item" v-for="n,k in mobileNav2">
+        <div class="item" v-for="n,k in mobileNav2" v-if="!(k === 'incomeType'&&$route.params.type==='1')">
           <span>{{n.title}}</span>
           <span>{{$parent.detail[k]}}{{n.unit}}</span>
         </div>
@@ -411,6 +414,9 @@
       }
       .first_box{
         margin-top:-15px;
+        .img{
+          padding-bottom:15px
+        }
         .base_info{
           padding-bottom:20px;
           @include flex(space-between)
@@ -463,8 +469,8 @@
           line-height: 50px;
           background: #fff;
           padding: 0 15px;
-          &:nth-child(2){
-            background: #f6f6f6;
+          &:not(:last-child){
+            border-bottom:1px solid $border;
           }
         }
       }
