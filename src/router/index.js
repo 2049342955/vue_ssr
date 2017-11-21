@@ -54,6 +54,7 @@
   import Minformation from '@/components/mobile/Minformation'
   import Madministration from '@/components/mobile/Madministration'
   import Mpersoncenter from '@/components/mobile/Mpersoncenter'
+  import Maddress from '@/components/mobile/Maddress'
 // use plugin
   Vue.use(Router)
 // export
@@ -324,6 +325,11 @@
         path: 'notice',
         name: 'mnotice',
         component: Mnotice
+      },
+      {
+        path: 'address',
+        name: 'maddress',
+        component: Maddress
       },
       {
         path: 'message',
