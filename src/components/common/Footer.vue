@@ -85,32 +85,12 @@
         show: 0
       }
     },
-    methods: {
-      urlchange () {
-        // if (this.$route.name !== 'home') {
-        //   document.getElementsByClassName('partner')[0].style.display = 'none !important'
-        // } else {
-        //   document.getElementsByClassName('partner')[0].style.display = 'block !important'
-        // }
-      }
-    },
     created () {
       var self = this
       util.post('friendlinkList', {sign: 'token=0'}).then(function (res) {
         self.partner = res
       })
     }
-    // mounted () {
-    //   this.urlchange()
-    // },
-    // watch: {
-    //   '$route': 'urlchange'
-    // }
-    // methods: {
-    //   select (k) {
-    //     this.show = k
-    //   }
-    // }
   }
 </script>
 
