@@ -3,21 +3,21 @@
     <div class="swiper_wrap" :style="{'transform':'translate('+translateX+'px,0px','transition-duration':transitionDuration+'ms', width: (oneWidth||width)*slideEls.length+'px'}">
       <template v-if="!data">
         <div class="swiper_one" v-for="n,k in slideEls" @mousemove="onMouseover" :style="{width: width+'px'}">
-          <template :style="{width: width+'px'}">
-            <div class="swiper_box" v-if="currentPage===k">
+          <div class="swiper_box" :style="{width: width+'px'}">
+            <template v-if="currentPage===k">
               <template v-for="b in n">
                 <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-if="b===1">
                 <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-else :style="[{transform: 'translate('+offsetX+'px, '+offsetY+'px)'}]">
               </template>
-              <router-link to="/cloudCompute/list/1/all" class="btn" v-if="k===5||k===1">即刻开始</router-link>
-              <router-link to="/bdc" class="btn" v-else-if="k===2">查看详情</router-link>
-              <router-link to="/user/computeProperty" class="btn" v-else-if="k===3">查看详情</router-link>
-              <router-link to="/cloudCompute/activity" class="btn" v-else-if="k===0||k===4">立即抢购</router-link>
-            </div>
-            <div class="swiper_box" v-else :style="{width: width+'px'}">
+            </template>
+            <template v-else>
               <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-for="b in n">
-            </div>
-          </template>
+            </template>
+            <router-link to="/cloudCompute/list/1/all" class="btn" v-if="k===5||k===1">即刻开始</router-link>
+            <router-link to="/bdc" class="btn" v-else-if="k===2">查看详情</router-link>
+            <router-link to="/user/computeProperty" class="btn" v-else-if="k===3">查看详情</router-link>
+            <router-link to="/cloudCompute/activity" class="btn" v-else="k===0||k===4">立即抢购</router-link>
+          </div>
         </div>
       </template>
       <template velse>
@@ -193,7 +193,6 @@
         this.setTranslate()
         this.transitioning = false
         this.transitionDuration = this.speed
-        setTimeout(this.onTransitionEnd, this.speed - 500)
       },
       next () {
         var page = this.currentPage
@@ -216,6 +215,7 @@
           value = this.currentPage * -this.offset
         }
         this.translateX = value
+        setTimeout(this.onTransitionEnd, this.speed + 500)
       },
       getTouchPos (e) {
         return e.changedTouches ? e.changedTouches[0]['pageX'] : e['pageX']

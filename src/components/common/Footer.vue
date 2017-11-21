@@ -48,15 +48,15 @@
     <div class="mobile_box">
       <mt-tabbar :fixed="true" selected="1">
         <router-link to="/mHome" id="1" class="mint-tab-item">
-          <i></i><br>
+          <i class="iconfont"></i><br>
           <span>首页</span>
         </router-link>
         <router-link to="/mobile/property" id="2" class="mint-tab-item">
-          <i></i><br>
+          <i class="iconfont"></i><br>
           <span>算力资产</span>
         </router-link>
         <router-link to="/mobile/personcenter" id="3" class="mint-tab-item">
-          <i></i><br>
+          <i class="iconfont"></i><br>
           <span>个人中心</span>
         </router-link>
       </mt-tabbar>
@@ -257,6 +257,7 @@
         i{
           display: inline-block;
           margin-top:10px;
+          font-size: 18px;
         }
         &.router-link-active{
           color: #26a2ff;
@@ -265,30 +266,43 @@
           i{
             width: 20px;
             height: 21px;
-            background: url('../../assets/images/mobile_icons.png') -10px -52px;
+            &:before{
+              content:'\e62e'
+            }
           }
           &.router-link-active i{
-            background: url('../../assets/images/mobile_icons.png') -90px -10px;
+            &:before{
+              content:'\e692'
+            }
           }
         }
         &:nth-child(2){
           i{
             width: 20px;
             height: 20px;
-            background: url('../../assets/images/mobile_icons.png') -90px -52px;
+            &:before{
+              font-size: 16px;
+              content:'\e656'
+            }
           }
           &.router-link-active i{
-            background: url('../../assets/images/mobile_icons.png') -50px -52px;
+            &:before{
+              content:'\e6ae'
+            }
           }
         }
         &:nth-child(3){
           i{
             width: 20px;
             height: 22px;
-            background: url('../../assets/images/mobile_icons.png') -50px -10px;
+            &:before{
+              content:'\e633'
+            }
           }
           &.router-link-active i{
-            background: url('../../assets/images/mobile_icons.png') -10px -10px;
+            &:before{
+              content:'\e6a2'
+            }
           }
         }
       }

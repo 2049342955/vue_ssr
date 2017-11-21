@@ -1,7 +1,7 @@
 <template>
   <div class="mining">
     <div class="bigbg">
-        <video src="../../assets/images/wakuang.mp4" width="820" height="548" controls="" loop="" muted=""  autoplay="autoplay" poster="" style="position: relative;top:102px;left:50%;margin-left:-410px;"></video>
+        <video src="../../assets/images/wakuang.mp4" controls="" loop="" muted=""  autoplay="autoplay" poster=""></video>
     </div>
     <div class="side">
       <h1>比特币挖矿的五个时代</h1>
@@ -117,6 +117,14 @@
     width: 100%;
     height:650px;
     background-size: 100% 100%;
+    video{
+        width: 820px;
+        height: 548px;
+        position: relative;
+        top:102px;
+        left:50%;
+        margin-left:-410px;
+    }
 }
 .web_info .box{
     display:none;
@@ -243,7 +251,108 @@
       }
       .mining{
          .side{
-             display:none;
+             width: 100%;
+             h1{
+                 font-size: 0.8rem;
+                 padding-top: 0.5rem;
+             }
+             .con{
+                 width: 100%;
+                 padding:0 0.5rem;
+                 text-align: left;
+                 line-height: 1.2rem;
+                 box-sizing: border-box;
+             }
+             ul{
+                 width: 100%;
+                 overflow: hidden;
+                 background:white;
+                 margin-top: 1rem;
+                 padding:0;
+                 padding-bottom: 0.5rem;
+                 li{
+                     width: 50%;
+                     height: 5rem;
+                     float: left;
+                     padding:0.5rem;
+                     box-sizing: border-box;
+                     text-align: center;
+                     margin-bottom: 1rem;
+                     img{
+                         width: 3rem;
+                         height: 3rem;
+                         margin:0 auto;
+                         padding:0;
+                         margin-bottom: 0.2rem;
+                     }
+                     h4{
+                         line-height: 30px;
+                     }
+                 }
+             }
+         }
+         .blue{
+             width: 100%;
+             padding:0 .5rem;
+             .big{
+                 margin:0;
+                 padding:0;
+                 width: 100%;
+             }
+             .big img{
+                 width: 100px;
+                 height: auto;
+                 display:block;
+                 margin:0;
+                 padding:0;
+                 display:none;
+             }
+             .big .right{
+                 width: 100%;
+                 overflow: hidden;
+                 margin:0;
+                 padding:0;
+                 h1{
+                     font-size: 0.8rem;
+                     padding:0;
+                     padding-top: 0.5rem;
+                 }
+                 p{
+                     margin-bottom: 0.5rem;
+                 }
+             }
+         }
+         .opacity{
+             width: 100%;
+             height: auto;
+             padding-bottom: 1rem;
+             h1{
+                font-size: 0.8rem;
+                padding:0;
+                padding-top: 1rem;
+             }
+             .p_content{
+                 width: 100%;
+                 padding:0 1rem;
+                 margin-top: 0.4rem;
+                 text-align: left;
+                 box-sizing: border-box;
+             }
+         }
+         .bigbg{
+             width: 100%;
+             height: 210px;
+             background: none;
+             padding:0;
+             margin:0;
+             video{
+                 width: 100% !important;
+                 height: 210px;
+                 left: 0;
+                 position: relative;
+                 top:0 !important;
+                 margin-left:0px;
+             }
          }
       }
 }

@@ -154,6 +154,7 @@
       select () {
         var self = this
         this.model = document.querySelector('select').value
+        console.log(this.model)
         util.post('showRepayment', {sign: api.serialize({token: this.token, user_id: this.user_id, repayment_id: this.repayment_id, product_hash_type: 1, mode: this.model})}).then(function (res) {
           api.checkAjax(self, res, () => {
             var ff = document.querySelector('.form')
@@ -202,6 +203,7 @@
         ff.btn.setAttribute('disabled', true)
         this.password = document.getElementsByClassName('passwordone')[0].value
         this.model = document.querySelector('select').value
+        console.log(this.model)
         var self = this
         if (!this.password) {
           document.querySelector('.block1').style = 'display:block;color:red;font-size:12px;padding-left:160px;padding-top:10px;'

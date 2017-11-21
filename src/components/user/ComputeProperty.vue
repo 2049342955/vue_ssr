@@ -15,7 +15,7 @@
             <div class="frozeeData">
               <span>{{d}}</span>
               <span class="problem" v-if="k==='freeze_account'">?</span>
-              <div class="frozee_tips" v-if="k==='freeze_account'">暂时不能提现的资金</div>
+              <div class="frozee_tips" v-if="k==='freeze_account'">暂时不能使用的资金</div>
             </div>
             <span class="currency">{{moneyData[k]|currency}}</span>
             <span class="">元</span>

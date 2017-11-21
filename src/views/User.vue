@@ -84,6 +84,7 @@
           line-height: 1.5;
         }
         .welcome{
+          width:90%;
           h2{
             color:$white
           }
