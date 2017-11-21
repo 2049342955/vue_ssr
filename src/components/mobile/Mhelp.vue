@@ -12,10 +12,10 @@
         </div>
       </div>
     </div>
-    <div class="issues_content" v-show="!show" style="background:white;">
+    <div class="issues_content" v-show="!show" style="background:white;margin-bottom:20px;">
       <div v-html="nowItem.content"></div>
+      <button @click="back()"  v-show="!show">同 意</button>
     </div>
-    <button @click="back()"  v-show="!show" style="margin-bottom:80px;">同 意</button>
   </section>
 </template>
 
