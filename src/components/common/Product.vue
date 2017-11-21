@@ -44,7 +44,7 @@
           <span>台</span>
         </div>
         <div class="price_input">
-          <div class="price_text">购买数量（台）</div>
+          <div class="price_text">购买数量<span class="buy_tips">(最少5台)</span></div>
           <div class="input_box">
             <span @click="$parent.changeNum(+$parent.number-1)">-</span>
             <input type="text" v-model="$parent.number" placeholder="请输入购买数量，1台起售" @blur="$parent.changeNum($parent.number)">
@@ -142,7 +142,7 @@
             </div>
           </div>
           <div class="buy_num">
-            <div>购买数量</div>
+            <div>购买数量<span class="buy_tips">(最少5台)</span></div>
             <div class="input_box">
               <span @click="$parent.changeNum(+$parent.number-1)">-</span>
               <input type="text" v-model="$parent.number" placeholder="购买数量" @blur="$parent.changeNum($parent.number)">
@@ -325,6 +325,11 @@
             margin-bottom:10px;
             .money{
               color: $orange
+            }
+            .buy_tips{
+              font-size: 12px;
+              color:$orange;
+              margin-left:5px
             }
           }
           .input_box{
@@ -538,6 +543,10 @@
               input{
                 width:58%
               }
+            }
+            .buy_tips{
+              font-size: 0.4rem;
+              color:$orange
             }
           }
           .buy_text{
