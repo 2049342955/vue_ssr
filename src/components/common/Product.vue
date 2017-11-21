@@ -11,7 +11,7 @@
         </div>
         <div class="product_con">
           <div class="product_img">
-            <img :src="$parent.detail.product_img" alt="">
+            <img :src="$parent.detail.product_img||$parent.detail.minerPicture" alt="">
           </div>
           <div class="product_text">
             <div class="product_data">
@@ -71,15 +71,15 @@
     <div class="info">
       <div class="info_item">
         <h3>产品介绍</h3>
-        <div class="box" v-html="$parent.detail.machine_intro"></div>
+        <div class="box" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief"></div>
       </div>
       <div class="info_item">
         <h3>产品优势</h3>
-        <div class="box" v-html="$parent.detail.machine_advantage"></div>
+        <div class="box" v-html="$parent.detail.machine_advantage||$parent.detail.MinerAdvantage"></div>
       </div>
       <div class="info_item">
-        <h3>协议说明</h3>
-        <div class="box" v-html="$parent.detail.machine_agreement"></div>
+        <h3>补充说明</h3>
+        <div class="box" v-html="$parent.detail.machine_agreement||$parent.detail.prProtocolSpeciaification"></div>
       </div>
       <div class="info_item" v-if="$route.params.type!=='1'">
         <h3>矿场相册</h3>
@@ -116,7 +116,7 @@
       </div>
       <div class="product_desc">
         <p class="title">产品介绍</p>
-        <div class="product_content" v-html="$parent.detail.machine_intro"></div>
+        <div class="product_content" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief"></div>
       </div>
       <div class="mobile_btn">
         <mt-button type="primary" size="large" @click="openMask">立即购买</mt-button>
@@ -196,13 +196,21 @@
         }
         if (!(this.true_name && this.true_name.status === 1)) {
           api.tips('请先实名认证', () => {
-            this.$router.push({name: 'account'})
+            if (api.checkEquipment) {
+              this.$router.push({name: 'madministration'})
+            } else {
+              this.$router.push({name: 'account'})
+            }
           })
           return false
         }
         if (!(this.bank_card && this.bank_card.status === 1)) {
           api.tips('请先绑定银行卡', () => {
-            this.$router.push({name: 'account'})
+            if (api.checkEquipment) {
+              this.$router.push({name: 'madministration'})
+            } else {
+              this.$router.push({name: 'account'})
+            }
           })
           return false
         }

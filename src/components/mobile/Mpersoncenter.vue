@@ -67,12 +67,13 @@
     </div>
     <button @click="logout">退出</button>
     <div class="null"></div>
-    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false" style="width:12rem;">
+    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false">
       <div class="close" @click="closeEdit()">
         <span class="icon"></span>
       </div>
       <form class="form" @submit.prevent="submit" novalidate  style="box-sizing:border-box;margin-top:1rem;">
         <FormField :form="Withdrawals"></FormField>
+        <p>手续费：{{total_price * fee|decimal}}元<span class="fee">({{fee*100+'%'}})</span></p>
         <button name="btn">提交</button>
       </form>
     </mt-popup>
@@ -98,6 +99,7 @@
         showModal: false,
         fee: 0,
         total_price: 0,
+        feedetail: '',
         amount: 0,
         product_hash_type: ''
       }
@@ -149,6 +151,7 @@
           var self = this
           util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
             api.checkAjax(self, res, () => {
+              self.feedetail = res
               self.fee = res.withdraw_fee
               self.amount = parseInt(res.balance_account)
             })

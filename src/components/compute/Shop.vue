@@ -9,7 +9,7 @@
     <ProductNav page="cloudCompute" v-if="active"></ProductNav>
     <div class="miner_type">
       <div class="box">
-        <span :class="[{active:active===k}]" v-for="n,k in nav" @click="changeType(k)">{{n}}</span>
+        <span :class="[{active:active===k}]" v-for="n,k in nav" @click="changeType(k)" style="padding:0 .5rem;box-sizing:border-box;">{{n}}</span>
       </div>
     </div>
     <ProductList :sort="sort" :dataNav="dataNav" page="cloudCompute"></ProductList>

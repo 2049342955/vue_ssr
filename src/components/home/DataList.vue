@@ -3,7 +3,7 @@
     <div class="box">
       <h2>
         <div>
-          <span>云矿机推荐</span>
+          <span>矿机推荐</span>
           <span>全球算力输出服务由保全网提供全流程区块链存证、保全服务</span>
         </div>
         <router-link to="/cloudCompute/list/1/all">更多云矿机 ></router-link>
@@ -13,10 +13,10 @@
           <th v-for="n in nav">{{n.title}}</th>
           <th>操作</th>
         </tr>
-        <tr v-for="l,i in list" @click="goPay(l.product_id)">
+        <tr v-for="l,i in list" @click="goPay(l.product_id||l.id)">
           <td v-for="v,k in nav">
             <template v-if="k==='name'"><i class="iconfont">&#xe605;</i>{{l[k]}}</template>
-            <template v-else-if="k==='left_num'">{{l.amount-l.buyed_amount+v.unit}}</template>
+            <template v-else-if="k==='left_num'">{{l.amount-(l.sell_amount||l.buyed_amount)+v.unit}}</template>
             <template v-else>{{l[k]+[v.unit]}}</template>
           </td>
           <td><a href="javascript:;">购买</a></td>
@@ -26,14 +26,14 @@
     <div class="mobile_box">
       <h2>矿机推荐</h2>
       <div class="mobile_list_box">
-        <div class="item" v-for="d,i in list" @click="goPay(d.product_id)">
+        <div class="item" v-for="d,i in list" @click="goPay(d.product_id||d.id)">
           <h3>{{d.name}}</h3>
           <div class="mobile_info_box">
             <div class="mobile_info">
               <h4>每台服务器价格<span><b>{{d.one_amount_value}}</b>元</span></h4>
               <div class="mobile_text">
                 <div class="mobile_text_item">每台算力<b>{{d.hash}}T</b></div>
-                <div class="mobile_text_item">剩余可售<b>{{d.amount-d.buyed_amount}}台</b></div>
+                <div class="mobile_text_item">剩余可售<b>{{d.amount-(d.sell_amount||d.buyed_amount)}}台</b></div>
               </div>
             </div>
             <div class="sell_progress">{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)+"%"}}</div>
@@ -60,30 +60,43 @@
     },
     methods: {
       goPay (id) {
-        // if (this.token === 0) {
-        //   api.tips('请先登录', () => {
-        //     this.$router.push({name: 'login'})
-        //   })
-        //   return false
-        // }
-        // if (!(this.true_name && this.true_name.status === 1)) {
-        //   api.tips('请先实名认证', () => {
-        //     this.$router.push({name: 'account'})
-        //   })
-        //   return false
-        // }
-        // if (!(this.bank_card && this.bank_card.status === 1)) {
-        //   api.tips('请先绑定银行卡', () => {
-        //     this.$router.push({name: 'account'})
-        //   })
-        //   return false
-        // }
-        // this.$router.push({path: '/cloudCompute/detail/yes/' + id})
-        this.$router.push({name: 'activity'})
+        if (this.token === 0) {
+          api.tips('请先登录', () => {
+            this.$router.push({name: 'login'})
+          })
+          return false
+        }
+        if (!(this.true_name && this.true_name.status === 1)) {
+          api.tips('请先实名认证', () => {
+            if (api.checkEquipment) {
+              this.$router.push({name: 'madministration'})
+            } else {
+              this.$router.push({name: 'account'})
+            }
+          })
+          return false
+        }
+        if (!(this.bank_card && this.bank_card.status === 1)) {
+          api.tips('请先绑定银行卡', () => {
+            if (api.checkEquipment) {
+              this.$router.push({name: 'madministration'})
+            } else {
+              this.$router.push({name: 'account'})
+            }
+          })
+          return false
+        }
+        this.$router.push({path: '/cloudCompute/detail/' + id + '/1'})
+        // this.$router.push({name: 'activity'})
       }
     },
     mounted () {
       var self = this
+      // util.post('product_top_list', {sign: api.serialize({token: this.token})}).then(function (res) {
+      //   api.checkAjax(self, res, () => {
+      //     self.list = res
+      //   })
+      // })
       util.post('showTopMiner', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.list = res

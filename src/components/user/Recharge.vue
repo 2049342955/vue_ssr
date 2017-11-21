@@ -56,17 +56,25 @@
     },
     methods: {
       submit () {
+        var mobile = api.checkEquipment()
         var form = document.querySelector('.form')
-        var data = api.checkFrom(form, this, api.checkEquipment())
+        var data = api.checkFrom(form, this, mobile)
         var sendData = {token: this.token}
+        var callbackUrl = ''
         if (!data) return false
         var self = this
         form.btn.setAttribute('disabled', true)
-        var callbackUrl = location.protocol + '//' + location.host + '/user/moneyFlow/default'
         if (this.rechargeNo) {
           util.post('applyBalanceRecharge', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
             api.checkAjax(self, res, () => {
               res.subject = encodeURIComponent(res.subject)
+              if (mobile) {
+                res = Object.assign(res, {is_mobile: 1})
+                callbackUrl = location.protocol + '//' + location.host + '/mobile/moneyFlow'
+              } else {
+                res = Object.assign(res, {is_mobile: 0})
+                callbackUrl = location.protocol + '//' + location.host + '/user/moneyFlow/default'
+              }
               util.post('alipay', {sign: api.serialize(Object.assign({url: callbackUrl, token: self.token}, res))}).then((resData) => {
                 api.checkAjax(self, data, () => {
                   location.href = resData.url
@@ -121,8 +129,19 @@
           @include flex
           .process{
             font-size: 14px;
-            width:450px;
+            width:600px;
             @include process
+            .item{
+              i{
+                vertical-align: middle;
+              }
+              &:not(:last-child){
+                width: calc(50% - 50px);
+                .line {
+                  width: calc(100% - 130px);
+                }
+              }
+            }
             padding: 0;
             .item.active ~ .item{
               & i {

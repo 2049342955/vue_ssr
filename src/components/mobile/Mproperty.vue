@@ -37,13 +37,13 @@
         <span>算力收益图表</span>
       </li>
     </ul>
-    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false" style="width:12rem;">
+    <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false">
       <div class="close" @click="closeEdit()">
         <span class="icon"></span>
       </div>
-      <form class="form" @submit="submit" novalidate v-if="edit===1" style="box-sizing:border-box;margin-top:1rem;">
+      <form class="form" @submit.prevent="submit" novalidate v-if="edit===1" style="box-sizing:border-box;margin-top:1rem;">
         <FormField :form="GetIncome"></FormField>
-        <p>手续费：0.0002btc</p>
+        <p>手续费：{{total_price * fee|format(8)}}btc<span class="fee">({{fee*100+'%'}})</span></p>
         <button name="btn">提交</button>
       </form>
       <div class="popup_chart" v-if="edit===2">
@@ -106,6 +106,7 @@
       },
       openMask (k) {
         this.total_price = 0
+        this.edit = k
         if (!(this.true_name && this.true_name.status === 1)) {
           this.myToast('请先实名认证')
           return false
@@ -114,12 +115,11 @@
           this.myToast('请先绑定银行卡')
           return false
         }
-        if (+this.computeData.balance_account <= 0) {
+        if (+this.computeData.balance_account <= 0 && this.edit !== 2) {
           this.myToast('您的账户余额不足，不能提取收益')
           return false
         }
         this.showModal = true
-        this.edit = k
         if (k === 1) {
           var requestUrl = 'showWithdrawCoin'
           var data = {token: this.token, user_id: this.user_id, product_hash_type: this.hashType[this.nowEdit] && this.hashType[this.nowEdit].id}
@@ -135,6 +135,11 @@
       },
       submit () {
         var form = document.querySelector('.form')
+        // if (document.querySelector('.form')[1].value < 0.001) {
+        //   document.querySelector('.form')[1].value = '最小提取0.001'
+        //   document.querySelector('.form')[1].style = 'color:red'
+        //   return false
+        // }
         var data = api.checkFrom(form, this, true)
         var sendData = {token: this.token, user_id: this.user_id}
         if (!data) return false
@@ -180,6 +185,9 @@
         true_name: state => state.info.true_name,
         bank_card: state => state.info.bank_card
       })
+    },
+    filters: {
+      format: api.decimal
     }
   }
 </script>
