@@ -38,7 +38,7 @@
         leftNum: 0,
         balance: 0,
         leftStatus: false,
-        overStatus: false,
+        buyStatus: 0,
         content: '',
         content1: '',
         str: {4: '预热', 5: '可售'},
@@ -62,9 +62,9 @@
         }
         if (this.number < 1) {
           if (!mobile) {
-            e.target.className = 'btn error'
+            this.buyStatus = 1
             setTimeout(() => {
-              e.target.className = 'btn'
+              this.buyStatus = 0
             }, 2000)
           } else {
             Toast({
@@ -106,14 +106,14 @@
         })
       },
       changeNum (n) {
-        var minNum = this.detail.single_limit_amount
+        var minNum = this.detail.single_limit_amount || 1
         if (this.leftStatus) return false
         this.number = n < minNum || isNaN(+n) || typeof +n !== 'number' ? minNum : n > this.initNum ? this.initNum : n
         this.number = parseInt(this.number)
         if (n > this.initNum) {
-          this.overStatus = true
+          this.buyStatus = 2
           setTimeout(() => {
-            this.overStatus = false
+            this.buyStatus = 0
           }, 2000)
         }
         this.totalPrice = this.detail.one_amount_value * this.number
