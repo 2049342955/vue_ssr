@@ -70,7 +70,6 @@
     },
     methods: {
       goPay (id) {
-        self.drawRing(100, 100, 20, 0)
         if (this.token === 0) {
           api.tips('请先登录', () => {
             this.$router.push({name: 'login'})
