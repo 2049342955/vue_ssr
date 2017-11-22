@@ -10,16 +10,26 @@
         <div class="item" v-for="k in 2" @click="setInfo(list[k-1].name,menu[k-1].status)">
           <span>{{list[k-1].title}}</span>
           <i v-if="k===1">{{mobile|format}}</i>
-          <i v-else>{{!menu[k-1].status?'去认证':true_name.truename+'：'+true_name.idcard|cardformat}}</i>
+          <i v-else>{{!menu[k-1].status?'去认证':true_name.truename+'：'+true_name.idcard|format}}</i>
         </div>
       </div>
       <div class="list">
-        <div class="item" v-for="k in 4" @click="setInfo(list[k+1].name,menu[k+1].status)">
-          <span>{{list[k+1].title}}</span>
-          <i v-if="list[k+1].name==='card'&&bank_card&&bank_card.open_bank">{{bank_card&&bank_card.card_no|cardformat}}</i>
-          <i v-else-if="list[k+1].name==='trade'&&trade_password">已设置<em></em></i>
-          <i v-else>设置<em></em></i>
+        <div class="item" v-for="k in 3" @click="setInfo(list[k+1].name,menu[k+1].status)">
+            <span>{{list[k+1].title}}</span>
+            <i v-if="list[k+1].name==='card'&&bank_card&&bank_card.open_bank">{{bank_card&&bank_card.card_no|format}}</i>
+            <i v-else-if="list[k+1].name==='trade'&&trade_password">已设置<em></em></i>
+            <i v-else>设置<em></em></i>
         </div>
+        <div class="compute_address item">
+            <div class="compute_address_title" @click="setInfo(list[5].name,menu[5].setting)">
+              <span>{{list[5].title}}</span>
+              <i>设置<em></em></i>
+            </div>
+            <div class="compute_address_box" v-for="a in address">
+              <div class="val">{{a.product_hash_type+'地址: '+a.address|format}}</div>
+              <div class="opr" @click="setInfo(list[5].name,menu[5].setting,a.product_hash_type)">修改</div>
+            </div>
+          </div>
       </div>
       <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false">
         <div class="close" @click="closeEdit(1)">
@@ -129,13 +139,15 @@
               }, 7000)
             } else if (self.edit === 'address') {
               self.requestData(callbackUrl, sendData, val)
+            } else if (self.edit === 'trade') {
+              self.$store.commit('SET_INFO', {trade_password: 1})
             }
             self.closeEdit()
           })
         })
       },
-      closeEdit (mobile) {
-        if (mobile === 1) {
+      closeEdit () {
+        if (this.isMobile) {
           var form = document.querySelector('.form')
           api.clearForm(form)
           this.showModal = false
@@ -169,10 +181,21 @@
           }
         }
       },
-      setInfo (k, s) {
+      setInfo (k, s, n) {
         if (k === 'tel' || (k === 'auth' && s)) return false
         this.showModal = true
         this.edit = k
+        if (k === 'address') {
+          if (n) {
+            this.product_hash_type = n
+            this.form[this.edit][0].type = 'text'
+            this.form[this.edit][0].edit = 'address'
+          } else {
+            this.product_hash_type = ''
+            this.form[this.edit][0].type = 'select'
+            this.form[this.edit][0].edit = 0
+          }
+        }
       },
       myToast (str) {
         Toast({
@@ -181,8 +204,8 @@
           duration: 3000
         })
       },
-      formTips (mobile, str) {
-        if (mobile) {
+      formTips (str) {
+        if (this.isMobile) {
           this.myToast(str)
         } else {
           api.tips(str)
@@ -197,15 +220,15 @@
         true_name: state => state.info.true_name,
         bank_card: state => state.info.bank_card,
         trade_password: state => state.info.trade_password,
-        isMobile: state => state.isMobile
+        isMobile: state => state.isMobile,
+        address: state => state.info.address
       }),
       ...mapGetters([
         'menu'
       ])
     },
     filters: {
-      format: api.telReadable,
-      cardformat: api.cardReadable
+      format: api.telReadable
     }
   }
 </script>
@@ -229,24 +252,34 @@
         box-sizing: border-box;
         .item{
           width: 100%;
-          height: 2rem;
-          display: flex;
-          justify-content: space-between;
           line-height: 2rem;
-          span{
-            color: #121212;
-            font-size: 0.6rem;
-          }
-          i{
-            color: #999999;
-            font-size: 0.6rem;
-            em{
-              @include block(8)
-              @include arrow
+          font-size: 0.6rem;
+          color: #121212;
+          &:not(.compute_address),.compute_address_title{
+            @include flex(space-between)
+            i{
+              color: #999999;
+              em{
+                @include block(8)
+                @include arrow
+              }
             }
           }
-          &:not(:last-child){
-            border-bottom:1px solid #ddd;
+          border-bottom:1px solid #ddd;
+          &.compute_address{
+            .compute_address_title{
+              border-bottom:1px solid $border;
+            }
+            .compute_address_box{
+              margin:0 10px;
+              line-height: 1.2rem;
+              font-size: 0.5rem;
+              color:$light_text;
+              @include flex(space-between)
+              &:not(:last-child){
+                border-bottom:1px solid $border;
+              }
+            }
           }
         }
         & + .list{

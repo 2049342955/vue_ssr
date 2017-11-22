@@ -1,64 +1,78 @@
 <template>
-  <article class="home">
-    <Swiper :pagination-visible="true" :loop="true" :autoPlay="5000"></Swiper>
+  <article :class="['home', {mobile_page:isMobile}]">
+    <Swiper :pagination-visible="true" :loop="true" :autoPlay="5000" v-if="!isMobile"></Swiper>
+    <Swiper :pagination-visible="true" :loop="true" :autoPlay="5000" :data="data" v-else></Swiper>
     <!-- <Chart></Chart> -->
+    <div class="nav_box" v-if="isMobile">
+      <router-link class="item" :to="n.url" v-for="n,k in nav" :key="k">
+        <div class="item_img">
+          <img :src="require('@/assets/images/nav'+(k+1)+'.png')" alt="">
+        </div>
+        <div class="item_text">
+          <h3>{{n.title}}</h3>
+          <p>{{n.desc}}</p>
+        </div>
+      </router-link>
+    </div>
     <MyData></MyData>
-    <div class="wq">
-      <img :src="wqImg" alt="" class="pre">
-      <div class="text">
-        <img src="../assets/images/server.png" style="width:800px;display:block;margin:0 auto;"/>
-        <router-link to="/cloudCompute/list/1/all">即刻体验</router-link>
+    <template v-if="!isMobile">
+      <div class="wq">
+        <img :src="wqImg" alt="" class="pre">
+        <div class="text">
+          <img src="../assets/images/server.png" style="width:800px;display:block;margin:0 auto;"/>
+          <router-link to="/cloudCompute/list/1/all">即刻体验</router-link>
+        </div>
       </div>
-    </div>
-    <div class="home_text">
-      <div class="main">
-        <div class="list">
-          <div class="item" v-for="a,k in ad.items">
-            <span :class="['iconfont', 'icon'+k]"></span>
-            <h3>{{a.title}}</h3>
-            <div class="line"></div>
-            <p v-html="a.desc"></p>
+      <div class="home_text">
+        <div class="main">
+          <div class="list">
+            <div class="item" v-for="a,k in ad.items">
+              <span :class="['iconfont', 'icon'+k]"></span>
+              <h3>{{a.title}}</h3>
+              <div class="line"></div>
+              <p v-html="a.desc"></p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="home_title">
-      <div class="main">
-        <h1>{{ad.title}}</h1>
-        <p>{{ad.desc}}</p>
-        <div class="list">
-          <div class="item" v-for="s,k in suanLi">
-            <div class="iconfont"></div>
-            <div class="item_title">{{s.title}}</div>
-            <div class="item_desc">{{s.desc}}</div>
-          </div><div class="item"></div>
-        </div>
-      </div>
-    </div>
-    <div :class="['my_map', {active: dataSrc===1||dataSrc===2||dataSrc===3}]">
-      <div class="main">
-        <h3>遍布全球，持续扩张的数据中心让跨域体验更流畅</h3>
-        <div class="data_title">
-          <div :class="['item', {active: k===dataSrc}]" v-for="dt,k in dataTitle" @click="setData(k)">{{dt}}</div>
-        </div>
-        <DataChart class="data_chart" v-if="dataSrc===1||dataSrc===2" :mapType="mapType"></DataChart>
-        <DataChart2 class="data_chart2" v-else-if="dataSrc===3"></DataChart2>
-        <DataMap class="data_chart" v-else></DataMap>
-      </div>
-    </div>
-    <WebInfo></WebInfo>
-    <div class="partner">
-      <div class="box">
-        <h3>战略合作伙伴</h3>
-        <div class="list">
-          <div class="item" v-for="i in 7" v-if="i!==2">
-            <div :class="'img img'+i"></div>
-            <div :class="'img_hover img_hover'+i"></div>
+      <div class="home_title">
+        <div class="main">
+          <h1>{{ad.title}}</h1>
+          <p>{{ad.desc}}</p>
+          <div class="list">
+            <div class="item" v-for="s,k in suanLi">
+              <div class="iconfont"></div>
+              <div class="item_title">{{s.title}}</div>
+              <div class="item_desc">{{s.desc}}</div>
+            </div><div class="item"></div>
           </div>
         </div>
       </div>
-    </div>
-    <SideBar></SideBar>
+      <div :class="['my_map', {active: dataSrc===1||dataSrc===2||dataSrc===3}]">
+        <div class="main">
+          <h3>遍布全球，持续扩张的数据中心让跨域体验更流畅</h3>
+          <div class="data_title">
+            <div :class="['item', {active: k===dataSrc}]" v-for="dt,k in dataTitle" @click="setData(k)">{{dt}}</div>
+          </div>
+          <DataChart class="data_chart" v-if="dataSrc===1||dataSrc===2" :mapType="mapType"></DataChart>
+          <DataChart2 class="data_chart2" v-else-if="dataSrc===3"></DataChart2>
+          <DataMap class="data_chart" v-else></DataMap>
+        </div>
+      </div>
+      <WebInfo></WebInfo>
+      <div class="partner">
+        <div class="box">
+          <h3>战略合作伙伴</h3>
+          <div class="list">
+            <div class="item" v-for="i in 7" v-if="i!==2">
+              <div :class="'img img'+i"></div>
+              <div :class="'img_hover img_hover'+i"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <SideBar></SideBar>
+    </template>
   </article>
 </template>
 
@@ -72,6 +86,7 @@
   import DataChart from '../components/home/DataChart'
   import DataChart2 from '../components/home/DataChart2'
   import DataMap from '../components/home/DataMap'
+  import { mapState } from 'vuex'
   export default {
     components: {
       Swiper, Chart, MyData, WebInfo, SideBar, DataChart, DataMap, DataChart2
@@ -83,7 +98,9 @@
         suanLi: [{title: 'SHA256比特币算力', desc: 'Bitcoin数字货币算力', icon: 'ELbobeicesuan'}, {title: '卷积神经算法算力', desc: '为CNN卷积神经网络提供分布式加速服务', icon: 'guanlianxitongwenbenqueren'}, {title: 'EquiHash零币算力', desc: 'ZeroCASH提供隐私保护及零知识证明的基础算力', icon: 'wodegongzuo-liebiao'}, {title: '智能合约算力', desc: '全球贸易智能合约服务的分布式基础算力', icon: 'dianzihetongshenqing'}, {title: 'Curecoin算力', desc: '蛋白质折叠计算，生化反应模型，用于发现新药', icon: 'hebaoshenpi'}, {title: 'Scrypt莱特币算力', desc: 'Litecoin数字货币算力', icon: 'xinxichaxun'}, {title: '游戏币兑换算力', desc: '全球游戏产业虚拟货币通用兑换算力', icon: 'jiedongzhiquzhihang'}, {title: 'Ethash以太算力', desc: '以太坊网络，ETCETH算力', icon: 'yewuchaxun'}, {title: '公证算力', desc: '提供区块链公证服务，存证保全的基础算力', icon: 'shouqushenqingchaxun'}],
         dataTitle: ['算力网BDC中心分布', '比特币全球节点数', '算力网注册用户数', '交易总算力'],
         dataSrc: 0,
-        mapType: 1
+        mapType: 1,
+        nav: [{title: '矿机商城', desc: '无忧购买矿机', url: '/cloudCompute/list/1/all'}, {title: 'BDC托管', desc: '多个BDC中心', url: '/bdc'}, {title: '产业资讯', desc: '掌握产业动态', url: '/mobile/information'}],
+        data: [1, 1, 1]
       }
     },
     methods: {
@@ -97,13 +114,19 @@
       },
       goMobile () {
         if (api.checkEquipment()) {
-          this.$router.push({name: 'mobileHome'})
+          this.$store.commit('SET_EQUIPMENT', true)
+        } else {
+          this.$store.commit('SET_EQUIPMENT', false)
         }
       }
     },
     mounted () {
-      this.goMobile()
-      // window.addEventListener('resize', this.goMobile, false)
+      window.addEventListener('resize', this.goMobile, false)
+    },
+    computed: {
+      ...mapState({
+        isMobile: state => state.isMobile
+      })
     }
   }
 </script>
@@ -112,109 +135,111 @@
   @import '../assets/css/style.scss';
   @import '../assets/fonts/iconfont.css';
   .home{
-    .swiper{
-      .swiper_wrap{
-        .swiper_one{
-          position: relative;
-          height: 520px;
-          background: linear-gradient(to bottom, #0D1B36 10%, #264683);
-          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0D1B36', endColorstr='#264683',GradientType=0 );
-          img{
-            position: absolute;
-            transition: all .2s;
-            transform-style: preserve-3d;
-            backface-visibility: hidden;
-            &:first-child{
-              left:calc(50% - 590px);
-            }
-            &:nth-child(2){
-              right:calc(50% - 590px);
-            }
-            @media screen and (max-width: 1178px) and (min-width: 340px){
-              object-fit:contain
-            }
-          }
-          a.btn{
-            position: absolute;
-            width:200px;
-            height:50px;
-            line-height: 50px;
-            text-align: center;
-            left:calc(50% - 590px);
-            top:330px;
-            color:#fff;
-            border:1px solid #fff;
-            border-radius:5px;
-            font-size: 18px;
-            &:hover{
-              background: #fff;
-              color:#1e396c
-            }
-          }
-          img:first-child,a.btn{
-            @media screen and (max-width: 1178px) and (min-width: 340px){
-              left:0;
-            }
-          }
-          img:nth-child(2){
-            @media screen and (max-width: 1178px) and (min-width: 340px){
-              right:0;
-            }
-          }
-          &:nth-child(6),&:nth-child(2){
+    &:not(.mobile_page){
+      .swiper{
+        .swiper_wrap{
+          .swiper_one{
+            position: relative;
+            height: 520px;
+            background: linear-gradient(to bottom, #0D1B36 10%, #264683);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0D1B36', endColorstr='#264683',GradientType=0 );
             img{
-              top:0;
-              left:calc(50% - 590px);
-              width:1180px;
-              height:100%;
-              object-fit:cover;
+              position: absolute;
+              transition: all .2s;
+              transform-style: preserve-3d;
+              backface-visibility: hidden;
+              &:first-child{
+                left:calc(50% - 590px);
+              }
+              &:nth-child(2){
+                right:calc(50% - 590px);
+              }
               @media screen and (max-width: 1178px) and (min-width: 340px){
-                width:100%;
+                object-fit:contain
               }
             }
             a.btn{
+              position: absolute;
+              width:200px;
+              height:50px;
+              line-height: 50px;
+              text-align: center;
               left:calc(50% - 590px);
-              @include button($blue)
-              // background: linear-gradient(to right, #ffb001 20%, #f9580d);
-              // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffb001', endColorstr='#f9580d',GradientType=1 );
+              top:330px;
+              color:#fff;
+              border:1px solid #fff;
+              border-radius:5px;
+              font-size: 18px;
+              &:hover{
+                background: #fff;
+                color:#1e396c
+              }
             }
-          }
-          &:nth-child(3) img:first-child{
-            width:563px;
-            top:calc(50% - 45px);
-            height:90px;
-          }
-          &:nth-child(3) img:nth-child(2){
-            top:calc(50% - 139.5px);
-            width:532px;
-            height:279px;
-          }
-          &:nth-child(4){
-            img:first-child{
-              width:626px;
-              top:calc(50% - 44px);
-              height:88px;
+            img:first-child,a.btn{
+              @media screen and (max-width: 1178px) and (min-width: 340px){
+                left:0;
+              }
             }
-          }
-          &:nth-child(4){
             img:nth-child(2){
-              top:calc(50% - 137.5px);
-              width:404px;
-              height:275px;
+              @media screen and (max-width: 1178px) and (min-width: 340px){
+                right:0;
+              }
             }
-          }
-          &:nth-child(5),&:nth-child(1){
-            img:first-child{
-              width:493px;
-              top:calc(50% - 44.5px);
-              height:99px;
+            &:nth-child(6),&:nth-child(2){
+              img{
+                top:0;
+                left:calc(50% - 590px);
+                width:1180px;
+                height:100%;
+                object-fit:cover;
+                @media screen and (max-width: 1178px) and (min-width: 340px){
+                  width:100%;
+                }
+              }
+              a.btn{
+                left:calc(50% - 590px);
+                @include button($blue)
+                // background: linear-gradient(to right, #ffb001 20%, #f9580d);
+                // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffb001', endColorstr='#f9580d',GradientType=1 );
+              }
             }
-          }
-          &:nth-child(5),&:nth-child(1){
-            img:nth-child(2){
-              top:calc(50% - 143.5px);
-              width:564px;
-              height:287px;
+            &:nth-child(3) img:first-child{
+              width:563px;
+              top:calc(50% - 45px);
+              height:90px;
+            }
+            &:nth-child(3) img:nth-child(2){
+              top:calc(50% - 139.5px);
+              width:532px;
+              height:279px;
+            }
+            &:nth-child(4){
+              img:first-child{
+                width:626px;
+                top:calc(50% - 44px);
+                height:88px;
+              }
+            }
+            &:nth-child(4){
+              img:nth-child(2){
+                top:calc(50% - 137.5px);
+                width:404px;
+                height:275px;
+              }
+            }
+            &:nth-child(5),&:nth-child(1){
+              img:first-child{
+                width:493px;
+                top:calc(50% - 44.5px);
+                height:99px;
+              }
+            }
+            &:nth-child(5),&:nth-child(1){
+              img:nth-child(2){
+                top:calc(50% - 143.5px);
+                width:564px;
+                height:287px;
+              }
             }
           }
         }
@@ -564,6 +589,46 @@
             }
             .img_hover7{
               background: url('../assets/images/partner.png') -350px -50px;
+            }
+          }
+        }
+      }
+    }
+    &.mobile_page{
+      background: #f4f4f4;
+      .swiper{
+        .swiper_wrap{
+          .swiper_one{
+            height:48vw;
+            & > a > img{
+              width:100vw
+            }
+          }
+        }
+      }
+      .nav_box{
+        padding:15px;
+        background:white;
+        margin-bottom:0.5rem;
+        @include row(2,5%)
+        .item{
+          background: #fbfbfb;
+          padding:10px;
+          &:nth-child(1),&:nth-child(2){
+            margin-bottom:5%;
+          }
+          @include flex
+          .item_img{
+            width:1.4rem;
+          }
+          .item_text{
+            margin-left:10px;
+            h3{
+              font-size:0.6rem;
+            }
+            p{
+              color:$light_black;
+              font-size: 0.5rem;
             }
           }
         }
