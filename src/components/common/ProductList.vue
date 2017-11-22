@@ -44,10 +44,10 @@
             <div class="circle sell_progress">
               <template v-if="(((d.amount-d.buyed_amount)/d.amount*100).toFixed(1))<=180">
                   <div class="pie_left"><div class="left"></div></div> 
-                 <div class="pie_right"><div class="right"  :style="{transform:'rotate('+(((d.amount-d.buyed_amount)/d.amount*100).toFixed(1) * 3.6)+'deg)'}"></div></div> 
+                 <div class="pie_right"><div class="right"  :style="{transform:'rotate(-'+(((d.amount-d.buyed_amount)/d.amount*100).toFixed(1) * 3.6)+'deg)'}"></div></div> 
               </template>
               <template v-else>
-                  <div class="pie_left"><div class="left" :style="{transform:'rotate('+((((d.amount-d.buyed_amount)/d.amount*100).toFixed(1) - 180) * 3.6)+'deg)'}"></div></div>   
+                  <div class="pie_left"><div class="left" :style="{transform:'rotate(-'+((((d.amount-d.buyed_amount)/d.amount*100).toFixed(1) - 180) * 3.6)+'deg)'}"></div></div>   
                   <div class="pie_right"><div class="right" :style="{transform:'rotate('+180+'deg)'}"></div></div>  
               </template>
               <div class="mask"><span>{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)}}</span>%</div>

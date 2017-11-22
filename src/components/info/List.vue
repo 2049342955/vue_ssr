@@ -53,7 +53,7 @@
       judge () {
         var n = this.$route.params.type
         var url = this.requestUrl[n]
-        document.querySelector('title').innerHTML = this.str[n]
+        document.querySelector('title').innerHTML = '算力新闻_比特币资讯－算力网'
         var self = this
         util.post(url, {sign: 'token=0'}).then(function (res) {
           api.checkAjax(self, res, () => {
