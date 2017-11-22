@@ -270,7 +270,7 @@
               content:'\e62e'
             }
           }
-          &.router-link-active i{
+          &.router-link-exact-active i{
             &:before{
               content:'\e692'
             }
