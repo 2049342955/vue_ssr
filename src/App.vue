@@ -1,5 +1,5 @@
 <template>
-  <article id="app" :class="{mobile_page: ismobile}">
+  <article id="app">
     <MyHead></MyHead>
     <router-view class="body"></router-view>
     <MyFoot></MyFoot>
@@ -12,11 +12,6 @@
   import MyHead from './components/common/Header'
   import MyFoot from './components/common/Footer'
   export default {
-    data () {
-      return {
-        ismobile: false
-      }
-    },
     components: {
       MyHead,
       MyFoot

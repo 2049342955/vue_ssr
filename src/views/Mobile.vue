@@ -1,3 +1,3 @@
 <template>
-  <router-view class="mobile"></router-view>
+  <router-view></router-view>
 </template>

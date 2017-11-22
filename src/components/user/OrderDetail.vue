@@ -111,7 +111,7 @@
       var self = this
       this.nav = this.$route.params.type !== '1' ? this.type : this.computeType
       this.info3 = this.$route.params.type !== '1' ? this.info : this.info2
-      var requestUrl = this.$route.params.type !== '1' ? 'showMinerDetail' : 'getTransferRecord'
+      var requestUrl = this.$route.params.type !== '1' ? 'showOrderDetail' : 'getTransferRecord'
       var data = this.$route.params.type !== '1' ? {token: this.token, order_id: this.$route.params.id} : {token: this.token, orderid: this.$route.params.id}
       util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
         api.checkAjax(self, res, () => {
