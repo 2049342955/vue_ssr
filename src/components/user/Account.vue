@@ -25,9 +25,9 @@
               <span>{{list[5].title}}</span>
               <i>设置<em></em></i>
             </div>
-            <div class="compute_address_box" v-for="a in address">
+            <div class="compute_address_box" v-for="a in address" @click="setInfo(list[5].name,menu[5].setting,a.product_hash_type)">
               <div class="val">{{a.product_hash_type+'地址: '+a.address|format}}</div>
-              <div class="opr" @click="setInfo(list[5].name,menu[5].setting,a.product_hash_type)">修改</div>
+              <div class="opr">修改</div>
             </div>
           </div>
       </div>

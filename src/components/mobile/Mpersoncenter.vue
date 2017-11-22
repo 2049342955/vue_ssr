@@ -272,7 +272,7 @@
           width:3rem;
           height:1.5rem;
           line-height: 1.5rem;
-          background:red;
+          background:$orange;
           color:white;
           font-size:0.6rem;
         }

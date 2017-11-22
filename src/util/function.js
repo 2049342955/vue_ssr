@@ -160,7 +160,9 @@ api.validityForm = (form, obj, ismobile) => {
 }
 api.clearForm = (form) => {
   for (var i = 0; i <= form.length - 2; i++) {
-    form[i].value = ''
+    if (!form.disabled) {
+      form[i].value = ''
+    }
   }
   var ele = document.querySelector('.count_btn') || document.getElementsByClassName('count_btn')[0]
   if (window.tt) {
