@@ -26,7 +26,9 @@
     data () {
       return {
         nav: ['qq', 'tel', 'wechat', 'gotop'],
-        show: ''
+        show: '',
+        isTop: true,
+        timer: null
       }
     },
     created () {
@@ -37,7 +39,17 @@
         if (n !== 'gotop') {
           this.show = n
         } else {
-          window.scrollTo(0, 0)
+          var self = this
+          this.timer = setInterval(function () {
+            var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+            var ispeed = 0
+            ispeed = Math.floor(-scrollTop / 3)
+            document.documentElement.scrollTop = document.body.scrollTop = scrollTop + ispeed
+            if (scrollTop === 0) {
+              clearInterval(self.timer)
+            }
+            self.isTop = false
+          }, 50)
         }
       },
       test (e) {

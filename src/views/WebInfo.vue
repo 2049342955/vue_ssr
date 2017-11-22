@@ -1,7 +1,7 @@
 <template>
   <article class="web_info">
     <div class="web_info_nav">
-      <div class="box">
+      <div class="box" style="display:block;">
         <router-link class="tab" :to="n.path" v-for="n in nav[no]" :key="n.id">{{n.title}}</router-link>
       </div>
     </div>
