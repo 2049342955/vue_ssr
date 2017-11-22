@@ -44,7 +44,7 @@
           <span>台</span>
         </div>
         <div class="price_input">
-          <div class="price_text">购买数量<span class="buy_tips">(最少{{$parent.detail.single_limit_amount}}台)</span></div>
+          <div class="price_text">购买数量<span class="buy_tips">(最少{{$parent.detail.single_limit_amount||1}}台)</span></div>
           <div class="input_box">
             <span @click="$parent.changeNum(+$parent.number-1)">-</span>
             <input type="text" v-model="$parent.number" placeholder="请输入购买数量" @blur="$parent.changeNum($parent.number)">
@@ -53,8 +53,8 @@
           <div class="price_text">需支付：<span class="money">{{$parent.totalPrice|format}}元</span></div>
           <div class="price_text">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
          <button class="btn" disabled v-if="$parent.leftStatus">已售罄</button>
-         <button :class="['btn', {over: $parent.overStatus}]" :disabled="$parent.overStatus" v-else @click="checkPay($event, false)" style="margin-top:10px;">立即支付</button>
-         <button class="btn" style="background:#327fff;border:0;margin-top:10px;" @click="checkPay($event, true)" v-if="$parent.rateshow&&!$parent.leftStatus">分期购买</button>
+         <button :class="['btn buy_btn', {error: $parent.buyStatus===1}, {over: $parent.buyStatus===2}]" v-else @click="checkPay($event, false)">立即支付</button>
+         <button class="btn loan_btn" @click="checkPay($event, true)" v-if="$parent.rateshow&&!$parent.leftStatus">分期购买</button>
         </div>
       </div>
       <div class="price transfer" v-else>
@@ -142,7 +142,7 @@
             </div>
           </div>
           <div class="buy_num">
-            <div>购买数量<span class="buy_tips">(最少5台)</span></div>
+            <div>购买数量<span class="buy_tips">(最少{{$parent.detail.single_limit_amount||1}}台)</span></div>
             <div class="input_box">
               <span @click="$parent.changeNum(+$parent.number-1)">-</span>
               <input type="text" v-model="$parent.number" placeholder="购买数量" @blur="$parent.changeNum($parent.number)">
@@ -160,7 +160,6 @@
           <div class="mobile_btn">
             <mt-button type="default" size="large" disabled v-if="$parent.leftStatus">已售罄</mt-button>
             <mt-button type="primary" size="large" @click="checkPay($event, false, 1)" v-else>立即支付</mt-button>
-            <!-- <mt-button type="danger" size="large" @click="checkPay($event, true, 1)" v-show="$parent.rateshow&&!$parent.leftStatus">分期购买</mt-button> -->
           </div>
         </div>
       </mt-popup>
@@ -340,28 +339,28 @@
           }
           .btn{
             width:100%;
-            @include button($orange)
             line-height: 3;
-            margin-top:30px;
             position: relative;
+            margin-top:10px;
+            &.buy_btn{
+              @include button($orange)
+            }
+            &.loan_btn{
+              @include button($blue)
+            }
             &.error:before{
-              @include position(-36)
+              @include position(-35)
               content:'请输入或添加至少1台矿机';
               color: $orange;
             }
             &.over:before{
-              @include position(-36)
+              @include position(-35)
               content:'剩余可售量不足您所需求的量';
               color: $orange;
             }
             &:disabled{
               background: #f5b48f;
               border-color: #f5b48f;
-            }
-            &:last-child{
-              &.error:before,&.over:before{
-                top:-85px
-              }
             }
           }
         }

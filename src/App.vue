@@ -8,6 +8,7 @@
 </template>
 
 <script>
+  import api from '@/util/function'
   import MyHead from './components/common/Header'
   import MyFoot from './components/common/Footer'
   export default {
@@ -19,6 +20,11 @@
     components: {
       MyHead,
       MyFoot
+    },
+    mounted () {
+      if (api.checkEquipment()) {
+        this.$store.commit('SET_EQUIPMENT', true)
+      }
     }
   }
 </script>
