@@ -44,7 +44,7 @@
           <span>台</span>
         </div>
         <div class="price_input">
-          <div class="price_text">购买数量<span class="buy_tips">(最少{{$parent.detail.single_limit_amount||1}}台)</span></div>
+          <div class="price_text">购买数量<span class="buy_tips">(最少{{parseInt($parent.detail.single_limit_amount)||1}}台)</span></div>
           <div class="input_box">
             <span @click="$parent.changeNum(+$parent.number-1)">-</span>
             <input type="text" v-model="$parent.number" placeholder="请输入购买数量" @blur="$parent.changeNum($parent.number)">
@@ -142,7 +142,7 @@
             </div>
           </div>
           <div class="buy_num">
-            <div>购买数量<span class="buy_tips">(最少{{$parent.detail.single_limit_amount||1}}台)</span></div>
+            <div>购买数量<span class="buy_tips">(最少{{parseInt($parent.detail.single_limit_amount)||1}}台)</span></div>
             <div class="input_box">
               <span @click="$parent.changeNum(+$parent.number-1)">-</span>
               <input type="text" v-model="$parent.number" placeholder="购买数量" @blur="$parent.changeNum($parent.number)">
@@ -199,7 +199,7 @@
       checkPay (e, sh, mobile) {
         var startTime = this.$parent.detail.sell_start_time
         var now = Date.parse(new Date()) / 1000
-        if (startTime < now) {
+        if (now < startTime) {
           api.tips('还未到开售时间，开售时间为：' + api.date(new Date(startTime * 1000), 'date'))
           return false
         }
@@ -209,7 +209,7 @@
         }
         if (!(this.true_name && this.true_name.status === 1)) {
           api.tips('请先实名认证', () => {
-            if (this.$route.path.includes('mHome')) {
+            if (this.isMobile) {
               this.$router.push({name: 'madministration'})
             } else {
               this.$router.push({name: 'account'})
@@ -219,7 +219,7 @@
         }
         if (!(this.bank_card && this.bank_card.status === 1)) {
           api.tips('请先绑定银行卡', () => {
-            if (this.$route.path.includes('mHome')) {
+            if (this.isMobile) {
               this.$router.push({name: 'madministration'})
             } else {
               this.$router.push({name: 'account'})
@@ -240,7 +240,8 @@
       ...mapState({
         token: state => state.info.token,
         true_name: state => state.info.true_name,
-        bank_card: state => state.info.bank_card
+        bank_card: state => state.info.bank_card,
+        isMobile: state => state.isMobile
       })
     }
   }

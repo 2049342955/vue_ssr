@@ -85,7 +85,7 @@
     },
     methods: {
       logout () {
-        this.$router.push({name: 'mobileHome'})
+        this.$router.push({name: 'home'})
         this.$store.commit('LOGOUT')
       },
       openMask (k) {
