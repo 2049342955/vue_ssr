@@ -41,7 +41,18 @@
                 <div class="mobile_text_item">剩余可售<b>{{d.amount-d.buyed_amount}}台</b></div>
               </div>
             </div>
-            <div class="sell_progress">{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)+'%'}}</div>
+            <div class="circle sell_progress">
+              <template v-if="(((d.amount-d.buyed_amount)/d.amount*100).toFixed(1))<=180">
+                  <div class="pie_left"><div class="left"></div></div> 
+                 <div class="pie_right"><div class="right"  :style="{transform:'rotate('+(((d.amount-d.buyed_amount)/d.amount*100).toFixed(1) * 3.6)+'deg)'}"></div></div> 
+              </template>
+              <template v-else>
+                  <div class="pie_left"><div class="left" :style="{transform:'rotate('+((((d.amount-d.buyed_amount)/d.amount*100).toFixed(1) - 180) * 3.6)+'deg)'}"></div></div>   
+                  <div class="pie_right"><div class="right" :style="{transform:'rotate('+180+'deg)'}"></div></div>  
+              </template>
+              <div class="mask"><span>{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)}}</span>%</div>
+            </div>
+            <!-- <div class="sell_progress">{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)+'%'}}</div> -->
           </div>
         </div>
         <div class="nodata" v-if="$parent.show">
@@ -202,4 +213,58 @@
       }
     }
   }
+  .product_list .box .data .item .mobile_info_box .sell_progress{
+    border:0;
+  }
+  .circle {
+			width: 70px;
+			height: 70px;
+			position: absolute;
+			border-radius: 50%;
+			background: #e5e5e5;
+      text-align:  center;
+      box-sizing: border-box;
+      border:0;
+      border: 2px solid #e5e5e5;
+      right: 0.5rem;
+      box-sizing: border-box;
+      overflow: hidden;
+      .pie_left, .pie_right {
+			width:70px; 
+			height:70px;
+			position: absolute;
+			top: 0;left: 0;
+		}
+		.left, .right {
+			width:70px; 
+			height:70px;
+			background:#ffb386;
+			border-radius: 50%;
+			position: absolute;
+			top: 0;
+			left: 0;
+      box-sizing: border-box;
+		}
+		.pie_right, .right {
+			clip:rect(0,auto,auto,35px);
+		}
+		.pie_left, .left {
+			clip:rect(0,35px,auto,0);
+		}
+		.mask {
+			width: 66px;
+			height: 66px;
+			border-radius: 50%;
+			background: #FFF;
+			position: absolute;
+			text-align: center;
+      left:2px;
+      top:2px;
+			line-height: 70px;
+			font-size: 0.7rem;
+      margin: 0 auto;
+			color: #ffb386;
+      box-sizing: border-box;
+		}
+	}
 </style>

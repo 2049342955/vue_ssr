@@ -36,7 +36,17 @@
                 <div class="mobile_text_item">剩余可售<b>{{d.amount-(d.sell_amount||d.buyed_amount)}}台</b></div>
               </div>
             </div>
-            <canvas class="sell_progress myCanvas"></canvas>  
+            <div class="circle sell_progress">
+              <template v-if="(((d.amount-d.buyed_amount)/d.amount*100).toFixed(1))<=180">
+                  <div class="pie_left"><div class="left"></div></div> 
+                 <div class="pie_right"><div class="right"  :style="{transform:'rotate('+(((d.amount-d.buyed_amount)/d.amount*100).toFixed(1) * 3.6)+'deg)'}"></div></div> 
+              </template>
+              <template v-else>
+                  <div class="pie_left"><div class="left" :style="{transform:'rotate('+((((d.amount-d.buyed_amount)/d.amount*100).toFixed(1) - 180) * 3.6)+'deg)'}"></div></div>   
+                  <div class="pie_right"><div class="right" :style="{transform:'rotate('+180+'deg)'}"></div></div>  
+              </template>
+              <div class="mask"><span>{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)}}</span>%</div>
+            </div>
           </div>
         </div>
       </div>
@@ -59,27 +69,6 @@
       }
     },
     methods: {
-      drawRing (w, h, val, index) {
-        var c = document.getElementsByClassName('sell_progress').length
-        console.log(c)
-        var ctx = c.getContext('2d')
-        ctx.canvas.width = w
-        ctx.canvas.height = h
-        ctx.beginPath()
-        ctx.lineWidth = 10
-        ctx.arc(50, 50, 40, 0, 2 * Math.PI)
-        ctx.stroke()
-        ctx.beginPath()
-        ctx.lineWidth = 10
-        ctx.strokeStyle = '#d54540'
-        ctx.arc(50, 50, 40, -90 * Math.PI / 180, (val * 3.6 - 90) * Math.PI / 180)
-        ctx.stroke()
-        ctx.font = '20px Arial'
-        ctx.fillStyle = '#747474'
-        ctx.textBaseline = 'middle'
-        ctx.textAlign = 'center'
-        ctx.fillText(val + '%', 50, 50)
-      },
       goPay (id) {
         self.drawRing(100, 100, 20, 0)
         if (this.token === 0) {
@@ -236,45 +225,65 @@
           &:not(:last-child){
             margin-bottom:10px;
           }
-          // #progress{
-          //   width: 50%;
-          //   height: 30px;
-          //   border:1px solid #ccc;
-          //   border-radius: 15px;
-          //   margin: 50px 0 0 100px;
-          //   overflow: hidden;
-          //   box-shadow: 0 0 5px 0px #ddd inset;
-          //   span{
-          //     display: inline-block;
-          //     width: 100%;
-          //     height: 100%;
-          //     background: #2989d8; /* Old browsers */
-          //     background: -moz-linear-gradient(45deg, #2989d8 33%, #7db9e8 34%, #7db9e8 59%, #2989d8 60%); /* FF3.6+ */
-          //     background: -webkit-gradient(linear, left bottom, right top, color-stop(33%,#2989d8), color-stop(34%,#7db9e8), color-stop(59%,#7db9e8), color-stop(60%,#2989d8)); /* Chrome,Safari4+ */
-          //     background: -webkit-linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* Chrome10+,Safari5.1+ */
-          //     background: -o-linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* Opera 11.10+ */
-          //     background: -ms-linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* IE10+ */
-          //     background: linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* W3C */
-          //     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2989d8', endColorstr='#2989d8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-          //     background-size: 60px 30px;
-          //     text-align: center;
-          //     color:#fff;
-          //     -webkit-animation:load 3s ease-in;
-          //   }
-          //   @-webkit-keyframes load{
-          //     0%{
-          //       width: 0%;
-          //     }
-          //     100%{
-          //       width:100%;
-          //     }
-          //   }
-          // }
         }
       }
     }
+    .circle {
+			width: 70px;
+			height: 70px;
+			position: absolute;
+			border-radius: 50%;
+			background: #e5e5e5;
+      text-align:  center;
+      box-sizing: border-box;
+      border:0;
+      border: 2px solid #e5e5e5;
+      right: 0.5rem;
+      box-sizing: border-box;
+      overflow: hidden;
+		}
+		.pie_left, .pie_right {
+			width:70px; 
+			height:70px;
+			position: absolute;
+			top: 0;left: 0;
+		}
+		.left, .right {
+			width:70px; 
+			height:70px;
+			background:#ffb386;
+			border-radius: 50%;
+			position: absolute;
+			top: 0;
+			left: 0;
+      box-sizing: border-box;
+		}
+		.pie_right, .right {
+			clip:rect(0,auto,auto,35px);
+		}
+		.pie_left, .left {
+			clip:rect(0,35px,auto,0);
+		}
+		.mask {
+			width: 66px;
+			height: 66px;
+			border-radius: 50%;
+			background: #FFF;
+			position: absolute;
+			text-align: center;
+      left:2px;
+      top:2px;
+			line-height: 70px;
+			font-size: 0.7rem;
+      margin: 0 auto;
+			color: #ffb386;
+      box-sizing: border-box;
+		}
     @media screen and (max-width: $mobile) {
       margin:0;
     }
+  }
+  .cloud_list .mobile_box .mobile_list_box .item .mobile_info_box .sell_progress{
+    border:0;
   }
 </style>
