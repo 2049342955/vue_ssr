@@ -8,7 +8,6 @@
   import Regist from '@/components/auth/Regist'
   import PasswordRetrieval from '@/components/auth/PasswordRetrieval'
   import Bdc from '@/views/Bdc'
-  import Mine from '@/views/Mine'
   import CloudCompute from '@/views/CloudCompute'
   import ComputeShop from '@/components/compute/Shop'
   import ComputeDetail from '@/components/compute/Detail'
@@ -43,7 +42,6 @@
   import IssuesDetail from '@/components/info/IssuesDetail'
 // mobile
   import Mobile from '@/views/Mobile'
-  import MIndex from '@/components/mobile/Mindex'
   import MbdcForm from '@/components/mobile/MbdcForm'
   import Mhelp from '@/components/mobile/Mhelp'
   import Mnews from '@/components/mobile/Mnews'
@@ -53,7 +51,6 @@
   import MmoneyFlow from '@/components/mobile/MmoneyFlow'
   import Minformation from '@/components/mobile/Minformation'
   import Mpersoncenter from '@/components/mobile/Mpersoncenter'
-  import Maddress from '@/components/mobile/Maddress'
 // use plugin
   Vue.use(Router)
 // export
@@ -74,10 +71,6 @@
         document.querySelector('meta[name="description"]').setAttribute('content', '算力网（www.suanli.com）是比特币挖矿一站式服务平台，拥有专业的挖矿及运营团队，目前拥有矿机托管，矿场投资，算力出售，算力转让等业务，切实为比特币挖矿爱好者提供一站式贴心服务。')
         next()
       }
-    }, {
-      path: '/mHome',
-      name: 'mobileHome',
-      component: MIndex
     }, {
       path: '/auth',
       component: Auth,
@@ -248,9 +241,6 @@
         component: AccountEvaluate
       }]
     }, {
-      path: '/mine',
-      component: Mine
-    }, {
       path: '/webInfo',
       component: WebInfo,
       children: [{
@@ -329,11 +319,6 @@
         path: 'notice',
         name: 'mnotice',
         component: Mnotice
-      },
-      {
-        path: 'address',
-        name: 'maddress',
-        component: Maddress
       },
       {
         path: 'message',

@@ -97,7 +97,7 @@
       <div class="first_box">
         <h4>{{$parent.detail.product_name}}</h4>
         <div class="base_info">
-          <div class="item" v-for="n,k in mobileNav1">
+          <div :class="['item', {mobile_hide:k==='status'&&$route.params.type==='1'}]" v-for="n,k in mobileNav1">
             <div class="item_data">{{k==='status'?$parent.str[$parent.detail[k]]:$parent.detail[k]}}<span>{{n.unit}}</span></div>
             <div class="item_text">{{n.title}}</div>
           </div>
@@ -433,6 +433,9 @@
           @include flex(space-between)
           border-bottom:1px solid $border;
           .item{
+            &.mobile_hide{
+              opacity:0
+            }
             .item_data{
               font-size: 18px;
               span{

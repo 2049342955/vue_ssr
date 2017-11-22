@@ -4,7 +4,7 @@
       <div class="bg"></div>
     </div>
     <div class="mobile_logo">
-      <router-link to="/mHome"></router-link>
+      <router-link to="/"></router-link>
     </div>
     <div class="box">
       <router-view></router-view>

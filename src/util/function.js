@@ -46,10 +46,13 @@ api.readable = (num) => {
   return result
 }
 api.telReadable = (tel) => {
-  return tel.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
+  if (tel) {
+    return tel.replace(/(\w{3})\w{4,}(\w{4})/, '$1****$2')
+  }
 }
 api.cardReadable = (tel) => {
   if (tel) {
+    console.log(tel)
     return tel.replace(/(\d{4})\d{8,13}(\d{4})/, '$1****$2')
   }
 }

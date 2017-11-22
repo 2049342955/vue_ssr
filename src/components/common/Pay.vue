@@ -296,7 +296,7 @@
         this.openMask(mobile, n)
         document.body.style.overflow = 'hidden'
         if (n === 1) {
-          this.contract = this.$parent.content1 ? this.$parent.content + '<br>' + this.$parent.content : this.$parent.content
+          this.contract = this.$parent.content1 ? this.$parent.content + '<br>' + this.$parent.content1 : this.$parent.content
           this.title = '协议详情'
           this.accept = true
         } else if (n === 2) {
