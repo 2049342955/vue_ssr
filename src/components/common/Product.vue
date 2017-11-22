@@ -44,10 +44,10 @@
           <span>台</span>
         </div>
         <div class="price_input">
-          <div class="price_text">购买数量<span class="buy_tips">(最少5台)</span></div>
+          <div class="price_text">购买数量<span class="buy_tips">(最少{{$parent.detail.single_limit_amount}}台)</span></div>
           <div class="input_box">
             <span @click="$parent.changeNum(+$parent.number-1)">-</span>
-            <input type="text" v-model="$parent.number" placeholder="请输入购买数量，5台起售" @blur="$parent.changeNum($parent.number)">
+            <input type="text" v-model="$parent.number" placeholder="请输入购买数量" @blur="$parent.changeNum($parent.number)">
             <span @click="$parent.changeNum(+$parent.number+1)">+</span>
           </div>
           <div class="price_text">需支付：<span class="money">{{$parent.totalPrice|format}}元</span></div>

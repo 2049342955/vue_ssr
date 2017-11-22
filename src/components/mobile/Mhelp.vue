@@ -2,10 +2,10 @@
   <section class="issues">
     <div class="issues_boxleft" v-show="show">
       <div class="issues_listsoneone">
-        <div class="item" v-for="n,k in nav" @click="fetchData(n.help_class_id,k)">
-          <p class="titleall">{{n.name}}<em><img src="../../assets/images/leftjian.png" style="width:0.3rem;height:0.4rem;"/></em></p>
+        <div :class="['item', {open:num===k}]" v-for="n,k in nav">
+          <p class="titleall" @click="fetchData(n.help_class_id,k,$event)">{{n.name}}<em></em></p>
           <div class="issues_listoneone" v-if="num===k">
-            <a class="item" v-for="l,k in list" @click="detailcontent(l.id)">
+            <a href="javascript:;" class="item" v-for="l,k in list" @click="detailcontent(l.id)">
               <span>{{l.title}}</span>
             </a>
           </div>
@@ -14,7 +14,7 @@
     </div>
     <div class="issues_content" v-show="!show" style="background:white;margin-bottom:20px;">
       <div v-html="nowItem.content"></div>
-      <button @click="back()"  v-show="!show">同 意</button>
+      <button @click="back()"  v-show="!show">返回</button>
     </div>
   </section>
 </template>
@@ -34,14 +34,10 @@
       }
     },
     methods: {
-      fetchData (id, k) {
+      fetchData (id, k, e) {
         if (k === this.num) {
           this.$store.commit('SET_NUM', -1)
           return false
-        }
-        var eles = document.querySelector('.issues_listsoneone').children
-        for (var key = 0; key < eles.length; key++) {
-          eles[key].className = 'item'
         }
         this.list = []
         var self = this
@@ -50,7 +46,6 @@
         })
         setTimeout(() => {
           this.$store.commit('SET_NUM', k)
-          eles[k].className = 'item active'
         }, 0)
       },
       detailcontent (id) {
@@ -69,7 +64,7 @@
       var self = this
       util.post('getHelpClass', {sign: api.serialize({token: this.token})}).then(function (res) {
         self.nav = res
-        self.fetchData(res[self.num || 0].help_class_id, self.num || 0)
+        self.fetchData(res[self.num || 0] && res[self.num || 0].help_class_id, self.num || 0)
       })
     },
     computed: {
@@ -82,37 +77,33 @@
 </script>
 
 <style type="text/css" lang="scss">
+  @import '../../assets/css/style.scss';
   .issues{
     button{
-              width: 3rem;
-              height: 1.5rem;
-              background: #327fff;
-              border:0;
-              color: white;
-              float: right;
-              margin-top: 20px;
-              margin-right: 20px;
-            }
+      width: 3rem;
+      height: 1.5rem;
+      background: #327fff;
+      border:0;
+      color: white;
+      float: right;
+      margin-top: 20px;
+    }
     .issues_content{
-            width: 100%;
-            overflow: hidden;
-            height: 100%;
-            padding:0.5rem;
-            padding-left: 0.5rem;
-            background: #f5f5f9;
-            box-sizing: border-box;
-            text-indent:0rem !important;
-            img{
-              width: 100%;
-              height: auto;
-              position: relative;
-              left: -28px;
-              margin-top: 1rem;
-            }
-            span{
-              text-indent:0rem !important;
-            }
-          }
+      width: 100%;
+      overflow: hidden;
+      height: 100vh;
+      padding:0.5rem;
+      background: #f5f5f9;
+      box-sizing: border-box;
+      text-indent:0rem !important;
+      img{
+        width: 100%;
+        height: auto;
+      }
+      span{
+        text-indent:0rem !important;
+      }
+    }
    .issues_boxleft{
       background: #f5f5f9;
       width: 100%;
@@ -126,7 +117,6 @@
           width: 100%;
           text-align: left;
           color:#121212;
-          // border-bottom:1px solid #ddd;
           line-height: 3;
           .titleall{
             width: 100%;
@@ -138,21 +128,21 @@
             font-size:0.6rem;
             border-bottom:1px solid #ddd;
             em{
-              font-family: "宋体";
-              font-style: normal;
-              transform: rotate(90deg);
+              @include block(8)
+              @include arrow(down)
+              margin-top:0.8rem;
+              transform: rotate(135deg);
               float:right;
             }
           }
           &:hover{
-              color:#327fff;
+            color:#327fff;
           }
-          &.active{
-              color:#327fff;
-          }
-          &.active .titleall img{
-            transform:rotate(-180deg);
-            transition: 0.5s;
+          &.open{
+            color:#327fff;
+            em{
+              transform: rotate(-45deg);
+            }
           }
         }
       }

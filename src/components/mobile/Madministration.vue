@@ -11,8 +11,8 @@
       <div class="item" v-for="k in 4" @click="setInfo(list[k+1].name,menu[k+1].status)">
         <span>{{list[k+1].title}}</span>
         <i v-if="list[k+1].name==='card'&&bank_card&&bank_card.open_bank">{{bank_card&&bank_card.card_no|cardformat}}</i>
-        <i v-else-if="list[k+1].name==='trade'&&trade_password">已设置<em style="margin-left:.3rem;"><img src="../../assets/images/leftjian.png" style="width:0.3rem;height:0.4rem;margin-left:0.5rem;position:relative;top:-0.8rem;"/></em></i>
-        <i v-else>设置<em style="margin-left:.3rem;"><img src="../../assets/images/leftjian.png" style="width:0.3rem;height:0.4rem;margin-left:0.5rem;position:relative;top:-0.8rem;"/></em></i>
+        <i v-else-if="list[k+1].name==='trade'&&trade_password">已设置<em></em></i>
+        <i v-else>设置<em></em></i>
       </div>
     </div>
     <mt-popup position="bottom" v-model="showModal" :closeOnClickModal="false">
@@ -194,8 +194,8 @@
           color: #999999;
           font-size: 0.6rem;
           em{
-            font-family: "宋体";
-            font-style: normal;
+            @include block(8)
+            @include arrow
           }
         }
         &:not(:last-child){

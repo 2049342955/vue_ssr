@@ -106,8 +106,9 @@
         })
       },
       changeNum (n) {
+        var minNum = this.detail.single_limit_amount
         if (this.leftStatus) return false
-        this.number = n < 5 || isNaN(+n) || typeof +n !== 'number' ? 5 : n > this.initNum ? this.initNum : n
+        this.number = n < minNum || isNaN(+n) || typeof +n !== 'number' ? minNum : n > this.initNum ? this.initNum : n
         this.number = parseInt(this.number)
         if (n > this.initNum) {
           this.overStatus = true
