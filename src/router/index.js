@@ -52,7 +52,6 @@
   import Mproperty from '@/components/mobile/Mproperty'
   import MmoneyFlow from '@/components/mobile/MmoneyFlow'
   import Minformation from '@/components/mobile/Minformation'
-  import Madministration from '@/components/mobile/Madministration'
   import Mpersoncenter from '@/components/mobile/Mpersoncenter'
   import Maddress from '@/components/mobile/Maddress'
 // use plugin
@@ -304,7 +303,7 @@
       {
         path: 'administration',
         name: 'madministration',
-        component: Madministration
+        component: Account
       },
       {
         path: 'information',
