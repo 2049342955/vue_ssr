@@ -84,7 +84,7 @@
             <h4>确认还款<span @click="showButton(false)"><img :src="close" style="width:12px;height:12px;position:relative;top:-6px;"/></span></h4>
             <div class="one">
               <label>还款方式</label>
-              <select @click="onChange">
+              <select @change="onChange">
                 <option v-for="n,k in sort" :value="k">{{n.type}}</option>
               </select>
             </div>
