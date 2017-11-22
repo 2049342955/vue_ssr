@@ -46,10 +46,13 @@ api.readable = (num) => {
   return result
 }
 api.telReadable = (tel) => {
-  return tel.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
+  if (tel) {
+    return tel.replace(/(\w{3})\w{4,}(\w{4})/, '$1****$2')
+  }
 }
 api.cardReadable = (tel) => {
   if (tel) {
+    console.log(tel)
     return tel.replace(/(\d{4})\d{8,13}(\d{4})/, '$1****$2')
   }
 }
@@ -157,7 +160,9 @@ api.validityForm = (form, obj, ismobile) => {
 }
 api.clearForm = (form) => {
   for (var i = 0; i <= form.length - 2; i++) {
-    form[i].value = ''
+    if (!form.disabled) {
+      form[i].value = ''
+    }
   }
   var ele = document.querySelector('.count_btn') || document.getElementsByClassName('count_btn')[0]
   if (window.tt) {

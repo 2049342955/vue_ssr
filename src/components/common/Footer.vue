@@ -47,7 +47,7 @@
     </div>
     <div class="mobile_box">
       <mt-tabbar :fixed="true" selected="1">
-        <router-link to="/mHome" id="1" class="mint-tab-item">
+        <router-link to="/" id="1" class="mint-tab-item">
           <i class="iconfont"></i><br>
           <span>首页</span>
         </router-link>
@@ -259,7 +259,7 @@
           margin-top:10px;
           font-size: 18px;
         }
-        &.router-link-active{
+        &.router-link-exact-active{
           color: #26a2ff;
         }
         &:nth-child(1){
@@ -270,7 +270,7 @@
               content:'\e62e'
             }
           }
-          &.router-link-active i{
+          &.router-link-exact-active i{
             &:before{
               content:'\e692'
             }
