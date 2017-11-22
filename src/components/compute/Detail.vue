@@ -174,7 +174,7 @@
             self.detail = Object.assign(self.detail, res.has_product_miner_base)
             self.detail.hashType = res.hashtype.name
           } else {
-            self.detail.product_name = res.name
+            self.detail.product_name = res.product_name
           }
         })
       })
