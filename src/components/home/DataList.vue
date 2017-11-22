@@ -36,10 +36,12 @@
                 <div class="mobile_text_item">剩余可售<b>{{d.amount-(d.sell_amount||d.buyed_amount)}}台</b></div>
               </div>
             </div>
-            <div class="sell_progress">{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)+"%"}}</div>
+            <canvas class="sell_progress myCanvas"></canvas>  
+            <!-- <div class="sell_progress">{{+"%"}}</div> -->
             <!-- <div id="progress"><span></span></div> -->
           </div>
         </div>
+        <!-- <canvas id="myCanvas" class="sell_progress"></canvas>   -->
       </div>
     </div>
   </div>
@@ -55,10 +57,32 @@
       return {
         // nav: {'name': {title: '矿机名称', unit: ''}, 'amount': {title: '总数量', unit: '台'}, 'one_amount_value': {title: '单价', unit: '元'}, 'buy_step_amount': {title: '最小购买单位', unit: '台'}, 'hash': {title: '算力', unit: 'T'}, 'type_name': {title: '算力类型', unit: ''}, 'plan': {title: '项目进度', unit: ''}},
         nav: {'name': {title: '矿机名称', unit: ''}, 'amount': {title: '总数量', unit: '台'}, 'one_amount_value': {title: '单价', unit: '元'}, 'hash': {title: '算力', unit: 'T'}, 'left_num': {title: '剩余数量', unit: '台'}},
-        list: []
+        list: [],
+        index: ''
       }
     },
     methods: {
+      drawRing (w, h, val, index) {
+        var c = document.getElementsByClassName('myCanvas')[index]
+        console.log(c)
+        var ctx = c.getContext('2d')
+        ctx.canvas.width = w
+        ctx.canvas.height = h
+        ctx.beginPath()
+        ctx.lineWidth = 10
+        ctx.arc(50, 50, 40, 0, 2 * Math.PI)
+        ctx.stroke()
+        ctx.beginPath()
+        ctx.lineWidth = 10
+        ctx.strokeStyle = '#d54540'
+        ctx.arc(50, 50, 40, -90 * Math.PI / 180, (val * 3.6 - 90) * Math.PI / 180)
+        ctx.stroke()
+        ctx.font = '20px Arial'
+        ctx.fillStyle = '#747474'
+        ctx.textBaseline = 'middle'
+        ctx.textAlign = 'center'
+        ctx.fillText(val + '%', 50, 50)
+      },
       goPay (id) {
         if (this.token === 0) {
           api.tips('请先登录', () => {
@@ -102,6 +126,7 @@
       util.post('showTopMiner', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.list = res
+          self.drawRing(100, 100, 20, 0)
         })
       })
     },
