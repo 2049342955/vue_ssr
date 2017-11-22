@@ -69,8 +69,8 @@
       name: 'home',
       component: Home,
       beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '算力网'
-        document.title = to.meta.title || '算力网'
+        document.querySelector('title').innerHTML = '算力网-比特币挖矿算力托管服务一站式平台'
+        document.title = to.meta.title || '算力网-比特币挖矿算力托管服务一站式平台'
         document.querySelector('meta[name="keywords"]').setAttribute('content', '算力网-比特币挖矿算力托管服务一站式平台')
         document.querySelector('meta[name="description"]').setAttribute('content', '算力网（www.suanli.com）是比特币挖矿一站式服务平台，拥有专业的挖矿及运营团队，目前拥有矿机托管，矿场投资，算力出售，算力转让等业务，切实为比特币挖矿爱好者提供一站式贴心服务。')
         next()
@@ -111,7 +111,7 @@
       path: '/bdc',
       component: Bdc,
       beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '比特币矿机托管'
+        document.querySelector('title').innerHTML = '比特币矿机托管-国电输出,持久稳定,电力便宜-算力网'
         document.querySelector('meta[name="keywords"]').setAttribute('content', '比特币矿机托管-国电输出,持久稳定,电力便宜-算力网')
         document.querySelector('meta[name="description"]').setAttribute('content', '算力网矿机托管服务，承接各种比特币矿机托管业务，20万千瓦国家电网，持久稳定，专业挖矿技术24小时维护，保障用户挖矿收益')
         next()
@@ -120,7 +120,7 @@
       path: '/cloudCompute',
       component: CloudCompute,
       beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '比特币云矿机'
+        document.querySelector('title').innerHTML = '比特币云矿机-价格最低的云矿机产品大全－算力网'
         document.querySelector('meta[name="keywords"]').setAttribute('content', '比特币云矿机-价格最低的云矿机产品大全－算力网')
         document.querySelector('meta[name="description"]').setAttribute('content', '算力网云矿机商城，汇集目前主流比特币云矿机产品，包括阿瓦隆7云矿机，S9云矿机以及E9矿机云算力产品，为比特币挖矿爱好者提供比特币云矿机购买服务。')
         next()
@@ -314,7 +314,12 @@
       {
         path: 'news',
         name: 'mnews',
-        component: Mnews
+        component: Mnews,
+        beforeEnter: (to, from, next) => {
+          document.querySelector('title').innerHTML = '算力新闻_比特币资讯－算力网'
+          document.querySelector('meta[name="description"]').setAttribute('content', '算力网（www.suanli.com)产业新闻栏目，为你提供各种算力产业资讯，比特币新闻，行业动态，关注算力网，开启你的挖矿之旅')
+          next()
+        }
       },
       {
         path: 'personcenter',

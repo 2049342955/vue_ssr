@@ -37,11 +37,8 @@
               </div>
             </div>
             <canvas class="sell_progress myCanvas"></canvas>  
-            <!-- <div class="sell_progress">{{+"%"}}</div> -->
-            <!-- <div id="progress"><span></span></div> -->
           </div>
         </div>
-        <!-- <canvas id="myCanvas" class="sell_progress"></canvas>   -->
       </div>
     </div>
   </div>
@@ -63,7 +60,7 @@
     },
     methods: {
       drawRing (w, h, val, index) {
-        var c = document.getElementsByClassName('myCanvas')[index]
+        var c = document.getElementsByClassName('sell_progress').length
         console.log(c)
         var ctx = c.getContext('2d')
         ctx.canvas.width = w
@@ -84,6 +81,7 @@
         ctx.fillText(val + '%', 50, 50)
       },
       goPay (id) {
+        self.drawRing(100, 100, 20, 0)
         if (this.token === 0) {
           api.tips('请先登录', () => {
             this.$router.push({name: 'login'})
@@ -126,7 +124,6 @@
       util.post('showTopMiner', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.list = res
-          self.drawRing(100, 100, 20, 0)
         })
       })
     },
