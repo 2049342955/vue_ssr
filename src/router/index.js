@@ -262,7 +262,12 @@
       }, {
         path: 'list/:type',
         name: 'list',
-        component: WebInfoList
+        component: WebInfoList,
+        beforeEnter: (to, from, next) => {
+          document.querySelector('title').innerHTML = '算力新闻_比特币资讯－算力网'
+          document.querySelector('meta[name="description"]').setAttribute('content', '算力网（www.suanli.com)产业新闻栏目，为你提供各种算力产业资讯，比特币新闻，行业动态，关注算力网，开启你的挖矿之旅')
+          next()
+        }
       }, {
         path: 'detail/:type/:id',
         name: 'webInfoDetail',
@@ -303,12 +308,7 @@
       {
         path: 'news',
         name: 'mnews',
-        component: Mnews,
-        beforeEnter: (to, from, next) => {
-          document.querySelector('title').innerHTML = '算力新闻_比特币资讯－算力网'
-          document.querySelector('meta[name="description"]').setAttribute('content', '算力网（www.suanli.com)产业新闻栏目，为你提供各种算力产业资讯，比特币新闻，行业动态，关注算力网，开启你的挖矿之旅')
-          next()
-        }
+        component: Mnews
       },
       {
         path: 'personcenter',

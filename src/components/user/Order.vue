@@ -409,6 +409,7 @@
   .order{
     .agreement_text{
       padding:15px;
+      overflow: hidden;
       .btn_box{
         text-align: center;
         button{
