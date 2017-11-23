@@ -111,6 +111,8 @@
         api.checkAjax(self, res, () => {
           self.list = res
         })
+      }).catch(res => {
+        console.log(res)
       })
     },
     filters: {
