@@ -16,7 +16,7 @@
           <div class="item">
             <p>{{d}}</p>
             <div>
-              <span class="currency">{{data[k]}}</span>
+              <span class="currency">{{data[k].toFixed(8)}}</span>
               <span class="">{{hashType[nowEdit]&&hashType[nowEdit].name&&hashType[nowEdit].name.toLowerCase()}}</span>
             </div>
           </div>
