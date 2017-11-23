@@ -58,7 +58,7 @@
         nowEdit: 0,
         dataNav: {total_income: '累积已获得BTC', total_electric_fee: '累计支付电费'},
         data: {total_income: 0, total_electric_fee: 0},
-        nav: {product_name: '算力服务器', paid_time: '购买时间', hold_amound: '总算力', paid_amound: '获得BTC', electric_fee: '支付电费', status: '状态'},
+        nav: {product_name: '算力服务器', paid_time: '购买时间', hold_amount: '总算力', paid_amount: '获得BTC', electric_fee: '支付电费', status: '状态'},
         list: [],
         len: 0,
         now: 1,
