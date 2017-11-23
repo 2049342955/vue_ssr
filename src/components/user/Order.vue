@@ -85,7 +85,7 @@
             </template>
             <td v-if="status!=3">
               <template v-if="nowEdit==0&&status==1&&!d.is_loan">
-                <button class="sold" @click="openMask('sold', '出售云矿机', d.id)" :disabled="!d.remain_miner">出售云矿机</button>
+                <button class="sold" @click="openMask('sold', '出售云矿机', d.id)" v-if="d.remain_miner&&d.status===8">出售云矿机</button>
               </template>
               <template v-if="nowEdit==0&&status==2">
                 <button @click="quit('sold', d.id)">撤销出售</button>
