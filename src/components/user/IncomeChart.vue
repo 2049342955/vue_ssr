@@ -106,12 +106,12 @@
       }
     },
     mounted () {
-      this.drawLine()
+      // this.drawLine()
       var self = this
       util.post('showIncome', {sign: api.serialize({token: this.token, user_id: this.user_id, product_hash_type: 1})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.date = res.time
-          self.val = res.data
+          self.val = res.income
           self.drawLine()
         })
       })
