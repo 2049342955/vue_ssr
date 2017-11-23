@@ -5,7 +5,7 @@
       <div class="property_top">
         <div class="left">
           <h1>今日获得收益</h1>
-          <p>{{computeData.today_hash}} <i>{{hashType[nowEdit]&&hashType[nowEdit].name&&hashType[nowEdit].name.toLowerCase()}}</i></p>
+          <p>{{computeData.today_hash.toFixed(8)}} <i>{{hashType[nowEdit]&&hashType[nowEdit].name&&hashType[nowEdit].name.toLowerCase()}}</i></p>
         </div>
         <div class="mobile_select_hash">
           <div class="now_hash" @click="showList">{{hashType[nowEdit]&&hashType[nowEdit].name}}资产<span></span></div>
@@ -17,11 +17,11 @@
       <div class="property_bottom">
         <div class="left" style="border-right:1px solid white;">
           <h1>累积获得收益</h1>
-          <p>{{computeData.total_hash}} <i>{{hashType[nowEdit]&&hashType[nowEdit].name&&hashType[nowEdit].name.toLowerCase()}}</i></p>
+          <p>{{computeData.total_hash.toFixed(8)}} <i>{{hashType[nowEdit]&&hashType[nowEdit].name&&hashType[nowEdit].name.toLowerCase()}}</i></p>
         </div>
         <div class="left" style="padding-left:0.7rem;">
           <h1>账户余额</h1>
-          <p>{{computeData.balance_account}} <i>{{hashType[nowEdit]&&hashType[nowEdit].name&&hashType[nowEdit].name.toLowerCase()}}</i></p>
+          <p>{{(+computeData.balance_account).toFixed(8)}} <i>{{hashType[nowEdit]&&hashType[nowEdit].name&&hashType[nowEdit].name.toLowerCase()}}</i></p>
         </div>
       </div>
     </div>

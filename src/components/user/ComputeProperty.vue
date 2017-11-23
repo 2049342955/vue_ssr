@@ -280,6 +280,7 @@
         @include detail_data
         .item{
           width:32%;
+          padding-right: 15px;
         }
         .frozeeData{
           position: relative;

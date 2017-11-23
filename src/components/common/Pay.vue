@@ -80,7 +80,7 @@
         <FormField :form="form" class="form"></FormField>
         <label for="accept">
           <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
-          <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? ($parent.show?'分期':'销售'):'转让'}}协议》</a><template v-if="$route.params.type!=='1'">和<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
+          <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? '销售':'转让'}}协议》</a><template v-if="$route.params.type!=='1'">和<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
           <span class="select_accept">{{tips}}</span>
         </label>
         <button name="btn">确认支付</button>
@@ -145,7 +145,7 @@
           <mt-button type="primary" size="large" name="btn">确认支付</mt-button>
           <label for="accept">
             <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
-            <span @click="openContract(1,1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? ($parent.show?'分期':'销售'):'转让'}}协议》</a><template v-if="$route.params.type!=='1'">、<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
+            <span @click="openContract(1,1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? '销售':'转让'}}协议》</a><template v-if="$route.params.type!=='1'">、<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
             <span class="select_accept">{{tips}}</span>
           </label>
         </div>
