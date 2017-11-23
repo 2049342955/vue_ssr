@@ -6,7 +6,7 @@
           <span>矿机推荐</span>
           <span>全球算力输出服务由保全网提供全流程区块链存证、保全服务</span>
         </div>
-        <router-link to="/cloudCompute/list/1/all">更多云矿机 ></router-link>
+        <router-link to="/cloudCompute/list/1/all">更多矿机 ></router-link>
       </h2>
       <table>
         <tr>
