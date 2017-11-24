@@ -19,7 +19,11 @@
             <template v-else-if="k==='left_num'">{{l.amount-(l.sell_amount||l.buyed_amount)+v.unit}}</template>
             <template v-else>{{l[k]+[v.unit]}}</template>
           </td>
-          <td><a href="javascript:;">购买</a></td>
+          <td>
+            <!-- <a href="javascript:;">购买</a> -->
+             <a class="btn" v-if="l.amount-(l.sell_amount||l.buyed_amount)>0">立即购买</a> 
+            <button class="btn" disabled v-else>已售罄</button>
+          </td>
         </tr>
       </table>
     </div>
@@ -107,6 +111,19 @@
   .cloud_list{
     margin:60px 0;
     overflow: hidden;
+    .btn{
+              border:0;
+              width:145px;
+              color: $orange;
+              text-align: center;
+              line-height: 48px;
+              border-radius:5px;
+              background: transparent;
+              &:disabled{
+                cursor: no-drop;
+                color:$light_black
+              }
+            }
     .box{
       h2{
         @include flex(space-between)
