@@ -51,10 +51,10 @@
             <template v-if="nowEdit==0&&status==1">
               <th>剩余可出售</th>
             </template>
-            <template v-if="nowEdit==2&&status==1">
+            <template v-if="nowEdit==2&&status==1&&!(nowEdit==2&&status==1)">
               <th>剩余可出租</th>
             </template>
-            <th v-if="status!=3">操作</th>
+            <th v-if="status!=3&&!(nowEdit==2&&status==1)">操作</th>
           </tr>
           <tr v-for="d,k in data" :class="{active: nowEdit==0&&status==1}">
             <td v-if="nowEdit==3">{{d.miner.name}}</i></td>
@@ -80,10 +80,10 @@
             <template v-if="nowEdit==0&&status==1">
               <td>{{d.remain_miner}}台</td>
             </template>
-            <template v-if="nowEdit==2&&status==1">
+            <template v-if="nowEdit==2&&status==1&&!(nowEdit==2&&status==1)">
               <td>{{d.remain_hash|format}}T</td>
             </template>
-            <td v-if="status!=3">
+            <td v-if="status!=3&&!(nowEdit==2&&status==1)">
               <template v-if="nowEdit==0&&status==1&&!d.is_loan">
                 <button class="sold" @click="openMask('sold', '出售云矿机', d.id)" v-if="d.remain_miner&&d.status===8">出售云矿机</button>
               </template>
@@ -96,7 +96,7 @@
               <template v-if="(nowEdit==1||nowEdit==2)&&status==2">
                 <button @click="quit('rent', d.id)">撤销出租</button>
               </template>
-              <template v-if="nowEdit==2&&status==1">
+              <template v-if="nowEdit==2&&status==0">
                 <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash">出租算力</button>
               </template>
               <router-link :to="'/user/orderDetail/'+nowEdit+'/'+d.id"  v-if="nowEdit!=3&&nowEdit!=2&&status!=2&&status!=3">查看详情</router-link>

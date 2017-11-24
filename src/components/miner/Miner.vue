@@ -3,16 +3,16 @@
     <div class="bg_box">
       <div class="bg">
         <h1>您最新的挖矿设备已经在运行！</h1>
-        <router-link to="/cloudCompute/mining" class="button">了解挖矿</router-link>
+        <router-link to="/minerShop/mining" class="button">了解挖矿</router-link>
       </div>
     </div>
-    <ProductNav page="cloudCompute" v-if="active"></ProductNav>
+    <ProductNav page="minerShop" v-if="active"></ProductNav>
     <div class="miner_type">
       <div class="box">
         <span :class="[{active:active===k}]" v-for="n,k in nav" @click="changeType(k)">{{n}}</span>
       </div>
     </div>
-    <ProductList :sort="sort" :dataNav="dataNav" page="cloudCompute"></ProductList>
+    <ProductList :sort="sort" :dataNav="dataNav" page="minerShop"></ProductList>
     <Pager :len="len"></Pager>
     <SideBar></SideBar>
   </section>
@@ -95,7 +95,7 @@
     .bg_box{
       @include bg(1920,420px,#1863f0)
       .bg{
-        background:url(../../assets/images/cloudCompute.jpg) no-repeat;
+        background:url(../../assets/images/minerShop.jpg) no-repeat;
         h1{
           width: 100%;
           text-align: center;

@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <div class="price" v-if="page==='cloudCompute'">
+      <div class="price" v-if="page==='minerShop'">
         <div class="price_title">
           <span class="tips">剩余可售服务器：</span>
           <span class="num">{{$parent.leftNum}}</span>

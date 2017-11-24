@@ -1,23 +1,28 @@
 // components config
   import Vue from 'vue'
   import Router from 'vue-router'
+// modules
   import Home from '@/views/Home'
   import NotFound from '@/views/NotFound'
+  import Bdc from '@/views/Bdc'
   import Auth from '@/views/Auth'
+  import minerShop from '@/views/minerShop'
+  import compute from '@/views/compute'
+  import User from '@/views/User'
+  import WebInfo from '@/views/WebInfo'
+// auth
   import Login from '@/components/auth/Login'
   import Regist from '@/components/auth/Regist'
   import PasswordRetrieval from '@/components/auth/PasswordRetrieval'
-  import Bdc from '@/views/Bdc'
-  import CloudCompute from '@/views/CloudCompute'
-  import ComputeShop from '@/components/compute/Shop'
+// miner
+  import Miner from '@/components/miner/Miner'
+  import MinerDetail from '@/components/miner/Detail'
+  import Mining from '@/components/miner/Mining'
+  import Activity from '@/components/miner/Activity'
+// compute
+  import ComputeList from '@/components/compute/List'
   import ComputeDetail from '@/components/compute/Detail'
-  import Mining from '@/components/compute/mining'
-  import Activity from '@/components/compute/activity'
-  import Activitya from '@/components/compute/activitya'
-  import ComputeTransfer from '@/views/ComputeTransfer'
-  import TransferList from '@/components/transfer/List'
-  import TransferDetail from '@/components/transfer/Detail'
-  import User from '@/views/User'
+// user
   import Message from '@/components/user/Message'
   import MessageDetail from '@/components/user/MessageDetail'
   import Repayment from '@/components/user/Repayment'
@@ -32,9 +37,8 @@
   import Password from '@/components/user/Password'
   import Order from '@/components/user/Order'
   import OrderDetail from '@/components/user/OrderDetail'
-  import Article from '@/views/Article'
   import AccountEvaluate from '@/components/user/AccountEvaluate'
-  import WebInfo from '@/views/WebInfo'
+// webInfo
   import AboutUs from '@/components/info/AboutUs'
   import Issues from '@/components/info/Issues'
   import WebInfoList from '@/components/info/List'
@@ -51,9 +55,8 @@
   import MmoneyFlow from '@/components/mobile/MmoneyFlow'
   import Minformation from '@/components/mobile/Minformation'
   import Mpersoncenter from '@/components/mobile/Mpersoncenter'
-// use plugin
-  Vue.use(Router)
 // export
+  Vue.use(Router)
   export default new Router({
     mode: 'history',
     routes: [{
@@ -109,8 +112,8 @@
         next()
       }
     }, {
-      path: '/cloudCompute',
-      component: CloudCompute,
+      path: '/minerShop',
+      component: minerShop,
       beforeEnter: (to, from, next) => {
         document.querySelector('title').innerHTML = '比特币云矿机-价格最低的云矿机产品大全－算力网'
         document.querySelector('meta[name="keywords"]').setAttribute('content', '比特币云矿机-价格最低的云矿机产品大全－算力网')
@@ -118,13 +121,17 @@
         next()
       },
       children: [{
-        path: 'list/:type/:sort',
-        name: 'computeShop',
-        component: ComputeShop
+        path: 'miner/:type/:sort',
+        name: 'miner',
+        component: Miner
+      }, {
+        path: 'cloudMiner',
+        name: 'cloudMiner',
+        component: Miner
       }, {
         path: 'detail/:id/:type',
-        name: 'computeDetail',
-        component: ComputeDetail
+        name: 'minerDetail',
+        component: MinerDetail
       }, {
         path: 'mining',
         name: 'mining',
@@ -137,31 +144,22 @@
           document.querySelector('title').innerHTML = '全新E9+ 限时秒杀'
           next()
         }
-      },
-      {
-        path: 'activitya',
-        name: 'activitya',
-        component: Activitya,
-        beforeEnter: (to, from, next) => {
-          document.querySelector('title').innerHTML = '阿瓦隆A740 限时抢购'
-          next()
-        }
       }]
     }, {
-      path: '/computeTransfer',
-      component: ComputeTransfer,
+      path: '/compute',
+      component: compute,
       beforeEnter: (to, from, next) => {
         document.querySelector('title').innerHTML = '算力转让区'
         next()
       },
       children: [{
         path: 'list/:type/:sort',
-        name: 'transferList',
-        component: TransferList
+        name: 'computeList',
+        component: ComputeList
       }, {
         path: 'detail/:type/:id',
-        name: 'transferDetail',
-        component: TransferDetail
+        name: 'computeDetail',
+        component: ComputeDetail
       }]
     }, {
       path: '/user',
@@ -231,11 +229,7 @@
         path: 'recharge',
         name: 'recharge',
         component: Recharge
-      }]
-    }, {
-      path: '/article',
-      component: Article,
-      children: [{
+      }, {
         path: 'accountEvaluate',
         name: 'accountEvaluate',
         component: AccountEvaluate

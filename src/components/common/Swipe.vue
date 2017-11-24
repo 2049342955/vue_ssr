@@ -13,10 +13,10 @@
             <template v-else>
               <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-for="b in n">
             </template>
-            <router-link to="/cloudCompute/list/1/all" class="btn" v-if="k===5||k===1">即刻开始</router-link>
+            <router-link to="/minerShop/miner/1/all" class="btn" v-if="k===5||k===1">即刻开始</router-link>
             <router-link to="/bdc" class="btn" v-else-if="k===2">查看详情</router-link>
             <router-link to="/user/computeProperty" class="btn" v-else-if="k===3">查看详情</router-link>
-            <router-link to="/cloudCompute/activity" class="btn" v-else="k===0||k===4">立即抢购</router-link>
+            <router-link to="/minerShop/activity" class="btn" v-else="k===0||k===4">立即抢购</router-link>
           </div>
         </div>
       </template>
@@ -32,7 +32,7 @@
             <div class="right">{{n.content}}</div>
           </template>
           <template v-else>
-            <router-link to="/cloudCompute/activity" v-if="k<=1">
+            <router-link to="/minerShop/activity" v-if="k<=1">
               <img :src="require('@/assets/images/mobile1.jpg')" alt="">
             </router-link>
             <router-link to="/bdc" v-else-if="k>=3">

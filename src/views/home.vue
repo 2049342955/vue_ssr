@@ -20,7 +20,7 @@
         <img :src="wqImg" alt="" class="pre">
         <div class="text">
           <img src="../assets/images/server.png" style="width:800px;display:block;margin:0 auto;"/>
-          <router-link to="/cloudCompute/list/1/all">即刻体验</router-link>
+          <router-link to="/minerShop/miner/1/all">即刻体验</router-link>
         </div>
       </div>
       <div class="home_text">
@@ -99,7 +99,7 @@
         dataTitle: ['算力网BDC中心分布', '比特币全球节点数', '算力网注册用户数', '交易总算力'],
         dataSrc: 0,
         mapType: 1,
-        nav: [{title: '矿机商城', desc: '无忧购买矿机', url: '/cloudCompute/list/1/all'}, {title: 'BDC托管', desc: '多个BDC中心', url: '/bdc'}, {title: '产业资讯', desc: '掌握产业动态', url: '/mobile/information'}],
+        nav: [{title: '矿机商城', desc: '无忧购买矿机', url: '/minerShop/miner/1/all'}, {title: 'BDC托管', desc: '多个BDC中心', url: '/bdc'}, {title: '产业资讯', desc: '掌握产业动态', url: '/mobile/information'}],
         data: [1, 1, 1]
       }
     },

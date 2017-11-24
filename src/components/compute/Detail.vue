@@ -1,19 +1,18 @@
 <template>
-  <section class="compute_detail">
+  <section class="transfer_detail">
     <div class="main">
-      <Pay v-if="next" page="cloudCompute" :proData="$route.params.type!=='1'?proData2:proData4" :proText="proText2" :proData3="proData3" :proText3="proText3"></Pay>
-      <Product v-else page="cloudCompute" :proData="proData" :proText="proText"></Product>
+      <Pay v-if="next" page="compute" :proData="proData" :proText="proText"></Pay>
+      <Product v-else page="compute" :proData="proData" :proText="proText"></Product>
     </div>
   </section>
 </template>
 
 <script>
-  import { Toast } from 'mint-ui'
   import util from '@/util'
   import api from '@/util/function'
+  import { mapState } from 'vuex'
   import Pay from '../common/Pay'
   import Product from '../common/Product'
-  import { mapState } from 'vuex'
   export default {
     components: {
       Pay, Product
@@ -21,161 +20,41 @@
     data () {
       return {
         next: false,
-        detail: {incomeType: '每日结算，次日发放', fee: '', product_name: ''},
-        proData: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台服务器算力', unit: 'T'}, amount: {title: '服务器总台数', unit: '台'}},
-        proText: {hashType: '算力类型', status: '购买类型', incomeType: '结算方式'},
-        proData2: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '运维费约', unit: 'btc'}},
-        proText2: {hashType: '算力类型', hash: '每台矿机算力', status: '购买类型', incomeType: '结算方式'},
-        proData3: {one_amount: {title: '分期金额', unit: '元'}, fee: {title: '手续费率', unit: '%'}, payment: {title: '还款来源', unit: '算力收益/资金余额'}},
-        proText3: {hashfee: '手续费'},
-        proData4: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, hash: {title: '每台服务器算力', unit: 'T'}},
-        items: {month_money: {title: '月还款', unit: '元'}, rate: {title: '分期期数', unit: '期'}, fee_money: {title: '手续费', unit: '元'}, total_money: {title: '费用总计', unit: '元'}},
-        table: [],
-        totalPrice: 0,
-        totalHash: 0,
-        number: '',
-        initNum: 0,
-        leftNum: 0,
+        detail: {buyType: '转让', incomeType: '每日结算，次日发放', status: 0, transfer_amount: 0, total_price: 0},
+        proData: {product_name: {title: '矿机名称', unit: ''}, transfer_price: {title: '每T算力价格', unit: '元'}, transfer_amount: {title: '算力总量', unit: 'T'}, transfer_time: {title: '转让时长', unit: '天'}},
+        proText: {hashType: '算力类型', buyType: '购买类型', incomeType: '结算方式'},
         balance: 0,
-        leftStatus: false,
-        buyStatus: 0,
         content: '',
-        content1: '',
-        str: {4: '预热', 5: '可售'},
-        show: '',
-        rateshow: '',
-        sort: ['24', '36'],
-        month: ['6', '3'],
-        rate: 6
+        content1: ''
       }
     },
     methods: {
-      goPay (e, show, mobile) {
-        this.show = show
-        var url = ''
-        var data = {token: this.token, num: this.number}
+      goPay () {
         if (!this.trade_password) {
           api.tips('请先设置交易密码', () => {
             this.$router.push({name: 'password'})
           })
           return false
         }
-        if (this.number < 1) {
-          if (!mobile) {
-            this.buyStatus = 1
-            setTimeout(() => {
-              this.buyStatus = 0
-            }, 2000)
-          } else {
-            Toast({
-              message: '请输入或添加至少1台矿机',
-              position: 'middle',
-              duration: 3000
-            })
-          }
-          return false
-        }
-        if (this.detail.status === 4) {
-          api.tips('暂不能购买')
-          return false
-        }
-        if (show) {
-          this.det()
-        }
-        if (this.$route.params.type === '1') {
-          url = 'buy_miner'
-          data = Object.assign({miner_id: this.$route.params.id}, data)
-        } else {
-          url = 'productOrder'
-          data = Object.assign({product_id: this.$route.params.id}, data)
-        }
         var self = this
-        util.post(url, {sign: api.serialize(data)}).then(function (res) {
+        console.log(this.user_id)
+        util.post('doTransfer_Hashrate_show', {sign: api.serialize({token: this.token, user_id: this.user_id, transfer_order_id: this.$route.params.id})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.next = true
-            self.balance = res.balance
-            if (self.$route.params.type === '2') {
-              self.content = res.part_content
-            } else {
-              self.content = res.content
-            }
-            if (self.$route.params.type !== '1') {
-              self.content1 = res.content1
-            }
+            self.balance = res.balance_account
+            self.content = res.contract_result.content
+            self.content1 = res.contract_result.content1
           })
         })
-      },
-      changeNum (n) {
-        var minNum = this.detail.single_limit_amount || 1
-        if (this.leftStatus) return false
-        this.number = n < minNum || isNaN(+n) || typeof +n !== 'number' ? minNum : n > this.initNum ? this.initNum : n
-        this.number = parseInt(this.number)
-        if (n > this.initNum) {
-          this.buyStatus = 2
-          setTimeout(() => {
-            this.buyStatus = 0
-          }, 2000)
-        }
-        this.totalPrice = this.detail.one_amount_value * this.number
-        this.totalHash = this.detail.hash * this.number
-        var leftAmount = this.initNum - this.number
-        this.leftNum = leftAmount < 0 ? 0 : leftAmount
-      },
-      det () {
-        var self = this
-        util.post('getRate', {sign: api.serialize({token: this.token, rate_name: this.rate})}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            self.detail.one_amount = self.detail.one_amount_value * self.number / 2
-            self.detail.fee = res.fee * 100
-            self.detail.hashfee = self.detail.one_amount * res.fee
-          })
-        })
-        var loanAmount = this.detail.one_amount_value * this.number / 2
-        util.post('getLoanDetail', {sign: api.serialize({token: this.token, rate_name: this.rate, loan_money: loanAmount})}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            self.detail.month_money = res.month_money
-            self.detail.fee_money = res.fee_money
-            self.detail.rate = res.rate
-            self.detail.total_money = res.total_money
-            self.table = res.list
-          })
-        })
-      },
-      onChange (e) {
-        this.rate = this.month[e.target.value]
-        this.det()
-        this.detail.fee = this.sort[e.target.value]
       }
     },
     mounted () {
       var self = this
-      var url = ''
-      var data = {token: this.token}
-      if (this.$route.params.type !== '2') {
-        this.rateshow = false
-      } else {
-        this.rateshow = true
-      }
-      if (this.$route.params.type === '1') {
-        url = 'miner_detail'
-        data = Object.assign({miner_id: this.$route.params.id}, data)
-      } else {
-        url = 'productDetail'
-        data = Object.assign({product_id: this.$route.params.id}, data)
-      }
-      util.post(url, {sign: api.serialize(data)}).then(function (res) {
+      util.post('getHashrate_details', {sign: api.serialize({token: this.token, transfer_order_id: this.$route.params.id})}).then(function (res) {
         api.checkAjax(self, res, () => {
-          console.log(res)
-          self.initNum = res.amount - res.buyed_amount
-          self.leftNum = self.initNum
-          self.leftStatus = self.leftNum === 0
           self.detail = Object.assign(self.detail, res)
-          if (self.$route.params.type !== '1') {
-            self.detail = Object.assign(self.detail, res.has_product_miner_base)
-            self.detail.hashType = res.hashtype.name
-          } else {
-            self.detail.product_name = res.product_name
-          }
+          self.detail = Object.assign(self.detail, res.has_product_hash.has_product_miner_base)
+          self.detail.hashType = res.hashtype.name
         })
       })
     },
@@ -188,19 +67,14 @@
     }
   }
 </script>
-
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  .compute_detail{
+  .transfer_detail{
     padding-top: 30px;
     padding-bottom: 110px;
     background: #f7f8fa;
     .main{
       @include main
-    }
-    @media screen and (max-width: $mobile) {
-      padding:0;
-      min-height: 100vh;
     }
   }
 </style>
