@@ -17,7 +17,7 @@
          <p>手续费率</p>
        </li>
        <li style="border-right:0;">
-         <h4>{{moneydata.loan_start_time.split('-')[0]}} <span> 年 </span>{{moneydata.loan_start_time.split('-')[1]}}<span> 月 </span>{{moneydata.loan_start_time.split('-')[2]}}<span> 日 </span></h4>
+         <h4>{{moneydata.loan_start_time}}</h4>
          <p>分期时间</p>
        </li>
      </ul>

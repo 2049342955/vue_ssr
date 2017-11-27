@@ -72,6 +72,7 @@
         </div>
       </div>
       <SideBar></SideBar>
+      <!-- <mills-list></mills-list> -->
     </template>
   </article>
 </template>
@@ -81,6 +82,7 @@
   import Swiper from '../components/common/Swipe'
   import Chart from '../components/home/Chart'
   import MyData from '../components/home/DataList'
+  // import MillsList from '../components/home/MillsList'
   import WebInfo from '../components/home/WebInfo'
   import SideBar from '../components/home/SideBar'
   import DataChart from '../components/home/DataChart'
