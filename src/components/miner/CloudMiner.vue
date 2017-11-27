@@ -3,7 +3,12 @@
     <slot></slot>
     <ul class="mill">
       <li v-for="n,k in lists">
-        <span class="status">{{n.status}}</span>
+        <template v-if="n.status==='0'">
+          <span class="gray">已售馨</span>
+        </template>
+        <template v-else-if="n.status==='1'">
+          <span class="status">预热中</span>
+        </template>
         <img :src="n.imgs"/>
         <h6>{{n.name}}</h6>
         <p class="address"><span class="left">{{n.unit}}</span><span class="right">{{n.address}}</span></p>
@@ -35,7 +40,7 @@
 export default {
   data () {
     return {
-      lists: [{imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}]
+      lists: [{imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '1', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '1', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}]
     }
   }
 }
@@ -53,7 +58,7 @@ export default {
       @include data_title
     }
     .mill{
-      width: 1180px;
+      width: 1198px;
       overflow: hidden;
       margin:0 auto;
       padding-top: 12px;
@@ -66,7 +71,8 @@ export default {
         float: left;
         text-align: center;
         margin-bottom: 24px;
-        margin-left: 12px;
+        margin-left: 8px;
+        margin-right: 11px;
         img{
             width: 126px;
             height: auto;
@@ -80,6 +86,16 @@ export default {
           text-align: center;
           line-height: 25px;
           background: #ff6458;
+          color:white;
+          font-size: 12px;
+        }
+        .gray{
+          background: #bfbfbf;
+          width: 70px;
+          height: 25px;
+          display: block;
+          text-align: center;
+          line-height: 25px;
           color:white;
           font-size: 12px;
         }

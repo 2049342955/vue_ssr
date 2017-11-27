@@ -72,7 +72,7 @@
         </div>
       </div>
       <SideBar></SideBar>
-      <!-- <mills-list></mills-list> -->
+       <mills-list></mills-list> 
     </template>
   </article>
 </template>
@@ -82,7 +82,7 @@
   import Swiper from '../components/common/Swipe'
   import Chart from '../components/home/Chart'
   import MyData from '../components/home/DataList'
-  // import MillsList from '../components/home/MillsList'
+  import MillsList from '../components/miner/CloudMiner'
   import WebInfo from '../components/home/WebInfo'
   import SideBar from '../components/home/SideBar'
   import DataChart from '../components/home/DataChart'
@@ -91,7 +91,7 @@
   import { mapState } from 'vuex'
   export default {
     components: {
-      Swiper, Chart, MyData, WebInfo, SideBar, DataChart, DataMap, DataChart2
+      Swiper, Chart, MyData, WebInfo, SideBar, DataChart, DataMap, DataChart2, MillsList
     },
     data () {
       return {
