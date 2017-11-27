@@ -57,7 +57,6 @@ export default {
       width: 1198px;
       overflow: hidden;
       margin:0 auto;
-      padding-top: 12px;
       li{
         padding:0;
         margin:0;
