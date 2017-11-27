@@ -3,26 +3,28 @@
     <slot></slot>
     <ul class="mill">
       <li v-for="n,k in $parent.itemDetail">
-        <template v-if="n.status===0">
-          <span class="gray">已售馨</span>
-        </template>
-        <template v-else-if="n.status===1">
-          <span class="status">预热中</span>
-        </template>
-        <img :src="n.minerPicture"/>
-        <h6>{{n.name}}</h6>
-        <p class="address"><span class="left">{{n.unit?n.unit: 'BitCoin'}}</span><span class="right">{{n.MinerAddress?n.MinerAddress: '未定'}}</span></p>
-        <div class="progress_info press">
-          <div class="progress_box">
-            <div class="box" :style="{width:(n.buyed_amount/n.amount * 100)+'%'}"></div>
+        <router-link :to="'/minerShop/detail/'+ n.id +'/1'">
+          <template v-if="n.status===0">
+            <span class="gray">已售馨</span>
+          </template>
+          <template v-else-if="n.status===1">
+            <span class="status">预热中</span>
+          </template>
+          <img :src="n.minerPicture"/>
+          <h6>{{n.name}}</h6>
+          <p class="address"><span class="left">{{n.unit?n.unit: 'BitCoin'}}</span><span class="right">{{n.MinerAddress?n.MinerAddress: '未定'}}</span></p>
+          <div class="progress_info press">
+            <div class="progress_box">
+              <div class="box" :style="{width:(n.buyed_amount/n.amount * 100)+'%'}"></div>
+            </div>
           </div>
-        </div>
-        <div class="items">
-          <div class="item" v-for="item,d in items">
-            <p class="price">{{n[d]}}{{item.unit}}</p>
-            <p class="title">{{item.title}}</p>
+          <div class="items">
+            <div class="item" v-for="item,d in items">
+              <p class="price">{{n[d]}}{{item.unit}}</p>
+              <p class="title">{{item.title}}</p>
+            </div>
           </div>
-        </div>
+        </router-link>
       </li>
     </ul>
   </div>
