@@ -38,6 +38,15 @@
         <router-link to="/minerShop/list">更多矿机 ></router-link>
       </h2>
     </MyData>
+    <MyCloud>
+      <h2>
+        <div>
+          <span>云矿机推荐</span>
+          <span>国家电网 算力保证 无忧挖矿</span>
+        </div>
+        <router-link to="/minerShop/list">更多云矿机 ></router-link>
+      </h2>
+    </MyCloud>
     <SideBar></SideBar>
   </section>
 </template>
@@ -47,10 +56,11 @@
   import api from '@/util/function'
   import { mapState } from 'vuex'
   import MyData from '@/components/common/ProductList'
+  import MyCloud from '@/components/miner/CloudMiner'
   import SideBar from '@/components/home/SideBar'
   export default {
     components: {
-      MyData, SideBar
+      MyData, SideBar, MyCloud
     },
     data () {
       return {

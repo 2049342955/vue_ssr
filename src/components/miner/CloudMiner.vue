@@ -1,5 +1,6 @@
 <template>
   <div class="millsList">
+    <slot></slot>
     <ul class="mill">
       <li v-for="n,k in lists">
         <span class="status">{{n.status}}</span>
@@ -48,6 +49,9 @@ export default {
     margin:0 auto;
     background: #f6f7f9;
     padding-top: 12px;
+    h2{
+      @include data_title
+    }
     .mill{
       width: 1180px;
       overflow: hidden;
