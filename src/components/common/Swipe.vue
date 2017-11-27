@@ -6,14 +6,14 @@
           <div class="swiper_box" :style="{width: width+'px'}">
             <template v-if="currentPage===k">
               <template v-for="b in n">
-                <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-if="b===1">
-                <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-else :style="[{transform: 'translate('+offsetX+'px, '+offsetY+'px)'}]">
+                <img :src="require('@/assets/images/swiper/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-if="b===1">
+                <img :src="require('@/assets/images/swiper/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-else :style="[{transform: 'translate('+offsetX+'px, '+offsetY+'px)'}]">
               </template>
             </template>
             <template v-else>
-              <img :src="require('@/assets/images/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-for="b in n">
+              <img :src="require('@/assets/images/swiper/'+(k===0?'4':k===5?'1':k)+'_'+b+'.png')" v-for="b in n">
             </template>
-            <router-link to="/minerShop/miner/1/all" class="btn" v-if="k===5||k===1">即刻开始</router-link>
+            <router-link to="/minerShop/list" class="btn" v-if="k===5||k===1">即刻开始</router-link>
             <router-link to="/bdc" class="btn" v-else-if="k===2">查看详情</router-link>
             <router-link to="/user/computeProperty" class="btn" v-else-if="k===3">查看详情</router-link>
             <router-link to="/minerShop/activity" class="btn" v-else="k===0||k===4">立即抢购</router-link>
@@ -33,13 +33,13 @@
           </template>
           <template v-else>
             <router-link to="/minerShop/activity" v-if="k<=1">
-              <img :src="require('@/assets/images/mobile1.jpg')" alt="">
+              <img :src="require('@/assets/images/swiper/mobile1.jpg')" alt="">
             </router-link>
             <router-link to="/bdc" v-else-if="k>=3">
-              <img :src="require('@/assets/images/mobile3.jpg')" alt="">
+              <img :src="require('@/assets/images/swiper/mobile3.jpg')" alt="">
             </router-link>
             <router-link to="/mobile/personcenter" v-else>
-              <img :src="require('@/assets/images/mobile2.jpg')" alt="">
+              <img :src="require('@/assets/images/swiper/mobile2.jpg')" alt="">
             </router-link>
           </template>
         </div>

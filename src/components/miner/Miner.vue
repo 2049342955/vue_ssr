@@ -95,7 +95,7 @@
     .bg_box{
       @include bg(1920,420px,#1863f0)
       .bg{
-        background:url(../../assets/images/minerShop.jpg) no-repeat;
+        background:url(../../assets/images/miner_shop/miner_banner.jpg) no-repeat;
         h1{
           width: 100%;
           text-align: center;

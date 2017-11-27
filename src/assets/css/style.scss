@@ -1107,3 +1107,32 @@
       height:calc(90vh - 30px);
     }
   }
+// data_title
+  @mixin data_title{
+    @include flex(space-between)
+    @include gap(15,v,margin);
+    @include main
+    position: relative;
+    top: -20px;
+    span:nth-child(1){
+      font-size: 24px;
+      font-weight: bold;
+    }
+    span:nth-child(2){
+      width:452px;
+      height:27px;
+      margin-left:20px;
+      font-size: 16px;
+      background: linear-gradient(to right, #b28850, #cfa972);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b28850', endColorstr='#cfa972',GradientType=1 );
+      color:$white;
+      padding:3px 10px
+    }
+    a{
+      font-size: 16px;
+      color:#999;
+      &:hover{
+        color:$blue
+      }
+    }
+  }
