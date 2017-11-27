@@ -6,7 +6,7 @@
           <span>矿机推荐</span>
           <span>全球算力输出服务由保全网提供全流程区块链存证、保全服务</span>
         </div>
-        <router-link to="/cloudCompute/list/1/all">更多矿机 ></router-link>
+        <router-link to="/minerShop/miner/1/all">更多矿机 ></router-link>
       </h2>
       <table>
         <tr>
@@ -19,7 +19,11 @@
             <template v-else-if="k==='left_num'">{{l.amount-(l.sell_amount||l.buyed_amount)+v.unit}}</template>
             <template v-else>{{l[k]+[v.unit]}}</template>
           </td>
-          <td><a href="javascript:;">购买</a></td>
+          <td>
+            <!-- <a href="javascript:;">购买</a> -->
+             <a class="btn" v-if="l.amount-(l.sell_amount||l.buyed_amount)>0">立即购买</a> 
+            <button class="btn" disabled v-else>已售罄</button>
+          </td>
         </tr>
       </table>
     </div>
@@ -70,7 +74,7 @@
     },
     methods: {
       goPay (id) {
-        this.$router.push({path: '/cloudCompute/detail/' + id + '/1'})
+        this.$router.push({path: '/minerShop/detail/' + id + '/1'})
       }
     },
     mounted () {
@@ -107,6 +111,19 @@
   .cloud_list{
     margin:60px 0;
     overflow: hidden;
+    .btn{
+              border:0;
+              width:145px;
+              color: $orange;
+              text-align: center;
+              line-height: 48px;
+              border-radius:5px;
+              background: transparent;
+              &:disabled{
+                cursor: no-drop;
+                color:$light_black
+              }
+            }
     .box{
       h2{
         @include flex(space-between)

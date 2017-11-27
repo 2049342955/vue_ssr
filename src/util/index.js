@@ -4,8 +4,14 @@ import qs from 'qs'
 import util from './function'
 
 let api = axios.create({
+<<<<<<< HEAD
   baseURL: 'http://www.suanli.local/background/api',
   // baseURL: 'http://192.168.3.45/background/api/',
+=======
+  // baseURL: 'https://www.suanli.com/bsackground/api',
+  // baseURL: 'http://www.suanli.me/bsackground/api',
+  baseURL: 'http://192.168.3.45/background/api/',
+>>>>>>> 8ddc3fa884286280bb003b8612b48d0048372f76
   headers: {'Content-Type': 'application/x-www-form-urlencoded'},
   responseType: 'json'
 })
@@ -31,6 +37,7 @@ api.defaults.validateStatus = (status) => {
 }
 
 api.interceptors.response.use(res => {
+  console.log(res)
   if (res.status) {
     return res.data
   }

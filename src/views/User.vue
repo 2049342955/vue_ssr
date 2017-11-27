@@ -20,7 +20,7 @@
     </div>
     <section class="main">
       <div class="box">
-        <aside class="con">
+        <aside class="con" v-if="!$route.path.includes('accountEvaluate')">
           <router-link :class="['item', {active:$route.path.includes(n.name)}]" :to="n.path" v-for="n,k in nav" :key="k">{{n.title}}</router-link>
         </aside><router-view class="main_content"></router-view>
       </div>
@@ -30,15 +30,27 @@
 
 <script>
   import { mapState } from 'vuex'
+  import util from '@/util'
   import api from '../util/function'
   export default {
     data () {
       return {
-        nav: [{name: 'computeProperty', title: '算力资产', path: '/user/computeProperty'}, {name: 'account', title: '账户管理', path: '/user/account'}, {name: 'password', title: '密码管理', path: '/user/password'}, {name: 'order', title: '订单管理', path: '/user/order/0/1'}, {name: 'virtualCurrencyFlow', title: '币流水', path: '/user/virtualCurrencyFlow/default'}, {name: 'moneyFlow', title: '资金流水', path: '/user/moneyFlow/default'}, {name: 'lp', title: '合伙人中心', path: '/user/lpCenter'}, {name: 'message', title: '消息中心', path: '/user/message'}, {name: 'repayment', title: '还款管理', path: '/user/repayment/0'}]
+        nav: [{name: 'computeProperty', title: '算力资产', path: '/user/computeProperty'}, {name: 'account', title: '账户管理', path: '/user/account'}, {name: 'password', title: '密码管理', path: '/user/password'}, {name: 'order', title: '订单管理', path: '/user/order/0/1'}, {name: 'virtualCurrencyFlow', title: '币流水', path: '/user/virtualCurrencyFlow/default'}, {name: 'moneyFlow', title: '资金流水', path: '/user/moneyFlow/default'}, {name: 'lp', title: '合伙人中心', path: '/user/lpCenter'}, {name: 'message', title: '消息中心', path: '/user/message'}, {name: 'repayment', title: '还款管理', path: '/user/repayment/0'}],
+        now: 1
       }
+    },
+    mounted () {
+      var self = this
+      util.post('MessageList', {sign: api.serialize({token: this.token, user_id: this.user_id, page: this.now})}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.$store.commit('SET_INFO', {unread_num: res.unread_num})
+        })
+      })
     },
     computed: {
       ...mapState({
+        token: state => state.info.token,
+        user_id: state => state.info.user_id,
         mobile: state => state.info.mobile,
         unread_num: state => state.info.unread_num,
         true_name: state => state.info.true_name,

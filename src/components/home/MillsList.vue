@@ -1,0 +1,159 @@
+<template>
+  <div class="millsList">
+    <ul class="mill">
+      <li v-for="n,k in lists">
+        <span class="status">{{n.status}}</span>
+        <img :src="n.imgs"/>
+        <h6>{{n.name}}</h6>
+        <p class="address"><span class="left">{{n.unit}}</span><span class="right">{{n.address}}</span></p>
+        <div class="progress_info press">
+          <div class="progress_box">
+            <div class="box" :style="{width:40+'%'}"></div>
+          </div>
+        </div>
+        <div class="items">
+          <div class="item">
+            <p class="price">{{n.price}}元</p>
+            <p class="title">服务器单价</p>
+          </div>
+          <div class="item">
+            <p class="price">{{n.bit}}T</p>
+            <p class="title">算力</p>
+          </div>
+          <div class="item">
+            <p class="price">{{n.total}}台</p>
+            <p class="title">出售总数</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      lists: [{imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}]
+    }
+  }
+}
+</script>
+
+<style type="text/css" lang="scss">
+  @import '../../assets/css/style.scss';
+  .millsList{
+    width: 100%;
+    overflow: hidden;
+    margin:0 auto;
+    background: #f6f7f9;
+    padding-top: 12px;
+    .mill{
+      width: 1180px;
+      overflow: hidden;
+      margin:0 auto;
+      padding-top: 12px;
+      li{
+        padding:0;
+        margin:0;
+        width: 280px;
+        height: 320px;
+        background: white;
+        float: left;
+        text-align: center;
+        margin-bottom: 24px;
+        margin-left: 12px;
+        img{
+            width: 126px;
+            height: auto;
+            margin-top:34px;
+            margin-bottom: 34px;
+        }
+        .status{
+          width: 70px;
+          height: 25px;
+          display: block;
+          text-align: center;
+          line-height: 25px;
+          background: #ff6458;
+          color:white;
+          font-size: 12px;
+        }
+        h6{
+            font-size: 14px;
+            color:#121212;
+            padding-left: 20px;
+            padding-right: 20px;
+            box-sizing: border-box;
+            text-align: left;
+        }
+        .address{
+            width: 100%;
+            padding:0 20px;
+            box-sizing: border-box;
+            padding-top: 9px;
+            overflow: hidden;
+            .left{
+                color: #327fff;
+                float: left;
+                font-size: 12px;
+            }
+            .right{
+                float: right;
+                color: #a9a9a9;
+                font-size: 12px;
+            }
+        }
+        .press{
+            width: 240px;
+            height: 5px;
+            background: #e3e3e3;
+            margin: 0 auto;
+            margin-top: 20px;
+            .progress_box{
+              position: relative;
+              overflow:hidden;
+              height:100%;
+              .box{
+                @include position
+                background: #32cf99;
+              }
+            }
+        }
+        .items{
+            width: 100%;
+            padding: 0 20px;
+            padding-top: 18px;
+            .item{
+                float: left;
+                text-align: center;
+                p{
+                    margin:0;
+                    padding:0;
+                }
+                .price{
+                  height: 20px;
+                  font-size: 14px;
+                  color: #666666;
+                }
+                .title{
+                    color: #a9a9a9;
+                    font-size: 12px;
+                }
+            }
+            :nth-child(1){
+                width: 60px;
+                height: 30px;      
+            }
+            :nth-child(2){
+                margin-left:45px;
+                margin-right:15px;
+            }
+        }
+        &:hover{
+           box-shadow:#dfe0e1 0 0 30px;
+        }
+      }
+    }
+  }
+</style>

@@ -89,6 +89,8 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .account_evaluate{
+    padding:40px 0;
+    @include article
     .box_content{
       aside{
         margin-bottom:15px;
