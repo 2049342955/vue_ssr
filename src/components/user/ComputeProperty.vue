@@ -241,7 +241,7 @@
       util.post('myAccount', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.moneyData = res
-          self.priceall = (parseInt(self.moneyData.freeze_account) + parseInt(self.moneyData.balance_account))
+          self.priceall = +self.moneyData.freeze_account + (+self.moneyData.balance_account)
         })
       })
       this.getList()

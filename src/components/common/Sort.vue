@@ -1,7 +1,28 @@
 <template>
   <div class="sort">
-    <div :class="['item', 'next', {active1: activeOne==true}]" @click="setSort('all')">默认</div>
-    <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont"></span></div>
+    <div class="box">
+      <div class="sort_title">
+        <h1>项目列表</h1>
+      </div>
+      <div class="sort_body">
+        <div class="item">
+          <span>行业列表</span>
+          <router-link to="/minerShop/miner/1/all">矿机</router-link>
+          <router-link to="/minerShop/miner/2/all">云矿机</router-link>
+        </div>
+        <div class="item">
+          <span>项目状态</span>
+          <router-link class="active" to="/fb">不限</router-link>
+          <router-link to="/fb">预热中</router-link>
+          <router-link to="/fb">抢购中</router-link>
+          <router-link to="/fb">已售罄</router-link>
+        </div>
+      </div>
+      <div class="sort_items">
+        <div :class="['item', 'next', {active1: activeOne==true}]" @click="setSort('all')">默认</div>
+        <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont"></span></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -52,42 +73,72 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .sort{
-    background: $white;
-    padding:10px 25px;
+    @include main
+    padding-top:25px;
     color:$light_text;
-    @include flex
-    border: 1px solid $border;
-    .item{
-      cursor: pointer;
-      padding:0 30px;
-      line-height: 40px;
-      background: #f7f8fa;
-      color:#999;
-      & + .item{
-        margin-left:50px
+    .box{
+      background: $white;
+      box-shadow:0px 0px 15px 0px rgba(63, 71, 84, 0.37);
+      .sort_title{
+        padding:15px 20px;
+        border-bottom: 1px dashed #eee;
       }
-      .iconfont{
-        @include block(24)
-        vertical-align: middle;
-        transition:all .3s;
-        
-        &:before{
-          font-size: 18px;
-          content:'\e84b';
+      .sort_body{
+        padding:15px 20px;
+        .item{
+          span{
+            color:$light_black;
+            margin-right:30px;
+          }
+          a{
+            display: inline-block;
+            padding:0 15px;
+            border-radius:5px;
+            line-height: 1.8;
+            &.router-link-active,&.active{
+              @include button($blue)
+            }
+          }
+          & + .item{
+            margin-top:15px;
+          }
         }
       }
-      &.active{
-        color:$blue
-      }
-      &.up{
-        .iconfont{
-          transform:rotate(180deg)
+      .sort_items{
+        @include flex
+        background: #F5F5F5;
+        .item{
+          cursor: pointer;
+          padding:0 30px;
+          line-height: 40px;
+          color:#999;
+          & + .item{
+            margin-left:50px
+          }
+          .iconfont{
+            @include block(24)
+            vertical-align: middle;
+            transition:all .3s;
+            
+            &:before{
+              font-size: 18px;
+              content:'\e84b';
+            }
+          }
+          &.active{
+            color:$blue
+          }
+          &.up{
+            .iconfont{
+              transform:rotate(180deg)
+            }
+          }
         }
-      }
-    }
-    .next{
-      &.active1{
-        color:$blue;
+        .next{
+          &.active1{
+            color:$blue;
+          }
+        }
       }
     }
     @include mobile_hide

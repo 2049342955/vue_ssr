@@ -1,7 +1,6 @@
 <template>
   <section class="product_list">
     <div class="box">
-      <!-- <Sort :page="page" :sort="sort"></Sort> -->
       <slot></slot>
       <div class="data">
         <div class="item" v-for="d,k in $parent.computeDate" @click="goPay(d.id, d.sell_type)" :disabled="d.status&&(d.status===2||d.status===3)||(d.amount-d.buyed_amount<=0)">
@@ -66,15 +65,8 @@
 </template>
 
 <script>
-  import Sort from '@/components/common/Sort'
   export default {
-    components: {
-      Sort
-    },
     props: {
-      sort: {
-        type: Array
-      },
       dataNav: {
         type: Object
       },
@@ -104,7 +96,6 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .product_list{
-    background: #f7f8fa;
     padding-top:20px;
     padding-bottom:30px;
     .box{

@@ -6,7 +6,10 @@
     <div class="miner_pics">
       <div class="miner_pic pic1">
         <img :src="require('@/assets/images/miner_shop/bdc.jpg')" alt="">
-        <router-link to="/bdc" class="btn">/</router-link>
+        <div class="btn">
+          <router-link to="/bdc">前往申请</router-link>
+          <router-link to="/minerShop/mining">了解挖矿</router-link>
+        </div>
       </div>
       <div class="miner_pic pic2">
         <img :src="require('@/assets/images/miner_shop/miner_top1.jpg')" alt="">
@@ -26,27 +29,27 @@
           <span>云矿机</span>
           <span>专人维护，无忧挖矿</span>
         </div>
-        <router-link to="/minerShop/miner/1/all" class="btn">即刻前往>></router-link>
+        <router-link to="/minerShop/miner/2/all" class="btn">即刻前往>></router-link>
       </div>
     </div>
-    <MyData :dataNav="dataNav" page="minerShop">
+    <MyCloud>
       <h2>
         <div>
           <span>矿机推荐</span>
           <span>保全网提供全流程区块链存证、保全服务</span>
         </div>
-        <router-link to="/minerShop/list">更多矿机 ></router-link>
+        <router-link to="/minerShop/miner/1/all">更多矿机 ></router-link>
       </h2>
-    </MyData>
-    <MyCloud>
+    </MyCloud>
+    <MyData :dataNav="dataNav" page="minerShop">
       <h2>
         <div>
           <span>云矿机推荐</span>
           <span>国家电网 算力保证 无忧挖矿</span>
         </div>
-        <router-link to="/minerShop/list">更多云矿机 ></router-link>
+        <router-link to="/minerShop/miner/2/all">更多云矿机 ></router-link>
       </h2>
-    </MyCloud>
+    </MyData>
     <SideBar></SideBar>
   </section>
 </template>
@@ -160,17 +163,18 @@
         }
         &.pic1{
           .btn{
-            color:#ccc;
-            &:before,&:after{
+            text-align: center;
+            a{
+              padding:0 20px;
               color:#eee;
-            }
-            &:before{
-              content:'前往申请';
-              margin-right:20px
-            }
-            &:after{
-              content:'登录';
-              margin-left:20px
+              &:first-child{
+                padding-right:0;
+                &:after{
+                  color:#999;
+                  margin-left:30px;
+                  content:'/'
+                }
+              }
             }
           }
         }
@@ -217,7 +221,7 @@
         @include mobile_hide
       }
     }
-    .product_list{
+    .millsList{
       padding-top: 120px;
     }
   }
