@@ -60,7 +60,7 @@
       </div>
     </div>
     <template v-if="scode">
-      <h4>算力产业基金</h4>
+      <h4>基金资产</h4>
       <div class="detail_table fund_table">
         <div class="item" v-for="d,k in computeFund">
           <div class="item_title">{{d[0]}}</div>

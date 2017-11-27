@@ -6,8 +6,8 @@
         <div class="order_detail_info1">
           <template v-for="d,k in proData">
             <div class="item">
-              <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
-              <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
+              <p class="value" v-if="k==='number'&&page==='minerShop'"><span>{{$parent.number}}{{d.unit}}</span></p>
+              <p class="value" v-else-if="k==='number'&&page!=='minerShop'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
               <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
               <p>{{d.title}}</p>
             </div>
@@ -33,8 +33,8 @@
         <div class="order_detail_info1">
           <template v-for="d,k in proData3">
             <div class="item">
-              <p class="value" v-if="k==='number'&&page==='cloudCompute'"><span>{{$parent.number}}{{d.unit}}</span></p>
-              <p class="value" v-else-if="k==='number'&&page!=='cloudCompute'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
+              <p class="value" v-if="k==='number'&&page==='minerShop'"><span>{{$parent.number}}{{d.unit}}</span></p>
+              <p class="value" v-else-if="k==='number'&&page!=='minerShop'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
               <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
               <p>{{d.title}}</p>
             </div>
@@ -65,7 +65,7 @@
         <div class="pay_text">
           <div class="pay_value">
             应付金额：
-            <span class="value">{{(page==='cloudCompute'?totalPrice:$parent.detail.total_price)|format}}</span>
+            <span class="value">{{(page==='minerShop'?totalPrice:$parent.detail.total_price)|format}}</span>
             <span>元</span>
           </div>
         </div>
@@ -80,7 +80,7 @@
         <FormField :form="form" class="form"></FormField>
         <label for="accept">
           <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
-          <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? '销售':'转让'}}协议》</a><template v-if="$route.params.type!=='1'">和<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
+          <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'minerShop'? '销售':'转让'}}协议》</a><template v-if="$route.params.type!=='1'">和<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
           <span class="select_accept">{{tips}}</span>
         </label>
         <button name="btn">确认支付</button>
@@ -123,8 +123,8 @@
       <div class="confirm_info">
         <div class="item" v-for="m,k in mobileNav">
           <span>{{m.title}}</span>
-          <span v-if="k==='number'&&page==='cloudCompute'">{{$parent.number}}{{m.unit}}</span>
-          <span v-else-if="k==='number'&&page!=='cloudCompute'">{{$parent.detail.hash}}{{m.unit}}</span>
+          <span v-if="k==='number'&&page==='minerShop'">{{$parent.number}}{{m.unit}}</span>
+          <span v-else-if="k==='number'&&page!=='minerShop'">{{$parent.detail.hash}}{{m.unit}}</span>
           <span v-else>{{$parent.detail[k]}}{{m.unit}}</span>
         </div>
       </div>
@@ -145,7 +145,7 @@
           <mt-button type="primary" size="large" name="btn">确认支付</mt-button>
           <label for="accept">
             <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
-            <span @click="openContract(1,1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'cloudCompute'? '销售':'转让'}}协议》</a><template v-if="$route.params.type!=='1'">、<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
+            <span @click="openContract(1,1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'minerShop'? '销售':'转让'}}协议》</a><template v-if="$route.params.type!=='1'">、<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
             <span class="select_accept">{{tips}}</span>
           </label>
         </div>
@@ -259,7 +259,7 @@
           data = Object.assign({user_id: this.$parent.user_id, miner_id: this.$route.params.id, number: this.$parent.number}, data, this.addressData)
           callbackUrl = 'order/3/1'
         } else {
-          if (this.page === 'cloudCompute') {
+          if (this.page === 'minerShop') {
             if (this.$parent.show) {
               url = 'productMallLoan'
               data = Object.assign({product_id: this.$route.params.id, rate_name: this.$parent.rate, num: this.$parent.number}, data)
@@ -390,7 +390,7 @@
       }
     },
     mounted () {
-      if (this.page === 'cloudCompute') {
+      if (this.page === 'minerShop') {
         if (this.$parent.show) {
           this.totalPrice = this.$parent.detail.one_amount_value * this.$parent.number / 2
         } else {

@@ -20,7 +20,7 @@
     </div>
     <section class="main">
       <div class="box">
-        <aside class="con">
+        <aside class="con" v-if="!$route.path.includes('accountEvaluate')">
           <router-link :class="['item', {active:$route.path.includes(n.name)}]" :to="n.path" v-for="n,k in nav" :key="k">{{n.title}}</router-link>
         </aside><router-view class="main_content"></router-view>
       </div>

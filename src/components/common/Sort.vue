@@ -39,7 +39,7 @@
           this.activeOne = true
           str = n
         }
-        if (this.page === 'computeTransfer' || this.page === 'cloudCompute') {
+        if (this.page === 'compute' || this.page === 'minerShop') {
           this.$router.push({path: '/' + this.page + '/list/' + this.$route.params.type + '/' + str})
         } else {
           this.$router.push({path: '/user/' + this.page + '/' + str})

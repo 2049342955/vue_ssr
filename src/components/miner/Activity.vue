@@ -73,7 +73,6 @@
         <span @click="openContract(1, 1)">阅读并接受<a href="javascript:;" style="color:blue;">《矿机销售协议》</a></span>
         <span class="select_accept">{{tips}}</span>
       </label>
-       <!-- <img src="../../assets/images/data.png" class="imagesall"/>  -->
       <div class="imagesall">
         <h5>翼比特矿机E9+ 官方参数</h5>
         <div class="imagesbig">
@@ -135,7 +134,7 @@
   import { Toast } from 'mint-ui'
   import util from '@/util'
   import api from '@/util/function'
-  import List from './List'
+  import List from './ActivityData'
   import MyMask from '@/components/common/Mask'
   import FormField from '@/components/common/FormField'
   import { mapState } from 'vuex'
