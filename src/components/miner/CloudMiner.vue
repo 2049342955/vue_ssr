@@ -37,7 +37,6 @@ export default {
   },
   data () {
     return {
-      lists: [{imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '1', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '1', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}]
     }
   }
 }
@@ -58,7 +57,6 @@ export default {
       width: 1198px;
       overflow: hidden;
       margin:0 auto;
-      padding-top: 12px;
       li{
         padding:0;
         margin:0;
