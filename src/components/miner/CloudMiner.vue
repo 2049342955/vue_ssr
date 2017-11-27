@@ -2,28 +2,25 @@
   <div class="millsList">
     <slot></slot>
     <ul class="mill">
-      <li v-for="n,k in lists">
-        <span class="status">{{n.status}}</span>
-        <img :src="n.imgs"/>
+      <li v-for="n,k in $parent.itemDetail">
+        <template v-if="n.status===0">
+          <span class="gray">已售馨</span>
+        </template>
+        <template v-else-if="n.status===1">
+          <span class="status">预热中</span>
+        </template>
+        <img :src="n.minerPicture"/>
         <h6>{{n.name}}</h6>
-        <p class="address"><span class="left">{{n.unit}}</span><span class="right">{{n.address}}</span></p>
+        <p class="address"><span class="left">{{n.unit?n.unit: 'BitCoin'}}</span><span class="right">{{n.MinerAddress?n.MinerAddress: '未定'}}</span></p>
         <div class="progress_info press">
           <div class="progress_box">
-            <div class="box" :style="{width:40+'%'}"></div>
+            <div class="box" :style="{width:(n.buyed_amount/n.amount * 100)+'%'}"></div>
           </div>
         </div>
         <div class="items">
-          <div class="item">
-            <p class="price">{{n.price}}元</p>
-            <p class="title">服务器单价</p>
-          </div>
-          <div class="item">
-            <p class="price">{{n.bit}}T</p>
-            <p class="title">算力</p>
-          </div>
-          <div class="item">
-            <p class="price">{{n.total}}台</p>
-            <p class="title">出售总数</p>
+          <div class="item" v-for="item,d in items">
+            <p class="price">{{n[d]}}{{item.unit}}</p>
+            <p class="title">{{item.title}}</p>
           </div>
         </div>
       </li>
@@ -33,9 +30,14 @@
 
 <script>
 export default {
+  props: {
+    items: {
+      type: Object
+    }
+  },
   data () {
     return {
-      lists: [{imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '预热中', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}]
+      lists: [{imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '1', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '1', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}]
     }
   }
 }
@@ -53,7 +55,7 @@ export default {
       @include data_title
     }
     .mill{
-      width: 1180px;
+      width: 1198px;
       overflow: hidden;
       margin:0 auto;
       padding-top: 12px;
@@ -66,9 +68,11 @@ export default {
         float: left;
         text-align: center;
         margin-bottom: 24px;
-        margin-left: 12px;
+        margin-left: 8px;
+        margin-right: 11px;
         img{
             width: 126px;
+            min-height: 81px;
             height: auto;
             margin-top:34px;
             margin-bottom: 34px;
@@ -80,6 +84,16 @@ export default {
           text-align: center;
           line-height: 25px;
           background: #ff6458;
+          color:white;
+          font-size: 12px;
+        }
+        .gray{
+          background: #bfbfbf;
+          width: 70px;
+          height: 25px;
+          display: block;
+          text-align: center;
+          line-height: 25px;
           color:white;
           font-size: 12px;
         }
@@ -146,12 +160,12 @@ export default {
                 }
             }
             :nth-child(1){
-                width: 60px;
+                width: 80px;
                 height: 30px;      
             }
             :nth-child(2){
-                margin-left:45px;
-                margin-right:15px;
+                // margin-left:5px;
+                // margin-right:5px;
             }
         }
         &:hover{
