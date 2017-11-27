@@ -32,7 +32,7 @@
         <router-link to="/minerShop/miner/2/all" class="btn">即刻前往>></router-link>
       </div>
     </div>
-    <MyCloud>
+    <MyCloud :items="items">
       <h2>
         <div>
           <span>矿机推荐</span>
@@ -69,46 +69,28 @@
       return {
         computeDate: [],
         dataNav: {'one_amount_value': {title: '每台服务器价格', unit: '元'}, 'hash': {title: '每台服务器算力', unit: 'T'}, 'buyed_amount': {title: '出售服务器总数', unit: '台'}, 'leftNum': {title: '剩余可售服务器', unit: '台'}},
-        len: 0,
-        now: 1,
-        show: false,
-        active: 0,
+        itemDetail: [],
+        items: {'one_amount_value': {title: '服务器单价', unit: '元'}, 'hash': {title: '算力', unit: 'T'}, 'buyed_amount': {title: '出售总数', unit: '台'}},
         nav: ['矿机超市', '云矿机商城']
       }
     },
     methods: {
       fetchData () {
         var self = this
-        var obj = {token: this.token, page: this.now}
-        var url = ''
-        if (this.$route.params.sort !== 'all') {
-          obj = Object.assign({sort: this.$route.params.sort}, obj)
-        }
-        if (this.active === 0) {
-          url = 'showList'
-        } else {
-          url = 'productList'
-          obj = Object.assign({product_type: this.$route.params.type}, obj)
-        }
-        util.post(url, {sign: api.serialize(obj)}).then(function (res) {
+        var obj = {token: this.token}
+        var url = 'showList'
+        var url2 = 'productList'
+        util.post(url2, {sign: api.serialize(obj)}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.computeDate = res.data
-            self.show = !res.data.length
-            if (self.now > 1) return false
-            self.len = res.page.total_page
           })
         })
-      },
-      getList () {
-        this.fetchData()
-      },
-      changeType (k) {
-        this.active = k
-        this.fetchData()
+        util.post(url, {sign: api.serialize(obj)}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.itemDetail = res.data
+          })
+        })
       }
-    },
-    watch: {
-      '$route': 'fetchData'
     },
     mounted () {
       this.fetchData()

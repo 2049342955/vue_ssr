@@ -1,8 +1,9 @@
 <template>
   <section class="compute_shop">
     <!-- <ProductNav page="minerShop" v-if="active"></ProductNav> -->
-    <Sort :sort="sort" page="minerShop"></Sort>
-    <ProductList :dataNav="dataNav" page="minerShop"></ProductList>
+    <Sort :sort="sort"></Sort>
+    <MyCloud :items="items" v-if="$route.params.type==='1'"></MyCloud>
+    <ProductList :dataNav="dataNav" page="minerShop" v-else></ProductList>
     <Pager :len="len"></Pager>
     <SideBar></SideBar>
   </section>
@@ -13,23 +14,25 @@
   import api from '@/util/function'
   import { mapState } from 'vuex'
   import ProductList from '../common/ProductList'
+  import MyCloud from '@/components/miner/CloudMiner'
   import ProductNav from '../common/ProductNav'
   import Pager from '@/components/common/Pager'
   import SideBar from '@/components/home/SideBar'
   import Sort from '@/components/common/Sort'
   export default {
     components: {
-      ProductList, ProductNav, Pager, SideBar, Sort
+      ProductList, ProductNav, Pager, SideBar, Sort, MyCloud
     },
     data () {
       return {
         computeDate: [],
         sort: [{title: '价格', option: ['price_asc', 'price_desc'], value: 0}, {title: '算力', option: ['base_asc', 'base_desc'], value: 0}, {title: '出售总数', option: ['num_asc', 'num_desc'], value: 0}],
         dataNav: {'one_amount_value': {title: '每台服务器价格', unit: '元'}, 'hash': {title: '每台服务器算力', unit: 'T'}, 'buyed_amount': {title: '出售服务器总数', unit: '台'}, 'leftNum': {title: '剩余可售服务器', unit: '台'}},
+        items: {'one_amount_value': {title: '服务器单价', unit: '元'}, 'hash': {title: '算力', unit: 'T'}, 'buyed_amount': {title: '出售总数', unit: '台'}},
+        itemDetail: [],
         len: 0,
         now: 1,
         show: false,
-        active: 0,
         nav: ['矿机超市', '云矿机商城']
       }
     },
@@ -48,6 +51,11 @@
         }
         util.post(url, {sign: api.serialize(obj)}).then(function (res) {
           api.checkAjax(self, res, () => {
+            if (self.$route.params.type === '1') {
+              self.itemDetail = res.data
+            } else {
+              self.computeDate = res.data
+            }
             self.computeDate = res.data
             self.show = !res.data.length
             if (self.now > 1) return false
@@ -56,10 +64,6 @@
         })
       },
       getList () {
-        this.fetchData()
-      },
-      changeType (k) {
-        this.active = k
         this.fetchData()
       }
     },

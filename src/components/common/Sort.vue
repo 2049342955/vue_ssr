@@ -1,6 +1,6 @@
 <template>
-  <div class="sort">
-    <div class="box">
+  <div :class="['sort',{one_sort:page}]">
+    <div class="box" v-if="!page">
       <div class="sort_title">
         <h1>项目列表</h1>
       </div>
@@ -18,10 +18,15 @@
           <router-link to="/fb">已售罄</router-link>
         </div>
       </div>
-      <div class="sort_items">
+      <div class="sort_allitems">
+        <span>排序方式</span>
         <div :class="['item', 'next', {active1: activeOne==true}]" @click="setSort('all')">默认</div>
         <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont"></span></div>
       </div>
+    </div>
+    <div class="sort_items" v-else>
+      <div :class="['item', 'next', {active1: activeOne==true}]" @click="setSort('all')">默认</div>
+      <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont"></span></div>
     </div>
   </div>
 </template>
@@ -60,10 +65,10 @@
           this.activeOne = true
           str = n
         }
-        if (this.page === 'compute' || this.page === 'minerShop') {
-          this.$router.push({path: '/' + this.page + '/list/' + this.$route.params.type + '/' + str})
-        } else {
+        if (this.page) {
           this.$router.push({path: '/user/' + this.page + '/' + str})
+        } else {
+          this.$router.push({path: '/minerShop/miner/' + this.$route.params.type + '/' + str})
         }
       }
     }
@@ -73,9 +78,13 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .sort{
-    @include main
-    padding-top:25px;
+    padding-top:10px;
+    padding-bottom:10px;
     color:$light_text;
+    &:not(.one_sort){
+      @include main
+      padding-top:25px;
+    }
     .box{
       background: $white;
       box-shadow:0px 0px 15px 0px rgba(63, 71, 84, 0.37);
@@ -104,16 +113,26 @@
           }
         }
       }
-      .sort_items{
+      .sort_allitems{
         @include flex
         background: #F5F5F5;
+        padding:0 20px;
+        span{
+          color:$light_black;
+          margin-right:30px;
+        }
         .item{
           cursor: pointer;
-          padding:0 30px;
+          padding-left:20px;
           line-height: 40px;
           color:#999;
-          & + .item{
-            margin-left:50px
+          &:before,&:last-child:after{
+            content:'|';
+            color:#ccc;
+            margin-right:50px
+          }
+          &:nth-child(2){
+            padding-left:0
           }
           .iconfont{
             @include block(24)
@@ -121,7 +140,7 @@
             transition:all .3s;
             
             &:before{
-              font-size: 18px;
+              font-size: 16px;
               content:'\e84b';
             }
           }
@@ -138,6 +157,41 @@
           &.active1{
             color:$blue;
           }
+        }
+      }
+    }
+    .sort_items{
+      @include flex
+      .item{
+        cursor: pointer;
+        padding:0 30px;
+        line-height: 40px;
+        color:#999;
+        & + .item{
+          margin-left:50px
+        }
+        .iconfont{
+          @include block(24)
+          vertical-align: middle;
+          transition:all .3s;
+          
+          &:before{
+            font-size: 18px;
+            content:'\e84b';
+          }
+        }
+        &.active{
+          color:$blue
+        }
+        &.up{
+          .iconfont{
+            transform:rotate(180deg)
+          }
+        }
+      }
+      .next{
+        &.active1{
+          color:$blue;
         }
       }
     }
