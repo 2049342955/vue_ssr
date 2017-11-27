@@ -2,24 +2,24 @@
   <div class="millsList">
     <slot></slot>
     <ul class="mill">
-      <li v-for="n,k in lists">
-        <template v-if="n.status==='0'">
+      <li v-for="n,k in $parent.itemDetail">
+        <template v-if="n.status===0">
           <span class="gray">已售馨</span>
         </template>
-        <template v-else-if="n.status==='1'">
+        <template v-else-if="n.status===1">
           <span class="status">预热中</span>
         </template>
-        <img :src="n.imgs"/>
+        <img :src="n.minerPicture"/>
         <h6>{{n.name}}</h6>
-        <p class="address"><span class="left">{{n.unit}}</span><span class="right">{{n.address}}</span></p>
+        <p class="address"><span class="left">{{n.unit?n.unit: 'BitCoin'}}</span><span class="right">{{n.MinerAddress?n.MinerAddress: '未定'}}</span></p>
         <div class="progress_info press">
           <div class="progress_box">
-            <div class="box" :style="{width:40+'%'}"></div>
+            <div class="box" :style="{width:(n.buyed_amount/n.amount * 100)+'%'}"></div>
           </div>
         </div>
         <div class="items">
           <div class="item" v-for="item,d in items">
-            <p class="price">{{item.unit}}</p>
+            <p class="price">{{n[d]}}{{item.unit}}</p>
             <p class="title">{{item.title}}</p>
           </div>
         </div>
@@ -72,6 +72,7 @@ export default {
         margin-right: 11px;
         img{
             width: 126px;
+            min-height: 81px;
             height: auto;
             margin-top:34px;
             margin-bottom: 34px;
@@ -159,12 +160,12 @@ export default {
                 }
             }
             :nth-child(1){
-                width: 60px;
+                width: 80px;
                 height: 30px;      
             }
             :nth-child(2){
-                margin-left:45px;
-                margin-right:15px;
+                // margin-left:5px;
+                // margin-right:5px;
             }
         }
         &:hover{
