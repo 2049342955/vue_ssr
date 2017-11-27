@@ -72,7 +72,7 @@
         </div>
       </div>
       <SideBar></SideBar>
-       <mills-list></mills-list> 
+       <mills-list :items="items"></mills-list> 
     </template>
   </article>
 </template>
@@ -95,6 +95,8 @@
     },
     data () {
       return {
+        itemDetail: [],
+        items: {'one_amount_value': {title: '服务器单价', unit: '元'}, 'hash': {title: '算力', unit: 'T'}, 'buyed_amount': {title: '出售总数', unit: '台'}},
         ad: {title: '算力驱动未来，信任链接天下', desc: '全球算力产业链资源整合，基于区块链的分布式算力输出平台', items: [{title: '项目合规', desc: '所有项目出具法律意见书<br>并公开法律意见书'}, {title: '用电合规', desc: '项目为政府招商引资项目<br>全部国网供电，电力稳定持久'}, {title: '透明收益', desc: '全流程产业链对接，信息透明<br>避免踩坑'}, {title: '全程存证', desc: '对接保全网区块链电子凭证技术<br>实现全部在线协议的合规有效'}, {title: '算力管家', desc: '为用户投资的每一份算力<br>提供贴心的远程管家服务'}]},
         wqImg: require('@/assets/images/img.jpg'),
         suanLi: [{title: 'SHA256比特币算力', desc: 'Bitcoin数字货币算力', icon: 'ELbobeicesuan'}, {title: '卷积神经算法算力', desc: '为CNN卷积神经网络提供分布式加速服务', icon: 'guanlianxitongwenbenqueren'}, {title: 'EquiHash零币算力', desc: 'ZeroCASH提供隐私保护及零知识证明的基础算力', icon: 'wodegongzuo-liebiao'}, {title: '智能合约算力', desc: '全球贸易智能合约服务的分布式基础算力', icon: 'dianzihetongshenqing'}, {title: 'Curecoin算力', desc: '蛋白质折叠计算，生化反应模型，用于发现新药', icon: 'hebaoshenpi'}, {title: 'Scrypt莱特币算力', desc: 'Litecoin数字货币算力', icon: 'xinxichaxun'}, {title: '游戏币兑换算力', desc: '全球游戏产业虚拟货币通用兑换算力', icon: 'jiedongzhiquzhihang'}, {title: 'Ethash以太算力', desc: '以太坊网络，ETCETH算力', icon: 'yewuchaxun'}, {title: '公证算力', desc: '提供区块链公证服务，存证保全的基础算力', icon: 'shouqushenqingchaxun'}],

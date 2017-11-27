@@ -18,17 +18,9 @@
           </div>
         </div>
         <div class="items">
-          <div class="item">
-            <p class="price">{{n.price}}元</p>
-            <p class="title">服务器单价</p>
-          </div>
-          <div class="item">
-            <p class="price">{{n.bit}}T</p>
-            <p class="title">算力</p>
-          </div>
-          <div class="item">
-            <p class="price">{{n.total}}台</p>
-            <p class="title">出售总数</p>
+          <div class="item" v-for="item,d in items">
+            <p class="price">{{item.unit}}</p>
+            <p class="title">{{item.title}}</p>
           </div>
         </div>
       </li>
@@ -38,6 +30,11 @@
 
 <script>
 export default {
+  props: {
+    items: {
+      type: Object
+    }
+  },
   data () {
     return {
       lists: [{imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '1', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '1', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}, {imgs: require('@/assets/images/kuan.png'), status: '0', name: '阿瓦隆Avalon-A740', unit: 'BitCoin', address: '浙江-杭州', speed: '30', price: '10000', bit: '9.0', total: '500'}]
