@@ -98,6 +98,7 @@
   .product_list{
     padding-top:20px;
     padding-bottom:30px;
+    background: #f6f7f9;
     .box{
       @include main
       h2{

@@ -78,8 +78,8 @@
       fetchData () {
         var self = this
         var obj = {token: this.token}
-        var url = 'showList'
-        var url2 = 'productList'
+        var url = 'showMinerList'
+        var url2 = 'showproductList'
         util.post(url2, {sign: api.serialize(obj)}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.computeDate = res.data

@@ -32,7 +32,7 @@ api.defaults.validateStatus = (status) => {
 }
 
 api.interceptors.response.use(res => {
-  console.log(res)
+  // console.log(res)
   if (res.status) {
     return res.data
   }
