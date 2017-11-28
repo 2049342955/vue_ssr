@@ -1,7 +1,83 @@
 <template>
   <section class="product">
-    <div class="items">
-      <div class="text">
+    <div class="items" v-if="$route.params.type==='1'">
+      <div class="absolute">
+        <img src="../../assets/images/kuangji.png"/>
+        矿机
+      </div>
+      <div class="miner_left">
+        <img :src="$parent.detail.minerPicture" alt="">
+      </div>
+      <div class="miner_right">
+        <h4>{{$route.params.name}}</h4>
+        <p class="time">抢购成功订单2-3周内陆续发货！发货时间 : {{$parent.detail.DeliveryTime}}天后发货</p>
+        <p class="suan_price"><span class="left_miner">算 力 价</span><span class="right_miner">¥ <em>{{$parent.totalPrice|format}}</em></span></p>
+        <p class="address"><span class="left_miner">总 算 力</span><span class="right_miner"><em>{{$parent.totalHash|format}}</em>T</span></p>
+        <p class="address"><span class="left_miner">物&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;流</span><span class="right_miner">订单委托第三方物流公司发货，物流费用到付</span></p>
+        <div class="miner_input">
+          <span class="left_miner">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</span>
+          <div class="input_box right_miner">
+            <span @click="$parent.changeNum(+$parent.number-1)">-</span>
+            <input type="text" v-model="$parent.number" :placeholder="parseInt($parent.detail.single_limit_amount)||1" @blur="$parent.changeNum($parent.number)">
+            <span @click="$parent.changeNum(+$parent.number+1)">+</span>
+          </div>
+          <p class="miner_number">库存{{$parent.leftNum}}台<span>（最少购买{{parseInt($parent.detail.single_limit_amount)||1}}台）</span></p>
+        </div>
+        <button class="btn" v-if="$parent.detail.status===1" @click="checkPay">立即支付</button>
+        <button class="btn" disabled v-else-if="$parent.detail.status===2">已转让</button>
+        <button class="btn" disabled v-else-if="$parent.detail.status===3">产品撤销</button>
+      </div>
+    </div>
+    <div class="items miner_yun" v-if="$route.params.type==='0'">
+      <div class="yun_left">
+        <div class="absolute">
+          <img src="../../assets/images/yun.png"/>
+          云矿机
+        </div>
+        <h4>
+            {{$parent.detail.product_name}}
+            <span v-if="$parent.detail.status===4">预售</span>
+            <span v-else-if="$parent.detail.status===5">可售</span>
+            <span v-if="$parent.detail.status===6">已售馨</span>
+        </h4>
+        <p class="white">可使用算力白条</p>
+        <div class="product_data">
+          <template v-for="d,k in proData" v-if="k!=='product_name'">
+            <div class="item">
+              <div class="item_word">
+                <span class="num" v-if="k==='price'">{{$parent.detail[k]|format}}</span>
+                <span class="num" v-else>{{$parent.detail[k]}}</span>
+                <span class="unit">{{d.unit}}</span>
+              </div>
+              <p class="tips">{{d.title}}</p>
+            </div>
+          </template>
+        </div>
+        <div class="progress_info press">
+          <div class="progress_box">
+            <div class="box" :style="{width:((parseInt($parent.detail.buyed_amount)/parseInt($parent.detail.amount))*100)+'%'}"></div>
+          </div>
+        </div>
+        <div class="progress_price">
+          <span class="one">当前进度 {{(parseInt($parent.detail.buyed_amount)/parseInt($parent.detail.amount))*100}}%</span>
+          <span class="two">剩余可售 {{$parent.leftNum}}台</span>
+        </div>
+      </div>
+      <div class="yun_right">
+        <div class="price_text">我要购买<span class="buy_tips">(最少{{parseInt($parent.detail.single_limit_amount)||1}}台)</span></div>
+        <div class="input_box">
+          <input type="text" v-model="$parent.number" :placeholder="parseInt($parent.detail.single_limit_amount)||1" @blur="$parent.changeNum($parent.number)">
+          <span>台</span>
+        </div>
+        <div class="price_text1">需支付：<span class="money">{{$parent.totalPrice|format}}元</span></div>
+        <div class="price_text1">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
+        <button class="btn" disabled v-if="$parent.leftStatus">已售罄</button>
+        <button :class="['btn buy_btn', {error: $parent.buyStatus===1}, {over: $parent.buyStatus===2}]" v-else @click="checkPay($event, false)">立即支付</button>
+        <button class="btn loan_btn" @click="checkPay($event, true)" v-if="$parent.rateshow&&!$parent.leftStatus">分期购买</button>
+      </div>
+    </div>
+     <!-- <div class="items">
+       <div class="text">
         <div class="product_title">
           <h3>{{$parent.detail.product_name}}<span :class="'icon_currency '+$parent.detail.hashType"></span></h3>
           <div v-if="$parent.detail.batch_area&&$route.params.type!=='1'">
@@ -66,9 +142,17 @@
           <button class="btn" disabled v-else-if="$parent.detail.status===2">已转让</button>
           <button class="btn" disabled v-else-if="$parent.detail.status===3">产品撤销</button>
         </div>
-      </div>
-    </div>
+      </div> 
+    </div>  -->
     <div class="info">
+      <el-tabs>
+        <el-tab-pane label="产品介绍" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief"></el-tab-pane>
+        <el-tab-pane label="产品优势" v-html="$parent.detail.machine_advantage||$parent.detail.MinerAdvantage"></el-tab-pane>
+        <el-tab-pane label="补充说明" v-html="$parent.detail.machine_agreement||$parent.detail.prProtocolSpeciaification"></el-tab-pane>
+        <el-tab-pane label="矿场相册" v-if="$route.params.type!=='1'"><img :src="$parent.detail.product_photos" alt=""></el-tab-pane>
+      </el-tabs>
+    </div>
+    <!-- <div class="info">
       <div class="info_item">
         <h3>产品介绍</h3>
         <div class="box" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief"></div>
@@ -89,7 +173,8 @@
            </div> 
         </div>
       </div>
-    </div>
+    </div> -->
+    
     <div class="mobile_box">
       <div class="img">
         <img :src="$parent.detail.product_img||$parent.detail.minerPicture" alt="">
@@ -256,169 +341,344 @@
     }
     .items{
       margin-bottom:30px;
-      @include flex(space-between,strech)
-      .text{
-        width:69%;
-        .product_title{
-          @include flex(space-between)
-          padding-bottom:10px;
-          border-bottom: 1px solid $border;
-          margin-bottom:20px
-        }
-        .product_con{
-          @include flex(flex-start,strech)
-          margin-bottom:25px;
-          .product_img{
-            width:30%;
-            margin-right:5%;
-            img{
-              height:210px;
-              object-fit:cover
-            }
-          }
-          .product_text{
-            width:64%;
-            .product_data{
-              @include flex(space-between)
-              background: #fff9f3;
-              padding:25px;
-              .item{
-                padding:0 15px;
-                .item_word{
-                  .num{
-                    font-size: 24px;
-                  }
-                }
-                &:first-child{
-                  .item_word{
-                    color:$orange
-                  }
-                }
-              }
-              .line{
-                width:1px;
-                height:50px;
-                background: $border;
-                &:last-child{
-                  display: none;
-                }
-              }
-            }
-            .product_word{
-              @include flex(space-between)
-              margin-top:10px;
-              padding:15px;
-              border:1px solid $border;
-            }
-            h4{
-              margin-top:20px;
-              color: $light_text;
-            }
-          }
+      background: white;
+      height: 350px;
+      box-shadow: #dfe0e1 0 5px 5px -3px;
+      position: relative;
+      top: -340px;
+      .absolute{
+        position: absolute;
+        left: -10px;
+        top:11px;
+        width: 82px;
+        height: 78px;
+        background: #fe5039;
+        text-align: center;
+        color:white;
+        img{
+          width: 25px;
+          display:block;
+          height: auto;
+          margin:0 auto;
+          margin-top:15px; 
+          margin-bottom: 8px;
         }
       }
-      .price{
-        background:$white;
-        width:28%;
-        .price_title{
-          padding:15px 30px;
-          border-bottom:1px solid $border
+      .miner_left{
+        width: 500px;
+        border:1px solid #dcdcdc;
+        height:324px;
+        margin-top: 12px;
+        margin-left: 12px;
+        text-align: center;
+        float: left;
+        margin-right: 20px;
+        img{
+          width: 100%;
+          height: auto;
         }
-        .price_input{
-          padding:15px 30px;
-          .price_text{
-            color: $light_text;
-            margin-bottom:10px;
-            .money{
-              color: $orange
+      }
+      .miner_right{
+        padding-top: 20px;
+        width: 550px;
+        float: left;
+        h4{
+          color: #666666;
+          font-weight: 800;
+          font-size: 14px;
+          line-height: 0;
+          margin-top: 10px;
+        }
+        .time{
+          color: #fe5039;
+          font-size: 12px;
+          margin:15px 0;
+        }
+        .suan_price{
+          width: 550px;
+          height: 50px;
+          background:#f3f3f3;
+          line-height: 50px;
+          margin-bottom: 20px;
+          .right_miner{
+            color: #ea2c2c;
+            font-weight: 800;
+            font-size: 14px;
+            em{
+              font-size: 24px;
             }
-            .buy_tips{
-              font-size: 12px;
-              color:$orange;
-              margin-left:5px
-            }
+          }
+        }
+        .left_miner{
+          color: #999999;
+          font-size: 12px;
+          width: 80px;
+          display:inline-block;
+          text-align: left;
+          padding-left: 12px;
+          box-sizing: border-box;
+        }
+        .right_miner{
+          color: #121212;
+          font-size: 12px;
+          em{
+            font-style: normal;
+            font-size: 14px;
+          }
+        }
+        .address{
+          margin-bottom: 15px;
+        }
+        .miner_input{
+          height: 34px;
+          .left_miner{
+            float: left;
+            line-height: 34px;
           }
           .input_box{
-            line-height: 40px;
-            border:1px solid $border;
-            margin-bottom:30px;
-            @include number_box
+            display:inline-block;
+            width: 142px;
+            height: 34px;
+            border:1px solid #e5e5e5;
+            border-radius: 3px;
+            box-sizing: border-box;
+            float: left;
+            margin-right: 28px;
+            span{
+              width: 22px;
+              height: 100%;
+              display:inline-block;
+              background:#e5e5e5;
+              float: left;
+              font-size: 16px;
+              text-align: center;
+              line-height: 30px;
+            }
+            input{
+              width: 96px;
+              height: 100%;
+              float: left;
+              text-align: center;
+            }
+            :nth-child(1){
+              border-top-left-radius: 3px;
+              border-bottom-left-radius: 3px;
+              color: #c5c5c5;
+            }
+            :nth-child(3){
+              border-top-right-radius: 3px;
+              border-bottom-right-radius: 3px;
+              color: #333333;
+            }
           }
-          .btn{
-            width:100%;
-            line-height: 3;
-            position: relative;
-            margin-top:10px;
-            &.buy_btn{
-              @include button($orange)
-            }
-            &.loan_btn{
-              @include button($blue)
-            }
-            &.error:before{
-              @include position(-35)
-              content:'请输入或添加至少1台矿机';
-              color: $orange;
-            }
-            &.over:before{
-              @include position(-35)
-              content:'剩余可售量不足您所需求的量';
-              color: $orange;
-            }
-            &:disabled{
-              background: #f5b48f;
-              border-color: #f5b48f;
-            }
-          }
-        }
-        &.transfer{
-          .price_title{
-            margin-bottom:20px;
-          }
-          .price_input{
-            .price_text{
-              .money{
-                font-size: 24px;
-                margin-right:3px
-              }
-              &:first-child{
-                margin-bottom:20px
-              }
-              &:nth-child(2){
-                margin-bottom:25px
-              }
+          .miner_number{
+            float: left;
+            line-height: 28px;
+            color:#666666;
+            span{
+              color: #fe5039;
             }
           }
         }
+        .btn{
+          width: 242px;
+          height: 44px;
+          border:0;
+          margin-top: 26px;
+          background: #fe5039;
+          color: white;
+          font-size: 18px;
+          margin-left: 94px;
+        }
       }
-      .tips{
-        color: $light_black;
+    }
+    .miner_yun{
+      background: #f3f8ff;
+      position: relative;
+      .absolute{
+        position: absolute;
+        left: -10px;
+        top:11px;
+        width: 82px;
+        height: 78px;
+        background: #fe5039;
+        text-align: center;
+        color:white;
+        img{
+          width: 25px;
+          display:block;
+          height: auto;
+          margin:0 auto;
+          margin-top:15px; 
+          margin-bottom: 8px;
+        }
       }
-      @include mobile_hide
+      .yun_left{
+        width: 722px;
+        height: 100%;
+        padding-top: 56px;
+        padding-left: 98px;
+        box-sizing: border-box;
+        float: left;
+        h4{
+          font-size: 27px;
+          color: #333333;
+          font-weight: 800;
+          span{
+            width: 56px;
+            height: 16px;
+            display:inline-block;
+            border-radius: 16px;
+            border:1px solid #fe5039;
+            text-align: center;
+            margin-left: 20px;
+            line-height: 15px;
+            font-size: 12px;
+            color: #fe5039;
+            font-weight: 100;
+          }
+        }
+        .white{
+          color: #327fff;
+          border:1px solid #327fff;
+          width: 115px;
+          height: 25px;
+          text-align: center;
+          margin-top: 12px;
+          font-size: 12px;
+          line-height: 22px;
+        }
+        .product_data{
+          width: 100%;
+          height: 60px;
+          margin-top: 30px;
+          .item{
+            width: 33.3%;
+            text-align: center;
+            float: left;
+            height: 100%;
+            .item_word{
+              text-align: left;
+              .num{
+                color: #333;
+                font-size: 30px;
+              }
+            }
+            p{
+              text-align: left;
+            }
+            .tips{
+              color:#666666; 
+            }
+          }
+          &:nth-child(1) .item_word .num{
+            color: red;
+          }
+        }
+        .press{
+            width: 550px;
+            height: 16px;
+            background: #e3e3e3;
+            margin-top: 44px;
+            margin-bottom:15px;
+            border-radius: 16px;
+            .progress_box{
+              position: relative;
+              overflow:hidden;
+              height:100%;
+              .box{
+                @include position;
+                background: linear-gradient(to right, #337eff 20%, #c72abc);
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#337eff', endColorstr='#c72abc',GradientType=1 );
+                border-top-left-radius: 16px;
+                border-bottom-left-radius: 16px;
+              }
+            }
+        }
+        .progress_price{
+          width: 550px;
+          height: auto;
+          .one{
+            color:#327fff;
+            font-weight: 800;
+            float: left;
+          }
+          .two{
+            float:right;
+          }
+        }
+      }
+      .yun_right{
+        width: 456px;
+        height: 314px;
+        background: white;
+        float: left;
+        padding-top: 40px;
+        padding-left: 44px;
+        box-sizing: border-box;
+        .price_text{
+          font-size: 18px;
+          color:#121212;
+          .buy_tips{
+            color: #fe5039;
+            font-size: 14px;
+            margin-left: 20px;
+          }
+        }
+        .input_box{
+          border:1px solid #d2d2d2;
+          margin-top: 20px;
+          width: 288px;
+          height: 50px;
+          line-height: 50px;
+          box-sizing: border-box;
+          border-radius: 5px;
+          display: block;
+          margin-bottom: 20px;
+          input{
+            width: 90%;
+            float: left;
+            padding-left: 22px;
+            line-height: 50px;
+          }
+        }
+        .price_text1{
+          text-align: left;
+          color: #666666;
+          font-size: 14px;
+          margin-top: 10px;
+          .money{
+            color: #fe5039;
+            font-size: 14px;
+          }
+        }
+        .btn{
+          width: 242px;
+          height: 44px;
+          border:0;
+          margin-top: 26px;
+          background: #fe5039;
+          color: white;
+          font-size: 18px;
+          margin-left: 94px;
+        }
+      }
     }
     .info{
-      .info_item{
-        h3{
-          padding-bottom:10px;
-          border-bottom:1px solid $border
-        }
-        .box{
-          padding:30px 0;
-          font-size: 16px
-        }
-        .miner_photos.box{
-          @include row(2)
-          .item img{
-            height:290px;
-            object-fit:cover
-          }
-        }
+      position: relative;
+      top:-300px;
+      background: white;
+      overflow: hidden;
+      padding:0 98px;
+      box-sizing: border-box;
+      box-shadow: #dfe0e1 0 5px 5px -3px;
+      .el-tabs__nav-scroll{
+        margin-top: 12px;
       }
-      @include mobile_hide
-    }
-    .items .text,.info{
-      padding:15px 30px;
-      background:$white;
+      .el-tabs__content{
+        margin-top: 40px;
+        margin-bottom: 70px;
+      }
     }
     .mobile_box{
       @include mobile_show
