@@ -71,6 +71,7 @@
           </div>
         </div>
       </div>
+      <!-- <pay-success></pay-success> -->
       <SideBar></SideBar>
     </template>
   </article>
@@ -86,6 +87,7 @@
   import DataChart from '../components/home/DataChart'
   import DataChart2 from '../components/home/DataChart2'
   import DataMap from '../components/home/DataMap'
+  // import PaySuccess from '../components/common/PaySuccess'
   import { mapState } from 'vuex'
   export default {
     components: {

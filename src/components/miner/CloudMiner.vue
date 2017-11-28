@@ -1,9 +1,9 @@
 <template>
   <div class="millsList">
     <slot></slot>
-    <ul class="mill">
-      <li v-for="n,k in $parent.itemDetail">
-        <router-link :to="'/minerShop/detail/'+ n.id +'/1/'">
+    <div class="mill">
+      <div v-for="n,k in $parent.itemDetail" class="listmill">
+        <router-link :to="'/minerShop/detail/'+ n.id +'/1'">
           <template v-if="n.status===0">
             <span class="gray">已售馨</span>
           </template>
@@ -25,8 +25,8 @@
             </div>
           </div>
         </router-link>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -59,7 +59,7 @@ export default {
       width: 1198px;
       overflow: hidden;
       margin:0 auto;
-      li{
+      .listmill{
         padding:0;
         margin:0;
         width: 280px;
@@ -72,10 +72,10 @@ export default {
         margin-right: 11px;
         img{
             width: 126px;
-            min-height: 81px;
+            height: 81px;
             height: auto;
-            margin-top:34px;
-            margin-bottom: 34px;
+            margin-top:24px;
+            margin-bottom: 24px;
         }
         .status{
           width: 70px;

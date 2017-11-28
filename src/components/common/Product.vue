@@ -2,7 +2,7 @@
   <section class="product">
     <div class="bgImg">
       <p v-if="$route.params.type==='1'" class="centertype"><router-link to="/minerShop/list">矿机商城</router-link><span>></span><router-link to="/minerShop/miner/1/all">矿机</router-link><span>></span><em>{{$parent.detail.product_name||$parent.detail.name}}</em></p>
-      <p v-else-if="$route.params.type==='0'" class="centertype"><router-link to="/minerShop/list">矿机商城</router-link><span>></span><router-link to="/minerShop/miner/2/all">云矿机</router-link><span>></span><em>{{$parent.detail.product_name||$parent.detail.name}}</em></p>
+      <p v-else-if="$route.params.type!=='1'" class="centertype"><router-link to="/minerShop/list">矿机商城</router-link><span>></span><router-link to="/minerShop/miner/2/all">云矿机</router-link><span>></span><em>{{$parent.detail.product_name||$parent.detail.name}}</em></p>
     </div>
     <div class="items" v-if="$route.params.type==='1'">
       <div class="absolute">
@@ -32,7 +32,7 @@
         <button class="btn" disabled v-else-if="$parent.detail.status===3">产品撤销</button>
       </div>
     </div>
-    <div class="items miner_yun" v-if="$route.params.type==='0'">
+    <div class="items miner_yun" v-if="$route.params.type!=='1'">
       <div class="yun_left">
         <div class="absolute">
           <img src="../../assets/images/yun.png"/>
@@ -59,11 +59,11 @@
         </div>
         <div class="progress_info press">
           <div class="progress_box">
-            <div class="box" :style="{width:((parseInt($parent.detail.buyed_amount)/parseInt($parent.detail.amount))*100)+'%'}"></div>
+            <div class="box" :style="{width:(parseInt($parent.detail.buyed_amount)/parseInt($parent.detail.amount)*100)+'%'}"></div>
           </div>
         </div>
         <div class="progress_price">
-          <span class="one">当前进度 {{(parseInt($parent.detail.buyed_amount)/parseInt($parent.detail.amount))*100}}%</span>
+          <span class="one">当前进度 {{((parseInt($parent.detail.buyed_amount)/parseInt($parent.detail.amount))*100).toFixed(2)}}%</span>
           <span class="two">剩余可售 {{$parent.leftNum}}台</span>
         </div>
       </div>
@@ -80,105 +80,31 @@
         <button class="btn loan_btn" @click="checkPay($event, true)" v-if="$parent.rateshow&&!$parent.leftStatus">分期购买</button>
       </div>
     </div>
-     <!-- <div class="items">
-       <div class="text">
-        <div class="product_title">
-          <h3>{{$parent.detail.product_name}}<span :class="'icon_currency '+$parent.detail.hashType"></span></h3>
-          <div v-if="$parent.detail.batch_area&&$route.params.type!=='1'">
-            <span class="tips">批次所在区域：</span>
-            <span>{{$parent.detail.batch_area}}</span>
-          </div>
-        </div>
-        <div class="product_con">
-          <div class="product_img">
-            <img :src="$parent.detail.product_img||$parent.detail.minerPicture" alt="">
-          </div>
-          <div class="product_text">
-            <div class="product_data">
-              <template v-for="d,k in proData" v-if="k!=='product_name'">
-                <div class="item">
-                  <div class="item_word">
-                    <span class="num" v-if="k==='price'">{{$parent.detail[k]|format}}</span>
-                    <span class="num" v-else>{{$parent.detail[k]}}</span>
-                    <span class="unit">{{d.unit}}</span>
-                  </div>
-                  <p class="tips">{{d.title}}</p>
-                </div>
-                <div class="line"></div>
-              </template>
-            </div>
-            <div class="product_word" v-if="$route.params.type!=='1'">
-              <div class="item" v-for="t,k in proText">
-                <span class="tips">{{t}}:</span>
-                <span v-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
-                <span v-else>{{$parent.detail[k]}}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="price" v-if="page==='minerShop'">
-        <div class="price_title">
-          <span class="tips">剩余可售服务器：</span>
-          <span class="num">{{$parent.leftNum}}</span>
-          <span>台</span>
-        </div>
-        <div class="price_input">
-          <div class="price_text">购买数量<span class="buy_tips">(最少{{parseInt($parent.detail.single_limit_amount)||1}}台)</span></div>
-          <div class="input_box">
-            <span @click="$parent.changeNum(+$parent.number-1)">-</span>
-            <input type="text" v-model="$parent.number" placeholder="请输入购买数量" @blur="$parent.changeNum($parent.number)">
-            <span @click="$parent.changeNum(+$parent.number+1)">+</span>
-          </div>
-          <div class="price_text">需支付：<span class="money">{{$parent.totalPrice|format}}元</span></div>
-          <div class="price_text">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
-         <button class="btn" disabled v-if="$parent.leftStatus">已售罄</button>
-         <button :class="['btn buy_btn', {error: $parent.buyStatus===1}, {over: $parent.buyStatus===2}]" v-else @click="checkPay($event, false)">立即支付</button>
-         <button class="btn loan_btn" @click="checkPay($event, true)" v-if="$parent.rateshow&&!$parent.leftStatus">分期购买</button>
-        </div>
-      </div>
-      <div class="price transfer" v-else>
-        <div class="price_title tips">转让算力服务器</div>
-        <div class="price_input">
-          <div class="price_text">需支付：<span class="money">{{$parent.detail.total_price|format}}元</span></div>
-          <div class="price_text">总算力：<span class="money">{{$parent.detail.transfer_amount|format}}T</span></div>
-          <button class="btn" v-if="$parent.detail.status===1" @click="checkPay">立即支付</button>
-          <button class="btn" disabled v-else-if="$parent.detail.status===2">已转让</button>
-          <button class="btn" disabled v-else-if="$parent.detail.status===3">产品撤销</button>
-        </div>
-      </div> 
-    </div>  -->
     <div class="info">
-      <!-- <el-tabs>
-        <el-tab-pane label="产品介绍" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief"></el-tab-pane>
-        <el-tab-pane label="产品优势" v-html="$parent.detail.machine_advantage||$parent.detail.MinerAdvantage"></el-tab-pane>
-        <el-tab-pane label="补充说明" v-html="$parent.detail.machine_agreement||$parent.detail.prProtocolSpeciaification"></el-tab-pane>
-        <el-tab-pane label="矿场相册" v-if="$route.params.type!=='1'"><img :src="$parent.detail.product_photos" alt=""></el-tab-pane>
-      </el-tabs> -->
-    </div>
-    <!-- <div class="info">
-      <div class="info_item">
-        <h3>产品介绍</h3>
-        <div class="box" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief"></div>
+      <div class="infoul">
+        <template v-if="$route.params.type!=='1'">
+          <div v-for="n,k in infolists" @click="tabs($event, k)" :class="{'active': show===k}">{{n[k]}}</div>
+        </template>
+        <template v-else>
+          <div v-for="d,m in infolist" @click="tabs($event, m)" :class="{'active': show===m}">{{d[m]}}</div>
+        </template>
       </div>
-      <div class="info_item">
-        <h3>产品优势</h3>
-        <div class="box" v-html="$parent.detail.machine_advantage||$parent.detail.MinerAdvantage"></div>
-      </div>
-      <div class="info_item">
-        <h3>补充说明</h3>
-        <div class="box" v-html="$parent.detail.machine_agreement||$parent.detail.prProtocolSpeciaification"></div>
-      </div>
-      <div class="info_item" v-if="$route.params.type!=='1'">
-        <h3>矿场相册</h3>
-        <div class="box miner_photos">
-           <div class="item"> 
+      <div class="contentlength">
+        <template v-if="$route.params.type!=='1'">
+          <div class="contentyun" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief" style="display:block;"></div>
+          <div class="contentyun" v-html="$parent.detail.machine_advantage||$parent.detail.MinerAdvantage"></div>
+          <div class="contentyun" v-html="$parent.detail.machine_agreement||$parent.detail.prProtocolSpeciaification"></div>
+          <div class="contentyun">
             <img :src="$parent.detail.product_photos" alt="">
-           </div> 
-        </div>
+          </div>
+        </template>
+        <template v-else>
+          <div class="contentyun" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief" style="display:block;"></div>
+          <div class="contentyun" v-html="$parent.detail.machine_advantage||$parent.detail.MinerAdvantage"></div>
+          <div class="contentyun" v-html="$parent.detail.machine_agreement||$parent.detail.prProtocolSpeciaification"></div>
+        </template>
       </div>
-    </div> -->
-    
+    </div>  
     <div class="mobile_box">
       <div class="img">
         <img :src="$parent.detail.product_img||$parent.detail.minerPicture" alt="">
@@ -279,9 +205,12 @@
     },
     data () {
       return {
+        infolists: [{0: '产品参数'}, {1: '产品优势'}, {2: '协议说明'}, {3: '矿场相册'}],
+        infolist: [{0: '产品参数'}, {1: '产品优势'}, {2: '协议说明'}],
         mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台算力', unit: 'T'}, status: {title: '项目状态', unit: ''}},
         mobileNav2: {hashType: {title: '算力类型', unit: ''}, amount: {title: '服务器总数', unit: '台'}, incomeType: {title: '结算方式', unit: ''}},
-        sheetVisible: false
+        sheetVisible: false,
+        show: '0'
       }
     },
     methods: {
@@ -320,6 +249,17 @@
       },
       openMask () {
         this.sheetVisible = true
+      },
+      tabs (e, k) {
+        var ullist = document.getElementsByClassName('contentyun')
+        for (var a = 0; a < ullist.length; a++) {
+          if (a === k) {
+            ullist[a].style.display = 'block'
+          } else {
+            ullist[a].style.display = 'none'
+          }
+        }
+        this.show = k
       }
     },
     filters: {
@@ -339,6 +279,7 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .product{
+    background: #f7f8fa;
     h3{
       font-size: 18px;
       font-weight: bold;
@@ -354,6 +295,9 @@
         padding-top: 12px;
         color: white;
         font-size: 12px;
+        a{
+          color: white;
+        }
         span{
           padding:0 24px;
         }
@@ -635,8 +579,10 @@
       }
       .yun_right{
         width: 456px;
-        height: 314px;
+        // height: 314px;
+        overflow: hidden;
         background: white;
+        padding-bottom: 20px;
         float: left;
         padding-top: 40px;
         padding-left: 44px;
@@ -681,11 +627,14 @@
           width: 242px;
           height: 44px;
           border:0;
-          margin-top: 26px;
+          margin-top: 16px;
           background: #fe5039;
           color: white;
           font-size: 18px;
-          margin-left: 94px;
+          margin-left: 30px;
+        }
+        .loan_btn{
+          background: #01bfb5;
         }
       }
     }
@@ -697,12 +646,40 @@
       padding:0 98px;
       box-sizing: border-box;
       box-shadow: #dfe0e1 0 5px 5px -3px;
-      .el-tabs__nav-scroll{
-        margin-top: 12px;
+      width: 1180px;
+      margin:0 auto;
+      .infoul{
+        padding:0;
+        margin:0;
+        border-bottom:1px solid #e5e5e5;
+        width: 100%;
+        overflow: hidden;
+        div{
+          float: left;
+          width: 75px;
+          color:#333333;
+          margin-right: 50px;
+          font-size: 18px;
+          height: 50px;
+          padding-top: 12px;
+          padding-bottom: 12px;
+          box-sizing: border-box;
+          &.active{
+            color: #327fff;
+            border-bottom: 2px solid #327fff;
+            box-sizing: border-box;
+          }
+          &:hover{
+            color: #327fff;
+            border-bottom: 2px solid #327fff;
+            box-sizing: border-box;
+          }
+        }
       }
-      .el-tabs__content{
-        margin-top: 40px;
-        margin-bottom: 70px;
+      .contentyun{
+        padding-top: 30px;
+        padding-bottom: 70px;
+        display:none;
       }
     }
     .mobile_box{
