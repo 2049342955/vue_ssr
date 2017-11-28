@@ -33,10 +33,17 @@ api.defaults.validateStatus = (status) => {
 
 api.interceptors.response.use(res => {
   // console.log(res)
-  if (res.status) {
+  // if (res.status) {
+  //   return res.data
+  // }
+  // return res
+  // console.log(res)
+  if (res.status >= 200 && res.status < 300) {
     return res.data
   }
-  return res
+  return Promise.reject(res)
+}, error => {
+  return Promise.reject({message: '网络异常，请刷新重试', err: error})
 })
 
 api.interceptors.request.use(config => {
