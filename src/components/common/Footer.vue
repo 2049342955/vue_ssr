@@ -23,7 +23,7 @@
             <div class="copyright">
               <div class="copyright_img"></div>
               <div class="copyright_text">
-                <span>Copyright © 2013-2017 Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. 浙江数秦科技有限公司 版权所有 </span>
+                <span>Copyright © 2013-2017 www.suanli.com All Rights Reserved. 算力网 版权所有 </span>
                 <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602008747" target="_blank"><br><span class="copyright_icon"></span> 浙公网安备 33010602008747号</a>
               </div>
             </div>
