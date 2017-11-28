@@ -130,7 +130,7 @@
         name: 'miner',
         component: Miner
       }, {
-        path: 'detail/:id/:type/:name',
+        path: 'detail/:id/:type',
         name: 'minerDetail',
         component: MinerDetail
       }, {

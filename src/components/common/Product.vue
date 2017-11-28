@@ -1,8 +1,8 @@
 <template>
   <section class="product">
     <div class="bgImg">
-      <p v-if="$route.params.type==='1'" class="centertype">矿机商城<span>></span>矿机<span>></span><em>{{$route.params.name}}</em></p>
-      <p v-else-if="$route.params.type==='0'" class="centertype">矿机商城<span>></span>云矿机<span>></span><em>{{$route.params.name}}</em></p>
+      <p v-if="$route.params.type==='1'" class="centertype"><router-link to="/minerShop/list">矿机商城</router-link><span>></span><router-link to="/minerShop/miner/1/all">矿机</router-link><span>></span><em>{{$parent.detail.product_name||$parent.detail.name}}</em></p>
+      <p v-else-if="$route.params.type==='0'" class="centertype"><router-link to="/minerShop/list">矿机商城</router-link><span>></span><router-link to="/minerShop/miner/2/all">云矿机</router-link><span>></span><em>{{$parent.detail.product_name||$parent.detail.name}}</em></p>
     </div>
     <div class="items" v-if="$route.params.type==='1'">
       <div class="absolute">
@@ -13,7 +13,7 @@
         <img :src="$parent.detail.minerPicture" alt="">
       </div>
       <div class="miner_right">
-        <h4>{{$route.params.name}}</h4>
+        <h4>{{$parent.detail.name}}</h4>
         <p class="time">抢购成功订单2-3周内陆续发货！发货时间 : {{$parent.detail.DeliveryTime}}天后发货</p>
         <p class="suan_price"><span class="left_miner">算 力 价</span><span class="right_miner">¥ <em>{{$parent.totalPrice|format}}</em></span></p>
         <p class="address"><span class="left_miner">总 算 力</span><span class="right_miner"><em>{{$parent.totalHash|format}}</em>T</span></p>
