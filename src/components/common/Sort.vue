@@ -3,6 +3,10 @@
     <div class="box" v-if="!page">
       <div class="sort_title">
         <h1>项目列表</h1>
+        <div class="input_box">
+          <input type="text">
+          <span class="input_btn iconfont">&#xe63e;</span>
+        </div>
       </div>
       <div class="sort_body">
         <div class="item">
@@ -18,7 +22,7 @@
       <div class="sort_allitems">
         <span class="sort_allitems_title">排序方式</span>
         <div :class="['item', 'next', {active1: activeOne==true}]" @click="setSort('all')">综合排序</div>
-        <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont">&#xe84b;</span></div>
+        <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont">&#xe611;</span></div>
       </div>
     </div>
     <div class="sort_items" v-else>
@@ -93,6 +97,30 @@
       .sort_title{
         padding:15px 20px;
         border-bottom: 1px dashed #eee;
+        @include flex(space-between)
+        h1:before{
+          font-family:"iconfont" !important;
+          content:'\e648';
+          margin-right:5px;
+          color:#999;
+        }
+        .input_box{
+          position: relative;
+          input{
+            border:1px solid $border;
+            line-height: 2;
+            height:30px;
+            padding-left:10px;
+            padding-right:40px;
+          }
+          .input_btn{
+            @include position(0,auto,auto,5)
+            font-size: 20px;
+            border-left:1px solid $border;
+            padding-left:5px;
+            cursor: pointer;
+          }
+        }
       }
       .sort_body{
         padding:15px 20px;
@@ -143,19 +171,21 @@
             padding-left:0
           }
           .iconfont{
-            @include block(20)
+            @include block(24)
             height:16px;
+            line-height: 20px;
             text-align: center;
             vertical-align: text-bottom;
             transition:all .3s;
-            font-size: 14px;
+            font-size: 26px;
+            transform:rotate(180deg);
           }
           &.active{
             color:$blue;
           }
           &.up{
             .iconfont{
-              transform:rotate(180deg);
+              transform:rotate(0deg);
             }
           }
         }

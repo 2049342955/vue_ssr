@@ -1,15 +1,3 @@
 <template>
-  <article class="cloud_compute">
-  	<router-view></router-view>
-  </article>
+  <router-view></router-view>
 </template>
-
-<script>
-	export default {
-	  data () {
-	    return {
-	      banner: ''
-	    }
-	  }
-	}
-</script>
