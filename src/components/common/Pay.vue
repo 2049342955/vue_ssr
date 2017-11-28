@@ -265,16 +265,20 @@
         } else {
           callbackUrl = location.protocol + '//' + location.host
         }
+        if (!ff.accept.checked) {
+          this.tip(mobile, '请同意服务条款', ff.accept)
+          return false
+        }
         if (mobile === 1) {
           callbackUrl += '/mobile/'
         } else {
           callbackUrl += '/user/'
         }
-        if (!ff.accept.checked) {
-          this.tip(mobile, '请同意服务条款', ff.accept)
-          return false
-        }
         if (this.$route.params.type === '1') {
+          if (!this.addressData.length) {
+            this.tip(mobile, '请添加地址', ff.accept)
+            return false
+          }
           url = 'saveMiner'
           callbackUrl += 'order/3/1'
           if (this.payNo === 2) {
