@@ -81,14 +81,14 @@
       </div>
     </div>
     <div class="info">
-      <ul>
+      <div class="infoul">
         <template v-if="$route.params.type!=='1'">
-          <li v-for="n,k in infolists" @click="tabs($event, k)" :class="{'active': show===k}">{{n[k]}}</li>
+          <div v-for="n,k in infolists" @click="tabs($event, k)" :class="{'active': show===k}">{{n[k]}}</div>
         </template>
         <template v-else>
-          <li v-for="d,m in infolist" @click="tabs($event, m)" :class="{'active': show===m}">{{d[m]}}</li>
+          <div v-for="d,m in infolist" @click="tabs($event, m)" :class="{'active': show===m}">{{d[m]}}</div>
         </template>
-      </ul>
+      </div>
       <div class="contentlength">
         <template v-if="$route.params.type!=='1'">
           <div class="contentyun" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief" style="display:block;"></div>
@@ -648,13 +648,13 @@
       box-shadow: #dfe0e1 0 5px 5px -3px;
       width: 1180px;
       margin:0 auto;
-      ul{
+      .infoul{
         padding:0;
         margin:0;
         border-bottom:1px solid #e5e5e5;
         width: 100%;
         overflow: hidden;
-        li{
+        div{
           float: left;
           width: 75px;
           color:#333333;
