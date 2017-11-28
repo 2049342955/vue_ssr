@@ -28,7 +28,7 @@
           <p class="miner_number">库存{{$parent.leftNum}}台<span>（最少购买{{parseInt($parent.detail.single_limit_amount)||1}}台）</span></p>
         </div>
         <button class="btn" v-if="$parent.detail.status===1" @click="checkPay">立即支付</button>
-        <button class="btn" disabled v-else-if="$parent.detail.status===2">已售馨</button>
+        <button class="btn" disabled v-else-if="$parent.detail.status===2" style="background:#c3bbba;">已售馨</button>
         <button class="btn" disabled v-else-if="$parent.detail.status===3">产品撤销</button>
       </div>
     </div>
@@ -75,7 +75,7 @@
         </div>
         <div class="price_text1">需支付：<span class="money">{{$parent.totalPrice|format}}元</span></div>
         <div class="price_text1">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
-        <button class="btn" disabled v-if="$parent.leftStatus">已售罄</button>
+        <button class="btn" disabled v-if="$parent.leftStatus" style="background:#c3bbba;">已售罄</button>
         <button :class="['btn buy_btn', {error: $parent.buyStatus===1}, {over: $parent.buyStatus===2}]" v-else @click="checkPay($event, false)">立即支付</button>
         <button class="btn loan_btn" @click="checkPay($event, true)" v-if="$parent.rateshow&&!$parent.leftStatus">分期购买</button>
       </div>
