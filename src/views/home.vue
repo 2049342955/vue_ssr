@@ -6,7 +6,7 @@
     <div class="nav_box" v-if="isMobile">
       <router-link class="item" :to="n.url" v-for="n,k in nav" :key="k">
         <div class="item_img">
-          <img :src="require('@/assets/images/nav'+(k+1)+'.png')" alt="">
+          <img :src="require('@/assets/images/mobile/nav'+(k+1)+'.png')" alt="">
         </div>
         <div class="item_text">
           <h3>{{n.title}}</h3>
@@ -20,7 +20,7 @@
         <img :src="wqImg" alt="" class="pre">
         <div class="text">
           <img src="../assets/images/server.png" style="width:800px;display:block;margin:0 auto;"/>
-          <router-link to="/minerShop/miner/1/all">即刻体验</router-link>
+          <router-link to="/minerShop/list">即刻体验</router-link>
         </div>
       </div>
       <div class="home_text">
@@ -72,7 +72,6 @@
         </div>
       </div>
       <SideBar></SideBar>
-      <!-- <mills-list></mills-list> -->
     </template>
   </article>
 </template>
@@ -82,7 +81,6 @@
   import Swiper from '../components/common/Swipe'
   import Chart from '../components/home/Chart'
   import MyData from '../components/home/DataList'
-  // import MillsList from '../components/home/MillsList'
   import WebInfo from '../components/home/WebInfo'
   import SideBar from '../components/home/SideBar'
   import DataChart from '../components/home/DataChart'
@@ -101,7 +99,7 @@
         dataTitle: ['算力网BDC中心分布', '比特币全球节点数', '算力网注册用户数', '交易总算力'],
         dataSrc: 0,
         mapType: 1,
-        nav: [{title: '矿机商城', desc: '无忧购买矿机', url: '/minerShop/miner/1/all'}, {title: 'BDC托管', desc: '多个BDC中心', url: '/bdc'}, {title: '产业资讯', desc: '掌握产业动态', url: '/mobile/information'}],
+        nav: [{title: '矿机商城', desc: '无忧购买矿机', url: '/minerShop/list'}, {title: 'BDC托管', desc: '多个BDC中心', url: '/bdc'}, {title: '产业资讯', desc: '掌握产业动态', url: '/mobile/information'}],
         data: [1, 1, 1]
       }
     },

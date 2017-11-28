@@ -15,6 +15,7 @@
   import Regist from '@/components/auth/Regist'
   import PasswordRetrieval from '@/components/auth/PasswordRetrieval'
 // miner
+  import MinerList from '@/components/miner/MinerList'
   import Miner from '@/components/miner/Miner'
   import MinerDetail from '@/components/miner/Detail'
   import Mining from '@/components/miner/Mining'
@@ -121,12 +122,12 @@
         next()
       },
       children: [{
+        path: 'list',
+        name: 'minerList',
+        component: MinerList
+      }, {
         path: 'miner/:type/:sort',
         name: 'miner',
-        component: Miner
-      }, {
-        path: 'cloudMiner',
-        name: 'cloudMiner',
         component: Miner
       }, {
         path: 'detail/:id/:type',

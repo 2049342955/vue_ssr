@@ -1,9 +1,9 @@
 <template>
   <section class="product_list">
     <div class="box">
-      <Sort :page="page" :sort="sort"></Sort>
+      <slot></slot>
       <div class="data">
-        <div class="item" v-for="d,k in $parent.computeDate" @click="goPay(d.id, d.sell_type)" :disabled="d.status&&(d.status===2||d.status===3)||(d.amount-d.buyed_amount<=0)">
+        <div class="item" v-for="d,k in $parent.computeDate" @click="goPay(d.id, d.sell_type, page==='compute'?d.product_name:d.name)" :disabled="d.status&&(d.status===2||d.status===3)||(d.amount-d.buyed_amount<=0)">
           <h3>{{page==='compute'?d.product_name:d.name}}<span :class="'icon_currency '+d.hashtype&&d.hashtype.name" v-if="d.hashtype"></span><span :class="['sell_type', {active: d.sell_type===2}]" v-if="$parent.active!==0&&page==='minerShop'&&d.status!==7">{{(d.sell_type===2&&'转售')||str[d.status]}}</span></h3>
           <div class="info_box">
             <template v-for="n,i in dataNav">
@@ -65,15 +65,8 @@
 </template>
 
 <script>
-  import Sort from '@/components/common/Sort'
   export default {
-    components: {
-      Sort
-    },
     props: {
-      sort: {
-        type: Array
-      },
       dataNav: {
         type: Object
       },
@@ -87,7 +80,7 @@
       }
     },
     methods: {
-      goPay (id, selltype) {
+      goPay (id, selltype, name) {
         if (selltype === 2) {
           this.$router.push({path: '/' + this.page + '/detail/' + id + '/0'})
         } else if (this.$parent.active === 0) {
@@ -103,11 +96,14 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .product_list{
-    background: #f7f8fa;
     padding-top:20px;
     padding-bottom:30px;
+    background: #f6f7f9;
     .box{
       @include main
+      h2{
+        @include data_title
+      }
       .data{
         .item{
           padding:30px 50px;

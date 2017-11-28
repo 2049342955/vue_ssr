@@ -1,118 +1,135 @@
 <template>
   <section class="pay">
-    <div class="orderMsg">
-      <h3 class="title">确认订单信息</h3>
-      <div class="orderDetail">
-        <div class="order_detail_info1">
-          <template v-for="d,k in proData">
-            <div class="item">
-              <p class="value" v-if="k==='number'&&page==='minerShop'"><span>{{$parent.number}}{{d.unit}}</span></p>
-              <p class="value" v-else-if="k==='number'&&page!=='minerShop'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
-              <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
-              <p>{{d.title}}</p>
+    <div class="left_box">
+      <div class="order_msg">
+        <h3 class="title">确认订单信息</h3>
+        <div class="orderDetail">
+          <div class="order_detail_info1">
+            <template v-for="d,k in proData">
+              <div class="item">
+                <p class="value" v-if="k==='number'&&page==='minerShop'"><span>{{$parent.number}}{{d.unit}}</span></p>
+                <p class="value" v-else-if="k==='number'&&page!=='minerShop'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
+                <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
+                <p>{{d.title}}</p>
+              </div>
+              <div class="line"></div>
+            </template>
+          </div>
+          <div class="order_detail_info2" v-if="$route.params.type!=='1'">
+            <div class="item" v-for="t,k in proText">{{t}}：
+              <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
+              <span class="value" v-else-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
+              <span class="value" v-else>{{$parent.detail[k]}}</span>
             </div>
-            <div class="line"></div>
-          </template>
-        </div>
-        <div class="order_detail_info2" v-if="$route.params.type!=='1'">
-          <p v-for="t,k in proText">{{t}}：
-            <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
-            <span class="value" v-else-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
-            <span class="value" v-else>{{$parent.detail[k]}}</span>
-          </p>
-        </div>
-        <!-- <div class="address_input" @click="openContract(2)" v-else>
-          <template v-if="addressData">{{decodeURIComponent(addressData.province_name+addressData.city_name+addressData.area_name+addressData.area_details+' '+addressData.post_user)+'('+addressData.post_mobile+')'}}</template>
-          <template v-else>+ 添加地址</template>
-        </div> -->
-      </div>
-    </div>
-    <div class="orderMsg" v-show="$parent.show">
-      <h3 class="title">分期详情</h3>
-      <div class="orderDetail">
-        <div class="order_detail_info1">
-          <template v-for="d,k in proData3">
-            <div class="item">
-              <p class="value" v-if="k==='number'&&page==='minerShop'"><span>{{$parent.number}}{{d.unit}}</span></p>
-              <p class="value" v-else-if="k==='number'&&page!=='minerShop'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
-              <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
-              <p>{{d.title}}</p>
-            </div>
-            <div class="line"></div>
-          </template>
-        </div>
-        <div class="order_detail_info2">
-          <p>
-            <span>分期期限 ： </span>
-            <select @change="$parent.onChange" class="mont">
-              <option v-for="n,k in $parent.month" :value="k">{{n}}个月</option>
-            </select>
-          </p>
-          <p v-for="t,k in proText3">{{t}}：
-            <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
-            <span class="value" v-else-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
-            <span class="value" v-else>{{$parent.detail[k]}}</span>
-          </p>
-          <p><a href="javascript:;" @click="close(true)">查看分期计划</a></p>
+          </div>
+          <!-- <div class="address_input" @click="openContract(2)" v-else>
+            <template v-if="addressData">{{decodeURIComponent(addressData.province_name+addressData.city_name+addressData.area_name+addressData.area_details+' '+addressData.post_user)+'('+addressData.post_mobile+')'}}</template>
+            <template v-else>+ 添加地址</template>
+          </div> -->
         </div>
       </div>
-    </div>
-    <div class="orderPay">
-      <div class="detail">
-        <img :src="$parent.detail.product_img||$parent.detail.minerPicture" alt="">
+      <div class="order_msg" v-show="$parent.show">
+        <h3 class="title">分期详情</h3>
+        <div class="orderDetail">
+          <div class="order_detail_info1">
+            <template v-for="d,k in proData3">
+              <div class="item">
+                <p class="value" v-if="k==='number'&&page==='minerShop'"><span>{{$parent.number}}{{d.unit}}</span></p>
+                <p class="value" v-else-if="k==='number'&&page!=='minerShop'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
+                <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
+                <p>{{d.title}}</p>
+              </div>
+              <div class="line"></div>
+            </template>
+          </div>
+          <div class="order_detail_info2">
+            <p>
+              <span>分期期限 ： </span>
+              <select @change="$parent.onChange" class="mont">
+                <option v-for="n,k in $parent.month" :value="k">{{n}}个月</option>
+              </select>
+            </p>
+            <p v-for="t,k in proText3">{{t}}：
+              <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
+              <span class="value" v-else-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
+              <span class="value" v-else>{{$parent.detail[k]}}</span>
+            </p>
+            <p><a href="javascript:;" @click="close(true)">查看分期计划</a></p>
+          </div>
+        </div>
       </div>
-      <form class="form payForm" action="" @submit.prevent="pay" novalidate>
+      <div class="order_msg order_pay">
+        <h3 class="title">支付订单信息</h3>
         <div class="pay_text">
           <div class="pay_value">
-            应付金额：
-            <span class="value">{{(page==='minerShop'?totalPrice:$parent.detail.total_price)|format}}</span>
-            <span>元</span>
+            <input class="radio" type="radio">
+            <span>账户余额{{$parent.balance}}元</span>
+          </div>
+          <div class="pay_info">
+            <span>金额不足，可先</span>
+            <router-link to="/user/recharge">充值</router-link>
           </div>
         </div>
         <div class="pay_text">
-          <div class="pay_money">
-            账户余额：
-            <span class="money">{{$parent.balance}}</span>
+          <div class="pay_value">
+            <input class="radio" type="radio">
+            <span>支付宝</span>
+          </div>
+          <div class="pay_info">
+            <span>支付</span>
+            <span class="money">{{(page==='minerShop'?totalPrice:$parent.detail.total_price)|format}}</span>
             <span>元</span>
           </div>
-          <router-link to="/user/recharge">充值</router-link>
         </div>
-        <FormField :form="form" class="form"></FormField>
-        <label for="accept">
-          <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
-          <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'minerShop'? '销售':'转让'}}协议》</a><template v-if="$route.params.type!=='1'">和<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
-          <span class="select_accept">{{tips}}</span>
-        </label>
-        <button name="btn">确认支付</button>
-        <!-- <div class="zhifubao_btn" @click="zhifubao">支付宝支付</div> -->
-      </form>
+        <form class="form payForm" action="" @submit.prevent="pay" novalidate>
+          <FormField :form="form" class="form"></FormField>
+          <label for="accept">
+            <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
+            <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'minerShop'? '销售':'转让'}}协议》</a><template v-if="$route.params.type!=='1'">和<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
+            <span class="select_accept">{{tips}}</span>
+          </label>
+          <button name="btn">确认支付</button>
+          <!-- <div class="zhifubao_btn" @click="zhifubao">支付宝支付</div> -->
+        </form>
+      </div>
+      <div class="installment_plan" v-show="showpay">
+        <div class="opacity">
+          <p class="title">分期计划<span @click="close(false)"><img :src="close2" style="width:12px;height:12px;position:relative;top:-6px;"/></span></p>
+          <div class="item" style="overflow:hidden;">
+            <p  v-for="n,k in $parent.items">{{n.title}} : {{$parent.detail[k]}}{{n.unit}}</p>
+          </div>
+          <table border="1" style="margin-top:24px;">
+             <thead>
+               <tr>
+                 <th>期数</th>
+                 <th>还款日期</th>
+                 <th>分期余额</th>
+                 <th>手续费</th>
+                 <th>本期还款额</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr v-for="n,k in $parent.table">
+                 <td>{{n.rate}}</td>
+                 <td>{{n.datetime}}</td>
+                 <td>{{n.loan_money_balance}}</td>
+                 <td>{{n.fee}}</td>
+                 <td>{{n.repaymoney}}</td>
+               </tr>
+             </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-    <div class="Installment_plan" v-show="showpay">
-      <div class="opacity">
-        <p class="title">分期计划<span @click="close(false)"><img :src="close2" style="width:12px;height:12px;position:relative;top:-6px;"/></span></p>
-        <div class="item" style="overflow:hidden;">
-          <p  v-for="n,k in $parent.items">{{n.title}} : {{$parent.detail[k]}}{{n.unit}}</p>
-        </div>
-        <table border="1" style="margin-top:24px;">
-           <thead>
-             <tr>
-               <th>期数</th>
-               <th>还款日期</th>
-               <th>分期余额</th>
-               <th>手续费</th>
-               <th>本期还款额</th>
-             </tr>
-           </thead>
-           <tbody>
-             <tr v-for="n,k in $parent.table">
-               <td>{{n.rate}}</td>
-               <td>{{n.datetime}}</td>
-               <td>{{n.loan_money_balance}}</td>
-               <td>{{n.fee}}</td>
-               <td>{{n.repaymoney}}</td>
-             </tr>
-           </tbody>
-        </table>
+    <div class="right_box">
+      <div class="order_title">订单信息</div>
+      <div class="item">
+        <span>总算力</span>
+        <span>{{$parent.number*$parent.detail.hash}}T</span>
+      </div>
+      <div class="item">
+        <span>支付金额</span>
+        <span class="price">￥{{(page==='minerShop'?totalPrice:$parent.detail.total_price)|format}}元</span>
       </div>
     </div>
     <div class="mobile_box">
@@ -416,207 +433,217 @@
   .pay{
     @include main
     color: #999;
-    .orderMsg{
-      background: #fff;
-      padding: 0 30px 15px;
-      h3.title{
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-        padding: 10px 0;
-        border-bottom: 1px solid #eee;
-      }
-      .orderDetail{
-        margin-top: 20px;
-        color: #999;
-        .value{
-          color:#333;
+    @include flex(flex-start,flex-start)
+    .left_box{
+      width:calc(100% - 280px);
+      .order_msg{
+        background: #fff;
+        h3.title{
+          font-size: 16px;
+          font-weight: bold;
+          color: #333;
+          padding: 10px 15px;
+          border-top: 2px solid $blue_border;
+          background: #FAFAFA;
         }
-        .order_detail_info1{
-          @include flex(space-between);
-          background: #fff9f3;
-          padding: 25px;
-          text-align: center;
-          .item{
-            .value span{
-              font-size: 20px;
+        .orderDetail{
+          margin-top: 20px;
+          color: #999;
+          .value{
+            color:#333;
+          }
+          .order_detail_info1{
+            @include flex(space-between);
+            background: #fff9f3;
+            padding: 25px;
+            text-align: center;
+            .item{
+              .value span{
+                font-size: 20px;
+              }
+            }
+            .line:not(:last-child){
+              width:1px;
+              height:35px;
+              background: $border;
+            }
+            .line:last-child{
+              display: none;
             }
           }
-          .line:not(:last-child){
-            width:1px;
-            height:35px;
-            background: $border;
-          }
-          .line:last-child{
-            display: none;
+          .order_detail_info2{
+            @include flex(space-between);
+            margin: 20px 0;
+            border: 1px solid #eee;
+            padding: 20px 25px;
+            .item{
+              select{
+                width:178px;
+                height:22px;
+                border:1px solid #dcdcdc;
+                border-radius:4px;
+                background:#f7f8fa;
+                padding-left:15px;
+                font-size:12px;
+                box-sizing:border-box;
+                display:inline-block;
+              }
+              a{
+                color: #327fff;
+              }
+            }
           }
         }
-        .order_detail_info2{
-          @include flex(flex-start);
-          margin: 20px 0;
+        @include mobile_hide
+        .address_input{
           border: 1px solid #eee;
-          padding: 20px 25px;
-          p{
-            padding: 0 48px 0 42px;
-            select{
-              width:178px;
-              height:22px;
-              border:1px solid #dcdcdc;
-              border-radius:4px;
-              background:#f7f8fa;
-              padding-left:15px;
-              font-size:12px;
-              box-sizing:border-box;
-              display:inline-block;
-            }
-            a{
-              color: #327fff;
-            }
-          }
+          margin: 20px 0;
+          padding: 10px 25px;
+          text-align: center;
+          color:$orange;
+          cursor: pointer;
         }
       }
-      @include mobile_hide
-      .address_input{
-        border: 1px solid #eee;
-        margin: 20px 0;
-        padding: 10px 25px;
-        text-align: center;
-        color:$orange;
-        cursor: pointer;
-      }
-    }
-    .orderPay{
-      margin-top: 20px;
-      outline: 1px solid #ff975a;
-      border: 5px solid #ffe6d7;
-      background:$white;
-      padding: 20px 25px;
-      @include flex(space-between)
-      .detail{
-        width:50%;
-        background: #f7f8fa;
-        height: 290px;
-        img{
-          width:100%;
-          height:100%;
-          object-fit:cover
-        }
-      }
-      form{
-        @include form(v);
-        width:45%;
+      .order_pay{
+        margin-top: 20px;
+        background:$white;
         .pay_text{
-          margin-bottom: 20px;
+          padding:5px 0;
+          margin:0 15px;
           @include flex(space-between);
           color: $light_black;
+          border-bottom:1px solid $border;
           .pay_value{
-            span{
-              color: #c80009;
-              &.value{
-                font-size: 24px;
-                font-weight: bold;
-              }
+            input{
+              width:auto
             }
           }
-          .pay_money{
-            span{
-              color: $text;
-              &.money{
-                font-weight: bold;
-              }
+          .pay_info{
+            .money{
+              color:$orange;
+              font-weight: bold;
             }
           }
           a{
             color: #327fff;
           }
         }
-        .input,.input input{
-          line-height: 1.5;
+        form{
+          padding:15px;
+          @include form(v);
+          width:340px;
+          margin:30px auto 0 auto;
+          .input,.input input{
+            line-height: 1.5;
+          }
+          .input{
+            margin-bottom: 25px;
+            & > span:first-child,& > span:nth-child(2){
+              display: none;
+            }
+            input{
+              padding-left:15px;
+            }
+            & span:last-child{
+              top: 44px;
+              &:before{
+                top:0px
+              }
+            }
+          }
+          label{
+            @include accept_label
+          }
+          .zhifubao_btn{
+            font-size: 16px;
+            color:#fff;
+            padding:5px 10px;
+            cursor: pointer;
+            border-radius:5px;
+            background: $blue;
+            text-align: center;
+            line-height: 38px;
+          }
+          button{
+            background: #ff721f;
+            border-color: #ff721f;
+            margin: 10px 0;
+          }
         }
-        .input{
-          margin-bottom: 25px;
-          & span:last-child{
-            top: 44px;
-            &:before{
-              top:0px
+        @include mobile_hide
+      }
+      .installment_plan{
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.2);
+        left: 0;
+        top:0;
+        position: fixed;
+        .opacity{
+          width: 566px;
+          height: 472px;
+          background: white;
+          top:50%;
+          left: 50%;
+          margin-left: -333px;
+          margin-top:-386px;
+          position: absolute;
+          padding:0 43px;
+          box-sizing: border-box;
+          .title{
+            width: 100%;
+            text-align: center;
+            font-size: 18px;
+            margin-top: 37px;
+            color: black;
+            span{
+              font-size: 14px;
+              font-family: cursive;
+              position: absolute;
+              right: 0;
+              margin-right: 40px;
+              cursor: pointer;
+            }
+          }
+          .item{
+            width: 100%;
+            p{
+              float: left;
+              font-size: 14px;
+              color: black;
+              width: 50%;
+              text-align: left;
+              margin-top: 18px;
+            }
+          }
+          table{
+            width: 100%;
+            th{
+              color: black;
+              text-align: center;
+            }
+            td{
+              color: black;
+              text-align: center;
             }
           }
         }
-        label{
-          @include accept_label
-        }
-        .zhifubao_btn{
-          font-size: 16px;
-          color:#fff;
-          padding:5px 10px;
-          cursor: pointer;
-          border-radius:5px;
-          background: $blue;
-          text-align: center;
-          line-height: 38px;
-        }
-        button{
-          background: #ff721f;
-          border-color: #ff721f;
-          margin: 10px 0;
-        }
       }
-      @include mobile_hide
     }
-    .Installment_plan{
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.2);
-      left: 0;
-      top:0;
-      position: fixed;
-      .opacity{
-        width: 566px;
-        height: 472px;
-        background: white;
-        top:50%;
-        left: 50%;
-        margin-left: -333px;
-        margin-top:-386px;
-        position: absolute;
-        padding:0 43px;
-        box-sizing: border-box;
-        .title{
-          width: 100%;
-          text-align: center;
-          font-size: 18px;
-          margin-top: 37px;
-          color: black;
-          span{
-            font-size: 14px;
-            font-family: cursive;
-            position: absolute;
-            right: 0;
-            margin-right: 40px;
-            cursor: pointer;
-          }
-        }
-        .item{
-          width: 100%;
-          p{
-            float: left;
-            font-size: 14px;
-            color: black;
-            width: 50%;
-            text-align: left;
-            margin-top: 18px;
-          }
-        }
-        table{
-          width: 100%;
-          th{
-            color: black;
-            text-align: center;
-          }
-          td{
-            color: black;
-            text-align: center;
-          }
+    .right_box{
+      width:260px;
+      margin-left:20px;
+      border:1px solid $blue_border;
+      padding:15px 15px 30px 15px;
+      background: #F2F6FF;
+      line-height: 2.4;
+      color:$text;
+      .item{
+        border-top:1px solid $blue_border;
+        @include flex(space-between)
+        .price{
+          color:$orange;
+          font-weight: bold;
         }
       }
     }

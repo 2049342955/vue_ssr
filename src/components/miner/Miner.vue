@@ -1,18 +1,9 @@
 <template>
   <section class="compute_shop">
-    <div class="bg_box">
-      <div class="bg">
-        <h1>您最新的挖矿设备已经在运行！</h1>
-        <router-link to="/minerShop/mining" class="button">了解挖矿</router-link>
-      </div>
-    </div>
-    <ProductNav page="minerShop" v-if="active"></ProductNav>
-    <div class="miner_type">
-      <div class="box">
-        <span :class="[{active:active===k}]" v-for="n,k in nav" @click="changeType(k)">{{n}}</span>
-      </div>
-    </div>
-    <ProductList :sort="sort" :dataNav="dataNav" page="minerShop"></ProductList>
+    <!-- <ProductNav page="minerShop" v-if="active"></ProductNav> -->
+    <Sort :sort="sort"></Sort>
+    <MyCloud :items="items" v-if="$route.params.type==='1'"></MyCloud>
+    <ProductList :dataNav="dataNav" page="minerShop" v-else></ProductList>
     <Pager :len="len"></Pager>
     <SideBar></SideBar>
   </section>
@@ -23,41 +14,48 @@
   import api from '@/util/function'
   import { mapState } from 'vuex'
   import ProductList from '../common/ProductList'
+  import MyCloud from '@/components/miner/CloudMiner'
   import ProductNav from '../common/ProductNav'
   import Pager from '@/components/common/Pager'
   import SideBar from '@/components/home/SideBar'
+  import Sort from '@/components/common/Sort'
   export default {
     components: {
-      ProductList, ProductNav, Pager, SideBar
+      ProductList, ProductNav, Pager, SideBar, Sort, MyCloud
     },
     data () {
       return {
         computeDate: [],
         sort: [{title: '价格', option: ['price_asc', 'price_desc'], value: 0}, {title: '算力', option: ['base_asc', 'base_desc'], value: 0}, {title: '出售总数', option: ['num_asc', 'num_desc'], value: 0}],
         dataNav: {'one_amount_value': {title: '每台服务器价格', unit: '元'}, 'hash': {title: '每台服务器算力', unit: 'T'}, 'buyed_amount': {title: '出售服务器总数', unit: '台'}, 'leftNum': {title: '剩余可售服务器', unit: '台'}},
+        items: {'one_amount_value': {title: '服务器单价', unit: '元'}, 'hash': {title: '算力', unit: 'T'}, 'buyed_amount': {title: '出售总数', unit: '台'}},
+        itemDetail: [],
         len: 0,
         now: 1,
         show: false,
-        active: 0,
         nav: ['矿机超市', '云矿机商城']
       }
     },
     methods: {
       fetchData () {
         var self = this
-        var obj = {token: this.token, page: this.now}
+        var obj = {token: this.token, page: this.now, product_type: '1'}
         var url = ''
         if (this.$route.params.sort !== 'all') {
           obj = Object.assign({sort: this.$route.params.sort}, obj)
         }
-        if (this.active === 0) {
+        if (this.$route.params.type === '1') {
           url = 'showList'
         } else {
           url = 'productList'
-          obj = Object.assign({product_type: this.$route.params.type}, obj)
         }
         util.post(url, {sign: api.serialize(obj)}).then(function (res) {
           api.checkAjax(self, res, () => {
+            if (self.$route.params.type === '1') {
+              self.itemDetail = res.data
+            } else {
+              self.computeDate = res.data
+            }
             self.computeDate = res.data
             self.show = !res.data.length
             if (self.now > 1) return false
@@ -66,10 +64,6 @@
         })
       },
       getList () {
-        this.fetchData()
-      },
-      changeType (k) {
-        this.active = k
         this.fetchData()
       }
     },
@@ -92,73 +86,7 @@
   @import '../../assets/css/style.scss';
   @import '../../assets/fonts/iconfont.css';
   .compute_shop{
-    .bg_box{
-      @include bg(1920,420px,#1863f0)
-      .bg{
-        background:url(../../assets/images/minerShop.jpg) no-repeat;
-        h1{
-          width: 100%;
-          text-align: center;
-          font-size: 35px;
-          color: white;
-          margin-top:163px;
-          margin-bottom: 30px;
-        }
-        .button{
-          width: 190px;
-          height: 45px;
-          display: block;
-          text-align: center;
-          line-height: 45px;
-          border-radius: 5px;
-          background: white;
-          border:0;
-          position: absolute;
-          left: 50%;
-          margin-left: -95px;
-          color: #327fff;
-          font-size: 16px;
-          z-index: 9999;
-          cursor: pointer !important;
-        }
-        .button:hover{
-          cursor: pointer !important;
-        }
-      }
-      @include mobile_hide
-    }
-    .miner_type{
-      padding-top:40px;
-      background: #f7f8fa;
-      margin-top: -20px;
-      .box{
-        @include main
-        font-size: 20px;
-        color:$light_black;
-        font-weight: bold;
-        span{
-          cursor: pointer;
-          & + span{
-            margin-left:20px;
-            &:before{
-              content:'|';
-              padding-right:20px;
-              font-weight:normal;
-              font-size: 16px;
-              color:$border;
-              vertical-align: text-bottom;
-            }
-          }
-        }
-        span.active{
-          color:$text;
-        }
-        @media screen and (max-width: $mobile) {
-          padding:0 15px;
-          font-size: 0.7rem;
-        }
-      }
-    }
+    background: #f7f8fa;
     .pager{
       background: #f7f8fa;
       padding-top:0;
@@ -172,8 +100,6 @@
       @include mobile_hide
     }
     .sort{
-      border:0;
-      border-bottom: 1px solid #e8e8e8;
       @include mobile_hide
     }
   }

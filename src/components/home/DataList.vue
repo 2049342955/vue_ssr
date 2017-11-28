@@ -6,7 +6,7 @@
           <span>矿机推荐</span>
           <span>全球算力输出服务由保全网提供全流程区块链存证、保全服务</span>
         </div>
-        <router-link to="/minerShop/miner/1/all">更多矿机 ></router-link>
+        <router-link to="/minerShop/list">更多矿机 ></router-link>
       </h2>
       <table>
         <tr>
@@ -112,46 +112,21 @@
     margin:60px 0;
     overflow: hidden;
     .btn{
-              border:0;
-              width:145px;
-              color: $orange;
-              text-align: center;
-              line-height: 48px;
-              border-radius:5px;
-              background: transparent;
-              &:disabled{
-                cursor: no-drop;
-                color:$light_black
-              }
-            }
+      border:0;
+      width:145px;
+      color: $orange;
+      text-align: center;
+      line-height: 48px;
+      border-radius:5px;
+      background: transparent;
+      &:disabled{
+        cursor: no-drop;
+        color:$light_black
+      }
+    }
     .box{
       h2{
-        @include flex(space-between)
-        @include gap(15,v,margin);
-        @include main
-        position: relative;
-        top: -20px;
-        span:nth-child(1){
-          font-size: 24px;
-          font-weight: bold;
-        }
-        span:nth-child(2){
-          width:452px;
-          height:27px;
-          margin-left:20px;
-          font-size: 16px;
-          background: linear-gradient(to right, #b28850, #cfa972);
-          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b28850', endColorstr='#cfa972',GradientType=1 );
-          color:$white;
-          padding:3px 10px
-        }
-        a{
-          font-size: 16px;
-          color:#999;
-          &:hover{
-            color:$blue
-          }
-        }
+        @include data_title
       }
       table{
         @include table;

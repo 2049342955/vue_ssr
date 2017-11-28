@@ -1,9 +1,7 @@
 <template>
   <section class="compute_detail">
-    <div class="main">
-      <Pay v-if="next" page="minerShop" :proData="$route.params.type!=='1'?proData2:proData4" :proText="proText2" :proData3="proData3" :proText3="proText3"></Pay>
-      <Product v-else page="minerShop" :proData="proData" :proText="proText"></Product>
-    </div>
+    <Pay v-if="next" page="minerShop" :proData="$route.params.type!=='1'?proData2:proData4" :proText="proText2" :proData3="proData3" :proText3="proText3"></Pay>
+    <Product v-else page="minerShop" :proData="proData" :proText="proText"></Product>
   </section>
 </template>
 
@@ -188,19 +186,3 @@
     }
   }
 </script>
-
-<style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
-  .compute_detail{
-    padding-top: 30px;
-    padding-bottom: 110px;
-    background: #f7f8fa;
-    .main{
-      @include main
-    }
-    @media screen and (max-width: $mobile) {
-      padding:0;
-      min-height: 100vh;
-    }
-  }
-</style>
