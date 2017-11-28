@@ -47,7 +47,7 @@
         </div>
         <div class="order_info" style="margin-bottom:42px;">
           <span class="infot_left">批次所在区域位于</span>
-          <span class="infot_right" style="font-weight: 100;">内时候傻逼徐水县现世现报是瞎写</span>
+          <span class="infot_right" style="font-weight: 100;">{{$parent.detail.has_product_miner_base.batch_area}}</span>
         </div>
       </div>
       <div class="order_msg" v-show="$parent.show">
@@ -161,7 +161,7 @@
         </div>
       </form>
     </div>
-    <MyMask :form="address" :title="title" :contract="contract" v-if="edit"></MyMask>
+    <MyMask :form="address" :title="title" :contract="contract" :val="addressObject" v-if="edit"></MyMask>
     <mt-popup position="bottom" v-model="mobileEdit" :closeOnClickModal="false">
       <div class="close" @click="closeEdit(1)">
         <span class="icon"></span>
@@ -180,7 +180,7 @@
   import util from '@/util/index'
   import api from '@/util/function'
   import FormField from '@/components/common/FormField'
-  import MyMask from '@/components/common/Mask'
+  import MyMask from '@/components/common/AddressMask'
   import md5 from 'js-md5'
   export default {
     props: {
@@ -228,9 +228,10 @@
         mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, batch_area: {title: '批次所在区域', unit: ''}},
         mobileNav2: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, hash: {title: '每台服务器算力', unit: 'T'}},
         mobileNav: {},
-        address: [{name: 'post_user', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'post_mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号码', pattern: 'tel'}, {name: 'address', type: 'select', title: '地址', isChange: true}, {name: 'area_details', type: 'text', title: '详细地址', placeholder: '请输入详细地址', isChange: true}],
+        address: [{name: 'post_user', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'post_mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号码', pattern: 'tel'}, {name: 'address', type: 'select', title: '地址', isChange: true}, {name: 'area_details', type: 'text', title: '详细地址', placeholder: '请输入详细地址', isChange: true}, {name: 'is_default', type: 'radio', title: '是否设为默认地址'}],
         isMobile: false,
         addressData: [],
+        addressObject: {},
         addressNo: 0,
         payNo: 1,
         check1: 0
@@ -247,32 +248,33 @@
           this.tip(mobile, '余额不足，请充值', ff.accept)
           return false
         }
-        if (!val) {
-          this.tip(mobile, '交易密码不能为空', ff.accept)
-          return false
-        } else if (!api.check('^[0-9]{6}$', ff[0].value)) {
-          if (mobile === 1) {
-            Toast({
-              message: '请输入6位数字',
-              position: 'middle',
-              duration: 3000
-            })
+        if (this.payNo === 1) {
+          if (!val) {
+            this.tip(mobile, '交易密码不能为空', ff.accept)
+            return false
+          } else if (!api.check('^[0-9]{6}$', ff[0].value)) {
+            if (mobile === 1) {
+              Toast({
+                message: '请输入6位数字',
+                position: 'middle',
+                duration: 3000
+              })
+            }
+            return false
           }
-          return false
         }
         if (!ff.accept.checked) {
           this.tip(mobile, '请同意服务条款', ff.accept)
           return false
         }
+        // mode: '2'  applyBalanceRecharge
         if (this.$route.params.type === '1') {
-          if (!this.addressData) {
-            this.tip(mobile, '请填写收货地址', ff.accept)
-            this.openContract(2, mobile)
-            return false
-          }
           url = 'saveMiner'
-          data = Object.assign({user_id: this.$parent.user_id, miner_id: this.$route.params.id, number: this.$parent.number}, data, this.addressData)
+          data = Object.assign({post_id: this.addressData[this.addressNo].id, user_id: this.$parent.user_id, miner_id: this.$route.params.id, number: this.$parent.number}, data)
           callbackUrl = 'order/3/1'
+          if (this.payNo === 2) {
+            data = Object.assign({mode: '2'}, data)
+          }
         } else {
           if (this.page === 'minerShop') {
             if (this.$parent.show) {
@@ -282,14 +284,18 @@
               } else if (this.check1 === 1) {
                 rate = 6
               }
-              console.log(rate)
               url = 'productMallLoan'
               data = Object.assign({product_id: this.$route.params.id, rate_name: rate, num: this.$parent.number}, data)
               callbackUrl = 'repayment/0'
             } else {
-              url = 'productMall'
-              data = Object.assign({product_id: this.$route.params.id, num: this.$parent.number}, data)
+              data = Object.assign({product_id: this.$route.params.id, number: this.$parent.number}, data)
               callbackUrl = 'order/0/1'
+              if (this.payNo === 2) {
+                url = 'applyBalanceRecharge'
+                data = Object.assign({mode: '1'}, data)
+              } else {
+                url = 'productMall'
+              }
             }
           } else {
             url = 'doTransfer_Hashrate'
@@ -306,7 +312,7 @@
             } else {
               callbackUrl = '/user/' + callbackUrl
             }
-            self.paySuccess(mobile, callbackUrl)
+            self.paySuccess(mobile, callbackUrl, res)
           }, ff.btn)
         })
       },
@@ -357,7 +363,7 @@
           this.check(ele, str)
         }
       },
-      paySuccess (mobile, url) {
+      paySuccess (mobile, url, data) {
         var str = '恭喜您购买成功！'
         if (mobile === 1) {
           Toast({
@@ -366,13 +372,29 @@
             duration: 3000
           })
           setTimeout(() => {
-            this.$router.push({path: url})
+            if (this.payNo === 2) {
+              this.alipay(mobile, url, data)
+            } else {
+              this.$router.push({path: url})
+            }
           }, 3000)
         } else {
           api.tips(str, () => {
-            this.$router.push({path: url})
+            if (this.payNo === 2) {
+              this.alipay(mobile, url, data)
+            } else {
+              this.$router.push({path: url})
+            }
           })
         }
+      },
+      alipay (mobile, url, data) {
+        var self = this
+        util.post('alipay', {sign: api.serialize(Object.assign({is_mobile: mobile, url: url, token: self.$parent.token}, data))}).then((resData) => {
+          api.checkAjax(self, data, () => {
+            location.href = resData.url
+          })
+        })
       },
       openMask (mobile, n) {
         window.scroll(0, 0)
@@ -391,7 +413,7 @@
         var self = this
         util.post('addAddress', {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.addressData.push(data)
+            self.getAddress()
             self.prompt('添加成功')
             self.closeEdit(self.isMobile)
           }, form.btn)
@@ -405,6 +427,7 @@
         util.post('setDefault', {sign: api.serialize({token: this.$parent.token, post_id: id})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.prompt('设置成功')
+            self.getAddress()
           })
         })
       },
@@ -436,6 +459,14 @@
       },
       setAssept (e) {
         this.accept = e.target.checked
+      },
+      getAddress () {
+        var self = this
+        util.post('showAddress', {sign: api.serialize({token: this.$parent.token, user_id: this.$parent.user_id})}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.addressData = res
+          })
+        })
       }
     },
     mounted () {
@@ -453,12 +484,7 @@
       } else {
         this.mobileNav = this.mobileNav1
       }
-      var self = this
-      util.post('showAddress', {sign: api.serialize({token: this.$parent.token, user_id: this.$parent.user_id})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.addressData = res
-        })
-      })
+      this.getAddress()
     },
     filters: {
       format: api.decimal

@@ -4,7 +4,8 @@
       <div class="close" @click="$parent.closeEdit()">
         <span class="icon"></span>
       </div>
-      <form class="form form_content" @submit.prevent="$parent.submit" novalidate>
+      <h2>{{title}}</h2>
+      <form class="form form_content" @submit.prevent="$parent.submit" novalidate v-if="!contract">
         <div class="form_field">
           <template v-for="f in form">
             <div class="input" v-if="f.type!=='radio'">
@@ -32,6 +33,7 @@
         </div>
         <button name="btn">确认提交</button>
       </form>
+      <div class="contract" v-html="contract" v-else></div>
     </div>
   </section>
 </template>
@@ -57,6 +59,12 @@
       },
       val: {
         type: Object
+      },
+      title: {
+        type: String
+      },
+      contract: {
+        type: String
       }
     },
     methods: {
