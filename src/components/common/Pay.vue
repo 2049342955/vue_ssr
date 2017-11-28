@@ -248,7 +248,6 @@
           this.tip(mobile, '余额不足，请充值', ff.accept)
           return false
         }
-        console.log(this.payNo)
         if (this.payNo === 1) {
           if (!val) {
             this.tip(mobile, '交易密码不能为空', ff.accept)
@@ -263,6 +262,13 @@
             }
             return false
           }
+        } else {
+          callbackUrl = location.protocol + '//' + location.host
+        }
+        if (mobile === 1) {
+          callbackUrl += '/mobile/'
+        } else {
+          callbackUrl += '/user/'
         }
         if (!ff.accept.checked) {
           this.tip(mobile, '请同意服务条款', ff.accept)
@@ -270,12 +276,7 @@
         }
         if (this.$route.params.type === '1') {
           url = 'saveMiner'
-          callbackUrl = 'order/3/1'
-          if (mobile === 1) {
-            callbackUrl = location.protocol + '//' + location.host + '/mobile/' + callbackUrl
-          } else {
-            callbackUrl = location.protocol + '//' + location.host + '/user/' + callbackUrl
-          }
+          callbackUrl += 'order/3/1'
           if (this.payNo === 2) {
             data = Object.assign({url: callbackUrl, mode: '2'}, data)
           }
@@ -293,19 +294,14 @@
               data = Object.assign({product_id: this.$route.params.id, rate_name: rate, num: this.$parent.number}, data)
               callbackUrl = 'repayment/0'
             } else {
-              callbackUrl = 'order/0/1'
-              if (mobile === 1) {
-                callbackUrl = location.protocol + '//' + location.host + '/mobile/' + callbackUrl
-              } else {
-                callbackUrl = location.protocol + '//' + location.host + '/user/' + callbackUrl
-              }
+              callbackUrl += 'order/0/1'
               if (this.payNo === 2) {
                 url = 'applyBalanceRecharge'
                 data = Object.assign({url: callbackUrl, mode: '1'}, data)
               } else {
                 url = 'productMall'
               }
-              data = Object.assign({product_id: this.$route.params.id, number: this.$parent.number}, data)
+              data = Object.assign({product_id: this.$route.params.id, num: this.$parent.number, user_id: this.$parent.user_id}, data)
             }
           } else {
             url = 'doTransfer_Hashrate'
@@ -320,9 +316,6 @@
             self.paySuccess(mobile, callbackUrl, res)
           }, ff.btn)
         })
-      },
-      zhifubao (mobile) {
-        console.log(mobile)
       },
       openContract (n, mobile) {
         this.isMobile = (mobile === 1) && 1
@@ -371,30 +364,31 @@
       paySuccess (mobile, url, data) {
         var str = '恭喜您购买成功！'
         if (mobile === 1) {
-          Toast({
-            message: str,
-            position: 'middle',
-            duration: 3000
-          })
-          setTimeout(() => {
-            if (this.payNo === 2) {
-              this.alipay(mobile, url, data)
-            } else {
+          if (this.payNo === 2) {
+            this.alipay(mobile, url, data)
+          } else {
+            Toast({
+              message: str,
+              position: 'middle',
+              duration: 3000
+            })
+            setTimeout(() => {
               this.$router.push({path: url})
-            }
-          }, 3000)
+            }, 3000)
+          }
         } else {
-          api.tips(str, () => {
-            if (this.payNo === 2) {
-              this.alipay(mobile, url, data)
-            } else {
+          if (this.payNo === 2) {
+            this.alipay(mobile, url, data)
+          } else {
+            api.tips(str, () => {
               this.$router.push({path: url})
-            }
-          })
+            })
+          }
         }
       },
       alipay (mobile, url, data) {
         var self = this
+        data.subject = encodeURIComponent(data.subject)
         util.post('alipay_wap', {sign: api.serialize(Object.assign({is_mobile: mobile, url: url, token: self.$parent.token}, data))}).then((resData) => {
           api.checkAjax(self, data, () => {
             location.href = resData.url
