@@ -571,7 +571,7 @@
               color:#666666; 
             }
           }
-          &:nth-child(1) .item_word .num{
+          &:nth-child(1) .num{
             color: red;
           }
         }
