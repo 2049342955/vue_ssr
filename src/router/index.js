@@ -313,7 +313,15 @@
       {
         path: 'personcenter',
         name: 'mpersoncenter',
-        component: Mpersoncenter
+        component: Mpersoncenter,
+        beforeEnter: (to, from, next) => {
+          var data = localStorage.getItem('info')
+          if (!data) {
+            next({ name: 'login' })
+          } else {
+            next()
+          }
+        }
       },
       {
         path: 'notice',
@@ -338,7 +346,15 @@
       {
         path: 'property',
         name: 'mproperty',
-        component: Mproperty
+        component: Mproperty,
+        beforeEnter: (to, from, next) => {
+          var data = localStorage.getItem('info')
+          if (!data) {
+            next({ name: 'login' })
+          } else {
+            next()
+          }
+        }
       },
       {
         path: 'moneyFlow',

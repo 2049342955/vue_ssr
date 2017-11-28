@@ -172,9 +172,6 @@
       }
     },
     mounted () {
-      if (!this.token) {
-        this.$router.push({name: 'login'})
-      }
       this.getList()
     },
     computed: {
