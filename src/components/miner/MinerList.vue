@@ -202,9 +202,16 @@
         }
         @include mobile_hide
       }
+      @include mobile_hide
     }
     .millsList{
       padding-top: 120px;
+      @include mobile_hide
+    }
+    .product_list{
+      .box h2{
+        @include mobile_hide
+      }
     }
   }
 </style>
