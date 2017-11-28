@@ -270,11 +270,14 @@
         }
         if (this.$route.params.type === '1') {
           url = 'saveMiner'
-          if (this.payNo === 2) {
-            callbackUrl = location.protocol + '//' + location.host + '/user/order/3/1'
-            data = Object.assign({url: callbackUrl, mode: '2'}, data)
+          callbackUrl = 'order/3/1'
+          if (mobile === 1) {
+            callbackUrl = location.protocol + '//' + location.host + '/mobile/' + callbackUrl
           } else {
-            callbackUrl = 'order/3/1'
+            callbackUrl = location.protocol + '//' + location.host + '/user/' + callbackUrl
+          }
+          if (this.payNo === 2) {
+            data = Object.assign({url: callbackUrl, mode: '2'}, data)
           }
           data = Object.assign({post_id: this.addressData[this.addressNo].id, user_id: this.$parent.user_id, miner_id: this.$route.params.id, number: this.$parent.number}, data)
         } else {
@@ -290,13 +293,17 @@
               data = Object.assign({product_id: this.$route.params.id, rate_name: rate, num: this.$parent.number}, data)
               callbackUrl = 'repayment/0'
             } else {
+              callbackUrl = 'order/0/1'
+              if (mobile === 1) {
+                callbackUrl = location.protocol + '//' + location.host + '/mobile/' + callbackUrl
+              } else {
+                callbackUrl = location.protocol + '//' + location.host + '/user/' + callbackUrl
+              }
               if (this.payNo === 2) {
                 url = 'applyBalanceRecharge'
-                callbackUrl = location.protocol + '//' + location.host + '/user/order/0/1'
                 data = Object.assign({url: callbackUrl, mode: '1'}, data)
               } else {
                 url = 'productMall'
-                callbackUrl = 'order/0/1'
               }
               data = Object.assign({product_id: this.$route.params.id, number: this.$parent.number}, data)
             }
@@ -310,11 +317,6 @@
         ff.btn.setAttribute('disabled', true)
         util.post(url, {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
-            if (mobile === 1) {
-              callbackUrl = '/mobile/' + callbackUrl
-            } else {
-              callbackUrl = '/user/' + callbackUrl
-            }
             self.paySuccess(mobile, callbackUrl, res)
           }, ff.btn)
         })
