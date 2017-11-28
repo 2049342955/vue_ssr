@@ -1,9 +1,20 @@
 <template>
   <section class="pay">
     <div class="left_box">
+      <div class="order_msg" v-if="$route.params.type==='1'">
+        <h3 class="title">选择收货地址</h3>
+        <div class="address_box">
+          <div :class="['item',{active:k===addressNo}]" v-for="a,k in addressData">
+            <span @click="selectAddress(k)">{{a.province_name+a.city_name+a.area_name+a.area_details+'('+a.post_user+' 收) '+a.post_mobile}}</span>
+            <span v-if="a.is_default">默认地址</span>
+            <span class="set_default" v-else @click="setDefault(a.id)">设为默认地址</span>
+          </div>
+          <div class="address_btn" @click="openContract(2)">使用新地址</div>
+        </div>
+      </div>
       <div class="order_msg">
         <h3 class="title">确认订单信息</h3>
-        <div class="orderDetail">
+        <div class="order_detail">
           <div class="order_detail_info1">
             <template v-for="d,k in proData">
               <div class="item">
@@ -22,10 +33,6 @@
               <span class="value" v-else>{{$parent.detail[k]}}</span>
             </div>
           </div>
-          <!-- <div class="address_input" @click="openContract(2)" v-else>
-            <template v-if="addressData">{{decodeURIComponent(addressData.province_name+addressData.city_name+addressData.area_name+addressData.area_details+' '+addressData.post_user)+'('+addressData.post_mobile+')'}}</template>
-            <template v-else>+ 添加地址</template>
-          </div> -->
         </div>
       </div>
       <div class="order_msg" v-show="$parent.show">
@@ -60,20 +67,20 @@
       </div>
       <div class="order_msg order_pay">
         <h3 class="title">支付订单信息</h3>
-        <div class="pay_text">
+        <div :class="['pay_text',{active:payNo===1}]">
           <div class="pay_value">
-            <input class="radio" type="radio">
-            <span>账户余额{{$parent.balance}}元</span>
+            <input type="radio" name="payType" @click="setPay(1)" checked>
+            <span class="yue">账户余额{{$parent.balance}}元</span>
           </div>
           <div class="pay_info">
             <span>金额不足，可先</span>
             <router-link to="/user/recharge">充值</router-link>
           </div>
         </div>
-        <div class="pay_text">
+        <div :class="['pay_text',{active:payNo===2}]">
           <div class="pay_value">
-            <input class="radio" type="radio">
-            <span>支付宝</span>
+            <input type="radio" name="payType" @click="setPay(2)">
+            <span class="zhifubao">支付宝</span>
           </div>
           <div class="pay_info">
             <span>支付</span>
@@ -82,14 +89,13 @@
           </div>
         </div>
         <form class="form payForm" action="" @submit.prevent="pay" novalidate>
-          <FormField :form="form" class="form"></FormField>
+          <FormField :form="form" class="form" v-if="payNo===1"></FormField>
           <label for="accept">
             <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
             <span @click="openContract(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'minerShop'? '销售':'转让'}}协议》</a><template v-if="$route.params.type!=='1'">和<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
             <span class="select_accept">{{tips}}</span>
           </label>
           <button name="btn">确认支付</button>
-          <!-- <div class="zhifubao_btn" @click="zhifubao">支付宝支付</div> -->
         </form>
       </div>
       <div class="installment_plan" v-show="showpay">
@@ -235,7 +241,9 @@
         mobileNav: {},
         address: [{name: 'post_user', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'post_mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号码', pattern: 'tel'}, {name: 'address', type: 'select', title: '地址', isChange: true}, {name: 'area_details', type: 'text', title: '详细地址', placeholder: '请输入详细地址', isChange: true}],
         isMobile: false,
-        addressData: ''
+        addressData: [],
+        addressNo: 0,
+        payNo: 1
       }
     },
     methods: {
@@ -384,9 +392,30 @@
         var form = e.target
         var data = api.checkFrom(form, this, this.isMobile)
         if (!data) return false
-        this.addressData = data
-        this.prompt('收货地址已提交，点击“确认支付”完成购买')
-        this.closeEdit(this.isMobile)
+        data.is_default = 1
+        data.token = this.$parent.token
+        var self = this
+        util.post('addAddress', {sign: api.serialize(data)}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.addressData.push(data)
+            self.prompt('添加成功')
+            self.closeEdit(self.isMobile)
+          }, form.btn)
+        })
+      },
+      selectAddress (k) {
+        this.addressNo = k
+      },
+      setDefault (id) {
+        var self = this
+        util.post('setDefault', {sign: api.serialize({token: this.$parent.token, post_id: id})}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.prompt('设置成功')
+          })
+        })
+      },
+      setPay (k) {
+        this.payNo = k
       },
       prompt (str) {
         if (this.isMobile) {
@@ -421,6 +450,12 @@
       } else {
         this.mobileNav = this.mobileNav1
       }
+      var self = this
+      util.post('showAddress', {sign: api.serialize({token: this.$parent.token, user_id: this.$parent.user_id})}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.addressData = res
+        })
+      })
     },
     filters: {
       format: api.decimal
@@ -446,7 +481,7 @@
           border-top: 2px solid $blue_border;
           background: #FAFAFA;
         }
-        .orderDetail{
+        .order_detail{
           margin-top: 20px;
           color: #999;
           .value{
@@ -494,28 +529,95 @@
             }
           }
         }
-        @include mobile_hide
-        .address_input{
-          border: 1px solid #eee;
-          margin: 20px 0;
-          padding: 10px 25px;
-          text-align: center;
-          color:$orange;
-          cursor: pointer;
+        .address_box{
+          margin:20px 0 40px 0;
+          color:$light_text;
+          .item{
+            position: relative;
+            border: 1px solid transparent;
+            padding: 10px 25px;
+            background: #EFF6FE;
+            cursor: pointer;
+            padding-left:90px;
+            padding-right:80px;
+            & + .item{
+              margin-top:10px;
+            }
+            @include flex(space-between)
+            &.active{
+              border-color:$blue;
+              span:first-child:before{
+                content:'\e641';
+              }
+              span:first-child:after{
+                content:'寄送至';
+              }
+            }
+            span:first-child:before,span:first-child:after{
+              @include position(10,35,auto,auto)
+              color:$blue
+            }
+            span:first-child:before{
+              font-family:"iconfont" !important;
+              left:15px;
+              font-size: 18px;
+            }
+            .set_default{
+              color:$blue
+            }
+          }
+          .address_btn{
+            display: inline-block;
+            border:1px solid $border;
+            padding:3px 10px;
+            margin-top:15px;
+            margin-left:90px;
+            cursor: pointer;
+            color:$text;
+            background: linear-gradient(to bottom, #F9F9F9 20%, #D9D9D9);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F9F9F9', endColorstr='#D9D9D9',GradientType=0 );
+            &:before{
+              content:'+';
+              color:#00BDB6;
+              margin-right:3px;
+              font-weight: bold;
+            }
+          }
         }
+        @include mobile_hide
       }
       .order_pay{
         margin-top: 20px;
         background:$white;
         .pay_text{
-          padding:5px 0;
-          margin:0 15px;
+          padding:15px 20px;
+          margin:10px 15px;
           @include flex(space-between);
           color: $light_black;
           border-bottom:1px solid $border;
           .pay_value{
             input{
-              width:auto
+              @include checkbox(18)
+              margin-right:5px;
+              vertical-align: text-top;
+            }
+            span{
+              line-height: 25px;
+              height:25px;
+              &:before{
+                font-family:"iconfont" !important;
+                font-size: 26px;
+                padding-right:8px;
+                line-height: 25px;
+                vertical-align: bottom;
+              }
+              &.yue:before{
+                content:'\e60c'
+              }
+              &.zhifubao:before{
+                content:'\e615';
+                color:#00AAF0
+              }
             }
           }
           .pay_info{
@@ -526,6 +628,9 @@
           }
           a{
             color: #327fff;
+          }
+          &.active{
+            outline:5px solid $blue_border
           }
         }
         form{
@@ -543,6 +648,7 @@
             }
             input{
               padding-left:15px;
+              height:42px;
             }
             & span:last-child{
               top: 44px;
@@ -554,20 +660,11 @@
           label{
             @include accept_label
           }
-          .zhifubao_btn{
-            font-size: 16px;
-            color:#fff;
-            padding:5px 10px;
-            cursor: pointer;
-            border-radius:5px;
-            background: $blue;
-            text-align: center;
-            line-height: 38px;
-          }
           button{
-            background: #ff721f;
-            border-color: #ff721f;
+            background: #FE5038;
+            border-color: #FE5038;
             margin: 10px 0;
+            line-height: 2.2;
           }
         }
         @include mobile_hide
@@ -631,6 +728,9 @@
       }
     }
     .right_box{
+      position: fixed;
+      top:80px;
+      right:calc(50% - 590px);
       width:260px;
       margin-left:20px;
       border:1px solid $blue_border;
