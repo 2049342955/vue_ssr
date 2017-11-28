@@ -10,7 +10,9 @@
           <template v-else-if="n.status===1">
             <span class="status">预热中</span>
           </template>
-          <img :src="n.minerPicture"/>
+          <div class="img1">
+            <img :src="n.minerPicture"/>
+          </div>
           <h6>{{n.name}}</h6>
           <p class="address"><span class="left">{{n.unit?n.unit: 'BitCoin'}}</span><span class="right">{{n.MinerAddress?n.MinerAddress: '未定'}}</span></p>
           <div class="progress_info press">
@@ -70,12 +72,19 @@ export default {
         margin-bottom: 24px;
         margin-left: 8px;
         margin-right: 11px;
-        img{
+        .img1{
+          width: 100%;
+          height: 150px;
+          position: relative;
+          img{
             width: 126px;
             height: 81px;
-            height: auto;
+            left: 50%;
+            margin-left: -63px;
+            object-fit: cover;
             margin-top:24px;
-            margin-bottom: 24px;
+            position: absolute;
+          }
         }
         .status{
           width: 70px;
