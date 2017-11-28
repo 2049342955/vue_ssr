@@ -21,14 +21,14 @@
         <div class="miner_input">
           <span class="left_miner">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</span>
           <div class="input_box right_miner">
-            <span @click="$parent.changeNum(+$parent.number-1)">-</span>
+            <span @click="$parent.changeNum(+$parent.number-1)" style="cursor:pointer;">-</span>
             <input type="text" v-model="$parent.number" :placeholder="parseInt($parent.detail.single_limit_amount)||1" @blur="$parent.changeNum($parent.number)">
-            <span @click="$parent.changeNum(+$parent.number+1)">+</span>
+            <span @click="$parent.changeNum(+$parent.number+1)"  style="cursor:pointer;">+</span>
           </div>
           <p class="miner_number">库存{{$parent.leftNum}}台<span>（最少购买{{parseInt($parent.detail.single_limit_amount)||1}}台）</span></p>
         </div>
         <button class="btn" v-if="$parent.detail.status===1" @click="checkPay">立即支付</button>
-        <button class="btn" disabled v-else-if="$parent.detail.status===2">已转让</button>
+        <button class="btn" disabled v-else-if="$parent.detail.status===2" style="background:#c3bbba;">已售馨</button>
         <button class="btn" disabled v-else-if="$parent.detail.status===3">产品撤销</button>
       </div>
     </div>
@@ -75,7 +75,7 @@
         </div>
         <div class="price_text1">需支付：<span class="money">{{$parent.totalPrice|format}}元</span></div>
         <div class="price_text1">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
-        <button class="btn" disabled v-if="$parent.leftStatus">已售罄</button>
+        <button class="btn" disabled v-if="$parent.leftStatus" style="background:#c3bbba;">已售罄</button>
         <button :class="['btn buy_btn', {error: $parent.buyStatus===1}, {over: $parent.buyStatus===2}]" v-else @click="checkPay($event, false)">立即支付</button>
         <button class="btn loan_btn" @click="checkPay($event, true)" v-if="$parent.rateshow&&!$parent.leftStatus">分期购买</button>
       </div>
@@ -83,10 +83,10 @@
     <div class="info">
       <div class="infoul">
         <template v-if="$route.params.type!=='1'">
-          <div v-for="n,k in infolists" @click="tabs($event, k)" :class="{'active': show===k}">{{n[k]}}</div>
+          <div v-for="n,k in infolists" @click="tabs(k)" :class="{'active': show===k}"  style="cursor:pointer;">{{n[k]}}</div>
         </template>
         <template v-else>
-          <div v-for="d,m in infolist" @click="tabs($event, m)" :class="{'active': show===m}">{{d[m]}}</div>
+          <div v-for="d,m in infolist" @click="tabs(m)" :class="{'active': show===m}"   style="cursor:pointer;">{{d[m]}}</div>
         </template>
       </div>
       <div class="contentlength">
@@ -210,7 +210,8 @@
         mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台算力', unit: 'T'}, status: {title: '项目状态', unit: ''}},
         mobileNav2: {hashType: {title: '算力类型', unit: ''}, amount: {title: '服务器总数', unit: '台'}, incomeType: {title: '结算方式', unit: ''}},
         sheetVisible: false,
-        show: '0'
+        show: '0',
+        active: 0
       }
     },
     methods: {
@@ -250,7 +251,8 @@
       openMask () {
         this.sheetVisible = true
       },
-      tabs (e, k) {
+      tabs (k) {
+        this.active = k
         var ullist = document.getElementsByClassName('contentyun')
         for (var a = 0; a < ullist.length; a++) {
           if (a === k) {
@@ -261,6 +263,9 @@
         }
         this.show = k
       }
+    },
+    mounted () {
+      this.tabs(0)
     },
     filters: {
       format: api.decimal
