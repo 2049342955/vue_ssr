@@ -72,9 +72,10 @@ export default {
         margin-bottom: 24px;
         margin-left: 8px;
         margin-right: 11px;
+        position: relative;
         .img1{
           width: 100%;
-          height: 150px;
+          height: 180px;
           position: relative;
           img{
             width: 126px;
@@ -82,7 +83,7 @@ export default {
             left: 50%;
             margin-left: -63px;
             object-fit: cover;
-            margin-top:24px;
+            top:64px;
             position: absolute;
           }
         }
@@ -95,6 +96,9 @@ export default {
           background: #ff6458;
           color:white;
           font-size: 12px;
+          position: absolute;
+          left: 0;
+          left:0;
         }
         .gray{
           background: #bfbfbf;
@@ -105,6 +109,9 @@ export default {
           line-height: 25px;
           color:white;
           font-size: 12px;
+          position: absolute;
+          left: 0;
+          top:0;
         }
         h6{
             font-size: 14px;
