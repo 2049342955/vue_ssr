@@ -1,5 +1,9 @@
 <template>
   <section class="product">
+    <div class="bgImg">
+      <p v-if="$route.params.type==='1'" class="centertype">矿机商城<span>></span>矿机<span>></span><em>{{$route.params.name}}</em></p>
+      <p v-else-if="$route.params.type==='0'" class="centertype">矿机商城<span>></span>云矿机<span>></span><em>{{$route.params.name}}</em></p>
+    </div>
     <div class="items" v-if="$route.params.type==='1'">
       <div class="absolute">
         <img src="../../assets/images/kuangji.png"/>
@@ -145,12 +149,12 @@
       </div> 
     </div>  -->
     <div class="info">
-      <el-tabs>
+      <!-- <el-tabs>
         <el-tab-pane label="产品介绍" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief"></el-tab-pane>
         <el-tab-pane label="产品优势" v-html="$parent.detail.machine_advantage||$parent.detail.MinerAdvantage"></el-tab-pane>
         <el-tab-pane label="补充说明" v-html="$parent.detail.machine_agreement||$parent.detail.prProtocolSpeciaification"></el-tab-pane>
         <el-tab-pane label="矿场相册" v-if="$route.params.type!=='1'"><img :src="$parent.detail.product_photos" alt=""></el-tab-pane>
-      </el-tabs>
+      </el-tabs> -->
     </div>
     <!-- <div class="info">
       <div class="info_item">
@@ -339,13 +343,34 @@
       font-size: 18px;
       font-weight: bold;
     }
+    .bgImg{
+      background-image: url('../../assets/images/miner.png');
+      width: 100%;
+      height: 352px;
+      background-size: 100% 100%;
+      .centertype{
+        width: 1180px;
+        margin:0 auto;
+        padding-top: 12px;
+        color: white;
+        font-size: 12px;
+        span{
+          padding:0 24px;
+        }
+        em{
+          font-style: normal;
+          color: #bfbfbf;
+        }
+      }
+    }
     .items{
+      @include main
       margin-bottom:30px;
       background: white;
       height: 350px;
       box-shadow: #dfe0e1 0 5px 5px -3px;
       position: relative;
-      top: -340px;
+      top: -310px;
       .absolute{
         position: absolute;
         left: -10px;
