@@ -634,7 +634,7 @@
           margin-left: 30px;
         }
         .loan_btn{
-          background: #327fff;
+          background: #01bfb5;
         }
       }
     }
