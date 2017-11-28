@@ -35,34 +35,49 @@
           </div>
         </div>
       </div>
+      <div class="order_msg" v-if="$route.params.type!=='1'">
+        <h3 class="title" style="margin-bottom:15px;">挖矿收益信息</h3>
+        <div class="order_info">
+          <span class="infot_left">今日每T预期收益</span>
+          <span class="infot_right">0.2356984<em>btc</em></span>
+        </div>
+        <div class="order_info">
+          <span class="infot_left">每日电费支出约</span>
+          <span class="infot_right">0.2356984<em>btc</em></span>
+        </div>
+        <div class="order_info" style="margin-bottom:42px;">
+          <span class="infot_left">批次所在区域位于</span>
+          <span class="infot_right" style="font-weight: 100;">内时候傻逼徐水县现世现报是瞎写</span>
+        </div>
+      </div>
       <div class="order_msg" v-show="$parent.show">
-        <h3 class="title">分期详情</h3>
+        <h3 class="title" style="background:#01bfb5;color:white;">分期购买计划</h3>
         <div class="orderDetail">
-          <div class="order_detail_info1">
-            <template v-for="d,k in proData3">
-              <div class="item">
-                <p class="value" v-if="k==='number'&&page==='minerShop'"><span>{{$parent.number}}{{d.unit}}</span></p>
-                <p class="value" v-else-if="k==='number'&&page!=='minerShop'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
-                <p class="value" v-else><span>{{$parent.detail[k]}}{{d.unit}}</span></p>
-                <p>{{d.title}}</p>
-              </div>
-              <div class="line"></div>
-            </template>
-          </div>
-          <div class="order_detail_info2">
-            <p>
-              <span>分期期限 ： </span>
-              <select @change="$parent.onChange" class="mont">
-                <option v-for="n,k in $parent.month" :value="k">{{n}}个月</option>
-              </select>
-            </p>
-            <p v-for="t,k in proText3">{{t}}：
-              <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
-              <span class="value" v-else-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
-              <span class="value" v-else>{{$parent.detail[k]}}</span>
-            </p>
-            <p><a href="javascript:;" @click="close(true)">查看分期计划</a></p>
-          </div>
+          <table border="0">
+             <thead>
+               <tr>
+                 <th v-for="n,k in thead">{{n.title}}</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr :class="{active: check1===0}">
+                 <td><input type="radio" class="teradio" name="qi" @click="radio(0)" checked/></td>
+                 <td>{{$parent.detail.one_amount}}</td>
+                 <td>3期</td>
+                 <td>24%</td>                   
+                 <td>{{(($parent.detail.one_amount + ($parent.detail.one_amount*0.24))/3).toFixed(2)}}（含每期手续费）</td>                
+                 <td>{{(($parent.detail.one_amount*0.24)/3).toFixed(2)}}</td>                 
+               </tr>
+               <tr  :class="{active: check1===1}">
+                 <td><input type="radio" name="qi" class="teradio" @click="radio(1)"/></td>
+                 <td>{{$parent.detail.one_amount}}</td>
+                 <td>6期</td>
+                 <td>36%</td>
+                 <td>{{(($parent.detail.one_amount + ($parent.detail.one_amount*0.36))/6).toFixed(2)}}（含每期手续费）</td>
+                 <td>{{(($parent.detail.one_amount*0.36)/6).toFixed(2)}}</td>
+               </tr>
+             </tbody>
+          </table>
         </div>
       </div>
       <div class="order_msg order_pay">
@@ -97,34 +112,6 @@
           </label>
           <button name="btn">确认支付</button>
         </form>
-      </div>
-      <div class="installment_plan" v-show="showpay">
-        <div class="opacity">
-          <p class="title">分期计划<span @click="close(false)"><img :src="close2" style="width:12px;height:12px;position:relative;top:-6px;"/></span></p>
-          <div class="item" style="overflow:hidden;">
-            <p  v-for="n,k in $parent.items">{{n.title}} : {{$parent.detail[k]}}{{n.unit}}</p>
-          </div>
-          <table border="1" style="margin-top:24px;">
-             <thead>
-               <tr>
-                 <th>期数</th>
-                 <th>还款日期</th>
-                 <th>分期余额</th>
-                 <th>手续费</th>
-                 <th>本期还款额</th>
-               </tr>
-             </thead>
-             <tbody>
-               <tr v-for="n,k in $parent.table">
-                 <td>{{n.rate}}</td>
-                 <td>{{n.datetime}}</td>
-                 <td>{{n.loan_money_balance}}</td>
-                 <td>{{n.fee}}</td>
-                 <td>{{n.repaymoney}}</td>
-               </tr>
-             </tbody>
-          </table>
-        </div>
       </div>
     </div>
     <div class="right_box">
@@ -227,6 +214,8 @@
     },
     data () {
       return {
+        tbody: [{fen: '85255'}],
+        thead: [{title: '选择'}, {title: '分期金额（元）'}, {title: '分期期数'}, {title: '手续费率 （%）'}, {title: '每期应还（元）'}, {title: '每期手续费（元）'}],
         form: [{name: 'password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
         tips: '请同意服务条款',
         totalPrice: 0,
@@ -234,7 +223,7 @@
         edit: 0,
         mobileEdit: false,
         contract: '',
-        showpay: '',
+        // showpay: '',
         close2: require('@/assets/images/close1.jpg'),
         mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, batch_area: {title: '批次所在区域', unit: ''}},
         mobileNav2: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, hash: {title: '每台服务器算力', unit: 'T'}},
@@ -243,7 +232,8 @@
         isMobile: false,
         addressData: [],
         addressNo: 0,
-        payNo: 1
+        payNo: 1,
+        check1: 0
       }
     },
     methods: {
@@ -337,9 +327,6 @@
           this.edit = ''
         }
       },
-      close (sh) {
-        this.showpay = sh
-      },
       check (ele, str) {
         this.tips = str
         ele.setAttribute('data-status', 'invalid')
@@ -414,6 +401,15 @@
           })
         })
       },
+      checkeds () {
+      },
+      radio (k) {
+        this.check1 = k
+        var radios = document.getElementsByClassName('teradio')
+        console.log(radios.length)
+        for (var a = 0; a < radios.length; a++) {
+        }
+      },
       setPay (k) {
         this.payNo = k
       },
@@ -480,6 +476,69 @@
           padding: 10px 15px;
           border-top: 2px solid $blue_border;
           background: #FAFAFA;
+        }
+        .order_info{
+          width: 100%;
+          padding-left: 62px;
+          margin-bottom: 15px;
+          .infot_left{
+            width: 121px;
+            height: auto;
+            display:inline-block;
+            text-align: right;
+            margin-right: 54px;
+            font-size: 14px;
+          }
+          .infot_right{
+            font-size: 16px;
+            color: #121212;
+            font-weight: 800;
+            em{
+              font-style: normal;
+              font-size: 14px;
+              margin-left: 10px;
+              font-weight: 100;
+            }
+          }
+        }
+        .orderDetail{
+          width: 100%;
+          table{
+            width: 900px;
+          }
+          thead{
+            height: 40px !important;
+            line-height: 40px;
+            border:1px solid #e5e5e5;
+            background:#f5f5f5;
+            width: 900px;
+            box-sizing: border-box;
+          }
+          tbody{
+            tr{
+              line-height: 56px;
+              border-bottom: 1px solid #e5e5e5;
+              td{
+                color: #121212;
+                font-size: 14px;
+                text-align: center;
+                input{
+                  @include checkbox(18);
+                  border:1px solid #d2d2d2;
+                  width: 12px;
+                  border-radius: 0;
+                  height: 12px;
+                  background:white;
+                }
+              }
+              &:hover{
+                background:#edffff;
+              }
+              &.active{
+                background:#edffff;
+              }
+            }
+          }
         }
         .order_detail{
           margin-top: 20px;
@@ -711,17 +770,6 @@
               width: 50%;
               text-align: left;
               margin-top: 18px;
-            }
-          }
-          table{
-            width: 100%;
-            th{
-              color: black;
-              text-align: center;
-            }
-            td{
-              color: black;
-              text-align: center;
             }
           }
         }
