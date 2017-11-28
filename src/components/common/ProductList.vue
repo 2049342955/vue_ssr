@@ -3,7 +3,7 @@
     <div class="box">
       <slot></slot>
       <div class="data">
-        <div class="item" v-for="d,k in $parent.computeDate" @click="goPay(d.id, d.sell_type)" :disabled="d.status&&(d.status===2||d.status===3)||(d.amount-d.buyed_amount<=0)">
+        <div class="item" v-for="d,k in $parent.computeDate" @click="goPay(d.id, d.sell_type, page==='compute'?d.product_name:d.name)" :disabled="d.status&&(d.status===2||d.status===3)||(d.amount-d.buyed_amount<=0)">
           <h3>{{page==='compute'?d.product_name:d.name}}<span :class="'icon_currency '+d.hashtype&&d.hashtype.name" v-if="d.hashtype"></span><span :class="['sell_type', {active: d.sell_type===2}]" v-if="$parent.active!==0&&page==='minerShop'&&d.status!==7">{{(d.sell_type===2&&'转售')||str[d.status]}}</span></h3>
           <div class="info_box">
             <template v-for="n,i in dataNav">
@@ -80,13 +80,13 @@
       }
     },
     methods: {
-      goPay (id, selltype) {
+      goPay (id, selltype, name) {
         if (selltype === 2) {
-          this.$router.push({path: '/' + this.page + '/detail/' + id + '/0'})
+          this.$router.push({path: '/' + this.page + '/detail/' + id + '/0/' + name})
         } else if (this.$parent.active === 0) {
-          this.$router.push({path: '/' + this.page + '/detail/' + id + '/1'})
+          this.$router.push({path: '/' + this.page + '/detail/' + id + '/1/' + name})
         } else {
-          this.$router.push({path: '/' + this.page + '/detail/' + id + '/2'})
+          this.$router.push({path: '/' + this.page + '/detail/' + id + '/2/' + name})
         }
       }
     }

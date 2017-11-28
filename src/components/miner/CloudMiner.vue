@@ -3,7 +3,7 @@
     <slot></slot>
     <ul class="mill">
       <li v-for="n,k in $parent.itemDetail">
-        <router-link :to="'/minerShop/detail/'+ n.id +'/1'">
+        <router-link :to="'/minerShop/detail/'+ n.id +'/1/' + n.name">
           <template v-if="n.status===0">
             <span class="gray">已售馨</span>
           </template>
