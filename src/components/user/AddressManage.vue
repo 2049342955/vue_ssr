@@ -73,6 +73,9 @@
         })
       },
       deleteAddress (id, k) {
+        if (!confirm('确定删除？')) {
+          return false
+        }
         var self = this
         util.post('deleteAddress', {sign: api.serialize({token: this.$parent.token, post_id: id})}).then(function (res) {
           api.checkAjax(self, res, () => {
