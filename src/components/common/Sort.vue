@@ -12,16 +12,13 @@
         </div>
         <div class="item">
           <span>项目状态</span>
-          <router-link class="active" to="/fb">不限</router-link>
-          <router-link to="/fb">预热中</router-link>
-          <router-link to="/fb">抢购中</router-link>
-          <router-link to="/fb">已售罄</router-link>
+          <a href="javascript:;" :class="{active:status===k}" v-for="n,k in nav" @click="setStatus(k)">{{n}}</a>
         </div>
       </div>
       <div class="sort_allitems">
-        <span>排序方式</span>
-        <div :class="['item', 'next', {active1: activeOne==true}]" @click="setSort('all')">默认</div>
-        <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont"></span></div>
+        <span class="sort_allitems_title">排序方式</span>
+        <div :class="['item', 'next', {active1: activeOne==true}]" @click="setSort('all')">综合排序</div>
+        <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont">&#xe84b;</span></div>
       </div>
     </div>
     <div class="sort_items" v-else>
@@ -43,8 +40,10 @@
     },
     data () {
       return {
+        nav: ['不限', '预热中', '抢购中', '已售罄'],
         edit: -1,
-        activeOne: true
+        activeOne: true,
+        status: 0
       }
     },
     methods: {
@@ -70,6 +69,9 @@
         } else {
           this.$router.push({path: '/minerShop/miner/' + this.$route.params.type + '/' + str})
         }
+      },
+      setStatus (n) {
+        this.status = n
       }
     }
   }
@@ -104,6 +106,7 @@
             padding:0 15px;
             border-radius:5px;
             line-height: 1.8;
+            border:1px solid transparent;
             &.router-link-active,&.active{
               @include button($blue)
             }
@@ -117,7 +120,7 @@
         @include flex
         background: #F5F5F5;
         padding:0 20px;
-        span{
+        .sort_allitems_title{
           color:$light_black;
           margin-right:30px;
         }
@@ -126,30 +129,33 @@
           padding-left:20px;
           line-height: 40px;
           color:#999;
-          &:before,&:last-child:after{
+          &:before{
             content:'|';
-            color:#ccc;
-            margin-right:50px
+            color:#ddd;
+            margin-right:20px
+          }
+          &:last-child:after{
+            content:'|';
+            color:#ddd;
+            margin-left:15px
           }
           &:nth-child(2){
             padding-left:0
           }
           .iconfont{
-            @include block(24)
-            vertical-align: middle;
+            @include block(20)
+            height:16px;
+            text-align: center;
+            vertical-align: text-bottom;
             transition:all .3s;
-            
-            &:before{
-              font-size: 16px;
-              content:'\e84b';
-            }
+            font-size: 14px;
           }
           &.active{
-            color:$blue
+            color:$blue;
           }
           &.up{
             .iconfont{
-              transform:rotate(180deg)
+              transform:rotate(180deg);
             }
           }
         }

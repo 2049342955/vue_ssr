@@ -39,7 +39,7 @@
     methods: {
       fetchData () {
         var self = this
-        var obj = {token: this.token, page: this.now}
+        var obj = {token: this.token, page: this.now, product_type: '1'}
         var url = ''
         if (this.$route.params.sort !== 'all') {
           obj = Object.assign({sort: this.$route.params.sort}, obj)
