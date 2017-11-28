@@ -596,59 +596,7 @@
           }
         }
         .address_box{
-          margin:20px 0 40px 0;
-          color:$light_text;
-          .item{
-            position: relative;
-            border: 1px solid transparent;
-            padding: 10px 25px;
-            background: #EFF6FE;
-            cursor: pointer;
-            padding-left:90px;
-            padding-right:80px;
-            & + .item{
-              margin-top:10px;
-            }
-            @include flex(space-between)
-            &.active{
-              border-color:$blue;
-              span:first-child:before{
-                content:'\e641';
-              }
-              span:first-child:after{
-                content:'寄送至';
-              }
-            }
-            span:first-child:before,span:first-child:after{
-              @include position(10,35,auto,auto)
-              color:$blue
-            }
-            span:first-child:before{
-              font-family:"iconfont" !important;
-              left:15px;
-              font-size: 18px;
-            }
-            .set_default{
-              color:$blue
-            }
-          }
-          .address_btn{
-            display: inline-block;
-            border:1px solid $border;
-            padding:3px 10px;
-            margin-top:15px;
-            margin-left:90px;
-            cursor: pointer;
-            color:$text;
-            background: linear-gradient(to bottom, #F9F9F9 20%, #D9D9D9);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F9F9F9', endColorstr='#D9D9D9',GradientType=0 );
-            &:before{
-              content:'+';
-              color:#00BDB6;
-              margin-right:3px;
-              font-weight: bold;
-            }
-          }
+          @include address_data
         }
         @include mobile_hide
       }

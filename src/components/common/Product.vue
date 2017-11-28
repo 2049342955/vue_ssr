@@ -682,6 +682,9 @@
         display:none;
       }
     }
+    .bgImg,.items,.miner_yun,.info{
+      @include mobile_hide
+    }
     .mobile_box{
       @include mobile_show
       .first_box,.product_desc,.mobile_btn{

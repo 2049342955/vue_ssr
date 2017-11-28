@@ -39,6 +39,7 @@
   import Order from '@/components/user/Order'
   import OrderDetail from '@/components/user/OrderDetail'
   import AccountEvaluate from '@/components/user/AccountEvaluate'
+  import AddressManage from '@/components/user/AddressManage'
 // webInfo
   import AboutUs from '@/components/info/AboutUs'
   import Issues from '@/components/info/Issues'
@@ -234,6 +235,10 @@
         path: 'accountEvaluate',
         name: 'accountEvaluate',
         component: AccountEvaluate
+      }, {
+        path: 'address',
+        name: 'addressManage',
+        component: AddressManage
       }]
     }, {
       path: '/webInfo',
