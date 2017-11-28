@@ -28,7 +28,7 @@
           <p class="miner_number">库存{{$parent.leftNum}}台<span>（最少购买{{parseInt($parent.detail.single_limit_amount)||1}}台）</span></p>
         </div>
         <button class="btn" v-if="$parent.detail.status===1" @click="checkPay">立即支付</button>
-        <button class="btn" disabled v-else-if="$parent.detail.status===2">已转让</button>
+        <button class="btn" disabled v-else-if="$parent.detail.status===2">已售馨</button>
         <button class="btn" disabled v-else-if="$parent.detail.status===3">产品撤销</button>
       </div>
     </div>
