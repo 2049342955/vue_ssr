@@ -276,8 +276,15 @@
         } else {
           if (this.page === 'minerShop') {
             if (this.$parent.show) {
+              var rate = ''
+              if (this.check1 === 0) {
+                rate = 3
+              } else if (this.check1 === 1) {
+                rate = 6
+              }
+              console.log(rate)
               url = 'productMallLoan'
-              data = Object.assign({product_id: this.$route.params.id, rate_name: this.$parent.rate, num: this.$parent.number}, data)
+              data = Object.assign({product_id: this.$route.params.id, rate_name: rate, num: this.$parent.number}, data)
               callbackUrl = 'repayment/0'
             } else {
               url = 'productMall'

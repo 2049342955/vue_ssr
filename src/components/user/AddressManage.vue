@@ -76,7 +76,7 @@
         var self = this
         util.post('deleteAddress', {sign: api.serialize({token: this.$parent.token, post_id: id})}).then(function (res) {
           api.checkAjax(self, res, () => {
-            api.tips('设置成功')
+            api.tips('删除成功')
             self.fetchData()
           })
         })
