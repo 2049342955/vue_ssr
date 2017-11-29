@@ -210,7 +210,7 @@
       checkPay (e, sh, mobile) {
         var startTime = this.$parent.detail.sell_start_time
         var now = Date.parse(new Date()) / 1000
-        if (this.detail.status === 4) {
+        if (this.$parent.detail.status === 4) {
           api.tips('暂不能购买')
           return false
         }
