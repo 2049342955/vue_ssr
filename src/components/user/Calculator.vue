@@ -10,7 +10,7 @@
       </div>
       <div class="fromone">
         <label>单台矿机价格</label>
-        <input type="text" :value="message1"  class="cover" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input1" v-model="message1"/>
+        <input type="text" :value="message1"  class="cover" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')"  id="input1" v-model="message1"/>
         <span class="biao block1">请输入单台矿机价格</span>
       </div>
       <div class="fromone">
@@ -21,7 +21,7 @@
       <div class="fromone">
         <label>矿机算力</label>
         <div class="rightblock">
-            <input type="text" value="message3" class="cover cover1" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input3" v-model="message3"/>
+            <input type="text" value="message3" class="cover cover1" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input3" v-model="message3"/>
             <span>TH/S</span>
         </div>
         <span class="biao block3">请输入单台矿机价格</span>
@@ -29,7 +29,7 @@
       <div class="fromone">
         <label>矿机功耗</label>
         <div class="rightblock">
-            <input type="text" value="message4" class="cover cover1" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input4" v-model="message4"/>
+            <input type="text" value="message4" class="cover cover1" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input4" v-model="message4"/>
             <span>W</span>
         </div>
         <span class="biao block4">请输入单台矿机价格</span>
@@ -43,9 +43,13 @@
         <span class="tespan">¥ {{(message1/message2)?(message1/message2): '0'}} /T</span>
       </div>
       <div class="fromone">
+        <label>每天每T收益</label>
+        <input type="text" value="message8" class="cover" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input8" v-model="message8"/>
+      </div>
+      <div class="fromone">
         <label>电费</label>
         <div class="rightblock">
-            <input type="text" value="message5" class="cover cover1" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input5" v-model="message5"/>
+            <input type="text" value="message5" class="cover cover1" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input5" v-model="message5"/>
             <span>¥/KWh</span>
         </div>
         <span class="biao block5">请输入单台矿机价格</span>
@@ -53,14 +57,14 @@
       <div class="fromone">
         <label>币价</label>
         <div class="rightblock">
-            <input type="text" value="message6" class="cover cover1" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input6" v-model="message6"/>
+            <input type="text" value="message6" class="cover cover1" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input6" v-model="message6"/>
             <span>¥/BTC</span>
         </div>
         <span class="biao block6">请输入单台矿机价格</span>
       </div>
       <div class="fromone">
         <label>起始难度</label>
-        <input type="text" value="message7" class="cover" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input7" v-model="message7"/>
+        <input type="text" value="message7" class="cover" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input7" v-model="message7"/>
         <span class="biao block7">请输入单台矿机价格</span>
       </div>
       <div class="fromone">
@@ -74,11 +78,11 @@
      <div class="total">
          <p>
             <span class="p_left">总利润</span>
-            <span class="p_right">{{typebi}} {{((((5 * message6 * message3).toFixed(2)) - (message5 * message4 * 24 * message3)).toFixed(2) * timeall).toFixed(2)}}</span>
+            <span class="p_right">{{typebi}} {{((((message8 * message6 * message3).toFixed(2)) - (message5 * message4 * 24 * message3)).toFixed(2) * timeall).toFixed(2)}}</span>
          </p>
          <p>
             <span class="p_left">总收入</span>
-            <span class="p_right">{{typebi}} {{((5 * message6 * message3).toFixed(2)) * timeall}}</span>
+            <span class="p_right">{{typebi}} {{((message8 * message6 * message3).toFixed(2)) * timeall}}</span>
          </p>
          <p>
             <span class="p_left">总电费</span>
@@ -94,11 +98,11 @@
          </p>
          <p>
             <span class="p_left">投资回报率</span>
-            <span class="p_right">{{(((((5 * message6 * message3).toFixed(2)) - (message5 * message4 * 24 * message3)).toFixed(2) * timeall) / (message1 * message2)).toFixed(2)}} %</span>
+            <span class="p_right">{{(((((message8 * message6 * message3).toFixed(2)) - (message5 * message4 * 24 * message3)).toFixed(2) * timeall) / (message1 * message2)).toFixed(2)}} %</span>
          </p>
          <p>
             <span class="p_left">当前每日收入</span>
-            <span class="p_right">{{typebi}} {{(5 * message6 * message3).toFixed(2)}}</span>
+            <span class="p_right">{{typebi}} {{(message8 * message6 * message3).toFixed(2)}}</span>
          </p>
          <p>
             <span class="p_left">当前每日电费</span>
@@ -106,7 +110,7 @@
          </p>
          <p>
             <span class="p_left">当前每日利润</span>
-            <span class="p_right">{{typebi}} {{(((((5 * message6 * message3).toFixed(2)) - (message5 * message4 * 24 * message3)).toFixed(2)) / (message1 * message2)).toFixed(2)}}</span>
+            <span class="p_right">{{typebi}} {{(((((message8 * message6 * message3).toFixed(2)) - (message5 * message4 * 24 * message3)).toFixed(2)) / (message1 * message2)).toFixed(2)}}</span>
          </p>
      </div>
   </div>
@@ -123,6 +127,7 @@
         message5: '0.32',
         message6: '0.33',
         message7: '0.33',
+        message8: '0.33',
         typebi: '¥',
         totallist: [{title: '总利润', prev: '¥'}, {title: '总收入', prev: '¥'}, {title: '总电费', prev: '¥'}, {title: '总矿机成本', prev: '¥'}, {title: '每T价格', prev: '¥'}, {title: '投资回报率', next: '%'}, {title: '当前每日收入', prev: '¥'}, {title: '当前每日电费', prev: '¥'}, {title: '当前每日利润', prev: '¥'}],
         value3: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
@@ -164,6 +169,7 @@
       var d1 = new Date(time)
       var d2 = new Date(time1)
       this.timeall = Math.floor((parseInt(d2 - d1)) / (24 * 3600 * 1000))
+      console.log(this.message8)
     }
   }
 </script>
