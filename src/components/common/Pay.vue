@@ -263,21 +263,17 @@
           if (this.page === 'minerShop') {
             if (this.$parent.show) {
               url = 'productMallLoan'
+              callbackUrl += 'repayment/0'
+              if (this.payNo === 2) {
+                data = Object.assign({url: callbackUrl, mode: '1'}, data)
+              }
               data = Object.assign({product_id: this.$route.params.id, rate_name: this.rate, num: this.$parent.number}, data)
-              callbackUrl = 'repayment/0'
             } else {
               url = 'productMall'
               callbackUrl += 'order/0/1'
               if (this.payNo === 2) {
                 data = Object.assign({url: callbackUrl, mode: '1'}, data)
               }
-              // callbackUrl += 'order/0/1'
-              // if (this.payNo === 2) {
-              //   url = 'applyBalanceRecharge'
-              //   data = Object.assign({url: callbackUrl, mode: '1'}, data)
-              // } else {
-              //   url = 'productMall'
-              // }
               data = Object.assign({product_id: this.$route.params.id, num: this.$parent.number, user_id: this.$parent.user_id}, data)
             }
           } else {
