@@ -107,7 +107,7 @@
       changeNum (n) {
         var minNum = this.detail.single_limit_amount || 1
         if (this.leftStatus) return false
-        this.number = n < minNum || isNaN(+n) || typeof +n !== 'number' ? minNum : n > this.initNum ? this.initNum : n
+        this.number = +n < minNum || isNaN(+n) || typeof +n !== 'number' ? minNum : n > this.initNum ? this.initNum : n
         this.number = parseInt(this.number)
         if (n > this.initNum) {
           this.buyStatus = 2

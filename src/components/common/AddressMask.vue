@@ -122,5 +122,13 @@
         @include form(v)
       }
     }
+    .contract{
+      padding:30px;
+      height:680px;
+      overflow:auto;
+      p, p > *{
+        white-space:wrap !important;
+      }
+    }
   }
 </style>
