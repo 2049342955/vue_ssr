@@ -76,7 +76,7 @@
                 callbackUrl = location.protocol + '//' + location.host + '/user/moneyFlow/default'
               }
               util.post('alipay', {sign: api.serialize(Object.assign({url: callbackUrl, token: self.token}, res))}).then((resData) => {
-                api.checkAjax(self, data, () => {
+                api.checkAjax(self, resData, () => {
                   location.href = resData.url
                 })
               })

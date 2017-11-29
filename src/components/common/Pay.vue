@@ -1,18 +1,19 @@
 <template>
   <section class="pay">
     <div class="left_box">
-      <div class="order_msg" v-if="$route.params.type==='1'">
+      <div class="order_msg address_msg" v-if="$route.params.type==='1'">
         <h3 class="title">选择收货地址</h3>
         <div class="address_box">
-          <div :class="['item',{active:k===addressNo}]" v-for="a,k in addressData">
+          <div :class="['item',{active:k===addressNo}]" v-for="a,k in addressShowData">
             <span @click="selectAddress(k)">{{a.province_name+a.city_name+a.area_name+a.area_details+'('+a.post_user+' 收) '+a.post_mobile}}</span>
             <span v-if="a.is_default">默认地址</span>
             <span class="set_default" v-else @click="setDefault(a.id)">设为默认地址</span>
           </div>
           <div class="address_btn" @click="openContract(2)">使用新地址</div>
+          <div class="all_address_btn" @click="allAddress">查看所有地址</div>
         </div>
       </div>
-      <div class="order_msg">
+      <div class="order_msg order_info">
         <h3 class="title">确认订单信息</h3>
         <div class="order_detail">
           <div class="order_detail_info1">
@@ -35,24 +36,18 @@
           </div>
         </div>
       </div>
-      <div class="order_msg" v-if="$route.params.type!=='1'">
-        <h3 class="title" style="margin-bottom:15px;">挖矿收益信息</h3>
-        <div class="order_info">
-          <span class="infot_left">今日每T预期收益</span>
-          <span class="infot_right">0.2356984<em>btc</em></span>
-        </div>
-        <div class="order_info">
-          <span class="infot_left">每日电费支出约</span>
-          <span class="infot_right">0.2356984<em>btc</em></span>
-        </div>
-        <div class="order_info" style="margin-bottom:42px;">
-          <span class="infot_left">批次所在区域位于</span>
-          <span class="infot_right" style="font-weight: 100;">{{$parent.detail.has_product_miner_base.batch_area}}</span>
+      <div class="order_msg miner_info" v-if="$route.params.type!=='1'">
+        <h3 class="title">挖矿收益信息</h3>
+        <div class="miner_info_detail">
+          <div class="item" v-for="n,k in cloudMinerNav">
+            <span class="info_left">{{n.title}}</span>
+            <span class="info_right">{{$parent.detail[k]}}<em>{{n.unit}}</em></span>
+          </div>
         </div>
       </div>
-      <div class="order_msg" v-show="$parent.show">
-        <h3 class="title" style="background:#01bfb5;color:white;">分期购买计划</h3>
-        <div class="orderDetail">
+      <div class="order_msg hire_purchase" v-show="$parent.show">
+        <h3 class="title">分期购买计划</h3>
+        <div class="order_detail">
           <table border="0">
              <thead>
                <tr>
@@ -223,14 +218,15 @@
         edit: 0,
         mobileEdit: false,
         contract: '',
-        // showpay: '',
         close2: require('@/assets/images/close1.jpg'),
+        cloudMinerNav: {one_amount_value: {title: '今日每T预期收益', unit: 'btc'}, hash: {title: '每日电费支出约', unit: 'btc'}, batch_area: {title: '批次所在区域', unit: ''}},
         mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, batch_area: {title: '批次所在区域', unit: ''}},
         mobileNav2: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, hash: {title: '每台服务器算力', unit: 'T'}},
         mobileNav: {},
         address: [{name: 'post_user', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'post_mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号码', pattern: 'tel'}, {name: 'address', type: 'select', title: '地址', isChange: true}, {name: 'area_details', type: 'text', title: '详细地址', placeholder: '请输入详细地址', isChange: true}, {name: 'is_default', type: 'radio', title: '是否设为默认地址'}],
         isMobile: false,
         addressData: [],
+        addressShowData: [],
         addressObject: {},
         addressNo: 0,
         payNo: 1,
@@ -468,8 +464,18 @@
         util.post('showAddress', {sign: api.serialize({token: this.$parent.token, user_id: this.$parent.user_id})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.addressData = res
+            self.addressShowData = self.addressData.slice(0, 3)
           })
         })
+      },
+      allAddress (e) {
+        if (this.addressShowData.length === 3) {
+          this.addressShowData = this.addressData
+          e.target.innerHTML = '收起'
+        } else {
+          this.addressShowData = this.addressData.slice(0, 3)
+          e.target.innerHTML = '查看所有地址'
+        }
       }
     },
     mounted () {
@@ -513,69 +519,21 @@
           border-top: 2px solid $blue_border;
           background: #FAFAFA;
         }
-        .order_info{
-          width: 100%;
-          padding-left: 62px;
-          margin-bottom: 15px;
-          .infot_left{
-            width: 121px;
-            height: auto;
-            display:inline-block;
-            text-align: right;
-            margin-right: 54px;
-            font-size: 14px;
-          }
-          .infot_right{
-            font-size: 16px;
-            color: #121212;
-            font-weight: 800;
-            em{
-              font-style: normal;
-              font-size: 14px;
-              margin-left: 10px;
-              font-weight: 100;
-            }
+      }
+      .address_msg{
+        .address_box{
+          @include address_data
+          .all_address_btn{
+            float: right;
+            margin-top:20px;
+            font-size: 12px;
+            color:$blue;
+            cursor: pointer;
+            padding-right:15px;
           }
         }
-        .orderDetail{
-          width: 100%;
-          table{
-            width: 900px;
-          }
-          thead{
-            height: 40px !important;
-            line-height: 40px;
-            border:1px solid #e5e5e5;
-            background:#f5f5f5;
-            width: 900px;
-            box-sizing: border-box;
-          }
-          tbody{
-            tr{
-              line-height: 56px;
-              border-bottom: 1px solid #e5e5e5;
-              td{
-                color: #121212;
-                font-size: 14px;
-                text-align: center;
-                input{
-                  @include checkbox(18);
-                  border:1px solid #d2d2d2;
-                  width: 12px;
-                  border-radius: 0;
-                  height: 12px;
-                  background:white;
-                }
-              }
-              &:hover{
-                background:#edffff;
-              }
-              &.active{
-                background:#edffff;
-              }
-            }
-          }
-        }
+      }
+      .order_info{
         .order_detail{
           margin-top: 20px;
           color: #999;
@@ -624,10 +582,77 @@
             }
           }
         }
-        .address_box{
-          @include address_data
+      }
+      .miner_info{
+        .miner_info_detail{
+          padding: 20px 60px;
+          .item{
+            span{
+              line-height: 2;
+            }
+            .info_left{
+              width: 121px;
+              display:inline-block;
+              text-align: right;
+              margin-right: 54px;
+            }
+            .info_right{
+              font-size: 16px;
+              color: #121212;
+              font-weight: 800;
+              em{
+                font-style: normal;
+                margin-left: 10px;
+                font-weight: 100;
+              }
+            }
+          }
         }
-        @include mobile_hide
+      }
+      .hire_purchase{
+        h3.title{
+          background:#01bfb5;
+          color:white;
+        }
+        .order_detail{
+          width: 100%;
+          table{
+            width: 900px;
+          }
+          thead{
+            height: 40px !important;
+            line-height: 40px;
+            border:1px solid #e5e5e5;
+            background:#f5f5f5;
+            width: 900px;
+            box-sizing: border-box;
+          }
+          tbody{
+            tr{
+              line-height: 56px;
+              border-bottom: 1px solid #e5e5e5;
+              td{
+                color: #121212;
+                font-size: 14px;
+                text-align: center;
+                input{
+                  @include checkbox(18);
+                  border:1px solid #d2d2d2;
+                  width: 12px;
+                  border-radius: 0;
+                  height: 12px;
+                  background:white;
+                }
+              }
+              &:hover{
+                background:#edffff;
+              }
+              &.active{
+                background:#edffff;
+              }
+            }
+          }
+        }
       }
       .order_pay{
         margin-top: 20px;
@@ -712,52 +737,7 @@
         }
         @include mobile_hide
       }
-      .installment_plan{
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.2);
-        left: 0;
-        top:0;
-        position: fixed;
-        .opacity{
-          width: 566px;
-          height: 472px;
-          background: white;
-          top:50%;
-          left: 50%;
-          margin-left: -333px;
-          margin-top:-386px;
-          position: absolute;
-          padding:0 43px;
-          box-sizing: border-box;
-          .title{
-            width: 100%;
-            text-align: center;
-            font-size: 18px;
-            margin-top: 37px;
-            color: black;
-            span{
-              font-size: 14px;
-              font-family: cursive;
-              position: absolute;
-              right: 0;
-              margin-right: 40px;
-              cursor: pointer;
-            }
-          }
-          .item{
-            width: 100%;
-            p{
-              float: left;
-              font-size: 14px;
-              color: black;
-              width: 50%;
-              text-align: left;
-              margin-top: 18px;
-            }
-          }
-        }
-      }
+      @include mobile_hide
     }
     .right_box{
       position: fixed;
@@ -778,6 +758,7 @@
           font-weight: bold;
         }
       }
+      @include mobile_hide
     }
     .mobile_box{
       @include mobile_show

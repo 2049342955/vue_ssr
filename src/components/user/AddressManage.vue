@@ -85,7 +85,12 @@
         })
       },
       openMask (k) {
+        if (this.data.length >= 15) {
+          api.tips('您的地址条数已达到上限，请删除后再添加')
+          return false
+        }
         this.addressData = {}
+        window.scroll(0, 0)
         document.body.style.overflow = 'hidden'
         this.show = true
         if (this.data[k]) {
