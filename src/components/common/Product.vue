@@ -31,7 +31,7 @@
             <input type="text" v-model="$parent.number" :placeholder="parseInt($parent.detail.single_limit_amount)||1" @blur="$parent.changeNum($parent.number)">
             <span @click="$parent.changeNum(+$parent.number+1)"  style="cursor:pointer;">+</span>
           </div>
-          <p class="miner_number">库存{{$parent.leftNum}}台<span>（最少购买{{parseInt($parent.detail.single_limit_amount)||1}}台）</span></p>
+          <p class="miner_number">库存{{$parent.leftNum}}台<span>({{parseInt($parent.detail.single_limit_amount)||1}}台起售)</span></p>
         </div>
         <button class="btn" v-if="$parent.detail.status===1" @click="checkPay">立即支付</button>
         <button class="btn" disabled v-else-if="$parent.detail.status===2" style="background:#c3bbba;">已售馨</button>
@@ -159,7 +159,7 @@
             </div>
           </div>
           <div class="buy_num">
-            <div>购买数量<span class="buy_tips">(最少{{parseInt($parent.detail.single_limit_amount)||1}}台)</span></div>
+            <div>购买数量<span class="buy_tips">({{parseInt($parent.detail.single_limit_amount)||1}}台起售)</span></div>
             <div class="input_box">
               <span @click="$parent.changeNum(+$parent.number-1)">-</span>
               <input type="text" v-model="$parent.number" placeholder="购买数量" @blur="$parent.changeNum($parent.number)">

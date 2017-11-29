@@ -1,7 +1,8 @@
 <template>
   <section class="compute_detail">
-    <Pay v-if="next" page="minerShop"></Pay>
-    <Product v-else page="minerShop"></Product>
+    <Product v-if="!next" page="minerShop"></Product>
+    <Pay v-else-if="next===1" page="minerShop"></Pay>
+    <PaySuccess v-else-if="next===2"></PaySuccess>
   </section>
 </template>
 
@@ -11,14 +12,15 @@
   import api from '@/util/function'
   import Pay from '../common/Pay'
   import Product from '../common/Product'
+  import PaySuccess from '../common/PaySuccess'
   import { mapState } from 'vuex'
   export default {
     components: {
-      Pay, Product
+      Pay, Product, PaySuccess
     },
     data () {
       return {
-        next: false,
+        next: 0,
         detail: {incomeType: '每日结算，次日发放', fee: '', product_name: ''},
         totalPrice: 0,
         totalHash: 0,
@@ -32,7 +34,9 @@
         content1: '',
         show: '',
         str: {4: '预热', 5: '可售', 7: '已售馨'},
-        rate: 6
+        rate: 6,
+        addressData: [],
+        addressNo: 0
       }
     },
     methods: {
@@ -65,7 +69,7 @@
         var self = this
         util.post(url, {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.next = true
+            self.next = 1
             self.balance = res.balance
             if (self.$route.params.type === '2') {
               self.content = res.part_content

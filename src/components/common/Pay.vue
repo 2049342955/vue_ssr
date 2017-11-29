@@ -4,13 +4,13 @@
       <div class="order_msg address_msg" v-if="$route.params.type==='1'">
         <h3 class="title">选择收货地址</h3>
         <div class="address_box">
-          <div :class="['item',{active:k===addressNo}]" v-for="a,k in addressShowData">
+          <div :class="['item',{active:k===$parent.addressNo}]" v-for="a,k in addressShowData">
             <span @click="selectAddress(k)">{{a.province_name+a.city_name+a.area_name+a.area_details+'('+a.post_user+' 收) '+a.post_mobile}}</span>
             <span v-if="a.is_default">默认地址</span>
             <span class="set_default" v-else @click="setDefault(a.id)">设为默认地址</span>
           </div>
           <div class="address_btn" @click="openContract(2)">使用新地址</div>
-          <div class="all_address_btn" @click="allAddress" v-if="addressData.length>3">查看所有地址</div>
+          <div class="all_address_btn" @click="allAddress" v-if="$parent.addressData.length>3">查看所有地址</div>
         </div>
       </div>
       <div class="order_msg order_info">
@@ -203,11 +203,8 @@
         edit: 0,
         mobileEdit: false,
         contract: '',
-        isMobile: false,
-        addressData: [],
         addressShowData: [],
         addressObject: {},
-        addressNo: 0,
         payNo: 1,
         rate: 0
       }
@@ -266,7 +263,7 @@
           callbackUrl += '/user/'
         }
         if (this.$route.params.type === '1') {
-          if (!this.addressData.length) {
+          if (!this.$parent.addressData.length) {
             this.tip(mobile, '请添加地址', ff.accept)
             return false
           }
@@ -275,7 +272,7 @@
           if (this.payNo === 2) {
             data = Object.assign({url: callbackUrl, mode: '2'}, data)
           }
-          data = Object.assign({post_id: this.addressData[this.addressNo].id, user_id: this.user_id, miner_id: this.$route.params.id, number: this.$parent.number}, data)
+          data = Object.assign({post_id: this.$parent.addressData[this.$parent.addressNo].id, user_id: this.user_id, miner_id: this.$route.params.id, number: this.$parent.number}, data)
         } else {
           if (this.page === 'minerShop') {
             if (this.$parent.show) {
@@ -357,22 +354,30 @@
           if (this.payNo === 2) {
             this.alipay(mobile, url, data)
           } else {
-            Toast({
-              message: str,
-              position: 'middle',
-              duration: 3000
-            })
-            setTimeout(() => {
-              this.$router.push({path: url})
-            }, 3000)
+            if (this.$route.params.type === '1') {
+              this.$parent.next = 2
+            } else {
+              Toast({
+                message: str,
+                position: 'middle',
+                duration: 3000
+              })
+              setTimeout(() => {
+                this.$router.push({path: url})
+              }, 3000)
+            }
           }
         } else {
           if (this.payNo === 2) {
             this.alipay(mobile, url, data)
           } else {
-            api.tips(str, () => {
-              this.$router.push({path: url})
-            })
+            if (this.$route.params.type === '1') {
+              this.$parent.next = 2
+            } else {
+              api.tips(str, () => {
+                this.$router.push({path: url})
+              })
+            }
           }
         }
       },
@@ -409,7 +414,7 @@
         })
       },
       selectAddress (k) {
-        this.addressNo = k
+        this.$parent.addressNo = k
       },
       setDefault (id) {
         var self = this
@@ -449,17 +454,17 @@
         var self = this
         util.post('showAddress', {sign: api.serialize({token: this.$parent.token, user_id: this.$parent.user_id})}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.addressData = res
-            self.addressShowData = self.addressData.slice(0, 3)
+            self.$parent.addressData = res
+            self.addressShowData = self.$parent.addressData.slice(0, 3)
           })
         })
       },
       allAddress (e) {
         if (this.addressShowData.length === 3) {
-          this.addressShowData = this.addressData
+          this.addressShowData = this.$parent.addressData
           e.target.innerHTML = '收起'
         } else {
-          this.addressShowData = this.addressData.slice(0, 3)
+          this.addressShowData = this.$parent.addressData.slice(0, 3)
           e.target.innerHTML = '查看所有地址'
         }
       }

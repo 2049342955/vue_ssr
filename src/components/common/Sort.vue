@@ -10,12 +10,12 @@
       </div>
       <div class="sort_body">
         <div class="item">
-          <span>行业列表</span>
+          <span>商品列表</span>
           <router-link to="/minerShop/miner/1/all">矿机</router-link>
           <router-link to="/minerShop/miner/2/all">云矿机</router-link>
         </div>
         <div class="item">
-          <span>项目状态</span>
+          <span>商品状态</span>
           <a href="javascript:;" :class="{active:status===k}" v-for="n,k in nav" @click="setStatus(k)">{{n}}</a>
         </div>
       </div>
