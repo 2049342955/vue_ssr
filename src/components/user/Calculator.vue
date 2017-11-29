@@ -4,13 +4,13 @@
      <form @submit.prevent="submit"> 
       <div class="fromone">
         <label>币种</label>
-        <select id="select" @change="change">
+        <select id="select" @change="changeon">
           <option v-for="n, k in option">{{n.name}}</option>
         </select>
       </div>
       <div class="fromone">
         <label>单台矿机价格</label>
-        <input type="text" :value="message1"  class="cover" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')"  id="input1" v-model="message1"/>
+        <input type="text" value="message1"  class="cover" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')"  id="input1" v-model="message1"/>
         <span class="biao block1">请输入单台矿机价格</span>
       </div>
       <div class="fromone">
@@ -142,7 +142,7 @@
       }
     },
     methods: {
-      change () {
+      changeon () {
         var select = document.getElementById('select').value
         if (select === 'CNY - ¥') {
           this.typebi = '¥'
