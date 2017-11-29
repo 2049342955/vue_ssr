@@ -206,7 +206,7 @@
         addressShowData: [],
         addressObject: {},
         payNo: 1,
-        rate: 0
+        rate: 3
       }
     },
     methods: {
