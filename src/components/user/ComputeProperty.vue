@@ -73,6 +73,7 @@
       </div>
     </template>
     <div class="fund_btn">
+      <router-link to="/user/Calculator">挖矿计算器</router-link>
       <router-link to="/user/order/0/1">出售云矿机</router-link>
       <router-link to="/user/order/0/1">查看订单</router-link>
     </div>
