@@ -384,8 +384,9 @@
         var self = this
         data.subject = encodeURIComponent(data.subject)
         util.post('alipay_wap', {sign: api.serialize(Object.assign({is_mobile: mobile, url: url, token: self.$parent.token}, data))}).then((resData) => {
-          api.checkAjax(self, data, () => {
+          api.checkAjax(self, resData, () => {
             location.href = resData.url
+            // console.log(data)
           })
         })
       },
