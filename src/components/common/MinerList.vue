@@ -2,14 +2,11 @@
   <div class="millsList">
     <slot></slot>
     <div class="mill">
-      <div v-for="n,k in $parent.itemDetail" class="listmill">
+      <div v-for="n,k in $parent.minerData" class="listmill">
         <router-link :to="'/minerShop/detail/'+ n.id +'/1'">
-          <template v-if="n.status===0">
-            <span class="gray">已售馨</span>
-          </template>
-          <template v-else-if="n.status===1">
-            <span class="status">预热中</span>
-          </template>
+          <span class="status" v-if="n.status===1">热销中</span>
+          <span class="gray" v-if="n.status===3">已下架</span>
+          <span class="gray" v-if="n.status===2">已售罄</span>
           <div class="img1">
             <img :src="n.minerPicture"/>
           </div>
@@ -33,17 +30,13 @@
 </template>
 
 <script>
-export default {
-  props: {
-    items: {
-      type: Object
-    }
-  },
-  data () {
-    return {
+  export default {
+    data () {
+      return {
+        items: {'one_amount_value': {title: '服务器单价', unit: '元'}, 'hash': {title: '算力', unit: 'T'}, 'buyed_amount': {title: '出售总数', unit: '台'}}
+      }
     }
   }
-}
 </script>
 
 <style type="text/css" lang="scss">

@@ -4,7 +4,7 @@
       <div class="bg"></div>
     </div>
     <ProductNav page="compute"></ProductNav>
-    <ProductList :sort="sort" :dataNav="dataNav" page="compute"></ProductList>
+    <CloudMinerList :sort="sort" :dataNav="dataNav" page="compute"></CloudMinerList>
     <Pager :len="len"></Pager>
     <SideBar></SideBar>
   </section>
@@ -14,13 +14,13 @@
   // import util from '@/util'
   // import api from '@/util/function'
   import { mapState } from 'vuex'
-  import ProductList from '../common/ProductList'
+  import CloudMinerList from '../common/CloudMinerList'
   import ProductNav from '../common/ProductNav'
   import Pager from '@/components/common/Pager'
   import SideBar from '@/components/home/SideBar'
   export default {
     components: {
-      ProductList, ProductNav, Pager, SideBar
+      CloudMinerList, ProductNav, Pager, SideBar
     },
     data () {
       return {

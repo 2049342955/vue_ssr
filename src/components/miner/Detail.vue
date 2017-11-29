@@ -1,7 +1,7 @@
 <template>
   <section class="compute_detail">
-    <Pay v-if="next" page="minerShop" :proData="$route.params.type!=='1'?proData2:proData4" :proText="proText2" :proData3="proData3" :proText3="proText3"></Pay>
-    <Product v-else page="minerShop" :proData="proData" :proText="proText"></Product>
+    <Pay v-if="next" page="minerShop"></Pay>
+    <Product v-else page="minerShop"></Product>
   </section>
 </template>
 
@@ -20,16 +20,6 @@
       return {
         next: false,
         detail: {incomeType: '每日结算，次日发放', fee: '', product_name: ''},
-        proData: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台服务器算力', unit: 'T'}, amount: {title: '服务器总台数', unit: '台'}},
-        proText: {hashType: '算力类型', status: '购买类型', incomeType: '结算方式'},
-        proData2: {product_name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}},
-        // , income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '运维费约', unit: 'btc'}
-        proText2: {hashType: '算力类型', hash: '每台矿机算力', status: '购买类型', incomeType: '结算方式'},
-        proData3: {one_amount: {title: '分期金额', unit: '元'}, fee: {title: '手续费率', unit: '%'}, payment: {title: '还款来源', unit: '算力收益/资金余额'}},
-        proText3: {hashfee: '手续费'},
-        proData4: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, hash: {title: '每台服务器算力', unit: 'T'}},
-        items: {month_money: {title: '月还款', unit: '元'}, rate: {title: '分期期数', unit: '期'}, fee_money: {title: '手续费', unit: '元'}, total_money: {title: '费用总计', unit: '元'}},
-        table: [],
         totalPrice: 0,
         totalHash: 0,
         number: '',
@@ -40,11 +30,8 @@
         buyStatus: 0,
         content: '',
         content1: '',
-        str: {4: '预热', 5: '可售'},
         show: '',
-        rateshow: '',
-        sort: ['24', '36'],
-        month: ['6', '3'],
+        str: {4: '预热', 5: '可售', 7: '已售馨'},
         rate: 6
       }
     },
@@ -77,9 +64,6 @@
         if (this.detail.status === 4) {
           api.tips('暂不能购买')
           return false
-        }
-        if (show) {
-          this.det()
         }
         if (this.$route.params.type === '1') {
           url = 'buy_miner'
@@ -119,42 +103,12 @@
         this.totalHash = this.detail.hash * this.number
         var leftAmount = this.initNum - this.number
         this.leftNum = leftAmount < 0 ? 0 : leftAmount
-      },
-      det () {
-        var self = this
-        util.post('getRate', {sign: api.serialize({token: this.token, rate_name: this.rate})}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            self.detail.one_amount = self.detail.one_amount_value * self.number / 2
-            self.detail.fee = res.fee * 100
-            self.detail.hashfee = self.detail.one_amount * res.fee
-          })
-        })
-        var loanAmount = this.detail.one_amount_value * this.number / 2
-        util.post('getLoanDetail', {sign: api.serialize({token: this.token, rate_name: this.rate, loan_money: loanAmount})}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            self.detail.month_money = res.month_money
-            self.detail.fee_money = res.fee_money
-            self.detail.rate = res.rate
-            self.detail.total_money = res.total_money
-            self.table = res.list
-          })
-        })
-      },
-      onChange (e) {
-        this.rate = this.month[e.target.value]
-        this.det()
-        this.detail.fee = this.sort[e.target.value]
       }
     },
     mounted () {
       var self = this
       var url = ''
       var data = {token: this.token}
-      if (this.$route.params.type !== '2') {
-        this.rateshow = false
-      } else {
-        this.rateshow = true
-      }
       if (this.$route.params.type === '1') {
         url = 'miner_detail'
         data = Object.assign({miner_id: this.$route.params.id}, data)
@@ -164,7 +118,6 @@
       }
       util.post(url, {sign: api.serialize(data)}).then(function (res) {
         api.checkAjax(self, res, () => {
-          console.log(res)
           self.initNum = res.amount - res.buyed_amount
           self.leftNum = self.initNum
           self.leftStatus = self.leftNum === 0

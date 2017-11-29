@@ -3,7 +3,7 @@
     <div class="box">
       <slot></slot>
       <div class="data">
-        <div class="item" v-for="d,k in $parent.computeDate" @click="goPay(d.id, d.sell_type, page==='compute'?d.product_name:d.name)" :disabled="d.status&&(d.status===2||d.status===3)||(d.amount-d.buyed_amount<=0)">
+        <div class="item" v-for="d,k in $parent.cloudMinerDate" @click="goPay(d.id, d.sell_type, page==='compute'?d.product_name:d.name)" :disabled="d.status&&(d.status===2||d.status===3)||(d.amount-d.buyed_amount<=0)">
           <h3>{{page==='compute'?d.product_name:d.name}}<span :class="'icon_currency '+d.hashtype&&d.hashtype.name" v-if="d.hashtype"></span><span :class="['sell_type', {active: d.sell_type===2}]" v-if="$parent.active!==0&&page==='minerShop'&&d.status!==7">{{(d.sell_type===2&&'转售')||str[d.status]}}</span></h3>
           <div class="info_box">
             <template v-for="n,i in dataNav">
@@ -52,7 +52,6 @@
               </template>
               <div class="mask"><span>{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)}}</span>%</div>
             </div>
-            <!-- <div class="sell_progress">{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)+'%'}}</div> -->
           </div>
         </div>
         <div class="nodata" v-if="$parent.show">
@@ -67,15 +66,13 @@
 <script>
   export default {
     props: {
-      dataNav: {
-        type: Object
-      },
       page: {
         type: String
       }
     },
     data () {
       return {
+        dataNav: {'one_amount_value': {title: '每台服务器价格', unit: '元'}, 'hash': {title: '每台服务器算力', unit: 'T'}, 'buyed_amount': {title: '出售服务器总数', unit: '台'}, 'leftNum': {title: '剩余可售服务器', unit: '台'}},
         str: {4: '预热', 5: '预售'}
       }
     },

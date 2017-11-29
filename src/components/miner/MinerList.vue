@@ -32,7 +32,7 @@
         <router-link to="/minerShop/miner/2/all" class="btn">即刻前往>></router-link>
       </div>
     </div>
-    <MyCloud :items="items">
+    <MinerList>
       <h2>
         <div>
           <span>矿机推荐</span>
@@ -40,8 +40,8 @@
         </div>
         <router-link to="/minerShop/miner/1/all">更多矿机 ></router-link>
       </h2>
-    </MyCloud>
-    <MyData :dataNav="dataNav" page="minerShop">
+    </MinerList>
+    <CloudMinerList page="minerShop">
       <h2>
         <div>
           <span>云矿机推荐</span>
@@ -49,7 +49,7 @@
         </div>
         <router-link to="/minerShop/miner/2/all">更多云矿机 ></router-link>
       </h2>
-    </MyData>
+    </CloudMinerList>
     <SideBar></SideBar>
   </section>
 </template>
@@ -58,20 +58,17 @@
   import util from '@/util'
   import api from '@/util/function'
   import { mapState } from 'vuex'
-  import MyData from '@/components/common/ProductList'
-  import MyCloud from '@/components/miner/CloudMiner'
+  import CloudMinerList from '@/components/common/CloudMinerList'
+  import MinerList from '@/components/common/MinerList'
   import SideBar from '@/components/home/SideBar'
   export default {
     components: {
-      MyData, SideBar, MyCloud
+      CloudMinerList, SideBar, MinerList
     },
     data () {
       return {
-        computeDate: [],
-        dataNav: {'one_amount_value': {title: '每台服务器价格', unit: '元'}, 'hash': {title: '每台服务器算力', unit: 'T'}, 'buyed_amount': {title: '出售服务器总数', unit: '台'}, 'leftNum': {title: '剩余可售服务器', unit: '台'}},
-        itemDetail: [],
-        items: {'one_amount_value': {title: '服务器单价', unit: '元'}, 'hash': {title: '算力', unit: 'T'}, 'buyed_amount': {title: '出售总数', unit: '台'}},
-        nav: ['矿机超市', '云矿机商城']
+        cloudMinerDate: [],
+        minerData: []
       }
     },
     methods: {
@@ -82,12 +79,12 @@
         var url2 = 'showproductList'
         util.post(url2, {sign: api.serialize(obj)}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.computeDate = res.data
+            self.cloudMinerDate = res.data
           })
         })
         util.post(url, {sign: api.serialize(obj)}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.itemDetail = res.data
+            self.minerData = res.data
           })
         })
       }
