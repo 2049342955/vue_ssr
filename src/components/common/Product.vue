@@ -1,13 +1,19 @@
 <template>
   <section class="product">
-    <div class="bgImg">
-      <p v-if="$route.params.type==='1'" class="centertype"><router-link to="/minerShop/list">矿机商城</router-link><span>></span><router-link to="/minerShop/miner/1/all">矿机</router-link><span>></span><em>{{$parent.detail.product_name||$parent.detail.name}}</em></p>
-      <p v-else-if="$route.params.type!=='1'" class="centertype"><router-link to="/minerShop/list">矿机商城</router-link><span>></span><router-link to="/minerShop/miner/2/all">云矿机</router-link><span>></span><em>{{$parent.detail.product_name||$parent.detail.name}}</em></p>
+    <div class="top_nav">
+      <div class="box">
+        <router-link to="/minerShop/list">矿机商城</router-link>
+        <span>></span>
+        <router-link to="/minerShop/miner/1/all" v-if="$route.params.type==='1'">矿机</router-link>
+        <router-link to="/minerShop/miner/2/all" v-else>云矿机</router-link>
+        <span>></span>
+        <em>{{$parent.detail.product_name||$parent.detail.name}}</em>
+      </div>
     </div>
-    <div class="items" v-if="$route.params.type==='1'">
-      <div class="absolute">
-        <img src="../../assets/images/kuangji.png"/>
-        矿机
+    <div class="items miner" v-if="$route.params.type==='1'">
+      <div class="miner_type">
+        <div class="iconfont">&#xe603;</div>
+        <span>矿机</span>
       </div>
       <div class="miner_left">
         <img :src="$parent.detail.minerPicture" alt="">
@@ -32,12 +38,12 @@
         <button class="btn" disabled v-else-if="$parent.detail.status===3">产品撤销</button>
       </div>
     </div>
-    <div class="items miner_yun" v-if="$route.params.type!=='1'">
-      <div class="yun_left">
-        <div class="absolute">
-          <img src="../../assets/images/yun.png"/>
-          云矿机
-        </div>
+    <div class="items cloud_miner" v-if="$route.params.type!=='1'">
+      <div class="miner_type">
+        <div class="iconfont">&#xe610;</div>
+        <span>云矿机</span>
+      </div>
+      <div class="cloud_miner_left">
         <h4>
             {{$parent.detail.product_name}}
             <span v-if="$parent.detail.status===4">预售</span>
@@ -67,7 +73,7 @@
           <span class="two">剩余可售 {{$parent.leftNum}}台</span>
         </div>
       </div>
-      <div class="yun_right">
+      <div class="cloud_miner_right">
         <div class="price_text">我要购买<span class="buy_tips">(最少{{parseInt($parent.detail.single_limit_amount)||1}}台)</span></div>
         <div class="input_box">
           <input type="text" v-model="$parent.number" :placeholder="parseInt($parent.detail.single_limit_amount)||1" @blur="$parent.changeNum($parent.number)">
@@ -81,29 +87,27 @@
       </div>
     </div>
     <div class="info">
-      <div class="infoul">
-        <template v-if="$route.params.type!=='1'">
-          <div v-for="n,k in infolists" @click="tabs(k)" :class="{'active': show===k}"  style="cursor:pointer;">{{n[k]}}</div>
-        </template>
-        <template v-else>
-          <div v-for="d,m in infolist" @click="tabs(m)" :class="{'active': show===m}"   style="cursor:pointer;">{{d[m]}}</div>
-        </template>
-      </div>
-      <div class="contentlength">
-        <template v-if="$route.params.type!=='1'">
-          <div class="contentyun" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief" style="display:block;"></div>
-          <div class="contentyun" v-html="$parent.detail.machine_advantage||$parent.detail.MinerAdvantage"></div>
-          <div class="contentyun" v-html="$parent.detail.machine_agreement||$parent.detail.prProtocolSpeciaification"></div>
-          <div class="contentyun">
-            <img :src="$parent.detail.product_photos" alt="">
-          </div>
-        </template>
-        <template v-else>
-          <div class="contentyun" v-html="$parent.detail.machine_intro||$parent.detail.MInerBrief" style="display:block;"></div>
-          <div class="contentyun" v-html="$parent.detail.machine_advantage||$parent.detail.MinerAdvantage"></div>
-          <div class="contentyun" v-html="$parent.detail.machine_agreement||$parent.detail.prProtocolSpeciaification"></div>
-        </template>
-      </div>
+      <template v-if="$route.params.type!=='1'">
+        <div class="info_ul">
+          <div :class="['info_li',{'active': contentShow===k}]" v-for="n,k in infolists" @click="tabs(k)">{{n.title}}</div>
+        </div>
+        <div class="content_items">
+          <template v-for="n,k in infolists">
+            <div class="content_item" v-html="$parent.detail[n.name]" v-if="k!==3&&contentShow===k"></div>
+            <div class="content_item" v-if="k===3&&contentShow===3">
+              <img :src="$parent.detail[n.name]" alt="">
+            </div>
+          </template>
+        </div>
+      </template>
+      <template v-else>
+        <div class="info_ul">
+          <div :class="['info_li',{'active': contentShow===m}]" v-for="d,m in infolist" @click="tabs(m)">{{d.title}}</div>
+        </div>
+        <div class="content_items">
+          <div class="content_item" v-html="$parent.detail[d.name]" v-for="d,m in infolist" v-if="contentShow===m"></div>
+        </div>
+      </template>
     </div>  
     <div class="mobile_box">
       <div class="img">
@@ -205,12 +209,12 @@
     },
     data () {
       return {
-        infolists: [{0: '产品参数'}, {1: '产品优势'}, {2: '协议说明'}, {3: '矿场相册'}],
-        infolist: [{0: '产品参数'}, {1: '产品优势'}, {2: '协议说明'}],
+        infolists: [{name: 'machine_intro', title: '产品参数'}, {name: 'machine_advantage', title: '产品优势'}, {name: 'machine_agreement', title: '协议说明'}, {name: 'product_photos', title: '矿场相册'}],
+        infolist: [{name: 'MInerBrief', title: '产品参数'}, {name: 'MinerAdvantage', title: '产品优势'}, {name: 'prProtocolSpeciaification', title: '协议说明'}],
         mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台算力', unit: 'T'}, status: {title: '项目状态', unit: ''}},
         mobileNav2: {hashType: {title: '算力类型', unit: ''}, amount: {title: '服务器总数', unit: '台'}, incomeType: {title: '结算方式', unit: ''}},
         sheetVisible: false,
-        show: '0',
+        contentShow: 0,
         active: 0
       }
     },
@@ -252,16 +256,7 @@
         this.sheetVisible = true
       },
       tabs (k) {
-        this.active = k
-        var ullist = document.getElementsByClassName('contentyun')
-        for (var a = 0; a < ullist.length; a++) {
-          if (a === k) {
-            ullist[a].style.display = 'block'
-          } else {
-            ullist[a].style.display = 'none'
-          }
-        }
-        this.show = k
+        this.contentShow = k
       }
     },
     mounted () {
@@ -285,18 +280,13 @@
   @import '../../assets/css/style.scss';
   .product{
     background: #f7f8fa;
-    h3{
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .bgImg{
+    .top_nav{
       background-image: url('../../assets/images/miner.png');
       width: 100%;
       height: 352px;
       background-size: 100% 100%;
-      .centertype{
-        width: 1180px;
-        margin:0 auto;
+      .box{
+        @include main
         padding-top: 12px;
         color: white;
         font-size: 12px;
@@ -320,7 +310,7 @@
       box-shadow: #dfe0e1 0 5px 5px -3px;
       position: relative;
       top: -310px;
-      .absolute{
+      .miner_type{
         position: absolute;
         left: -10px;
         top:11px;
@@ -329,15 +319,13 @@
         background: #fe5039;
         text-align: center;
         color:white;
-        img{
-          width: 25px;
-          display:block;
-          height: auto;
-          margin:0 auto;
-          margin-top:15px; 
-          margin-bottom: 8px;
+        .iconfont{
+          font-size: 24px;
+          padding-top:10px
         }
       }
+    }
+    .miner{
       .miner_left{
         width: 500px;
         border:1px solid #dcdcdc;
@@ -466,34 +454,15 @@
         }
       }
     }
-    .miner_yun{
-      background: #f3f8ff;
-      position: relative;
-      .absolute{
-        position: absolute;
-        left: -10px;
-        top:11px;
-        width: 82px;
-        height: 78px;
-        background: #fe5039;
-        text-align: center;
-        color:white;
-        img{
-          width: 25px;
-          display:block;
-          height: auto;
-          margin:0 auto;
-          margin-top:15px; 
-          margin-bottom: 8px;
-        }
-      }
-      .yun_left{
+    .cloud_miner{
+      .cloud_miner_left{
         width: 722px;
         height: 100%;
         padding-top: 56px;
         padding-left: 98px;
         box-sizing: border-box;
         float: left;
+        background: #f3f8ff;
         h4{
           font-size: 27px;
           color: #333333;
@@ -582,9 +551,8 @@
           }
         }
       }
-      .yun_right{
+      .cloud_miner_right{
         width: 456px;
-        // height: 314px;
         overflow: hidden;
         background: white;
         padding-bottom: 20px;
@@ -653,13 +621,14 @@
       box-shadow: #dfe0e1 0 5px 5px -3px;
       width: 1180px;
       margin:0 auto;
-      .infoul{
+      .info_ul{
         padding:0;
         margin:0;
         border-bottom:1px solid #e5e5e5;
         width: 100%;
         overflow: hidden;
-        div{
+        .info_li{
+          cursor:pointer;
           float: left;
           width: 75px;
           color:#333333;
@@ -681,13 +650,12 @@
           }
         }
       }
-      .contentyun{
+      .content_item{
         padding-top: 30px;
         padding-bottom: 70px;
-        display:none;
       }
     }
-    .bgImg,.items,.miner_yun,.info{
+    .top_nav,.items,.info{
       @include mobile_hide
     }
     .mobile_box{
