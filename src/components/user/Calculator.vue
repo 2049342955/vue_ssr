@@ -10,7 +10,7 @@
       </div>
       <div class="fromone">
         <label>单台矿机价格</label>
-        <input type="text" :value="message1"  class="cover" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')"  id="input1" v-model="message1"/>
+        <input type="text" value="message1"  class="cover" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')"  id="input1" v-model="message1"/>
         <span class="biao block1">请输入单台矿机价格</span>
       </div>
       <div class="fromone">
@@ -94,7 +94,7 @@
          </p>
          <p>
             <span class="p_left">每T价格</span>
-            <span class="p_right">{{typebi}} {{message1 / message2}}</span>
+            <span class="p_right">{{typebi}} {{message1 / message3}}</span>
          </p>
          <p>
             <span class="p_left">投资回报率</span>
@@ -106,11 +106,11 @@
          </p>
          <p>
             <span class="p_left">当前每日电费</span>
-            <span class="p_right">{{typebi}} {{message5 * message4 * 24 * message3}}</span>
+            <span class="p_right">{{typebi}} {{(message4 / 1000) * 24 * message2}}</span>
          </p>
          <p>
             <span class="p_left">当前每日利润</span>
-            <span class="p_right">{{typebi}} {{(((((message8 * message6 * message3).toFixed(2)) - (message5 * message4 * 24 * message3)).toFixed(2)) / (message1 * message2)).toFixed(2)}}</span>
+            <span class="p_right">{{typebi}} {{((message8 * message6 * message3) - ((message4 / 1000) * 24 * message2)).toFixed(2)}}</span>
          </p>
      </div>
   </div>
