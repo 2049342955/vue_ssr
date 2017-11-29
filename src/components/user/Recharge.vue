@@ -49,13 +49,23 @@
       return {
         processText: ['银行转账', '提交申请', '审核通过'],
         processStatus: 2,
-        form: [[{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', pattern: 'bigMoney', len: 7}, {name: 'bank_num', type: 'text', title: '充值银行卡', value: 'bank_card', pattern: 'bankCard'}, {name: 'request_id', type: 'text', title: '充值流水号', placeholder: '请输入充值流水号', pattern: 'int'}], [{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', len: 6}]],
+        form: [[{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', pattern: 'bigMoney', len: 7}, {name: 'bank_num', type: 'text', title: '充值银行卡', placeholder: '请输入充值银行卡', value: 'bank_card', pattern: 'bankCard'}, {name: 'request_id', type: 'text', title: '充值流水号', placeholder: '请输入充值流水号', pattern: 'int'}], [{name: 'amount', type: 'text', title: '充值金额', placeholder: '请输入充值金额', len: 6}]],
         rechargeType: ['银行卡充值', '支付宝充值'],
         rechargeNo: 0
       }
     },
     methods: {
       submit () {
+        if (!this.rechargeNo && !(this.bank_card && this.bank_card.status === 1)) {
+          api.tips('请先绑定银行卡', () => {
+            if (this.isMobile) {
+              this.$router.push({name: 'madministration'})
+            } else {
+              this.$router.push({name: 'account'})
+            }
+          })
+          return false
+        }
         var mobile = api.checkEquipment()
         var form = document.querySelector('.form')
         var data = api.checkFrom(form, this, mobile)
@@ -109,7 +119,8 @@
       ...mapState({
         token: state => state.info.token,
         user_id: state => state.info.user_id,
-        bank_card: state => state.info.bank_card
+        bank_card: state => state.info.bank_card,
+        isMobile: state => state.isMobile
       })
     }
   }
