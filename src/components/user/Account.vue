@@ -18,6 +18,7 @@
             <span>{{list[k+1].title}}</span>
             <i v-if="list[k+1].name==='card'&&bank_card&&bank_card.open_bank">{{bank_card&&bank_card.card_no|format}}</i>
             <i v-else-if="list[k+1].name==='trade'&&trade_password">已设置<em></em></i>
+            <i v-else-if="list[k+1].name==='login'">修改<em></em></i>
             <i v-else>设置<em></em></i>
         </div>
         <div class="compute_address item">
