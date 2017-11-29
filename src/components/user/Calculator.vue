@@ -98,7 +98,7 @@
          </p>
          <p>
             <span class="p_left">投资回报率</span>
-            <span class="p_right">{{((message1 * message2) / (((((message8 * message6 * message3) - ((message4 / 1000) * 24 * message2)) * timeall)))).toFixed(2)}} %</span>
+            <span class="p_right">{{(((((message8 * message6 * message3) - ((message4 / 1000) * 24 * message2)) * timeall)) / (message1 * message2)).toFixed(2)}} %</span>
          </p>
          <p>
             <span class="p_left">当前每日收入</span>
