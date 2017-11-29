@@ -1,44 +1,46 @@
 <template>
   <section class="money_flow">
-    <h2>资金流水</h2>
-    <h3>流水详情</h3>
-    <div class="detail_box">
-      <div class="data">
-        <template v-for="d,k in dataNav">
-          <div class="item">
-            <p>{{d}}</p>
-            <span class="currency">{{data[k]|currency}}</span>
-            <span class="">元</span>
-          </div>
-          <div class="line"></div>
-        </template>
+    <template v-if="!isMobile">
+      <h2>资金流水</h2>
+      <h3>流水详情</h3>
+      <div class="detail_box">
+        <div class="data">
+          <template v-for="d,k in dataNav">
+            <div class="item">
+              <p>{{d}}</p>
+              <span class="currency">{{data[k]|currency}}</span>
+              <span class="">元</span>
+            </div>
+            <div class="line"></div>
+          </template>
+        </div>
+        <div class="btn">
+          <button @click="openMask('recharge')">充值</button>
+          <button @click="openMask('Withdrawals', '资金提现')">提现</button>
+        </div>
       </div>
-      <div class="btn">
-        <button @click="openMask('recharge')">充值</button>
-        <button @click="openMask('Withdrawals', '资金提现')">提现</button>
+      <div class="detail_table">
+        <Sort :sort="sort" page="moneyFlow"></Sort>
+        <table>
+          <tr>
+            <th v-for="n in nav">{{n}}</th>
+          </tr>
+          <tr v-for="l in list">
+            <td v-for="v,k in nav">
+              <template v-if="k==='value'">{{l[k]|currency(2,1)}}元</template>
+              <template v-else-if="k==='status'">{{l[k]==2&&'成功'}}</template>
+              <template v-else>{{l[k]}}</template>
+            </td>
+          </tr>
+        </table>
+        <div class="nodata" v-if="show">
+          <div class="nodata_img"></div>
+          <p>暂无列表信息</p>
+        </div>
+        <Pager :len="len"></Pager>
       </div>
-    </div>
-    <div class="detail_table">
-      <Sort :sort="sort" page="moneyFlow"></Sort>
-      <table>
-        <tr>
-          <th v-for="n in nav">{{n}}</th>
-        </tr>
-        <tr v-for="l in list">
-          <td v-for="v,k in nav">
-            <template v-if="k==='value'">{{l[k]|currency(2,1)}}元</template>
-            <template v-else-if="k==='status'">{{l[k]==2&&'成功'}}</template>
-            <template v-else>{{l[k]}}</template>
-          </td>
-        </tr>
-      </table>
-      <div class="nodata" v-if="show">
-        <div class="nodata_img"></div>
-        <p>暂无列表信息</p>
-      </div>
-      <Pager :len="len"></Pager>
-    </div>
-    <div class="mobile_box">
+    </template>
+    <div class="mobile_box" v-else>
       <p class="flow_p" v-if="!show">
         <span>资金用途</span>
         <span>金额（元）</span>
@@ -178,7 +180,8 @@
       ...mapState({
         token: state => state.info.token,
         user_id: state => state.info.user_id,
-        bank_card: state => state.info.bank_card
+        bank_card: state => state.info.bank_card,
+        isMobile: state => state.isMobile
       })
     }
   }
@@ -276,6 +279,9 @@
           }
         }
       }
+    }
+    @media screen and (max-width: $mobile) {
+      padding-bottom:61px;
     }
   }
 </style>

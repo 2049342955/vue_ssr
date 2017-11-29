@@ -55,7 +55,6 @@
   import Mnotice from '@/components/mobile/Mnotice'
   import Mmessage from '@/components/mobile/Mmessage'
   import Mproperty from '@/components/mobile/Mproperty'
-  import MmoneyFlow from '@/components/mobile/MmoneyFlow'
   import Minformation from '@/components/mobile/Minformation'
   import Mpersoncenter from '@/components/mobile/Mpersoncenter'
 // export
@@ -364,7 +363,7 @@
       {
         path: 'moneyFlow',
         name: 'mmoneyFlow',
-        component: MmoneyFlow
+        component: MoneyFlow
       },
       {
         path: 'recharge',

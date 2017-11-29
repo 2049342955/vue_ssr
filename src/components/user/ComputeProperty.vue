@@ -125,38 +125,40 @@
           })
           return false
         }
-        if (!(this.bank_card && this.bank_card.status === 1)) {
-          api.tips('请先绑定银行卡', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
+        var requestUrl = ''
+        var data = {}
         if (str === 'recharge') {
           this.$router.push({name: 'recharge'})
           return false
         }
-        if (str === 'GetIncome' && !this.address.length) {
-          api.tips('请先绑定算力地址', () => {
-            this.$router.push({name: 'account'})
-          })
-          return false
-        }
-        if (str === 'Withdrawals' && +this.moneyData.balance_account <= 0) {
-          api.tips('您的账户余额不足，不能提现')
-          return false
-        } else if (str === 'GetIncome' && +this.computeData.balance_account <= 0) {
-          api.tips('您的账户余额不足，不能提取收益')
-          return false
-        }
-        var requestUrl = ''
-        var data = {}
-        if (str === 'Withdrawals') {
-          requestUrl = 'showWithdraw'
-          data = {token: this.token, user_id: this.user_id}
-        } else if (str === 'GetIncome') {
+        if (str === 'GetIncome') {
+          if (!this.address.length) {
+            api.tips('请先绑定算力地址', () => {
+              this.$router.push({name: 'account'})
+            })
+            return false
+          }
+          if (+this.computeData.balance_account <= 0) {
+            api.tips('您的账户余额不足，不能提取收益')
+            return false
+          }
           requestUrl = 'showWithdrawCoin'
           data = {token: this.token, user_id: this.user_id, product_hash_type: this.hashType[this.nowEdit] && this.hashType[this.nowEdit].id}
           this.product_hash_type = this.hashType[this.nowEdit].name.toUpperCase()
+        }
+        if (str === 'Withdrawals') {
+          if (!(this.bank_card && this.bank_card.status === 1)) {
+            api.tips('请先绑定银行卡', () => {
+              this.$router.push({name: 'account'})
+            })
+            return false
+          }
+          if (+this.moneyData.balance_account <= 0) {
+            api.tips('您的账户余额不足，不能提现')
+            return false
+          }
+          requestUrl = 'showWithdraw'
+          data = {token: this.token, user_id: this.user_id}
         }
         var self = this
         util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
