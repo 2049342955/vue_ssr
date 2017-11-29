@@ -183,7 +183,6 @@
     </div>
   </section>
 </template>
-
 <script>
   import api from '../../util/function'
   import { mapState } from 'vuex'
@@ -209,11 +208,13 @@
     methods: {
       checkPay (e, sh, mobile) {
         var startTime = this.$parent.detail.sell_start_time
-        var newstime = new Date()
-        newstime.setTime(startTime * 1000)
         var now = Date.parse(new Date()) / 1000
+        if (this.$parent.detail.status === 4) {
+          api.tips('暂不能购买')
+          return false
+        }
         if (now < startTime) {
-          api.tips('还未到开售时间，开售时间为：' + api.date(newstime.toDateString()), 'date')
+          api.tips('还未到开售时间，开售时间为：' + api.date(new Date(startTime * 1000), 'date'))
           return false
         }
         if (this.token === 0) {
@@ -222,16 +223,6 @@
         }
         if (!(this.true_name && this.true_name.status === 1)) {
           api.tips('请先实名认证', () => {
-            if (this.isMobile) {
-              this.$router.push({name: 'madministration'})
-            } else {
-              this.$router.push({name: 'account'})
-            }
-          })
-          return false
-        }
-        if (!(this.bank_card && this.bank_card.status === 1)) {
-          api.tips('请先绑定银行卡', () => {
             if (this.isMobile) {
               this.$router.push({name: 'madministration'})
             } else {
@@ -265,7 +256,6 @@
     }
   }
 </script>
-
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .product{
@@ -595,9 +585,23 @@
           color: white;
           font-size: 18px;
           margin-left: 30px;
-        }
-        .loan_btn{
-          background: #01bfb5;
+          &.buy_btn{
+            position: relative;
+            &:before{
+              @include position(-20)
+              color:$orange;
+              font-size: 12px;
+            }
+            &.error:before{
+              content:'请输入矿机台数';
+            }
+            &.over:before{
+              content:'您输入的数量已超出库存';
+            }
+          }
+          &.loan_btn{
+            background: #01bfb5;
+          }
         }
       }
     }
@@ -706,7 +710,6 @@
             @include flex(space-between)
             color:$light_black;
             .item{
-
             }
           }
         }
