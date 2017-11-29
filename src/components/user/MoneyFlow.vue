@@ -38,6 +38,26 @@
       </div>
       <Pager :len="len"></Pager>
     </div>
+    <div class="mobile_box">
+      <p class="flow_p" v-if="!show">
+        <span>资金用途</span>
+        <span>金额（元）</span>
+      </p>
+      <div class="moneyflow">
+        <div v-for="n, k in list" class="monrylist">
+          <span class="left">
+            <i>{{n.type_name}}</i>
+            <em>{{n.create_time}}</em>
+          </span>
+          <span :class="['right', {active: n.value<=0}]">{{n.value}}</span>
+        </div>
+        <Pager :len="len"></Pager>
+      </div>
+      <div class="mnodata" v-if="show">
+        <div class="nodata_img"></div>
+        <p>暂无列表信息</p>
+      </div>
+    </div>
     <MyMask :form="form[edit]" :title="editText" v-if="edit"></MyMask>
   </section>
 </template>
@@ -83,6 +103,7 @@
         }
         if (str === 'recharge') {
           this.$router.push({name: 'recharge'})
+          return false
         }
         window.scroll(0, 0)
         document.body.style.overflow = 'hidden'
@@ -199,6 +220,62 @@
     }
     .detail_table{
       @include data_table
+    }
+    h2,h3,.detail_box,.detail_table{
+      @include mobile_hide
+    }
+    .mobile_box{
+      @include mobile_show
+      width: 100%;
+      background: #f5f5f9;
+      .flow_p{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding:0 .5rem;
+        height: 2rem;
+        line-height:2rem;
+        background: white;
+        color: #999999;
+        font-size: 0.6rem;
+        padding-bottom:.4rem;
+        box-sizing: border-box;
+      }
+      .moneyflow{
+        width: 100%;
+        overflow: hidden;
+        background: white;
+        .monrylist{
+          width: 100%;
+          height: 100%;
+          padding:0 .5rem;
+          box-sizing: border-box;
+          display: flex;
+          justify-content: space-between;
+          border-top:1px solid #ddd;
+          .left i{
+            display: block;
+            font-size: .6rem;
+            padding-top: .5rem;
+          }
+          .left em{
+            display: block;
+            font-size: .45rem;
+            padding-top: .3rem;
+            color: #a9a9a9;
+            font-style: normal;
+          }
+          .right{
+            line-height: 3rem;
+            color: #01beb5;
+            font-weight: 800;
+            font-size: 0.6rem;
+            &.active{
+              color: red;
+            }
+          }
+        }
+      }
     }
   }
 </style>

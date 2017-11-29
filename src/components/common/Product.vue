@@ -46,9 +46,7 @@
       <div class="cloud_miner_left">
         <h4>
             {{$parent.detail.product_name}}
-            <span v-if="$parent.detail.status===4">预售</span>
-            <span v-else-if="$parent.detail.status===5">可售</span>
-            <span v-if="$parent.detail.status===6">已售馨</span>
+            <span>{{$parent.str[$parent.detail.status]}}</span>
         </h4>
         <p class="white">可使用算力白条</p>
         <div class="product_data">
@@ -83,7 +81,7 @@
         <div class="price_text1">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
         <button class="btn" disabled v-if="$parent.leftStatus" style="background:#c3bbba;">已售罄</button>
         <button :class="['btn buy_btn', {error: $parent.buyStatus===1}, {over: $parent.buyStatus===2}]" v-else @click="checkPay($event, false)">立即支付</button>
-        <button class="btn loan_btn" @click="checkPay($event, true)" v-if="$parent.rateshow&&!$parent.leftStatus">分期购买</button>
+        <button class="btn loan_btn" @click="checkPay($event, true)" v-if="$route.params.type==='2'&&!$parent.leftStatus">分期购买</button>
       </div>
     </div>
     <div class="info">
@@ -193,22 +191,12 @@
     props: {
       page: {
         type: String
-      },
-      proData: {
-        type: Object
-      },
-      proText: {
-        type: Object
-      },
-      text: {
-        type: Object
-      },
-      rateshow: {
-        type: String
       }
     },
     data () {
       return {
+        proData: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台服务器算力', unit: 'T'}, amount: {title: '服务器总台数', unit: '台'}},
+        proText: {hashType: '算力类型', status: '购买类型', incomeType: '结算方式'},
         infolists: [{name: 'machine_intro', title: '产品参数'}, {name: 'machine_advantage', title: '产品优势'}, {name: 'machine_agreement', title: '协议说明'}, {name: 'product_photos', title: '矿场相册'}],
         infolist: [{name: 'MInerBrief', title: '产品参数'}, {name: 'MinerAdvantage', title: '产品优势'}, {name: 'prProtocolSpeciaification', title: '协议说明'}],
         mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台算力', unit: 'T'}, status: {title: '项目状态', unit: ''}},

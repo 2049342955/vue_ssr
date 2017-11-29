@@ -10,7 +10,7 @@
     </div>
     <div class="success_bottom">
         <h5>其他热门矿机推荐</h5>
-        <MyCloud :items="items"></MyCloud>
+        <MinerList :items="items"></MinerList>
     </div>
   </div>
 </template>
@@ -19,10 +19,10 @@
 import util from '@/util'
 import api from '@/util/function'
 import { mapState } from 'vuex'
-import MyCloud from '@/components/miner/CloudMiner'
+import MinerList from '@/components/miner/MinerList'
 export default {
   components: {
-    MyCloud
+    MinerList
   },
   mounted () {
     var self = this
