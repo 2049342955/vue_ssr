@@ -72,7 +72,7 @@
         </div>
       </div>
       <div class="cloud_miner_right">
-        <div class="price_text">我要购买<span class="buy_tips">(最少{{parseInt($parent.detail.single_limit_amount)||1}}台)</span></div>
+        <div class="price_text">我要购买<span class="buy_tips">({{parseInt($parent.detail.single_limit_amount)||1}}台起售)</span></div>
         <div class="input_box">
           <input type="text" v-model="$parent.number" :placeholder="parseInt($parent.detail.single_limit_amount)||1" @blur="$parent.changeNum($parent.number)">
           <span>台</span>
