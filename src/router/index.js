@@ -38,6 +38,7 @@
   import Password from '@/components/user/Password'
   import Order from '@/components/user/Order'
   import OrderDetail from '@/components/user/OrderDetail'
+  import Calculator from '@/components/user/Calculator'
   import AccountEvaluate from '@/components/user/AccountEvaluate'
   import AddressManage from '@/components/user/AddressManage'
 // webInfo
@@ -183,6 +184,10 @@
         path: 'account',
         name: 'account',
         component: Account
+      }, {
+        path: 'calculator',
+        name: 'calculator',
+        component: Calculator
       }, {
         path: 'computeProperty',
         name: 'computeProperty',
