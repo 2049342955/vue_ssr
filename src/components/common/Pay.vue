@@ -265,7 +265,7 @@
               url = 'productMallLoan'
               callbackUrl += 'repayment/0'
               if (this.payNo === 2) {
-                data = Object.assign({url: callbackUrl, mode: '1'}, data)
+                data = Object.assign({url: callbackUrl, mode: '3'}, data)
               }
               data = Object.assign({product_id: this.$route.params.id, rate_name: this.rate, num: this.$parent.number}, data)
             } else {
