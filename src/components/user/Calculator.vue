@@ -1,103 +1,68 @@
 <template>
   <div class="calculator">
     <h2>挖矿计算器</h2>
-     <form> 
-      <div class="fromone">
-        <label>币种</label>
-        <select>
-          <option v-for="n, k in option">{{n.name}}</option>
-        </select>
-      </div>
-      <div class="fromone">
-        <label>单台矿机价格</label>
-        <input type="text" placeholder="22" class="cover" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input1" v-model="message1"/>
-      </div>
-      <div class="fromone">
-        <label>矿机数量</label>
-        <input type="text" placeholder="22" class="cover" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input2"/>
-      </div>
-      <div class="fromone">
-        <label>矿机算力</label>
-        <div class="rightblock">
-            <input type="text" placeholder="22" class="cover cover1" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input3"/>
-            <span>TH/S</span>
-        </div>
-      </div>
-      <div class="fromone">
-        <label>矿机功耗</label>
-        <div class="rightblock">
-            <input type="text" placeholder="22" class="cover cover1" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input4"/>
-            <span>W</span>
-        </div>
-      </div>
-      <div class="fromone">
-        <label>每T功耗</label>
-        <span class="tespan">5555 W/T</span>
-      </div>
-      <div class="fromone">
-        <label>每T价格</label>
-        <span class="tespan">¥ 221 /T</span>
-      </div>
-      <div class="fromone">
-        <label>电费</label>
-        <div class="rightblock">
-            <input type="text" placeholder="22" class="cover cover1" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input5"/>
-            <span>¥/KWh</span>
-        </div>
-      </div>
-      <div class="fromone">
-        <label>币价</label>
-        <div class="rightblock">
-            <input type="text" placeholder="22" class="cover cover1" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input6"/>
-            <span>¥/BTC</span>
-        </div>
-      </div>
-      <div class="fromone">
-        <label>起始难度</label>
-        <input type="text" placeholder="22" class="cover" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input7"/>
+     <form>
+      <div class="fromone" v-for="n,k in fromlists">
+        <label>{{n.label}}</label>
+        <template v-if="n.type === 'select'">
+          <select>
+            <option v-for="n, k in option">{{n.name}}</option>
+          </select>
+        </template>
+        <template v-else-if="n.type === 'text'">
+          <template v-if="n.unit === ''">
+            <input :type="n.type" :placeholder="n.placeholder" class="cover"/>
+          </template>
+          <template v-else>
+            <div class="rightblock">
+              <input :type="n.type" :placeholder="n.placeholder"/>
+              <span>{{n.unit}}</span>
+            </div>
+          </template>
+        </template>
+        <template v-else>
+          <template v-if="n.price === '¥'">
+            <span class="tespan">{{n.price}} {{n.placeholder}} {{n.unit}}</span>
+          </template>
+          <template v-else>
+            <span class="tespan">{{n.placeholder}} {{n.unit}}</span>
+          </template>
+        </template>
       </div>
       <div class="fromone">
         <label>开始时间和结束时间</label>
-        <el-date-picker v-model="value3" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-        </el-date-picker> 
+        <DatePickerr v-model="value3" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+        </DatePickerr>
       </div>
       <button>计算</button>
-     </form> 
+     </form>
      <h2>预期利润概览</h2>
      <div class="total">
          <p v-for="n, k in totallist">
-             <template v-if="n.next==='%'">
-               <span class="p_left">{{n.title}}</span>
-               <span class="p_right">{{n.next}}</span>
-             </template>
-             <template v-else>
+             <template v-if="n.prev==='¥'">
                <span class="p_left">{{n.title}}</span>
                <span class="p_right">{{n.prev}}</span>
+             </template>
+             <template v-else-if="n.next==='%'">
+               <span class="p_left">{{n.title}}</span>
+               <span class="p_right">{{n.next}}</span>
              </template>
          </p>
      </div>
   </div>
 </template>
-
 <script>
   export default {
     data () {
       return {
-        message1: '',
         totallist: [{title: '总利润', prev: '¥'}, {title: '总收入', prev: '¥'}, {title: '总电费', prev: '¥'}, {title: '总矿机成本', prev: '¥'}, {title: '每T价格', prev: '¥'}, {title: '投资回报率', next: '%'}, {title: '当前每日收入', prev: '¥'}, {title: '当前每日电费', prev: '¥'}, {title: '当前每日利润', prev: '¥'}],
         value3: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
-        option: [{name: 'CNY - ¥'}, {name: 'USD - $'}]
+        option: [{name: 'CNY - $'}, {name: 'USD - $'}],
+        fromlists: [{label: '币种', type: 'select', unit: '', placeholder: ''}, {label: '单台矿机价格', type: 'text', unit: '', placeholder: '10900'}, {label: '矿机数量', type: 'text', unit: '', placeholder: '1'}, {label: '矿机算力', type: 'text', unit: 'TH/s', placeholder: '2'}, {label: '矿机功耗', type: 'text', unit: 'W', placeholder: '1025'}, {label: '每T功耗', type: '', unit: 'W/T', placeholder: '5263250'}, {label: '每T价格', type: '', unit: '/T', placeholder: '221', price: '¥'}, {label: '电费', type: 'text', placeholder: '0.32', unit: '¥/KWh'}, {label: '币价', type: 'text', placeholder: '32', unit: '¥/BTC'}, {label: '起始难度', placeholder: '125488', unit: '', type: 'text'}, {label: '每T收益', type: 'text', placeholder: '0.352', unit: ''}]
       }
-    },
-    methods: {
-    //   changeon () {
-    //     var inputvalue1 = document.getElementById('input1').value
-    //     console.log(inputvalue1)
-    //   }
     }
   }
 </script>
-
 <style lang="scss" scoped>
   .calculator{
     width: 100%;
@@ -113,7 +78,7 @@
       overflow: hidden;
       padding: 0 10%;
       box-sizing: border-box;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
       label{
         width: 143px;
         height: 40px;
@@ -163,9 +128,6 @@
         border: 1px solid #d8dce5;
         padding-left: 10px;
       }
-      .cover1{
-          border:0;
-      }
       .tespan{
         display:inline-block;
         float: left;
@@ -205,4 +167,3 @@
     }
   }
 </style>
-
