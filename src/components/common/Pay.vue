@@ -173,6 +173,7 @@
   import { Toast } from 'mint-ui'
   import util from '@/util/index'
   import api from '@/util/function'
+  import { mapState } from 'vuex'
   import FormField from '@/components/common/FormField'
   import MyMask from '@/components/common/AddressMask'
   import md5 from 'js-md5'
@@ -217,12 +218,28 @@
         var val = ff[0].value
         var url = ''
         var callbackUrl = ''
-        var data = {token: this.$parent.token, trade_password: md5(val)}
-        if (this.totalPrice > this.$parent.balance) {
-          this.tip(mobile, '余额不足，请充值', ff.accept)
-          return false
-        }
+        var data = {token: this.token, trade_password: md5(val)}
         if (this.payNo === 1) {
+          if (this.totalPrice > this.$parent.balance) {
+            this.tip(mobile, '余额不足，请充值', ff.accept)
+            return false
+          }
+          if (!(this.bank_card && this.bank_card.status === 1)) {
+            api.tips('请先绑定银行卡', () => {
+              if (this.isMobile) {
+                this.$router.push({name: 'madministration'})
+              } else {
+                this.$router.push({name: 'account'})
+              }
+            })
+            return false
+          }
+          if (!this.trade_password) {
+            api.tips('请先设置交易密码', () => {
+              this.$router.push({name: 'password'})
+            })
+            return false
+          }
           if (!val) {
             this.tip(mobile, '交易密码不能为空', ff.accept)
             return false
@@ -258,7 +275,7 @@
           if (this.payNo === 2) {
             data = Object.assign({url: callbackUrl, mode: '2'}, data)
           }
-          data = Object.assign({post_id: this.addressData[this.addressNo].id, user_id: this.$parent.user_id, miner_id: this.$route.params.id, number: this.$parent.number}, data)
+          data = Object.assign({post_id: this.addressData[this.addressNo].id, user_id: this.user_id, miner_id: this.$route.params.id, number: this.$parent.number}, data)
         } else {
           if (this.page === 'minerShop') {
             if (this.$parent.show) {
@@ -274,11 +291,11 @@
               if (this.payNo === 2) {
                 data = Object.assign({url: callbackUrl, mode: '1'}, data)
               }
-              data = Object.assign({product_id: this.$route.params.id, num: this.$parent.number, user_id: this.$parent.user_id}, data)
+              data = Object.assign({product_id: this.$route.params.id, num: this.$parent.number, user_id: this.user_id}, data)
             }
           } else {
             url = 'doTransfer_Hashrate'
-            data = Object.assign({user_id: this.$parent.user_id, transfer_order_id: this.$route.params.id, num: this.$parent.number}, data)
+            data = Object.assign({user_id: this.user_id, transfer_order_id: this.$route.params.id, num: this.$parent.number}, data)
             callbackUrl = 'order/1/1'
           }
         }
@@ -473,6 +490,15 @@
     },
     filters: {
       format: api.decimal
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token,
+        user_id: state => state.info.user_id,
+        bank_card: state => state.info.bank_card,
+        isMobile: state => state.isMobile,
+        trade_password: state => state.info.trade_password
+      })
     }
   }
 </script>

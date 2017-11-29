@@ -40,12 +40,6 @@
         this.show = show
         var url = ''
         var data = {token: this.token, num: this.number}
-        if (!this.trade_password) {
-          api.tips('请先设置交易密码', () => {
-            this.$router.push({name: 'password'})
-          })
-          return false
-        }
         if (this.number < 1) {
           if (!mobile) {
             this.buyStatus = 1
@@ -59,10 +53,6 @@
               duration: 3000
             })
           }
-          return false
-        }
-        if (this.detail.status === 4) {
-          api.tips('暂不能购买')
           return false
         }
         if (this.$route.params.type === '1') {
@@ -91,7 +81,14 @@
       changeNum (n) {
         var minNum = this.detail.single_limit_amount || 1
         if (this.leftStatus) return false
-        this.number = +n < minNum || isNaN(+n) || typeof +n !== 'number' ? minNum : n > this.initNum ? this.initNum : n
+        var isOver = n > this.initNum
+        if (isOver) {
+          this.buyStatus = 2
+          setTimeout(() => {
+            this.buyStatus = 0
+          }, 2000)
+        }
+        this.number = +n < minNum || isNaN(+n) || typeof +n !== 'number' ? minNum : isOver ? this.initNum : n
         this.number = parseInt(this.number)
         if (n > this.initNum) {
           this.buyStatus = 2
@@ -134,8 +131,7 @@
     computed: {
       ...mapState({
         token: state => state.info.token,
-        user_id: state => state.info.user_id,
-        trade_password: state => state.info.trade_password
+        user_id: state => state.info.user_id
       })
     }
   }

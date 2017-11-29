@@ -51,11 +51,9 @@
   import Mobile from '@/views/Mobile'
   import MbdcForm from '@/components/mobile/MbdcForm'
   import Mhelp from '@/components/mobile/Mhelp'
-  import Mnews from '@/components/mobile/Mnews'
   import Mnotice from '@/components/mobile/Mnotice'
-  import Mmessage from '@/components/mobile/Mmessage'
+  import Madvice from '@/components/mobile/Madvice'
   import Mproperty from '@/components/mobile/Mproperty'
-  import MmoneyFlow from '@/components/mobile/MmoneyFlow'
   import Minformation from '@/components/mobile/Minformation'
   import Mpersoncenter from '@/components/mobile/Mpersoncenter'
 // export
@@ -311,9 +309,9 @@
         component: Minformation
       },
       {
-        path: 'news',
-        name: 'mnews',
-        component: Mnews
+        path: 'message',
+        name: 'mmessage',
+        component: Message
       },
       {
         path: 'personcenter',
@@ -334,9 +332,9 @@
         component: Mnotice
       },
       {
-        path: 'message',
-        name: 'mmessage',
-        component: Mmessage
+        path: 'advice',
+        name: 'madvice',
+        component: Madvice
       },
       {
         path: 'order/:type/:status',
@@ -364,7 +362,7 @@
       {
         path: 'moneyFlow',
         name: 'mmoneyFlow',
-        component: MmoneyFlow
+        component: MoneyFlow
       },
       {
         path: 'recharge',
