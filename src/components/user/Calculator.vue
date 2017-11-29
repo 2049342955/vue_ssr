@@ -62,11 +62,11 @@
         </div>
         <span class="biao block6">请输入单台矿机价格</span>
       </div>
-      <div class="fromone">
+      <!-- <div class="fromone">
         <label>起始难度</label>
         <input type="text" value="message7" class="cover" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input7" v-model="message7"/>
         <span class="biao block7">请输入单台矿机价格</span>
-      </div>
+      </div> -->
       <div class="fromone">
         <label>开始时间和结束时间</label>
         <el-date-picker v-model="value3" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
@@ -78,7 +78,7 @@
      <div class="total">
          <p>
             <span class="p_left">总利润</span>
-            <span class="p_right">{{typebi}} {{((((message8 * message6 * message3).toFixed(2)) - (message5 * message4 * 24 * message3)).toFixed(2) * timeall).toFixed(2)}}</span>
+            <span class="p_right">{{typebi}} {{((((message8 * message6 * message3) - ((message4 / 1000) * 24 * message2)) * timeall) * 0.05).toFixed(2)}}</span>
          </p>
          <p>
             <span class="p_left">总收入</span>
@@ -86,7 +86,7 @@
          </p>
          <p>
             <span class="p_left">总电费</span>
-            <span class="p_right">{{typebi}} {{(message5 * message4 * 24 * message3) * timeall}}</span>
+            <span class="p_right">{{typebi}} {{((message4 / 1000) * 24 * message2 * timeall).toFixed(2)}}</span>
          </p>
          <p>
             <span class="p_left">总矿机成本</span>
@@ -94,11 +94,11 @@
          </p>
          <p>
             <span class="p_left">每T价格</span>
-            <span class="p_right">{{typebi}} {{message1 / message3}}</span>
+            <span class="p_right">{{typebi}} {{(message1 / message3).toFixed(2)}}</span>
          </p>
          <p>
             <span class="p_left">投资回报率</span>
-            <span class="p_right">{{(((((message8 * message6 * message3).toFixed(2)) - (message5 * message4 * 24 * message3)).toFixed(2) * timeall) / (message1 * message2)).toFixed(2)}} %</span>
+            <span class="p_right">{{((message1 * message2) / (((((message8 * message6 * message3) - ((message4 / 1000) * 24 * message2)) * timeall) * 0.05))).toFixed(2)}} %</span>
          </p>
          <p>
             <span class="p_left">当前每日收入</span>
@@ -106,7 +106,7 @@
          </p>
          <p>
             <span class="p_left">当前每日电费</span>
-            <span class="p_right">{{typebi}} {{(message4 / 1000) * 24 * message2}}</span>
+            <span class="p_right">{{typebi}} {{((message4 / 1000) * 24 * message2).toFixed(2)}}</span>
          </p>
          <p>
             <span class="p_left">当前每日利润</span>
@@ -120,17 +120,17 @@
   export default {
     data () {
       return {
-        message1: '111',
+        message1: '10000',
         message2: '1',
-        message3: '111',
-        message4: '11',
+        message3: '9',
+        message4: '1300',
         message5: '0.32',
-        message6: '0.33',
+        message6: '71000',
         message7: '0.33',
-        message8: '0.33',
+        message8: '0.00018668',
         typebi: '¥',
         totallist: [{title: '总利润', prev: '¥'}, {title: '总收入', prev: '¥'}, {title: '总电费', prev: '¥'}, {title: '总矿机成本', prev: '¥'}, {title: '每T价格', prev: '¥'}, {title: '投资回报率', next: '%'}, {title: '当前每日收入', prev: '¥'}, {title: '当前每日电费', prev: '¥'}, {title: '当前每日利润', prev: '¥'}],
-        value3: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
+        value3: [new Date(), new Date(new Date().getTime() + 24 * 60 * 60 * 1000)],
         option: [{name: 'CNY - ¥'}, {name: 'USD - $'}],
         timeall: '',
         dayprice: '',
