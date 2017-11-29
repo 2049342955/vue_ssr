@@ -1138,11 +1138,12 @@
 // address_data
   @mixin address_data{
     margin:20px 0 40px 0;
+    overflow: hidden;
     color:$light_text;
     .item{
       position: relative;
       border: 1px solid transparent;
-      padding: 10px 25px;
+      padding: 0 25px;
       background: #EFF6FE;
       cursor: pointer;
       padding-left:90px;
@@ -1151,6 +1152,9 @@
         margin-top:10px;
       }
       @include flex(space-between)
+      span{
+        padding: 10px 0;
+      }
       &.active{
         border-color:$blue;
         span:first-child:before{
