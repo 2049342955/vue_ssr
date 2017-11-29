@@ -4,7 +4,7 @@
      <form @submit.prevent="submit"> 
       <div class="fromone">
         <label>币种</label>
-        <select id="select" @change="change">
+        <select id="select" @change="changeon">
           <option v-for="n, k in option">{{n.name}}</option>
         </select>
       </div>
@@ -142,7 +142,7 @@
       }
     },
     methods: {
-      change () {
+      changeon () {
         var select = document.getElementById('select').value
         if (select === 'CNY - ¥') {
           this.typebi = '¥'
