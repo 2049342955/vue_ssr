@@ -275,16 +275,15 @@
           data = Object.assign({post_id: this.$parent.addressData[this.$parent.addressNo].id, user_id: this.user_id, miner_id: this.$route.params.id, number: this.$parent.number}, data)
         } else {
           if (this.page === 'minerShop') {
+            callbackUrl += 'order/0/1'
             if (this.$parent.show) {
               url = 'productMallLoan'
-              callbackUrl += 'repayment/0'
               if (this.payNo === 2) {
                 data = Object.assign({url: callbackUrl, mode: '3'}, data)
               }
               data = Object.assign({product_id: this.$route.params.id, rate_name: this.rate, num: this.$parent.number}, data)
             } else {
               url = 'productMall'
-              callbackUrl += 'order/0/1'
               if (this.payNo === 2) {
                 data = Object.assign({url: callbackUrl, mode: '1'}, data)
               }
