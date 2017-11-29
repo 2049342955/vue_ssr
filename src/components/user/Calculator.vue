@@ -44,7 +44,10 @@
       </div>
       <div class="fromone">
         <label>每天每T收益</label>
-        <input type="text" value="message8" class="cover" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input8" v-model="message8"/>
+        <div class="rightblock">
+          <input type="text" value="message8" class="cover cover1" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input8" v-model="message8"/>
+          <span>BTC</span>
+        </div>
       </div>
       <div class="fromone">
         <label>电费</label>
