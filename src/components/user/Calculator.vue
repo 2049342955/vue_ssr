@@ -1,7 +1,7 @@
 <template>
   <div class="calculator">
     <h2>挖矿计算器</h2>
-     <form> 
+     <form>
       <div class="fromone" v-for="n,k in fromlists">
         <label>{{n.label}}</label>
         <template v-if="n.type === 'select'">
@@ -31,11 +31,11 @@
       </div>
       <div class="fromone">
         <label>开始时间和结束时间</label>
-        <el-date-picker v-model="value3" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-        </el-date-picker> 
+        <DatePickerr v-model="value3" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+        </DatePickerr>
       </div>
       <button>计算</button>
-     </form> 
+     </form>
      <h2>预期利润概览</h2>
      <div class="total">
          <p v-for="n, k in totallist">
