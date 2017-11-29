@@ -209,9 +209,11 @@
     methods: {
       checkPay (e, sh, mobile) {
         var startTime = this.$parent.detail.sell_start_time
+        var newstime = new Date()
+        newstime.setTime(startTime * 1000)
         var now = Date.parse(new Date()) / 1000
         if (now < startTime) {
-          api.tips('还未到开售时间，开售时间为：' + api.date(new Date(startTime * 1000), 'date'))
+          api.tips('还未到开售时间，开售时间为：' + api.date(newstime.toDateString()), 'date')
           return false
         }
         if (this.token === 0) {

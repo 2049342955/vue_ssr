@@ -37,18 +37,26 @@ export default {
       list: []
     }
   },
-  mounted () {
-    var data = {token: this.token, user_id: this.user_id, page: this.now}
-    var sendData = {sort: ''}
-    var self = this
-    util.post('userCapitalList', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
-      api.checkAjax(self, res, () => {
-        self.list = res.value_list
-        self.show = !res.value_list.length
-        if (self.now > 1) return false
-        self.len = Math.ceil(res.total_num / 15)
+  methods: {
+    fetchData () {
+      var data = {token: this.token, user_id: this.user_id, page: this.now}
+      var sendData = {sort: ''}
+      var self = this
+      util.post('userCapitalList', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.list = res.value_list
+          self.show = !res.value_list.length
+          if (self.now > 1) return false
+          self.len = Math.ceil(res.total_num / 15)
+        })
       })
-    })
+    },
+    getList () {
+      this.fetchData()
+    }
+  },
+  mounted () {
+    this.fetchData()
   },
   computed: {
     ...mapState({
