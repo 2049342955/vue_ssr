@@ -36,7 +36,7 @@
       </div>
       <div class="fromone">
         <label>每T功耗</label>
-        <span class="tespan">{{(message4/message3)?(message4/message3): '0'}} W/T</span>
+        <span class="tespan">{{(message4/message3)?((message4/message3).toFixed(1)): '0'}} W/T</span>
       </div>
       <div class="fromone">
         <label>每T价格</label>
@@ -78,11 +78,11 @@
      <div class="total">
          <p>
             <span class="p_left">总利润</span>
-            <span class="p_right">{{typebi}} {{((((message8 * message6 * message3) - ((message4 / 1000) * 24 * message2)) * timeall) * 0.05).toFixed(2)}}</span>
+            <span class="p_right">{{typebi}} {{((((message8 * message6 * message3) - ((message4 / 1000) * 24 * message2)) * timeall)).toFixed(2)}}</span>
          </p>
          <p>
             <span class="p_left">总收入</span>
-            <span class="p_right">{{typebi}} {{((message8 * message6 * message3).toFixed(2)) * timeall}}</span>
+            <span class="p_right">{{typebi}} {{(((message8 * message6 * message3)) * timeall).toFixed(2)}}</span>
          </p>
          <p>
             <span class="p_left">总电费</span>
@@ -98,7 +98,7 @@
          </p>
          <p>
             <span class="p_left">投资回报率</span>
-            <span class="p_right">{{((message1 * message2) / (((((message8 * message6 * message3) - ((message4 / 1000) * 24 * message2)) * timeall) * 0.05))).toFixed(2)}} %</span>
+            <span class="p_right">{{((message1 * message2) / (((((message8 * message6 * message3) - ((message4 / 1000) * 24 * message2)) * timeall)))).toFixed(2)}} %</span>
          </p>
          <p>
             <span class="p_left">当前每日收入</span>
