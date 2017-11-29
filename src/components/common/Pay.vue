@@ -10,14 +10,14 @@
             <span class="set_default" v-else @click="setDefault(a.id)">设为默认地址</span>
           </div>
           <div class="address_btn" @click="openContract(2)">使用新地址</div>
-          <div class="all_address_btn" @click="allAddress">查看所有地址</div>
+          <div class="all_address_btn" @click="allAddress" v-if="addressData.length>3">查看所有地址</div>
         </div>
       </div>
       <div class="order_msg order_info">
         <h3 class="title">确认订单信息</h3>
         <div class="order_detail">
           <div class="order_detail_info1">
-            <template v-for="d,k in proData">
+            <template v-for="d,k in $route.params.type==='1'?proData2:proData1">
               <div class="item">
                 <p class="value" v-if="k==='number'&&page==='minerShop'"><span>{{$parent.number}}{{d.unit}}</span></p>
                 <p class="value" v-else-if="k==='number'&&page!=='minerShop'"><span>{{$parent.detail.hash}}{{d.unit}}</span></p>
@@ -30,7 +30,6 @@
           <div class="order_detail_info2" v-if="$route.params.type!=='1'">
             <div class="item" v-for="t,k in proText">{{t}}：
               <span class="value" v-if="k==='hash'">{{$parent.detail[k]}}T</span>
-              <span class="value" v-else-if="k==='status'">{{$parent.str[$parent.detail[k]]}}</span>
               <span class="value" v-else>{{$parent.detail[k]}}</span>
             </div>
           </div>
@@ -55,21 +54,21 @@
                </tr>
              </thead>
              <tbody>
-               <tr :class="{active: check1===0}">
-                 <td><input type="radio" class="teradio" name="qi" @click="radio(0)" checked/></td>
-                 <td>{{$parent.detail.one_amount}}</td>
+               <tr :class="{active: rate===3}">
+                 <td><input type="radio" class="teradio" name="qi" @click="radio(3)" checked/></td>
+                 <td>{{totalPrice/2}}</td>
                  <td>3期</td>
-                 <td>24%</td>                   
-                 <td>{{(($parent.detail.one_amount + ($parent.detail.one_amount*0.24))/3).toFixed(2)}}（含每期手续费）</td>                
-                 <td>{{(($parent.detail.one_amount*0.24)/3).toFixed(2)}}</td>                 
+                 <td>2%</td>
+                 <td>{{(totalPrice/2/3 + (totalPrice/2*0.02)).toFixed(2)}}（含每期手续费）</td>
+                 <td>{{(totalPrice/2*0.02).toFixed(2)}}</td>
                </tr>
-               <tr  :class="{active: check1===1}">
-                 <td><input type="radio" name="qi" class="teradio" @click="radio(1)"/></td>
-                 <td>{{$parent.detail.one_amount}}</td>
+               <tr :class="{active: rate===6}">
+                 <td><input type="radio" name="qi" class="teradio" @click="radio(6)"/></td>
+                 <td>{{totalPrice/2}}</td>
                  <td>6期</td>
-                 <td>36%</td>
-                 <td>{{(($parent.detail.one_amount + ($parent.detail.one_amount*0.36))/6).toFixed(2)}}（含每期手续费）</td>
-                 <td>{{(($parent.detail.one_amount*0.36)/6).toFixed(2)}}</td>
+                 <td>3%</td>
+                 <td>{{(totalPrice/2/6 + (totalPrice/2*0.03)).toFixed(2)}}（含每期手续费）</td>
+                 <td>{{(totalPrice/2*0.03).toFixed(2)}}</td>
                </tr>
              </tbody>
           </table>
@@ -126,7 +125,7 @@
         <span class="val">{{$parent.totalPrice}}元</span>
       </div>
       <div class="confirm_info">
-        <div class="item" v-for="m,k in mobileNav">
+        <div class="item" v-for="m,k in $route.params.type === '1'?mobileNav2:mobileNav1">
           <span>{{m.title}}</span>
           <span v-if="k==='number'&&page==='minerShop'">{{$parent.number}}{{m.unit}}</span>
           <span v-else-if="k==='number'&&page!=='minerShop'">{{$parent.detail.hash}}{{m.unit}}</span>
@@ -181,27 +180,6 @@
     props: {
       page: {
         type: String
-      },
-      proData: {
-        type: Object
-      },
-      proText: {
-        type: Object
-      },
-      proData3: {
-        type: Object
-      },
-      proText3: {
-        type: Object
-      },
-      show: {
-        type: String
-      },
-      items: {
-        type: Object
-      },
-      month: {
-        type: Object
       }
     },
     components: {
@@ -209,28 +187,28 @@
     },
     data () {
       return {
-        tbody: [{fen: '85255'}],
+        proData1: {product_name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}},
+        proData2: {name: {title: '矿机名称', unit: ''}, one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, hash: {title: '每台服务器算力', unit: 'T'}},
+        proText: {hashType: '算力类型', hash: '每台矿机算力', incomeType: '结算方式'},
+        cloudMinerNav: {income: {title: '今日每T预期收益', unit: 'btc'}, electricityFees: {title: '每日电费支出约', unit: 'btc'}, batch_area: {title: '批次所在区域', unit: ''}},
+        mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, batch_area: {title: '批次所在区域', unit: ''}},
+        mobileNav2: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, hash: {title: '每台服务器算力', unit: 'T'}},
         thead: [{title: '选择'}, {title: '分期金额（元）'}, {title: '分期期数'}, {title: '手续费率 （%）'}, {title: '每期应还（元）'}, {title: '每期手续费（元）'}],
         form: [{name: 'password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
+        address: [{name: 'post_user', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'post_mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号码', pattern: 'tel'}, {name: 'address', type: 'select', title: '地址', isChange: true}, {name: 'area_details', type: 'text', title: '详细地址', placeholder: '请输入详细地址', isChange: true}, {name: 'is_default', type: 'radio', title: '是否设为默认地址'}],
         tips: '请同意服务条款',
         totalPrice: 0,
         accept: false,
         edit: 0,
         mobileEdit: false,
         contract: '',
-        close2: require('@/assets/images/close1.jpg'),
-        cloudMinerNav: {one_amount_value: {title: '今日每T预期收益', unit: 'btc'}, hash: {title: '每日电费支出约', unit: 'btc'}, batch_area: {title: '批次所在区域', unit: ''}},
-        mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, batch_area: {title: '批次所在区域', unit: ''}},
-        mobileNav2: {one_amount_value: {title: '每台服务器价格', unit: '元'}, number: {title: '购买服务器数量', unit: '台'}, hash: {title: '每台服务器算力', unit: 'T'}},
-        mobileNav: {},
-        address: [{name: 'post_user', type: 'text', title: '姓名', placeholder: '请输入姓名', isChange: true}, {name: 'post_mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号码', pattern: 'tel'}, {name: 'address', type: 'select', title: '地址', isChange: true}, {name: 'area_details', type: 'text', title: '详细地址', placeholder: '请输入详细地址', isChange: true}, {name: 'is_default', type: 'radio', title: '是否设为默认地址'}],
         isMobile: false,
         addressData: [],
         addressShowData: [],
         addressObject: {},
         addressNo: 0,
         payNo: 1,
-        check1: 0
+        rate: 0
       }
     },
     methods: {
@@ -284,14 +262,8 @@
         } else {
           if (this.page === 'minerShop') {
             if (this.$parent.show) {
-              var rate = ''
-              if (this.check1 === 0) {
-                rate = 3
-              } else if (this.check1 === 1) {
-                rate = 6
-              }
               url = 'productMallLoan'
-              data = Object.assign({product_id: this.$route.params.id, rate_name: rate, num: this.$parent.number}, data)
+              data = Object.assign({product_id: this.$route.params.id, rate_name: this.rate, num: this.$parent.number}, data)
               callbackUrl = 'repayment/0'
             } else {
               callbackUrl += 'order/0/1'
@@ -433,11 +405,7 @@
       checkeds () {
       },
       radio (k) {
-        this.check1 = k
-        var radios = document.getElementsByClassName('teradio')
-        console.log(radios.length)
-        for (var a = 0; a < radios.length; a++) {
-        }
+        this.rate = k
       },
       setPay (k) {
         this.payNo = k
@@ -480,20 +448,27 @@
     },
     mounted () {
       if (this.page === 'minerShop') {
-        if (this.$parent.show) {
-          this.totalPrice = this.$parent.detail.one_amount_value * this.$parent.number / 2
-        } else {
-          this.totalPrice = this.$parent.detail.one_amount_value * this.$parent.number
-        }
+        this.totalPrice = this.$parent.detail.one_amount_value * this.$parent.number
       } else {
         this.totalPrice = this.$parent.detail.total_price
       }
       if (this.$route.params.type === '1') {
-        this.mobileNav = this.mobileNav2
-      } else {
-        this.mobileNav = this.mobileNav1
+        this.getAddress()
       }
-      this.getAddress()
+      if (this.$parent.show) {
+        // var self = this
+        // util.post('getRate', {sign: api.serialize({token: this.token, rate_name: this.rate})}).then(function (res) {
+        //   api.checkAjax(self, res, () => {
+        //     console.log(res)
+        //   })
+        // })
+        // var loanAmount = this.detail.one_amount_value * this.number / 2
+        // util.post('getLoanDetail', {sign: api.serialize({token: this.token, rate_name: this.rate, loan_money: loanAmount})}).then(function (res) {
+        //   api.checkAjax(self, res, () => {
+        //     console.log(res)
+        //   })
+        // })
+      }
     },
     filters: {
       format: api.decimal

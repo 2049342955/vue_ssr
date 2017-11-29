@@ -27,7 +27,7 @@
     </div>
     <div class="sort_items" v-else>
       <div :class="['item', 'next', {active1: activeOne==true}]" @click="setSort('all')">默认</div>
-      <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont"></span></div>
+      <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont">&#xe611;</span></div>
     </div>
   </div>
 </template>
@@ -170,29 +170,31 @@
           &:nth-child(2){
             padding-left:0
           }
-          .iconfont{
-            @include block(24)
-            height:16px;
-            line-height: 20px;
-            text-align: center;
-            vertical-align: text-bottom;
-            transition:all .3s;
-            font-size: 26px;
-            transform:rotate(180deg);
-          }
-          &.active{
-            color:$blue;
-          }
-          &.up{
-            .iconfont{
-              transform:rotate(0deg);
-            }
-          }
         }
         .next{
           &.active1{
             color:$blue;
           }
+        }
+      }
+    }
+    .box .item,.sort_items .item{
+      .iconfont{
+        @include block(24)
+        height:16px;
+        line-height: 20px;
+        text-align: center;
+        vertical-align: text-bottom;
+        transition:all .3s;
+        font-size: 26px;
+        transform:rotate(180deg);
+      }
+      &.active{
+        color:$blue;
+      }
+      &.up{
+        .iconfont{
+          transform:rotate(0deg);
         }
       }
     }
@@ -205,24 +207,6 @@
         color:#999;
         & + .item{
           margin-left:50px
-        }
-        .iconfont{
-          @include block(24)
-          vertical-align: middle;
-          transition:all .3s;
-          
-          &:before{
-            font-size: 18px;
-            content:'\e84b';
-          }
-        }
-        &.active{
-          color:$blue
-        }
-        &.up{
-          .iconfont{
-            transform:rotate(180deg)
-          }
         }
       }
       .next{
