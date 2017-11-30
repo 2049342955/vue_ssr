@@ -382,16 +382,19 @@
         }
       },
       alipay (url, data) {
+        if (api.checkWechat()) {
+          this.myToast('请在浏览器里打开')
+          return false
+        }
         var self = this
         data.subject = encodeURIComponent(data.subject)
-        util.post('alipay_wap', {sign: api.serialize(Object.assign({is_mobile: this.isMobile, url: url, token: self.$parent.token}, data))}).then((resData) => {
+        util.post('alipay_wap', {sign: api.serialize(Object.assign({is_mobile: +this.isMobile, url: url, token: self.$parent.token}, data))}).then((resData) => {
           api.checkAjax(self, resData, () => {
             location.href = resData.url
           })
         })
       },
       setValue (name, k) {
-        console.log(this[name])
         this[name] = k
       },
       setAssept (e) {
