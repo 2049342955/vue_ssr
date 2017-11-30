@@ -10,6 +10,7 @@
   import compute from '@/views/compute'
   import User from '@/views/User'
   import WebInfo from '@/views/WebInfo'
+  import Computational from '@/views/Computational'
 // auth
   import Login from '@/components/auth/Login'
   import Regist from '@/components/auth/Regist'
@@ -23,6 +24,8 @@
 // compute
   import ComputeList from '@/components/compute/List'
   import ComputeDetail from '@/components/compute/Detail'
+// computational
+  import ComInfor from '@/components/computational/ComInfor'
 // user
   import Message from '@/components/user/Message'
   import MessageDetail from '@/components/user/MessageDetail'
@@ -161,6 +164,15 @@
         path: 'detail/:type/:id',
         name: 'computeDetail',
         component: ComputeDetail
+      }]
+    }, {
+      path: '/computational',
+      name: 'computational',
+      component: Computational,
+      children: [{
+        path: 'comInfor',
+        name: 'comInfor',
+        component: ComInfor
       }]
     }, {
       path: '/user',
