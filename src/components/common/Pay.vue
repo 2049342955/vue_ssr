@@ -89,7 +89,7 @@
           </div>
           <div :class="['pay_text',{active:payNo===2}]">
             <div class="pay_value">
-              <input type="radio" name="payType" @click="setValue('payNo',1)">
+              <input type="radio" name="payType" @click="setValue('payNo',2)">
               <span class="zhifubao">支付宝</span>
             </div>
             <div class="pay_info">
@@ -391,6 +391,7 @@
         })
       },
       setValue (name, k) {
+        console.log(this[name])
         this[name] = k
       },
       setAssept (e) {

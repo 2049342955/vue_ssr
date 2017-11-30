@@ -43,8 +43,8 @@
         <span class="icon"></span>
       </div>
       <form class="form" @submit.prevent="submit" novalidate>
-        <FormField :form="address"></FormField>
-        <button name="btn">提交</button>
+        <AddressInput :form="address" :val="addressData"></AddressInput>
+        <button name="btn">确认提交</button>
       </form>
     </mt-popup>
   </section>
@@ -55,10 +55,11 @@
   import api from '@/util/function'
   import MyMask from '@/components/common/AddressMask'
   import FormField from '@/components/common/FormField'
+  import AddressInput from '@/components/common/AddressInput'
   import { mapState } from 'vuex'
   export default {
     components: {
-      MyMask, FormField
+      MyMask, FormField, AddressInput
     },
     data () {
       return {
@@ -80,6 +81,7 @@
         })
       },
       submit (e) {
+        console.log(11)
         var form = e.target
         var data = api.checkFrom(form)
         var url = ''
@@ -125,14 +127,22 @@
         this.addressData = {}
         window.scroll(0, 0)
         document.body.style.overflow = 'hidden'
-        this.show = true
+        if (this.isMobile) {
+          this.mobileEdit = true
+        } else {
+          this.show = true
+        }
         if (this.data[k]) {
           this.addressData = this.data[k]
         }
       },
       closeEdit (mobile) {
         document.body.style.overflow = 'auto'
-        this.show = false
+        if (this.isMobile) {
+          this.mobileEdit = false
+        } else {
+          this.show = false
+        }
       },
       fetchData () {
         var self = this
@@ -160,7 +170,8 @@
     computed: {
       ...mapState({
         token: state => state.info.token,
-        user_id: state => state.info.user_id
+        user_id: state => state.info.user_id,
+        isMobile: state => state.isMobile
       })
     }
   }
@@ -241,6 +252,9 @@
         }
       }
       @include mobile_show
+    }
+    .mint-popup{
+      @include popup
     }
     @include nodata
   }
