@@ -385,6 +385,10 @@
         path: 'recharge',
         name: 'mrecharge',
         component: Recharge
+      }, {
+        path: 'address',
+        name: 'maddressManage',
+        component: AddressManage
       }]
     }]
   })

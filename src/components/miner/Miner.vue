@@ -30,7 +30,8 @@
         minerData: [],
         len: 0,
         now: 1,
-        show: false
+        show: false,
+        status: 0
       }
     },
     methods: {
@@ -40,6 +41,9 @@
         var url = ''
         if (this.$route.params.sort !== 'all') {
           obj = Object.assign({sort: this.$route.params.sort}, obj)
+        }
+        if (this.status) {
+          obj = Object.assign({status: this.status}, obj)
         }
         if (this.$route.params.type === '1') {
           url = 'showList'

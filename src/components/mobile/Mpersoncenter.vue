@@ -58,7 +58,7 @@
     },
     data () {
       return {
-        nav: [{name: '账户管理', link: '/mobile/administration'}, {name: '资金流水', link: '/mobile/moneyFlow'}, {name: '订单管理', link: '/mobile/order/0/1'}, {name: '常见问题', link: '/mobile/help'}, {name: '消息中心', link: '/mobile/message'}, {name: '意见反馈', link: '/mobile/advice'}],
+        nav: [{name: '账户管理', link: '/mobile/administration'}, {name: '地址管理', link: '/mobile/address'}, {name: '资金流水', link: '/mobile/moneyFlow'}, {name: '订单管理', link: '/mobile/order/0/1'}, {name: '常见问题', link: '/mobile/help'}, {name: '消息中心', link: '/mobile/message'}, {name: '意见反馈', link: '/mobile/advice'}],
         Withdrawals: [{name: 'amount', type: 'text', title: '提现金额', placeholder: '请输入提现金额', changeEvent: true, pattern: 'money', len: 7, tipsInfo: '余额', tipsUnit: '元'}, {name: 'trade_password', type: 'password', title: '交易密码', placeholder: '请输入交易密码', pattern: 'telCode'}],
         balance_account: '',
         edit: 0,

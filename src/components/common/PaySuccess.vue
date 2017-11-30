@@ -1,5 +1,5 @@
 <template>
-  <div class="success">
+  <div class="pay_success">
     <div class="success_top">
       <h5>
         <span class="spanone"><img src="../../assets/images/true.png"/></span>
@@ -50,7 +50,7 @@
 </script>
 
 <style lang="scss">
-  .success{
+  .pay_success{
     width: 1180px;
     overflow: hidden;
     margin:0 auto;

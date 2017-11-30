@@ -11,12 +11,17 @@
       <div class="sort_body">
         <div class="item">
           <span>商品列表</span>
-          <router-link to="/minerShop/miner/1/all">矿机</router-link>
-          <router-link to="/minerShop/miner/2/all">云矿机</router-link>
+          <a :class="{active:$route.params.type==='1'}" href="javascript:;" @click="setType(1)">矿机</a>
+          <a :class="{active:$route.params.type==='2'}" href="javascript:;" @click="setType(2)">云矿机</a>
         </div>
         <div class="item">
           <span>商品状态</span>
-          <a href="javascript:;" :class="{active:status===k}" v-for="n,k in nav" @click="setStatus(k)">{{n}}</a>
+          <template v-if="$route.params.type==='1'">
+            <a href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav" @click="setStatus(k)">{{n}}</a>
+          </template>
+          <template v-if="$route.params.type==='2'">
+            <a href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav2" @click="setStatus(k)">{{n}}</a>
+          </template>
         </div>
       </div>
       <div class="sort_allitems">
@@ -44,10 +49,10 @@
     },
     data () {
       return {
-        nav: ['不限', '预热中', '抢购中', '已售罄'],
+        nav: {0: '不限', 1: '热销', 2: '售罄'},
+        nav2: {0: '不限', 4: '预热', 5: '热销', 7: '售罄'},
         edit: -1,
-        activeOne: true,
-        status: 0
+        activeOne: true
       }
     },
     methods: {
@@ -75,7 +80,12 @@
         }
       },
       setStatus (n) {
-        this.status = n
+        this.$parent.status = n
+        this.$parent.fetchData()
+      },
+      setType (k) {
+        this.$parent.status = 0
+        this.$router.push({path: '/minerShop/miner/' + k + '/all'})
       }
     }
   }

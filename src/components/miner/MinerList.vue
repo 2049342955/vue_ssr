@@ -123,8 +123,8 @@
         img{
           position: relative;
           left:auto;
-          width:auto;
-          height:auto
+          width:100%;
+          height:100%
         }
         .btn,.text{
           @include position
@@ -141,6 +141,7 @@
           cursor: pointer;
         }
         &.pic1{
+          height:594px;
           .btn{
             text-align: center;
             a{
@@ -168,10 +169,11 @@
           }
         }
         &.pic2,&.pic3,&.pic4{
-          margin-left:20px;
+          margin-left:10px;
         }
         &.pic3,&.pic4{
-          margin-top:20px;
+          width:350px;
+          margin-top:10px;
           .btn{
             left:75px;
             width:200px;
