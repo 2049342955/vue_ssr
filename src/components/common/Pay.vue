@@ -147,24 +147,29 @@
       </div>
       <form action="" class="form payForm2" @submit.prevent="pay" novalidate>
         <div class="pay_info">
-          <div class="pay_item">
+          <div :class="['pay_item', {active:payNo===1}]" @click="setValue('payNo',1)">
             <div>
               <span>可用余额</span>
               <span class="val">{{$parent.balance}}元</span>
             </div>
             <router-link to="/mobile/recharge">充值</router-link>
           </div>
-          <div class="pay_item">
+          <div :class="['pay_item', {active:payNo===2}]" @click="setValue('payNo',2)">
+            <div>
+              <span>支付宝支付</span>
+            </div>
+          </div>
+          <div class="pay_item" v-if="payNo===1">
             <mt-field type="password" label="交易密码" name="password" placeholder="请输入交易密码" state="" @blur="test"></mt-field>
           </div>
         </div>
         <div class="mobile_btn">
-          <mt-button type="primary" size="large" name="btn">确认支付</mt-button>
           <label for="accept">
             <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
             <span @click="openMask(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'minerShop'? '销售':'转让'}}协议》</a><template v-if="$route.params.type!=='1'">、<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
             <span class="select_accept">{{tips}}</span>
           </label>
+          <mt-button type="primary" size="large" name="btn">确认支付</mt-button>
         </div>
       </form>
     </div>
@@ -425,7 +430,11 @@
         }
       },
       selectAddress (k) {
-        this.$parent.addressNo = k
+        if (this.isMobile) {
+          location.href = '/mobile/address?select'
+        } else {
+          this.$parent.addressNo = k
+        }
       },
       setDefault (id) {
         var self = this
@@ -854,6 +863,18 @@
           }
           a{
             color:$blue
+          }
+          &:not(:last-child){
+            border-bottom:1px solid $border
+          }
+          &.active{
+            position: relative;
+            div:after{
+              content:'';
+              @include right
+              border-color:$orange;
+              left:80%;
+            }
           }
           .mint-cell{
             width:100%;

@@ -100,10 +100,16 @@
       </template>
       <template v-else>
         <div class="info_ul">
-          <div :class="['info_li',{'active': contentShow===m}]" v-for="d,m in infolist" @click="tabs(m)">{{d.title}}</div>
+          <div :class="['info_li',{'active': contentShow===m}]" v-for="d,m in infolist" @click="tabs(m,d.name)">{{d.title}}</div>
         </div>
         <div class="content_items">
-          <div class="content_item" v-html="$parent.detail[d.name]" v-for="d,m in infolist" v-if="contentShow===m"></div>
+          <div class="product_img">
+            <img :src="$parent.detail.ActivityPicture" alt="">
+          </div>
+          <div class="content_item" :id="d.name" v-for="d,m in infolist">
+            <h2 v-if="m!==0">{{d.title}}</h2>
+            <div class="content_con" v-html="$parent.detail[d.name]"></div>
+          </div>
         </div>
       </template>
     </div>  
@@ -198,7 +204,7 @@
         proData: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台服务器算力', unit: 'T'}, amount: {title: '服务器总台数', unit: '台'}},
         proText: {hashType: '算力类型', status: '购买类型', incomeType: '结算方式'},
         infolists: [{name: 'machine_intro', title: '产品参数'}, {name: 'machine_advantage', title: '产品优势'}, {name: 'machine_agreement', title: '协议说明'}, {name: 'product_photos', title: '矿场相册'}],
-        infolist: [{name: 'MInerBrief', title: '产品参数'}, {name: 'MinerAdvantage', title: '产品优势'}, {name: 'prProtocolSpeciaification', title: '协议说明'}],
+        infolist: [{name: 'MInerBrief', title: '产品介绍'}, {name: 'MinerAdvantage', title: '产品参数'}, {name: 'prProtocolSpeciaification', title: '补充说明'}],
         mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台算力', unit: 'T'}, status: {title: '项目状态', unit: ''}},
         mobileNav2: {hashType: {title: '算力类型', unit: ''}, amount: {title: '服务器总数', unit: '台'}, incomeType: {title: '结算方式', unit: ''}},
         sheetVisible: false,
@@ -237,8 +243,9 @@
       openMask () {
         this.sheetVisible = true
       },
-      tabs (k) {
+      tabs (k, name) {
         this.contentShow = k
+        location.href = '#' + name
       }
     },
     mounted () {
@@ -595,17 +602,14 @@
     }
     .info{
       position: relative;
+      @include main
       top:-300px;
       background: white;
       overflow: hidden;
       padding:0 98px;
       box-sizing: border-box;
       box-shadow: #dfe0e1 0 5px 5px -3px;
-      width: 1180px;
-      margin:0 auto;
       .info_ul{
-        padding:0;
-        margin:0;
         border-bottom:1px solid #e5e5e5;
         width: 100%;
         overflow: hidden;
@@ -632,9 +636,26 @@
           }
         }
       }
-      .content_item{
-        padding-top: 30px;
-        padding-bottom: 70px;
+      .content_items{
+        position: relative;
+        padding:15px 0 40px 0;
+        .content_item{
+          padding-top: 30px;
+          padding-bottom: 70px;
+          background: #DDDFEB;
+          padding:15px;
+          h2{
+            font-weight: bold;
+            margin-bottom:20px;
+          }
+          .content_con p:nth-child(2){
+            margin-top:30px;
+          }
+        }
+        .product_img{
+          @include position(520,auto,auto,50)
+          width:40%;
+        }
       }
     }
     .top_nav,.items,.info{
