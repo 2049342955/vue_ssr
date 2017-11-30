@@ -5,13 +5,13 @@
         <div class="order_msg address_msg" v-if="$route.params.type==='1'">
           <h3 class="title">选择收货地址</h3>
           <div class="address_box">
-            <div :class="['item',{active:k===$parent.addressNo}]" v-for="a,k in addressShowData">
+            <div :class="['item',{active:a.id===addressObject.id}]" v-for="a,k in addressShowData">
               <span @click="selectAddress(k)">{{a.province_name+a.city_name+a.area_name+a.area_details+'('+a.post_user+' 收) '+a.post_mobile}}</span>
               <span v-if="a.is_default">默认地址</span>
               <span class="set_default" v-else @click="setDefault(a.id)">设为默认地址</span>
             </div>
             <div class="address_btn" @click="openMask(2)">使用新地址</div>
-            <div class="all_address_btn" @click="allAddress" v-if="$parent.addressData.length>3">查看所有地址</div>
+            <div class="all_address_btn" @click="allAddress" v-if="addressData.length>3">查看所有地址</div>
           </div>
         </div>
         <div class="order_msg order_info">
@@ -127,15 +127,15 @@
     </div>
     <div class="mobile_box">
       <div class="mobile_address" v-if="$route.params.type==='1'">
-        <div class="address_box" @click="selectAddress(k)" v-if="addressShowData[0]">
-          <h3>{{addressShowData[0].post_user+'  '+addressShowData[0].post_mobile}}</h3>
-          <p>{{addressShowData[0].province_name+addressShowData[0].city_name+addressShowData[0].area_name+addressShowData[0].area_details}}</p>
+        <div class="address_box" @click="selectAddress" v-if="addressObject">
+          <h3 :class="{active:addressObject.is_default}">{{addressObject.post_user+'  '+addressObject.post_mobile}}</h3>
+          <p>{{addressObject.province_name+addressObject.city_name+addressObject.area_name+addressObject.area_details}}</p>
         </div>
         <div class="address_btn" @click="openMask(2)" v-else>使用新地址</div>
       </div>
       <div class="price">
         <span>应付金额</span>
-        <span class="val">{{$parent.totalPrice}}元</span>
+        <span class="val">{{totalPrice}}元</span>
       </div>
       <div class="confirm_info">
         <div class="item" v-for="m,k in $route.params.type === '1'?mobileNav2:mobileNav1">
@@ -173,7 +173,7 @@
         </div>
       </form>
     </div>
-    <MyMask :form="address" :title="title" :contract="contract" :val="addressObject" v-if="edit"></MyMask>
+    <MyMask :form="address" :title="title" :contract="contract" :val="addressForm" v-if="edit"></MyMask>
     <mt-popup position="bottom" v-model="mobileEdit" :closeOnClickModal="false">
       <div class="close" @click="closeMask">
         <span class="icon"></span>
@@ -222,7 +222,9 @@
         mobileEdit: false,
         contract: '',
         addressShowData: [],
+        addressData: [],
         addressObject: {},
+        addressForm: {},
         payNo: 1,
         rate: 3
       }
@@ -277,11 +279,9 @@
           callbackUrl += '/user/'
         }
         if (this.$route.params.type === '1') {
-          if (!this.$parent.addressData.length) {
+          console.log(this.addressObject)
+          if (!this.addressObject.id) {
             this.tip('请添加地址', ff.accept)
-            if (this.isMobile) {
-              this.openMask(2)
-            }
             return false
           }
           url = 'saveMiner'
@@ -289,7 +289,7 @@
           if (this.payNo === 2) {
             data = Object.assign({url: callbackUrl, mode: '2'}, data)
           }
-          data = Object.assign({post_id: this.$parent.addressData[this.$parent.addressNo].id, user_id: this.user_id, miner_id: this.$route.params.id, number: this.$parent.number}, data)
+          data = Object.assign({post_id: this.addressObject.id, user_id: this.user_id, miner_id: this.$route.params.id, number: this.$parent.number}, data)
         } else {
           if (this.page === 'minerShop') {
             callbackUrl += 'order/0/1'
@@ -419,25 +419,27 @@
         var self = this
         util.post('showAddress', {sign: api.serialize({token: this.$parent.token, user_id: this.$parent.user_id})}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.$parent.addressData = res
-            self.addressShowData = self.$parent.addressData.slice(0, 3)
+            self.addressData = res
+            self.addressShowData = self.addressData.slice(0, 3)
+            self.addressObject = self.addressShowData[0]
           })
         })
       },
       allAddress (e) {
         if (this.addressShowData.length === 3) {
-          this.addressShowData = this.$parent.addressData
+          this.addressShowData = this.addressData
           e.target.innerHTML = '收起'
         } else {
-          this.addressShowData = this.$parent.addressData.slice(0, 3)
+          this.addressShowData = this.addressData.slice(0, 3)
           e.target.innerHTML = '查看所有地址'
         }
       },
       selectAddress (k) {
         if (this.isMobile) {
-          location.href = '/mobile/address?select'
+          this.$store.commit('SET_ADDRESS', {url: this.$route.params.id + '/' + this.$route.params.type, num: this.$parent.number})
+          this.$router.push({path: '/mobile/address?select'})
         } else {
-          this.$parent.addressNo = k
+          this.addressObject = this.addressShowData[k]
         }
       },
       setDefault (id) {
@@ -480,15 +482,12 @@
     },
     mounted () {
       if (this.page === 'minerShop') {
-        this.totalPrice = this.$parent.detail.one_amount_value * this.$parent.number
+        this.totalPrice = this.$parent.detail.one_amount_value * +this.$parent.number
         if (this.$parent.show) {
           this.totalPrice /= 2
         }
       } else {
         this.totalPrice = this.$parent.detail.total_price
-      }
-      if (this.$route.params.type === '1') {
-        this.getAddress()
       }
       if (this.$parent.show) {
         // var self = this
@@ -504,6 +503,11 @@
         //   })
         // })
       }
+      if (this.addressObj.id) {
+        this.addressObject = this.addressObj
+      } else if (this.$route.params.type === '1') {
+        this.getAddress()
+      }
     },
     filters: {
       format: api.decimal
@@ -514,7 +518,8 @@
         user_id: state => state.info.user_id,
         bank_card: state => state.info.bank_card,
         isMobile: state => state.isMobile,
-        trade_password: state => state.info.trade_password
+        trade_password: state => state.info.trade_password,
+        addressObj: state => state.addressData
       })
     }
   }
@@ -811,7 +816,7 @@
           h3{
             position: relative;
             font-weight: bold;
-            &:after{
+            &.active:after{
               content:'默认';
               @include position(4,auto,auto,10)
               font-size: 12px;

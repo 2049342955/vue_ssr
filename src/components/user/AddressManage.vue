@@ -156,9 +156,12 @@
         this.fetchData()
       },
       selectAddress (k) {
-        // if (location.href.split('?')[1] === 'select') {
-        //   location.go(-1)
-        // }
+        if (location.href.split('?')[1] === 'select') {
+          console.log(this.addressObj)
+          var obj = Object.assign(this.addressObj, this.data[k])
+          this.$store.commit('SET_ADDRESS', obj)
+          this.$router.push({path: '/minerShop/detail/' + obj.url})
+        }
       }
     },
     watch: {
@@ -171,7 +174,8 @@
       ...mapState({
         token: state => state.info.token,
         user_id: state => state.info.user_id,
-        isMobile: state => state.isMobile
+        isMobile: state => state.isMobile,
+        addressObj: state => state.addressData
       })
     }
   }
