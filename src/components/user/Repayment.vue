@@ -189,7 +189,8 @@
                 }
               }
               a{
-                display: inline-block;
+                display: block;
+                margin: 0 auto;
                 width: 88px;
                 height: 36px !important;
                 padding:0;
