@@ -40,12 +40,10 @@
       }
     },
     methods: {
-      goPay (e, show, mobile) {
+      goPay (e, show) {
         this.show = show
-        var url = ''
-        var data = {token: this.token, num: this.number}
         if (this.number < 1) {
-          if (!mobile) {
+          if (!this.isMobile) {
             this.buyStatus = 1
             setTimeout(() => {
               this.buyStatus = 0
@@ -59,6 +57,11 @@
           }
           return false
         }
+        this.getBuyInfo()
+      },
+      getBuyInfo () {
+        var url = ''
+        var data = {token: this.token, num: this.number}
         if (this.$route.params.type === '1') {
           url = 'buy_miner'
           data = Object.assign({miner_id: this.$route.params.id}, data)
@@ -131,11 +134,17 @@
           }
         })
       })
+      if (this.addressObj.id) {
+        this.number = this.addressObj.num
+        this.getBuyInfo()
+      }
     },
     computed: {
       ...mapState({
         token: state => state.info.token,
-        user_id: state => state.info.user_id
+        user_id: state => state.info.user_id,
+        isMobile: state => state.isMobile,
+        addressObj: state => state.addressData
       })
     }
   }

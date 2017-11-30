@@ -127,15 +127,15 @@
     </div>
     <div class="mobile_box">
       <div class="mobile_address" v-if="$route.params.type==='1'">
-        <div class="address_box" @click="selectAddress(k)" v-if="addressShowData[0]">
-          <h3>{{addressShowData[0].post_user+'  '+addressShowData[0].post_mobile}}</h3>
-          <p>{{addressShowData[0].province_name+addressShowData[0].city_name+addressShowData[0].area_name+addressShowData[0].area_details}}</p>
+        <div class="address_box" @click="selectAddress" v-if="addressObject">
+          <h3 :class="{active:addressObject.is_default}">{{addressObject.post_user+'  '+addressObject.post_mobile}}</h3>
+          <p>{{addressObject.province_name+addressObject.city_name+addressObject.area_name+addressObject.area_details}}</p>
         </div>
         <div class="address_btn" @click="openMask(2)" v-else>使用新地址</div>
       </div>
       <div class="price">
         <span>应付金额</span>
-        <span class="val">{{$parent.totalPrice}}元</span>
+        <span class="val">{{totalPrice}}元</span>
       </div>
       <div class="confirm_info">
         <div class="item" v-for="m,k in $route.params.type === '1'?mobileNav2:mobileNav1">
@@ -421,6 +421,7 @@
           api.checkAjax(self, res, () => {
             self.$parent.addressData = res
             self.addressShowData = self.$parent.addressData.slice(0, 3)
+            self.addressObject = self.addressShowData[0]
           })
         })
       },
@@ -435,7 +436,8 @@
       },
       selectAddress (k) {
         if (this.isMobile) {
-          location.href = '/mobile/address?select'
+          this.$store.commit('SET_ADDRESS', {url: this.$route.params.id + '/' + this.$route.params.type, num: this.$parent.number})
+          this.$router.push({path: '/mobile/address?select'})
         } else {
           this.$parent.addressNo = k
         }
@@ -480,15 +482,12 @@
     },
     mounted () {
       if (this.page === 'minerShop') {
-        this.totalPrice = this.$parent.detail.one_amount_value * this.$parent.number
+        this.totalPrice = this.$parent.detail.one_amount_value * +this.$parent.number
         if (this.$parent.show) {
           this.totalPrice /= 2
         }
       } else {
         this.totalPrice = this.$parent.detail.total_price
-      }
-      if (this.$route.params.type === '1') {
-        this.getAddress()
       }
       if (this.$parent.show) {
         // var self = this
@@ -504,6 +503,11 @@
         //   })
         // })
       }
+      if (this.addressObj.id) {
+        this.addressObject = this.addressObj
+      } else if (this.$route.params.type === '1') {
+        this.getAddress()
+      }
     },
     filters: {
       format: api.decimal
@@ -514,7 +518,8 @@
         user_id: state => state.info.user_id,
         bank_card: state => state.info.bank_card,
         isMobile: state => state.isMobile,
-        trade_password: state => state.info.trade_password
+        trade_password: state => state.info.trade_password,
+        addressObj: state => state.addressData
       })
     }
   }
@@ -811,7 +816,7 @@
           h3{
             position: relative;
             font-weight: bold;
-            &:after{
+            &.active:after{
               content:'默认';
               @include position(4,auto,auto,10)
               font-size: 12px;

@@ -22,7 +22,8 @@ const state = {
   hashType: [],
   num: '',
   callUrl: '',
-  isMobile: false
+  isMobile: false,
+  addressData: {}
 }
 
 const getters = {

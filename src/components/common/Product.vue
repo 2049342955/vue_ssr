@@ -33,7 +33,7 @@
           </div>
           <p class="miner_number">库存{{$parent.leftNum}}台<span>({{parseInt($parent.detail.single_limit_amount)||1}}台起售)</span></p>
         </div>
-        <button class="btn" v-if="$parent.detail.status===1" @click="checkPay">立即支付</button>
+        <button :class="['btn buy_btn', {error: $parent.buyStatus===1}, {over: $parent.buyStatus===2}]" v-if="$parent.detail.status===1" @click="checkPay">立即支付</button>
         <button class="btn" disabled v-else-if="$parent.detail.status===2" style="background:#c3bbba;">已售馨</button>
         <button class="btn" disabled v-else-if="$parent.detail.status===3">产品撤销</button>
       </div>
@@ -182,7 +182,7 @@
           </div>
           <div class="mobile_btn">
             <mt-button type="default" size="large" disabled v-if="$parent.leftStatus">已售罄</mt-button>
-            <mt-button type="primary" size="large" @click="checkPay($event, false, 1)" v-else>立即支付</mt-button>
+            <mt-button type="primary" size="large" @click="checkPay($event, false)" v-else>立即支付</mt-button>
           </div>
         </div>
       </mt-popup>
@@ -213,7 +213,7 @@
       }
     },
     methods: {
-      checkPay (e, sh, mobile) {
+      checkPay (e, sh) {
         var startTime = this.$parent.detail.sell_start_time
         var now = Date.parse(new Date()) / 1000
         if (this.$parent.detail.status === 4) {
@@ -238,7 +238,7 @@
           })
           return false
         }
-        this.$parent.goPay(e, sh, mobile)
+        this.$parent.goPay(e, sh)
       },
       openMask () {
         this.sheetVisible = true

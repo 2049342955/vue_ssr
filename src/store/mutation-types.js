@@ -5,4 +5,4 @@ export const SET_HASH_TYPE = 'SET_HASH_TYPE'
 export const SET_NUM = 'SET_NUM'
 export const SET_URL = 'SET_URL'
 export const SET_EQUIPMENT = 'SET_EQUIPMENT'
-
+export const SET_ADDRESS = 'SET_ADDRESS'
