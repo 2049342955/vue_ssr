@@ -34,9 +34,7 @@
         content1: '',
         show: '',
         str: {4: '预热', 5: '可售', 7: '已售馨'},
-        rate: 6,
-        addressData: [],
-        addressNo: 0
+        rate: 6
       }
     },
     methods: {
