@@ -48,7 +48,7 @@
       <h4>
         <p class="title">交易信息</p>
         <p class="text">提供实时二手平台信息</p>
-        <router-link to="#">发布消息</router-link>
+        <router-link to="#"><img src="../../assets/images/fabu.png"/>发布消息</router-link>
       </h4>
       <div class="cominfor_infoleft">
         <p v-for="n,k in infoleft" class="infoleft_p">
@@ -212,14 +212,12 @@
     height: 100%;
     .cominfor_header{
       width: 100%;
-      height: 630px;
+      height: 550px;
       background-image: url('../../assets/images/information.png');
       overflow: hidden;
       background-size: 100% 100%;
       object-fit: cover;
-      position: absolute;
-      top:0;
-      padding-top: 157px;
+      padding-top: 87px;
       .cominfor_headercon{
         width: 1180px;
         margin:0 auto;
@@ -431,11 +429,10 @@
       width: 1180px;
       height: 40px;
       margin:0 auto;
-      margin-top: 640px;
+      margin-top: 30px;
       img{
           width: 146px;
           height: 30px;
-          object-fit: cover;
           float: left;
       }
       .scroll{
@@ -479,6 +476,13 @@
                 float: right;
                 color:#327fff;
                 font-size: 16px;
+                img{
+                    width:16px;
+                    height: 16px;
+                    margin-right: 10px;
+                    position: relative;
+                    top: -3px;
+                }
             }
         }
         .cominfor_infoleft{

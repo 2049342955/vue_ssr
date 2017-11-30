@@ -15,7 +15,7 @@
         </div>
         <div class="transaction_right">
           <div class="mobile">
-            <span></span>
+            <span><img src="../../assets/images/dian.png"/></span>
             {{n.mobile}}
           </div>
           <button>点击查看完整号码</button>
@@ -45,7 +45,6 @@
       height: 410px;
       background-image: url('../../assets/images/ji.png');
       background-size: 100% 100%;
-      margin-top: 130px;
     }
     .transaction_all{
         width: 1180px;
@@ -79,7 +78,7 @@
           box-shadow: #999 0 0 10px;
           background:white;
           .transaction_left{
-              width: 80%;
+              width: 75%;
               float: left;
               height: 100%;
               padding-top: 20px;
@@ -114,14 +113,42 @@
           }
           .transaction_right{
               text-align: right;
+              float: right;
+              width: 266px;
+              margin-right: 17px;
+              margin-top: 28px;
               .mobile{
                   width: 266px;
                   height: 38px;
                   border:1px solid #dcdcdc;
                   line-height: 38px;
+                  text-align: center;
+                  color: #666;
+                  font-weight: 800;
+                  font-size: 18px;
                   span{
                     display:inline-block;
+                    width: 38px;
+                    height: 100%;
+                    background: #fe5039;
+                    border-right:1px solid #dcdcdc;
+                    float: left;
+                    img{
+                      width: 24px;
+                      height: 24px;
+                      position: relative;
+                      top: -8px;
+                    }
                   }
+              }
+              button{
+                  width: 266px;
+                  height: 38px;
+                  background: #fe5039;
+                  font-size: 16px;
+                  color: white;
+                  border:0;
+                  margin-top: 18px;
               }
           }
       }

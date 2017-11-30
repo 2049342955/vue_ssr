@@ -106,7 +106,7 @@
   @import '../../assets/fonts/iconfont.css';
   .miner_shop{
     .bg_box{
-      @include bg(1920,650px,#1863f0)
+      @include bg(1920,650px,#070a0f)
       .bg{
         background:url(../../assets/images/miner_shop/miner_list.jpg) no-repeat;
       }
