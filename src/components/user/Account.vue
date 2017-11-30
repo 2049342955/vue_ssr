@@ -100,7 +100,7 @@
             callbackUrl = 'show_user_truename'
             val = 'true_name'
             tipsStr = '实名认证已提交，请您耐心等待几秒即可看到认证结果'
-            tipsStr2 = '恭喜您实名认证成功，温馨提示：在您进行购买矿机和算力之前，请先绑定银行卡'
+            tipsStr2 = '恭喜您实名认证成功'
             break
           case 'card':
             url = 'BankCard'
