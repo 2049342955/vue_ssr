@@ -1,0 +1,131 @@
+<template>
+  <div class="transaction">
+    <div class="transaction_img">
+    </div>
+    <div class="transaction_all">
+      共有<span>122</span>条交易信息
+    </div>
+    <div class="transaction_lists">
+      <div class="transaction_list" v-for="n,k in lists">
+        <div class="transaction_left">
+          <h2><span>【{{n.status}}】</span>{{n.title}}</h2>
+          <p class="text">{{n.info}}</p>
+          <p class="address">{{n.address}}</p>
+          <p class="time">{{n.time}} 小时前 / {{n.dian}} / {{n.news}}</p>
+        </div>
+        <div class="transaction_right">
+          <div class="mobile">
+            <span></span>
+            {{n.mobile}}
+          </div>
+          <button>点击查看完整号码</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    data () {
+      return {
+        lists: [{status: '转让', title: '蚂蚁1月份机子s913.5T带官电，现开始对外接单', info: '蚂蚁s913.5T带官电发货的机子现在开始正式接受预订了，余货不多，先到先得，全款发货，定金自提', address: '福建省 - 福州市', time: '3', dian: '蚂蚁', news: '全新', mobile: '17682446028'}]
+      }
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+  .transaction{
+    width: 100%;
+    overflow: hidden;
+    margin:0 auto;
+    .transaction_img{
+      width: 100%;
+      height: 410px;
+      background-image: url('../../assets/images/ji.png');
+      background-size: 100% 100%;
+      margin-top: 130px;
+    }
+    .transaction_all{
+        width: 1180px;
+        height: 40px;
+        border:1px solid #f2e5d2;
+        margin:0 auto;
+        position: relative;
+        top: -20px;
+        box-sizing: border-box;
+        background: #fbfaf5;
+        padding-left: 20px;
+        line-height: 40px;
+        color:#999999;
+        font-size: 12px;
+        box-shadow: #999 0 0 10px;
+        span{
+            color:#fe5039;
+            font-weight: 800;
+            margin:0 5px;
+            font-size: 16px;
+        }
+    }
+    .transaction_lists{
+      width: 1180px;
+      height: auto;
+      padding-bottom:29px;
+      margin: 0 auto;
+      .transaction_list{
+          width: 100%;
+          height: 150px;
+          box-shadow: #999 0 0 10px;
+          background:white;
+          .transaction_left{
+              width: 80%;
+              float: left;
+              height: 100%;
+              padding-top: 20px;
+              padding-left: 20px;
+              h2{
+                  font-size: 16px;
+                  color: #333333;
+                  margin-bottom: 7px;
+                  span{
+                      color: #fe5039;
+                      margin-right: 12px;
+                  }
+              }
+              .text{
+                  font-size: 14px;
+                  color:#999999;
+                  width: 626px;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+                  margin-bottom: 7px;
+              }
+              .address{
+                  font-size: 14px;
+                  color:#999999;
+                  margin-bottom: 7px;
+              }
+              .time{
+                  font-size: 14px;
+                  color: #333333;
+              }
+          }
+          .transaction_right{
+              text-align: right;
+              .mobile{
+                  width: 266px;
+                  height: 38px;
+                  border:1px solid #dcdcdc;
+                  line-height: 38px;
+                  span{
+                    display:inline-block;
+                  }
+              }
+          }
+      }
+    }
+  }
+</style>
+

@@ -26,6 +26,7 @@
   import ComputeDetail from '@/components/compute/Detail'
 // computational
   import ComInfor from '@/components/computational/ComInfor'
+  import Transaction from '@/components/computational/Transaction'
 // user
   import Message from '@/components/user/Message'
   import MessageDetail from '@/components/user/MessageDetail'
@@ -173,6 +174,10 @@
         path: 'comInfor',
         name: 'comInfor',
         component: ComInfor
+      }, {
+        path: 'transaction',
+        name: 'transaction',
+        component: Transaction
       }]
     }, {
       path: '/user',
