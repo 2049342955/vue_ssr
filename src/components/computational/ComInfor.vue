@@ -3,13 +3,13 @@
     <div class="cominfor_header">
       <div class="cominfor_headercon">
         <div class="cominfo_headerleft">
-          <div class="red">
+          <router-link to="/computeNews/list" class="red">
             <h1>算力资讯</h1>
             <p>随时获取最新行业讯息</p>
-          </div>
+          </router-link>
           <div class="olbottom">
             <div v-for="n, k in headerlist" class="ollist">
-              <div class="oltitle">{{n.title}}</div>
+              <router-link :to="n.link" class="oltitle">{{n.title}}</router-link>
               <div class="rou">
                 <router-link :to="d.path" v-for="d, m in n.route">{{d.name}}</router-link>
               </div>
@@ -39,7 +39,9 @@
       </div>
     </div>
     <div class="cominfor_news">
-      <img src="../../assets/images/information7.png"/>
+      <router-link to="/quickNews/list">
+        <img src="../../assets/images/information7.png"/>
+      </router-link>
       <div class="scroll">
         还是不行还是不行还是想
       </div>
@@ -157,6 +159,7 @@
         sheol3: [{title: '以色列比特币矿机公司SP科技', big: require('@/assets/images/kuan.png')}, {title: '以色列比特币矿机公司SP科技', big: require('@/assets/images/kuan.png')}, {title: '以色列比特币矿机公司SP科技', big: require('@/assets/images/kuan.png')}, {title: '以色列比特币矿机公司SP科技', big: require('@/assets/images/kuan.png')}],
         headerlist: [{
           title: '设备之家',
+          link: '/eequipments',
           route: [{
             name: '矿机测评 >',
             path: '#1'
@@ -166,6 +169,7 @@
           }]
         }, {
           title: '数字货币',
+          link: '/digitalCurrency',
           route: [{
             name: '主流币种 >',
             path: '#3'
@@ -174,7 +178,8 @@
             path: '#4'
           }]
         }, {
-          title: '二手资讯'
+          title: '二手资讯',
+          link: '/transaction'
         }],
         bigimglists: [{
           bigimglist: [{big: require('@/assets/images/img.jpg')}, {big: require('@/assets/images/information6.png')}, {big: require('@/assets/images/information6.png')}],

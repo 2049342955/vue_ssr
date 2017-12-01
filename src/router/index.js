@@ -53,6 +53,7 @@
   import WebInfoDetail from '@/components/info/Detail'
   import IssuesDetail from '@/components/info/IssuesDetail'
 // industryInformation
+  import ComputeNews from '@/views/ComputeNews'
   // computeNews
   // quickNews
   // tradeNews
@@ -411,7 +412,7 @@
       }
     }, {
       path: '/computeNews',
-      component: compute,
+      component: ComputeNews,
       beforeEnter: (to, from, next) => {
         document.querySelector('title').innerHTML = '算力资讯'
         next()
@@ -432,38 +433,70 @@
       }]
     }, {
       path: '/quickNews',
-      component: compute,
+      component: ComputeNews,
       beforeEnter: (to, from, next) => {
         document.querySelector('title').innerHTML = '快报'
         next()
-      }
+      },
+      children: [{
+        path: 'list',
+        name: 'quickNewsList',
+        component: NewsFlash
+      }]
     }, {
-      path: '/tradeNews',
-      component: compute,
+      path: '/transaction',
+      component: Transaction,
       beforeEnter: (to, from, next) => {
         document.querySelector('title').innerHTML = '交易信息'
         next()
       }
     }, {
       path: '/equipments',
-      component: compute,
+      component: ComputeNews,
       beforeEnter: (to, from, next) => {
         document.querySelector('title').innerHTML = '设备之家'
         next()
-      }
+      },
+      children: [{
+        path: 'list',
+        name: 'quickNewsList',
+        component: WebInfoList
+      }, {
+        path: 'detail/:id',
+        name: 'quickNewsDetail',
+        component: WebInfoDetail
+      }]
     }, {
       path: '/digitalCurrency',
-      component: compute,
+      component: ComputeNews,
       beforeEnter: (to, from, next) => {
         document.querySelector('title').innerHTML = '数字货币'
         next()
-      }
+      },
+      children: [{
+        path: 'list',
+        name: 'quickNewsList',
+        component: WebInfoList
+      }, {
+        path: 'detail/:id',
+        name: 'quickNewsDetail',
+        component: WebInfoDetail
+      }]
     }, {
       path: '/miner',
-      component: compute,
+      component: ComputeNews,
       beforeEnter: (to, from, next) => {
         document.querySelector('title').innerHTML = '矿场相册'
         next()
-      }
+      },
+      children: [{
+        path: 'list',
+        name: 'quickNewsList',
+        component: WebInfoList
+      }, {
+        path: 'detail/:id',
+        name: 'quickNewsDetail',
+        component: WebInfoDetail
+      }]
     }]
   })
