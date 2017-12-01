@@ -14,6 +14,9 @@
       <div class="miner_pic pic2">
         <img :src="p.image" alt="" v-for="p,k in pics" :style="{'opacity':picShow===k?1:0}">
         <!-- <router-link to="/minerShop/activity" class="btn">立即抢购</router-link> -->
+        <div class="swipe_pager">
+          <div :class="['item', {active: picShow===k}]" v-for="p,k in pics" @mouseover="changePic(k)" @mouseout="swipe"></div>
+        </div>
       </div>
       <div class="miner_pic pic3">
         <img :src="require('@/assets/images/miner_shop/miner.jpg')" alt="">
@@ -50,6 +53,9 @@
         <router-link to="/minerShop/miner/2/all">更多云矿机 ></router-link>
       </h2>
     </CloudMinerList>
+    <div class="miner_loan">
+      <img :src="require('@/assets/images/miner_shop/loan.jpg')" alt="">
+    </div>
     <SideBar></SideBar>
   </section>
 </template>
@@ -70,7 +76,8 @@
         cloudMinerDate: [],
         minerData: [],
         picShow: 0,
-        pics: []
+        pics: [],
+        timer: ''
       }
     },
     methods: {
@@ -91,10 +98,14 @@
         })
       },
       swipe () {
-        setInterval(() => {
+        this.timer = setInterval(() => {
           this.picShow += 1
-          this.picShow = this.picShow >= this.pics.length ? 1 : this.picShow
+          this.picShow = this.picShow >= this.pics.length ? 0 : this.picShow
         }, 3000)
+      },
+      changePic (k) {
+        clearInterval(this.timer)
+        this.picShow = k
       }
     },
     mounted () {
@@ -177,6 +188,21 @@
           position: relative;
           width:710px;
           height:298px;
+          .swipe_pager{
+            @include position(auto,auto,15,30)
+            .item{
+              @include block(16)
+              border:1px solid $orange;
+              border-radius:50%;
+              cursor: pointer;
+              &:hover,&.active{
+                background: $orange;
+              }
+              & + .item{
+                margin-left:10px
+              }
+            }
+          }
           .btn{
             left:120px;
             width:200px;
