@@ -43,6 +43,7 @@
       width: 100%;
       height: 50px;
       background: white;
+			border-top: 1px solid #e5e5e5;
       .compute_news_box{
         width: 1180px;
         margin:0 auto;
