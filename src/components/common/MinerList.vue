@@ -107,7 +107,7 @@
           top:0;
         }
         h6{
-            font-size: 14px;
+            font-size: 16px;
             color:#121212;
             padding-left: 20px;
             padding-right: 20px;
@@ -152,6 +152,7 @@
             padding: 0 20px;
             padding-top: 18px;
             .item{
+                width: 33.3%;
                 float: left;
                 text-align: center;
                 p{
@@ -162,10 +163,12 @@
                   height: 20px;
                   font-size: 14px;
                   color: #666666;
+                  text-align: left;
                 }
                 .title{
                     color: #a9a9a9;
                     font-size: 12px;
+                    text-align: left;
                 }
             }
             :nth-child(1){
@@ -173,8 +176,11 @@
                 height: 30px;      
             }
             :nth-child(2){
-                // margin-left:5px;
+                padding-left:35px;
                 // margin-right:5px;
+            }
+            :nth-child(3){
+              padding-left: 30px;
             }
         }
         &:hover{
