@@ -648,8 +648,8 @@
             font-weight: bold;
             margin-bottom:20px;
           }
-          .content_con p:nth-child(2){
-            margin-top:30px;
+          .content_con img{
+            margin-bottom:30px;
           }
         }
         .product_img{

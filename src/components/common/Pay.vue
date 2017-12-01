@@ -131,7 +131,7 @@
           <h3 :class="{active:addressObject.is_default}">{{addressObject.post_user+'  '+addressObject.post_mobile}}</h3>
           <p>{{addressObject.province_name+addressObject.city_name+addressObject.area_name+addressObject.area_details}}</p>
         </div>
-        <div class="address_btn" @click="openMask(2)" v-else>使用新地址</div>
+        <div class="address_btn" @click="selectAddress" v-else>使用新地址</div>
       </div>
       <div class="price">
         <span>应付金额</span>
@@ -178,11 +178,7 @@
       <div class="close" @click="closeMask">
         <span class="icon"></span>
       </div>
-      <div class="agreement" v-if="contract" v-html="contract"></div>
-      <form class="form" @submit.prevent="submit" novalidate v-else>
-        <FormField :form="address"></FormField>
-        <button name="btn">提交</button>
-      </form>
+      <div class="agreement" v-html="contract"></div>
     </mt-popup>
   </section>
 </template>
