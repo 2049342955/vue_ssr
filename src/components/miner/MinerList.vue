@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="miner_pic pic2">
-        <img :src="require('@/assets/images/miner_shop/miner_top1.jpg')" alt="">
+        <img :src="p.image" alt="" v-for="p,k in pics" :style="{'opacity':picShow===k?1:0}">
         <router-link to="/minerShop/activity" class="btn">立即抢购</router-link>
       </div>
       <div class="miner_pic pic3">
@@ -68,7 +68,9 @@
     data () {
       return {
         cloudMinerDate: [],
-        minerData: []
+        minerData: [],
+        picShow: 0,
+        pics: []
       }
     },
     methods: {
@@ -87,10 +89,23 @@
             self.minerData = res.data
           })
         })
+      },
+      swipe () {
+        setInterval(() => {
+          this.picShow += 1
+          this.picShow = this.picShow >= this.pics.length ? 1 : this.picShow
+        }, 3000)
       }
     },
     mounted () {
       this.fetchData()
+      var self = this
+      util.post('banner', {sign: 'token=' + this.token}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.pics = res
+        })
+      })
+      this.swipe()
     },
     computed: {
       ...mapState({
@@ -159,6 +174,9 @@
           }
         }
         &.pic2{
+          position: relative;
+          width:710px;
+          height:298px;
           .btn{
             left:120px;
             width:200px;
@@ -166,6 +184,13 @@
             font-weight: bold;
             @include button(#FE5038)
             border-radius:20px;
+          }
+          img{
+            @include position
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            transition: all 1s;
           }
         }
         &.pic2,&.pic3,&.pic4{

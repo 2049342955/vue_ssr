@@ -3,7 +3,7 @@
     <h3>{{content.title}}</h3>
     <p class="dateline">{{content.dateline}}</p>
     <div class="info_detail" v-html="content.content"></div>
-    <router-link class="button" :to="'/webInfo/list/'+$route.params.type">返回</router-link>
+    <a class="button" href="javascript:;" onclick="window.history.go(-1)">返回</a>
   </section>
 </template>
 
@@ -16,7 +16,7 @@
         content: {}
       }
     },
-    created () {
+    mounted () {
       var self = this
       util.post('content', {sign: 'token=0&news_id=' + this.$route.params.id}).then(function (res) {
         api.checkAjax(self, res, () => {
