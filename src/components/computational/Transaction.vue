@@ -16,7 +16,7 @@
         <div class="transaction_right">
           <div class="mobile">
             <span><img src="../../assets/images/dian.png"/></span>
-            {{n.mobile}}
+            {{n.mobile|format}}
           </div>
           <button>点击查看完整号码</button>
         </div>
@@ -26,11 +26,16 @@
 </template>
 
 <script>
+  import api from '../../util/function'
   export default {
     data () {
       return {
         lists: [{status: '转让', title: '蚂蚁1月份机子s913.5T带官电，现开始对外接单', info: '蚂蚁s913.5T带官电发货的机子现在开始正式接受预订了，余货不多，先到先得，全款发货，定金自提', address: '福建省 - 福州市', time: '3', dian: '蚂蚁', news: '全新', mobile: '17682446028'}]
       }
+    },
+    filters: {
+      format: api.telReadable,
+      date: api.date
     }
   }
 </script>
