@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="items cloud_miner" v-if="$route.params.type!=='1'">
-      <div class="miner_type">
+      <div class="miner_type" style="background:#327fff;">
         <div class="iconfont">&#xe610;</div>
         <span>云矿机</span>
       </div>
@@ -319,7 +319,7 @@
         top:11px;
         width: 82px;
         height: 78px;
-        background: #327fff;
+        background: #fe5039;
         text-align: center;
         color:white;
         .iconfont{
