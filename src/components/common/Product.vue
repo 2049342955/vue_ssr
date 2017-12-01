@@ -20,7 +20,7 @@
       </div>
       <div class="miner_right">
         <h4>{{$parent.detail.name}}</h4>
-        <p class="time">抢购成功订单2-3周内陆续发货！发货时间 : {{$parent.detail.DeliveryTime}}天后发货</p>
+        <p class="time">{{$parent.detail.DeliveryTime}}</p>
         <p class="suan_price"><span class="left_miner">矿 机 价</span><span class="right_miner">¥ <em>{{$parent.detail.one_amount_value}}</em></span></p>
         <p class="address"><span class="left_miner">总 算 力</span><span class="right_miner"><em>{{$parent.totalHash|format}}</em>T</span></p>
         <p class="address"><span class="left_miner">物&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;流</span><span class="right_miner">订单委托第三方物流公司发货，物流费用到付</span></p>
