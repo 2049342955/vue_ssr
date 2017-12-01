@@ -250,6 +250,7 @@
     },
     mounted () {
       this.tabs(0)
+      console.log(document.getElementsByClassName('product')[0].style.height)
     },
     filters: {
       format: api.decimal
@@ -269,7 +270,6 @@
   @import '../../assets/css/style.scss';
   .product{
     background: #f7f8fa;
-    height: 2000px;
     .top_nav{
       background-image: url('../../assets/images/miner.png');
       width: 100%;
