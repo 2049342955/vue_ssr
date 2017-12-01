@@ -34,7 +34,7 @@
           <p class="miner_number">库存{{$parent.leftNum}}台<span>({{parseInt($parent.detail.single_limit_amount)||1}}台起售)</span></p>
         </div>
         <button :class="['btn buy_btn', {error: $parent.buyStatus===1}, {over: $parent.buyStatus===2}]" v-if="$parent.detail.status===1" @click="checkPay">立即支付</button>
-        <button class="btn" disabled v-else-if="$parent.detail.status===2" style="background:#c3bbba;">已售馨</button>
+        <button class="btn" disabled v-else-if="$parent.detail.status===2" style="background:#c3bbba;">已售罄</button>
         <button class="btn" disabled v-else-if="$parent.detail.status===3">产品撤销</button>
       </div>
     </div>
@@ -269,6 +269,7 @@
   @import '../../assets/css/style.scss';
   .product{
     background: #f7f8fa;
+    height: 2000px;
     .top_nav{
       background-image: url('../../assets/images/miner.png');
       width: 100%;
@@ -305,7 +306,7 @@
         top:11px;
         width: 82px;
         height: 78px;
-        background: #fe5039;
+        background: #327fff;
         text-align: center;
         color:white;
         .iconfont{

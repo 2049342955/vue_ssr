@@ -94,7 +94,7 @@
             </div>
             <div class="pay_info">
               <span>支付</span>
-              <span class="money">{{(page==='minerShop'?totalPrice:$parent.detail.total_price)|format}}</span>
+              <span class="money" style="font-size:16px;">{{(page==='minerShop'?totalPrice:$parent.detail.total_price)|format}}</span>
               <span>元</span>
             </div>
           </div>
@@ -113,7 +113,7 @@
         <div class="order_title">订单信息</div>
         <div class="item">
           <span>总算力</span>
-          <span>{{$parent.number*$parent.detail.hash}}T</span>
+          <span style="font-size:13px;">{{$parent.number*$parent.detail.hash}}T</span>
         </div>
         <div class="item" v-if="$parent.show">
           <span>总金额</span>
@@ -121,7 +121,7 @@
         </div>
         <div class="item">
           <span>支付金额</span>
-          <span class="price">￥{{(page==='minerShop'?totalPrice:$parent.detail.total_price)|format}}元</span>
+          <span class="price" style="font-size:16px;">￥{{(page==='minerShop'?totalPrice:$parent.detail.total_price)|format}}元</span>
         </div>
       </div>
     </div>
