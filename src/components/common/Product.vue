@@ -61,7 +61,7 @@
             </div>
           </template>
         </div>
-        <div class="progress_info press">
+        <div class="progress_info press" style="overflow:hidden;">
           <div class="progress_box">
             <div class="box" :style="{width:(parseInt($parent.detail.buyed_amount)/parseInt($parent.detail.amount)*100)+'%'}"></div>
           </div>
