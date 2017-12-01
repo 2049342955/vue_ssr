@@ -29,10 +29,6 @@
     .computational_nav{
       width: 100%;
       height: 50px;
-    //   margin-top: 80px;
-      z-index: 999999;
-      position: absolute;
-      top:80px;
       background: white;
       .computational_box{
         width: 1180px;
