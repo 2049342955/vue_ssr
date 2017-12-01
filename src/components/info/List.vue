@@ -1,16 +1,16 @@
 <template>
   <section class="notice">
-    <h3>{{str[$route.params.type]}}</h3>
-    <template v-if="$route.params.type !== 'news'">
+    <template v-if="$route.params.type">
+      <h3 v-if="">{{str[$route.params.type]}}</h3>
       <div class="display">
-        <router-link :class="['item',{active: true}]" :to="'/webInfo/detail/'+$route.params.type+'/'+list.id" v-for="list in lists" :key="lists.id">
+        <router-link :class="['item',{active: true}]" :to="'/webInfo/detail/'+list.id" v-for="list in lists" :key="lists.id">
           <span class="title">{{list.title}}</span>
           <span class="time">{{list.dateline}}</span>
         </router-link>
       </div>
     </template>
     <template v-else>
-      <router-link :class="['item', 'img_text', {active: true}]" :to="'/webInfo/detail/'+$route.params.type+'/'+list.id" v-for="list in lists" :key="lists.id">
+      <router-link :class="['item', 'img_text', {active: true}]" :to="'/computeNews/detail/'+list.id" v-for="list in lists" :key="lists.id">
         <template v-if="list.image">
           <img :src="list.image"/>
         </template>
@@ -38,21 +38,21 @@
 </template>
 
 <script>
-  import util from '../../util'
-  import api from '../../util/function'
+  import util from '@/util'
+  import api from '@/util/function'
   export default {
     data () {
       return {
         lists: [],
-        str: {website: '网站动态', product: '产品公告', news: '产业资讯'},
-        requestUrl: {website: 'webDynamic', product: 'webAnnouncoment', news: 'suanliMessage'},
+        str: {website: '网站动态', product: '产品公告'},
+        requestUrl: {website: 'webDynamic', product: 'webAnnouncoment'},
         img1: require('@/assets/images/zx.jpg')
       }
     },
     methods: {
       judge () {
         var n = this.$route.params.type
-        var url = this.requestUrl[n]
+        var url = this.requestUrl[n] || 'suanliMessage'
         document.querySelector('title').innerHTML = '算力新闻_比特币资讯－算力网'
         var self = this
         util.post(url, {sign: 'token=0'}).then(function (res) {

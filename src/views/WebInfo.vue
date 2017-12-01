@@ -2,7 +2,7 @@
   <article class="web_info">
     <div class="web_info_nav">
       <div class="box" style="display:block;">
-        <router-link class="tab" :to="n.path" v-for="n in nav[no]" :key="n.id">{{n.title}}</router-link>
+        <router-link class="tab" :to="n.path" v-for="n in nav" :key="n.id">{{n.title}}</router-link>
       </div>
     </div>
     <div class="web_info_content">
@@ -15,7 +15,7 @@
   export default {
     data () {
       return {
-        nav: [[{name: 'product', title: '产品公告', path: '/webInfo/list/product'}, {name: 'website', title: '网站动态', path: '/webInfo/list/website'}, {name: 'aboutUs', title: '关于我们', path: '/webInfo/aboutUs'}, {name: 'Issues', title: '常见问题', path: '/webInfo/issues'}], [{name: 'news', title: '算力资讯', path: '/webInfo/list/news'}]],
+        nav: [{name: 'product', title: '产品公告', path: '/webInfo/list/product'}, {name: 'website', title: '网站动态', path: '/webInfo/list/website'}, {name: 'aboutUs', title: '关于我们', path: '/webInfo/aboutUs'}, {name: 'Issues', title: '常见问题', path: '/webInfo/issues'}],
         no: 0
       }
     },
@@ -29,7 +29,6 @@
     },
     methods: {
       judge () {
-        this.no = ((this.$route.name === 'list' || this.$route.name === 'webInfoDetail') && '1') || ((this.$route.name === 'issues' || this.$route.name === 'issuesDetail' || this.$route.name === 'aboutUs') && '0')
         if (!this.$route.path.includes('issues')) {
           this.$store.commit('SET_NUM', '')
         }

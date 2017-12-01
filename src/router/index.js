@@ -52,6 +52,13 @@
   import WebInfoList from '@/components/info/List'
   import WebInfoDetail from '@/components/info/Detail'
   import IssuesDetail from '@/components/info/IssuesDetail'
+// industryInformation
+  // computeNews
+  // quickNews
+  // tradeNews
+  // equipments
+  // digitalCurrency
+  // mine
 // mobile
   import Mobile from '@/views/Mobile'
   import MbdcForm from '@/components/mobile/MbdcForm'
@@ -286,7 +293,7 @@
         }
       }, {
         path: 'list/:type',
-        name: 'list',
+        name: 'webInfoList',
         component: WebInfoList,
         beforeEnter: (to, from, next) => {
           document.querySelector('title').innerHTML = '算力新闻_比特币资讯－算力网'
@@ -294,7 +301,7 @@
           next()
         }
       }, {
-        path: 'detail/:type/:id',
+        path: 'detail/:id',
         name: 'webInfoDetail',
         component: WebInfoDetail
       }, {
@@ -395,5 +402,68 @@
         name: 'maddressManage',
         component: AddressManage
       }]
+    }, {
+      path: '/industryInformation',
+      component: ComInfor,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '产业资讯'
+        next()
+      }
+    }, {
+      path: '/computeNews',
+      component: compute,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '算力资讯'
+        next()
+      },
+      children: [{
+        path: 'list',
+        name: 'computeNewsList',
+        component: WebInfoList,
+        beforeEnter: (to, from, next) => {
+          document.querySelector('title').innerHTML = '算力新闻_比特币资讯－算力网'
+          document.querySelector('meta[name="description"]').setAttribute('content', '算力网（www.suanli.com)产业新闻栏目，为你提供各种算力产业资讯，比特币新闻，行业动态，关注算力网，开启你的挖矿之旅')
+          next()
+        }
+      }, {
+        path: 'detail/:id',
+        name: 'computeNewsDetail',
+        component: WebInfoDetail
+      }]
+    }, {
+      path: '/quickNews',
+      component: compute,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '快报'
+        next()
+      }
+    }, {
+      path: '/tradeNews',
+      component: compute,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '交易信息'
+        next()
+      }
+    }, {
+      path: '/equipments',
+      component: compute,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '设备之家'
+        next()
+      }
+    }, {
+      path: '/digitalCurrency',
+      component: compute,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '数字货币'
+        next()
+      }
+    }, {
+      path: '/miner',
+      component: compute,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '矿场相册'
+        next()
+      }
     }]
   })

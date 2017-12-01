@@ -11,7 +11,7 @@
             <div v-for="n, k in headerlist" class="ollist">
               <div class="oltitle">{{n.title}}</div>
               <div class="rou">
-                  <router-link :to="d.path" v-for="d, m in n.route">{{d.name}}</router-link>
+                <router-link :to="d.path" v-for="d, m in n.route">{{d.name}}</router-link>
               </div>
             </div>
           </div>
@@ -19,13 +19,13 @@
         <div class="cominfo_headerright">
           <div class="bigtop">
             <div class="bigimg">
-                <img :src="n.big" v-for="n, k in bigimglists[0].bigimglist" class="teimg"/> 
+              <img :src="n.big" v-for="n, k in bigimglists[0].bigimglist" class="teimg"/> 
             </div>
             <div class="bigtab">
-                <div class="bighover" v-for="d,m in bigimglists[0].bigcontent" :class="{'active': show === m}" @mouseover="hoverwhite(m)">
-                    <h5>{{d.title}}</h5>
-                    <p>{{d.name}}</p>
-                </div>
+              <div class="bighover" v-for="d,m in bigimglists[0].bigcontent" :class="{'active': show === m}" @mouseover="hoverwhite(m)">
+                <h5>{{d.title}}</h5>
+                <p>{{d.name}}</p>
+              </div>
             </div>
           </div>
           <div class="bigbottom">
@@ -52,16 +52,16 @@
       </h4>
       <div class="cominfor_infoleft">
         <p v-for="n,k in infoleft" class="infoleft_p">
-            <span class="status">[{{n.status}}]</span>
-            <span class="title">{{n.title}}</span>
-            <span class="time">{{n.time}}</span>
+          <span class="status">[{{n.status}}]</span>
+          <span class="title">{{n.title}}</span>
+          <span class="time">{{n.time}}</span>
         </p>
       </div>
       <div class="cominfor_inforight">
         <p v-for="n,k in inforight" class="inforight_p">
-            <span class="status">[{{n.status}}]</span>
-            <span class="title">{{n.title}}</span>
-            <span class="time">{{n.time}}</span>
+          <span class="status">[{{n.status}}]</span>
+          <span class="title">{{n.title}}</span>
+          <span class="time">{{n.time}}</span>
         </p>
       </div>
     </div>
@@ -97,8 +97,8 @@
           <h6>【矿机博物馆】 <span>全面测评</span></h6>
           <div class="all_ol">
             <div class="she_ol" v-for="n, k in sheol3">
-                <img :src="n.big"/>
-                <p class="title">{{n.title}}</p>
+              <img :src="n.big"/>
+              <p class="title">{{n.title}}</p>
             </div>
           </div>
           <router-link to="#">全部厂商介绍 ></router-link>

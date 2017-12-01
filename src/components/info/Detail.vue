@@ -8,13 +8,12 @@
 </template>
 
 <script>
-  import util from '../../util'
-  import api from '../../util/function'
+  import util from '@/util'
+  import api from '@/util/function'
   export default {
     data () {
       return {
-        content: {},
-        str: {website: '网站动态', product: '产品公告', news: '算力资讯'}
+        content: {}
       }
     },
     created () {
