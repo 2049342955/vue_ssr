@@ -1,7 +1,7 @@
 <template>
   <section class="notice">
-    <template v-if="$route.params.type">
-      <h3 v-if="">{{str[$route.params.type]}}</h3>
+    <template v-if="$route.params.type&&$route.params.type!=='news'">
+      <h3>{{str[$route.params.type]}}</h3>
       <div class="display">
         <router-link :class="['item',{active: true}]" :to="'/webInfo/detail/'+list.id" v-for="list in lists" :key="lists.id">
           <span class="title">{{list.title}}</span>
@@ -9,8 +9,9 @@
         </router-link>
       </div>
     </template>
-    <template v-else>
-      <router-link :class="['item', 'img_text', {active: true}]" :to="'/computeNews/detail/'+list.id" v-for="list in lists" :key="lists.id">
+    <template v-if="!$route.params.type||$route.params.type==='news'">
+      <h3 v-if="$route.params.type">{{str[$route.params.type]}}</h3>
+      <router-link :class="['item', 'img_text', {active: true}]" :to="$route.params.type?'/webInfo/detail/'+list.id:'/computeNews/detail/'+list.id" v-for="list in lists" :key="lists.id">
         <template v-if="list.image">
           <img :src="list.image"/>
         </template>
@@ -44,7 +45,7 @@
     data () {
       return {
         lists: [],
-        str: {website: '网站动态', product: '产品公告'},
+        str: {website: '网站动态', product: '产品公告', news: '产业资讯'},
         requestUrl: {website: 'webDynamic', product: 'webAnnouncoment'},
         img1: require('@/assets/images/zx.jpg')
       }
