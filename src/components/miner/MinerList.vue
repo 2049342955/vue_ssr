@@ -254,6 +254,9 @@
       }
       @include mobile_hide
     }
+    .miner_loan{
+      @include mobile_hide
+    }
     .millsList{
       padding-top: 120px;
       @include mobile_hide
