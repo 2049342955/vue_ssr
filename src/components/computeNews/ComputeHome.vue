@@ -81,10 +81,12 @@
       <div class="cominfor_shebottom">
         <div class="shebottomleft">
           <h6>【主流厂商】 <span>全面测评</span></h6>
-          <div class="she_ol">
-            <p class="border" v-for="n, k in sheol1"><span></span>{{n.title}}</p>
+          <div style="height:290px;">
+              <div class="she_ol">
+                <p class="border" v-for="n, k in sheol1"><span></span>{{n.title}}</p>
+              </div>
           </div>
-          <router-link to="#">全部厂商介绍 ></router-link>
+          <router-link to="/manufacturer/list">全部厂商介绍 ></router-link>
         </div>
         <div class="shebottomcen">
           <h6>【矿机测评】 <span>全面测评</span></h6>
@@ -98,7 +100,7 @@
               <p class="time">{{n.time}}</p>
             </div>
           </div>
-          <router-link to="#">全部测评 ></router-link>
+          <router-link to="/equipmentEvaluate/list">全部测评 ></router-link>
         </div>
         <div class="shebottomright">
           <h6>【矿机博物馆】 <span>全面测评</span></h6>
@@ -108,7 +110,7 @@
               <p class="title">{{n.title}}</p>
             </div>
           </div>
-          <router-link to="#">全部厂商介绍 ></router-link>
+          <router-link to="/equipments/list">全部厂商介绍 ></router-link>
         </div>
       </div>
     </div>
@@ -126,11 +128,11 @@
         </thead>
         <tbody>
           <tr v-for="d, m in td">
-            <td><span>{{d.type}}</span> - {{d.title}}</td>
-            <td>¥ {{d.money}}</td>
+            <td><span>{{d.name}}</span> - {{d.chinese_name}}</td>
             <td>¥ {{d.price}}</td>
-            <td>{{d.num}} <span>(PH/S)</span></td>
-            <td>{{d.nuit}}</td>
+            <td>¥ {{d.market_cap_usd}}</td>
+            <td>{{d.qwsl}} <span>{{d.unit}}</span></td>
+            <td>{{d.output}}</td>
           </tr>
         </tbody>
       </table>
@@ -153,6 +155,9 @@
 </template>
 
 <script>
+  import util from '@/util/index'
+  import api from '@/util/function'
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
@@ -208,10 +213,44 @@
             bigimg[a].style.opacity = '0'
           }
         }
-      },
-      mounted () {
-        this.hoverwhite(0)
       }
+    },
+    mounted () {
+      this.hoverwhite(0)
+      var self = this
+      util.post('showCoinData', {sign: api.serialize({token: this.token})}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.td = res
+        })
+      }).catch(res => {
+        console.log(res)
+      })
+      util.post('NewsManfacturer', {sign: api.serialize({token: this.token})}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.sheol1 = res
+        })
+      }).catch(res => {
+        console.log(res)
+      })
+      util.post('NewsReview', {sign: api.serialize({token: this.token})}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.sheol2 = res
+        })
+      }).catch(res => {
+        console.log(res)
+      })
+      util.post('NewsMuseum', {sign: api.serialize({token: 0})}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.sheol3 = res
+        })
+      }).catch(res => {
+        console.log(res)
+      })
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token
+      })
     }
   }
 </script>
@@ -805,7 +844,7 @@
                     font-size: 16px;
                     color:black;
                     font-weight: 800;
-                    margin-bottom: 10px;
+                    margin-bottom: 20px;
                     span{
                         color:#666666;
                         font-size: 16px;
@@ -824,7 +863,7 @@
                     border-radius: 5px;
                     float: left;
                     margin: 5px;
-                    margin-bottom:11px; 
+                    margin-bottom:8px; 
                     text-align: center;
                     img{
                         width:76px;

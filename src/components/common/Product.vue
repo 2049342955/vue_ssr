@@ -439,7 +439,7 @@
           background: #fe5039;
           color: white;
           font-size: 18px;
-          margin-left: 94px;
+          margin-left: 79px;
         }
       }
     }

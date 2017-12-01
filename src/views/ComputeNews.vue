@@ -27,7 +27,7 @@
   export default {
     data () {
       return {
-        computationallist: [{title: '算力资讯', path: '/computeNews/list'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/digitalCurrency/list'}, {title: '电场矿场', path: '/computational/electric'}],
+        computationallist: [{title: '算力资讯', path: '/industryInformation'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/digitalCurrency/list'}, {title: '电场矿场', path: '/computational/electric'}],
         leftnav: [{big: 'icon-zixun1', title: '快讯', path: '/quickNews/list'}, {big: 'icon-kuangji', title: '测评', path: '/equipmentEvaluate/list'}, {big: 'icon-zixun', title: '行业', path: '/computeNews/list'}, {big: 'icon-bitebi', title: '币种', path: '/digitalCurrency/list'}, {big: 'icon-bowuguan', title: '博物馆', path: '/equipments/list'}, {big: 'icon-zhizaohangye', title: '厂商', path: '/manufacturer/list'}, {big: 'icon-dianlishebei', title: '电厂', path: ''}]
       }
     }
@@ -100,15 +100,20 @@
 	      overflow: hidden;
 	      .leftnav{
 			    width: 70px;
-			    height: 100%;
+			    height: 1425px;
 			    background: #1c202a;
 			    float: left;
 			    .leftnav_ol{
 			      width: 100%;
 			      height: 68px;
 			      text-align: center;
-			      padding-top: 10px;
 			      box-sizing: border-box;
+						a{
+							display: block;
+							padding-top: 10px;
+							width: 100%;
+							height: 100%;
+						}
 			      span{
 			        font-size:22px;
 			        height: 22px;
@@ -129,6 +134,15 @@
 			          color:white;
 			        }
 			      }
+						.router-link-active{
+							background: #327fff;
+			        span{
+			          color:white;
+			        }
+			        i{
+			          color:white;
+			        }
+						}
 			    }
 			  }
 	      .currency_right{
