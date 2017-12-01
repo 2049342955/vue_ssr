@@ -48,7 +48,7 @@
       <h4>
         <p class="title">交易信息</p>
         <p class="text">提供实时二手平台信息</p>
-        <router-link to="#"><img src="../../assets/images/fabu.png"/>发布消息</router-link>
+        <!-- <router-link to="#"><img src="../../assets/images/fabu.png"/>发布消息</router-link> -->
       </h4>
       <div class="cominfor_infoleft">
         <p v-for="n,k in infoleft" class="infoleft_p">
@@ -132,7 +132,7 @@
       <h4>
         <p class="title">矿场相册</p>
         <p class="text">提供实时二手信息平台</p>
-        <router-link to="#">了解更多 ></router-link>
+        <!-- <router-link to="#">了解更多 ></router-link> -->
       </h4>
       <div class="cominfor_autool">
         <div class="autool" v-for="n, k in autool">
@@ -149,7 +149,7 @@
   export default {
     data () {
       return {
-        autool: [{title: '蒙古矿场', text: '国家电网合规用电', button: '查看详情'}, {title: '山西矿场', text: '国家电网合规用电', button: '即将开放'}, {title: '辽宁矿场', text: '国家电网合规用电', button: '即将开放'}],
+        autool: [{title: '蒙古矿场', text: '国家电网合规用电', button: '即将开放'}, {title: '山西矿场', text: '国家电网合规用电', button: '即将开放'}, {title: '辽宁矿场', text: '国家电网合规用电', button: '即将开放'}],
         tr: [{title: '币种'}, {title: '价格(元)'}, {title: '流通市值（亿元）'}, {title: '全网算力'}, {title: '单位挖矿产出'}],
         td: [{type: 'BTC', title: '比特币', money: '6885.20', price: '1147.3', num: '9642', nuit: '0.000019$/T/天 （$12.82）'}, {type: 'BTC', title: '比特币', money: '6885.20', price: '1147.3', num: '9642', nuit: '0.000019$/T/天 （$12.82）'}],
         sheol1: [{title: '以色列比特币矿机公司SP科技'}, {title: '深圳黑剑28nm矿机公司'}, {title: '深圳黑剑28nm矿机公司'}],
