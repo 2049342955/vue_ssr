@@ -22,7 +22,7 @@
 <style lang="scss" scoped>
   .leftnav{
     width: 70px;
-    height: 100%;
+    height: 1424px;
     background: #1c202a;
     float: left;
     .leftnav_ol{
