@@ -15,7 +15,7 @@
   export default {
     data () {
       return {
-        nav: [[{name: 'aboutUs', title: '关于我们', path: '/webInfo/aboutUs'}, {name: 'Issues', title: '常见问题', path: '/webInfo/issues'}], [{name: 'product', title: '产品公告', path: '/webInfo/list/product'}, {name: 'website', title: '网站动态', path: '/webInfo/list/website'}, {name: 'news', title: '算力资讯', path: '/webInfo/list/news'}]],
+        nav: [[{name: 'product', title: '产品公告', path: '/webInfo/list/product'}, {name: 'website', title: '网站动态', path: '/webInfo/list/website'}, {name: 'aboutUs', title: '关于我们', path: '/webInfo/aboutUs'}, {name: 'Issues', title: '常见问题', path: '/webInfo/issues'}], [{name: 'news', title: '算力资讯', path: '/webInfo/list/news'}]],
         no: 0
       }
     },
@@ -37,6 +37,7 @@
     }
   }
 </script>
+
 <style type="text/css" lang="scss">
   @import '../assets/css/style.scss';
   @import '../assets/fonts/iconfont.css';
