@@ -25,6 +25,10 @@
           </div>
         </router-link>
       </div>
+      <div class="nodata" v-if="$parent.show">
+        <div class="nodata_img"></div>
+        <p>即将上线，敬请期待</p>
+      </div>
     </div>
   </div>
 </template>
@@ -185,6 +189,22 @@
         }
         &:hover{
            box-shadow:#dfe0e1 0 0 30px;
+        }
+      }
+      .nodata{
+        background: #fff;
+        min-height:500px;
+        padding-top:100px;
+        text-align: center;
+        .nodata_img{
+          display: inline-block;
+          width: 305px;
+          height: 234px;
+          background: url('../../assets/images/css_sprites.png') -10px -10px;
+        }
+        p{
+          color:$light_black;
+          margin-top:15px
         }
       }
     }

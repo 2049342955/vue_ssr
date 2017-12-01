@@ -104,11 +104,23 @@
         </div>
         <div class="content_items">
           <div class="product_img">
-            <img :src="$parent.detail.ActivityPicture" alt="">
+            <div class="pro_name">{{$parent.detail.name}}</div>
+            <div class="pro_slogan">{{$parent.detail.miner_list&&$parent.detail.miner_list.slogan}}</div>
+            <div class="pro_resume">{{$parent.detail.miner_list&&$parent.detail.miner_list.resume}}</div>
+            <img class="pro_img" :src="require('@/assets/images/miner_shop/miner_img.jpg')" alt="">
+            <img class="params_img" :src="$parent.detail.ActivityPicture" alt="">
           </div>
           <div class="content_item" :id="d.name" v-for="d,m in infolist">
             <h2 v-if="m!==0">{{d.title}}</h2>
-            <div class="content_con" v-html="$parent.detail[d.name]"></div>
+            <div class="content_con" v-html="$parent.detail[d.name]" v-if="d.name!=='MinerAdvantage'"></div>
+            <div class="params_table" v-else>
+              <table border="1" cellspacing="0">
+                <tr v-for="p,k in params">
+                  <td>{{p}}</td>
+                  <td>{{($parent.detail.miner_list&&$parent.detail.miner_list[k])||$parent.detail[k]}}</td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
       </template>
@@ -205,6 +217,7 @@
         proText: {hashType: '算力类型', status: '购买类型', incomeType: '结算方式'},
         infolists: [{name: 'machine_intro', title: '产品参数'}, {name: 'machine_advantage', title: '产品优势'}, {name: 'machine_agreement', title: '协议说明'}, {name: 'product_photos', title: '矿场相册'}],
         infolist: [{name: 'MInerBrief', title: '产品介绍'}, {name: 'MinerAdvantage', title: '产品参数'}, {name: 'prProtocolSpeciaification', title: '补充说明'}],
+        params: {ChipsNumber: '芯片数量', hash: '额定算力', voltage: '额定电压', minerSize: '矿机尺寸', minerOuterSize: '外箱尺寸', Cooling: '冷却', temperature: '工作温度', humidity: '工作湿度', network: '网络连接', weight: '净重', wallPower: '墙上功耗'},
         mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台算力', unit: 'T'}, status: {title: '项目状态', unit: ''}},
         mobileNav2: {hashType: {title: '算力类型', unit: ''}, amount: {title: '服务器总数', unit: '台'}, incomeType: {title: '结算方式', unit: ''}},
         sheetVisible: false,
@@ -639,21 +652,69 @@
       }
       .content_items{
         position: relative;
-        padding:15px 0 40px 0;
+        margin:15px 0 40px 0;
+        padding-bottom:40px;
+        background: #DDDFEB;
         .content_item{
-          background: #DDDFEB;
+          padding-top:20px;
           h2{
             font-weight: bold;
             margin-bottom:20px;
             padding:0 20px;
+          }
+          .params_table{
+            margin:0 20px;
+            margin-bottom:20px;
+            box-shadow: #9a9a9a -4px 0 5px -3px;
+            table{
+              width:70%;
+              border: 1px solid $light_black;
+              tr{
+                td{
+                  padding:5px 15px;
+                  &:nth-child(2){
+                    width:70%;
+                    text-align: right;
+                  }
+                }
+              }
+            }
           }
           .content_con img{
             margin-bottom:30px;
           }
         }
         .product_img{
-          @include position(520,auto,auto,50)
-          width:40%;
+          position: relative;
+          .pro_name,.pro_slogan,.pro_resume{
+            @include position(40)
+            bottom:auto;
+            text-align: center;
+            color:#fff
+          }
+          .pro_name{
+            font-size: 36px;
+          }
+          .pro_slogan{
+            top:24%;
+            font-size: 50px;
+          }
+          .pro_resume{
+            top:80%;
+            left:20%;
+            width:60%;
+            right:auto;
+            font-size: 18px;
+          }
+          img{
+            &.pro_img{
+
+            }
+            &.params_img{
+              @include position(480,auto,auto,50)
+              width:40%;
+            }
+          }
         }
       }
     }
