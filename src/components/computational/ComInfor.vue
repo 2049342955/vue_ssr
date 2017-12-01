@@ -212,12 +212,12 @@
     height: 100%;
     .cominfor_header{
       width: 100%;
-      height: 550px;
+      height: 490px;
       background-image: url('../../assets/images/information.png');
       overflow: hidden;
       background-size: 100% 100%;
       object-fit: cover;
-      padding-top: 87px;
+      padding-top: 27px;
       .cominfor_headercon{
         width: 1180px;
         margin:0 auto;
