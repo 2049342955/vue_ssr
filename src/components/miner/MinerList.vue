@@ -13,7 +13,7 @@
       </div>
       <div class="miner_pic pic2">
         <img :src="p.image" alt="" v-for="p,k in pics" :style="{'opacity':picShow===k?1:0}">
-        <router-link to="/minerShop/activity" class="btn">立即抢购</router-link>
+        <!-- <router-link to="/minerShop/activity" class="btn">立即抢购</router-link> -->
       </div>
       <div class="miner_pic pic3">
         <img :src="require('@/assets/images/miner_shop/miner.jpg')" alt="">

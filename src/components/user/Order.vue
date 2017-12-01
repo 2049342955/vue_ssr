@@ -1,5 +1,5 @@
 <template>
-  <section class="order">
+  <section class="order_manage">
     <div v-if="show" class="agreement_text">
       <div class="" v-html="contract"></div>
       <div class="btn_box">
@@ -406,7 +406,7 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  .order{
+  .order_manage{
     .agreement_text{
       padding:15px;
       overflow: hidden;
@@ -452,7 +452,6 @@
           text-align: center;
           margin:0;
           tr{
-            // line-height: 55px;
             border-bottom:1px solid $border;
             &:first-child{
               background: #f7f8fa;

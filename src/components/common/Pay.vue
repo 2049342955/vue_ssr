@@ -109,7 +109,7 @@
           </form>
         </div>
       </div>
-      <div class="right_box">
+      <div :class="['right_box', {fix_top:isFixTop}]">
         <div class="order_title">订单信息</div>
         <div class="item">
           <span>总算力</span>
@@ -222,8 +222,13 @@
         addressObject: {},
         addressForm: {},
         payNo: 1,
-        rate: 3
+        rate: 3,
+        isFixTop: false,
+        timer: 0
       }
+    },
+    created () {
+      window.addEventListener('scroll', this.fixTop, false)
     },
     methods: {
       pay (e) {
@@ -474,6 +479,14 @@
           position: 'middle',
           duration: 3000
         })
+      },
+      fixTop (e) {
+        var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+        if (scrollTop > 5) {
+          this.isFixTop = true
+        } else {
+          this.isFixTop = false
+        }
       }
     },
     mounted () {
@@ -761,7 +774,6 @@
       }
       .right_box{
         position: fixed;
-        top:80px;
         right:calc(50% - 590px);
         width:260px;
         margin-left:20px;
@@ -770,13 +782,19 @@
         background: #F2F6FF;
         line-height: 2.4;
         color:$text;
+        top:80px;
+        transition: all .3s;
         .item{
           border-top:1px solid $blue_border;
           @include flex(space-between)
           .price{
             color:$orange;
             font-weight: bold;
+            font-size: 18px;
           }
+        }
+        &.fix_top{
+          top:0
         }
       }
       @include mobile_hide

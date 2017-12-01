@@ -640,13 +640,11 @@
         position: relative;
         padding:15px 0 40px 0;
         .content_item{
-          padding-top: 30px;
-          padding-bottom: 70px;
           background: #DDDFEB;
-          padding:15px;
           h2{
             font-weight: bold;
             margin-bottom:20px;
+            padding:0 20px;
           }
           .content_con img{
             margin-bottom:30px;
