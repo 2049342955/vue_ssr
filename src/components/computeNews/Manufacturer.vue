@@ -13,11 +13,7 @@
 </template>
 
 <script>
-  import EquipmentLeft from '@/components/computational/EquipmentLeft'
   export default {
-    components: {
-      EquipmentLeft
-    },
     data () {
       return {
         museum: [{bigimg: require('@/assets/images/kuan.png'), title: '雨刮的关系苏夏按顺序和结束小把戏', name: 'US小把戏股迅速杨旭压缩性手续啊华杯赛瞎写洒下手续年活塞销洒下那思想闹啥心手续啊少女心按顺序潇洒相比较散心加上你下课继续说啊实习就阿森西奥金所炫按顺序'}, {bigimg: require('@/assets/images/kuan.png'), title: '雨刮的关系苏夏按顺序和结束小把戏', name: 'US小把戏股迅速杨旭压缩性手续啊华杯赛瞎写洒下手续年活塞销洒下那思想闹啥心手续啊少女心按顺序潇洒相比较散心加上你下课继续说啊实习就阿森西奥金所炫按顺序'}]

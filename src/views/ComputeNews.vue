@@ -16,9 +16,7 @@
 			        </router-link>
 			      </div>
 			    </div>
-	       	<div class="currency_right">
-		        <router-view class="computational_text"></router-view>
-	      	</div> 
+		       <router-view class="currency_right"></router-view>
 	      </div>
 	    </div>
     </div>
@@ -29,8 +27,8 @@
   export default {
     data () {
       return {
-        computationallist: [{title: '算力资讯', path: '/computational/ComInfor'}, {title: '设备之家', path: '/computational/NewsFlash'}, {title: '交易信息', path: '/computational/transaction'}, {title: '挖矿币种', path: '/computational/currency'}, {title: '电场矿场', path: '/computational/electric'}],
-        leftnav: [{big: 'icon-zixun1', title: '快讯', path: '/computational/NewsFlash'}, {big: 'icon-kuangji', title: '测评', path: ''}, {big: 'icon-zixun', title: '行业', path: ''}, {big: 'icon-bitebi', title: '币种', path: ''}, {big: 'icon-bowuguan', title: '博物馆', path: ''}, {big: 'icon-zhizaohangye', title: '厂商', path: ''}, {big: 'icon-dianlishebei', title: '电厂', path: ''}]
+        computationallist: [{title: '算力资讯', path: '/computeNews/list'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/digitalCurrency/list'}, {title: '电场矿场', path: '/computational/electric'}],
+        leftnav: [{big: 'icon-zixun1', title: '快讯', path: '/quickNews/list'}, {big: 'icon-kuangji', title: '测评', path: '/equipmentEvaluate/list'}, {big: 'icon-zixun', title: '行业', path: '/computeNews/list'}, {big: 'icon-bitebi', title: '币种', path: '/digitalCurrency/list'}, {big: 'icon-bowuguan', title: '博物馆', path: '/equipments/list'}, {big: 'icon-zhizaohangye', title: '厂商', path: '/manufacturer/list'}, {big: 'icon-dianlishebei', title: '电厂', path: ''}]
       }
     }
   }

@@ -46,7 +46,7 @@
       return {
         // nav: [{name: 'minerShop', text: '矿机商城', link: '/minerShop/list/1/all'}, {name: 'compute', text: '算力转让', link: '/compute/list/1/all'}, {name: 'bdc', text: 'BDC托管', link: '/bdc'}, {name: 'news', text: '产业资讯', link: '/webInfo/list/news'}, {name: 'dataTrade', text: '数据交易', link: ''}, {name: 'computeTrade', text: '算法交易', link: ''}],
         nav: [{name: 'minerShop', text: '矿机商城', link: '/minerShop/list'}, {name: 'bdc', text: 'BDC托管', link: '/bdc'}, {name: 'news', text: '产业资讯', link: '/industryInformation'}],
-        path: {frame_header: ['regist', 'passwordRetrieval', 'user', 'account', '/detail', 'webInfo', 'article/agreement', 'minerShop/miner', '/industryInformation', 'computeNews', 'transaction'], border: ['login', 'bdc'], shadow: ['regist', 'passwordRetrieval'], web_box: ['webInfo', 'minerShop/miner']},
+        path: {frame_header: ['regist', 'passwordRetrieval', 'user', 'account', '/detail', 'webInfo', 'article/agreement', 'minerShop/miner', '/industryInformation', 'computeNews', 'transaction', 'quickNews', 'digitalCurrency', 'equipments', 'equipmentEvaluate', 'manufacturer'], border: ['login', 'bdc'], shadow: ['regist', 'passwordRetrieval'], web_box: ['webInfo', 'minerShop/miner']},
         headerClass: ''
       }
     },

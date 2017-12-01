@@ -10,7 +10,7 @@
   import compute from '@/views/compute'
   import User from '@/views/User'
   import WebInfo from '@/views/WebInfo'
-  import Computational from '@/views/Computational'
+  import ComputeNews from '@/views/ComputeNews'
 // auth
   import Login from '@/components/auth/Login'
   import Regist from '@/components/auth/Regist'
@@ -24,10 +24,6 @@
 // compute
   import ComputeList from '@/components/compute/List'
   import ComputeDetail from '@/components/compute/Detail'
-// computational
-  import ComInfor from '@/components/computational/ComInfor'
-  import Transaction from '@/components/computational/Transaction'
-  import NewsFlash from '@/components/computational/NewsFlash'
 // user
   import Message from '@/components/user/Message'
   import MessageDetail from '@/components/user/MessageDetail'
@@ -53,13 +49,13 @@
   import WebInfoDetail from '@/components/info/Detail'
   import IssuesDetail from '@/components/info/IssuesDetail'
 // industryInformation
-  import ComputeNews from '@/views/ComputeNews'
-  // computeNews
-  // quickNews
-  // tradeNews
-  // equipments
-  // digitalCurrency
-  // mine
+  import ComputeHome from '@/components/ComputeNews/ComputeHome'
+  import NewsFlash from '@/components/ComputeNews/NewsFlash'
+  import Transaction from '@/components/ComputeNews/Transaction'
+  import MinerMuseum from '@/components/ComputeNews/MinerMuseum'
+  import DigitalCurrency from '@/components/ComputeNews/DigitalCurrency'
+  import EquipmentEvaluate from '@/components/ComputeNews/EquipmentEvaluate'
+  import Manufacturer from '@/components/ComputeNews/Manufacturer'
 // mobile
   import Mobile from '@/views/Mobile'
   import MbdcForm from '@/components/mobile/MbdcForm'
@@ -174,23 +170,6 @@
         path: 'detail/:type/:id',
         name: 'computeDetail',
         component: ComputeDetail
-      }]
-    }, {
-      path: '/computational',
-      name: 'computational',
-      component: Computational,
-      children: [{
-        path: 'comInfor',
-        name: 'comInfor',
-        component: ComInfor
-      }, {
-        path: 'transaction',
-        name: 'transaction',
-        component: Transaction
-      }, {
-        path: 'newsflash',
-        name: 'newsflash',
-        component: NewsFlash
       }]
     }, {
       path: '/user',
@@ -405,7 +384,7 @@
       }]
     }, {
       path: '/industryInformation',
-      component: ComInfor,
+      component: ComputeHome,
       beforeEnter: (to, from, next) => {
         document.querySelector('title').innerHTML = '产业资讯'
         next()
@@ -454,16 +433,48 @@
       path: '/equipments',
       component: ComputeNews,
       beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '设备之家'
+        document.querySelector('title').innerHTML = '设备博物馆'
         next()
       },
       children: [{
         path: 'list',
-        name: 'quickNewsList',
-        component: WebInfoList
+        name: 'minerMuseum',
+        component: MinerMuseum
       }, {
         path: 'detail/:id',
-        name: 'quickNewsDetail',
+        name: 'minerMuseumDetail',
+        component: WebInfoDetail
+      }]
+    }, {
+      path: '/equipmentEvaluate',
+      component: ComputeNews,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '设备测评'
+        next()
+      },
+      children: [{
+        path: 'list',
+        name: 'equipmentEvaluate',
+        component: EquipmentEvaluate
+      }, {
+        path: 'detail/:id',
+        name: 'equipmentEvaluateDetail',
+        component: WebInfoDetail
+      }]
+    }, {
+      path: '/manufacturer',
+      component: ComputeNews,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '厂商'
+        next()
+      },
+      children: [{
+        path: 'list',
+        name: 'manufacturer',
+        component: Manufacturer
+      }, {
+        path: 'detail/:id',
+        name: 'equipmentEvaluateDetail',
         component: WebInfoDetail
       }]
     }, {
@@ -475,12 +486,8 @@
       },
       children: [{
         path: 'list',
-        name: 'quickNewsList',
-        component: WebInfoList
-      }, {
-        path: 'detail/:id',
-        name: 'quickNewsDetail',
-        component: WebInfoDetail
+        name: 'digitalCurrency',
+        component: DigitalCurrency
       }]
     }, {
       path: '/miner',
