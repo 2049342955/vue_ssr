@@ -1,5 +1,10 @@
 <template>
   <div class="transaction">
+    <div class="compute_news_nav">
+      <div class="compute_news_box">
+        <router-link :to="n.path" v-for="n, k in computationallist">{{n.title}}</router-link>
+      </div>
+    </div>
     <div class="transaction_img">
     </div>
     <div class="transaction_all">
@@ -30,6 +35,7 @@
   export default {
     data () {
       return {
+        computationallist: [{title: '算力资讯', path: '/computeNews/list'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/digitalCurrency/list'}, {title: '电场矿场', path: '/computational/electric'}],
         lists: [{status: '转让', title: '蚂蚁1月份机子s913.5T带官电，现开始对外接单', info: '蚂蚁s913.5T带官电发货的机子现在开始正式接受预订了，余货不多，先到先得，全款发货，定金自提', address: '福建省 - 福州市', time: '3', dian: '蚂蚁', news: '全新', mobile: '17682446028'}]
       }
     },
@@ -45,6 +51,42 @@
     width: 100%;
     overflow: hidden;
     margin:0 auto;
+     .compute_news_nav{
+      width: 100%;
+      height: 50px;
+      background: white;
+			border-top: 1px solid #e5e5e5;
+      .compute_news_box{
+        width: 1180px;
+        margin:0 auto;
+        height: 50px;
+        line-height: 50px;
+        box-sizing: border-box;
+        a{
+          display:inline-block;
+          width: 64px;
+          height: 50px;
+          box-sizing: border-box;
+          text-align: center;
+          margin-right: 34px;
+          color: #666666;
+          font-size: 14px;
+          border-top: 2px solid white;
+          &:hover{
+            color:#327fff;
+            height: 50px;
+            box-sizing: border-box;
+            border-top: 2px solid #327fff;
+          }
+          &.router-link-active{
+            color:#327fff;
+            height: 50px;
+            box-sizing: border-box;
+            border-top: 2px solid #327fff;
+          }
+        }
+      }
+    }
     .transaction_img{
       width: 100%;
       height: 410px;
