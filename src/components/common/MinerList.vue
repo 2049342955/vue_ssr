@@ -7,6 +7,7 @@
           <span class="status" v-if="n.status===1">热销中</span>
           <span class="gray" v-if="n.status===3">已下架</span>
           <span class="gray" v-if="n.status===2">已售罄</span>
+          <span class="gray" v-if="n.status===4" style="background: #ff721f;">预热</span>
           <div class="img1">
             <img :src="n.minerPicture"/>
           </div>
