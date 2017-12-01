@@ -27,6 +27,7 @@
 // computational
   import ComInfor from '@/components/computational/ComInfor'
   import Transaction from '@/components/computational/Transaction'
+  import NewsFlash from '@/components/computational/NewsFlash'
 // user
   import Message from '@/components/user/Message'
   import MessageDetail from '@/components/user/MessageDetail'
@@ -178,6 +179,10 @@
         path: 'transaction',
         name: 'transaction',
         component: Transaction
+      }, {
+        path: 'newsflash',
+        name: 'newsflash',
+        component: NewsFlash
       }]
     }, {
       path: '/user',

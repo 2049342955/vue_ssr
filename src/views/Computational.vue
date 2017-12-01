@@ -15,7 +15,7 @@
   export default {
     data () {
       return {
-        computationallist: [{title: '算力资讯', path: '/computational/ComInfor'}, {title: '设备之家', path: '/computational/equipment'}, {title: '交易信息', path: '/computational/transaction'}, {title: '挖矿币种', path: '/computational/currency'}, {title: '电场矿场', path: '/computational/electric'}]
+        computationallist: [{title: '算力资讯', path: '/computational/ComInfor'}, {title: '设备之家', path: '/computational/NewsFlash'}, {title: '交易信息', path: '/computational/transaction'}, {title: '挖矿币种', path: '/computational/currency'}, {title: '电场矿场', path: '/computational/electric'}]
       }
     }
   }
