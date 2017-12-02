@@ -1,22 +1,45 @@
 <template>
   <div class="news_left">
-    <h1><span>算力资讯</span></h1>
+    <h1><span>算力快报</span></h1>
     <div class="scroll_news">
       <div class="news_lists" v-for="n, k in newslists">
         <span class="icon iconfont icon-yinhao"></span>
-        <h4>【{{n.title}}】<span>{{n.time}}</span></h4>
-        <p>{{n.text}}</p>
+        <h4>【{{n.title}}】<span>{{n.dateline}}</span></h4>
+        <p v-html="n.content"></p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import util from '@/util/index'
+  import api from '@/util/function'
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
-        newslists: [{title: '市场基本首都机场上档次三等奖承诺书电厂上档次你打开上次你说电厂打算充年开始调查你的身材', text: '打算充不是的基础上的厂商电厂金卡戴珊半年才看见你上档次上档次跨境电商才能看见滴水穿石的抽点时间承诺书扩大基础能刷到吃大餐你开电脑充多少', time: '2017-11-29 13:57:24'}, {title: '市场基本首都机场上档次三等奖承诺书电厂上档次你打开上次你说电厂打算充年开始调查你的身材', text: '打算充不是的基础上的厂商电厂金卡戴珊半年才看见你上档次上档次跨境电商才能看见滴水穿石的抽点时间承诺书扩大基础能刷到吃大餐你开电脑充多少', time: '2017-11-29 13:57:24'}]
+        newslists: []
       }
+    },
+    methods: {
+      getList () {
+        var self = this
+        util.post('NewsBriefList', {sign: api.serialize({token: this.token})}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.newslists = res
+          })
+        }).catch(res => {
+          console.log(res)
+        })
+      }
+    },
+    mounted () {
+      this.getList()
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token
+      })
     }
   }
 </script>
@@ -54,6 +77,7 @@
         height: 120px;
         border-bottom: 1px solid #dcdcdc;
         margin-bottom: 10px;
+        cursor: pointer;
         span{
           display: block;
           font-size: 16px;
@@ -68,15 +92,34 @@
             float: right;
             color: #a9a9a9;
             font-size: 12px;
+            margin-right: 20px;
           }
         }
         p{
           color: #a9a9a9;
-          height: 42px;
+          height: 44px;
           overflow: hidden;
           line-height: 22px;
+          padding-right: 20px;
+        }
+        &:hover{
+          height: auto;
+          min-height: 120px;
+          p{
+            height: auto;
+            min-height: 44px;
+          }
         }
       }
+        &::-webkit-scrollbar {/*滚动条整体样式*/
+            width: 10px;     /*高宽分别对应横竖滚动条的尺寸*/
+            background-color:transparent;
+        }
+        &::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+            border-radius: 10px;
+            max-height: 100px !important;
+            background: #fe5039;
+        }
     }
   }
 </style>

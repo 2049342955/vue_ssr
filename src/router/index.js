@@ -391,6 +391,7 @@
       }
     }, {
       path: '/computeNews',
+      name: 'computeNews',
       component: ComputeNews,
       beforeEnter: (to, from, next) => {
         document.querySelector('title').innerHTML = '算力资讯'
@@ -421,6 +422,10 @@
         path: 'list',
         name: 'quickNewsList',
         component: NewsFlash
+      }, {
+        path: 'detail/:id',
+        name: 'computeNewsDetail',
+        component: WebInfoDetail
       }]
     }, {
       path: '/transaction',
@@ -488,6 +493,10 @@
         path: 'list',
         name: 'digitalCurrency',
         component: DigitalCurrency
+      }, {
+        path: 'detail/:id',
+        name: 'digitalCurrencyDetail',
+        component: WebInfoDetail
       }]
     }, {
       path: '/miner',

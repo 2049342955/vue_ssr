@@ -11,6 +11,7 @@
     </template>
     <template v-if="!$route.params.type||$route.params.type==='news'">
       <h3 v-if="$route.params.type">{{str[$route.params.type]}}</h3>
+      <h1 style="margin-bottom:12px;"  v-if="$route.path.includes('computeNews')">算力资讯<span class="icon iconfont icon-dui"></span></h1>
       <router-link :class="['item', 'img_text', {active: true}]" :to="$route.params.type?'/webInfo/detail/'+list.id:'/computeNews/detail/'+list.id" v-for="list in lists" :key="lists.id">
         <template v-if="list.image">
           <img :src="list.image"/>
@@ -34,6 +35,7 @@
           </template>
         </div>
       </router-link>
+      <Pager :len="len"></Pager>
     </template>
   </section>
 </template>
@@ -41,13 +43,19 @@
 <script>
   import util from '@/util'
   import api from '@/util/function'
+  import Pager from '@/components/common/Pager'
   export default {
+    components: {
+      Pager
+    },
     data () {
       return {
         lists: [],
         str: {website: '网站动态', product: '产品公告', news: '产业资讯'},
         requestUrl: {website: 'webDynamic', product: 'webAnnouncoment'},
-        img1: require('@/assets/images/zx.jpg')
+        img1: require('@/assets/images/zx.jpg'),
+        len: 0,
+        now: 1
       }
     },
     methods: {
@@ -56,9 +64,15 @@
         var url = this.requestUrl[n] || 'suanliMessage'
         document.querySelector('title').innerHTML = '算力新闻_比特币资讯－算力网'
         var self = this
-        util.post(url, {sign: 'token=0'}).then(function (res) {
+        util.post(url, {sign: 'token=0', page: this.now}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.lists = res
+            if (self.now > 1) return false
+            if (url === 'suanliMessage') {
+              self.len = Math.ceil(res.length / 7)
+            } else {
+              self.len = Math.ceil(res.length / 10)
+            }
           })
         })
       }
@@ -86,6 +100,15 @@
       border-bottom: 1px solid #e5e5e5;
       margin-bottom: 20px;
       color: #333333;
+    }
+    h1{
+      color: #121212;
+      font-size: 24px;
+      font-weight: 800;
+      span{
+        font-size: 20px;
+        margin-left: 13px;
+      }
     }
     .display{
       .item{

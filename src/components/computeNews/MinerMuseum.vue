@@ -2,22 +2,54 @@
   <div class="museum_right">
     <h1>矿机博物馆<span class="icon iconfont icon-dui"></span></h1>
     <div class="museum_lists" v-for="n, k in museum">
-      <img :src="n.bigimg"/>
+      <img :src="n.image"/>
       <div class="museum_content">
         <h6>{{n.title}}</h6>
-        <p>{{n.name}}</p>
-        <button>查看详情</button>
+        <p>{{n.resume}}</p>
+        <router-link :to="'/equipments/detail/' + n.id">查看详情</router-link>
       </div>
     </div>
+    <Pager :len="len"></Pager>
   </div>
 </template>
 
 <script>
+  import util from '@/util/index'
+  import api from '@/util/function'
+  import { mapState } from 'vuex'
+  import Pager from '@/components/common/Pager'
   export default {
+    components: {
+      Pager
+    },
     data () {
       return {
-        museum: [{bigimg: require('@/assets/images/kuan.png'), title: '雨刮的关系苏夏按顺序和结束小把戏', name: 'US小把戏股迅速杨旭压缩性手续啊华杯赛瞎写洒下手续年活塞销洒下那思想闹啥心手续啊少女心按顺序潇洒相比较散心加上你下课继续说啊实习就阿森西奥金所炫按顺序'}, {bigimg: require('@/assets/images/kuan.png'), title: '雨刮的关系苏夏按顺序和结束小把戏', name: 'US小把戏股迅速杨旭压缩性手续啊华杯赛瞎写洒下手续年活塞销洒下那思想闹啥心手续啊少女心按顺序潇洒相比较散心加上你下课继续说啊实习就阿森西奥金所炫按顺序'}]
+        len: 0,
+        now: 1,
+        museum: []
       }
+    },
+    methods: {
+      getList () {
+        var self = this
+        util.post('NewsMuseumList', {sign: api.serialize({token: 0, page: this.now})}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.museum = res
+            if (self.now > 1) return false
+            self.len = Math.ceil(res.length / 5)
+          })
+        }).catch(res => {
+          console.log(res)
+        })
+      }
+    },
+    mounted () {
+      this.getList()
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token
+      })
     }
   }
 </script>
@@ -71,7 +103,7 @@
           overflow: hidden;
           padding-right: 45px;
         }
-        button{
+        a{
           width: 172px;
           height: 38px;
           border:1px solid #bfbfbf;
@@ -80,6 +112,9 @@
           margin-top: 27px;
           float: right;
           margin-right: 37px;
+          border-radius: 5px;
+          line-height: 38px;
+          text-align: center;
           &:hover{
             background:#fe5039;
             color: white;

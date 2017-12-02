@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="computational_content">
-	    <div class="currency_header">suanLi&nbsp;&nbsp;之家 <span>主流 · 测评 · 博物馆</span></div>
+	    <div class="currency_header">suanLi&nbsp;之家 <span>全面聚合算力产业信息</span></div>
 	    <div class="currency_content">
 	      	<div class="leftnav">
 			      <div class="leftnav_ol" v-for="n, k in leftnav">
@@ -28,7 +28,7 @@
     data () {
       return {
         computationallist: [{title: '算力资讯', path: '/industryInformation'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/digitalCurrency/list'}, {title: '电场矿场', path: '/computational/electric'}],
-        leftnav: [{big: 'icon-zixun1', title: '快讯', path: '/quickNews/list'}, {big: 'icon-kuangji', title: '测评', path: '/equipmentEvaluate/list'}, {big: 'icon-zixun', title: '行业', path: '/computeNews/list'}, {big: 'icon-bitebi', title: '币种', path: '/digitalCurrency/list'}, {big: 'icon-bowuguan', title: '博物馆', path: '/equipments/list'}, {big: 'icon-zhizaohangye', title: '厂商', path: '/manufacturer/list'}, {big: 'icon-dianlishebei', title: '电厂', path: ''}]
+        leftnav: [{big: 'icon-zixun', title: '资讯', path: '/computeNews/list'}, {big: 'icon-zixun1', title: '快报', path: '/quickNews/list'}, {big: 'icon-zhizaohangye', title: '厂商', path: '/manufacturer/list'}, {big: 'icon-kuangji', title: '测评', path: '/equipmentEvaluate/list'}, {big: 'icon-bowuguan', title: '博物馆', path: '/equipments/list'}, {big: 'icon-bitebi', title: '币种', path: '/digitalCurrency/list'}]
       }
     }
   }
@@ -148,6 +148,7 @@
 	      .currency_right{
 	        float: left;
 	        width: 1002px;
+					height: 1424px;
 	        background: white;
 	        padding:32px 62px 0 62px;
 	        box-sizing: border-box;
