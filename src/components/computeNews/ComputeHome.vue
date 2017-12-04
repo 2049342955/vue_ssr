@@ -130,7 +130,7 @@
           <tr v-for="d, m in td">
             <td><span>{{d.name}}</span> - {{d.chinese_name}}</td>
             <td>¥ {{d.price}}</td>
-            <td>¥ {{d.market_cap_usd}}</td>
+            <td>¥ {{(d.market_cap_usd / 100000000).toFixed(2)}}</td>
             <td>{{d.qwsl}} <span>{{d.unit}}</span></td>
             <td>{{d.output}}</td>
           </tr>
@@ -163,7 +163,7 @@
       return {
         scroll: [],
         autool: [{title: '蒙古矿场', text: '国家电网合规用电', button: '即将开放'}, {title: '山西矿场', text: '国家电网合规用电', button: '即将开放'}, {title: '辽宁矿场', text: '国家电网合规用电', button: '即将开放'}],
-        tr: [{title: '币种'}, {title: '价格(元)'}, {title: '流通市值（亿元）'}, {title: '全网算力'}, {title: '单位挖矿产出'}],
+        tr: [{title: '币种'}, {title: '价格(元)'}, {title: '流通市值（亿/元）'}, {title: '全网算力'}, {title: '单位挖矿产出'}],
         td: [],
         sheol1: [],
         sheol2: [],
@@ -978,7 +978,7 @@
                     padding-left: 5px;
                   }
                   :nth-child(3){
-                    padding-left: 5px;
+                    padding-left: 0px;
                   }
                   :nth-child(5){
                     padding-left: 50px;
@@ -1001,6 +1001,9 @@
                             color: #fe5039;
                             font-weight: 800;
                         }
+                    }
+                    :nth-child(3){
+                      padding-left: 15px;
                     }
                 }
             }

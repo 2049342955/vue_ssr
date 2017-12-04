@@ -21,7 +21,7 @@
             <tr v-for="d, m in td">
                 <td><span>{{d.name}}</span> - {{d.chinese_name}}</td>
                 <td>¥ {{d.price}}</td>
-                <td>¥ {{d.market_cap_usd}}</td>
+                <td>¥ {{(d.market_cap_usd / 100000000).toFixed(2)}}</td>
                 <td>{{d.qwsl}} <span>{{d.unit}}</span></td>
                 <td>{{d.output}}</td>
             </tr>
@@ -57,7 +57,7 @@ export default {
       toplists: [{unit: require('@/assets/images/BDC-2.png'), name: '比特币(Bitcoin)'}, {unit: require('@/assets/images/BDC-2.png'), name: '比特币(Bitcoin)'}],
       bottomlists: [{unit: require('@/assets/images/BDC-2.png'), name: '比特币(Bitcoin)'}, {unit: require('@/assets/images/BDC-2.png'), name: '比特币(Bitcoin)'}],
       td: '',
-      tr: [{title: '币种'}, {title: '价格(元)'}, {title: '流通市值（亿元）'}, {title: '全网算力'}, {title: '单位挖矿产出'}],
+      tr: [{title: '币种'}, {title: '价格(元)'}, {title: '流通市值（亿/元）'}, {title: '全网算力'}, {title: '单位挖矿产出'}],
       computationallist: [{title: '算力资讯', path: '/industryInformation'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/Currency'}, {title: '电场矿场', path: '/computational/electric'}]
     }
   },
@@ -141,11 +141,10 @@ export default {
             overflow: hidden;
             margin: 0 auto;
             background: white;
-            box-shadow: #d2d4db 0 0 20px;
             padding:20px 44px 0px 44px;
             margin-bottom: 25px;
             padding-bottom: 58px;
-            background-image: url('../../assets/images/table.png');
+            // background-image: url('../../assets/images/table.png');
             background-size: 100% 100%;
             h4{
                 width: 100%;
@@ -189,7 +188,7 @@ export default {
                     padding-left: 5px;
                   }
                   :nth-child(3){
-                    padding-left: 5px;
+                    padding-left: 0px;
                   }
                   :nth-child(5){
                     padding-left: 50px;
@@ -212,6 +211,9 @@ export default {
                             color: #fe5039;
                             font-weight: 800;
                         }
+                    }
+                    :nth-child(3){
+                      padding-left: 15px;
                     }
                 }
             }
