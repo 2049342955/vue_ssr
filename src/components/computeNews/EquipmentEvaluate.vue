@@ -5,9 +5,8 @@
       <span class="label">BitCoin</span>
       <img :src="n.image"/>
       <div class="museum_content">
-        <span>{{n.title}}:</span>
-        <span>{{n.resume}}</span>
-        <p>{{n.dateline}}</p>
+        <p class="resume">{{n.title}}:{{n.resume}}</p>
+        <p class="time">{{n.dateline}}</p>
       </div>
     </div>
     <Pager :len="len"></Pager>
@@ -101,11 +100,16 @@
       .museum_content{
         width: 100%;
         float: left;
-        span {
+        .resume {
           color: #59493f;
           line-height: 53px;
+          font-size: 16px;
+
+          &:hover {
+            color: #327fff;
+          }
         }
-        p{
+        .time {
           line-height: 22px;
           color: #666;
           height: 42px;
