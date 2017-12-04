@@ -9,7 +9,7 @@
       </nav>
     </div>
     <div class="order_box">
-      <table>
+      <table style="margin-top:0;">
         <tr>
           <th>算力服务器</th>
           <template v-if="$route.params.status==='0'">

@@ -351,7 +351,7 @@
           // self.content = res.content + '<hr>' + res.content1
           self.content = res.content
         }, '', () => {
-          this.$router.push({name: 'home'})
+          self.$router.push({name: 'home'})
         })
       })
     }

@@ -7,6 +7,7 @@
           <span class="status" v-if="n.status===1">热销中</span>
           <span class="gray" v-if="n.status===3">已下架</span>
           <span class="gray" v-if="n.status===2">已售罄</span>
+          <span class="gray" v-if="n.status===4" style="background: #ff721f;">预热</span>
           <div class="img1">
             <img :src="n.minerPicture"/>
           </div>
@@ -24,6 +25,10 @@
             </div>
           </div>
         </router-link>
+      </div>
+      <div class="nodata" v-if="$parent.show">
+        <div class="nodata_img"></div>
+        <p>即将上线，敬请期待</p>
       </div>
     </div>
   </div>
@@ -107,7 +112,7 @@
           top:0;
         }
         h6{
-            font-size: 14px;
+            font-size: 16px;
             color:#121212;
             padding-left: 20px;
             padding-right: 20px;
@@ -152,6 +157,7 @@
             padding: 0 20px;
             padding-top: 18px;
             .item{
+                width: 33.3%;
                 float: left;
                 text-align: center;
                 p{
@@ -162,10 +168,12 @@
                   height: 20px;
                   font-size: 14px;
                   color: #666666;
+                  text-align: left;
                 }
                 .title{
                     color: #a9a9a9;
                     font-size: 12px;
+                    text-align: left;
                 }
             }
             :nth-child(1){
@@ -173,12 +181,31 @@
                 height: 30px;      
             }
             :nth-child(2){
-                // margin-left:5px;
+                padding-left:35px;
                 // margin-right:5px;
+            }
+            :nth-child(3){
+              padding-left: 30px;
             }
         }
         &:hover{
            box-shadow:#dfe0e1 0 0 30px;
+        }
+      }
+      .nodata{
+        background: #fff;
+        min-height:500px;
+        padding-top:100px;
+        text-align: center;
+        .nodata_img{
+          display: inline-block;
+          width: 305px;
+          height: 234px;
+          background: url('../../assets/images/css_sprites.png') -10px -10px;
+        }
+        p{
+          color:$light_black;
+          margin-top:15px
         }
       }
     }

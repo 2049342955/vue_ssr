@@ -3,27 +3,37 @@
     <h3>{{content.title}}</h3>
     <p class="dateline">{{content.dateline}}</p>
     <div class="info_detail" v-html="content.content"></div>
-    <router-link class="button" :to="'/webInfo/list/'+$route.params.type">返回</router-link>
+    <a class="button" href="javascript:;" onclick="window.history.go(-1)">返回</a>
   </section>
 </template>
 
 <script>
-  import util from '../../util'
-  import api from '../../util/function'
+  import util from '@/util'
+  import api from '@/util/function'
   export default {
     data () {
       return {
-        content: {},
-        str: {website: '网站动态', product: '产品公告', news: '算力资讯'}
+        content: {}
       }
     },
-    created () {
+    mounted () {
       var self = this
-      util.post('content', {sign: 'token=0&news_id=' + this.$route.params.id}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.content = res
+      var url = ''
+      if (this.$route.path.includes('digitalCurrency')) {
+        url = 'showCoinInfoDetail'
+        util.post(url, {sign: 'token=0&coin_id=' + this.$route.params.id}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.content = res
+          })
         })
-      })
+      } else {
+        url = 'content'
+        util.post(url, {sign: 'token=0&news_id=' + this.$route.params.id}).then(function (res) {
+          api.checkAjax(self, res, () => {
+            self.content = res
+          })
+        })
+      }
     }
   }
 </script>

@@ -94,7 +94,7 @@
             </div>
             <div class="pay_info">
               <span>支付</span>
-              <span class="money">{{(page==='minerShop'?totalPrice:$parent.detail.total_price)|format}}</span>
+              <span class="money" style="font-size:16px;">{{(page==='minerShop'?totalPrice:$parent.detail.total_price)|format}}</span>
               <span>元</span>
             </div>
           </div>
@@ -109,11 +109,11 @@
           </form>
         </div>
       </div>
-      <div class="right_box">
+      <div :class="['right_box', {fix_top:isFixTop}]">
         <div class="order_title">订单信息</div>
         <div class="item">
           <span>总算力</span>
-          <span>{{$parent.number*$parent.detail.hash}}T</span>
+          <span style="font-size:13px;">{{$parent.number*$parent.detail.hash}}T</span>
         </div>
         <div class="item" v-if="$parent.show">
           <span>总金额</span>
@@ -121,7 +121,7 @@
         </div>
         <div class="item">
           <span>支付金额</span>
-          <span class="price">￥{{(page==='minerShop'?totalPrice:$parent.detail.total_price)|format}}元</span>
+          <span class="price" style="font-size:16px;">￥{{(page==='minerShop'?totalPrice:$parent.detail.total_price)|format}}元</span>
         </div>
       </div>
     </div>
@@ -222,8 +222,13 @@
         addressObject: {},
         addressForm: {},
         payNo: 1,
-        rate: 3
+        rate: 3,
+        isFixTop: false,
+        timer: 0
       }
+    },
+    created () {
+      window.addEventListener('scroll', this.fixTop, false)
     },
     methods: {
       pay (e) {
@@ -474,6 +479,14 @@
           position: 'middle',
           duration: 3000
         })
+      },
+      fixTop (e) {
+        var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+        if (scrollTop > 5) {
+          this.isFixTop = true
+        } else {
+          this.isFixTop = false
+        }
       }
     },
     mounted () {
@@ -761,7 +774,6 @@
       }
       .right_box{
         position: fixed;
-        top:80px;
         right:calc(50% - 590px);
         width:260px;
         margin-left:20px;
@@ -770,13 +782,19 @@
         background: #F2F6FF;
         line-height: 2.4;
         color:$text;
+        top:80px;
+        transition: all .3s;
         .item{
           border-top:1px solid $blue_border;
           @include flex(space-between)
           .price{
             color:$orange;
             font-weight: bold;
+            font-size: 18px;
           }
+        }
+        &.fix_top{
+          top:0
         }
       }
       @include mobile_hide

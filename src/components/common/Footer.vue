@@ -72,7 +72,7 @@
         // link: {'关于我们': '/webInfo/aboutUs', '安全保障': '/webInfo/safeGuarantee', '法律声明': '/webInfo/lawyer', '常见问题': '/webInfo/issues'},
         link: {'关于我们': '/webInfo/aboutUs', '常见问题': '/webInfo/issues'},
         // service: {'算力商城': '/minerShop/list', '算力转让': '/compute/list/1/all', '算力托管': '/bdc', '算力资讯': '/webInfo/list/news'},
-        service: {'矿机商城': '/minerShop/list', 'BDC托管': '/bdc', '产业资讯': '/webInfo/list/news'},
+        service: {'矿机商城': '/minerShop/list', 'BDC托管': '/bdc', '产业资讯': '/industryInformation'},
         partner: [],
         info: {'网站动态': '/webInfo/list/website', '产品公告': '/webInfo/list/product'},
         items: [

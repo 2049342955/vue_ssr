@@ -21,7 +21,8 @@
           </td>
           <td>
             <!-- <a href="javascript:;">购买</a> -->
-             <a class="btn" v-if="l.amount-(l.sell_amount||l.buyed_amount)>0">立即购买</a> 
+             <a class="btn" v-if="l.status===4">预热</a> 
+             <a class="btn" v-else-if="l.amount-(l.sell_amount||l.buyed_amount)>0">立即购买</a> 
             <button class="btn" disabled v-else>已售罄</button>
           </td>
         </tr>

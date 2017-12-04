@@ -20,7 +20,7 @@
           </div>
         </div>
       </template>
-      <template velse>
+      <template v-else>
         <div class="swiper_one"  :style="{width:oneWidth+'px'}" v-for="n,k in slideEls">
           <template v-if="n.name">
             <div class="left">
