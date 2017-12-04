@@ -36,9 +36,9 @@
         var self = this
         util.post('NewsReviewList', {sign: api.serialize({token: 0, page: this.now})}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.list = res
+            self.list = res.list
             if (self.now > 1) return false
-            self.len = Math.ceil(res.total / 16)
+            self.len = Math.ceil(res.total / 5)
           })
         }).catch(res => {
           console.log(res)

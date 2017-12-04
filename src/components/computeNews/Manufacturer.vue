@@ -34,7 +34,7 @@
         var self = this
         util.post('NewsManfacturerList', {sign: api.serialize({token: 0, page: this.now})}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.museum = res
+            self.museum = res.list
             if (self.now > 1) return false
             self.len = Math.ceil(res.total / 5)
           })
