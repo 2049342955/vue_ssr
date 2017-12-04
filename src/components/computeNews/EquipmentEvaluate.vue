@@ -1,12 +1,12 @@
 <template>
   <div class="museum_right">
-    <h1>矿机博物馆<span class="icon iconfont icon-dui"></span></h1>
-    <div class="museum_lists" v-for="n, k in museum">
-      <img :src="n.bigimg"/>
+    <h1>矿机测评<span class="icon iconfont icon-dui"></span></h1>
+    <div class="museum_lists" v-for="n, k in list">
+      <span class="label">BitCoin</span>
+      <img :src="n.image"/>
       <div class="museum_content">
-        <h6>{{n.title}}</h6>
-        <p>{{n.name}}</p>
-        <button>查看详情</button>
+        <p class="resume">{{n.title}}:{{n.resume}}</p>
+        <p class="time">{{n.dateline}}</p>
       </div>
     </div>
     <Pager :len="len"></Pager>
@@ -26,17 +26,15 @@
       return {
         len: 0,
         now: 1,
-        museum: []
+        list: []
       }
     },
     methods: {
       getList () {
         var self = this
-        util.post('NewsMuseumList', {sign: api.serialize({token: 0, page: this.now})}).then(function (res) {
+        util.post('NewsReviewList', {sign: api.serialize({token: 0, page: this.now})}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.museum = res
-            if (self.now > 1) return false
-            self.len = Math.ceil(res.length / 5)
+            self.list = res
           })
         }).catch(res => {
           console.log(res)
@@ -57,7 +55,7 @@
 <style lang="scss" scoped>
   .museum_right{
     float: left;
-    width: 1002px;
+    width: 1110px;
     height: 1424px;
     background: white;
     padding:32px 62px 0 62px;
@@ -72,34 +70,51 @@
       }
     }
     .museum_lists{
-      width: 100%;
-      height: 232px;
+      width: 218px;
+      height: 285px;
       background: white;
       box-shadow: 0 0 10px #c2c2c2;
-      margin-top: 20px;
+      margin: 20px 38px 20px 0;
       border-radius: 8px;
+      padding: 0 15px;
+      display: inline-block;
+      .label {
+        display: inline-block;
+        width: 70px;
+        line-height: 26px;
+        font-size: 12px;
+        text-align: center;
+        color: #fff;
+        background: #01beb5;
+        position: relative;
+        left: -15px;
+        top: 13px;
+      }
       img{
-        width:132px;
-        height: 170px;
+        width: 188px;
+        height: 156px;
         float: left;
         object-fit: cover;
-        margin-left: 48px;
-        margin-top: 26px;
+        margin: 0;
       }
       .museum_content{
-        width: 79%;
+        width: 100%;
         float: left;
-        padding-left: 58px;
-        padding-top: 50px;
-        h6{
-          color: #333333;
-          font-size: 22px;
-          margin-bottom: 12px;
+        .resume {
+          color: #59493f;
+          line-height: 53px;
+          font-size: 16px;
+          cursor: pointer;
+          
+          &:hover {
+            color: #327fff;
+          }
         }
-        p{
+        .time {
           line-height: 22px;
-          color: #666666;
+          color: #666;
           height: 42px;
+          font-size: 12px;
           overflow: hidden;
           padding-right: 45px;
         }
@@ -118,6 +133,10 @@
             border:0;
           }
         }
+      }
+
+      &:nth-of-type(4n) {
+        margin-right: 0;
       }
     }
   }
