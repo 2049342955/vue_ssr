@@ -30,14 +30,14 @@
       </div>
     </div>
     <div class="currency_bottom">
-        <h1>主流币种资料<span class="icon iconfont icon-dui"></span></h1>
+        <h1 style="position:relative;">主流币种资料<span class="icon iconfont icon-jiantou" style="transform:rotate(90deg);position:absolute;top:3px;"></span></h1>
         <div class="currency_toplist">
         <router-link :to="'/digitalCurrency/detail/' + n.id" class="toplist" v-for="n, k in toplists" :key="k">
             <img :src="n.icon"/>
             <span>{{n.coin_name}}</span>
         </router-link>
         </div>
-        <h1 class="bottomlist">各类代币资料<span class="icon iconfont icon-dui"></span></h1>
+        <h1 style="position:relative;" class="bottomlist">各类代币资料<span class="icon iconfont icon-jiantou" style="transform:rotate(90deg);position:absolute;top:3px;"></span></h1>
         <div class="currency_toplist">
         <router-link :to="'/digitalCurrency/detail/' + n.id" class="toplist" v-for="n, k in bottomlists" :key="k">
             <img :src="n.icon"/>
@@ -257,12 +257,12 @@ export default {
                 margin-right: 10px;
                 margin-bottom: 17px;
                 img{
-                width:30px;
-                height: auto;
+                width:25px;
+                height: 20px;
                 margin-top: 6px;
                 margin-left: 20px;
                 position: relative;
-                top:-8px;
+                top:-13px;
                 }
                 span{
                 margin-left: 20px;

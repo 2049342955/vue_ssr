@@ -85,12 +85,12 @@
         margin-right: 10px;
         margin-bottom: 17px;
         img{
-          width:30px;
-          height: auto;
-          margin-top: 6px;
-          margin-left: 20px;
-          position: relative;
-          top:-8px;
+          width:25px;
+                height: 20px;
+                margin-top: 6px;
+                margin-left: 20px;
+                position: relative;
+                top:-13px;
         }
         span{
           margin-left: 20px;
