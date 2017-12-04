@@ -432,7 +432,7 @@
         component: NewsFlash
       }, {
         path: 'detail/:id',
-        name: 'computeNewsDetail',
+        name: 'quickNews',
         component: WebInfoDetail
       }]
     }, {
