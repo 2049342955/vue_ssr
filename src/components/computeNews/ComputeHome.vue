@@ -116,7 +116,7 @@
     </div>
     <div class="cominfor_type">
       <h4>
-        <p class="title">数字货币</p>
+        <p class="title">挖矿币种</p>
         <p class="text">虚拟数字货币百科</p>
         <router-link to="/digitalCurrency/list">了解更多 ></router-link>
       </h4>
