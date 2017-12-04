@@ -35,7 +35,7 @@
           </template>
         </div>
       </router-link>
-      <Pager :len="len"></Pager>
+      <Pager :len="len" style="padding-top:0;"></Pager>
     </template>
   </section>
 </template>
@@ -59,30 +59,30 @@
       }
     },
     methods: {
-      judge () {
+      getList () {
         var n = this.$route.params.type
         var url = this.requestUrl[n] || 'suanliMessage'
         document.querySelector('title').innerHTML = '算力新闻_比特币资讯－算力网'
         var self = this
         util.post(url, {sign: 'token=0', page: this.now}).then(function (res) {
           api.checkAjax(self, res, () => {
-            self.lists = res
+            self.lists = res.list
             if (self.now > 1) return false
             if (url === 'suanliMessage') {
-              self.len = Math.ceil(res.length / 7)
+              self.len = Math.ceil(res.total / 7)
             } else {
-              self.len = Math.ceil(res.length / 10)
+              self.len = Math.ceil(res.total / 10)
             }
           })
         })
       }
     },
     created () {
-      this.judge()
+      this.getList()
     },
     watch: {
       $route () {
-        this.judge()
+        this.getList()
       }
     }
   }
