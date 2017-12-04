@@ -36,7 +36,7 @@
           <button @click="allclick(k)">点击查看完整号码</button>
         </div>
       </div>
-      <Pager :len="len"></Pager>
+      <Pager :len="len"  style="padding-top:0;"></Pager>
     </div>
   </div>
 </template>

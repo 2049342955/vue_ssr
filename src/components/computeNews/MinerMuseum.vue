@@ -9,7 +9,7 @@
         <router-link :to="'/equipments/detail/' + n.id">查看详情</router-link>
       </div>
     </div>
-    <Pager :len="len"></Pager>
+    <Pager :len="len"  style="padding-top:0;"></Pager>
   </div>
 </template>
 
