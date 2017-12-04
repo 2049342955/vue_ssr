@@ -2,7 +2,7 @@
   <div class="cominfor">
     <div class="compute_news_nav">
       <div class="compute_news_box">
-        <router-link :to="n.path" v-for="n, k in computationallist">{{n.title}}</router-link>
+        <router-link :to="n.path" v-for="n, k in computationallist" :class="{'active': active === k}">{{n.title}}</router-link>
       </div>
     </div>
     <div class="cominfor_header">
@@ -48,7 +48,7 @@
         <img src="../../assets/images/information7.png"/>
       </router-link>
       <div class="scroll">
-        还是不行还是不行还是想
+        <marquee><router-link :to="'/quickNews/detail/' + s.id" v-for="s, m in scroll">{{m + 1}}. {{s.title}}</router-link></marquee>
       </div>
     </div>
     <div class="cominfor_info">
@@ -59,23 +59,23 @@
       </h4>
       <div class="cominfor_infoleft">
         <p v-for="n,k in infoleft" class="infoleft_p">
-          <span class="status">[{{n.status}}]</span>
+          <span class="status">【出售】</span>
           <span class="title">{{n.title}}</span>
-          <span class="time">{{n.time}}</span>
+          <span class="time">{{n.created_time}}</span>
         </p>
       </div>
       <div class="cominfor_inforight">
         <p v-for="n,k in inforight" class="inforight_p">
-          <span class="status">[{{n.status}}]</span>
+          <span class="status">【求购】</span>
           <span class="title">{{n.title}}</span>
-          <span class="time">{{n.time}}</span>
+          <span class="time">{{n.created_time}}</span>
         </p>
       </div>
     </div>
     <div class="cominfor_she">
       <h4>
         <p class="title">设备之家</p>
-        <p class="text">主流 · 测评 · 博物馆</p>
+        <p class="text">为您提供更全面的设备信息</p>
         <router-link to="/equipments/list">了解更多 ></router-link>
       </h4>
       <div class="cominfor_shebottom">
@@ -83,7 +83,7 @@
           <h6>【主流厂商】 <span>全面测评</span></h6>
           <div style="height:290px;">
               <div class="she_ol">
-                <p class="border" v-for="n, k in sheol1"><span></span>{{n.title}}</p>
+                <router-link :to="'/manufacturer/detail/' + n.id" class="border" v-for="n, k in sheol1"><span></span>{{n.title}}</router-link>
               </div>
           </div>
           <router-link to="/manufacturer/list">全部厂商介绍 ></router-link>
@@ -92,12 +92,12 @@
           <h6>【矿机测评】 <span>全面测评</span></h6>
           <div class="she_ol">
             <div class="imgshe" v-for="n, k in sheol2">
-              <h2>{{n.enlish}}</h2>
+              <h2>BitCoin</h2>
               <div class="imgshe1">
-                <img :src="n.big"/>
+                <img :src="n.image"/>
               </div>
               <p class="title">{{n.title}}</p>
-              <p class="time">{{n.time}}</p>
+              <p class="time">{{n.dateline}}</p>
             </div>
           </div>
           <router-link to="/equipmentEvaluate/list">全部测评 ></router-link>
@@ -105,10 +105,10 @@
         <div class="shebottomright">
           <h6>【矿机博物馆】 <span>全面测评</span></h6>
           <div class="all_ol">
-            <div class="she_ol" v-for="n, k in sheol3">
-              <img :src="n.big"/>
+            <router-link :to="'/equipments/detail/' + n.id" class="she_ol" v-for="n, k in sheol3">
+              <img :src="n.image"/>
               <p class="title">{{n.title}}</p>
-            </div>
+            </router-link>
           </div>
           <router-link to="/equipments/list">全部厂商介绍 ></router-link>
         </div>
@@ -116,8 +116,8 @@
     </div>
     <div class="cominfor_type">
       <h4>
-        <p class="title">挖矿币种</p>
-        <p class="text">虚拟数字货币产生情况</p>
+        <p class="title">数字货币</p>
+        <p class="text">虚拟数字货币百科</p>
         <router-link to="/digitalCurrency/list">了解更多 ></router-link>
       </h4>
       <table border="0"  class="covertable">
@@ -140,7 +140,7 @@
     <div class="cominfor_auto">
       <h4>
         <p class="title">矿场相册</p>
-        <p class="text">提供实时二手信息平台</p>
+        <p class="text">让您进一步了解我们的矿场</p>
         <!-- <router-link to="#">了解更多 ></router-link> -->
       </h4>
       <div class="cominfor_autool">
@@ -161,12 +161,13 @@
   export default {
     data () {
       return {
+        scroll: [],
         autool: [{title: '蒙古矿场', text: '国家电网合规用电', button: '即将开放'}, {title: '山西矿场', text: '国家电网合规用电', button: '即将开放'}, {title: '辽宁矿场', text: '国家电网合规用电', button: '即将开放'}],
         tr: [{title: '币种'}, {title: '价格(元)'}, {title: '流通市值（亿元）'}, {title: '全网算力'}, {title: '单位挖矿产出'}],
         td: [{type: 'BTC', title: '比特币', money: '6885.20', price: '1147.3', num: '9642', nuit: '0.000019$/T/天 （$12.82）'}, {type: 'BTC', title: '比特币', money: '6885.20', price: '1147.3', num: '9642', nuit: '0.000019$/T/天 （$12.82）'}],
-        sheol1: [{title: '以色列比特币矿机公司SP科技'}, {title: '深圳黑剑28nm矿机公司'}, {title: '深圳黑剑28nm矿机公司'}],
-        sheol2: [{title: '蚂蚁S10矿机测评', time: '2017-11-20', big: require('@/assets/images/kuan.png'), enlish: 'BitCoin'}, {title: '蚂蚁S10矿机测评', time: '2017-11-20', big: require('@/assets/images/kuan.png'), enlish: 'BitCoin'}],
-        sheol3: [{title: '以色列比特币矿机公司SP科技', big: require('@/assets/images/kuan.png')}, {title: '以色列比特币矿机公司SP科技', big: require('@/assets/images/kuan.png')}, {title: '以色列比特币矿机公司SP科技', big: require('@/assets/images/kuan.png')}, {title: '以色列比特币矿机公司SP科技', big: require('@/assets/images/kuan.png')}],
+        sheol1: [],
+        sheol2: [],
+        sheol3: [],
         headerlist: [{
           title: '设备之家',
           link: '/equipments/list',
@@ -197,8 +198,9 @@
         }],
         show: 0,
         computationallist: [{title: '算力资讯', path: '/computeNews/list'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/digitalCurrency/list'}, {title: '电场矿场', path: '/computational/electric'}],
-        infoleft: [{status: '出售', title: '就是你兄弟就实习那是孙晓娜数控机械那些啊是小三线', time: '2017-11-29 09:01'}, {status: '出售', title: '就是你兄弟就实习那是孙晓娜数控机械那些啊是小三线', time: '2017-11-29 09:01'}],
-        inforight: [{status: '转让', title: '就是你兄弟就实习那是孙晓娜数控机械那些啊是小三线', time: '2017-11-29 09:01'}, {status: '转让', title: '就是你兄弟就实习那是孙晓娜数控机械那些啊是小三线', time: '2017-11-29 09:01'}],
+        infoleft: [],
+        inforight: [],
+        active: 0,
         miners: [{big: require('@/assets/images/information5.png'), title: '资深矿工-设备之家', route: '前往了解 >', path: '/equipments/list'}, {big: require('@/assets/images/information2.png'), title: '新手矿工-数字货币', route: '前往了解 >', path: '/digitalCurrency/list'}, {big: require('@/assets/images/information3.png'), title: '平台交易最新资讯', route: '前往了解 >', path: '/transaction'}]
       }
     },
@@ -218,6 +220,7 @@
     mounted () {
       this.hoverwhite(0)
       var self = this
+      console.log(self)
       util.post('showCoinData', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.td = res
@@ -242,6 +245,21 @@
       util.post('NewsMuseum', {sign: api.serialize({token: 0})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.sheol3 = res
+        })
+      }).catch(res => {
+        console.log(res)
+      })
+      util.post('NewsBrief', {sign: api.serialize({token: 0})}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.scroll = res
+        })
+      }).catch(res => {
+        console.log(res)
+      })
+      util.post('showSecondHandTradeTopList', {sign: api.serialize({token: 0})}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.infoleft = res.buy_info
+          self.inforight = res.transfer_info
         })
       }).catch(res => {
         console.log(res)
@@ -282,6 +300,12 @@
           font-size: 14px;
           border-top: 2px solid white;
           &:hover{
+            color:#327fff;
+            height: 50px;
+            box-sizing: border-box;
+            border-top: 2px solid #327fff;
+          }
+          &.avtive{
             color:#327fff;
             height: 50px;
             box-sizing: border-box;
@@ -535,6 +559,10 @@
           line-height: 30px;
           color: #333333;
           font-size: 15px;
+          a{
+            float: left;
+            margin-right: 40px;
+          }
       }
     }
     .cominfor_info{
@@ -581,7 +609,7 @@
             width: 50%;
             overflow: hidden;
             border-right: 1px solid #e5e5e5;
-            padding-right: 38px;
+            padding-right: 8px;
             float: left;
             .infoleft_p{
                 width: 100%;
@@ -608,7 +636,7 @@
                 }
                 .time{
                     color:#a9a9a9;
-                    font-size: 16px;
+                    font-size: 15px;
                 }
                 &:hover{
                     .status{
@@ -626,7 +654,7 @@
         .cominfor_inforight{
             width: 50%;
             overflow: hidden;
-            padding-left: 38px;
+            padding-left: 8px;
             float: left;
             .inforight_p{
                 width: 100%;
@@ -653,7 +681,7 @@
                 }
                 .time{
                     color:#a9a9a9;
-                    font-size: 16px;
+                    font-size: 15px;
                 }
                 &:hover{
                     .status{
@@ -730,6 +758,7 @@
                     margin-top: 34px;
                     color: #333333;
                     font-size: 17px;
+                    display:block;
                     white-space: nowrap;
                     text-overflow: ellipsis;
                     overflow: hidden;
@@ -863,6 +892,7 @@
                     border-radius: 5px;
                     float: left;
                     margin: 5px;
+                    display:block;
                     margin-bottom:8px; 
                     text-align: center;
                     img{
