@@ -64,7 +64,7 @@
         var url = this.requestUrl[n] || 'suanliMessage'
         document.querySelector('title').innerHTML = '算力新闻_比特币资讯－算力网'
         var self = this
-        util.post(url, {sign: 'token=0', page: this.now}).then(function (res) {
+        util.post(url, {sign: api.serialize({token: 0, page: this.now})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.lists = res.list
             if (self.now > 1) return false
