@@ -13,10 +13,10 @@
         <div class="transaction_left">
           <h2>
             <template v-if="n.status===2">
-              <span>【出售】</span>
+              <span>【求购】</span>
             </template>
             <template v-else-if="n.status===1">
-              <span>【求购】</span>
+              <span>【出售】</span>
             </template>
             {{n.title}}
           </h2>

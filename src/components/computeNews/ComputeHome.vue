@@ -257,8 +257,8 @@
       })
       util.post('showSecondHandTradeTopList', {sign: api.serialize({token: 0})}).then(function (res) {
         api.checkAjax(self, res, () => {
-          self.infoleft = res.buy_info
-          self.inforight = res.transfer_info
+          self.inforight = res.buy_info
+          self.infoleft = res.transfer_info
         })
       }).catch(res => {
         console.log(res)
