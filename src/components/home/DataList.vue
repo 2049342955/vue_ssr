@@ -16,6 +16,7 @@
         <tr v-for="l,i in list" @click="goPay(l.product_id||l.id)">
           <td v-for="v,k in nav">
             <template v-if="k==='name'"><i class="iconfont">&#xe605;</i>{{l[k]}}</template>
+            <!-- <template v-else-if="k==='one_amount_value'">{{+l[k]||'????'}}</template> -->
             <template v-else-if="k==='left_num'">{{l.amount-(l.sell_amount||l.buyed_amount)+v.unit}}</template>
             <template v-else>{{l[k]+[v.unit]}}</template>
           </td>

@@ -50,6 +50,7 @@
   import IssuesDetail from '@/components/info/IssuesDetail'
 // industryInformation
   import ComputeHome from '@/components/ComputeNews/ComputeHome'
+  import Currency from '@/components/ComputeNews/Currency'
   import NewsFlash from '@/components/ComputeNews/NewsFlash'
   import Transaction from '@/components/ComputeNews/Transaction'
   import MinerMuseum from '@/components/ComputeNews/MinerMuseum'
@@ -390,6 +391,13 @@
         next()
       }
     }, {
+      path: '/currency',
+      component: Currency,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '挖矿币种'
+        next()
+      }
+    }, {
       path: '/computeNews',
       name: 'computeNews',
       component: ComputeNews,
@@ -479,7 +487,7 @@
         component: Manufacturer
       }, {
         path: 'detail/:id',
-        name: 'equipmentEvaluateDetail',
+        name: 'manufacturerDetail',
         component: WebInfoDetail
       }]
     }, {
@@ -507,7 +515,7 @@
       },
       children: [{
         path: 'list',
-        name: 'quickNewsList',
+        name: 'minerPhotoList',
         component: WebInfoList
       }, {
         path: 'detail/:id',
