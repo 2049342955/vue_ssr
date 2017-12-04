@@ -1,9 +1,8 @@
 <template>
   <section class="web_info_detail">
-    <h3>{{content.title}}</h3>
-    <p class="dateline">{{content.dateline}}</p>
+    <h3>{{content.title}}<a class="button" to="#" onclick="window.history.go(-1)">< 返回列表</a></h3>
+    <!-- <p class="dateline">{{content.dateline}}</p> -->
     <div class="info_detail" v-html="content.content"></div>
-    <a class="button" href="javascript:;" onclick="window.history.go(-1)">返回</a>
   </section>
 </template>
 
@@ -44,21 +43,24 @@
     background: #fff;
     padding:15px 15px 45px 15px;
     line-height: 2;
-    .button{
-     width: 60px;
-    height: 30px;
-    text-align: center;
-    float: right;
-    background: #f5f8ff;
-    color: #327fff;
-    border: 0;
-    border-radius: 3px;
-    }
     h3{
-      text-align: center;
+      text-align:left;
       font-size: 20px;
       line-height: 2;
       font-weight: bold;
+      border-bottom: 1px solid #e5e5e5;
+      margin-bottom: 20px;
+      a{
+        text-align: center;
+        float: right;
+        display:inline-block;
+        border: 0;
+        font-size: 14px;
+        font-weight: 100;
+        line-height: 38px;
+        color:#327fff;
+        cursor: pointer;
+      }
     }
     .dateline{
       text-align: center;

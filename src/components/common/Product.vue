@@ -18,9 +18,20 @@
           <img :src="$parent.detail.minerPicture" alt="">
         </div>
         <div class="miner_right">
-          <h4>{{$parent.detail.name}}</h4>
+          <h4>
+            <template v-if="$parent.detail.status===1">
+              <span class="red">热销中</span>
+            </template>
+            <template v-else-if="$parent.detail.status===2">
+              <span class="gray">已售罄</span>
+            </template>
+            <template v-else-if="$parent.detail.status===3">
+              <span class="gray">产品撤销</span>
+            </template>
+            {{$parent.detail.name}}
+          </h4>
           <p class="time">{{$parent.detail.DeliveryTime}}</p>
-          <p class="suan_price"><span class="left_miner">矿 机 价</span><span class="right_miner">¥ <em>{{$parent.detail.one_amount_value}}</em></span></p>
+          <p class="suan_price"><span class="left_miner" style="position:relative;top:-5px;">矿 机 价</span><span class="right_miner">¥ <em>{{$parent.detail.one_amount_value}}</em></span></p>
           <p class="address"><span class="left_miner">总 算 力</span><span class="right_miner"><em>{{$parent.totalHash|format}}</em>T</span></p>
           <p class="address"><span class="left_miner">物&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;流</span><span class="right_miner">订单委托第三方物流公司发货，物流费用到付</span></p>
           <div class="miner_input">
@@ -47,7 +58,7 @@
               {{$parent.detail.product_name}}
               <span>{{$parent.str[$parent.detail.status]}}</span>
           </h4>
-          <p class="white">可使用算力白条</p>
+          <p class="white" v-if="$route.params.type==='2'">可使用算力白条</p>
           <div class="product_data">
             <template v-for="d,k in proData" v-if="k!=='product_name'">
               <div class="item">
@@ -62,7 +73,7 @@
           </div>
           <div class="progress_info press" style="overflow:hidden;">
             <div class="progress_box">
-              <div class="box" :style="{width:(parseInt($parent.detail.buyed_amount)/parseInt($parent.detail.amount)*100)+'%'}"></div>
+              <div class="box" :style="{margin:0,width:(parseInt($parent.detail.buyed_amount)/parseInt($parent.detail.amount)*100)+'%'}"></div>
             </div>
           </div>
           <div class="progress_price">
@@ -354,6 +365,26 @@
           font-size: 14px;
           line-height: 0;
           margin-top: 10px;
+          .red{
+            display:inline-block;
+            background: #327fff;
+            padding:10px 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight:100;
+            color:white;
+            margin-right: 10px;
+          }
+          .gray{
+            display:inline-block;
+            background: rgb(195, 187, 186);
+            padding:10px 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight:100;
+            color:white;
+            margin-right: 10px;
+          }
         }
         .time{
           color: #fe5039;
@@ -496,7 +527,7 @@
           line-height: 22px;
         }
         .product_data{
-          width: 100%;
+          width: 550px;
           height: 60px;
           margin-top: 30px;
           .item{
@@ -518,8 +549,24 @@
               color:#666666; 
             }
           }
-          &:nth-child(1) .num{
+          :nth-child(1) .item_word .num{
             color: red;
+            font-weight: 800;
+          }
+          :nth-child(1) .item_word .unit{
+            color: red;
+          }
+          :nth-child(3) .tips{
+            text-align: right;
+          }
+          :nth-child(3) .item_word{
+             padding-left: 100px;
+          }
+          :nth-child(2) .tips{
+            padding-left: 60px;
+          }
+          :nth-child(2) .item_word{
+            padding-left: 60px;
           }
         }
         .press{
