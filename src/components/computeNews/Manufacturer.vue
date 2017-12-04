@@ -1,7 +1,7 @@
 <template>
   <div class="museum_right">
     <h1>矿机制造商<span class="icon iconfont icon-dui"></span></h1>
-    <div class="museum_lists" v-for="n, k in museum">
+    <div class="museum_lists" v-for="n, k in museum" :key="k">
       <div class="museuming"><img :src="n.image"/></div>
       <div class="museum_content">
         <h6>{{n.title}}</h6>

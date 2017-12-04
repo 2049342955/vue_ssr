@@ -9,79 +9,79 @@
         <span>></span>
         <em>{{$parent.detail.product_name||$parent.detail.name}}</em>
       </div>
-    </div>
-    <div class="items miner" v-if="$route.params.type==='1'">
-      <div class="miner_type">
-        <div class="iconfont">&#xe603;</div>
-        <span>矿机</span>
-      </div>
-      <div class="miner_left">
-        <img :src="$parent.detail.minerPicture" alt="">
-      </div>
-      <div class="miner_right">
-        <h4>{{$parent.detail.name}}</h4>
-        <p class="time">{{$parent.detail.DeliveryTime}}</p>
-        <p class="suan_price"><span class="left_miner">矿 机 价</span><span class="right_miner">¥ <em>{{$parent.detail.one_amount_value}}</em></span></p>
-        <p class="address"><span class="left_miner">总 算 力</span><span class="right_miner"><em>{{$parent.totalHash|format}}</em>T</span></p>
-        <p class="address"><span class="left_miner">物&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;流</span><span class="right_miner">订单委托第三方物流公司发货，物流费用到付</span></p>
-        <div class="miner_input">
-          <span class="left_miner">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</span>
-          <div class="input_box right_miner">
-            <span @click="$parent.changeNum(+$parent.number-1)" style="cursor:pointer;">-</span>
-            <input type="text" v-model="$parent.number" :placeholder="parseInt($parent.detail.single_limit_amount)||1" @blur="$parent.changeNum($parent.number)">
-            <span @click="$parent.changeNum(+$parent.number+1)"  style="cursor:pointer;">+</span>
-          </div>
-          <p class="miner_number">库存{{$parent.leftNum}}台<span>({{parseInt($parent.detail.single_limit_amount)||1}}台起售)</span></p>
+      <div class="items miner" v-if="$route.params.type==='1'">
+        <div class="miner_type">
+          <div class="iconfont">&#xe603;</div>
+          <span>矿机</span>
         </div>
-        <button :class="['btn buy_btn', {error: $parent.buyStatus===1}, {over: $parent.buyStatus===2}]" v-if="$parent.detail.status===1" @click="checkPay">立即支付</button>
-        <button class="btn" disabled v-else-if="$parent.detail.status===2" style="background:#c3bbba;">已售罄</button>
-        <button class="btn" disabled v-else-if="$parent.detail.status===3">产品撤销</button>
-      </div>
-    </div>
-    <div class="items cloud_miner" v-if="$route.params.type!=='1'">
-      <div class="miner_type" style="background:#327fff;">
-        <div class="iconfont">&#xe610;</div>
-        <span>云矿机</span>
-      </div>
-      <div class="cloud_miner_left">
-        <h4>
-            {{$parent.detail.product_name}}
-            <span>{{$parent.str[$parent.detail.status]}}</span>
-        </h4>
-        <p class="white">可使用算力白条</p>
-        <div class="product_data">
-          <template v-for="d,k in proData" v-if="k!=='product_name'">
-            <div class="item">
-              <div class="item_word">
-                <span class="num" v-if="k==='price'">{{$parent.detail[k]|format}}</span>
-                <span class="num" v-else>{{$parent.detail[k]}}</span>
-                <span class="unit">{{d.unit}}</span>
-              </div>
-              <p class="tips">{{d.title}}</p>
+        <div class="miner_left">
+          <img :src="$parent.detail.minerPicture" alt="">
+        </div>
+        <div class="miner_right">
+          <h4>{{$parent.detail.name}}</h4>
+          <p class="time">{{$parent.detail.DeliveryTime}}</p>
+          <p class="suan_price"><span class="left_miner">矿 机 价</span><span class="right_miner">¥ <em>{{$parent.detail.one_amount_value}}</em></span></p>
+          <p class="address"><span class="left_miner">总 算 力</span><span class="right_miner"><em>{{$parent.totalHash|format}}</em>T</span></p>
+          <p class="address"><span class="left_miner">物&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;流</span><span class="right_miner">订单委托第三方物流公司发货，物流费用到付</span></p>
+          <div class="miner_input">
+            <span class="left_miner">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</span>
+            <div class="input_box right_miner">
+              <span @click="$parent.changeNum(+$parent.number-1)" style="cursor:pointer;">-</span>
+              <input type="text" v-model="$parent.number" :placeholder="parseInt($parent.detail.single_limit_amount)||1" @blur="$parent.changeNum($parent.number)">
+              <span @click="$parent.changeNum(+$parent.number+1)"  style="cursor:pointer;">+</span>
             </div>
-          </template>
-        </div>
-        <div class="progress_info press" style="overflow:hidden;">
-          <div class="progress_box">
-            <div class="box" :style="{width:(parseInt($parent.detail.buyed_amount)/parseInt($parent.detail.amount)*100)+'%'}"></div>
+            <p class="miner_number">库存{{$parent.leftNum}}台<span>({{parseInt($parent.detail.single_limit_amount)||1}}台起售)</span></p>
           </div>
-        </div>
-        <div class="progress_price">
-          <span class="one">当前进度 {{((parseInt($parent.detail.buyed_amount)/parseInt($parent.detail.amount))*100).toFixed(2)}}%</span>
-          <span class="two">剩余可售 {{$parent.leftNum}}台</span>
+          <button :class="['btn buy_btn', {error: $parent.buyStatus===1}, {over: $parent.buyStatus===2}]" v-if="$parent.detail.status===1" @click="checkPay">立即支付</button>
+          <button class="btn" disabled v-else-if="$parent.detail.status===2" style="background:#c3bbba;">已售罄</button>
+          <button class="btn" disabled v-else-if="$parent.detail.status===3">产品撤销</button>
         </div>
       </div>
-      <div class="cloud_miner_right">
-        <div class="price_text">我要购买<span class="buy_tips">({{parseInt($parent.detail.single_limit_amount)||1}}台起售)</span></div>
-        <div class="input_box">
-          <input type="text" v-model="$parent.number" :placeholder="parseInt($parent.detail.single_limit_amount)||1" @blur="$parent.changeNum($parent.number)">
-          <span>台</span>
+      <div class="items cloud_miner" v-if="$route.params.type!=='1'">
+        <div class="miner_type" style="background:#327fff;">
+          <div class="iconfont">&#xe610;</div>
+          <span>云矿机</span>
         </div>
-        <div class="price_text1">需支付：<span class="money">{{$parent.totalPrice|format}}元</span></div>
-        <div class="price_text1">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
-        <button class="btn" disabled v-if="$parent.leftStatus" style="background:#c3bbba;">已售罄</button>
-        <button :class="['btn buy_btn', {error: $parent.buyStatus===1}, {over: $parent.buyStatus===2}]" v-else @click="checkPay($event, false)">立即支付</button>
-        <button class="btn loan_btn" @click="checkPay($event, true)" v-if="$route.params.type==='2'&&!$parent.leftStatus">分期购买</button>
+        <div class="cloud_miner_left">
+          <h4>
+              {{$parent.detail.product_name}}
+              <span>{{$parent.str[$parent.detail.status]}}</span>
+          </h4>
+          <p class="white">可使用算力白条</p>
+          <div class="product_data">
+            <template v-for="d,k in proData" v-if="k!=='product_name'">
+              <div class="item">
+                <div class="item_word">
+                  <span class="num" v-if="k==='price'">{{$parent.detail[k]|format}}</span>
+                  <span class="num" v-else>{{$parent.detail[k]}}</span>
+                  <span class="unit">{{d.unit}}</span>
+                </div>
+                <p class="tips">{{d.title}}</p>
+              </div>
+            </template>
+          </div>
+          <div class="progress_info press" style="overflow:hidden;">
+            <div class="progress_box">
+              <div class="box" :style="{width:(parseInt($parent.detail.buyed_amount)/parseInt($parent.detail.amount)*100)+'%'}"></div>
+            </div>
+          </div>
+          <div class="progress_price">
+            <span class="one">当前进度 {{((parseInt($parent.detail.buyed_amount)/parseInt($parent.detail.amount))*100).toFixed(2)}}%</span>
+            <span class="two">剩余可售 {{$parent.leftNum}}台</span>
+          </div>
+        </div>
+        <div class="cloud_miner_right">
+          <div class="price_text">我要购买<span class="buy_tips">({{parseInt($parent.detail.single_limit_amount)||1}}台起售)</span></div>
+          <div class="input_box">
+            <input type="text" v-model="$parent.number" :placeholder="parseInt($parent.detail.single_limit_amount)||1" @blur="$parent.changeNum($parent.number)">
+            <span>台</span>
+          </div>
+          <div class="price_text1">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
+          <div class="price_text1">需支付：<span class="money">{{$parent.totalPrice|format}}元</span></div>
+          <button class="btn" disabled v-if="$parent.leftStatus" style="background:#c3bbba;">已售罄</button>
+          <button :class="['btn buy_btn', {error: $parent.buyStatus===1}, {over: $parent.buyStatus===2}]" v-else @click="checkPay($event, false)">立即支付</button>
+          <button class="btn loan_btn" @click="checkPay($event, true)" v-if="$route.params.type==='2'&&!$parent.leftStatus">分期购买</button>
+        </div>
       </div>
     </div>
     <div class="info">
@@ -283,6 +283,7 @@
   @import '../../assets/css/style.scss';
   .product{
     background: #f7f8fa;
+    padding-bottom: 50px;
     .top_nav{
       background-image: url('../../assets/images/miner.png');
       width: 100%;
@@ -312,7 +313,7 @@
       height: 350px;
       box-shadow: #dfe0e1 0 5px 5px -3px;
       position: relative;
-      top: -310px;
+      margin-top:10px;
       .miner_type{
         position: absolute;
         left: -10px;
@@ -607,7 +608,6 @@
           background: #fe5039;
           color: white;
           font-size: 18px;
-          margin-left: 30px;
         }
         .loan_btn{
           background: #01bfb5;
@@ -617,7 +617,7 @@
     .info{
       position: relative;
       @include main
-      top:-300px;
+      margin-top:90px;
       background: white;
       overflow: hidden;
       padding:0 98px;

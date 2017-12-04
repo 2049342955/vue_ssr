@@ -2,7 +2,7 @@
   <div class="cominfor">
     <div class="compute_news_nav">
       <div class="compute_news_box">
-        <router-link :to="n.path" v-for="n, k in computationallist" :class="{'active': active === k}">{{n.title}}</router-link>
+        <router-link :to="n.path" v-for="n, k in computationallist" :class="{'active': active === k}" :key="k">{{n.title}}</router-link>
       </div>
     </div>
     <div class="cominfor_header">
@@ -13,10 +13,10 @@
             <p>随时获取最新行业讯息</p>
           </router-link>
           <div class="olbottom">
-            <div v-for="n, k in headerlist" class="ollist">
+            <div v-for="n, k in headerlist" class="ollist" :key="k">
               <router-link :to="n.link" class="oltitle">{{n.title}}</router-link>
               <div class="rou">
-                <router-link :to="d.path" v-for="d, m in n.route">{{d.name}}</router-link>
+                <router-link :to="d.path" v-for="d, m in n.route" :key="m">{{d.name}}</router-link>
               </div>
             </div>
           </div>
@@ -24,17 +24,17 @@
         <div class="cominfo_headerright">
           <div class="bigtop">
             <div class="bigimg">
-              <img :src="n.big" v-for="n, k in bigimglists[0].bigimglist" class="teimg"/> 
+              <img :src="n.image" v-for="n, k in bigimglist" class="teimg"/> 
             </div>
             <div class="bigtab">
-              <div class="bighover" v-for="d,m in bigimglists[0].bigcontent" :class="{'active': show === m}" @mouseover="hoverwhite(m)">
+              <div class="bighover" v-for="d,m in bigimglist" :class="{'active': show === m}" @mouseover="hoverwhite(m)">
                 <h5>{{d.title}}</h5>
-                <p>{{d.name}}</p>
+                 <!-- <p>111</p>  -->
               </div>
             </div>
           </div>
           <div class="bigbottom">
-            <div class="numbig" v-for="n, m in miners">
+            <div class="numbig" v-for="n, m in miners" :key="m">
               <img :src="n.big"/>
               <h4>{{n.title}}</h4>
               <router-link :to="n.path">{{n.route}}</router-link>
@@ -48,7 +48,7 @@
         <img src="../../assets/images/information7.png"/>
       </router-link>
       <div class="scroll">
-        <marquee><router-link :to="'/quickNews/detail/' + s.id" v-for="s, m in scroll">{{m + 1}}. {{s.title}}</router-link></marquee>
+        <marquee><router-link :to="'/quickNews/detail/' + s.id" v-for="s, m in scroll" :key="m">{{m + 1}}. {{s.title}}</router-link></marquee>
       </div>
     </div>
     <div class="cominfor_info">
@@ -81,9 +81,9 @@
       <div class="cominfor_shebottom">
         <div class="shebottomleft">
           <h6>【主流厂商】 <span>全面测评</span></h6>
-          <div style="height:290px;">
+          <div style="height:291px;">
               <div class="she_ol">
-                <router-link :to="'/manufacturer/detail/' + n.id" class="border" v-for="n, k in sheol1"><span></span>{{n.title}}</router-link>
+                <router-link :to="'/manufacturer/detail/' + n.id" class="border" v-for="n, k in sheol1" :key="k"><span></span>{{n.title}}</router-link>
               </div>
           </div>
           <router-link to="/manufacturer/list">全部厂商介绍 ></router-link>
@@ -104,8 +104,8 @@
         </div>
         <div class="shebottomright">
           <h6>【矿机博物馆】 <span>全面测评</span></h6>
-          <div class="all_ol">
-            <router-link :to="'/equipments/detail/' + n.id" class="she_ol" v-for="n, k in sheol3">
+          <div class="all_ol" style="height:287px;">
+            <router-link :to="'/equipments/detail/' + n.id" class="she_ol" v-for="n, k in sheol3" :key="k">
               <img :src="n.image"/>
               <p class="title">{{n.title}}</p>
             </router-link>
@@ -164,7 +164,7 @@
         scroll: [],
         autool: [{title: '蒙古矿场', text: '国家电网合规用电', button: '即将开放'}, {title: '山西矿场', text: '国家电网合规用电', button: '即将开放'}, {title: '辽宁矿场', text: '国家电网合规用电', button: '即将开放'}],
         tr: [{title: '币种'}, {title: '价格(元)'}, {title: '流通市值（亿元）'}, {title: '全网算力'}, {title: '单位挖矿产出'}],
-        td: [{type: 'BTC', title: '比特币', money: '6885.20', price: '1147.3', num: '9642', nuit: '0.000019$/T/天 （$12.82）'}, {type: 'BTC', title: '比特币', money: '6885.20', price: '1147.3', num: '9642', nuit: '0.000019$/T/天 （$12.82）'}],
+        td: [],
         sheol1: [],
         sheol2: [],
         sheol3: [],
@@ -183,21 +183,18 @@
           link: '/digitalCurrency/list',
           route: [{
             name: '主流币种 >',
-            path: ''
+            path: '/currency'
           }, {
             name: '数字货币 >',
-            path: ''
+            path: '/currency'
           }]
         }, {
           title: '二手资讯',
           link: '/transaction'
         }],
-        bigimglists: [{
-          bigimglist: [{big: require('@/assets/images/img.jpg')}, {big: require('@/assets/images/information6.png')}, {big: require('@/assets/images/information6.png')}],
-          bigcontent: [{title: '不止于此', name: '开启财富新篇章'}, {title: '不止于此', name: '开启财富新篇章'}, {title: '不止于此', name: '开启财富新篇章'}]
-        }],
+        bigimglist: '',
         show: 0,
-        computationallist: [{title: '算力资讯', path: '/computeNews/list'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/digitalCurrency/list'}, {title: '电场矿场', path: '/computational/electric'}],
+        computationallist: [{title: '算力资讯', path: '/computeNews/list'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/currency'}, {title: '电场矿场', path: '/computational/electric'}],
         infoleft: [],
         inforight: [],
         active: 0,
@@ -221,21 +218,21 @@
       this.hoverwhite(0)
       var self = this
       console.log(self)
-      util.post('showCoinData', {sign: api.serialize({token: this.token})}).then(function (res) {
+      util.post('showCoinData', {sign: api.serialize({token: 0})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.td = res
         })
       }).catch(res => {
         console.log(res)
       })
-      util.post('NewsManfacturer', {sign: api.serialize({token: this.token})}).then(function (res) {
+      util.post('NewsManfacturer', {sign: api.serialize({token: 0})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.sheol1 = res
         })
       }).catch(res => {
         console.log(res)
       })
-      util.post('NewsReview', {sign: api.serialize({token: this.token})}).then(function (res) {
+      util.post('NewsReview', {sign: api.serialize({token: 0})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.sheol2 = res
         })
@@ -260,6 +257,13 @@
         api.checkAjax(self, res, () => {
           self.infoleft = res.buy_info
           self.inforight = res.transfer_info
+        })
+      }).catch(res => {
+        console.log(res)
+      })
+      util.post('showBannerNews', {sign: api.serialize({token: 0})}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.bigimglist = res
         })
       }).catch(res => {
         console.log(res)
@@ -462,11 +466,16 @@
                 .bighover{
                     width: 100%;
                     height: 92px;
-                    padding-left: 25px;
+                    padding:0 10px;
+                    box-sizing: border-box;
                     h5{
                         color: white;
                         font-size: 14px;
-                        padding-top: 25px;
+                        line-height: 92px;
+                        text-align: center;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
                     }
                     p{
                         font-size: 12px;
@@ -543,12 +552,12 @@
     }
     .cominfor_news{
       width: 1180px;
-      height: 40px;
+      height: 30px;
       margin:0 auto;
       margin-top: 30px;
       img{
-          width: 146px;
-          height: 30px;
+          width: 116px;
+          height: 25px;
           float: left;
       }
       .scroll{
