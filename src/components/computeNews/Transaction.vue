@@ -22,7 +22,7 @@
           </h2>
           <p class="text" v-html="n.content ? n.content : '暂无简介'"></p>
           <p class="address">{{n.address}}</p>
-          <p class="time">{{times[k]}} 小时前 / {{n.miner_kind}} / {{n.depreciate}}</p>
+          <p class="time"><span v-if="times[k]>0">{{times[k]}} 小时前</span><span v-else>现在</span> / {{n.miner_kind}} / {{n.depreciate}}</p>
         </div>
         <div class="transaction_right">
           <div class="mobile" v-if="show === k">
