@@ -2,7 +2,7 @@
   <div class="cominfor">
     <div class="compute_news_nav">
       <div class="compute_news_box">
-        <router-link :to="n.path" v-for="n, k in computationallist">{{n.title}}</router-link>
+        <router-link :to="n.path" v-for="n, k in computationallist" :class="{'active': active === k}">{{n.title}}</router-link>
       </div>
     </div>
     <div class="cominfor_header">
@@ -199,7 +199,8 @@
         show: 0,
         computationallist: [{title: '算力资讯', path: '/computeNews/list'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/digitalCurrency/list'}, {title: '电场矿场', path: '/computational/electric'}],
         infoleft: [],
-        inforight: [{status: '转让', title: '就是你兄弟就实习那是孙晓娜数控机械那些啊是小三线', time: '2017-11-29 09:01'}, {status: '转让', title: '就是你兄弟就实习那是孙晓娜数控机械那些啊是小三线', time: '2017-11-29 09:01'}],
+        inforight: [],
+        active: 0,
         miners: [{big: require('@/assets/images/information5.png'), title: '资深矿工-设备之家', route: '前往了解 >', path: '/equipments/list'}, {big: require('@/assets/images/information2.png'), title: '新手矿工-数字货币', route: '前往了解 >', path: '/digitalCurrency/list'}, {big: require('@/assets/images/information3.png'), title: '平台交易最新资讯', route: '前往了解 >', path: '/transaction'}]
       }
     },
@@ -219,6 +220,7 @@
     mounted () {
       this.hoverwhite(0)
       var self = this
+      console.log(self)
       util.post('showCoinData', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.td = res
@@ -298,6 +300,12 @@
           font-size: 14px;
           border-top: 2px solid white;
           &:hover{
+            color:#327fff;
+            height: 50px;
+            box-sizing: border-box;
+            border-top: 2px solid #327fff;
+          }
+          &.avtive{
             color:#327fff;
             height: 50px;
             box-sizing: border-box;
