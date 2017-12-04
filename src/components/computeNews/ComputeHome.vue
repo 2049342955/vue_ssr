@@ -552,12 +552,12 @@
     }
     .cominfor_news{
       width: 1180px;
-      height: 40px;
+      height: 30px;
       margin:0 auto;
       margin-top: 30px;
       img{
-          width: 146px;
-          height: 30px;
+          width: 116px;
+          height: 25px;
           float: left;
       }
       .scroll{

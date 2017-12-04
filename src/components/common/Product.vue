@@ -608,7 +608,6 @@
           background: #fe5039;
           color: white;
           font-size: 18px;
-          margin-left: 30px;
         }
         .loan_btn{
           background: #01bfb5;
