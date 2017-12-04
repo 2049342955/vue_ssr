@@ -86,7 +86,7 @@
           }
           self.total = res.num
           if (self.now > 1) return false
-          self.len = Math.ceil(res.length / 15)
+          self.len = Math.ceil(res.num / 15)
         })
       }).catch(res => {
         console.log(res)
