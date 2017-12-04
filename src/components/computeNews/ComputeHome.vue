@@ -48,7 +48,8 @@
         <img src="../../assets/images/information7.png"/>
       </router-link>
       <div class="scroll">
-        <marquee><router-link :to="'/quickNews/detail/' + s.id" v-for="s, m in scroll" :key="m">{{m + 1}}. {{s.title}}</router-link></marquee>
+        <!-- <marquee> -->
+        <router-link :to="'/quickNews/detail/' + s.id" v-for="s, m in scroll" :key="m">{{s.title}}</router-link>
       </div>
     </div>
     <div class="cominfor_info">
@@ -194,7 +195,8 @@
         }],
         bigimglist: '',
         show: 0,
-        computationallist: [{title: '算力资讯', path: '/computeNews/list'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/currency'}, {title: '电场矿场', path: '/computational/electric'}],
+        computationallist: [{title: '算力资讯', path: '/computeNews/list'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/currency'}],
+        // , {title: '电场矿场', path: '/computational/electric'}
         infoleft: [],
         inforight: [],
         active: 0,
@@ -569,7 +571,6 @@
           color: #333333;
           font-size: 15px;
           a{
-            float: left;
             margin-right: 40px;
           }
       }
