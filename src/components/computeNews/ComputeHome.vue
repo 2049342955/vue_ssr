@@ -110,7 +110,7 @@
               <p class="title">{{n.title}}</p>
             </router-link>
           </div>
-          <router-link to="/equipments/list">全部厂商介绍 ></router-link>
+          <router-link to="/equipments/list">全部博物馆介绍 ></router-link>
         </div>
       </div>
     </div>
@@ -120,9 +120,9 @@
         <p class="text">虚拟数字货币百科</p>
         <router-link to="/digitalCurrency/list">了解更多 ></router-link>
       </h4>
-      <table border="0"  class="covertable">
+      <table border="0"  class="covertable" style="margin:0;">
         <thead>
-          <tr>
+          <tr style="background:white;">
             <th v-for="n, k in tr">{{n.title}}</th>
           </tr>
         </thead>

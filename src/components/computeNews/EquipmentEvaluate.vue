@@ -11,7 +11,7 @@
         </div>
       </router-link>
     </div>
-    <Pager :len="len"></Pager>
+    <Pager :len="len" style="padding-top:0;"></Pager>
   </div>
 </template>
 
@@ -37,6 +37,8 @@
         util.post('NewsReviewList', {sign: api.serialize({token: 0, page: this.now})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.list = res
+            if (self.now > 1) return false
+            self.len = Math.ceil(res.length / 16)
           })
         }).catch(res => {
           console.log(res)

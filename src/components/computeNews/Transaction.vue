@@ -5,27 +5,38 @@
         <router-link :to="n.path" v-for="n, k in computationallist" :key="k">{{n.title}}</router-link>
       </div>
     </div>
-    <div class="transaction_img">
-    </div>
     <div class="transaction_all">
-      共有<span>122</span>条交易信息
+      共有<span>{{total}}</span>条交易信息
     </div>
     <div class="transaction_lists">
       <div class="transaction_list" v-for="n,k in lists">
         <div class="transaction_left">
-          <h2><span>【{{n.status}}】</span>{{n.title}}</h2>
-          <p class="text">{{n.info}}</p>
+          <h2>
+            <template v-if="n.status===2">
+              <span>【出售】</span>
+            </template>
+            <template v-else-if="n.status===1">
+              <span>【求购】</span>
+            </template>
+            {{n.title}}
+          </h2>
+          <p class="text" v-html="n.content ? n.content : '暂无简介'"></p>
           <p class="address">{{n.address}}</p>
-          <p class="time">{{n.time}} 小时前 / {{n.dian}} / {{n.news}}</p>
+          <p class="time">{{times[k]}} 小时前 / {{n.miner_kind}} / {{n.depreciate}}</p>
         </div>
         <div class="transaction_right">
-          <div class="mobile">
+          <div class="mobile" v-if="show === k">
+            <span><img src="../../assets/images/dian.png"/></span>
+            {{n.mobile}}
+          </div>
+          <div class="mobile" v-else>
             <span><img src="../../assets/images/dian.png"/></span>
             {{n.mobile|format}}
           </div>
-          <button>点击查看完整号码</button>
+          <button @click="allclick(k)">点击查看完整号码</button>
         </div>
       </div>
+      <Pager :len="len"></Pager>
     </div>
   </div>
 </template>
@@ -33,18 +44,49 @@
 <script>
   import util from '@/util/index'
   import api from '@/util/function'
+  import Pager from '@/components/common/Pager'
+  import { mapState } from 'vuex'
   export default {
+    components: {
+      Pager
+    },
     data () {
       return {
+        len: 0,
+        now: 1,
+        total: '',
         computationallist: [{title: '算力资讯', path: '/computeNews/list'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/currency'}, {title: '电场矿场', path: '/computational/electric'}],
-        lists: [{status: '转让', title: '蚂蚁1月份机子s913.5T带官电，现开始对外接单', info: '蚂蚁s913.5T带官电发货的机子现在开始正式接受预订了，余货不多，先到先得，全款发货，定金自提', address: '福建省 - 福州市', time: '3', dian: '蚂蚁', news: '全新', mobile: '17682446028'}]
+        lists: '',
+        times: [],
+        show: -1
+      }
+    },
+    methods: {
+      allclick (i) {
+        this.show = i
+        if (this.token === 0) {
+          this.$router.push({name: 'login'})
+          return false
+        }
       }
     },
     mounted () {
       var self = this
-      util.post('showSecondHandTradeList', {sign: api.serialize({token: 0, page: this.now})}).then(function (res) {
+      util.post('showSecondHandTradeList', {sign: api.serialize({token: this.token ? this.token : 0, page: this.now})}).then(function (res) {
         api.checkAjax(self, res, () => {
-          self.list = res
+          self.lists = res.trade_info
+          for (var a = 0; a < res.trade_info.length; a++) {
+            var date1 = res.trade_info[a].created_time
+            var date2 = new Date()
+            var date3 = date2.getTime() - new Date(date1).getTime()
+            var leave1 = date3 % (24 * 3600 * 1000)
+            var days = Math.floor(date3 / (24 * 3600 * 1000)) * 24
+            var hours = Math.floor(leave1 / (3600 * 1000)) + days
+            self.times.push(hours)
+          }
+          self.total = res.num
+          if (self.now > 1) return false
+          self.len = Math.ceil(res.length / 15)
         })
       }).catch(res => {
         console.log(res)
@@ -52,6 +94,11 @@
     },
     filters: {
       format: api.telReadable
+    },
+    computed: {
+      ...mapState({
+        token: state => state.info.token
+      })
     }
   }
 </script>
@@ -61,6 +108,7 @@
     width: 100%;
     overflow: hidden;
     margin:0 auto;
+    background: #eceff8;
      .compute_news_nav{
       width: 100%;
       height: 50px;
@@ -109,7 +157,7 @@
         border:1px solid #f2e5d2;
         margin:0 auto;
         position: relative;
-        top: -20px;
+        margin-top: 20px;
         box-sizing: border-box;
         background: #fbfaf5;
         padding-left: 20px;
@@ -129,11 +177,13 @@
       height: auto;
       padding-bottom:29px;
       margin: 0 auto;
+      margin-top: 20px;
       .transaction_list{
           width: 100%;
           height: 150px;
           box-shadow: #999 0 0 10px;
           background:white;
+          margin-bottom: 20px;
           .transaction_left{
               width: 75%;
               float: left;
