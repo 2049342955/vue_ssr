@@ -92,7 +92,7 @@
             float: right;
             color: #a9a9a9;
             font-size: 12px;
-            margin-right: 20px;
+            margin-right: 30px;
           }
         }
         p{

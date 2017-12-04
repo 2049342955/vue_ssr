@@ -174,32 +174,47 @@ export default {
             .covertable{
                 text-align: center;
                 width: 100%;
-                thead{
-                    tr{
-                    padding-bottom:24px;
-                    border-bottom: 1px solid #dcdcdc;
-                    th{
-                        color: #333;
-                        height: 40px;
+                 thead{
+                tr{
+                  padding-bottom:24px;
+                  border-bottom: 1px solid #dcdcdc;
+                  th{
+                      color: #333;
+                      height: 40px;
+                      padding-left: 30px;
+                      text-align: left;
+                      width: 20%;
+                  }
+                  :nth-child(2){
+                    padding-left: 5px;
+                  }
+                  :nth-child(3){
+                    padding-left: 5px;
+                  }
+                  :nth-child(5){
+                    padding-left: 50px;
+                  }
+                }
+            }
+            tbody{
+                tr{
+                    height: 55px;
+                    line-height: 55px;
+                    border-bottom: 1px solid #e5e5e5;
+                    &:first-child{
+                       margin-top: 20px;
                     }
+                    td{
+                        text-align: left;
+                        // padding-left: 50px;
+                        box-sizing: border-box;
+                        span{
+                            color: #fe5039;
+                            font-weight: 800;
+                        }
                     }
                 }
-                tbody{
-                    tr{
-                        height: 55px;
-                        line-height: 4 5px;
-                        border-bottom: 1px solid #e5e5e5;
-                        &:first-child{
-                        margin-top: 20px;
-                        }
-                        td{
-                            span{
-                                color: #fe5039;
-                                font-weight: 800;
-                            }
-                        }
-                    }
-                }
+            }
             }
         }
     }

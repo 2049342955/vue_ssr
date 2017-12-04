@@ -1,6 +1,6 @@
 <template>
   <div class="museum_right">
-    <h1>矿机测评<span class="icon iconfont icon-dui"></span></h1>
+    <h1 style="position:relative;">矿机测评<span class="icon iconfont icon-jiantou" style="transform:rotate(90deg);position:absolute;top:3px;"></span></h1>
     <div class="museum_lists" v-for="n, k in list" :key="k">
       <router-link :to="'/equipmentEvaluate/detail/' + n.id">
         <span class="label">BitCoin</span>

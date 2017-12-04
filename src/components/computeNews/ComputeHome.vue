@@ -970,6 +970,18 @@
                   th{
                       color: #333;
                       height: 40px;
+                      padding-left: 30px;
+                      text-align: left;
+                      width: 20%;
+                  }
+                  :nth-child(2){
+                    padding-left: 5px;
+                  }
+                  :nth-child(3){
+                    padding-left: 5px;
+                  }
+                  :nth-child(5){
+                    padding-left: 50px;
                   }
                 }
             }
@@ -982,6 +994,9 @@
                        margin-top: 20px;
                     }
                     td{
+                        text-align: left;
+                        // padding-left: 50px;
+                        box-sizing: border-box;
                         span{
                             color: #fe5039;
                             font-weight: 800;

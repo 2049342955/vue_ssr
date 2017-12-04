@@ -1,6 +1,6 @@
 <template>
   <div class="museum_right">
-    <h1>矿机制造商<span class="icon iconfont icon-dui"></span></h1>
+    <h1 style="position:relative;">矿机制造商<span class="icon iconfont icon-jiantou" style="transform:rotate(90deg);position:absolute;top:3px;"></span></h1>
     <div class="museum_lists" v-for="n, k in museum" :key="k">
       <div class="museuming"><img :src="n.image"/></div>
       <div class="museum_content">

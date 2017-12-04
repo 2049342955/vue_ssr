@@ -1,13 +1,13 @@
 <template>
    <div class="currency_right">
-    <h1>主流币种资料<span class="icon iconfont icon-dui"></span></h1>
+    <h1 style="position:relative;">主流币种资料<span class="icon iconfont icon-jiantou" style="transform:rotate(90deg);position:absolute;top:3px;"></span></h1>
     <div class="currency_toplist">
       <router-link :to="'/digitalCurrency/detail/' + n.id" class="toplist" v-for="n, k in toplists" :key="k">
         <img :src="n.icon"/>
         <span>{{n.coin_name}}</span>
       </router-link>
     </div>
-    <h1 class="bottomlist">各类代币资料<span class="icon iconfont icon-dui"></span></h1>
+    <h1 style="position:relative;" class="bottomlist">各类代币资料<span class="icon iconfont icon-jiantou" style="transform:rotate(90deg);position:absolute;top:3px;"></span></h1>
     <div class="currency_toplist">
       <router-link :to="'/digitalCurrency/detail/' + n.id" class="toplist" v-for="n, k in bottomlists" :key="k">
         <img :src="n.icon"/>
