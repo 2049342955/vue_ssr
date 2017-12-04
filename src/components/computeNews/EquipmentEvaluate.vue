@@ -38,7 +38,7 @@
           api.checkAjax(self, res, () => {
             self.list = res
             if (self.now > 1) return false
-            self.len = Math.ceil(res.length / 16)
+            self.len = Math.ceil(res.total / 16)
           })
         }).catch(res => {
           console.log(res)

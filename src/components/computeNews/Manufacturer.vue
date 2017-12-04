@@ -36,7 +36,7 @@
           api.checkAjax(self, res, () => {
             self.museum = res
             if (self.now > 1) return false
-            self.len = Math.ceil(res.length / 3)
+            self.len = Math.ceil(res.total / 5)
           })
         }).catch(res => {
           console.log(res)
