@@ -487,7 +487,7 @@
         component: Manufacturer
       }, {
         path: 'detail/:id',
-        name: 'equipmentEvaluateDetail',
+        name: 'manufacturerDetail',
         component: WebInfoDetail
       }]
     }, {
@@ -515,7 +515,7 @@
       },
       children: [{
         path: 'list',
-        name: 'quickNewsList',
+        name: 'minerPhotoList',
         component: WebInfoList
       }, {
         path: 'detail/:id',
