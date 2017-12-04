@@ -104,7 +104,8 @@
           color: #59493f;
           line-height: 53px;
           font-size: 16px;
-
+          cursor: pointer;
+          
           &:hover {
             color: #327fff;
           }
