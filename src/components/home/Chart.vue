@@ -170,6 +170,9 @@
       util.post('showCoinData', {sign: 'token=0'}).then(function (data) {
         self.info = data
       })
+      util.post('showMiningPoolData', {sign: 'token=0'}).then(function (data) {
+        console.log(data)
+      })
     },
     filters: {
       format: api.readable
@@ -180,7 +183,7 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .chart{
-    @include position(490)
+    @include position(726)
     bottom:auto;
     height:60px;
     background:rgba(27, 27, 27, 0.2);

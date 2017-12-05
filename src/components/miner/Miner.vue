@@ -1,11 +1,9 @@
 <template>
   <section class="compute_shop">
-    <!-- <ProductNav page="minerShop" v-if="active"></ProductNav> -->
     <Sort :sort="sort"></Sort>
     <MinerList v-if="$route.params.type==='1'"></MinerList>
     <CloudMinerList page="minerShop" v-else></CloudMinerList>
     <Pager :len="len"></Pager>
-    <SideBar></SideBar>
   </section>
 </template>
 
@@ -97,10 +95,6 @@
         background: #fff;
         padding:30px 15px;
       }
-      @include mobile_hide
-    }
-    .sort{
-      @include mobile_hide
     }
   }
 </style>
