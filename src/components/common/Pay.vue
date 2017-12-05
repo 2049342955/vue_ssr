@@ -100,11 +100,11 @@
           </div>
           <form class="form payForm" action="" @submit.prevent="pay" novalidate>
             <FormField :form="form" class="form" v-if="payNo===1"></FormField>
-            <!-- <label for="accept">
+             <label for="accept">
               <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
               <span @click="openMask(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'minerShop'? '销售':'转让'}}协议》</a><template v-if="$route.params.type!=='1'">和<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
               <span class="select_accept">{{tips}}</span>
-            </label> -->
+            </label> 
             <button name="btn">确认支付</button>
           </form>
         </div>
@@ -164,11 +164,11 @@
           </div>
         </div>
         <div class="mobile_btn">
-          <!-- <label for="accept">
+           <label for="accept">
             <input type="checkbox" :value="accept" id="accept" name="accept" @click="setAssept">
             <span @click="openMask(1)">阅读并接受<a href="javascript:;" style="color:#327fff;">《矿机{{page === 'minerShop'? '销售':'转让'}}协议》</a><template v-if="$route.params.type!=='1'">、<a href="javascript:;" style="color:#327fff;">《矿机托管协议》</a></template></span>
             <span class="select_accept">{{tips}}</span>
-          </label> -->
+          </label> 
           <mt-button type="primary" size="large" name="btn">确认支付</mt-button>
         </div>
       </form>
@@ -321,23 +321,23 @@
           }, ff.btn)
         })
       },
-      // openMask (n) {
-      //   document.body.style.overflow = 'hidden'
-      //   window.scroll(0, 0)
-      //   if (this.isMobile) {
-      //     this.mobileEdit = true
-      //   } else {
-      //     this.edit = true
-      //   }
-      //   if (n === 1) {
-      //     this.contract = this.$parent.content1 ? this.$parent.content + '<br>' + this.$parent.content1 : this.$parent.content
-      //     this.title = '协议详情'
-      //     this.accept = true
-      //   } else if (n === 2) {
-      //     this.contract = ''
-      //     this.title = '收货地址'
-      //   }
-      // },
+      openMask (n) {
+        document.body.style.overflow = 'hidden'
+        window.scroll(0, 0)
+        if (this.isMobile) {
+          this.mobileEdit = true
+        } else {
+          this.edit = true
+        }
+        if (n === 1) {
+          this.contract = this.$parent.content1 ? this.$parent.content + '<br>' + this.$parent.content1 : this.$parent.content
+          this.title = '协议详情'
+          this.accept = true
+        } else if (n === 2) {
+          this.contract = ''
+          this.title = '收货地址'
+        }
+      },
       closeMask () {
         document.body.style.overflow = 'auto'
         if (this.isMobile) {

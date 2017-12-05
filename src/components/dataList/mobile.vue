@@ -1,14 +1,15 @@
 <template>
   <div class="mobile_data">
     <h2>一 矿机抢购 一 <router-link to="#">更多矿机 ></router-link></h2>
-    <div class="mobile_list_box">
-      <mt-swipe :auto="0" :show-indicators="false">
-        <mt-swipe-item v-for="d,i in list" @click="goPay(d.product_id||d.id)" :key="i">
+    <div class="mobile_listdata">
+      <div class="mobile_list_box">
+        <div v-for="d,i in list" @click="goPay(d.product_id||d.id)" :key="i" class="mobile_lists">
           <img :src="d.minerPicture"/>
           <h3>{{d.name}}</h3>
           <h4><b>¥ {{d.one_amount_value}}</b><span class="icon iconfont icon-jinrong"></span></h4>
-        </mt-swipe-item>
-      </mt-swipe>
+        </div>
+      </div>
+    </div>
       <!-- <div class="item"  @click="goPay(d.product_id||d.id)">
           
           <div class="mobile_info_box">
@@ -62,6 +63,8 @@
       //     self.list = res
       //   })
       // })
+      // console.log(document.getElementsByClassName('mobile_lists').length * 6 + document.getElementsByClassName('mobile_lists').length)
+      // document.getElementsByClassName('mobile_list_box')[0].style.width = (document.getElementsByClassName('mobile_lists').length * 6 + document.getElementsByClassName('mobile_lists').length) + 'rem'
       util.post('showTopMiner', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.list = res
@@ -109,19 +112,28 @@
         padding-top: .2rem;
       }
     }
-    .mobile_list_box{
+    .mobile_listdata{
       width: 100%;
-      height: 6.7rem;
+      overflow: auto;
+    }
+    .mobile_listdata::-webkit-scrollbar{width:0px}
+    .mobile_list_box{
+      width: 18.4rem;
+      height: 7rem;
       margin-top: 0.2rem;
-      .mint-swipe-item{
+      overflow: auto;
+      display: flex;
+      justify-content:flex-start;
+      border-right:1px solid #dddddd;
+      .mobile_lists{
         width: 6rem;
-        height: 6.7rem;
+        height: 6.8rem;
         border:1px solid #dddddd;
+        border-right: 0;
         float: left;
-        margin-right: 20px;
         img{
           width: 100%;
-          max-height: 3.8rem;
+          height: 3.8rem;
           object-fit: cover;
         }
         h3{
