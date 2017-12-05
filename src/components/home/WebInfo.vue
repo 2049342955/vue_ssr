@@ -8,10 +8,10 @@
           <router-link to="/webInfo/list/website">查看更多 ></router-link>
         </h3>
         <div class="list">
-          <router-link :to="'/webInfo/detail/website/'+a.id" class="item" v-for="a,k in activity" :key="k">
+          <router-link :to="'/webInfo/detail/'+a.id" class="item" v-for="a,k in activity" :key="k">
             <span class="icon"></span>
             <span class="line"></span>
-            <span class="text">{{a.title}}</span>
+            <span class="text" style="width:72%;">{{a.title}}</span>
             <span class="date">{{a.dateline}}</span>
           </router-link>
         </div>
@@ -22,10 +22,10 @@
           <router-link to="/webInfo/list/product">查看更多 ></router-link>
         </h3>
         <div class="list">
-          <router-link :to="'/webInfo/detail/product/'+a.id" class="item" v-for="a,k in notice" :key="k">
+          <router-link :to="'/webInfo/detail/'+a.id" class="item" v-for="a,k in notice" :key="k">
             <span class="icon"></span>
             <span class="line"></span>
-            <span class="text">{{a.title}}</span>
+            <span class="text" style="width:72%;">{{a.title}}</span>
             <span class="date">{{a.dateline}}</span>
           </router-link>
         </div>

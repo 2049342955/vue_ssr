@@ -284,6 +284,7 @@
   .cominfor{
     width: 100%;
     height: 100%;
+    background:#eceff8;
      .compute_news_nav{
       width: 100%;
       height: 50px;
@@ -368,6 +369,7 @@
             p{
                 margin-top: 10px;
                 color: white;
+                letter-spacing:2px;
                 font-size: 13px;
                 &:after{
                     content:'';
