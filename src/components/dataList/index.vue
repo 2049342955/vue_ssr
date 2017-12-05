@@ -1,12 +1,10 @@
 <template>
-  <div class="cloud_list">
     <div class="pc_datalist" v-if="!isMobile">
       <pc-datalist></pc-datalist>
     </div>
     <div class="mobile_datalist" v-else>
       <m-datalist></m-datalist>
     </div>
-  </div>
 </template>
 
 <script>

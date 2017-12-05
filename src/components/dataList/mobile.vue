@@ -1,5 +1,5 @@
 <template>
-  <div class="mobile_box">
+  <div class="mobile_data">
     <h2>一 矿机抢购 一 <router-link to="#">更多矿机 ></router-link></h2>
     <div class="mobile_list_box">
       <mt-swipe :auto="0" :show-indicators="false">
@@ -86,10 +86,11 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  .mobile_box{
+  .mobile_data{
     width: 100%;
-    height: 410px;
+    height: 9.3rem;
     background: white;
+    margin-bottom: 0.5rem;
     h2{
       width: 100%;
       position: relative;
@@ -110,7 +111,8 @@
     }
     .mobile_list_box{
       width: 100%;
-      height: 308px;
+      height: 6.7rem;
+      margin-top: 0.2rem;
       .mint-swipe-item{
         width: 6rem;
         height: 6.7rem;
