@@ -1,6 +1,6 @@
 <template>
   <header :class="headerClass" :disabled="$route.name==='notFound'">
-    <section class="box">
+    <section class="box" v-if="!isMobile">
       <div class="nav_left">
         <router-link class="logo" to="/"></router-link>
         <nav>
@@ -33,13 +33,18 @@
         </template>
       </div>
     </section>
+    <section v-else="isMobile">
+      <HeaderMobile></HeaderMobile>
+    </section>
   </header>
 </template>
 
 <script>
-  import api from '../../util/function'
-  import util from '../../util'
+  import api from '@/util/function'
+  import util from '@/util'
   import { mapState } from 'vuex'
+  import HeaderMobile from './mobile'
+
   export default {
     name: 'header',
     data () {
@@ -77,7 +82,8 @@
         token: state => state.info.token,
         user_id: state => state.info.user_id,
         mobile: state => state.info.mobile,
-        true_name: state => state.info.true_name
+        true_name: state => state.info.true_name,
+        isMobile: state => state.isMobile
       })
     },
     methods: {
@@ -122,13 +128,16 @@
     },
     watch: {
       '$route': 'updateClass'
+    },
+    components: {
+      HeaderMobile
     }
   }
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
-  @import '../../assets/fonts/iconfont.css';
+  @import '../../../assets/css/style.scss';
+  @import '../../../assets/fonts/iconfont.css';
   header{
     .box{
       @include main
@@ -200,7 +209,7 @@
         background: rgba(0,0,0,.8);
       }
       .box .logo{
-        background: url('../../assets/images/css_sprites.png') -10px -364px;
+        background: url('../../../assets/images/css_sprites.png') -10px -364px;
       }
       a{
         color:$white
@@ -212,7 +221,7 @@
     &.frame_header{
       .box{
         .logo{
-          background: url('../../assets/images/css_sprites.png') -170px -364px;
+          background: url('../../../assets/images/css_sprites.png') -170px -364px;
         }
         nav .item{
           a{
@@ -245,7 +254,7 @@
     &.web_box{
       background: #242528;
       .box .logo{
-        background: url('../../assets/images/css_sprites.png') -10px -364px;
+        background: url('../../../assets/images/css_sprites.png') -10px -364px;
       }
       .box nav .item a,.box .side_nav a,.box .side_nav a.tel{
         color:#fff
