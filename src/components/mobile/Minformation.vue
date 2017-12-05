@@ -24,8 +24,8 @@
 </template>
 
 <script>
-  import util from '../../util'
-  import api from '../../util/function'
+  import util from '@/util'
+  import api from '@/util/function'
   export default {
     data () {
       return {

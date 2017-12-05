@@ -203,7 +203,7 @@
 </template>
 
 <script>
-  import api from '../../util/function'
+  import api from '@/util/function'
   import { mapState } from 'vuex'
   export default {
     props: {

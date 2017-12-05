@@ -31,7 +31,7 @@
 </template>
 
 <script>
-  import api from '../../util/function'
+  import api from '@/util/function'
   export default {
     data () {
       return {

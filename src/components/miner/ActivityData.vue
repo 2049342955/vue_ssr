@@ -35,9 +35,9 @@
 </template>
 
 <script>
-  import api from '../../util/function'
-  import util from '../../util'
-  import Swiper from '../../components/common/Swipe'
+  import api from '@/util/function'
+  import util from '@/util'
+  import Swiper from '@/components/common/Swipe'
   import { mapState } from 'vuex'
   export default {
     components: {

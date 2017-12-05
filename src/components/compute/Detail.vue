@@ -11,8 +11,8 @@
   import util from '@/util'
   import api from '@/util/function'
   import { mapState } from 'vuex'
-  import Pay from '../common/Pay'
-  import Product from '../common/Product'
+  import Pay from '@/components/common/Pay'
+  import Product from '@/components/common/Product'
   export default {
     components: {
       Pay, Product

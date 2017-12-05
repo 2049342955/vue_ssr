@@ -14,8 +14,8 @@
   // import util from '@/util'
   // import api from '@/util/function'
   import { mapState } from 'vuex'
-  import CloudMinerList from '../common/CloudMinerList'
-  import ProductNav from '../common/ProductNav'
+  import CloudMinerList from '@/components/common/CloudMinerList'
+  import ProductNav from '@/components/common/ProductNav'
   import Pager from '@/components/common/Pager'
   import SideBar from '@/components/home/SideBar'
   export default {

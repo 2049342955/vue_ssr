@@ -10,9 +10,9 @@
   import { Toast } from 'mint-ui'
   import util from '@/util'
   import api from '@/util/function'
-  import Pay from '../common/Pay'
-  import Product from '../common/Product'
-  import PaySuccess from '../common/PaySuccess'
+  import Pay from '@/components/common/Pay'
+  import Product from '@/components/common/Product'
+  import PaySuccess from '@/components/common/PaySuccess'
   import { mapState } from 'vuex'
   export default {
     components: {

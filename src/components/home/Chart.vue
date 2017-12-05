@@ -45,8 +45,8 @@
 </template>
 
 <script>
-  import api from '../../util/function'
-  import util from '../../util'
+  import api from '@/util/function'
+  import util from '@/util'
   import echarts from 'echarts/lib/echarts'
   import 'echarts/lib/chart/line'
   import 'echarts/lib/component/tooltip'

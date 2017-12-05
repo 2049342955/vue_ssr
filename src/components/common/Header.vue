@@ -37,8 +37,8 @@
 </template>
 
 <script>
-  import api from '../../util/function'
-  import util from '../../util'
+  import api from '@/util/function'
+  import util from '@/util'
   import { mapState } from 'vuex'
   export default {
     name: 'header',

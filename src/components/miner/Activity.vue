@@ -134,7 +134,7 @@
   import { Toast } from 'mint-ui'
   import util from '@/util'
   import api from '@/util/function'
-  import List from './ActivityData'
+  import List from '@/components/miner/ActivityData'
   import MyMask from '@/components/common/Mask'
   import FormField from '@/components/common/FormField'
   import { mapState } from 'vuex'
