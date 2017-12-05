@@ -11,6 +11,10 @@
         </div>
       </router-link>
     </div>
+    <div class="nodata" v-if="showImg">
+        <div class="nodata_img"></div>
+        <p>暂无列表信息</p>
+    </div>
     <Pager :len="len" style="padding-top:0;"></Pager>
   </div>
 </template>
@@ -28,6 +32,7 @@
       return {
         len: 0,
         now: 1,
+        showImg: false,
         list: []
       }
     },
@@ -37,6 +42,7 @@
         util.post('NewsReviewList', {sign: api.serialize({token: 0, page: this.now})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.list = res.list
+            self.showImg = !res.total
             if (self.now > 1) return false
             self.len = Math.ceil(res.total / 5)
           })
@@ -57,6 +63,24 @@
 </script>
 
 <style lang="scss" scoped>
+.nodata{
+  width: 234px;
+  height: 275px;
+  position: absolute;
+  left: 50%;
+  margin-left: -167px;
+  p{
+    text-align: center;
+  }
+}
+  .nodata_img{
+    display: inline-block;
+    width: 234px;
+    height: 215px;
+    margin:0 auto;
+    margin-top: 200px;
+    background: url('../../assets/images/css_sprites.png') -335px -10px;
+  }
   .museum_right{
     float: left;
     width: 1110px;

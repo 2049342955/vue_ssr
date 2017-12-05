@@ -86,9 +86,9 @@
         text-align: center;
         float: left;
         img{
-          width:113px;
-          height: 170px;
-          object-fit: cover;
+          width: 191px;
+          vertical-align: middle;
+          margin-top: 49px;
         }
       }
       .museum_content{

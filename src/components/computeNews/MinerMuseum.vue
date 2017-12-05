@@ -73,24 +73,23 @@
     }
     .museum_lists{
       width: 100%;
-      height: 232px;
+      height: 172px;
       background: white;
       box-shadow: 0 0 10px #c2c2c2;
       margin-top: 20px;
       border-radius: 8px;
       img{
         width:132px;
-        height: 170px;
+        margin-top: 40px;
         float: left;
         object-fit: cover;
         margin-left: 48px;
-        margin-top: 26px;
       }
       .museum_content{
         width: 79%;
         float: left;
         padding-left: 58px;
-        padding-top: 50px;
+        padding-top: 34px;
         h6{
           color: #333333;
           font-size: 22px;
@@ -109,7 +108,6 @@
           border:1px solid #bfbfbf;
           background:white;
           color: #a9a9a9;
-          margin-top: 27px;
           float: right;
           margin-right: 37px;
           border-radius: 5px;

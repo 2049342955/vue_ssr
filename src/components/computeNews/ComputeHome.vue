@@ -81,7 +81,7 @@
       </h4>
       <div class="cominfor_shebottom">
         <div class="shebottomleft">
-          <h6>【主流厂商】 <span>全面测评</span></h6>
+          <h6>【主流厂商】</h6>
           <div style="height:291px;">
               <div class="she_ol">
                 <router-link :to="'/manufacturer/detail/' + n.id" class="border" v-for="n, k in sheol1" :key="k"><span></span>{{n.title}}</router-link>
@@ -90,7 +90,7 @@
           <router-link to="/manufacturer/list">全部厂商介绍 ></router-link>
         </div>
         <div class="shebottomcen">
-          <h6>【矿机测评】 <span>全面测评</span></h6>
+          <h6>【矿机测评】</h6>
           <div class="she_ol">
             <div class="imgshe" v-for="n, k in sheol2">
               <h2>BitCoin</h2>
@@ -104,7 +104,7 @@
           <router-link to="/equipmentEvaluate/list">全部测评 ></router-link>
         </div>
         <div class="shebottomright">
-          <h6>【矿机博物馆】 <span>全面测评</span></h6>
+          <h6>【矿机博物馆】</h6>
           <div class="all_ol" style="height:287px;">
             <router-link :to="'/equipments/detail/' + n.id" class="she_ol" v-for="n, k in sheol3" :key="k">
               <img :src="n.image"/>
