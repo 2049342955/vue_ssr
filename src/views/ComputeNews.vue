@@ -84,7 +84,7 @@
     }
     .computational_content{
     	width: 100%;
-	    min-height: 1562px;
+	    padding-bottom: 50px;
 	    background: #303849;
 	    .currency_header{
 	      width: 1180px;
@@ -105,9 +105,9 @@
 	      width: 1180px;
 	      margin:0 auto;
 	      overflow: hidden;
+        display: flex;
 	      .leftnav{
 			    width: 70px;
-			    height: 1425px;
 			    background: #1c202a;
 			    float: left;
 			    .leftnav_ol{
@@ -164,7 +164,6 @@
 	      .currency_right{
 	        float: left;
 	        width: 1110px;
-					height: 1424px;
 	        background: white;
 	        padding:32px 62px 0 62px;
 	        box-sizing: border-box;
