@@ -1,6 +1,6 @@
 <template>
-  <MobileHome class="home" v-if="isMobile"></MobileHome>
-  <PcHome class="home mobile_page" v-else></PcHome>
+  <MobileHome v-if="isMobile"></MobileHome>
+  <PcHome v-else></PcHome>
 </template>
 
 <script>

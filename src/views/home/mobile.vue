@@ -42,7 +42,7 @@
 
 <script>
   import Swiper from '@/components/common/Swipe'
-  import MyData from '@/components/home/DataList'
+  import MyData from '@/components/dataList'
   export default {
     components: {
       Swiper, MyData
