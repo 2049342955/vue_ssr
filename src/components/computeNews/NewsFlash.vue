@@ -74,7 +74,7 @@
       overflow: auto;
       .news_lists{
         width: 100%;
-        height: 120px;
+        height: 140px;
         border-bottom: 1px solid #dcdcdc;
         margin-bottom: 10px;
         cursor: pointer;
@@ -97,17 +97,17 @@
         }
         p{
           color: #a9a9a9;
-          height: 44px;
+          height: 64px;
           overflow: hidden;
           line-height: 22px;
           padding-right: 20px;
         }
         &:hover{
           height: auto;
-          min-height: 120px;
+          min-height: 140px;
           p{
             height: auto;
-            min-height: 44px;
+            min-height: 64px;
           }
         }
       }
