@@ -649,7 +649,7 @@
             width: 50%;
             overflow: hidden;
             border-right: 1px solid #e5e5e5;
-            padding-right: 8px;
+            padding-right: 18px;
             float: left;
             .infoleft_p{
                 width: 100%;
@@ -667,7 +667,7 @@
                     color: #5d5d5d;
                     font-size: 16px;
                     margin-right: 50px;
-                    width: 256px;
+                    width: 206px;
                     display:inline-block;
                     line-height: 16px;
                     white-space: nowrap;  
@@ -694,7 +694,7 @@
         .cominfor_inforight{
             width: 50%;
             overflow: hidden;
-            padding-left: 8px;
+            padding-left: 48px;
             float: left;
             .inforight_p{
                 width: 100%;
@@ -712,7 +712,7 @@
                     color: #5d5d5d;
                     font-size: 16px;
                     margin-right: 50px;
-                    width: 256px;
+                    width: 206px;
                     display:inline-block;
                     line-height: 16px;
                     white-space: nowrap;  
