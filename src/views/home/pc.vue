@@ -64,7 +64,7 @@
 <script>
   import Swiper from '@/components/common/Swipe'
   import Chart from '@/components/home/Chart'
-  import MyData from '@/components/dataList'
+  import MyData from '@/components/home/dataList'
   import WebInfo from '@/components/home/WebInfo'
   import SideBar from '@/components/home/SideBar'
   import DataChart from '@/components/home/DataChart'
