@@ -9,8 +9,8 @@
 
 <script>
   import api from '@/util/function'
-  import MyHead from '@/components/common/Header'
-  import MyFoot from '@/components/common/Footer'
+  import MyHead from '@/components/common/Header.vue'
+  import MyFoot from '@/components/common/Footer.vue'
   export default {
     components: {
       MyHead,

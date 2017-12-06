@@ -32,7 +32,7 @@
       }
     },
     created () {
-      window.addEventListener('scroll', this.test, false)
+      // window.addEventListener('scroll', this.test, false)
     },
     methods: {
       openPopup (n) {
@@ -68,7 +68,7 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  @import '../../assets/fonts/iconfont.css';
+  // @import '../../assets/fonts/iconfont.css';
   .side_bar{
     position: fixed;
     top:calc(50vh - 120px);

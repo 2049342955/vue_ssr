@@ -14,7 +14,7 @@
         </div>
       </router-link>
     </div>
-    <MyData></MyData>
+    <!-- <MyData></MyData> -->
     <template v-if="!isMobile">
       <div class="wq">
         <img :src="wqImg" alt="" class="pre">
@@ -78,15 +78,15 @@
 </template>
 
 <script>
-  import api from '../util/function'
-  import Swiper from '../components/common/Swipe'
-  import Chart from '../components/home/Chart'
-  import MyData from '../components/home/DataList'
-  import WebInfo from '../components/home/WebInfo'
-  import SideBar from '../components/home/SideBar'
-  import DataChart from '../components/home/DataChart'
-  import DataChart2 from '../components/home/DataChart2'
-  import DataMap from '../components/home/DataMap'
+  import api from '@/util/function'
+  import Swiper from '@/components/common/Swipe.vue'
+  import Chart from '@/components/home/Chart.vue'
+  import MyData from '@/components/home/DataList.vue'
+  import WebInfo from '@/components/home/WebInfo.vue'
+  import SideBar from '@/components/home/SideBar.vue'
+  import DataChart from '@/components/home/DataChart.vue'
+  import DataChart2 from '@/components/home/DataChart2.vue'
+  import DataMap from '@/components/home/DataMap.vue'
   // import PaySuccess from '../components/common/PaySuccess'
   import { mapState } from 'vuex'
   export default {
@@ -135,7 +135,7 @@
 
 <style type="text/css" lang="scss">
   @import '../assets/css/style.scss';
-  @import '../assets/fonts/iconfont.css';
+  // @import '../assets/fonts/iconfont.css';
   .home{
     &:not(.mobile_page){
       .swiper{

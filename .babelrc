@@ -9,13 +9,12 @@
     "stage-2",
     "es2015"
   ],
-  "plugins": ["transform-runtime", ["component", [
+  "plugins": ["syntax-dynamic-import", "transform-runtime", ["component", [
     {
       "libraryName": "mint-ui",
       "style": true,
       "libraryName": "element-ui",
-      "styleLibraryName": "theme-chalk",
-      "syntax-dynamic-import"
+      "styleLibraryName": "theme-chalk"
     }
   ]]],
   "env": {
