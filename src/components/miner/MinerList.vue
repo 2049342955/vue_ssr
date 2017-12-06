@@ -55,7 +55,11 @@
       </h2>
     </CloudMinerList>
     <div class="miner_loan">
-      <img :src="require('@/assets/images/miner_shop/loan.jpg')" alt="">
+      <div class="loan_center">
+        <h1>算力白条</h1>
+        <p><span>快</span>先挖矿,随心分期，行业创新典范</p>
+        <p><span>惠</span>最长享有180天的分期付款</p>
+      </div>
     </div>
     <SideBar></SideBar>
   </section>
@@ -258,6 +262,37 @@
     }
     .miner_loan{
       @include mobile_hide
+      background:url('../../assets/images/miner_shop/loan.jpg');
+      background-size:100% 100%;
+      width:100%;
+      height:350px;
+      .loan_center{
+        width:1180px;
+        height: 100%;
+        margin:0 auto;
+        padding-left: 24px;
+        padding-top: 42px;
+        h1{
+          color: white;
+          font-size: 65px;
+          font-weight: 800;
+        }
+        p{
+          font-size: 20px;
+          color:white;
+          margin-top:30px;
+          span{
+            width:52px;
+            height:52px;
+            display:inline-block;
+            border-radius: 100%;
+            background: #b28750;
+            text-align: center;
+            line-height: 52px;
+            margin-right: 30px;
+          }
+        }
+      }
     }
     .millsList{
       padding-top: 120px;
