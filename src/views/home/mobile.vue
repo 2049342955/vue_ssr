@@ -2,10 +2,10 @@
   <article class="home mobile_page">
     <Swiper :pagination-visible="true" :loop="true" :autoPlay="5000" :data="data"></Swiper>
     <div class="nav_box">
-      <router-link class="item" :to="n.url" v-for="n,k in nav" :key="k">
+      <div class="item" v-for="n,k in nav" :key="k" @click="goPage(n.url, k)">
         <img class="item_img" :src="require('@/assets/images/mobile/nav'+(k+1)+'.png')" alt="">
         <h3 class="item_text">{{n.title}}</h3>
-      </router-link>
+      </div>
     </div>
     <MyData></MyData>
     <div class="home_compute_news">
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+  import { Toast } from 'mint-ui'
   import Swiper from '@/components/common/Swipe'
   import MyData from '@/components/home/dataList'
   export default {
@@ -52,6 +53,19 @@
         nav: [{title: '矿机商城', desc: '无忧购买矿机', url: '/minerShop/miner/1/all'}, {title: 'BDC托管', desc: '多个BDC中心', url: '/bdc'}, {title: '产业资讯', desc: '掌握产业动态', url: '/mobile/information'}, {title: '算力转让', desc: '掌握产业动态', url: '/mobile/information'}],
         data: [1, 1, 1],
         newsNav: [{title: '热点快讯·不止于此', desc: '开启算力新篇章'}, {title: '实时交易信息', desc: '前往了解更多'}, {title: '挖矿币种资料', desc: '前往了解更多'}]
+      }
+    },
+    methods: {
+      goPage (url, k) {
+        if (k !== 3) {
+          this.$router.push({path: url})
+        } else {
+          Toast({
+            message: '即将开放，敬请期待',
+            position: 'middle',
+            duration: 3000
+          })
+        }
       }
     }
   }
@@ -88,15 +102,15 @@
       }
     }
     .home_title{
-      font-size: 0.7rem;
+      font-size: 0.55rem;
       text-align: center;
       font-weight: bold;
       padding:15px 0;
       &:before{
-        content:'-'
+        content:'一 '
       }
       &:after{
-        content:'-'
+        content:' 一'
       }
     }
     .home_compute_news{

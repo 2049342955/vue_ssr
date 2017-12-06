@@ -1,6 +1,6 @@
 <template>
   <div class="mobile_data">
-    <h2>一 矿机抢购 一 <router-link to="#">更多矿机 ></router-link></h2>
+    <h2>一 矿机抢购 一 <router-link to="/minerShop/miner/1/all">更多矿机 ></router-link></h2>
     <div class="mobile_listdata">
       <div class="mobile_list_box">
         <div v-for="d,i in list" @click="goPay(d.product_id||d.id)" :key="i" class="mobile_lists">
@@ -10,29 +10,6 @@
         </div>
       </div>
     </div>
-      <!-- <div class="item"  @click="goPay(d.product_id||d.id)">
-          
-          <div class="mobile_info_box">
-            <div class="mobile_info">
-              
-              <div class="mobile_text">
-                <div class="mobile_text_item">每台算力<b>{{d.hash}}T</b></div>
-                <div class="mobile_text_item">剩余可售<b>{{d.amount-(d.sell_amount||d.buyed_amount)}}台</b></div>
-              </div>
-            </div>
-            <div class="circle sell_progress">
-              <template v-if="(((d.amount-d.buyed_amount)/d.amount*100).toFixed(1))<=180">
-                  <div class="pie_left"><div class="left"></div></div> 
-                 <div class="pie_right"><div class="right"  :style="{transform:'rotate(-'+(((d.amount-d.buyed_amount)/d.amount*100).toFixed(1) * 3.6)+'deg)'}"></div></div> 
-              </template>
-              <template v-else>
-                  <div class="pie_left"><div class="left" :style="{transform:'rotate(-'+((((d.amount-d.buyed_amount)/d.amount*100).toFixed(1) - 180) * 3.6)+'deg)'}"></div></div>   
-                  <div class="pie_right"><div class="right" :style="{transform:'rotate('+180+'deg)'}"></div></div>  
-              </template>
-              <div class="mask"><span>{{((d.amount-d.buyed_amount)/d.amount*100).toFixed(1)}}</span>%</div>
-            </div>
-          </div>
-        </div> -->
     </div>
   </div>
 </template>
