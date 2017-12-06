@@ -69,7 +69,6 @@
     margin-top:15px;
     background: white;
     overflow: hidden;
-    box-shadow: #dfe0e1 0 5px 5px -3px;
     .info_ulmobile{
       border-bottom:1px solid #e5e5e5;
       width: 100%;

@@ -698,7 +698,7 @@
       }
       .mobile_btn{
         text-align: center;
-        border-top:1px solid $border;
+        // border-top:1px solid $border;
         .mint-button--primary {
           background-color: $blue;
         }
@@ -757,6 +757,11 @@
           }
         }
       }
+    }
+  }
+  @media  screen and (max-width: 600px) {
+    .product{
+       padding-bottom:0;
     }
   }
 </style>
