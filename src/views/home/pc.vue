@@ -63,7 +63,6 @@
 
 <script>
   import Swiper from '@/components/common/Swipe'
-  import Chart from '@/components/home/Chart'
   import MyData from '@/components/home/dataList'
   import WebInfo from '@/components/home/WebInfo'
   import SideBar from '@/components/home/SideBar'
@@ -72,7 +71,7 @@
   import DataMap from '@/components/home/DataMap'
   export default {
     components: {
-      Swiper, Chart, MyData, WebInfo, SideBar, DataChart, DataMap, DataChart2
+      Swiper, MyData, WebInfo, SideBar, DataChart, DataMap, DataChart2
     },
     data () {
       return {
