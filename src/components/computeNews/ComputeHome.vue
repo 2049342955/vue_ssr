@@ -270,6 +270,13 @@
       }).catch(res => {
         console.log(res)
       })
+      util.post('showDifficulty', {sign: api.serialize({token: 0})}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          // self.bigimglist = res
+        })
+      }).catch(res => {
+        console.log(res)
+      })
     },
     computed: {
       ...mapState({

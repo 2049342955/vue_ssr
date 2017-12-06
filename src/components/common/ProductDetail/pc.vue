@@ -2,7 +2,7 @@
   <div class="pc_product_info">
     <template v-if="$parent.$route.params.type!=='1'">
       <div class="info_ul">
-        <div :class="['info_li',{'active': $parent.contentShow===k}]" v-for="n,k in $parent.infolists" @click="tabs(k)">{{n.title}}</div>
+        <div :class="['info_li',{'active': $parent.contentShow===k}]" v-for="n,k in $parent.infolists" @click="$parent.tabs(k)">{{n.title}}</div>
       </div>
       <div class="content_items">
         <template v-for="n,k in $parent.infolists">
@@ -15,7 +15,7 @@
     </template>
     <template v-else>
       <div class="info_ul">
-        <div :class="['info_li',{'active': $parent.contentShow===m}]" v-for="d,m in $parent.infolist" @click="tabs(m,d.name)">{{d.title}}</div>
+        <div :class="['info_li',{'active': $parent.contentShow===m}]" v-for="d,m in $parent.infolist" @click="$parent.tabs(m,d.name)">{{d.title}}</div>
       </div>
       <div class="content_items">
         <div class="product_img">
