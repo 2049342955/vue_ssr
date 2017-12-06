@@ -34,7 +34,9 @@
     <div class="mobileminer" v-else>
       <div class="millsList_mobile" v-for="n,k in $parent.minerData">
         <router-link :to="'/minerShop/detail/'+ n.id +'/1'">
-          <img :src="n.minerPicture"/>
+          <div class="null">
+            <img :src="n.minerPicture"/>
+          </div>
           <h6>{{n.name}}</h6>
           <mt-progress :value="(n.buyed_amount/n.amount * 100)" :bar-height="5"></mt-progress>
           <p>算力价： <b>¥{{n.one_amount_value}}</b> <span>{{n.hash}}T</span></p>
@@ -70,6 +72,7 @@
     overflow: hidden;
     margin:0 auto;
     background: #f6f7f9;
+    margin-top: 20px;
     h2{
       @include data_title
     }
@@ -241,11 +244,18 @@
         width: 48%;
         height: 7.5rem;
         overflow: hidden;
-        border-radius: .3rem;
         a{
-          img{
+          .null{
             width: 100%;
             height: 4.3rem;
+            background: #efefef;
+            border-radius: .3rem;
+            text-align: center;
+            img{
+              width: 4rem;
+              height: 2.4rem;
+              margin-top: 0.9rem;
+            }
           }
           h6{
             width: 100%;
@@ -284,6 +294,11 @@
           }
         }
       }
+    }
+  }
+  @media  screen and (max-width: 600px) {
+    .millsList{
+      margin-top:0;
     }
   }
 </style>
