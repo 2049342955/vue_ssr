@@ -57,8 +57,7 @@
 <style lang="scss" scoped>
   .museum_right{
     float: left;
-    width: 1002px;
-    height: 1424px;
+    width: 1002px;;
     background: white;
     padding:32px 62px 0 62px;
     box-sizing: border-box;
