@@ -1,6 +1,6 @@
 <template>
   <div class="chart">
-    <div class="text">
+    <!-- <div class="text">
       <div class="select_coin">
         <div class="now">
           <div :class="'icon_currency '+coin[no].title"></div>
@@ -19,11 +19,12 @@
       <div>比特币价格：1btc=${{info.btc_price}} (okcoin提供)</div>
       <div>难度调整时间：{{parseInt(info.leavetime/24)}}天{{info.leavetime%24}}小时</div>
       <div>困难度：{{info.difficulty}}</div>
-    </div>
+    </div> -->
     <div class="chart_show">
       <div class="chart_main">
         <div class="myChart"></div>
-        <div class="myText">
+        <div class="myChart2"></div>
+        <!-- <div class="myText">
           <h1>
             <span>{{coin[no].title}}</span>
             <span>{{coin[no].value}}</span>
@@ -38,7 +39,7 @@
               <span>{{d}}</span>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -83,6 +84,7 @@
           }
           return data
         }
+        console.log(getData())
         myChart.setOption({
           color: '#fff',
           title: {
@@ -91,7 +93,6 @@
           grid: {
             show: true,
             borderColor: '#3c3c49',
-            left: '7%',
             bottom: 80
           },
           tooltip: {
@@ -166,10 +167,10 @@
     },
     mounted () {
       this.drawLine()
-      var self = this
-      util.post('showCoinData', {sign: 'token=0'}).then(function (data) {
-        self.info = data
-      })
+      // var self = this
+      // util.post('showCoinData', {sign: 'token=0'}).then(function (data) {
+      //   self.info = data
+      // })
       util.post('showMiningPoolData', {sign: 'token=0'}).then(function (data) {
         console.log(data)
       })
@@ -183,9 +184,10 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .chart{
-    @include position(726)
-    bottom:auto;
-    height:60px;
+    // @include position(726)
+    // bottom:auto;
+    // height:60px;
+    padding:0 !important;
     background:rgba(27, 27, 27, 0.2);
     .text{
       @include main
@@ -238,44 +240,44 @@
       }
     }
     .chart_show{
-      @include position()
+      // @include position()
       top:100%;
       bottom:auto;
       background: #2e2e3d;
       z-index: 3;
-      display: none;
+      // display: none;
       .chart_main{
-        @include main
-        @include flex
+        // @include main
+        // @include flex
         .myChart{
-          width:640px;
-          height:400px;
+          width:100%;
+          height:420px;
         }
-        .myText{
-          width:leave(640);
-          padding-left:100px;
-          color:$white;
-          font-size: 16px;
-          line-height: 1.6;
-          h1{
-            @include flex(space-between)
-            font-size: 30px;
-            font-weight: bold;
-            padding-bottom: 10px
-          }
-          h1,.address{
-            border-bottom: 1px solid #59a1d9;
-            margin-bottom: 13px
-          }
-          .address{
-            padding-bottom: 30px
-          }
-          .data{
-            .item{
-              @include flex(space-between)
-            }
-          }
-        }
+        // .myText{
+        //   width:leave(640);
+        //   padding-left:100px;
+        //   color:$white;
+        //   font-size: 16px;
+        //   line-height: 1.6;
+        //   h1{
+        //     @include flex(space-between)
+        //     font-size: 30px;
+        //     font-weight: bold;
+        //     padding-bottom: 10px
+        //   }
+        //   h1,.address{
+        //     border-bottom: 1px solid #59a1d9;
+        //     margin-bottom: 13px
+        //   }
+        //   .address{
+        //     padding-bottom: 30px
+        //   }
+        //   .data{
+        //     .item{
+        //       @include flex(space-between)
+        //     }
+        //   }
+        // }
       }
     }
     &:hover .chart_show{

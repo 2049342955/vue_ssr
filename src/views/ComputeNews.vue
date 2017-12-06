@@ -6,19 +6,19 @@
       </div>
     </div>
     <div class="computational_content">
-        <div class="currency_header">suanLi&nbsp;之家 <span>全面聚合算力产业信息</span></div>
-        <div class="currency_content">
-          	<div class="leftnav">
-                  <div :class="['leftnav_ol', {'active': active === k}]" v-for="n, k in leftnav" :key="k">
-                    <router-link :to="n.path">
-                      <span :class="['icon', 'iconfont', n.big]"></span>
-                      <i>{{n.title}}</i>
-                    </router-link>
-                  </div>
-                </div>
-               <router-view class="currency_right"></router-view>
+      <div class="currency_header">suanLi&nbsp;之家 <span>全面聚合算力产业信息</span></div>
+      <div class="currency_content">
+      	<div class="leftnav">
+          <div :class="['leftnav_ol', {'active': active === k}]" v-for="n, k in leftnav" :key="k">
+            <router-link :to="n.path">
+              <span :class="['icon', 'iconfont', n.big]"></span>
+              <i>{{n.title}}</i>
+            </router-link>
           </div>
         </div>
+          <router-view class="currency_right"></router-view>
+        </div>
+      </div>
     </div>
   </div>
 </template>
