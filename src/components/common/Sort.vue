@@ -17,10 +17,10 @@
         <div class="item">
           <span>商品状态</span>
           <template v-if="$route.params.type==='1'">
-            <a href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav" @click="setStatus(k)">{{n}}</a>
+            <a href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav" @click="setStatus(n.computed)">{{n.title}}</a>
           </template>
           <template v-if="$route.params.type==='2'">
-            <a href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav2" @click="setStatus(k)">{{n}}</a>
+            <a href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav2" @click="setStatus(n.code)">{{n.title}}</a>
           </template>
         </div>
       </div>
@@ -37,10 +37,10 @@
       </div>
       <div class="mobile_sort_items">
         <template v-if="$route.params.type==='1'">
-          <a class="item" href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav" @click="setStatus(k)">{{n}}</a>
+          <a class="item" href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav" @click="setStatus(n.code)">{{n.title}}</a>
         </template>
         <template v-if="$route.params.type==='2'">
-          <a class="item" href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav2" @click="setStatus(k)">{{n}}</a>
+          <a class="item" href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav2" @click="setStatus(n.code)">{{n.title}}</a>
         </template>
       </div>
     </div>
@@ -64,8 +64,8 @@
     },
     data () {
       return {
-        nav: {0: '不限', 4: '预热', 1: '热销', 2: '售罄'},
-        nav2: {0: '不限', 4: '预热', 5: '热销', 7: '售罄'},
+        nav: [{code: 0, title: '综合推荐'}, {code: 4, title: '预热中'}, {code: 1, title: '热销中'}, {code: 2, title: '已售罄'}],
+        nav2: [{code: 0, title: '综合推荐'}, {code: 4, title: '预热中'}, {code: 5, title: '热销中'}, {code: 7, title: '已售罄'}],
         edit: -1,
         activeOne: true
       }
@@ -230,7 +230,7 @@
         border-bottom:1px solid $border;
         .item{
           padding:0 15px;
-          font-size: 0.6rem;
+          font-size: 0.55rem;
           line-height: 1.6rem;
           border-bottom:2px solid transparent;
           &.active{

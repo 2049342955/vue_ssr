@@ -48,8 +48,8 @@
         <img src="../../assets/images/information7.png"/>
       </router-link>
       <div class="scroll">
-        <!-- <marquee> -->
-        <router-link :to="'/quickNews/detail/' + s.id" v-for="s, m in scroll" :key="m">{{s.title}}</router-link>
+        <router-link to="/computeChart/list">【全网算力】<b>9.63EH/s</b>&nbsp;&nbsp;&nbsp;&nbsp;【全网困难度】<b>1.3256545555225555T</b></router-link>
+        <router-link :to="'/quickNews/detail/' + s.id" v-for="s, m in scroll" :key="m"> /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="icon iconfont icon-new1"></span> {{s.title}}</router-link>
       </div>
     </div>
     <div class="cominfor_info">
@@ -567,13 +567,34 @@
       .scroll{
           width: 940px;
           float: left;
-          margin-left:55px;
+          margin-left:30px;
           height: 30px;
           line-height: 30px;
-          color: #333333;
+          color:#121212;
           font-size: 15px;
           a{
-            margin-right: 40px;
+            display:inline-block;
+            float: left;
+          }
+          :nth-child(1){
+            color:#121212;
+            display:inline-block;
+            margin-right: 30px;
+            b{
+              font-weight: 800;
+              color:#121212;
+            }
+          }
+          :nth-child(2){
+            width: 40%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            color: #121212;
+            span{
+              color: #f84a35;
+              margin-right:10px;
+            }
           }
       }
     }
