@@ -114,10 +114,11 @@
         .params_table{
           margin:0 20px;
           margin-bottom:20px;
-          box-shadow: #9a9a9a -4px 0 5px -3px;
+          // box-shadow: #9a9a9a -4px 0 5px -3px;
           table{
             width:70%;
             border: 1px solid $light_black;
+            box-shadow: 0 0 10px #9a9a9a;
             tr{
               td{
                 padding:5px 15px;
@@ -129,8 +130,12 @@
             }
           }
         }
-        .content_con img{
+        .content_con{
           margin-bottom:30px;
+          width: 52%;
+          overflow: hidden;
+          padding-left: 30px;
+          padding-top: 10px;
         }
       }
       .product_img{
@@ -162,6 +167,7 @@
           &.params_img{
             @include position(480,auto,auto,50)
             width:40%;
+            right:30px !important;
           }
         }
       }
