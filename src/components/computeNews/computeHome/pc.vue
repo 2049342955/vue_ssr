@@ -2,7 +2,7 @@
   <div class="cominfor">
     <div class="compute_news_nav">
       <div class="compute_news_box">
-        <router-link :to="n.path" v-for="n, k in computationallist" :class="{'active': active === k}" :key="k">{{n.title}}</router-link>
+        <router-link :to="n.path" v-for="n, k in $parent.computationallist" :class="{'active': $parent.active === k}" :key="k">{{n.title}}</router-link>
       </div>
     </div>
     <div class="cominfor_header">
@@ -13,7 +13,7 @@
             <p>随时获取最新行业讯息</p>
           </router-link>
           <div class="olbottom">
-            <div v-for="n, k in headerlist" class="ollist" :key="k">
+            <div v-for="n, k in $parent.headerlist" class="ollist" :key="k">
               <router-link :to="n.link" class="oltitle">{{n.title}}</router-link>
               <div class="rou">
                 <router-link :to="d.path" v-for="d, m in n.route" :key="m">{{d.name}}</router-link>
@@ -24,17 +24,16 @@
         <div class="cominfo_headerright">
           <div class="bigtop">
             <div class="bigimg">
-              <img :src="n.image" v-for="n, k in bigimglist" class="teimg"/> 
+              <img :src="n.image" v-for="n, k in $parent.bigimglist" class="teimg"/> 
             </div>
             <div class="bigtab">
-              <div class="bighover" v-for="d,m in bigimglist" :class="{'active': show === m}" @mouseover="hoverwhite(m)">
+              <div class="bighover" v-for="d,m in $parent.bigimglist" :class="{'active': $parent.show === m}" @mouseover="$parent.hoverwhite(m)">
                 <h5>{{d.title}}</h5>
-                 <!-- <p>111</p>  -->
               </div>
             </div>
           </div>
           <div class="bigbottom">
-            <div class="numbig" v-for="n, m in miners" :key="m">
+            <div class="numbig" v-for="n, m in $parent.miners" :key="m">
               <img :src="n.big"/>
               <h4>{{n.title}}</h4>
               <router-link :to="n.path">{{n.route}}</router-link>
@@ -45,11 +44,11 @@
     </div>
     <div class="cominfor_news">
       <router-link to="/quickNews/list">
-        <img src="../../assets/images/information7.png"/>
+        <img src="../../../assets/images/information7.png"/>
       </router-link>
       <div class="scroll">
-        <router-link to="/computeChart/list">【全网算力】<b>{{qwsl.hashrate}}PH/s</b>&nbsp;&nbsp;&nbsp;&nbsp;【全网困难度】<b>{{qwsl.difficulty}}T</b></router-link>
-        <router-link :to="'/quickNews/detail/' + s.id" v-for="s, m in scroll" :key="m"> /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="icon iconfont icon-new1"></span> {{s.title}}</router-link>
+        <router-link to="/computeChart/list">【全网算力】<b>{{$parent.qwsl.hashrate}}PH/s</b>&nbsp;&nbsp;&nbsp;&nbsp;【全网困难度】<b>{{$parent.qwsl.difficulty}}T</b></router-link>
+        <router-link :to="'/quickNews/detail/' + s.id" v-for="s, m in $parent.scroll" :key="m"> /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="icon iconfont icon-new1"></span> {{s.title}}</router-link>
       </div>
     </div>
     <div class="cominfor_info">
@@ -59,14 +58,14 @@
         <router-link to="/transaction">了解更多 ></router-link>
       </h4>
       <div class="cominfor_infoleft">
-        <p v-for="n,k in infoleft" class="infoleft_p">
+        <p v-for="n,k in $parent.infoleft" class="infoleft_p">
           <span class="status">【出售】</span>
           <span class="title">{{n.title}}</span>
           <span class="time">{{n.created_time}}</span>
         </p>
       </div>
       <div class="cominfor_inforight">
-        <p v-for="n,k in inforight" class="inforight_p">
+        <p v-for="n,k in $parent.inforight" class="inforight_p">
           <span class="status">【求购】</span>
           <span class="title">{{n.title}}</span>
           <span class="time">{{n.created_time}}</span>
@@ -84,7 +83,7 @@
           <h6>【主流厂商】</h6>
           <div style="height:291px;">
               <div class="she_ol">
-                <router-link :to="'/manufacturer/detail/' + n.id" class="border" v-for="n, k in sheol1" :key="k"><span></span>{{n.title}}</router-link>
+                <router-link :to="'/manufacturer/detail/' + n.id" class="border" v-for="n, k in $parent.sheol1" :key="k"><span></span>{{n.title}}</router-link>
               </div>
           </div>
           <router-link to="/manufacturer/list">全部厂商介绍 ></router-link>
@@ -92,7 +91,7 @@
         <div class="shebottomcen">
           <h6>【矿机测评】</h6>
           <div class="she_ol">
-            <div class="imgshe" v-for="n, k in sheol2">
+            <div class="imgshe" v-for="n, k in $parent.sheol2">
               <h2>BitCoin</h2>
               <div class="imgshe1">
                 <img :src="n.image"/>
@@ -106,7 +105,7 @@
         <div class="shebottomright">
           <h6>【矿机博物馆】</h6>
           <div class="all_ol" style="height:287px;">
-            <router-link :to="'/equipments/detail/' + n.id" class="she_ol" v-for="n, k in sheol3" :key="k">
+            <router-link :to="'/equipments/detail/' + n.id" class="she_ol" v-for="n, k in $parent.sheol3" :key="k">
               <img :src="n.image"/>
               <p class="title">{{n.title}}</p>
             </router-link>
@@ -124,11 +123,11 @@
       <table border="0"  class="covertable" style="margin:0;">
         <thead>
           <tr style="background:white;">
-            <th v-for="n, k in tr">{{n.title}}</th>
+            <th v-for="n, k in $parent.tr">{{n.title}}</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="d, m in td">
+          <tr v-for="d, m in $parent.td">
             <td><span>{{d.name}}</span> - {{d.chinese_name}}</td>
             <td>¥ {{d.price}}</td>
             <td>¥ {{(d.market_cap_usd / 100000000).toFixed(2)}}</td>
@@ -145,7 +144,7 @@
         <!-- <router-link to="#">了解更多 ></router-link> -->
       </h4>
       <div class="cominfor_autool">
-        <div class="autool" v-for="n, k in autool">
+        <div class="autool" v-for="n, k in $parent.autool">
           <h3>{{n.title}}</h3>
           <p>{{n.text}}</p>
           <router-link to="#">{{n.button}}</router-link>
@@ -155,139 +154,8 @@
   </div>
 </template>
 
-<script>
-  import util from '@/util/index'
-  import api from '@/util/function'
-  import { mapState } from 'vuex'
-  export default {
-    data () {
-      return {
-        scroll: [],
-        autool: [{title: '蒙古矿场', text: '国家电网合规用电', button: '即将开放'}, {title: '山西矿场', text: '国家电网合规用电', button: '即将开放'}, {title: '辽宁矿场', text: '国家电网合规用电', button: '即将开放'}],
-        tr: [{title: '币种'}, {title: '价格(元)'}, {title: '流通市值（亿/美元）'}, {title: '全网算力'}, {title: '单位挖矿产出'}],
-        td: [],
-        sheol1: [],
-        sheol2: [],
-        sheol3: [],
-        headerlist: [{
-          title: '设备之家',
-          link: '/equipments/list',
-          route: [{
-            name: '矿机测评 >',
-            path: '/equipmentEvaluate/list'
-          }, {
-            name: '矿机博物馆 >',
-            path: '/equipments/list'
-          }]
-        }, {
-          title: '数字货币',
-          link: '/digitalCurrency/list',
-          route: [{
-            name: '主流币种 >',
-            path: '/currency'
-          }, {
-            name: '数字货币 >',
-            path: '/currency'
-          }]
-        }, {
-          title: '二手资讯',
-          link: '/transaction'
-        }],
-        bigimglist: '',
-        show: 0,
-        computationallist: [{title: '算力资讯', path: '/computeNews/list'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/currency'}],
-        // , {title: '电场矿场', path: '/computational/electric'}
-        infoleft: [],
-        inforight: [],
-        active: 0,
-        qwsl: '',
-        miners: [{big: require('@/assets/images/information5.png'), title: '资深矿工-设备之家', route: '前往了解 >', path: '/equipments/list'}, {big: require('@/assets/images/information2.png'), title: '新手矿工-数字货币', route: '前往了解 >', path: '/digitalCurrency/list'}, {big: require('@/assets/images/information3.png'), title: '平台交易最新资讯', route: '前往了解 >', path: '/transaction'}]
-      }
-    },
-    methods: {
-      hoverwhite (k) {
-        this.show = k
-        var bigimg = document.getElementsByClassName('teimg')
-        for (var a = 0; a < bigimg.length; a++) {
-          if (a === k) {
-            bigimg[a].style.opacity = '1'
-          } else {
-            bigimg[a].style.opacity = '0'
-          }
-        }
-      }
-    },
-    mounted () {
-      this.hoverwhite(0)
-      var self = this
-      util.post('showDifficulty', {sign: api.serialize({token: 0})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.qwsl = res
-        })
-      }).catch(res => {
-        console.log(res)
-      })
-      util.post('showCoinData', {sign: api.serialize({token: 0})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.td = res
-        })
-      }).catch(res => {
-        console.log(res)
-      })
-      util.post('NewsManfacturer', {sign: api.serialize({token: 0})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.sheol1 = res
-        })
-      }).catch(res => {
-        console.log(res)
-      })
-      util.post('NewsReview', {sign: api.serialize({token: 0})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.sheol2 = res
-        })
-      }).catch(res => {
-        console.log(res)
-      })
-      util.post('NewsMuseum', {sign: api.serialize({token: 0})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.sheol3 = res
-        })
-      }).catch(res => {
-        console.log(res)
-      })
-      util.post('NewsBrief', {sign: api.serialize({token: 0})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.scroll = res
-        })
-      }).catch(res => {
-        console.log(res)
-      })
-      util.post('showSecondHandTradeTopList', {sign: api.serialize({token: 0})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.inforight = res.buy_info
-          self.infoleft = res.transfer_info
-        })
-      }).catch(res => {
-        console.log(res)
-      })
-      util.post('showBannerNews', {sign: api.serialize({token: 0})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.bigimglist = res
-        })
-      }).catch(res => {
-        console.log(res)
-      })
-    },
-    computed: {
-      ...mapState({
-        token: state => state.info.token
-      })
-    }
-  }
-</script>
-
 <style lang="scss" scoped>
-  @import '../../assets/css/style.scss';
+  @import '../../../assets/css/style.scss';
   .cominfor{
     width: 100%;
     height: 100%;
@@ -343,7 +211,7 @@
     .cominfor_header{
       width: 100%;
       height: 490px;
-      background-image: url('../../assets/images/information.png');
+      background-image: url('../../../assets/images/information.png');
       overflow: hidden;
       background-size: 100% 100%;
       object-fit: cover;
@@ -355,14 +223,14 @@
           width: 300px;
           height: 400px;
           float: left;
-          background-image: url('../../assets/images/information1.png');
+          background-image: url('../../../assets/images/information1.png');
           margin-right: 4px;
           position: relative;
           .red{
             position: absolute;
             width: 296px;
             height: 170px;
-            background-image: url('../../assets/images/red.png');
+            background-image: url('../../../assets/images/red.png');
             background-size: 100% 100%;
             left: -15px;
             top:-13px;
@@ -649,7 +517,7 @@
             width: 50%;
             overflow: hidden;
             border-right: 1px solid #e5e5e5;
-            padding-right: 8px;
+            padding-right: 18px;
             float: left;
             .infoleft_p{
                 width: 100%;
@@ -667,7 +535,7 @@
                     color: #5d5d5d;
                     font-size: 16px;
                     margin-right: 50px;
-                    width: 256px;
+                    width: 206px;
                     display:inline-block;
                     line-height: 16px;
                     white-space: nowrap;  
@@ -694,7 +562,7 @@
         .cominfor_inforight{
             width: 50%;
             overflow: hidden;
-            padding-left: 8px;
+            padding-left: 48px;
             float: left;
             .inforight_p{
                 width: 100%;
@@ -712,7 +580,7 @@
                     color: #5d5d5d;
                     font-size: 16px;
                     margin-right: 50px;
-                    width: 256px;
+                    width: 206px;
                     display:inline-block;
                     line-height: 16px;
                     white-space: nowrap;  
@@ -745,7 +613,7 @@
         box-shadow: #d2d4db 0 0 20px;
         padding:30px 44px 0px 44px;
         margin-bottom: 25px;
-        background-image: url('../../assets/images/tabletop.png');
+        background-image: url('../../../assets/images/tabletop.png');
         background-size: 100% 100%;
         h4{
             width: 100%;
@@ -965,7 +833,7 @@
         padding:30px 44px 0px 44px;
         margin-bottom: 25px;
         padding-bottom: 58px;
-        background-image: url('../../assets/images/table.png');
+        background-image: url('../../../assets/images/table.png');
         background-size: 100% 100%;
         h4{
             width: 100%;
@@ -1080,7 +948,7 @@
                 width: 350px;
                 height: 202px;
                 float: left;
-                background-image: url('../../assets/images/tablebottom.png');
+                background-image: url('../../../assets/images/tablebottom.png');
                 background-size: 100% 100%;
                 text-align: center;
                 color: white;
@@ -1111,4 +979,3 @@
     }
   }
 </style>
-
