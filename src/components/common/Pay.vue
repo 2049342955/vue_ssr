@@ -128,13 +128,13 @@
     <div class="mobile_box">
       <div class="mobile_address" v-if="$route.params.type==='1'">
         <div class="address_box" @click="selectAddress" v-if="addressObject">
-          <h3 :class="{active:addressObject.is_default}">{{addressObject.post_user+'  '+addressObject.post_mobile}}</h3>
+          <h3 :class="{active:addressObject.is_default}">收货人地址：{{addressObject.post_user+'  '+addressObject.post_mobile}}</h3>
           <p>{{addressObject.province_name+addressObject.city_name+addressObject.area_name+addressObject.area_details}}</p>
         </div>
         <div class="address_btn" @click="selectAddress" v-else>使用新地址</div>
       </div>
       <div class="price">
-        <span>应付金额</span>
+        <span>应付金额：</span>
         <span class="val">{{totalPrice}}元</span>
       </div>
       <div class="confirm_info">
@@ -143,6 +143,12 @@
           <span v-if="k==='number'&&page==='minerShop'">{{$parent.number}}{{m.unit}}</span>
           <span v-else-if="k==='number'&&page!=='minerShop'">{{$parent.detail.hash}}{{m.unit}}</span>
           <span v-else>{{$parent.detail[k]}}{{m.unit}}</span>
+        </div>
+      </div>
+      <div class="confirm_info confirm_info2" v-if="$route.params.type==='1'">
+        <div class="item">
+          <span>配送费用</span>
+          <span>第三方物流、费用到付</span>
         </div>
       </div>
       <form action="" class="form payForm2" @submit.prevent="pay" novalidate>
@@ -801,7 +807,8 @@
     }
     .mobile_box{
       @include mobile_show
-      font-size: 0.56rem;
+      min-height:calc(100vh - 61px);
+      font-size: 0.45rem;
       color:$text;
       background: #F1F2F7;
       .mobile_address{
@@ -828,12 +835,12 @@
             top:36px
           }
           h3{
+            font-size: 0.5rem;
             position: relative;
-            font-weight: bold;
             &.active:after{
               content:'默认';
               @include position(4,auto,auto,10)
-              font-size: 12px;
+              font-size: 0.4rem;
               font-weight: normal;
               border:1px solid $orange;
               border-radius:3px;
@@ -842,7 +849,8 @@
             }
           }
           p{
-            @include ellipsis
+            @include ellipsis(2)
+            font-size: 0.5rem;
           }
         }
         .address_btn:after{
@@ -854,29 +862,29 @@
         background: #fff;
       }
       .price{
-        @include flex(space-between)
-        line-height: 60px;
-        margin-bottom:15px;
-        border-bottom:1px solid $border;
+        line-height: 50px;
+        font-weight: bold;
+        font-size: 0.52rem;
         .val{
-          color:$orange
+          color:$orange;
         }
       }
       .confirm_info{
         margin-bottom:15px;
+        padding-bottom:20px;
         .item{
           @include flex(space-between)
-          line-height: 50px;
+          line-height: 30px;
+          color:$light_text;
           span:last-child{
             color:$light_black
           }
-          &:not(:last-child){
-            border-bottom:1px solid $border;
-          }
+        }
+        &.confirm_info2{
+          padding:10px 15px;
         }
       }
       .pay_info{
-        padding-bottom:15px;
         .pay_item{
           @include flex(space-between)
           line-height: 50px;
@@ -888,7 +896,7 @@
             color:$blue
           }
           &:not(:last-child){
-            border-bottom:1px solid $border
+            border-bottom:1px solid $border;
           }
           &.active{
             position: relative;
@@ -904,6 +912,7 @@
             .mint-cell-wrapper{
               padding:10px 0;
               border:0;
+              font-size: 0.45rem;;
               .mint-cell-title{
                 width:85px;
                 color:$text
@@ -914,7 +923,6 @@
                   width:100%;
                   height:40px;
                   line-height: 40px;
-                  border:1px solid $border;
                   border-radius:3px;
                   padding: 0 10px;
                 }
@@ -930,7 +938,8 @@
       .mobile_btn{
         padding:15px;
         button{
-          margin-bottom:10px;
+          margin:10px 0;
+          background: $orange;
           label{
             color:$white;
           }
@@ -938,11 +947,7 @@
         label{
           font-size: 0.5rem;
           @include accept_label
-          input{
-            @include checkbox(18,0)
-          }
         }
-        // margin-top:15px
       }
     }
     .mask_con{

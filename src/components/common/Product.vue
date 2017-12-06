@@ -8,7 +8,7 @@
           <router-link to="/minerShop/miner/1/all" v-if="$route.params.type==='1'">矿机</router-link>
           <router-link to="/minerShop/miner/2/all" v-else>云矿机</router-link>
           <span>></span>
-          <em>{{$parent.detail.product_name||$parent.detail.name}}</em>
+          <em>{{$parent.detail.name}}</em>
         </div>
         <div class="items miner" v-if="$route.params.type==='1'">
           <div class="miner_type">
@@ -20,15 +20,7 @@
           </div>
           <div class="miner_right">
             <h4>
-              <template v-if="$parent.detail.status===1">
-                <span class="red">热销中</span>
-              </template>
-              <template v-else-if="$parent.detail.status===2">
-                <span class="gray">已售罄</span>
-              </template>
-              <template v-else-if="$parent.detail.status===3">
-                <span class="gray">产品撤销</span>
-              </template>
+              <span :class="statusObj[$parent.detail.status]&&statusObj[$parent.detail.status].color">{{statusObj[$parent.detail.status]&&statusObj[$parent.detail.status].title}}</span>
               {{$parent.detail.name}}
             </h4>
             <p class="time">{{$parent.detail.DeliveryTime}}</p>
@@ -56,8 +48,8 @@
           </div>
           <div class="cloud_miner_left">
             <h4>
-                {{$parent.detail.product_name}}
-                <span>{{$parent.str[$parent.detail.status]}}</span>
+              {{$parent.detail.product_name}}
+              <span>{{$parent.str[$parent.detail.status]}}</span>
             </h4>
             <p class="white" v-if="$route.params.type==='2'">可使用算力白条</p>
             <div class="product_data">
@@ -96,37 +88,119 @@
           </div>
         </div>
       </div>
-      <PcDetail :detail="$parent.detail"></PcDetail>
+      <div class="product_info">
+        <template v-if="$route.params.type!=='1'">
+          <div class="info_ul">
+            <div :class="['info_li',{'active': contentShow===k}]" v-for="n,k in infolists" @click="tabs(k)">{{n.title}}</div>
+          </div>
+          <div class="content_items">
+            <template v-for="n,k in infolists">
+              <div class="content_item" v-html="$parent.detail[n.name]" v-if="k!==3&&contentShow===k"></div>
+              <div class="content_item" v-if="k===3&&contentShow===3">
+                <img :src="$parent.detail[n.name]" alt="">
+              </div>
+            </template>
+          </div>
+        </template>
+        <template v-else>
+          <div class="info_ul">
+            <div :class="['info_li',{'active': contentShow===m}]" v-for="d,m in infolist" @click="tabs(m,d.name)">{{d.title}}</div>
+          </div>
+          <div class="content_items">
+            <div class="product_img">
+              <div class="pro_name">{{$parent.detail.name}}</div>
+              <div class="pro_slogan">{{$parent.detail.miner_list&&$parent.detail.miner_list.slogan}}</div>
+              <div class="pro_resume">{{$parent.detail.miner_list&&$parent.detail.miner_list.resume}}</div>
+              <img class="pro_img" :src="require('@/assets/images/miner_shop/miner_img.jpg')" alt="">
+              <img class="params_img" :src="$parent.detail.ActivityPicture" alt="">
+            </div>
+            <div class="content_item" :id="d.name" v-for="d,m in infolist">
+              <h2 v-if="m!==0">{{d.title}}</h2>
+              <div class="content_con" v-html="$parent.detail[d.name]" v-if="d.name!=='MinerAdvantage'"></div>
+              <div class="params_table" v-else>
+                <table border="1" cellspacing="0">
+                  <tr v-for="p,k in params">
+                    <td>{{p}}</td>
+                    <td>{{($parent.detail.miner_list&&$parent.detail.miner_list[k])||$parent.detail[k]}}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
     </template>
     <div class="mobile_box" v-else>
       <div class="img">
         <img :src="$parent.detail.product_img||$parent.detail.minerPicture" alt="">
       </div>
       <div class="first_box">
-        <h4>{{$parent.detail.product_name}}</h4>
-        <div class="base_info">
-          <div :class="['item', {mobile_hide:k==='status'&&$route.params.type==='1'}]" v-for="n,k in mobileNav1">
-            <div class="item_data">{{k==='status'?$parent.str[$parent.detail[k]]:$parent.detail[k]}}<span>{{n.unit}}</span></div>
-            <div class="item_text">{{n.title}}</div>
-          </div>
+        <h4>
+          <span class="status_box">{{(statusObj[$parent.detail.status]&&statusObj[$parent.detail.status].title)||$parent.str[$parent.detail.status]}}</span>
+          <span class="name_box">{{$parent.detail.name}}</span>
+        </h4>
+        <div class="mobile_price">
+          <div class="type_name">{{$route.params.type==='1'?'矿机':'云矿机'}}</div>
+          <div>算力价：<span class="price">￥{{$parent.detail.one_amount_value}}</span></div>
         </div>
+        <div class="buy_tips" v-if="$route.params.type==='1'">{{$parent.detail.DeliveryTime}}</div>
         <div class="progress_info">
           <div class="progress_box">
             <div class="box" :style="{width:((1-$parent.leftNum/$parent.detail.amount)*100).toFixed(1)+'%'}"></div>
           </div>
-          <div class="progress_text">
-            <div class="item">进度{{((1-$parent.leftNum/$parent.detail.amount)*100).toFixed(1)+'%'}}</div>
-            <div class="item">剩余可售台数{{$parent.leftNum}}</div>
+          <div class="progress_text">剩余{{$parent.leftNum}}台</div>
+        </div>
+        <div class="base_info">
+          <template v-for="n,k in $route.params.type==='1'?mobileNav1:mobileNav2">
+            <div class="item">
+              <div class="item_data">{{$parent.detail[k]}}{{n.unit}}</div>
+              <div class="item_text">{{n.title}}</div>
+            </div>
+            <div class="line"></div>
+          </template>
+        </div>
+      </div>
+      <div class="mobile_product_info">
+        <template v-if="$route.params.type!=='1'">
+          <div class="info_ulmobile">
+            <div :class="['info_limobile',{'active': contentShow===k}]" v-for="n,k in infolists" @click="tabs(k)">{{n.title}}</div>
           </div>
-        </div>
+          <div class="content_itemsmobile">
+            <template v-for="n,k in infolists">
+              <div class="content_itemmobile" v-html="$parent.detail[n.name]" v-if="k!==3&&contentShow===k"></div>
+              <div class="content_itemmobile" v-if="k===3&&contentShow===3">
+                <img :src="$parent.detail[n.name]" alt="">
+              </div>
+            </template>
+          </div>
+        </template>
+        <template v-else>
+          <div class="info_ulmobile">
+            <div :class="['info_limobile',{'active': contentShow===m}]" v-for="d,m in infolist" @click="tabs(m,d.name)">{{d.title}}</div>
+          </div>
+          <div class="content_itemsmobile">
+            <div class="product_img">
+              <div class="pro_name">{{$parent.detail.name}}</div>
+              <div class="pro_slogan">{{$parent.detail.miner_list&&$parent.detail.miner_list.slogan}}</div>
+              <div class="pro_resume">{{$parent.detail.miner_list&&$parent.detail.miner_list.resume}}</div>
+              <img class="pro_img" :src="require('@/assets/images/miner_shop/miner_img.jpg')" alt="">
+              <!-- <img class="params_img" :src="$parent.detail.ActivityPicture" alt=""> -->
+            </div>
+            <div class="content_itemmobile" :id="d.name" v-for="d,m in infolist">
+              <h2 v-if="m!==0">{{d.title}}</h2>
+              <div class="content_conmobile" v-html="$parent.detail[d.name]" v-if="d.name!=='MinerAdvantage'"></div>
+              <div class="params_tablemobile" v-else>
+                <table border="1" cellspacing="0">
+                  <tr v-for="p,k in $parent.params">
+                    <td>{{p}}</td>
+                    <td>{{($parent.detail.miner_list&&$parent.detail.miner_list[k])||$parent.detail[k]}}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </template>
       </div>
-      <div class="some_info">
-        <div class="item" v-for="n,k in mobileNav2" v-if="!(k === 'incomeType'&&$route.params.type==='1')">
-          <span>{{n.title}}</span>
-          <span>{{$parent.detail[k]}}{{n.unit}}</span>
-        </div>
-      </div>
-      <MobileDetail :detail="$parent.detail"></MobileDetail>
       <div class="mobile_btn">
         <mt-button type="primary" size="large" @click="openMask">立即购买</mt-button>
       </div>
@@ -138,7 +212,7 @@
             </div>
             <div class="text">
               <div class="price">￥{{$parent.detail.one_amount_value}}</div>
-              <div class="name">{{$parent.detail.product_name}}</div>
+              <div class="name">{{$parent.detail.name}}</div>
               <div class="left">剩余可售{{$parent.leftNum}}台</div>
             </div>
           </div>
@@ -171,12 +245,7 @@
 <script>
   import api from '@/util/function'
   import { mapState } from 'vuex'
-  import MobileDetail from './ProductDetail/mobile'
-  import PcDetail from './ProductDetail/pc'
   export default {
-    components: {
-      MobileDetail, PcDetail
-    },
     props: {
       page: {
         type: String
@@ -189,8 +258,9 @@
         infolists: [{name: 'machine_intro', title: '产品参数'}, {name: 'machine_advantage', title: '产品优势'}, {name: 'machine_agreement', title: '协议说明'}, {name: 'product_photos', title: '矿场相册'}],
         infolist: [{name: 'MInerBrief', title: '产品介绍'}, {name: 'MinerAdvantage', title: '产品参数'}, {name: 'prProtocolSpeciaification', title: '补充说明'}],
         params: {ChipsNumber: '芯片数量', hash: '额定算力', voltage: '额定电压', minerSize: '矿机尺寸', minerOuterSize: '外箱尺寸', Cooling: '冷却', temperature: '工作温度', humidity: '工作湿度', network: '网络连接', weight: '净重', wallPower: '墙上功耗'},
-        mobileNav1: {one_amount_value: {title: '每台服务器价格', unit: '元'}, hash: {title: '每台算力', unit: 'T'}, status: {title: '项目状态', unit: ''}},
+        mobileNav1: {hash: {title: '服务器算力', unit: 'T'}, weight: {title: '服务器重量', unit: 'kg'}, single_limit_amount: {title: '最少购买数量', unit: ''}},
         mobileNav2: {hashType: {title: '算力类型', unit: ''}, amount: {title: '服务器总数', unit: '台'}, incomeType: {title: '结算方式', unit: ''}},
+        statusObj: {1: {title: '热销中', color: 'red'}, 2: {title: '已售罄', color: 'gray'}, 3: {title: '产品撤销', color: 'gray'}},
         sheetVisible: false,
         contentShow: 0,
         active: 0,
@@ -230,7 +300,8 @@
       },
       tabs (k, name) {
         this.contentShow = k
-        location.href = '#' + name
+        // location.href = '#' + name
+        scrollTo(0, 600 * k)
       }
     },
     mounted () {
@@ -622,6 +693,116 @@
         }
       }
     }
+    .product_info{
+      position: relative;
+      @include main
+      margin-top:90px;
+      background: white;
+      overflow: hidden;
+      padding:0 98px;
+      box-sizing: border-box;
+      box-shadow: #dfe0e1 0 5px 5px -3px;
+      .info_ul{
+        border-bottom:1px solid #e5e5e5;
+        width: 100%;
+        overflow: hidden;
+        .info_li{
+          cursor:pointer;
+          float: left;
+          width: 75px;
+          color:#333333;
+          margin-right: 50px;
+          font-size: 18px;
+          height: 50px;
+          padding-top: 12px;
+          padding-bottom: 12px;
+          box-sizing: border-box;
+          &.active{
+            color: #327fff;
+            border-bottom: 2px solid #327fff;
+            box-sizing: border-box;
+          }
+          &:hover{
+            color: #327fff;
+            border-bottom: 2px solid #327fff;
+            box-sizing: border-box;
+          }
+        }
+      }
+      .content_items{
+        position: relative;
+        margin:15px 0 40px 0;
+        padding-bottom:40px;
+        background: #DDDFEB;
+        .content_item{
+          padding-top:20px;
+          h2{
+            font-weight: bold;
+            margin-bottom:20px;
+            padding:0 20px;
+          }
+          .params_table{
+            margin:0 20px;
+            margin-bottom:20px;
+            // box-shadow: #9a9a9a -4px 0 5px -3px;
+            table{
+              width:70%;
+              border: 1px solid $light_black;
+              box-shadow: 0 0 10px #9a9a9a;
+              tr{
+                td{
+                  padding:5px 15px;
+                  &:nth-child(2){
+                    width:70%;
+                    text-align: right;
+                  }
+                }
+              }
+            }
+          }
+          .content_con{
+            margin-bottom:30px;
+            width: 52%;
+            overflow: hidden;
+            padding-left: 30px;
+            padding-top: 10px;
+          }
+        }
+        .product_img{
+          position: relative;
+          .pro_name,.pro_slogan,.pro_resume{
+            @include position(40)
+            bottom:auto;
+            text-align: center;
+            color:#fff
+          }
+          .pro_name{
+            font-size: 36px;
+          }
+          .pro_slogan{
+            top:24%;
+            font-size: 50px;
+          }
+          .pro_resume{
+            top:80%;
+            left:20%;
+            width:60%;
+            right:auto;
+            font-size: 18px;
+          }
+          img{
+            &.pro_img{
+
+            }
+            &.params_img{
+              @include position(480,auto,auto,50)
+              width:40%;
+              right:30px !important;
+            }
+          }
+        }
+      }
+    }
     .mobile_box{
       .first_box,.product_desc,.mobile_btn{
         background: #fff;
@@ -630,69 +811,195 @@
       .first_box{
         margin-top:-15px;
         h4{
-          font-size: 0.7rem;
           margin:10px 0;
+          .status_box{
+            border: 1px solid $blue;
+            color:$blue;
+            padding:2px 7px;
+            border-radius:3px;
+          }
+          .name_box{
+            font-size: 0.7rem;
+          }
         }
-        .img{
-          padding-bottom:15px
+        .mobile_price{
+          @include flex(space-between)
+          color:$light_text;
+          .type_name{
+            background: $orange;
+            color:#fff;
+            padding:2px 5px;
+            font-size: 0.4rem;
+            border-radius:3px;
+          }
+          .price{
+            color:$orange;
+            font-weight: bold;
+            font-size: 0.6rem;
+          }
+        }
+        .buy_tips{
+          color:$orange;
+          padding-top:15px;
         }
         .base_info{
-          padding-bottom:20px;
           @include flex(space-between)
-          border-bottom:1px solid $border;
+          background: #F5F5F5;
+          padding:15px 10px;
           .item{
-            &.mobile_hide{
-              opacity:0
-            }
             .item_data{
-              font-size: 18px;
-              span{
-                font-size: 14px;
-                opacity: .7;
-              }
+              text-align: center;
+              font-size: 0.5rem;
             }
             .item_text{
               color:$light_black
             }
-            &:first-child{
-              .item_data{
-                color:$orange
-              }
+          }
+          .line{
+            height:30px;
+            width:1px;
+            background: #BFBFBF;
+            &:last-child{
+              display: none;
             }
           }
         }
         .progress_info{
-          padding-top:20px;
+          position: relative;
+          padding:30px 0;
           .progress_box{
             position: relative;
             overflow:hidden;
-            border-radius:5px;
-            height:10px;
+            border-radius:8px;
+            height:15px;
             background: $border;
-            margin-bottom:10px;
             .box{
               @include position
-              background: $orange;
+              @include process_color
             }
           }
           .progress_text{
-            @include flex(space-between)
-            color:$light_black;
-            .item{
-
-            }
+            position: absolute;
+            right:0;
+            top:16px;
+            color:$text;
+            padding:6px 18px;
+            border:4px solid $purple;
+            border-radius:30px;
+            background: #fff;
           }
         }
       }
-      .some_info{
+      .mobile_product_info{
+        position: relative;
+        @include main
         margin-top:15px;
-        .item{
-          @include flex(space-between)
-          line-height: 50px;
-          background: #fff;
-          padding: 0 15px;
-          &:not(:last-child){
-            border-bottom:1px solid $border;
+        background: white;
+        overflow: hidden;
+        .info_ulmobile{
+          border-bottom:1px solid #e5e5e5;
+          width: 100%;
+          overflow: hidden;
+          height: 2rem;
+          display: flex;
+          justify-content: space-between;
+          padding:0 0.5rem;
+          box-sizing: border-box;
+          .info_limobile{
+            cursor:pointer;
+            color:#333333;
+            line-height: 2rem;
+            font-size: 0.65rem;
+            box-sizing: border-box;
+            &.active{
+              color: #ff721f;
+              border-bottom: 2px solid #ff721f;
+              box-sizing: border-box;
+            }
+            &:hover{
+              color: #ff721f;
+              border-bottom: 2px solid #ff721f;
+              box-sizing: border-box;
+            }
+          }
+        }
+        .content_itemsmobile{
+          position: relative;
+          margin:0 0.5rem;
+          margin-top:15px;
+          box-sizing: border-box;
+          padding-bottom:40px;
+          .content_itemmobile{
+            background: #f7f8fa;
+            margin-top: 0.3rem;
+            padding-bottom: 0.5rem;
+            h2{
+              font-weight: bold;
+              margin-bottom:10px;
+              padding:0 20px;
+              text-align: center;
+              font-size: 0.7rem;
+              padding-top: 0.5rem;
+            }
+            .params_tablemobile{
+              table{
+                width:100%;
+                border: 1px solid $light_black;
+                tr{
+                  td{
+                    padding:5px 15px;
+                    &:nth-child(2){
+                      width:70%;
+                      text-align: right;
+                    }
+                  }
+                }
+              }
+            }
+            .content_conmobile{
+              width: 100%;
+              overflow: hidden;
+              padding:0 .3rem;
+              padding-top: 10px;
+              background: #f7f8fa;
+              margin-bottom: 0.2px;
+              strong span{
+                font-size: 0.8rem !important;
+              }
+            }
+          }
+          .product_img{
+            position: relative;
+            .pro_name,.pro_slogan,.pro_resume{
+              @include position(40)
+              bottom:auto;
+              text-align: center;
+              color:#fff
+            }
+            .pro_name{
+              font-size: 0.6rem;
+              top:0.5rem;
+            }
+            .pro_slogan{
+              top:1.3rem;
+              font-size: 0.9rem;
+            }
+            .pro_resume{
+              top:4rem;
+              right:auto;
+              padding: 0 0.2rem;
+              font-size: 0.5px;
+            }
+            img{
+              &.pro_img{
+
+              }
+              // &.params_img{
+              //   @include position(480,auto,auto,50)
+              //   width:40%;
+              //   right:30px !important;
+              // }
+            }
           }
         }
       }
@@ -700,11 +1007,7 @@
         text-align: center;
         // border-top:1px solid $border;
         .mint-button--primary {
-          background-color: $blue;
-        }
-        .mint-button--danger {
           background-color: $orange;
-          margin-top:15px;
         }
       }
       .mint-popup{
@@ -724,6 +1027,15 @@
                 height:90px;
                 width: 130px;
                 object-fit:cover
+              }
+            }
+            .text{
+              .price{
+                color:$orange;
+                font-size: 0.55rem;
+              }
+              .name{
+                font-weight: bold;
               }
             }
           }

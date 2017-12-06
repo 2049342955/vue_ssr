@@ -17,10 +17,10 @@
         <div class="item">
           <span>商品状态</span>
           <template v-if="$route.params.type==='1'">
-            <a href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav" @click="setStatus(n.computed)">{{n.title}}</a>
+            <a href="javascript:;" :class="{active:$parent.status==n.code}" v-for="n,k in nav" @click="setStatus(n.code)">{{n.title}}</a>
           </template>
           <template v-if="$route.params.type==='2'">
-            <a href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav2" @click="setStatus(n.code)">{{n.title}}</a>
+            <a href="javascript:;" :class="{active:$parent.status==n.code}" v-for="n,k in nav2" @click="setStatus(n.code)">{{n.title}}</a>
           </template>
         </div>
       </div>
@@ -31,16 +31,16 @@
       </div>
     </div>
     <div class="mobile_sort" v-else-if="!page&&isMobile">
-      <div class="type_img">
+      <!-- <div class="type_img">
         <div class="item" @click="setType(1)">矿机</div>
         <div class="item" @click="setType(2)">云矿机</div>
-      </div>
+      </div> -->
       <div class="mobile_sort_items">
         <template v-if="$route.params.type==='1'">
-          <a class="item" href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav" @click="setStatus(n.code)">{{n.title}}</a>
+          <a class="item" href="javascript:;" :class="{active:$parent.status==n.code}" v-for="n,k in nav" @click="setStatus(n.code)">{{n.title}}</a>
         </template>
         <template v-if="$route.params.type==='2'">
-          <a class="item" href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav2" @click="setStatus(n.code)">{{n.title}}</a>
+          <a class="item" href="javascript:;" :class="{active:$parent.status==n.code}" v-for="n,k in nav2" @click="setStatus(n.code)">{{n.title}}</a>
         </template>
       </div>
     </div>
@@ -209,6 +209,7 @@
       }
     }
     .mobile_sort{
+      margin-top:-25px;
       .type_img{
         @include row(2,3%)
         padding:0 15px;
@@ -224,7 +225,7 @@
       }
       .mobile_sort_items{
         background: #fff;
-        margin-top:15px;
+        // margin-top:15px;
         @include flex(space-between)
         padding:0 20px;
         border-bottom:1px solid $border;

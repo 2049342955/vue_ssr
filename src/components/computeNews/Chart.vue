@@ -57,6 +57,8 @@
       return {
         info: {btc_price: 0, hashrate: 0, leavetime: 0, difficulty: 1103400932964},
         coin: [{title: 'BTC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'BCC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETH', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'LTC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}],
+        data1: [],
+        data2: [],
         no: 0
       }
     },
@@ -88,19 +90,19 @@
         myChart.setOption({
           color: '#fff',
           title: {
-            text: '动态数据 + 时间坐标轴'
+            // text: '动态数据 + 时间坐标轴'
           },
           grid: {
             show: true,
             borderColor: '#3c3c49',
-            bottom: 80
+            bottom: 80,
+            left: 130
           },
           tooltip: {
             trigger: 'axis',
             formatter: function (params) {
               params = params[0]
-              var date = new Date(params.name)
-              return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1]
+              return params.value[0] + ' : ' + params.value[1]
             },
             axisPointer: {
               animation: false
@@ -140,7 +142,7 @@
             type: 'line',
             showSymbol: false,
             hoverAnimation: false,
-            data: getData(),
+            data: this.data1,
             lineStyle: {
               normal: {
                 color: '#518abb'
@@ -166,13 +168,17 @@
       }
     },
     mounted () {
-      this.drawLine()
       // var self = this
       // util.post('showCoinData', {sign: 'token=0'}).then(function (data) {
       //   self.info = data
       // })
+      var self = this
       util.post('showMiningPoolData', {sign: 'token=0'}).then(function (data) {
-        console.log(data)
+        data.data.diff_history.forEach((v, k) => {
+          self.data1.push({name: v._id, value: [v.timestamp, v.difficulty]})
+        })
+        console.log(self.data1)
+        self.drawLine()
       })
     },
     filters: {
