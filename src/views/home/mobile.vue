@@ -43,7 +43,7 @@
 <script>
   import { Toast } from 'mint-ui'
   import Swiper from '@/components/common/Swipe'
-  import MyData from '@/components/dataList'
+  import MyData from '@/components/home/dataList'
   export default {
     components: {
       Swiper, MyData
