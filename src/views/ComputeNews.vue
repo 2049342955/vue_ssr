@@ -107,7 +107,7 @@
 	      overflow: hidden;
 	      .leftnav{
 			    width: 70px;
-			    height: 1425px;
+			    height: 100%;
 			    background: #1c202a;
 			    float: left;
 			    .leftnav_ol{
