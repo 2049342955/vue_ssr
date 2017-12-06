@@ -525,10 +525,15 @@
       }]
     }, {
       path: '/computeChart',
-      component: Chart,
+      component: ComputeNews,
       beforeEnter: (to, from, next) => {
         document.querySelector('title').innerHTML = '算力历史增长曲线'
         next()
-      }
+      },
+      children: [{
+        path: 'list',
+        name: 'computeChartList',
+        component: Chart
+      }]
     }]
   })

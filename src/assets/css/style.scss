@@ -13,16 +13,17 @@
     $border:#e5e5e5;
     $blue:#327fff;
     $light_blue:#75b7f3;
-    $blue_border:#b1c4e5;
+    $blue_border:#327FFF;
     $red:#ea2c2c;
     $light_red:#e65c65;
-    $orange:#ff721f;
+    $orange:#FE5038;
     $green:#5cbe53;
     $green_border:#c2ee93;
     $green_bg:#f1ffe2;
     $fail:#f1624b;
     $fail_border:#fec6ad;
     $fail_bg:#ffedda;
+    $purple: #A53ECB;
 // 内外边距
   @mixin gap($value:5,$item:all,$type:padding) {
     @if $item == all {
@@ -988,9 +989,10 @@
   @mixin accept_label{
     color: #666;
     input{
+      @include checkbox(18,5px)
       &:checked{
-        background: #ff721f;
-        border-color: #ff721f;
+        background: $orange;
+        border-color: $orange;
       }
       & ~ span.select_accept{
         opacity: 0;
@@ -1195,4 +1197,9 @@
         font-weight: bold;
       }
     }
+  }
+// process_color
+  @mixin process_color{
+    background: linear-gradient(to right, #337eff 20%, #c72abc);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#337eff', endColorstr='#c72abc',GradientType=1 );
   }

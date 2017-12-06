@@ -21,7 +21,7 @@
     data () {
       return {
         next: 0,
-        detail: {incomeType: '每日结算，次日发放', fee: '', product_name: ''},
+        detail: {incomeType: '每日结算，次日发放', fee: '', product_name: '', name: ''},
         totalPrice: 0,
         totalHash: 0,
         number: '',
@@ -33,7 +33,7 @@
         content: '',
         content1: '',
         show: '',
-        str: {4: '预热', 5: '可售', 7: '已售馨'},
+        str: {4: '预热中', 5: '可售', 7: '已售馨'},
         rate: 6
       }
     },
@@ -128,7 +128,8 @@
             self.detail = Object.assign(self.detail, res.has_product_miner_base)
             self.detail.hashType = res.hashtype.name
           } else {
-            self.detail.product_name = res.product_name
+            self.detail.name = res.name
+            self.detail.weight = res.miner_list.weight
           }
         })
       })

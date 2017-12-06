@@ -1,6 +1,6 @@
 <template>
   <div class="chart">
-    <div class="text">
+    <!-- <div class="text">
       <div class="select_coin">
         <div class="now">
           <div :class="'icon_currency '+coin[no].title"></div>
@@ -19,11 +19,12 @@
       <div>比特币价格：1btc=${{info.btc_price}} (okcoin提供)</div>
       <div>难度调整时间：{{parseInt(info.leavetime/24)}}天{{info.leavetime%24}}小时</div>
       <div>困难度：{{info.difficulty}}</div>
-    </div>
+    </div> -->
     <div class="chart_show">
       <div class="chart_main">
         <div class="myChart"></div>
-        <div class="myText">
+        <div class="myChart2"></div>
+        <!-- <div class="myText">
           <h1>
             <span>{{coin[no].title}}</span>
             <span>{{coin[no].value}}</span>
@@ -38,7 +39,7 @@
               <span>{{d}}</span>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -56,6 +57,8 @@
       return {
         info: {btc_price: 0, hashrate: 0, leavetime: 0, difficulty: 1103400932964},
         coin: [{title: 'BTC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'BCC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETH', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'ETC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}, {title: 'LTC', value: '1571.18 PH/s', address: ['stratum+tcp://stratum.suanli.com:3333', 'stratum+tcp://stratum.suanli.com:443', 'stratum+tcp://stratum.suanli.com:25'], data: {'总幸运': '100%', '全网难度': 1103400932964, 'Block总数': 29447, '有效矿工数': 163721}}],
+        data1: [],
+        data2: [],
         no: 0
       }
     },
@@ -83,23 +86,23 @@
           }
           return data
         }
+        console.log(getData())
         myChart.setOption({
           color: '#fff',
           title: {
-            text: '动态数据 + 时间坐标轴'
+            // text: '动态数据 + 时间坐标轴'
           },
           grid: {
             show: true,
             borderColor: '#3c3c49',
-            left: '7%',
-            bottom: 80
+            bottom: 80,
+            left: 130
           },
           tooltip: {
             trigger: 'axis',
             formatter: function (params) {
               params = params[0]
-              var date = new Date(params.name)
-              return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1]
+              return params.value[0] + ' : ' + params.value[1]
             },
             axisPointer: {
               animation: false
@@ -139,7 +142,7 @@
             type: 'line',
             showSymbol: false,
             hoverAnimation: false,
-            data: getData(),
+            data: this.data1,
             lineStyle: {
               normal: {
                 color: '#518abb'
@@ -165,13 +168,17 @@
       }
     },
     mounted () {
-      this.drawLine()
+      // var self = this
+      // util.post('showCoinData', {sign: 'token=0'}).then(function (data) {
+      //   self.info = data
+      // })
       var self = this
-      util.post('showCoinData', {sign: 'token=0'}).then(function (data) {
-        self.info = data
-      })
       util.post('showMiningPoolData', {sign: 'token=0'}).then(function (data) {
-        console.log(data)
+        data.data.diff_history.forEach((v, k) => {
+          self.data1.push({name: v._id, value: [v.timestamp, v.difficulty]})
+        })
+        console.log(self.data1)
+        self.drawLine()
       })
     },
     filters: {
@@ -183,9 +190,10 @@
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
   .chart{
-    @include position(726)
-    bottom:auto;
-    height:60px;
+    // @include position(726)
+    // bottom:auto;
+    // height:60px;
+    padding:0 !important;
     background:rgba(27, 27, 27, 0.2);
     .text{
       @include main
@@ -238,44 +246,44 @@
       }
     }
     .chart_show{
-      @include position()
+      // @include position()
       top:100%;
       bottom:auto;
       background: #2e2e3d;
       z-index: 3;
-      display: none;
+      // display: none;
       .chart_main{
-        @include main
-        @include flex
+        // @include main
+        // @include flex
         .myChart{
-          width:640px;
-          height:400px;
+          width:100%;
+          height:420px;
         }
-        .myText{
-          width:leave(640);
-          padding-left:100px;
-          color:$white;
-          font-size: 16px;
-          line-height: 1.6;
-          h1{
-            @include flex(space-between)
-            font-size: 30px;
-            font-weight: bold;
-            padding-bottom: 10px
-          }
-          h1,.address{
-            border-bottom: 1px solid #59a1d9;
-            margin-bottom: 13px
-          }
-          .address{
-            padding-bottom: 30px
-          }
-          .data{
-            .item{
-              @include flex(space-between)
-            }
-          }
-        }
+        // .myText{
+        //   width:leave(640);
+        //   padding-left:100px;
+        //   color:$white;
+        //   font-size: 16px;
+        //   line-height: 1.6;
+        //   h1{
+        //     @include flex(space-between)
+        //     font-size: 30px;
+        //     font-weight: bold;
+        //     padding-bottom: 10px
+        //   }
+        //   h1,.address{
+        //     border-bottom: 1px solid #59a1d9;
+        //     margin-bottom: 13px
+        //   }
+        //   .address{
+        //     padding-bottom: 30px
+        //   }
+        //   .data{
+        //     .item{
+        //       @include flex(space-between)
+        //     }
+        //   }
+        // }
       }
     }
     &:hover .chart_show{
