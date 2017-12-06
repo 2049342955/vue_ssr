@@ -33,8 +33,8 @@
 </template>
 
 <script>
-  import api from '../../util/function'
-  import util from '../../util'
+  import api from '@/util/function'
+  import util from '@/util'
   import { mapState } from 'vuex'
   export default {
     name: 'chart',
@@ -76,7 +76,7 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
+  @import '../../../assets/css/style.scss';
   .cloud_list{
     margin:60px 0;
     overflow: hidden;

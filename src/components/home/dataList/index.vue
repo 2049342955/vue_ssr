@@ -8,11 +8,11 @@
 </template>
 
 <script>
-  import api from '../../util/function'
-  import util from '../../util'
+  import api from '@/util/function'
+  import util from '@/util'
   import { mapState } from 'vuex'
-  import PcDatalist from '@/components/dataList/pc'
-  import MDatalist from '@/components/dataList/mobile'
+  import PcDatalist from './pc'
+  import MDatalist from './mobile'
   export default {
     name: 'chart',
     components: {
