@@ -88,7 +88,6 @@
         font-size: 0.4rem;
         color: #999;
         font-weight: 100;
-        padding-top: .2rem;
       }
     }
     .mobile_listdata{
