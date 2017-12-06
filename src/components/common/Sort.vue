@@ -230,7 +230,7 @@
         border-bottom:1px solid $border;
         .item{
           padding:0 15px;
-          font-size: 0.55rem;
+          font-size: 0.5rem;
           line-height: 1.6rem;
           border-bottom:2px solid transparent;
           &.active{

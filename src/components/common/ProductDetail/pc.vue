@@ -2,7 +2,7 @@
   <div class="pc_product_info">
     <template v-if="$parent.$route.params.type!=='1'">
       <div class="info_ul">
-        <div :class="['info_li',{'active': $parent.contentShow===k}]" v-for="n,k in $parent.infolists" @click="tabs(k)">{{n.title}}</div>
+        <div :class="['info_li',{'active': $parent.contentShow===k}]" v-for="n,k in $parent.infolists" @click="$parent.tabs(k)">{{n.title}}</div>
       </div>
       <div class="content_items">
         <template v-for="n,k in $parent.infolists">
@@ -15,7 +15,7 @@
     </template>
     <template v-else>
       <div class="info_ul">
-        <div :class="['info_li',{'active': $parent.contentShow===m}]" v-for="d,m in $parent.infolist" @click="tabs(m,d.name)">{{d.title}}</div>
+        <div :class="['info_li',{'active': $parent.contentShow===m}]" v-for="d,m in $parent.infolist" @click="$parent.tabs(m,d.name)">{{d.title}}</div>
       </div>
       <div class="content_items">
         <div class="product_img">
@@ -114,10 +114,11 @@
         .params_table{
           margin:0 20px;
           margin-bottom:20px;
-          box-shadow: #9a9a9a -4px 0 5px -3px;
+          // box-shadow: #9a9a9a -4px 0 5px -3px;
           table{
             width:70%;
             border: 1px solid $light_black;
+            box-shadow: 0 0 10px #9a9a9a;
             tr{
               td{
                 padding:5px 15px;
@@ -129,8 +130,12 @@
             }
           }
         }
-        .content_con img{
+        .content_con{
           margin-bottom:30px;
+          width: 52%;
+          overflow: hidden;
+          padding-left: 30px;
+          padding-top: 10px;
         }
       }
       .product_img{
@@ -162,6 +167,7 @@
           &.params_img{
             @include position(480,auto,auto,50)
             width:40%;
+            right:30px !important;
           }
         }
       }
