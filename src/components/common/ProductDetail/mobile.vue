@@ -137,6 +137,9 @@
           padding-top: 10px;
           background: #f7f8fa;
           margin-bottom: 0.2px;
+          strong span{
+            font-size: 0.8rem !important;
+          }
         }
       }
       .product_img{
@@ -148,18 +151,18 @@
           color:#fff
         }
         .pro_name{
-          font-size: 36px;
+          font-size: 0.6rem;
+          top:0.5rem;
         }
         .pro_slogan{
-          top:24%;
-          font-size: 50px;
+          top:1.3rem;
+          font-size: 0.9rem;
         }
         .pro_resume{
-          top:80%;
-          left:20%;
-          width:60%;
+          top:4rem;
           right:auto;
-          font-size: 18px;
+          padding: 0 0.2rem;
+          font-size: 0.5px;
         }
         img{
           &.pro_img{
