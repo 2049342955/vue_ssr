@@ -1,4 +1,3 @@
-
 <template>
   <div class="compute_news">
     <div class="compute_news_nav">

@@ -1,5 +1,5 @@
 <template>
-  <article class="bdc">
+  <article class="bdc" v-if="!isMobile">
     <div class="bg_box">
       <div class="bg"></div>
     </div>
@@ -47,50 +47,45 @@
           <div class="overflow">
             <img class="float_left" :src="item.bdc_img" alt="">
             <div class="float_left tip">
-              <div class="line"><span>算力机房规模</span>{{item.bdc_scope}}</div>
-              <div class="line"><span>供电类型</span>{{item.bdc_electric_type}}</div>
-              <div class="line"><span>散热方式</span>{{item.bdc_radiating_type}}</div>
-              <div class="line"><span>支持服务器</span>{{item.bdc_Mills_type}}</div>
-            </div>
-          </div>
-        </div>
-        <div class="mobile_box">
-          <div class="header">{{item.bdc_name}}</div>
-          <div class="box_img">
-            <img :src="item.bdc_img" alt="">
-          </div>
-          <div class="box_text">
-            <div class="line">
-              <span>算力机房规模</span>
-              <span>{{item.bdc_scope}}</span>
-            </div>
-            <div class="line">
-              <span>供电类型</span>
-              <span>{{item.bdc_electric_type}}</span>
-            </div>
-            <div class="line">
-              <span>散热方式</span>
-              <span>{{item.bdc_radiating_type}}</span>
-            </div>
-            <div class="line">
-              <span>支持服务器</span>
-              <span>{{item.bdc_Mills_type}}</span>
+              <div class="line"v-for="params in item.params">
+                <span>{{params.name}}</span>
+                {{params.value}}
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </article>
+  <div v-else>
+    <mobile></mobile>
+  </div>
 </template>
 
 <script>
   import util from '@/util'
   import api from '@/util/function'
   import { mapState } from 'vuex'
+  import mobile from './mobile'
+
   export default {
     data () {
       return {
-        form: [{name: 'dep_name', type: 'text', title: '申请人', placeholder: '请输入您的姓名'}, {name: 'dep_tel', type: 'text', title: '手机号码', placeholder: '请输入手机号码', tips: '请输入11位手机号', pattern: '^1[3578][0-9]{9}$'}, {name: 'code', type: 'text', title: '手机验证码', placeholder: '手机验证码', addon: true, tips: '请输入6位数字', pattern: '^[0-9]{6}$'}, {name: 'dep_bdc', type: 'select', title: '选择BDC'}, {name: 'dep_type', type: 'text', title: '服务器类型', placeholder: '请输入算力服务器类型'}, {name: 'dep_number', type: 'text', title: '服务器数量', placeholder: '输入托管算力服务器数量', tips: '请输入整数', pattern: '^[0-9]+$', maxlength: 5}],
+        form: [
+          {name: 'dep_name', type: 'text', title: '申请人', placeholder: '请输入您的姓名'},
+          {name: 'dep_tel', type: 'text', title: '手机号码', placeholder: '请输入手机号码', tips: '请输入11位手机号', pattern: '^1[3578][0-9]{9}$'},
+          {name: 'code', type: 'text', title: '手机验证码', placeholder: '手机验证码', addon: true, tips: '请输入6位数字', pattern: '^[0-9]{6}$'},
+          {name: 'dep_bdc', type: 'select', title: '选择BDC'},
+          {name: 'dep_type', type: 'text', title: '服务器类型', placeholder: '请输入算力服务器类型'},
+          {name: 'dep_number', type: 'text', title: '服务器数量', placeholder: '输入托管算力服务器数量', tips: '请输入整数', pattern: '^[0-9]+$', maxlength: 5}
+        ],
+        bcdParamsLists: [
+          {name: '供电类型', field: 'bdc_electric_type', value: ''},
+          {name: '散热方式', field: 'bdc_radiating_type', value: ''},
+          {name: '支持服务器', field: 'bdc_Mills_type', value: ''},
+          {name: '机房规模', field: 'bdc_scope', value: ''},
+          {name: '所在区域', field: 'bdc_address', value: ''}
+        ],
         text: 'BDC是平台整合优质品牌商与分销商，通过平台的优势及服务以吸引广大消费者的一种形式，算力网通过自身的优势整合筛选出行业内优质合规的BDC机房，算力服务器生产商，为算力爱好者提供算力服务器托管，算力服务器采购，算力服务器租赁等服务，打通算力及衍生商品产业链的完整交易，做到平台，供应商，消费者三方互惠互利。',
         list: [],
         tips: '',
@@ -155,18 +150,31 @@
       let self = this
       util.post('bdcinfoList', {sign: 'token=0'}).then(function (data) {
         self.list = data
+        for (let i = 0, len = self.list.length; i < len; i++) {
+          self.list[i].params = []
+          for (let j = 0, paramsLen = self.bcdParamsLists.length; j < paramsLen; j++) {
+            self.list[i].params.push({
+              name: self.bcdParamsLists[j]['name'],
+              value: data[i][self.bcdParamsLists[j]['field']]
+            })
+          }
+        }
       })
     },
     computed: {
       ...mapState({
-        token: state => state.info.token
+        token: state => state.info.token,
+        isMobile: state => state.isMobile
       })
+    },
+    components: {
+      mobile
     }
   }
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../assets/css/style.scss';
+  @import '../../assets/css/style.scss';
   .bdc{
     font-size: 18px;
     color: #fff;
@@ -174,7 +182,7 @@
       @include bg(1920,558px,#15121c)
       padding-top:638px;
       .bg{
-        background: url('../assets/images/bdc_bg.jpg') no-repeat;
+        background: url('../../assets/images/bdc_bg.jpg') no-repeat;
       }
       z-index:-1
     }
@@ -340,7 +348,7 @@
           &:before{
             content: '';
             display: inline-block;
-            background: url('../assets/images/css_sprites.png') -352px -264px;
+            background: url('../../assets/images/css_sprites.png') -352px -264px;
             width: 122px;
             height: 36px;
             vertical-align: middle;
@@ -349,7 +357,7 @@
           &:after{
             content: '';
             display: inline-block;
-            background: url('../assets/images/css_sprites.png') -210px -264px;
+            background: url('../../assets/images/css_sprites.png') -210px -264px;
             width: 122px;
             height: 37px;
             vertical-align: middle;
@@ -415,23 +423,23 @@
           }
           @include mobile_hide
         }
-        .mobile_box{
-          @include mobile_show
-          .box_text{
-            margin-top:20px;
-            font-size: 0.6rem;
-            line-height: 2.8;
-            .line{
-              @include flex(space-between)
-              span:nth-child(2){
-                color:$light_black
-              }
-              &:not(:last-child){
-                border-bottom:1px solid #3a3a3a
-              }
-            }
-          }
-        }
+        // .mobile_box{
+        //   @include mobile_show
+        //   .box_text{
+        //     margin-top:20px;
+        //     font-size: 0.6rem;
+        //     line-height: 2.8;
+        //     .line{
+        //       @include flex(space-between)
+        //       span:nth-child(2){
+        //         color:$light_black
+        //       }
+        //       &:not(:last-child){
+        //         border-bottom:1px solid #3a3a3a
+        //       }
+        //     }
+        //   }
+        // }
       }
     }
     @media screen and (max-width: $mobile) {
@@ -445,7 +453,7 @@
           left:0;
           width:100%;
           height:400px;
-          background: url('../assets/images/bdc_mobile.jpg') no-repeat 100%;
+          background: url('../../assets/images/bdc_mobile.jpg') no-repeat 100%;
         }
       }
       .top_box{

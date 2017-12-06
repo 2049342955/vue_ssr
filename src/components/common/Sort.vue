@@ -1,6 +1,6 @@
 <template>
   <div :class="['sort',{one_sort:page}]">
-    <div class="box" v-if="!page">
+    <div class="box" v-if="!page&&!isMobile">
       <div class="sort_title">
         <h1>项目列表</h1>
         <div class="input_box">
@@ -30,6 +30,20 @@
         <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont">&#xe611;</span></div>
       </div>
     </div>
+    <div class="mobile_sort" v-else-if="!page&&isMobile">
+      <div class="type_img">
+        <div class="item" @click="setType(1)">矿机</div>
+        <div class="item" @click="setType(2)">云矿机</div>
+      </div>
+      <div class="mobile_sort_items">
+        <template v-if="$route.params.type==='1'">
+          <a class="item" href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav" @click="setStatus(k)">{{n}}</a>
+        </template>
+        <template v-if="$route.params.type==='2'">
+          <a class="item" href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav2" @click="setStatus(k)">{{n}}</a>
+        </template>
+      </div>
+    </div>
     <div class="sort_items" v-else>
       <div :class="['item', 'next', {active1: activeOne==true}]" @click="setSort('all')">默认</div>
       <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont">&#xe611;</span></div>
@@ -38,6 +52,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     props: {
       sort: {
@@ -87,6 +102,11 @@
         this.$parent.status = 0
         this.$router.push({path: '/minerShop/miner/' + k + '/all'})
       }
+    },
+    computed: {
+      ...mapState({
+        isMobile: state => state.isMobile
+      })
     }
   }
 </script>
@@ -188,6 +208,38 @@
         }
       }
     }
+    .mobile_sort{
+      .type_img{
+        @include row(2,3%)
+        padding:0 15px;
+        .item{
+          height:120px;
+          line-height: 120px;
+          text-align: center;
+          color:#fff;
+          background: url(../../assets/images/mobile/miner.png);
+          background-size: 100% 100%;
+          font-size: 0.6rem;
+        }
+      }
+      .mobile_sort_items{
+        background: #fff;
+        margin-top:15px;
+        @include flex(space-between)
+        padding:0 20px;
+        border-bottom:1px solid $border;
+        .item{
+          padding:0 15px;
+          font-size: 0.6rem;
+          line-height: 1.6rem;
+          border-bottom:2px solid transparent;
+          &.active{
+            color:#FE5039;
+            border-color:#FE5039
+          }
+        }
+      }
+    }
     .box .item,.sort_items .item{
       .iconfont{
         @include block(24)
@@ -225,6 +277,5 @@
         }
       }
     }
-    @include mobile_hide
   }
 </style>
