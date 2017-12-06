@@ -48,7 +48,7 @@
         <img src="../../assets/images/information7.png"/>
       </router-link>
       <div class="scroll">
-        <router-link to="/computeChart/list">【全网算力】<b>9.63EH/s</b>&nbsp;&nbsp;&nbsp;&nbsp;【全网困难度】<b>1.3256545555225555T</b></router-link>
+        <router-link to="/computeChart/list">【全网算力】<b>{{qwsl.hashrate}}PH/s</b>&nbsp;&nbsp;&nbsp;&nbsp;【全网困难度】<b>{{qwsl.difficulty}}T</b></router-link>
         <router-link :to="'/quickNews/detail/' + s.id" v-for="s, m in scroll" :key="m"> /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="icon iconfont icon-new1"></span> {{s.title}}</router-link>
       </div>
     </div>
@@ -200,6 +200,7 @@
         infoleft: [],
         inforight: [],
         active: 0,
+        qwsl: '',
         miners: [{big: require('@/assets/images/information5.png'), title: '资深矿工-设备之家', route: '前往了解 >', path: '/equipments/list'}, {big: require('@/assets/images/information2.png'), title: '新手矿工-数字货币', route: '前往了解 >', path: '/digitalCurrency/list'}, {big: require('@/assets/images/information3.png'), title: '平台交易最新资讯', route: '前往了解 >', path: '/transaction'}]
       }
     },
@@ -219,7 +220,13 @@
     mounted () {
       this.hoverwhite(0)
       var self = this
-      console.log(self)
+      util.post('showDifficulty', {sign: api.serialize({token: 0})}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.qwsl = res
+        })
+      }).catch(res => {
+        console.log(res)
+      })
       util.post('showCoinData', {sign: api.serialize({token: 0})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.td = res
@@ -266,13 +273,6 @@
       util.post('showBannerNews', {sign: api.serialize({token: 0})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.bigimglist = res
-        })
-      }).catch(res => {
-        console.log(res)
-      })
-      util.post('showDifficulty', {sign: api.serialize({token: 0})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          // self.bigimglist = res
         })
       }).catch(res => {
         console.log(res)
