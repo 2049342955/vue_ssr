@@ -49,7 +49,7 @@
   import WebInfoDetail from '@/components/info/Detail'
   import IssuesDetail from '@/components/info/IssuesDetail'
 // industryInformation
-  import ComputeHome from '@/components/ComputeNews/ComputeHome'
+  import ComputeHome from '@/components/ComputeNews/ComputeHome/index'
   import Currency from '@/components/ComputeNews/Currency'
   import NewsFlash from '@/components/ComputeNews/NewsFlash'
   import Transaction from '@/components/ComputeNews/Transaction'
