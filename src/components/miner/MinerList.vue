@@ -35,7 +35,6 @@
         <router-link to="/minerShop/miner/2/all" class="btn">即刻前往>></router-link>
       </div>
     </div>
-    <!-- <Chart></Chart> -->
     <MinerList>
       <h2>
         <div>
@@ -72,10 +71,9 @@
   import CloudMinerList from '@/components/common/CloudMinerList'
   import MinerList from '@/components/common/MinerList'
   import SideBar from '@/components/home/SideBar'
-  import Chart from '@/components/home/Chart'
   export default {
     components: {
-      CloudMinerList, SideBar, MinerList, Chart
+      CloudMinerList, SideBar, MinerList
     },
     data () {
       return {

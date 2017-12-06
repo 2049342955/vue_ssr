@@ -57,6 +57,7 @@
   import DigitalCurrency from '@/components/ComputeNews/DigitalCurrency'
   import EquipmentEvaluate from '@/components/ComputeNews/EquipmentEvaluate'
   import Manufacturer from '@/components/ComputeNews/Manufacturer'
+  import Chart from '@/components/ComputeNews/Chart'
 // mobile
   import Mobile from '@/views/Mobile'
   import MbdcForm from '@/components/mobile/MbdcForm'
@@ -522,5 +523,12 @@
         name: 'quickNewsDetail',
         component: WebInfoDetail
       }]
+    }, {
+      path: '/computeChart',
+      component: Chart,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '算力历史增长曲线'
+        next()
+      }
     }]
   })
