@@ -1,7 +1,7 @@
 <template>
   <div class="millsList">
     <slot></slot>
-    <div class="mill">
+    <div class="mill" v-if="!isMobile">
       <div v-for="n,k in $parent.minerData" class="listmill">
         <router-link :to="'/minerShop/detail/'+ n.id +'/1'">
           <span class="status" v-if="n.status===1">热销中</span>
@@ -31,27 +31,45 @@
         <p>即将上线，敬请期待</p>
       </div>
     </div>
+    <div class="mobileminer" v-else>
+      <div class="millsList_mobile" v-for="n,k in $parent.minerData">
+        <router-link :to="'/minerShop/detail/'+ n.id +'/1'">
+          <img :src="n.minerPicture"/>
+          <h6>{{n.name}}</h6>
+          <mt-progress :value="(n.buyed_amount/n.amount * 100)" :bar-height="5"></mt-progress>
+          <p>算力价： <b>¥{{n.one_amount_value}}</b> <span>{{n.hash}}T</span></p>
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
         items: {'one_amount_value': {title: '服务器单价', unit: '元'}, 'hash': {title: '算力', unit: 'T'}, 'buyed_amount': {title: '出售总数', unit: '台'}}
       }
+    },
+    computed: {
+      ...mapState({
+        isMobile: state => state.isMobile
+      })
     }
   }
 </script>
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
+  .sort{
+      padding-bottom: 0;
+  }
   .millsList{
     width: 100%;
     overflow: hidden;
     margin:0 auto;
     background: #f6f7f9;
-    padding-top: 12px;
     h2{
       @include data_title
     }
@@ -206,6 +224,64 @@
         p{
           color:$light_black;
           margin-top:15px
+        }
+      }
+    }
+    .mobileminer{
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding:0 .5rem;
+      background: white;
+      padding-top: .5rem;
+      .millsList_mobile{
+        display: block;
+        width: 48%;
+        height: 7.5rem;
+        overflow: hidden;
+        border-radius: .3rem;
+        a{
+          img{
+            width: 100%;
+            height: 4.3rem;
+          }
+          h6{
+            width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: normal;
+            font-size: .6rem;
+            padding-top: .2rem;
+          }
+          .mt-progress{
+            height:5px;
+            margin-bottom: 0.5rem;
+          }
+          .mt-progress-content{
+           border-radius: 5px;
+           overflow: hidden;
+           height: 5px;
+           margin-top: .3rem;
+          }
+          .mt-progress-runway{
+            border-radius: 5px;
+           overflow: hidden;
+          }
+          .mt-progress-progress{
+            background: linear-gradient(to right, #337eff 20%, #c72abc);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#337eff', endColorstr='#c72abc',GradientType=1 );
+          }
+          p{
+            font-size: 0.4rem;
+            b{
+              color:#fe5039;
+            }
+            span{
+              float: right;
+            }
+          }
         }
       }
     }

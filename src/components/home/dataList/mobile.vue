@@ -45,6 +45,8 @@
       util.post('showTopMiner', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.list = res
+          console.log((res.length * 6) + (res.length * 2) + 'rem')
+          document.getElementsByClassName('mobile_list_box')[0].style.width = (res.length * 6) + (res.length) + 'rem'
         })
       }).catch(res => {
         console.log(res)
@@ -95,18 +97,17 @@
     }
     .mobile_listdata::-webkit-scrollbar{width:0px}
     .mobile_list_box{
-      width: 18.4rem;
       height: 7rem;
       margin-top: 0.2rem;
       overflow: auto;
       display: flex;
       justify-content:flex-start;
-      border-right:1px solid #dddddd;
+      border-left:1px solid #dddddd;
       .mobile_lists{
         width: 6rem;
         height: 6.8rem;
         border:1px solid #dddddd;
-        border-right: 0;
+        border-left: 0;
         float: left;
         img{
           width: 100%;
