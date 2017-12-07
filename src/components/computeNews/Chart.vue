@@ -133,13 +133,13 @@
     mounted () {
       var self = this
       util.post('showMiningPoolData', {sign: 'token=0'}).then(function (data) {
-        data.data.diff_history.forEach((v, k) => {
+        data.data.diff_history.slice(0, 70).forEach((v, k) => {
           self.data1.push({name: v._id, value: [v.timestamp, v.difficulty]})
           self.data2.push({name: v._id, value: [v.timestamp, v.avg_network_hashrate[0], v.avg_network_hashrate[1]]})
         })
         console.log(self.data1, self.data2)
-        self.initChart('.myChart', self.data1, '算力历史困难度曲线')
-        self.initChart('.myChart2', self.data2, '历史全网算力曲线')
+        self.initChart('.myChart', self.data1, '算力困难度历史曲线')
+        self.initChart('.myChart2', self.data2, '全网算力历史曲线')
       })
     },
     filters: {
