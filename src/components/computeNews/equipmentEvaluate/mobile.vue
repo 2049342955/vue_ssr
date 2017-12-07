@@ -11,7 +11,7 @@
       </div>
     </div>
     <p v-if="loading && !showcontent"  class="loadmore">加载中······</p>
-    <!-- <p v-if="!showno" class="showno">暂无数据······</p> -->
+    <p v-if="showno" class="showno">暂无数据······</p>
     <div class="quicknews_content"  v-if="showcontent">
       <div class="title">
         <span>{{content.title}}</span>
@@ -31,7 +31,7 @@
       return {
         len: 0,
         now: 1,
-        total: 0,
+        total: -1,
         loading: false,
         museum: [],
         showcontent: false,
@@ -43,6 +43,11 @@
       loadMore () {
         var self = this
         this.loading = true
+        if (this.total === 0) {
+          this.loading = false
+          this.showno = true
+          return
+        }
         if (this.total > this.museum.length || this.museum.length === 0) {
           let time = this.museum.length === 0 ? 0 : 1000
           setTimeout(() => {
