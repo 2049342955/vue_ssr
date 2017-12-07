@@ -7,20 +7,10 @@
       </router-link>
     </div>
     <div class="mobile_listscompute">
-      <!-- <router-link to="#" v-for="n, k in newslists">
-        <h2>{{n.title}}</h2>
-        <p v-html="n.content"></p>
-      </router-link> -->
-      <ul
-  v-infinite-scroll="loadMore"
-  infinite-scroll-disabled="loading"
-  infinite-scroll-distance="len">
-  <li v-for="item in newslists" style="height:200px;">{{ item.title}}</li>
-</ul>
-<p class="page-infinite-loading" v-if="!loading"><span><div class="mint-spinner-fading-circle circle-color-41" style="width: 28px; height: 28px;"><div class="mint-spinner-fading-circle-circle is-circle2"></div><div class="mint-spinner-fading-circle-circle is-circle3"></div><div class="mint-spinner-fading-circle-circle is-circle4"></div><div class="mint-spinner-fading-circle-circle is-circle5"></div><div class="mint-spinner-fading-circle-circle is-circle6"></div><div class="mint-spinner-fading-circle-circle is-circle7"></div><div class="mint-spinner-fading-circle-circle is-circle8"></div><div class="mint-spinner-fading-circle-circle is-circle9"></div><div class="mint-spinner-fading-circle-circle is-circle10"></div><div class="mint-spinner-fading-circle-circle is-circle11"></div><div class="mint-spinner-fading-circle-circle is-circle12"></div><div class="mint-spinner-fading-circle-circle is-circle13"></div></div></span>
-      加载中...
-    </p>
-    <!-- <p v-if="!loading">加载中······</p> -->
+      <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="len">
+        <li v-for="item in newslists" style="height:200px;">{{ item.title}}</li>
+      </ul>
+      <p v-if="loading">加载中······</p>
     </div>
   </div>
 </template>
@@ -28,14 +18,11 @@
 <script>
 import util from '@/util/index'
 import api from '@/util/function'
-// import Vue from 'vue'
-// import { InfiniteScroll } from 'mint-ui'
-// Vue.use(InfiniteScroll)
+
 export default {
   data () {
     return {
       newslists: [],
-    //   list: '',
       now: 1,
       total: 0,
       loading: false,
@@ -48,33 +35,25 @@ export default {
       var self = this
       this.loading = true
       if (this.total > this.newslists.length || this.newslists.length === 0) {
-        util.post('NewsMuseumList', {sign: api.serialize({token: 0, page: this.now})}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            self.total = res.total
-            self.len = res.list.length
-            setTimeout(function () {
-              for (let i = 0; i < self.len; i++) {
+        let time = this.newslists.length === 0 ? 0 : 1000
+        setTimeout(() => {
+          util.post('NewsMuseumList', {sign: api.serialize({token: 0, page: this.now})}).then(function (res) {
+            api.checkAjax(self, res, () => {
+              self.total = res.total
+              for (let i = 0, len = res.list.length; i < len; i++) {
                 self.newslists.push(res.list[i])
               }
               self.loading = false
-              // self.newslists.push(res.list)
               self.now++
-            }, 2500)
+            })
+          }).catch(res => {
+            console.log(res)
           })
-        }).catch(res => {
-          console.log(res)
-        })
+        }, time)
+      } else {
+        this.loading = false
       }
     }
-    // loadMore () {
-    //   this.getList()
-    //   setTimeout(() => {
-    //     var last = this.newslists[this.newslists.length - 1]
-    //     for (var i = 1; i <= 6; i++) {
-    //       this.newslists.push(last + i)
-    //     }
-    //   }, 1000)
-    // }
   },
   mounted () {
     // var self = this
