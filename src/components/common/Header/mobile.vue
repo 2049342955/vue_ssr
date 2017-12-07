@@ -1,14 +1,14 @@
 <template>
   <header id="header" class="mobile-header" :class="headerClass"
   :disabled="$route.name==='notFound'" v-if="showRouter.includes($route.name)">
-    <div class="left" v-if="mobile !== ''">
+    <!-- <div class="left" v-if="mobile !== ''">
       <router-link to="/auth/regist">注册</router-link>
       <span>|</span>
       <router-link to="/auth/login">登录</router-link>
     </div>
     <div v-else class="left">
       <i class="iconfont icon-customer-service"></i>
-    </div>
+    </div> -->
     <img class="logo" :src="require('@/assets/images/mobile/logo.png')">
   </header>
 </template>
