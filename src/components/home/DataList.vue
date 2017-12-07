@@ -9,24 +9,28 @@
         <router-link to="/minerShop/list">更多矿机 ></router-link>
       </h2>
       <table>
-        <tr>
-          <th v-for="n in nav">{{n.title}}</th>
-          <th>操作</th>
-        </tr>
-        <tr v-for="l,i in list" @click="goPay(l.product_id||l.id)">
-          <td v-for="v,k in nav">
-            <template v-if="k==='name'"><i class="iconfont">&#xe605;</i>{{l[k]}}</template>
-            <!-- <template v-else-if="k==='one_amount_value'">{{+l[k]||'????'}}</template> -->
-            <template v-else-if="k==='left_num'">{{l.amount-(l.sell_amount||l.buyed_amount)+v.unit}}</template>
-            <template v-else>{{l[k]+[v.unit]}}</template>
-          </td>
-          <td>
-            <!-- <a href="javascript:;">购买</a> -->
-             <a class="btn" v-if="l.status===4">预热</a> 
-             <a class="btn" v-else-if="l.amount-(l.sell_amount||l.buyed_amount)>0">立即购买</a> 
-            <button class="btn" disabled v-else>已售罄</button>
-          </td>
-        </tr>
+        <thead>
+          <tr>
+            <th v-for="n in nav">{{n.title}}</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="l,i in list" @click="goPay(l.product_id||l.id)">
+            <td v-for="v,k in nav">
+              <template v-if="k==='name'"><i class="iconfont">&#xe605;</i>{{l[k]}}</template>
+              <!-- <template v-else-if="k==='one_amount_value'">{{+l[k]||'????'}}</template> -->
+              <template v-else-if="k==='left_num'">{{l.amount-(l.sell_amount||l.buyed_amount)+v.unit}}</template>
+              <template v-else>{{l[k]+[v.unit]}}</template>
+            </td>
+            <td>
+              <!-- <a href="javascript:;">购买</a> -->
+               <a class="btn" v-if="l.status===4">预热</a> 
+               <a class="btn" v-else-if="l.amount-(l.sell_amount||l.buyed_amount)>0">立即购买</a> 
+              <button class="btn" disabled v-else>已售罄</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <div class="mobile_box">

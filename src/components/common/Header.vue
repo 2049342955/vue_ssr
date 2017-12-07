@@ -128,7 +128,7 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  // @import '../../assets/fonts/iconfont.css';
+  @import '../../assets/fonts/iconfont.css';
   header{
     .box{
       @include main

@@ -2,7 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import { createRouter } from './router'
 import { createStore } from './store'
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
+import ElementUI from 'element-ui'
 // import { sync } from 'vuex-router-sync'
+
+Vue.config.productionTip = false
+Vue.use(MintUI)
+Vue.use(ElementUI)
 
 export function createApp () {
   const router = createRouter()

@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <!-- <div class="mobile_box">
+    <div class="mobile_box">
       <mt-tabbar :fixed="true" selected="1">
         <router-link to="/" id="1" class="mint-tab-item">
           <i class="iconfont"></i><br>
@@ -60,7 +60,7 @@
           <span>个人中心</span>
         </router-link>
       </mt-tabbar>
-    </div> -->
+    </div>
   </footer>
 </template>
 

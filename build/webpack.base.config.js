@@ -16,6 +16,7 @@ module.exports = {
     filename: '[name].[chunkhash].js'
   },
   resolve: {
+    extensions: ['.js', '.vue', '.json'],
     alias: {
       'public': path.resolve(__dirname, '../public'),
       '@': path.resolve(__dirname, '../src')
@@ -32,10 +33,20 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        include: path.resolve(__dirname, '../src')
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        enforce: 'pre',
+        include: path.resolve(__dirname, '../src'),
+        options: {
+          formatter: require('eslint-friendly-formatter')
+        }
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
@@ -50,6 +61,22 @@ module.exports = {
               fallback: 'vue-style-loader'
             })
           : ['vue-style-loader', 'css-loader']
+      },
+      {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'media/[name].[hash:7].[ext]'
+        }
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'fonts/[name].[hash:7].[ext]'
+        }
       }
     ]
   },
