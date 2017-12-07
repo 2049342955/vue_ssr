@@ -302,4 +302,25 @@ api.check = (pattern, value) => {
     return true
   }
 }
+api.randomData = () => {
+  var now = +new Date(2010, 9, 3)
+  var oneDay = 24 * 3600 * 1000
+  var value = Math.random() * 1000
+  now = new Date(+now + oneDay)
+  value = value + Math.random() * 21 - 10
+  return {
+    name: now.toString(),
+    value: [
+      [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+      Math.round(value)
+    ]
+  }
+}
+api.getData = () => {
+  var data = []
+  for (var i = 0; i < 1000; i++) {
+    data.push(api.randomData())
+  }
+  return data
+}
 export default api

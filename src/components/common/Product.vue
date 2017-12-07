@@ -31,10 +31,10 @@
               <span class="left_miner">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</span>
               <div class="input_box right_miner">
                 <span @click="$parent.changeNum(+$parent.number-1)" style="cursor:pointer;">-</span>
-                <input type="text" v-model="$parent.number" :placeholder="parseInt($parent.detail.single_limit_amount)||1" @blur="$parent.changeNum($parent.number)">
+                <input type="text" v-model="$parent.number" :placeholder="(parseInt($parent.detail.single_limit_amount)||1)+'台起售'" @blur="$parent.changeNum($parent.number)">
                 <span @click="$parent.changeNum(+$parent.number+1)"  style="cursor:pointer;">+</span>
               </div>
-              <p class="miner_number">库存{{$parent.leftNum}}台<span>({{parseInt($parent.detail.single_limit_amount)||1}}台起售)</span></p>
+              <p class="miner_number">库存{{$parent.leftNum}}台</p>
             </div>
             <button :class="['btn buy_btn', {error: $parent.buyStatus===1}, {over: $parent.buyStatus===2}]" v-if="$parent.detail.status===1" @click="checkPay">立即支付</button>
             <button class="btn" disabled v-else-if="$parent.detail.status===2" style="background:#c3bbba;">已售罄</button>
@@ -75,9 +75,9 @@
             </div>
           </div>
           <div class="cloud_miner_right">
-            <div class="price_text">我要购买<span class="buy_tips">({{parseInt($parent.detail.single_limit_amount)||1}}台起售)</span></div>
+            <div class="price_text">我要购买</div>
             <div class="input_box">
-              <input type="text" v-model="$parent.number" :placeholder="parseInt($parent.detail.single_limit_amount)||1" @blur="$parent.changeNum($parent.number)">
+              <input type="text" v-model="$parent.number" :placeholder="(parseInt($parent.detail.single_limit_amount)||1)+'台起售'" @blur="$parent.changeNum($parent.number)">
               <span>台</span>
             </div>
             <div class="price_text1">总算力：<span class="money">{{$parent.totalHash|format}}T</span></div>
@@ -353,7 +353,7 @@
       @include main
       margin-bottom:30px;
       background: white;
-      height: 350px;
+      height: 370px;
       box-shadow: #dfe0e1 0 5px 5px -3px;
       position: relative;
       margin-top:10px;
@@ -510,14 +510,26 @@
           }
         }
         .btn{
+          position: relative;
           width: 242px;
           height: 44px;
           border:0;
           margin-top: 26px;
-          background: #fe5039;
+          background: $orange;
           color: white;
           font-size: 18px;
           margin-left: 79px;
+          &:before{
+            @include position(-20)
+            color:$orange;
+            font-size: 12px;
+          }
+          &.error:before{
+            content:'请输入矿机台数';
+          }
+          &.over:before{
+            content:'您输入的数量已超出库存';
+          }
         }
       }
     }
@@ -683,14 +695,30 @@
           width: 242px;
           height: 44px;
           border:0;
-          margin-top: 16px;
+          margin-top: 20px;
           background: #fe5039;
           color: white;
           font-size: 18px;
+          &.buy_btn{
+            position: relative;
+            &:before{
+              @include position(-20)
+              color:$orange;
+              font-size: 12px;
+            }
+            &.error:before{
+              content:'请输入矿机台数';
+            }
+            &.over:before{
+              content:'您输入的数量已超出库存';
+            }
+          }
+          &.loan_btn{
+            background: #01bfb5;
+            margin-top: 12px;
+          }
         }
-        .loan_btn{
-          background: #01bfb5;
-        }
+            
       }
     }
     .product_info{

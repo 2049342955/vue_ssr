@@ -45,27 +45,17 @@
         </div>
       </div>
     </div>
-    <div class="mobile_box">
-      <mt-tabbar :fixed="true" selected="1">
-        <router-link to="/" id="1" class="mint-tab-item">
-          <i class="iconfont"></i><br>
-          <span>首页</span>
-        </router-link>
-        <router-link to="/mobile/property" id="2" class="mint-tab-item">
-          <i class="iconfont"></i><br>
-          <span>算力资产</span>
-        </router-link>
-        <router-link to="/mobile/personcenter" id="3" class="mint-tab-item">
-          <i class="iconfont"></i><br>
-          <span>个人中心</span>
-        </router-link>
-      </mt-tabbar>
+    <div v-if="isMobile">
+      <FootMobile></FootMobile>
     </div>
   </footer>
 </template>
 
 <script>
-  import util from '../../util'
+  import util from '@/util'
+  import { mapState } from 'vuex'
+  import FootMobile from './mobile'
+
   export default {
     data () {
       return {
@@ -85,17 +75,25 @@
         show: 0
       }
     },
+    computed: {
+      ...mapState({
+        isMobile: state => state.isMobile
+      })
+    },
     created () {
       var self = this
       util.post('friendlinkList', {sign: 'token=0'}).then(function (res) {
         self.partner = res
       })
+    },
+    components: {
+      FootMobile
     }
   }
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
+  @import '../../../assets/css/style.scss';
   .footer{
     .pc_box{
       background: $black;
@@ -118,7 +116,7 @@
                 width: 92px;
                 height: 35px;
                 border-radius:5px;
-                background: url('../../assets/images/css_sprites.png') -10px -413px;
+                background: url('../../../assets/images/css_sprites.png') -10px -413px;
               }
               .copyright_text{
                 width: 360px;
@@ -129,7 +127,7 @@
                   display: inline-block;
                   width:20px;
                   height:20px;
-                  background: url('../../assets/images/css_sprites.png') -534px -264px;
+                  background: url('../../../assets/images/css_sprites.png') -534px -264px;
                   vertical-align: bottom;
                 }
               }
@@ -169,7 +167,7 @@
               .qrcode{
                 width: 80px;
                 height: 80px;
-                background: url('../../assets/images/css_sprites.png') -10px -264px;
+                background: url('../../../assets/images/css_sprites.png') -10px -264px;
               }
             }
             .active{
@@ -245,68 +243,6 @@
       }
       @include mobile_hide
     }
-    .mobile_box{
-      width:100%;
-      @include mobile_show
-      a{
-        text-align: center;
-        height:60px;
-        span{
-          font-size: 0.5rem;
-        }
-        i{
-          display: inline-block;
-          margin-top:10px;
-          font-size: 18px;
-        }
-        &.router-link-exact-active{
-          color: #26a2ff;
-        }
-        &:nth-child(1){
-          i{
-            width: 20px;
-            height: 21px;
-            &:before{
-              content:'\e62e'
-            }
-          }
-          &.router-link-exact-active i{
-            &:before{
-              content:'\e692'
-            }
-          }
-        }
-        &:nth-child(2){
-          i{
-            width: 20px;
-            height: 20px;
-            &:before{
-              font-size: 16px;
-              content:'\e656'
-            }
-          }
-          &.router-link-active i{
-            &:before{
-              content:'\e6ae'
-            }
-          }
-        }
-        &:nth-child(3){
-          i{
-            width: 20px;
-            height: 22px;
-            &:before{
-              content:'\e633'
-            }
-          }
-          &.router-link-active i{
-            &:before{
-              content:'\e6a2'
-            }
-          }
-        }
-      }
-    } 
   }
   .mint-tab-item{
     padding:0 !important;

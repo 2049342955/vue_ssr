@@ -33,7 +33,7 @@
         </template>
       </div>
     </section>
-    <section v-else="isMobile">
+    <section v-if="isMobile">
       <HeaderMobile></HeaderMobile>
     </section>
   </header>
