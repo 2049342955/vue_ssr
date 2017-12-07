@@ -79,7 +79,7 @@
     height: 215px;
     margin:0 auto;
     margin-top: 200px;
-    background: url('../../assets/images/css_sprites.png') -335px -10px;
+    background: url('../../../assets/images/css_sprites.png') -335px -10px;
   }
   .museum_right{
     float: left;
@@ -169,4 +169,3 @@
     }
   }
 </style>
-

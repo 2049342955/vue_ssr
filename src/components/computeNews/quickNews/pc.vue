@@ -2,7 +2,7 @@
   <div class="news_left">
     <h1><span>算力快报</span></h1>
     <div class="scroll_news">
-      <div class="news_lists" v-for="n, k in newslists">
+      <div class="news_lists" v-for="n, k in $parent.newslists">
         <span class="icon iconfont icon-yinhao"></span>
         <h4>【{{n.title}}】<span>{{n.dateline}}</span></h4>
         <p v-html="n.content"></p>
@@ -10,39 +10,6 @@
     </div>
   </div>
 </template>
-
-<script>
-  import util from '@/util/index'
-  import api from '@/util/function'
-  import { mapState } from 'vuex'
-  export default {
-    data () {
-      return {
-        newslists: []
-      }
-    },
-    methods: {
-      getList () {
-        var self = this
-        util.post('NewsBriefList', {sign: api.serialize({token: 0})}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            self.newslists = res
-          })
-        }).catch(res => {
-          console.log(res)
-        })
-      }
-    },
-    mounted () {
-      this.getList()
-    },
-    computed: {
-      ...mapState({
-        token: state => state.info.token
-      })
-    }
-  }
-</script>
 
 <style lang="scss" scoped>
   .news_left{
