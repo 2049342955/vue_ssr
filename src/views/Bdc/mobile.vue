@@ -82,7 +82,8 @@
 
       .card {
         @include flex(center, center, column);
-
+        margin-bottom: 20px;
+        
         .title {
           color: #fff;
           font-size: 18px;
@@ -120,6 +121,9 @@
         background: url('../../assets/images/mobile/button.png') no-repeat;
         background-size: 100%;
         a {
+          display: inline-block;
+          height: 43px;
+          width: 100%;
           font-size: 15px;
           font-weight: bold;
           color: #1b1b1b;
