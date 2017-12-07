@@ -10,7 +10,7 @@
   import compute from '@/views/compute'
   import User from '@/views/User'
   import WebInfo from '@/views/WebInfo'
-  import ComputeNews from '@/views/ComputeNews'
+  import ComputeNews from '@/views/computeNews/'
 // auth
   import Login from '@/components/auth/Login'
   import Regist from '@/components/auth/Regist'
@@ -56,7 +56,7 @@
   import MinerMuseum from '@/components/ComputeNews/MinerMuseum'
   import DigitalCurrency from '@/components/ComputeNews/DigitalCurrency'
   import EquipmentEvaluate from '@/components/ComputeNews/EquipmentEvaluate'
-  import Manufacturer from '@/components/ComputeNews/Manufacturer'
+  import Manufacturer from '@/components/ComputeNews/ManuFacturer'
   import Chart from '@/components/ComputeNews/Chart'
 // mobile
   import Mobile from '@/views/Mobile'
@@ -67,6 +67,7 @@
   import Mproperty from '@/components/mobile/Mproperty'
   import Minformation from '@/components/mobile/Minformation'
   import Mpersoncenter from '@/components/mobile/Mpersoncenter'
+  import ManuFacturermobile from '@/components/mobile/ManuFacturermobile'
 // export
   Vue.use(Router)
   export default new Router({
@@ -308,6 +309,11 @@
         path: 'help',
         name: 'mhelp',
         component: Mhelp
+      },
+      {
+        path: 'manuFacturermobile',
+        name: 'manuFacturermobile',
+        component: ManuFacturermobile
       },
       {
         path: 'administration',
