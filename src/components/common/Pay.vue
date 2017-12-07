@@ -1,6 +1,6 @@
 <template>
   <section class="pay">
-    <div class="pc_box">
+    <div class="pc_box" v-if="!isMobile">
       <div class="left_box">
         <div class="order_msg address_msg" v-if="$route.params.type==='1'">
           <h3 class="title">选择收货地址</h3>
@@ -78,20 +78,20 @@
         <div class="order_msg order_pay">
           <h3 class="title">支付订单信息</h3>
           <div :class="['pay_text',{active:payNo===1}]">
-            <div class="pay_value">
+            <label class="pay_value">
               <input type="radio" name="payType" @click="setValue('payNo',1)" checked>
               <span class="yue">账户余额{{$parent.balance}}元</span>
-            </div>
+            </label>
             <div class="pay_info">
               <span>金额不足，可先</span>
               <router-link to="/user/recharge">充值</router-link>
             </div>
           </div>
           <div :class="['pay_text',{active:payNo===2}]">
-            <div class="pay_value">
+            <label class="pay_value">
               <input type="radio" name="payType" @click="setValue('payNo',2)">
               <span class="zhifubao">支付宝</span>
-            </div>
+            </label>
             <div class="pay_info">
               <span>支付</span>
               <span class="money" style="font-size:16px;">{{(page==='minerShop'?totalPrice:$parent.detail.total_price)|format}}</span>
@@ -125,7 +125,7 @@
         </div>
       </div>
     </div>
-    <div class="mobile_box">
+    <div class="mobile_box" v-else>
       <div class="mobile_address" v-if="$route.params.type==='1'">
         <div class="address_box" @click="selectAddress" v-if="addressObject">
           <h3 :class="{active:addressObject.is_default}">收货人地址：{{addressObject.post_user+'  '+addressObject.post_mobile}}</h3>
@@ -152,18 +152,10 @@
         </div>
       </div>
       <form action="" class="form payForm2" @submit.prevent="pay" novalidate>
-        <div class="pay_info">
-          <div :class="['pay_item', {active:payNo===1}]" @click="setValue('payNo',1)">
-            <div>
-              <span>可用余额</span>
-              <span class="val">{{$parent.balance}}元</span>
-            </div>
-            <router-link to="/mobile/recharge">充值</router-link>
-          </div>
-          <div :class="['pay_item', {active:payNo===2}]" @click="setValue('payNo',2)">
-            <div>
-              <span>支付宝支付</span>
-            </div>
+        <div class="pay_info" @click="openMask(3)">
+          <div class="pay_item">
+            <span>支付方式</span>
+            <span>{{payNo===1?'余额支付':'支付宝'}}</span>
           </div>
           <div class="pay_item" v-if="payNo===1">
             <mt-field type="password" label="交易密码" name="password" placeholder="请输入交易密码" state="" @blur="test"></mt-field>
@@ -179,12 +171,27 @@
         </div>
       </form>
     </div>
-    <MyMask :form="address" :title="title" :contract="contract" :val="addressForm" v-if="edit"></MyMask>
-    <mt-popup position="bottom" v-model="mobileEdit" :closeOnClickModal="false">
+    <MyMask :form="address" :title="title" :contract="contract" :val="addressForm" v-if="edit&&!isMobile"></MyMask>
+    <mt-popup position="bottom" v-model="mobileEdit" :closeOnClickModal="false" v-if="isMobile">
       <div class="close" @click="closeMask">
         <span class="icon"></span>
       </div>
-      <div class="agreement" v-html="contract"></div>
+      <div class="agreement" v-html="contract" v-if="contract"></div>
+      <div class="mobile_pay_type" v-else>
+        <div class="mobile_pay_title">选择支付方式</div>
+        <div :class="['pay_item', {active:payNo===1}]" @click="setPay(1)">
+          <div>
+            <span>可用余额</span>
+            <span class="val">{{$parent.balance}}元</span>
+          </div>
+          <router-link to="/mobile/recharge">充值</router-link>
+        </div>
+        <div :class="['pay_item', {active:payNo===2}]" @click="setPay(2)">
+          <div>
+            <span>支付宝支付</span>
+          </div>
+        </div>
+      </div>
     </mt-popup>
   </section>
 </template>
@@ -342,6 +349,8 @@
         } else if (n === 2) {
           this.contract = ''
           this.title = '收货地址'
+        } else if (n === 3) {
+          this.contract = ''
         }
       },
       closeMask () {
@@ -406,6 +415,10 @@
       },
       setAssept (e) {
         this.accept = e.target.checked
+      },
+      setPay (n) {
+        this.payNo = n
+        this.mobileEdit = false
       },
       submit (e) {
         var form = e.target
@@ -563,6 +576,12 @@
         .address_msg{
           .address_box{
             @include address_data
+            .item{
+              background: #FAFAFA;
+              &.active,&:hover{
+                background: #EFF6FE;
+              }
+            }
             .all_address_btn{
               float: right;
               margin-top:20px;
@@ -702,7 +721,6 @@
             margin:10px 15px;
             @include flex(space-between);
             color: $light_black;
-            border-bottom:1px solid $border;
             .pay_value{
               input{
                 @include checkbox(18)
@@ -803,10 +821,8 @@
           top:0
         }
       }
-      @include mobile_hide
     }
     .mobile_box{
-      @include mobile_show
       min-height:calc(100vh - 61px);
       font-size: 0.45rem;
       color:$text;
@@ -888,29 +904,20 @@
         .pay_item{
           @include flex(space-between)
           line-height: 50px;
-          div span.val{
-            color:$light_text;
-            margin-left:15px;
-          }
-          a{
-            color:$blue
+          &:first-child{
+            span:last-child:after{
+              content:'';
+              @include block(8)
+              @include arrow
+            }
           }
           &:not(:last-child){
             border-bottom:1px solid $border;
           }
-          &.active{
-            position: relative;
-            div:after{
-              content:'';
-              @include right
-              border-color:$orange;
-              left:80%;
-            }
-          }
           .mint-cell{
             width:100%;
             .mint-cell-wrapper{
-              padding:10px 0;
+              padding:0;
               border:0;
               font-size: 0.45rem;;
               .mint-cell-title{
@@ -959,9 +966,38 @@
     }
     .mint-popup{
       @include popup
-    }
-    @media screen and (max-width: $mobile) {
-      
+      .mobile_pay_type{
+        padding:15px 0;
+        color: $text;
+        .mobile_pay_title{
+          text-align: center;
+          font-size: 0.55rem;
+          border-bottom:1px solid $border;
+          padding-bottom:15px
+        }
+        .pay_item{
+          padding:0 15px;
+          @include flex(space-between)
+          line-height: 50px;
+          border-bottom:1px solid $border;
+          span.val{
+            color:$light_text;
+            margin-left:15px;
+          }
+          a{
+            color:$blue
+          }
+          &.active{
+            position: relative;
+            div:after{
+              content:'';
+              @include right
+              border-color:$orange;
+              left:80%;
+            }
+          }
+        }
+      }
     }
   }
 </style>
