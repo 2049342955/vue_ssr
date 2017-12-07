@@ -31,7 +31,7 @@
       return {
         len: 0,
         now: 1,
-        total: 0,
+        total: -1,
         loading: false,
         museum: [],
         showcontent: false,
