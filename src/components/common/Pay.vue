@@ -152,8 +152,8 @@
         </div>
       </div>
       <form action="" class="form payForm2" @submit.prevent="pay" novalidate>
-        <div class="pay_info" @click="openMask(3)">
-          <div class="pay_item">
+        <div class="pay_info">
+          <div class="pay_item" @click="openMask(3)">
             <span>支付方式</span>
             <span>{{payNo===1?'余额支付':'支付宝'}}</span>
           </div>

@@ -11,7 +11,7 @@
           <img :src="item.image"/>
           <div class="time">
             <p><span class="icon iconfont icon-shijian2"></span>{{item.dateline.split(" ")[0].split("-")[1]}}月{{item.dateline.split(" ")[0].split("-")[2]}}日</p>
-            <p><span class="icon iconfont icon-yuedu1"></span>25559</p>
+            <p><span class="icon iconfont icon-yuedu1"></span>{{item.view_count?item.view_count : '0'}}</p>
           </div>
         </div>
       </div>
