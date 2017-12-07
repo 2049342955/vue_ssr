@@ -39,7 +39,7 @@
       height: 1272px;
       overflow: auto;
       .news_lists{
-        width: 100%;
+        width: 95%;
         height: 140px;
         border-bottom: 1px solid #dcdcdc;
         margin-bottom: 10px;
@@ -58,7 +58,7 @@
             float: right;
             color: #a9a9a9;
             font-size: 12px;
-            margin-right: 30px;
+            padding-right: 10px;
           }
         }
         p{
@@ -66,7 +66,6 @@
           height: 64px;
           overflow: hidden;
           line-height: 22px;
-          padding-right: 20px;
         }
         &:hover{
           height: auto;

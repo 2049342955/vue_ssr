@@ -109,7 +109,7 @@
         p{
           color: #999;
           height: 1.5rem;
-          font-size: 0.4rem;
+          font-size: 0.5rem;
           line-height:0.75rem;
           padding:0;
           margin:0;
