@@ -24,22 +24,6 @@
       <div class="chart_main">
         <div class="myChart"></div>
         <div class="myChart2"></div>
-        <!-- <div class="myText">
-          <h1>
-            <span>{{coin[no].title}}</span>
-            <span>{{coin[no].value}}</span>
-          </h1>
-          <div class="address">
-            <p>挖矿服务地址：</p>
-            <p v-for="a in coin[no].address">{{a}}</p>
-          </div>
-          <div class="data">
-            <div class="item" v-for="d,k in coin[no].data">
-              <span>{{k}}</span>
-              <span>{{d}}</span>
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
@@ -64,33 +48,27 @@
     },
     methods: {
       drawLine () {
-        let myChart = echarts.init(document.querySelector('.myChart'))
-        var now = +new Date(2010, 9, 3)
-        var oneDay = 24 * 3600 * 1000
-        var value = Math.random() * 1000
-        function randomData () {
-          now = new Date(+now + oneDay)
-          value = value + Math.random() * 21 - 10
-          return {
-            name: now.toString(),
-            value: [
-              [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
-              Math.round(value)
-            ]
-          }
-        }
-        function getData () {
-          var data = []
-          for (var i = 0; i < 1000; i++) {
-            data.push(randomData())
-          }
-          return data
-        }
-        console.log(getData())
+        // myChart.setOption({
+        //   series: [{
+        //     data: data
+        //   }]
+        // })
+      },
+      selectCoin (e) {
+        this.no = e.target.title
+        // this.drawLine()
+      },
+      initChart (ele, data, title) {
+        let myChart = echarts.init(document.querySelector(ele))
         myChart.setOption({
           color: '#fff',
           title: {
-            // text: '动态数据 + 时间坐标轴'
+            text: title,
+            textStyle: {
+              color: '#fff',
+              align: 'right'
+            },
+            left: 20
           },
           grid: {
             show: true,
@@ -102,7 +80,7 @@
             trigger: 'axis',
             formatter: function (params) {
               params = params[0]
-              return params.value[0] + ' : ' + params.value[1]
+              return params.value[0] + ' : ' + params.value[1] + (params.value[2] || '')
             },
             axisPointer: {
               animation: false
@@ -142,7 +120,7 @@
             type: 'line',
             showSymbol: false,
             hoverAnimation: false,
-            data: this.data1,
+            data: data,
             lineStyle: {
               normal: {
                 color: '#518abb'
@@ -150,35 +128,18 @@
             }
           }]
         })
-        // setInterval(function () {
-        //   for (var i = 0; i < 5; i++) {
-        //     data.shift()
-        //     data.push(randomData())
-        //   }
-        //   myChart.setOption({
-        //     series: [{
-        //       data: data
-        //     }]
-        //   })
-        // }, 1000)
-      },
-      selectCoin (e) {
-        this.no = e.target.title
-        this.drawLine()
       }
     },
     mounted () {
-      // var self = this
-      // util.post('showCoinData', {sign: 'token=0'}).then(function (data) {
-      //   self.info = data
-      // })
       var self = this
       util.post('showMiningPoolData', {sign: 'token=0'}).then(function (data) {
-        data.data.diff_history.forEach((v, k) => {
+        data.data.diff_history.slice(0, 70).forEach((v, k) => {
           self.data1.push({name: v._id, value: [v.timestamp, v.difficulty]})
+          self.data2.push({name: v._id, value: [v.timestamp, v.avg_network_hashrate[0], v.avg_network_hashrate[1]]})
         })
-        console.log(self.data1)
-        self.drawLine()
+        console.log(self.data1, self.data2)
+        self.initChart('.myChart', self.data1, '算力困难度历史曲线')
+        self.initChart('.myChart2', self.data2, '全网算力历史曲线')
       })
     },
     filters: {
@@ -246,44 +207,21 @@
       }
     }
     .chart_show{
-      // @include position()
       top:100%;
       bottom:auto;
       background: #2e2e3d;
       z-index: 3;
-      // display: none;
       .chart_main{
-        // @include main
-        // @include flex
         .myChart{
           width:100%;
           height:420px;
+          padding-top:20px;
         }
-        // .myText{
-        //   width:leave(640);
-        //   padding-left:100px;
-        //   color:$white;
-        //   font-size: 16px;
-        //   line-height: 1.6;
-        //   h1{
-        //     @include flex(space-between)
-        //     font-size: 30px;
-        //     font-weight: bold;
-        //     padding-bottom: 10px
-        //   }
-        //   h1,.address{
-        //     border-bottom: 1px solid #59a1d9;
-        //     margin-bottom: 13px
-        //   }
-        //   .address{
-        //     padding-bottom: 30px
-        //   }
-        //   .data{
-        //     .item{
-        //       @include flex(space-between)
-        //     }
-        //   }
-        // }
+        .myChart2{
+          width:100%;
+          height:420px;
+          padding-top:20px;
+        }
       }
     }
     &:hover .chart_show{
