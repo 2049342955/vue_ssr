@@ -68,7 +68,8 @@
   height: 275px;
   position: absolute;
   left: 50%;
-  margin-left: -167px;
+  margin-top: 100px;
+  margin-left: -67px;
   p{
     text-align: center;
   }

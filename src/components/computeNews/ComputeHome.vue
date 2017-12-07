@@ -86,7 +86,7 @@
                 <router-link :to="'/manufacturer/detail/' + n.id" class="border" v-for="n, k in sheol1" :key="k"><span></span>{{n.title}}</router-link>
               </div>
           </div>
-          <router-link to="/manufacturer/list">全部厂商介绍 ></router-link>
+          <router-link to="/manufacturer/list">全部矿机介绍 ></router-link>
         </div>
         <div class="shebottomcen">
           <h6>【矿机测评】</h6>
@@ -100,7 +100,7 @@
               <p class="time">{{n.dateline}}</p>
             </div>
           </div>
-          <router-link to="/equipmentEvaluate/list">全部测评 ></router-link>
+          <router-link to="/equipmentEvaluate/list">全部矿机介绍 ></router-link>
         </div>
         <div class="shebottomright">
           <h6>【矿机博物馆】</h6>
@@ -110,7 +110,7 @@
               <p class="title">{{n.title}}</p>
             </router-link>
           </div>
-          <router-link to="/equipments/list">全部博物馆介绍 ></router-link>
+          <router-link to="/equipments/list">全部矿机介绍 ></router-link>
         </div>
       </div>
     </div>
@@ -794,7 +794,7 @@
                 }
                 .she_ol .border{
                     width: 100%;
-                    margin-top: 34px;
+                    margin-top: 24px;
                     color: #333333;
                     font-size: 17px;
                     display:block;
