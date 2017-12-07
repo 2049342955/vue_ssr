@@ -1,15 +1,22 @@
 <template>
-  <div class="mobiledigital">
-    <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="len" class="digital_lists" v-if="!showcontent">
-      <div v-for="item, k in museum" :key="k" @click="clickcontent(item.id)">
-        <div class="left">
-          <img :src="item.icon"/>
-          <p>{{item.coin_name}}</p>
+  <div class="mobilelist">
+    <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="len" class="list_lists" v-if="!showcontent">
+      <div v-for="item, k in museum" :key="k" @click="clickcontent(item.id)" class="list_list">
+        <div class="list_left">
+          <h3>{{item.title}}</h3>
+          <p>{{item.resume?item.resume: '暂无简介'}}</p>
+          <div><span></span>{{item.source?item.source: '算力网'}}</div>
         </div>
-        <p class="right">市值: 暂无</p>
+        <div class="list_right">
+          <img :src="item.image"/>
+          <div class="time">
+            <p><span class="icon iconfont icon-shijian2"></span>{{item.dateline.split(" ")[0].split("-")[1]}}月{{item.dateline.split(" ")[0].split("-")[2]}}日</p>
+            <p><span class="icon iconfont icon-yuedu1"></span>25559</p>
+          </div>
+        </div>
       </div>
     </div>
-    <p v-if="loading && !showcontent" class="loadmore">加载中······</p>
+    <p v-if="loading && !showcontent" class="loadmore">加载更多······</p>
     <div class="quicknews_content"  v-if="showcontent">
       <div class="title">
         <span>{{content.title}}</span>
@@ -43,7 +50,7 @@
         if (this.total > this.museum.length || this.museum.length === 0) {
           let time = this.museum.length === 0 ? 0 : 1000
           setTimeout(() => {
-            util.post('showCoinlist_h5', {sign: api.serialize({token: 0, page: this.now})}).then(function (res) {
+            util.post('suanliMessage', {sign: api.serialize({token: 0, page: this.now})}).then(function (res) {
               api.checkAjax(self, res, () => {
                 self.total = res.total
                 for (let i = 0, len = res.list.length; i < len; i++) {
@@ -79,47 +86,70 @@
 </script>
 
 <style lang="scss" scoped>
-  .mobiledigital{
+  .mobilelist{
     width: 100%;
     overflow: hidden;
     background: white;
-    .digital_lists{
+    .list_lists{
       width: 100%;
+    //   border-top: 1px solid #dcdcdc;
       padding:0 0.5rem;
       box-sizing: border-box;
-      div{
+      .list_list{
         width: 100%;
-        height: 2rem;
+        height: 5.5rem;
+        border-bottom: 1px solid #dcdcdc;
         display:flex;
         justify-content: space-between;
-        border-bottom: 1px solid #bfbfbf;
-        .left{
-          float: left;
-          width: 50%;
-          img{
-            width: 0.7rem;
-            height: 0.7rem;
-            position: relative;
-            top:0.6rem;
-          }
-          p{
-            font-weight: 800;
-            margin-left: .5rem;
-            width: 90%;
-            white-space: normal;
-            text-overflow: hidden;
-            overflow: hidden;
-            font-size: 0.5rem;
-            line-height: 2rem;
-          }
+        padding:0.5rem 0;
+        .list_left{
+            width: 55%;
+            padding-right: .5rem;
+            h3{
+                font-size: 0.5rem;
+                font-weight: 800;
+                height: 1.5rem;
+                overflow: hidden;
+            }
+            p{
+                font-size: 0.4rem;
+                margin-top: 0.3rem;
+                color: #989898;
+                height: 1.5rem;
+                overflow: hidden;
+                margin-bottom: 0.5rem;
+            }
+            div{
+                color: #adadad;
+                font-size: 0.4rem;
+                span{
+                    width: 0.3rem;
+                    height: 0.3rem;
+                    background: #666666;
+                    display:inline-block;
+                    margin-right: 0.3rem;
+                }
+            }
         }
-        .right{
-          float:right;
-          width: 50%;
-          font-size: 0.5rem;
-          color: #747474;
-          text-align: right;
-          line-height:2rem;
+        .list_right{
+            width: 45%;
+            img{
+                width: 100%;
+            }
+            .time{
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                margin-top: 0.35rem;
+                p{
+                    font-size: 0.4rem;
+                    color: #999999;
+                    span{
+                        font-size: 0.55rem;
+                        margin-right: 0.2rem;
+                    }
+                }
+            }
         }
       }
     }

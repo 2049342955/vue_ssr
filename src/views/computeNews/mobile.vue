@@ -24,18 +24,14 @@ export default {
 .mobile_computehome{
     width: 100%;
     height: 100%;
-    background: #f4f4f4;
     .mobile_navcompute{
       width: 100%;
       height: 2rem;
       background: white;
       display: flex;
       justify-content: space-between;
-      border:1px solid #bfbfbf;
+      border-bottom:1px solid #bfbfbf;
       box-sizing: border-box;
-      border-left:0;
-      border-right:0;
-      margin-bottom: .5rem;
       :last-child span{
         display:none;
       }

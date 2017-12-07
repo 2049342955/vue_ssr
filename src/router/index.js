@@ -45,7 +45,7 @@
 // webInfo
   import AboutUs from '@/components/info/AboutUs'
   import Issues from '@/components/info/Issues'
-  import WebInfoList from '@/components/info/List'
+  import WebInfoList from '@/components/info/list/index'
   import WebInfoDetail from '@/components/info/Detail'
   import IssuesDetail from '@/components/info/IssuesDetail'
 // industryInformation

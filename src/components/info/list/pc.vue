@@ -88,7 +88,7 @@
   }
 </script>
 <style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
+  @import '../../../assets/css/style.scss';
   .notice{
     background: #fff;
     padding: 20px 40px;
