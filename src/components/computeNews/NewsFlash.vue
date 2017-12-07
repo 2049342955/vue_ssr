@@ -24,7 +24,7 @@
     methods: {
       getList () {
         var self = this
-        util.post('NewsBriefList', {sign: api.serialize({token: this.token})}).then(function (res) {
+        util.post('NewsBriefList', {sign: api.serialize({token: 0})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.newslists = res
           })

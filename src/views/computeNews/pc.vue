@@ -2,14 +2,14 @@
   <div class="compute_news">
     <div class="compute_news_nav">
       <div class="compute_news_box">
-        <router-link :to="n.path" v-for="n, k in computationallist" :class="{'active': k === 1}" :key="k">{{n.title}}</router-link>
+        <router-link :to="n.path" v-for="n, k in $parent.computationallist" :class="{'active': k === 1}" :key="k">{{n.title}}</router-link>
       </div>
     </div>
     <div class="computational_content">
       <div class="currency_header">suanLi&nbsp;之家 <span>全面聚合算力产业信息</span></div>
       <div class="currency_content">
       	<div class="leftnav">
-          <div :class="['leftnav_ol', {'active': active === k}]" v-for="n, k in leftnav" :key="k">
+          <div :class="['leftnav_ol', {'active': $parent.active === k}]" v-for="n, k in $parent.leftnav" :key="k">
             <router-link :to="n.path">
               <span :class="['icon', 'iconfont', n.big]"></span>
               <i>{{n.title}}</i>
@@ -22,17 +22,7 @@
     </div>
   </div>
 </template>
-<script>
-  export default {
-    data () {
-      return {
-        active: '',
-        computationallist: [{title: '算力资讯', path: '/industryInformation'}, {title: '设备之家', path: '/equipments/list'}, {title: '交易信息', path: '/transaction'}, {title: '挖矿币种', path: '/currency'}],
-        leftnav: [{big: 'icon-zixun', title: '资讯', path: '/computeNews/list'}, {big: 'icon-zixun1', title: '快报', path: '/quickNews/list'}, {big: 'icon-zhizaohangye', title: '厂商', path: '/manufacturer/list'}, {big: 'icon-kuangji', title: '测评', path: '/equipmentEvaluate/list'}, {big: 'icon-bowuguan', title: '博物馆', path: '/equipments/list'}, {big: 'icon-bitebi', title: '币种', path: '/digitalCurrency/list'}]
-      }
-    }
-  }
-</script>
+
 <style lang="scss" scoped>
   .compute_news{
     background: #eceff8;
