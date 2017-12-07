@@ -63,7 +63,7 @@
       clickcontent (id) {
         this.showcontent = true
         var self = this
-        util.post('content', {sign: 'token=0&news_id=' + id}).then(function (res) {
+        util.post('showCoinInfoDetail', {sign: 'token=0&coin_id=' + id}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.content = res
           })
