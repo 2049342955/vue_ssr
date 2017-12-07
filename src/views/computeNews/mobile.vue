@@ -1,7 +1,7 @@
 <template>
   <div class="mobile_computehome">
     <div class="mobile_navcompute">
-      <router-link :to="n.path" v-for="n, k in navcompute" :key="k" :class="{'active': k === 0}">
+      <router-link :to="n.path" v-for="n, k in navcompute" :key="k">
         <em>{{n.title}}</em>
         <span>|</span>
       </router-link>
@@ -14,7 +14,7 @@
 export default {
   data () {
     return {
-      navcompute: [{title: '快讯', path: '/industryInformation'}, {title: '资讯', path: ''}, {title: '测评', path: '/industryInformation'}, {title: '币种', path: '/industryInformation'}, {title: '厂商', path: '/manufacturer/list'}]
+      navcompute: [{title: '快讯', path: '/quickNews/list'}, {title: '资讯', path: '/computeNews/list'}, {title: '测评', path: '/equipmentEvaluate/list'}, {title: '币种', path: '/digitalCurrency/list'}, {title: '厂商', path: '/manufacturer/list'}]
     }
   }
 }
@@ -73,7 +73,17 @@ export default {
                 width: 1.9rem;
                 height: 1.95rem;
                 color:#fe5039;
-            }
+          }
+        }
+        &.router-link-active{
+            em{
+                display:inline-block;
+                border-bottom:2px solid #fe5039;
+                box-sizing: border-box;
+                width: 1.9rem;
+                height: 1.95rem;
+                color:#fe5039;
+          }
         }
       }
     }
