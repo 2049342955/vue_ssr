@@ -45,7 +45,6 @@
       util.post('showTopMiner', {sign: api.serialize({token: this.token})}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.list = res
-          console.log((res.length * 6) + (res.length * 2) + 'rem')
           document.getElementsByClassName('mobile_list_box')[0].style.width = (res.length * 6) + (res.length) + 'rem'
         })
       }).catch(res => {

@@ -1,6 +1,5 @@
 <template>
   <div class="mobile">
-    <mobileHeader></mobileHeader>
     <div class="introduce">
       <div class="background">
         <img :src="require('@/assets/images/mobile/bdc.png')">
@@ -27,8 +26,6 @@
   </div>
 </template>
 <script>
-  import mobileHeader from '../../components/common/Header'
-
   export default {
     data () {
       return {
@@ -38,8 +35,8 @@
         }
       }
     },
-    components: {
-      mobileHeader
+    created () {
+      console.log(this.$route)
     }
   }
 </script>
@@ -115,7 +112,7 @@
       }
 
       .apply {
-        line-height: 45px;
+        line-height: 35px;
         width: 70vw;
         margin: 60px auto;
         display: block;
