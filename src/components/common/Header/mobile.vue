@@ -51,7 +51,7 @@
 <style type="text/css" lang="scss">
   @import '../../../assets/css/style.scss';
   @import '../../../assets/fonts/iconfont.css';
-  header {
+  #header {
     width: 100%;
     height: 45px;
     padding: 0 15px;

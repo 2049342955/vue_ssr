@@ -1,7 +1,7 @@
 <template>
   <header :class="headerClass" :disabled="$route.name==='notFound'">
     <section class="box">
-      <div class="nav_left">
+      <div class="nav_left1">
         <router-link class="logo" to="/"></router-link>
         <nav>
           <span v-if="$route.path.includes('regist')">用户注册</span>
@@ -139,7 +139,7 @@
       @include flex(space-between)
       height:80px;
       line-height: 80px;
-      .nav_left{
+      .nav_left1{
         width:74%;
         @include flex
         .logo{
