@@ -1,12 +1,39 @@
 <template>
-  <div>
-    <section v-if="!isMobile">
-      <PcHeader></PcHeader>
+  <header :class="headerClass" :disabled="$route.name==='notFound'">
+    <section class="box">
+      <div class="nav_left">
+        <router-link class="logo" to="/"></router-link>
+        <nav>
+          <span v-if="$route.path.includes('regist')">用户注册</span>
+          <span v-else-if="$route.path.includes('passwordRetrieval')">找回密码</span>
+          <div :class="['item',{active:$route.path.includes(i.name)}]" v-for="(i,k) in nav" v-else>
+            <router-link :to="i.link">{{ i.text }}</router-link>
+          </div>
+        </nav>
+      </div>
+      <div class="side_nav">
+        <template v-if="$route.path.includes('auth')">
+          <router-link to="/" v-if="$route.path.includes('login')">返回首页</router-link>
+          <div class="text" v-else>
+            <span>已经拥有账号,</span>
+            <router-link to="/auth/login">直接登录</router-link>
+          </div>
+        </template>
+        <template v-else>
+          <router-link to="/webInfo/issues">帮助</router-link>
+          <router-link to="/webInfo/aboutUs">关于</router-link>
+          <template v-if="token===0">
+            <router-link to="/auth/login">登录</router-link>
+            <router-link class="btn" to="/auth/regist">注册</router-link>
+          </template>
+          <template v-else>
+            <router-link class="tel" to="/user/computeProperty"><span class="iconfont">&#xe63f; </span>{{mobile|format}}</router-link>
+            <a href="javascript:;" @click="logout">退出</a>
+          </template>
+        </template>
+      </div>
     </section>
-    <section v-else>
-      <MobileHeader></MobileHeader>
-    </section>
-  </div>
+  </header>
 </template>
 
 <script>

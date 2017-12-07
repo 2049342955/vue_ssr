@@ -34,9 +34,6 @@
           text: '<i>BDC</i>是平台整合优质品牌商与分销商，通过平台的优势及服务以吸引广大消费者的一种形式，算力网通过自身的优势整合筛选出行业内<i>优质合规的BDC机房</i>，算力服务器生产商，为算力爱好者<i>提供算力服务器托管</i>，算力服务器采购，算力服务器租赁等服务，打通算力及衍生商品产业链的完整交易，做到<i>平台，供应商，消费者三方互惠互利</i>。'
         }
       }
-    },
-    created () {
-      console.log(this.$route)
     }
   }
 </script>
@@ -83,7 +80,7 @@
       .card {
         @include flex(center, center, column);
         margin-bottom: 20px;
-        
+
         .title {
           color: #fff;
           font-size: 18px;
