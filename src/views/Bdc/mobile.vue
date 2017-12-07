@@ -76,11 +76,11 @@
     .bdc-lists {
       width: 100%;
       height: auto;
-      padding: 0 15px;
+      padding: 45px 15px 0 15px;
       background: #13141f;
+      margin-bottom: -61px;
 
       .card {
-        padding-top: 45px;
         @include flex(center, center, column);
 
         .title {
@@ -112,8 +112,9 @@
       }
 
       .apply {
-        line-height: 35px;
-        width: 70vw;
+        height: 43px;
+        line-height: 43px;
+        width: 265px;
         margin: 60px auto;
         display: block;
         background: url('../../assets/images/mobile/button.png') no-repeat;
