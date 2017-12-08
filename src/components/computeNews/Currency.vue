@@ -258,11 +258,10 @@ export default {
                 margin-bottom: 17px;
                 img{
                 width:25px;
-                height: 20px;
                 margin-top: 6px;
                 margin-left: 20px;
                 position: relative;
-                top:-13px;
+                top:-10px;
                 }
                 span{
                 margin-left: 20px;
