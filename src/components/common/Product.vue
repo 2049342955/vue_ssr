@@ -203,7 +203,7 @@
       </div>
       <div class="mobile_btn">
         <mt-button type="default" size="large" disabled v-if="$parent.leftStatus">已售罄</mt-button>
-        <mt-button type="primary" size="large" @click="checkPay($event, false)" v-else>立即支付</mt-button>
+        <mt-button type="primary" size="large" @click="openMask" v-else>立即支付</mt-button>
       </div>
       <mt-popup position="bottom" v-model="sheetVisible">
         <div class="buy_box">
@@ -295,7 +295,6 @@
           return false
         }
         this.$parent.goPay(e, sh)
-        this.openMask()
       },
       openMask () {
         this.sheetVisible = true
