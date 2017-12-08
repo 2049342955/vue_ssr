@@ -54,7 +54,6 @@
   import NewsFlash from '@/components/ComputeNews/quickNews/index'
   import Transaction from '@/components/ComputeNews/Transaction'
   import MinerMuseum from '@/components/ComputeNews/MinerMuseum'
-  import DigitalCurrency from '@/components/ComputeNews/digitalCurrency/index'
   import EquipmentEvaluate from '@/components/ComputeNews/equipmentEvaluate/index'
   import Manufacturer from '@/components/ComputeNews/manufacturer/index'
   import Chart from '@/components/ComputeNews/Chart'
@@ -316,6 +315,9 @@
       path: '/currency',
       component: Currency
     }, {
+      path: '/transaction',
+      component: Transaction
+    }, {
       path: '/computeNews',
       name: 'computeNews',
       component: ComputeNews,
@@ -335,14 +337,7 @@
         path: 'list',
         name: 'quickNewsList',
         component: NewsFlash
-      }, {
-        path: 'detail/:id',
-        name: 'quickNews',
-        component: WebInfoDetail
       }]
-    }, {
-      path: '/transaction',
-      component: Transaction
     }, {
       path: '/equipments',
       component: ComputeNews,
@@ -377,30 +372,6 @@
       }, {
         path: 'detail/:id',
         name: 'manufacturerDetail',
-        component: WebInfoDetail
-      }]
-    }, {
-      path: '/digitalCurrency',
-      component: ComputeNews,
-      children: [{
-        path: 'list',
-        name: 'digitalCurrency',
-        component: DigitalCurrency
-      }, {
-        path: 'detail/:id',
-        name: 'digitalCurrencyDetail',
-        component: WebInfoDetail
-      }]
-    }, {
-      path: '/miner',
-      component: ComputeNews,
-      children: [{
-        path: 'list',
-        name: 'minerPhotoList',
-        component: WebInfoList
-      }, {
-        path: 'detail/:id',
-        name: 'quickNewsDetail',
         component: WebInfoDetail
       }]
     }, {
