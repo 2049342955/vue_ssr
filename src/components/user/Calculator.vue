@@ -10,18 +10,18 @@
       </div>
       <div class="fromone">
         <label>单台矿机价格</label>
-        <input type="text" value="message1"  class="cover" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')"  id="input1" v-model="message1"/>
+        <input type="text" value="IndividualMillPrice"  class="cover" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')"  id="input1" v-model="IndividualMillPrice"/>
         <span class="biao block1">请输入单台矿机价格</span>
       </div>
       <div class="fromone">
         <label>矿机数量</label>
-        <input type="text" value="message2" class="cover"  onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input2" v-model="message2"/>
+        <input type="text" value="MillNumber" class="cover"  onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" id="input2" v-model="MillNumber"/>
         <span class="biao block2">请输入单台矿机价格</span>
       </div>
       <div class="fromone">
         <label>矿机算力</label>
         <div class="rightblock">
-            <input type="text" value="message3" class="cover cover1" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input3" v-model="message3"/>
+            <input type="text" value="MillWorkforce" class="cover cover1" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input3" v-model="MillWorkforce"/>
             <span>TH/S</span>
         </div>
         <span class="biao block3">请输入单台矿机价格</span>
@@ -29,18 +29,22 @@
       <div class="fromone">
         <label>矿机功耗</label>
         <div class="rightblock">
-            <input type="text" value="message4" class="cover cover1" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input4" v-model="message4"/>
+            <input type="text" value="MillPower" class="cover cover1" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input4" v-model="MillPower"/>
             <span>W</span>
         </div>
         <span class="biao block4">请输入单台矿机价格</span>
       </div>
       <div class="fromone">
         <label>每T功耗</label>
-        <span class="tespan">{{(message4/message3)?((message4/message3).toFixed(1)): '0'}} W/T</span>
+        <span class="tespan">{{(MillPower/MillWorkforce)?((MillPower/MillWorkforce).toFixed(1)): '0'}} W/T</span>
       </div>
       <div class="fromone">
         <label>每T价格</label>
-        <span class="tespan">¥ {{(message1/message2)?(message1/message2): '0'}} /T</span>
+        <span class="tespan">¥ {{(IndividualMillPrice/MillNumber)?(IndividualMillPrice/MillNumber): '0'}} /T</span>
+      </div>
+      <div class="fromone">
+        <label>全网算力</label>
+        <span class="tespan">{{difficulty}} PH/S</span>
       </div>
       <div class="fromone">
         <label>每天每T收益</label>
@@ -52,7 +56,7 @@
       <div class="fromone">
         <label>电费</label>
         <div class="rightblock">
-            <input type="text" value="message5" class="cover cover1" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input5" v-model="message5"/>
+            <input type="text" value="ElectricCharge" class="cover cover1" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input5" v-model="ElectricCharge"/>
             <span>¥/KWh</span>
         </div>
         <span class="biao block5">请输入单台矿机价格</span>
@@ -60,7 +64,7 @@
       <div class="fromone">
         <label>币价</label>
         <div class="rightblock">
-            <input type="text" value="message6" class="cover cover1" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input6" v-model="message6"/>
+            <input type="text" value="CoinPrice" class="cover cover1" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')" onblur="this.value=this.value.replace(/[^\d\.]/g,'')" id="input6" v-model="CoinPrice"/>
             <span>¥/BTC</span>
         </div>
         <span class="biao block6">请输入单台矿机价格</span>
@@ -81,67 +85,64 @@
      <div class="total">
          <p>
             <span class="p_left">总利润</span>
-            <span class="p_right">{{typebi}} {{((((message8 * message6 * message3) - ((message4 / 1000) * 24 * message2)) * timeall)).toFixed(2)}}</span>
+            <span class="p_right">{{typebi}} {{((((message8 * CoinPrice * MillWorkforce) - ((MillPower / 1000) * 24 * MillNumber)) * timeall)).toFixed(2)}}</span>
          </p>
          <p>
             <span class="p_left">总收入</span>
-            <span class="p_right">{{typebi}} {{(((message8 * message6 * message3)) * timeall).toFixed(2)}}</span>
+            <span class="p_right">{{typebi}} {{(((message8 * CoinPrice * MillWorkforce)) * timeall).toFixed(2)}}</span>
          </p>
          <p>
             <span class="p_left">总电费</span>
-            <span class="p_right">{{typebi}} {{((message4 / 1000) * 24 * message2 * timeall).toFixed(2)}}</span>
+            <span class="p_right">{{typebi}} {{((MillPower / 1000) * 24 * MillNumber * timeall).toFixed(2)}}</span>
          </p>
          <p>
             <span class="p_left">总矿机成本</span>
-            <span class="p_right">{{typebi}} {{message1 * message2}}</span>
+            <span class="p_right">{{typebi}} {{IndividualMillPrice * MillNumber}}</span>
          </p>
          <p>
             <span class="p_left">每T价格</span>
-            <span class="p_right">{{typebi}} {{(message1 / message3).toFixed(2)}}</span>
+            <span class="p_right">{{typebi}} {{(IndividualMillPrice / MillWorkforce).toFixed(2)}}</span>
          </p>
          <p>
             <span class="p_left">投资回报率</span>
-            <span class="p_right">{{(((((message8 * message6 * message3) - ((message4 / 1000) * 24 * message2)) * timeall)) / (message1 * message2)).toFixed(2)}} %</span>
+            <span class="p_right">{{(((((message8 * CoinPrice * MillWorkforce) - ((MillPower / 1000) * 24 * MillNumber)) * timeall)) / (IndividualMillPrice * MillNumber)).toFixed(2)}} %</span>
          </p>
          <p>
             <span class="p_left">当前每日收入</span>
-            <span class="p_right">{{typebi}} {{(message8 * message6 * message3).toFixed(2)}}</span>
+            <span class="p_right">{{typebi}} {{(message8 * CoinPrice * MillWorkforce).toFixed(2)}}</span>
          </p>
          <p>
             <span class="p_left">当前每日电费</span>
-            <span class="p_right">{{typebi}} {{((message4 / 1000) * 24 * message2).toFixed(2)}}</span>
+            <span class="p_right">{{typebi}} {{((MillPower / 1000) * 24 * MillNumber).toFixed(2)}}</span>
          </p>
          <p>
             <span class="p_left">当前每日利润</span>
-            <span class="p_right">{{typebi}} {{((message8 * message6 * message3) - ((message4 / 1000) * 24 * message2)).toFixed(2)}}</span>
+            <span class="p_right">{{typebi}} {{((message8 * CoinPrice * MillWorkforce) - ((MillPower / 1000) * 24 * MillNumber)).toFixed(2)}}</span>
          </p>
      </div>
   </div>
 </template>
 
 <script>
+  import util from '@/util/index'
+  import api from '@/util/function'
   export default {
     data () {
       return {
-        message1: '10000',
-        message2: '1',
-        message3: '9',
-        message4: '1300',
-        message5: '0.32',
-        message6: '71000',
+        IndividualMillPrice: '10000',
+        MillNumber: '1',
+        MillWorkforce: '9',
+        MillPower: '1300',
+        ElectricCharge: '0.32',
+        CoinPrice: '71000',
         message7: '0.33',
-        message8: '0.00018668',
+        message8: '',
         typebi: '¥',
+        difficulty: '',
         totallist: [{title: '总利润', prev: '¥'}, {title: '总收入', prev: '¥'}, {title: '总电费', prev: '¥'}, {title: '总矿机成本', prev: '¥'}, {title: '每T价格', prev: '¥'}, {title: '投资回报率', next: '%'}, {title: '当前每日收入', prev: '¥'}, {title: '当前每日电费', prev: '¥'}, {title: '当前每日利润', prev: '¥'}],
         value3: [new Date(), new Date(new Date().getTime() + 24 * 60 * 60 * 1000)],
         option: [{name: 'CNY - ¥'}, {name: 'USD - $'}],
-        timeall: '',
-        dayprice: '',
-        daydian: '',
-        dayxian: '',
-        allxian: '',
-        allprice: '',
-        alldian: ''
+        timeall: ''
       }
     },
     methods: {
@@ -167,6 +168,15 @@
       }
     },
     mounted () {
+      var self = this
+      util.post('showDifficulty', {sign: api.serialize({token: 0})}).then(function (res) {
+        api.checkAjax(self, res, () => {
+          self.difficulty = (res.difficulty.replace(/,/g, '') * 7.158 * 0.001 / 1000000).toFixed(0)
+          self.message8 = ((1000 / self.difficulty * 7.158 * 0.001) * 1800).toFixed(5)
+        })
+      }).catch(res => {
+        console.log(res)
+      })
       var time = document.getElementsByClassName('el-range-input')[0].value
       var time1 = document.getElementsByClassName('el-range-input')[1].value
       var d1 = new Date(time)
