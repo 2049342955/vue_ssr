@@ -13,7 +13,7 @@
         <div class="transaction_left">
           <h2>
             <template v-if="n.status===2">
-              <span>【求购】</span>
+              <span class="gray">【求购】</span>
             </template>
             <template v-else-if="n.status===1">
               <span>【出售】</span>
@@ -196,6 +196,10 @@
                   margin-bottom: 7px;
                   span{
                       color: #fe5039;
+                      margin-right: 12px;
+                  }
+                  .gray{
+                    color: #327fff;
                       margin-right: 12px;
                   }
               }
