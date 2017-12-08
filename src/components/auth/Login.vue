@@ -39,6 +39,9 @@
         form: [{name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: 'tel'}, {name: 'password', type: 'password', title: '登录密码', placeholder: '请输入您的登录密码', pattern: 'password'}]
       }
     },
+    title () {
+      return this.$route.name
+    },
     methods: {
       login () {
         var form = document.querySelector('.form')

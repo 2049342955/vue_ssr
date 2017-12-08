@@ -98,6 +98,9 @@
         str: '验证码'
       }
     },
+    title () {
+      return this.$route.name
+    },
     methods: {
       submit () {
         let self = this

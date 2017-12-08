@@ -173,6 +173,9 @@
         show: false
       }
     },
+    title () {
+      return this.$route.name
+    },
     methods: {
       regist () {
         var form = document.querySelector('.regist')

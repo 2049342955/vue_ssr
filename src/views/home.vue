@@ -105,6 +105,9 @@
         data: [1, 1, 1]
       }
     },
+    title () {
+      return this.$route.name
+    },
     methods: {
       setData (n) {
         this.dataSrc = n

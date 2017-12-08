@@ -4,10 +4,12 @@ import { createRouter } from './router'
 import { createStore } from './store'
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
+import titleMixin from './util/title'
 import ElementUI from 'element-ui'
 // import { sync } from 'vuex-router-sync'
 
 Vue.config.productionTip = false
+Vue.mixin(titleMixin)
 Vue.use(MintUI)
 Vue.use(ElementUI)
 
