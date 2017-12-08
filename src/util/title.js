@@ -21,16 +21,4 @@ const serverTitleMixin = {
   }
 }
 
-const clientTitleMixin = {
-  mounted () {
-    const title = getTitle(this)
-    if (title) {
-      document.title = `Vue HN 2.0 | ${title}`
-    }
-  }
-}
-
-export default clientTitleMixin
-  /*export default process.env.VUE_ENV === 'server'
-  ? serverTitleMixin
-  : clientTitleMixin*/
+export default serverTitleMixin

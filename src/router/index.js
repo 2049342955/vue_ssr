@@ -97,6 +97,7 @@
         }]
       }, {
         path: '/bdc',
+        name: 'bdc',
         component: Bdc
       }, {
         path: '/minerShop',
