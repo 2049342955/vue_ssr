@@ -11,15 +11,17 @@
     <div class="home_compute_news">
       <h3 class="home_title">算力资讯</h3>
       <div class="compute_items">
-        <div class="item" v-for="n,k in newsNav">
-          <div class="text">
-            <p>{{n.title}}</p>
-            <p>{{n.desc}}</p>
+        <router-link to="/quickNews/list">
+          <div class="item" v-for="n,k in newsNav">
+            <div class="text">
+              <p>{{n.title}}</p>
+              <p>{{n.desc}}</p>
+            </div>
+            <div class="item_img">
+              <img :src="require('@/assets/images/mobile/news'+(k+1)+'.png')" alt="">
+            </div>
           </div>
-          <div class="item_img">
-            <img :src="require('@/assets/images/mobile/news'+(k+1)+'.png')" alt="">
-          </div>
-        </div>
+        </router-link>
       </div>
     </div>
     <div class="home_compute_loan">

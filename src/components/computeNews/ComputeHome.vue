@@ -58,18 +58,22 @@
         <router-link to="/transaction">了解更多 ></router-link>
       </h4>
       <div class="cominfor_infoleft">
-        <p v-for="n,k in infoleft" class="infoleft_p">
-          <span class="status">【出售】</span>
-          <span class="title">{{n.title}}</span>
-          <span class="time">{{n.created_time}}</span>
-        </p>
+        <router-link to="/transaction">
+          <p v-for="n,k in infoleft" class="infoleft_p">
+            <span class="status">【出售】</span>
+            <span class="title">{{n.title}}</span>
+            <span class="time">{{n.created_time}}</span>
+          </p>
+        </router-link>
       </div>
       <div class="cominfor_inforight">
-        <p v-for="n,k in inforight" class="inforight_p">
-          <span class="status">【求购】</span>
-          <span class="title">{{n.title}}</span>
-          <span class="time">{{n.created_time}}</span>
-        </p>
+        <router-link to="/transaction">
+          <p v-for="n,k in inforight" class="inforight_p">
+            <span class="status">【求购】</span>
+            <span class="title">{{n.title}}</span>
+            <span class="time">{{n.created_time}}</span>
+          </p>
+        </router-link>
       </div>
     </div>
     <div class="cominfor_she">
@@ -118,7 +122,7 @@
       <h4>
         <p class="title">挖矿币种</p>
         <p class="text">虚拟数字货币百科</p>
-        <router-link to="/digitalCurrency/list">了解更多 ></router-link>
+        <router-link to="/currency">了解更多 ></router-link>
       </h4>
       <table border="0"  class="covertable" style="margin:0;">
         <thead>

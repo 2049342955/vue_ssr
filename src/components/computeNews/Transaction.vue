@@ -258,6 +258,10 @@
                   margin-top: 18px;
               }
           }
+          &:hover{
+            background: #f6f7fb;
+            cursor: pointer;
+          }
       }
     }
   }

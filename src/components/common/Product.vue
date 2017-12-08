@@ -834,6 +834,17 @@
       }
     }
     .mobile_box{
+      .img{
+        width: 100%;
+        height: 8.5rem;
+        padding:0.5rem;
+        text-align: center;
+        padding-top: 1.5rem;
+        background: white;
+        img{
+          width: 80%;
+        }
+      }
       .first_box,.product_desc,.mobile_btn{
         background: #fff;
         padding: 15px;

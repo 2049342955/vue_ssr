@@ -4,7 +4,9 @@
     <div class="mobile_listdata">
       <div class="mobile_list_box">
         <div v-for="d,i in list" @click="goPay(d.product_id||d.id)" :key="i" class="mobile_lists">
-          <img :src="d.minerPicture"/>
+          <div class="imgposition">
+            <img :src="d.minerPicture"/>
+          </div>
           <h3>{{d.name}}</h3>
           <h4><b>¥ {{d.one_amount_value}}</b><span class="icon iconfont icon-jinrong"></span></h4>
         </div>
@@ -107,10 +109,15 @@
         border:1px solid #dddddd;
         border-left: 0;
         float: left;
-        img{
+        .imgposition{
           width: 100%;
           height: 3.8rem;
-          object-fit: cover;
+          text-align: center;
+          img{
+            width: 75%;
+            height: 3rem;
+            margin-top: 0.5rem;
+          }
         }
         h3{
           width: 100%;

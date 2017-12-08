@@ -55,7 +55,7 @@
     </CloudMinerList>
     <div class="miner_loan">
       <div class="loan_center">
-        <h1>算力白条</h1>
+        <h1>算力分期</h1>
         <p><span>快</span>先挖矿,随心分期，行业创新典范</p>
         <p><span>惠</span>最长享有180天的分期付款</p>
       </div>
@@ -293,7 +293,7 @@
       }
     }
     .millsList{
-      padding-top: 120px;
+      padding-top: 80px;
       @include mobile_hide
     }
     .product_list{
