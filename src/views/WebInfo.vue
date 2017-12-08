@@ -19,7 +19,7 @@
         no: 0
       }
     },
-    created () {
+    mounted () {
       this.judge()
     },
     watch: {

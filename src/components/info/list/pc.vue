@@ -77,7 +77,7 @@
         })
       }
     },
-    created () {
+    mounted () {
       this.getList()
     },
     watch: {

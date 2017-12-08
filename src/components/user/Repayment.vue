@@ -10,48 +10,52 @@
     </div>
     <div class="order_box">
       <table style="margin-top:0;">
-        <tr>
-          <th>算力服务器</th>
-          <template v-if="$route.params.status==='0'">
-            <th>分期金额</th>
-            <th>手续费率</th>
-            <th>分期期限</th>
-            <th>已还期数</th>
-            <th>分期时间</th>
-          </template>
-          <template v-else>
-            <th>分期金额</th>
-            <th>手续费率</th>
-            <th>分期期限</th>
-            <th>已还期数</th>
-            <th>分期时间</th>
-          </template>
-          <th>操作</th>
-        </tr>
-        <tr v-for="d,k in item">
-          <template v-if="status==='0'">
-            <td>{{d.product_name}}<i :class="'icon_currency '+d.product_hash_type"></i></td>
-            <td>{{d.loan_money}}</td>
-            <td>{{d.fee_value * 100}}%</td>
-            <td>{{d.loan_deadline}}</td>
-            <td>{{d.complete_number}}</td>
-            <td>{{d.loan_start_time}}</td>
-            <td>
-              <router-link :to="'/user/repaymentDetail/'+d.id" class="blue">查看详情</router-link>
-            </td>
-          </template>
-          <template v-if="status==='1'">
-            <td>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
-            <td>{{d.loan_money}}</td>
-            <td>{{d.fee_value}}%</td>
-            <td>{{d.loan_deadline}}</td>
-            <td>{{d.complete_number}}</td>
-            <td>{{d.loan_start_time}}</td>
-            <td>
-              <router-link :to="'/user/repaymentDetail/'+d.id" class="blue">查看详情</router-link>
-            </td>
-          </template>
-        </tr>
+        <thead>
+          <tr>
+            <th>算力服务器</th>
+            <template v-if="$route.params.status==='0'">
+              <th>分期金额</th>
+              <th>手续费率</th>
+              <th>分期期限</th>
+              <th>已还期数</th>
+              <th>分期时间</th>
+            </template>
+            <template v-else>
+              <th>分期金额</th>
+              <th>手续费率</th>
+              <th>分期期限</th>
+              <th>已还期数</th>
+              <th>分期时间</th>
+            </template>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="d,k in item">
+            <template v-if="status==='0'">
+              <td>{{d.product_name}}<i :class="'icon_currency '+d.product_hash_type"></i></td>
+              <td>{{d.loan_money}}</td>
+              <td>{{d.fee_value * 100}}%</td>
+              <td>{{d.loan_deadline}}</td>
+              <td>{{d.complete_number}}</td>
+              <td>{{d.loan_start_time}}</td>
+              <td>
+                <router-link :to="'/user/repaymentDetail/'+d.id" class="blue">查看详情</router-link>
+              </td>
+            </template>
+            <template v-if="status==='1'">
+              <td>{{d.product_name}}<i :class="'icon_currency '+d.hash_type_name"></i></td>
+              <td>{{d.loan_money}}</td>
+              <td>{{d.fee_value}}%</td>
+              <td>{{d.loan_deadline}}</td>
+              <td>{{d.complete_number}}</td>
+              <td>{{d.loan_start_time}}</td>
+              <td>
+                <router-link :to="'/user/repaymentDetail/'+d.id" class="blue">查看详情</router-link>
+              </td>
+            </template>
+          </tr>
+        </tbody>
       </table>
       <div class="nodata" v-if="showImg">
         <div class="nodata_img"></div>

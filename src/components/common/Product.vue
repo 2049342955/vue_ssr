@@ -119,10 +119,12 @@
               <div class="content_con" v-html="$parent.detail[d.name]" v-if="d.name!=='MinerAdvantage'"></div>
               <div class="params_table" v-else>
                 <table border="1" cellspacing="0">
-                  <tr v-for="p,k in params">
-                    <td>{{p}}</td>
-                    <td>{{($parent.detail.miner_list&&$parent.detail.miner_list[k])||$parent.detail[k]}}</td>
-                  </tr>
+                  <tbody>
+                    <tr v-for="p,k in params">
+                      <td>{{p}}</td>
+                      <td>{{($parent.detail.miner_list&&$parent.detail.miner_list[k])||$parent.detail[k]}}</td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </div>
@@ -191,10 +193,12 @@
               <div class="content_conmobile" v-html="$parent.detail[d.name]" v-if="d.name!=='MinerAdvantage'"></div>
               <div class="params_tablemobile" v-else>
                 <table border="1" cellspacing="0">
-                  <tr v-for="p,k in $parent.params">
-                    <td>{{p}}</td>
-                    <td>{{($parent.detail.miner_list&&$parent.detail.miner_list[k])||$parent.detail[k]}}</td>
-                  </tr>
+                  <tbody>
+                    <tr v-for="p,k in $parent.params">
+                      <td>{{p}}</td>
+                      <td>{{($parent.detail.miner_list&&$parent.detail.miner_list[k])||$parent.detail[k]}}</td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </div>

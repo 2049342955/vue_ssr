@@ -80,7 +80,7 @@
         isMobile: state => state.isMobile
       })
     },
-    created () {
+    mounted () {
       var self = this
       util.post('friendlinkList', {sign: 'token=0'}).then(function (res) {
         self.partner = res

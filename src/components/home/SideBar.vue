@@ -31,7 +31,7 @@
         timer: null
       }
     },
-    created () {
+    mounted () {
       window.addEventListener('scroll', this.test, false)
     },
     methods: {

@@ -27,12 +27,16 @@
     <div class="detail_table">
       <Sort :sort="sort" page="virtualCurrencyFlow"></Sort>
       <table>
-        <tr>
-          <th v-for="n in nav">{{n}}</th>
-        </tr>
-        <tr v-for="l in list">
-          <td v-for="v,k in nav">{{l[k]}}</td>
-        </tr>
+        <thead>
+          <tr>
+            <th v-for="n in nav">{{n}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="l in list">
+            <td v-for="v,k in nav">{{l[k]}}</td>
+          </tr>
+        </tbody>
       </table>
       <Pager :len="len"></Pager>
       <div class="nodata" v-if="showImg">

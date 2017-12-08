@@ -79,61 +79,30 @@
     }, {
       path: '/',
       name: 'home',
-      component: Home,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '算力网-比特币挖矿算力托管服务一站式平台'
-        document.title = to.meta.title || '算力网-比特币挖矿算力托管服务一站式平台'
-        document.querySelector('meta[name="keywords"]').setAttribute('content', '算力网-比特币挖矿算力托管服务一站式平台')
-        document.querySelector('meta[name="description"]').setAttribute('content', '算力网（www.suanli.com）是比特币挖矿一站式服务平台，拥有专业的挖矿及运营团队，目前拥有矿机托管，矿场投资，算力出售，算力转让等业务，切实为比特币挖矿爱好者提供一站式贴心服务。')
-        next()
-      }
+      component: Home
     }, {
       path: '/auth',
       component: Auth,
       children: [{
         path: 'login',
         name: 'login',
-        component: Login,
-        beforeEnter: (to, from, next) => {
-          document.querySelector('title').innerHTML = '登录'
-          next()
-        }
+        component: Login
       }, {
         path: 'regist',
         name: 'regist',
-        component: Regist,
-        beforeEnter: (to, from, next) => {
-          document.querySelector('title').innerHTML = '注册'
-          next()
-        }
+        component: Regist
       }, {
         path: 'passwordRetrieval',
         name: 'passwordRetrieval',
-        component: PasswordRetrieval,
-        beforeEnter: (to, from, next) => {
-          document.querySelector('title').innerHTML = '找回密码'
-          next()
-        }
+        component: PasswordRetrieval
       }]
     }, {
       path: '/bdc',
       name: 'Bdc',
-      component: Bdc,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '比特币矿机托管-国电输出,持久稳定,电力便宜-算力网'
-        document.querySelector('meta[name="keywords"]').setAttribute('content', '比特币矿机托管-国电输出,持久稳定,电力便宜-算力网')
-        document.querySelector('meta[name="description"]').setAttribute('content', '算力网矿机托管服务，承接各种比特币矿机托管业务，20万千瓦国家电网，持久稳定，专业挖矿技术24小时维护，保障用户挖矿收益')
-        next()
-      }
+      component: Bdc
     }, {
       path: '/minerShop',
       component: minerShop,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '比特币云矿机-价格最低的云矿机产品大全－算力网'
-        document.querySelector('meta[name="keywords"]').setAttribute('content', '比特币云矿机-价格最低的云矿机产品大全－算力网')
-        document.querySelector('meta[name="description"]').setAttribute('content', '算力网云矿机商城，汇集目前主流比特币云矿机产品，包括阿瓦隆7云矿机，S9云矿机以及E9矿机云算力产品，为比特币挖矿爱好者提供比特币云矿机购买服务。')
-        next()
-      },
       children: [{
         path: 'list',
         name: 'minerList',
@@ -153,19 +122,11 @@
       }, {
         path: 'activity',
         name: 'activity',
-        component: Activity,
-        beforeEnter: (to, from, next) => {
-          document.querySelector('title').innerHTML = '全新E9+ 限时秒杀'
-          next()
-        }
+        component: Activity
       }]
     }, {
       path: '/compute',
       component: compute,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '算力转让区'
-        next()
-      },
       children: [{
         path: 'list/:type/:sort',
         name: 'computeList',
@@ -178,15 +139,6 @@
     }, {
       path: '/user',
       component: User,
-      beforeEnter: (to, from, next) => {
-        var data = localStorage.getItem('info')
-        if (!data) {
-          next({ name: 'login' })
-        } else {
-          document.querySelector('title').innerHTML = '个人中心'
-          next()
-        }
-      },
       children: [{
         path: 'lpCenter',
         name: 'lpCenter',
@@ -262,28 +214,15 @@
       children: [{
         path: 'issues',
         name: 'issues',
-        component: Issues,
-        beforeEnter: (to, from, next) => {
-          document.querySelector('title').innerHTML = '常见问题'
-          next()
-        }
+        component: Issues
       }, {
         path: 'issuesDetail/:id',
         name: 'issuesDetail',
-        component: IssuesDetail,
-        beforeEnter: (to, from, next) => {
-          document.querySelector('title').innerHTML = '问题详情'
-          next()
-        }
+        component: IssuesDetail
       }, {
         path: 'list/:type',
         name: 'webInfoList',
-        component: WebInfoList,
-        beforeEnter: (to, from, next) => {
-          document.querySelector('title').innerHTML = '算力新闻_比特币资讯－算力网'
-          document.querySelector('meta[name="description"]').setAttribute('content', '算力网（www.suanli.com)产业新闻栏目，为你提供各种算力产业资讯，比特币新闻，行业动态，关注算力网，开启你的挖矿之旅')
-          next()
-        }
+        component: WebInfoList
       }, {
         path: 'detail/:id',
         name: 'webInfoDetail',
@@ -291,12 +230,7 @@
       }, {
         path: 'aboutUs',
         name: 'aboutUs',
-        component: AboutUs,
-        beforeEnter: (to, from, next) => {
-          document.querySelector('title').innerHTML = '关于我们'
-          document.querySelector('meta[name="description"]').setAttribute('content', '算力网（www.suanLi.com）是由浙江数秦科技有限公司开发的云算力租赁及云矿机托管一站式服务平台，公司成立于2017年，由浙江数秦科技有限公司及多家上市公司、独立基金共同打造，并由浙江数秦科技有限公司独立运营，目前算力网以矿机托管，云矿机出售，云算力租赁为主营业务。算力网支持各大主流比特币矿机，例如A7，S9，E9等，连接全球最大比特币矿机生产商、矿池等资源，让用户通过网络即可实现远程挖矿，体验科技的同时享受算力产生的比特币。')
-          next()
-        }
+        component: AboutUs
       }]
     }, {
       path: '/mobile',
@@ -334,15 +268,7 @@
       {
         path: 'personcenter',
         name: 'mpersoncenter',
-        component: Mpersoncenter,
-        beforeEnter: (to, from, next) => {
-          var data = localStorage.getItem('info')
-          if (!data) {
-            next({ name: 'login' })
-          } else {
-            next()
-          }
-        }
+        component: Mpersoncenter
       },
       {
         path: 'notice',
@@ -367,15 +293,7 @@
       {
         path: 'property',
         name: 'mproperty',
-        component: Mproperty,
-        beforeEnter: (to, from, next) => {
-          var data = localStorage.getItem('info')
-          if (!data) {
-            next({ name: 'login' })
-          } else {
-            next()
-          }
-        }
+        component: Mproperty
       },
       {
         path: 'moneyFlow',
@@ -393,35 +311,18 @@
       }]
     }, {
       path: '/industryInformation',
-      component: ComputeHome,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '产业资讯'
-        next()
-      }
+      component: ComputeHome
     }, {
       path: '/currency',
-      component: Currency,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '挖矿币种'
-        next()
-      }
+      component: Currency
     }, {
       path: '/computeNews',
       name: 'computeNews',
       component: ComputeNews,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '算力资讯'
-        next()
-      },
       children: [{
         path: 'list',
         name: 'computeNewsList',
-        component: WebInfoList,
-        beforeEnter: (to, from, next) => {
-          document.querySelector('title').innerHTML = '算力新闻_比特币资讯－算力网'
-          document.querySelector('meta[name="description"]').setAttribute('content', '算力网（www.suanli.com)产业新闻栏目，为你提供各种算力产业资讯，比特币新闻，行业动态，关注算力网，开启你的挖矿之旅')
-          next()
-        }
+        component: WebInfoList
       }, {
         path: 'detail/:id',
         name: 'computeNewsDetail',
@@ -430,10 +331,6 @@
     }, {
       path: '/quickNews',
       component: ComputeNews,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '快报'
-        next()
-      },
       children: [{
         path: 'list',
         name: 'quickNewsList',
@@ -445,18 +342,10 @@
       }]
     }, {
       path: '/transaction',
-      component: Transaction,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '交易信息'
-        next()
-      }
+      component: Transaction
     }, {
       path: '/equipments',
       component: ComputeNews,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '设备博物馆'
-        next()
-      },
       children: [{
         path: 'list',
         name: 'minerMuseum',
@@ -469,10 +358,6 @@
     }, {
       path: '/equipmentEvaluate',
       component: ComputeNews,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '设备测评'
-        next()
-      },
       children: [{
         path: 'list',
         name: 'equipmentEvaluate',
@@ -485,10 +370,6 @@
     }, {
       path: '/manufacturer',
       component: ComputeNews,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '厂商'
-        next()
-      },
       children: [{
         path: 'list',
         name: 'manufacturer',
@@ -501,10 +382,6 @@
     }, {
       path: '/digitalCurrency',
       component: ComputeNews,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '数字货币'
-        next()
-      },
       children: [{
         path: 'list',
         name: 'digitalCurrency',
@@ -517,10 +394,6 @@
     }, {
       path: '/miner',
       component: ComputeNews,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '矿场相册'
-        next()
-      },
       children: [{
         path: 'list',
         name: 'minerPhotoList',
@@ -533,10 +406,6 @@
     }, {
       path: '/computeChart',
       component: ComputeNews,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '算力历史增长曲线'
-        next()
-      },
       children: [{
         path: 'list',
         name: 'computeChartList',

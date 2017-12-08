@@ -22,16 +22,20 @@
       <div class="detail_table">
         <Sort :sort="sort" page="moneyFlow"></Sort>
         <table>
-          <tr>
-            <th v-for="n in nav">{{n}}</th>
-          </tr>
-          <tr v-for="l in list">
-            <td v-for="v,k in nav">
-              <template v-if="k==='value'">{{l[k]|currency(2,1)}}元</template>
-              <template v-else-if="k==='status'">{{l[k]==2&&'成功'}}</template>
-              <template v-else>{{l[k]}}</template>
-            </td>
-          </tr>
+          <thead>
+            <tr>
+              <th v-for="n in nav">{{n}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="l in list">
+              <td v-for="v,k in nav">
+                <template v-if="k==='value'">{{l[k]|currency(2,1)}}元</template>
+                <template v-else-if="k==='status'">{{l[k]==2&&'成功'}}</template>
+                <template v-else>{{l[k]}}</template>
+              </td>
+            </tr>
+          </tbody>
         </table>
         <div class="nodata" v-if="show">
           <div class="nodata_img"></div>

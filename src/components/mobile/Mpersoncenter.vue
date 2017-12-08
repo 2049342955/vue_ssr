@@ -170,6 +170,11 @@
       }
     },
     mounted () {
+      var data = localStorage.getItem('info')
+      if (!data) {
+        this.$router.replace({ name: 'login' })
+        return false
+      }
       var self = this
       util.post('myAccount', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
         api.checkAjax(self, res, () => {

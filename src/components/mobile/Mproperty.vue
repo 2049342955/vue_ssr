@@ -172,6 +172,11 @@
       }
     },
     mounted () {
+      var data = localStorage.getItem('info')
+      if (!data) {
+        this.$router.replace({ name: 'login' })
+        return false
+      }
       this.getList()
     },
     computed: {
