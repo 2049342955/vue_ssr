@@ -56,6 +56,7 @@
   import MinerMuseum from '@/components/ComputeNews/MinerMuseum'
   import EquipmentEvaluate from '@/components/ComputeNews/equipmentEvaluate/index'
   import Manufacturer from '@/components/ComputeNews/manufacturer/index'
+  import DigitalCurrency from '@/components/ComputeNews/digitalCurrency/index'
   import Chart from '@/components/ComputeNews/Chart'
 // mobile
   import Mobile from '@/views/Mobile'
@@ -337,6 +338,22 @@
         path: 'list',
         name: 'quickNewsList',
         component: NewsFlash
+      }]
+    }, {
+      path: '/digitalCurrency',
+      component: ComputeNews,
+      beforeEnter: (to, from, next) => {
+        document.querySelector('title').innerHTML = '数字货币'
+        next()
+      },
+      children: [{
+        path: 'list',
+        name: 'digitalCurrency',
+        component: DigitalCurrency
+      }, {
+        path: 'detail/:id',
+        name: 'digitalCurrencyDetail',
+        component: WebInfoDetail
       }]
     }, {
       path: '/equipments',
