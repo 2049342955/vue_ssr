@@ -117,6 +117,7 @@
       }]
     }, {
       path: '/bdc',
+      name: 'Bdc',
       component: Bdc,
       beforeEnter: (to, from, next) => {
         document.querySelector('title').innerHTML = '比特币矿机托管-国电输出,持久稳定,电力便宜-算力网'

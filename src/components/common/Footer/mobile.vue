@@ -38,16 +38,17 @@
 
         .item {
           @include flex(center, center, column);
+          height: 50px;
 
           .name {
             color: #666;
-            font-size: 14px;
+            font-size: 11px;
           }
 
           .iconfont {
-            font-size: 25px;
+            font-size: 20px;
             position: relative;
-            top: 10px;
+            top: 7px;
           }
         }
 

@@ -1,15 +1,21 @@
 <template>
   <header id="header" class="mobile-header" :class="headerClass"
   :disabled="$route.name==='notFound'" v-if="showRouter.includes($route.name)">
-    <!-- <div class="left" v-if="mobile !== ''">
+    <div class="left" v-if="token === 0">
       <router-link to="/auth/regist">注册</router-link>
       <span>|</span>
       <router-link to="/auth/login">登录</router-link>
     </div>
     <div v-else class="left">
-      <i class="iconfont icon-customer-service"></i>
-    </div> -->
-    <img class="logo" :src="require('@/assets/images/mobile/logo.png')">
+      <router-link to="/mobile/personcenter">
+        <img :src="require('@/assets/images/mobile/user.png')">
+      </router-link>
+    </div>
+    <div class="logo">
+      <router-link to="/">
+        <img :src="require('@/assets/images/mobile/logo.png')">
+      </router-link>
+    </div>
   </header>
 </template>
 
@@ -22,7 +28,7 @@
         article: {
           title: 'Blockchain Data Center'
         },
-        showRouter: ['home']
+        showRouter: ['home', 'Bdc']
       }
     },
     mounted () {
@@ -42,7 +48,7 @@
     },
     computed: {
       ...mapState({
-        mobile: state => state.info.mobile
+        token: state => state.info.token
       })
     }
   }
@@ -70,6 +76,10 @@
 
       i {
         font-size: 20px;
+      }
+
+      img {
+        width: 25px;
       }
     }
 
