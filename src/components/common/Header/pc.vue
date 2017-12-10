@@ -38,7 +38,6 @@
 
 <script>
   import api from '@/util/function'
-  import util from '@/util'
   import { mapState } from 'vuex'
   import MobileHeader from './mobile'
   import PcHeader from './pc'
@@ -55,25 +54,6 @@
     },
     mounted () {
       this.updateClass()
-      window.addEventListener('scroll', this.test, false)
-      if (this.token === 0) {
-        this.$store.dispatch('getInfo')
-      }
-      var self = this
-      util.post('getAll', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.$store.commit('SET_INFO', res)
-        })
-      }).catch(res => {
-        console.log(res)
-      })
-      util.post('getCurrencys', {sign: api.serialize({token: this.token})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.$store.commit('SET_HASH_TYPE', res)
-        })
-      }).catch(res => {
-        console.log(res)
-      })
     },
     computed: {
       ...mapState({

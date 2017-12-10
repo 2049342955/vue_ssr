@@ -44,7 +44,7 @@
     </div>
     <div class="cominfor_news">
       <router-link to="/quickNews/list">
-        <img src="../../assets/images/information7.png"/>
+        <img :src="require('@/assets/images/information7.png')"/>
       </router-link>
       <div class="scroll">
         <router-link to="/computeChart/list">【全网算力】<b>{{qwsl.hashrate}}PH/s</b>&nbsp;&nbsp;&nbsp;&nbsp;【全网困难度】<b>{{qwsl.difficulty}}T</b></router-link>
@@ -290,7 +290,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '../../assets/css/style.scss';
+  @import '../assets/css/style.scss';
   .cominfor{
     width: 100%;
     height: 100%;
@@ -346,7 +346,7 @@
     .cominfor_header{
       width: 100%;
       height: 490px;
-      background-image: url('../../assets/images/information.png');
+      background-image: url('../assets/images/information.png');
       overflow: hidden;
       background-size: 100% 100%;
       object-fit: cover;
@@ -358,14 +358,14 @@
           width: 300px;
           height: 400px;
           float: left;
-          background-image: url('../../assets/images/information1.png');
+          background-image: url('../assets/images/information1.png');
           margin-right: 4px;
           position: relative;
           .red{
             position: absolute;
             width: 296px;
             height: 170px;
-            background-image: url('../../assets/images/red.png');
+            background-image: url('../assets/images/red.png');
             background-size: 100% 100%;
             left: -15px;
             top:-13px;
@@ -748,7 +748,7 @@
         box-shadow: #d2d4db 0 0 20px;
         padding:30px 44px 0px 44px;
         margin-bottom: 25px;
-        background-image: url('../../assets/images/tabletop.png');
+        background-image: url('../assets/images/tabletop.png');
         background-size: 100% 100%;
         h4{
             width: 100%;
@@ -968,7 +968,7 @@
         padding:30px 44px 0px 44px;
         margin-bottom: 25px;
         padding-bottom: 58px;
-        background-image: url('../../assets/images/table.png');
+        background-image: url('../assets/images/table.png');
         background-size: 100% 100%;
         h4{
             width: 100%;
@@ -1083,7 +1083,7 @@
                 width: 350px;
                 height: 202px;
                 float: left;
-                background-image: url('../../assets/images/tablebottom.png');
+                background-image: url('../assets/images/tablebottom.png');
                 background-size: 100% 100%;
                 text-align: center;
                 color: white;

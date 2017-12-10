@@ -1,42 +1,47 @@
 <template>
-  <div class="chart">
-    <!-- <div class="text">
-      <div class="select_coin">
-        <div class="now">
-          <div :class="'icon_currency '+coin[no].title"></div>
-          <span class="text" title="0">{{coin[no].title}}</span>
-          <span class="arrow"></span>
-        </div>
-        <div class="other">
-          <div :class="['item', {active: k==no}]" v-for="c,k in coin">
-            <div :class="'icon_currency '+coin[k].title"></div>
-            <span class="text" @click="selectCoin" :title="k">{{coin[k].title}}</span>
-            <span class="arrow" v-if="k===0"></span>
+  <pageFrame isComponent="true">
+    <div class="chart">
+      <!-- <div class="text">
+        <div class="select_coin">
+          <div class="now">
+            <div :class="'icon_currency '+coin[no].title"></div>
+            <span class="text" title="0">{{coin[no].title}}</span>
+            <span class="arrow"></span>
+          </div>
+          <div class="other">
+            <div :class="['item', {active: k==no}]" v-for="c,k in coin">
+              <div :class="'icon_currency '+coin[k].title"></div>
+              <span class="text" @click="selectCoin" :title="k">{{coin[k].title}}</span>
+              <span class="arrow" v-if="k===0"></span>
+            </div>
           </div>
         </div>
-      </div>
-      <div>全网算力：{{info.hashrate}}P</div>
-      <div>比特币价格：1btc=${{info.btc_price}} (okcoin提供)</div>
-      <div>难度调整时间：{{parseInt(info.leavetime/24)}}天{{info.leavetime%24}}小时</div>
-      <div>困难度：{{info.difficulty}}</div>
-    </div> -->
-    <div class="chart_show">
-      <div class="chart_main">
-        <div class="myChart"></div>
-        <div class="myChart2"></div>
+        <div>全网算力：{{info.hashrate}}P</div>
+        <div>比特币价格：1btc=${{info.btc_price}} (okcoin提供)</div>
+        <div>难度调整时间：{{parseInt(info.leavetime/24)}}天{{info.leavetime%24}}小时</div>
+        <div>困难度：{{info.difficulty}}</div>
+      </div> -->
+      <div class="chart_show">
+        <div class="chart_main">
+          <div class="myChart"></div>
+          <div class="myChart2"></div>
+        </div>
       </div>
     </div>
-  </div>
+  </pageFrame>
 </template>
 
 <script>
-  import api from '../../util/function'
-  import util from '../../util'
+  import api from '@/util/function'
+  import util from '@/util'
   import echarts from 'echarts/lib/echarts'
   import 'echarts/lib/chart/line'
   import 'echarts/lib/component/tooltip'
+  import pageFrame from './pageFrame'
   export default {
-    name: 'chart',
+    components: {
+      pageFrame
+    },
     data () {
       return {
         info: {btc_price: 0, hashrate: 0, leavetime: 0, difficulty: 1103400932964},

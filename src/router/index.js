@@ -10,7 +10,7 @@
   import compute from '@/views/compute'
   import User from '@/views/User'
   import WebInfo from '@/views/WebInfo'
-  import ComputeNews from '@/views/computeNews/'
+  import ComputeHome from '@/views/ComputeHome'
 // auth
   import Login from '@/components/auth/Login'
   import Regist from '@/components/auth/Regist'
@@ -49,7 +49,7 @@
   import WebInfoDetail from '@/components/info/Detail'
   import IssuesDetail from '@/components/info/IssuesDetail'
 // industryInformation
-  import ComputeHome from '@/components/ComputeNews/ComputeHome'
+  import pageFrame from '@/components/ComputeNews/pageFrame'
   import Currency from '@/components/ComputeNews/Currency'
   import NewsFlash from '@/components/ComputeNews/quickNews/index'
   import Transaction from '@/components/ComputeNews/Transaction'
@@ -108,11 +108,11 @@
         name: 'minerList',
         component: MinerList
       }, {
-        path: 'miner/:type/:sort',
+        path: 'miner/:type',
         name: 'miner',
         component: Miner
       }, {
-        path: 'detail/:id/:type',
+        path: 'detail/:id',
         name: 'minerDetail',
         component: MinerDetail
       }, {
@@ -128,11 +128,11 @@
       path: '/compute',
       component: compute,
       children: [{
-        path: 'list/:type/:sort',
+        path: 'list/:type',
         name: 'computeList',
         component: ComputeList
       }, {
-        path: 'detail/:type/:id',
+        path: 'detail/:id',
         name: 'computeDetail',
         component: ComputeDetail
       }]
@@ -160,11 +160,11 @@
         name: 'incomeChart',
         component: IncomeChart
       }, {
-        path: 'moneyFlow/:sort',
+        path: 'moneyFlow',
         name: 'moneyFlow',
         component: MoneyFlow
       }, {
-        path: 'virtualCurrencyFlow/:sort',
+        path: 'virtualCurrencyFlow',
         name: 'virtualCurrencyFlow',
         component: VirtualCurrencyFlow
       }, {
@@ -172,11 +172,11 @@
         name: 'password',
         component: Password
       }, {
-        path: 'order/:type/:status',
+        path: 'order/:type',
         name: 'order',
         component: Order
       }, {
-        path: 'orderDetail/:type/:id',
+        path: 'orderDetail/:id',
         name: 'orderDetail',
         component: OrderDetail
       }, {
@@ -321,7 +321,7 @@
     }, {
       path: '/computeNews',
       name: 'computeNews',
-      component: ComputeNews,
+      component: pageFrame,
       children: [{
         path: 'list',
         name: 'computeNewsList',
@@ -333,19 +333,11 @@
       }]
     }, {
       path: '/quickNews',
-      component: ComputeNews,
-      children: [{
-        path: 'list',
-        name: 'quickNewsList',
-        component: NewsFlash
-      }]
+      name: 'quickNews',
+      component: NewsFlash
     }, {
       path: '/digitalCurrency',
-      component: ComputeNews,
-      beforeEnter: (to, from, next) => {
-        document.querySelector('title').innerHTML = '数字货币'
-        next()
-      },
+      component: pageFrame,
       children: [{
         path: 'list',
         name: 'digitalCurrency',
@@ -357,7 +349,7 @@
       }]
     }, {
       path: '/equipments',
-      component: ComputeNews,
+      component: pageFrame,
       children: [{
         path: 'list',
         name: 'minerMuseum',
@@ -369,7 +361,7 @@
       }]
     }, {
       path: '/equipmentEvaluate',
-      component: ComputeNews,
+      component: pageFrame,
       children: [{
         path: 'list',
         name: 'equipmentEvaluate',
@@ -381,7 +373,7 @@
       }]
     }, {
       path: '/manufacturer',
-      component: ComputeNews,
+      component: pageFrame,
       children: [{
         path: 'list',
         name: 'manufacturer',
@@ -393,11 +385,7 @@
       }]
     }, {
       path: '/computeChart',
-      component: ComputeNews,
-      children: [{
-        path: 'list',
-        name: 'computeChartList',
-        component: Chart
-      }]
+      name: 'computeChart',
+      component: Chart
     }]
   })

@@ -4,7 +4,7 @@
       <h2>订单详情</h2>
       <h3>运行状况</h3>
       <div class="detail_box">
-        <div class="process" v-if="$route.params.type != '1'">
+        <div class="process" v-if="orderType != '1'">
           <div :class="['item', {active: k===processStatus}]" v-for="p,k in processText">
             <i><template v-if="k>=processStatus">{{k+1}}</template></i>
             <span>{{p}}</span>
@@ -66,7 +66,9 @@
         nav: {},
         info3: {},
         show: false,
-        contract: ''
+        contract: '',
+        orderType: '',
+        orderId: ''
       }
     },
     methods: {
@@ -74,13 +76,13 @@
         var requestUrl = ''
         var data = {}
         var self = this
-        if (this.$route.params.type === '0') {
+        if (this.orderType === '0') {
           requestUrl = 'hash_contract'
-          data = {token: this.token, order_id: this.$route.params.id}
+          data = {token: this.token, order_id: this.orderId}
         }
-        if (this.$route.params.type === '1') {
+        if (this.orderType === '1') {
           requestUrl = 'rent_contract'
-          data = {token: this.token, transfer_id: this.$route.params.id}
+          data = {token: this.token, transfer_id: this.orderId}
         }
         util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
           api.checkAjax(self, res, () => {
@@ -94,7 +96,7 @@
         })
       },
       getBaoquan (id) {
-        var data = {token: this.token, order_id: this.$route.params.id, security_hash_type: this.$route.params.type, user_id: this.user_id}
+        var data = {token: this.token, order_id: this.orderId, security_hash_type: this.orderType, user_id: this.user_id}
         var self = this
         var newTab = window.open('about:blank')
         util.post('getBaoquan', {sign: api.serialize(data)}).then(function (res) {
@@ -108,11 +110,13 @@
       }
     },
     mounted () {
+      this.orderType = this.$route.params.id.split('&')[0]
+      this.orderId = this.$route.params.id.split('&')[1]
       var self = this
-      this.nav = this.$route.params.type !== '1' ? this.type : this.computeType
-      this.info3 = this.$route.params.type !== '1' ? this.info : this.info2
-      var requestUrl = this.$route.params.type !== '1' ? 'showOrderDetail' : 'getTransferRecord'
-      var data = this.$route.params.type !== '1' ? {token: this.token, order_id: this.$route.params.id} : {token: this.token, orderid: this.$route.params.id}
+      this.nav = this.orderType !== '1' ? this.type : this.computeType
+      this.info3 = this.orderType !== '1' ? this.info : this.info2
+      var requestUrl = this.orderType !== '1' ? 'showOrderDetail' : 'getTransferRecord'
+      var data = this.orderType !== '1' ? {token: this.token, order_id: this.orderId} : {token: this.token, orderid: this.orderId}
       util.post(requestUrl, {sign: api.serialize(data)}).then(function (res) {
         api.checkAjax(self, res, () => {
           self.data = res

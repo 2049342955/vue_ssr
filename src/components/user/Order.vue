@@ -15,16 +15,16 @@
             <span class="title_now" v-else>{{title[nowEdit]}}</span>
             <div class="title_list">
               <template v-if="scode">
-                <router-link :to="'/user/order/'+k+'/1'" v-for="n,k in title2" :key="k">{{n}}</router-link>
+                <router-link :to="'/user/order/'+k" v-for="n,k in title2" :key="k">{{n}}</router-link>
               </template>
               <template v-else>
-                <router-link :to="'/user/order/'+k+'/1'" v-for="n,k in title" :key="k">{{n}}</router-link>
+                <router-link :to="'/user/order/'+k" v-for="n,k in title" :key="k">{{n}}</router-link>
               </template>
             </div>
           </div>
         </div>
         <nav>
-          <router-link :to="'/user/order/'+nowEdit+'/'+(+k+1)" v-for="n,k in nav[nowEdit]" :key="k">{{n}}</router-link>
+          <a :class="{active: status===(+k+1)}" href="javascript:;"@click="getList(+k+1)" v-for="n,k in nav[nowEdit]">{{n}}</a>
         </nav>
       </div>
       <div class="order_box">
@@ -102,7 +102,7 @@
                 <template v-if="nowEdit==2&&status==0">
                   <button @click="openMask('rent', '出租算力', d.id)" :disabled="!d.remain_hash">出租算力</button>
                 </template>
-                <router-link :to="'/user/orderDetail/'+nowEdit+'/'+d.id"  v-if="nowEdit!=3&&nowEdit!=2&&status!=2&&status!=3">查看详情</router-link>
+                <router-link :to="'/user/orderDetail/'+nowEdit+'&'+d.id"  v-if="nowEdit!=3&&nowEdit!=2&&status!=2&&status!=3">查看详情</router-link>
                 <template v-if="nowEdit==3">
                   <button class="sold" @click="getContract(d.id)">查看协议</button>
                   <button class="sold" @click="getBaoquan(d.id)">查看保全</button>
@@ -219,9 +219,8 @@
         var self = this
         this.data = []
         this.nowEdit = this.$route.params.type
-        this.status = this.$route.params.status
         this.showtype = false
-        util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id, type: this.$route.params.type, status: this.$route.params.status, page: this.now})}).then(function (res) {
+        util.post('fundOrder', {sign: api.serialize({token: this.token, user_id: this.user_id, type: this.$route.params.type, status: this.status, page: this.now})}).then(function (res) {
           api.checkAjax(self, res, () => {
             self.data = res.list
             self.showImg = !res.total_num
@@ -230,7 +229,8 @@
           })
         })
       },
-      getList () {
+      getList (sort) {
+        this.status = sort || 1
         this.fetchData()
       },
       openMask (str, title, id) {
@@ -443,7 +443,7 @@
             & + a{
               margin-left:30px
             }
-            &:hover,&.router-link-active{
+            &:hover,&.active{
               border-color:#7e92a8
             }
           }

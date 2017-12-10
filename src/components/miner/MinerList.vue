@@ -24,7 +24,7 @@
           <span>矿机</span>
           <span>品牌矿机，质量保证</span>
         </div>
-        <router-link to="/minerShop/miner/1/all" class="btn">即刻前往>></router-link>
+        <router-link to="/minerShop/miner/1" class="btn">即刻前往>></router-link>
       </div>
       <div class="miner_pic pic4">
         <img :src="require('@/assets/images/miner_shop/cloud_miner.jpg')" alt="">
@@ -32,7 +32,7 @@
           <span>云矿机</span>
           <span>专人维护，无忧挖矿</span>
         </div>
-        <router-link to="/minerShop/miner/2/all" class="btn">即刻前往>></router-link>
+        <router-link to="/minerShop/miner/2" class="btn">即刻前往>></router-link>
       </div>
     </div>
     <MinerList>
@@ -41,7 +41,7 @@
           <span>矿机推荐</span>
           <span>保全网提供全流程区块链存证、保全服务</span>
         </div>
-        <router-link to="/minerShop/miner/1/all">更多矿机 ></router-link>
+        <router-link to="/minerShop/miner/1">更多矿机 ></router-link>
       </h2>
     </MinerList>
     <CloudMinerList page="minerShop">
@@ -50,7 +50,7 @@
           <span>云矿机推荐</span>
           <span>国家电网 算力保证 无忧挖矿</span>
         </div>
-        <router-link to="/minerShop/miner/2/all">更多云矿机 ></router-link>
+        <router-link to="/minerShop/miner/2">更多云矿机 ></router-link>
       </h2>
     </CloudMinerList>
     <div class="miner_loan">

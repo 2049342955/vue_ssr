@@ -66,20 +66,20 @@
         list: [],
         len: 0,
         now: 1,
-        sort: [{title: '时间', option: ['asc', 'desc'], value: 0}],
+        sort: [{title: '时间', option: 'desc'}],
         showImg: false
       }
     },
     methods: {
-      getList () {
+      getList (sort) {
         var self = this
         this.list = []
         var sendData = {}
         var data = {token: this.token, user_id: this.user_id, product_hash_type: this.nowEdit + 1, page: this.now}
-        if (this.$route.params.sort === 'default') {
-          sendData = {sort: ''}
+        if (sort >= 0 && this.sort[sort] && this.sort[sort].option) {
+          sendData = {sort: this.sort[sort].option}
         } else {
-          sendData = {sort: this.$route.params.sort}
+          sendData = {sort: ''}
         }
         util.post('userCoinList', {sign: api.serialize(Object.assign(data, sendData))}).then(function (res) {
           api.checkAjax(self, res, () => {

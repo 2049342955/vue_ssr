@@ -1,6 +1,8 @@
 <template>
-  <pquick-news v-if="!isMobile"></pquick-news>
-  <mquick-news v-else></mquick-news>
+  <pageFrame isComponent="true">
+    <pquick-news v-if="!isMobile"></pquick-news>
+    <mquick-news v-else></mquick-news>
+  </pageFrame>
 </template>
 
 <script>
@@ -9,9 +11,10 @@
   import PquickNews from './pc'
   import MquickNews from './mobile'
   import { mapState } from 'vuex'
+  import pageFrame from '../pageFrame'
   export default {
     components: {
-      PquickNews, MquickNews
+      PquickNews, MquickNews, pageFrame
     },
     data () {
       return {
