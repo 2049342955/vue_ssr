@@ -17,7 +17,7 @@
           </div>
         </div>
         <router-view class="currency_right" v-if="!isComponent"></router-view>
-        <slot class="currency_right" v-else></slot>
+        <slot v-else></slot>
       </div>
     </div>
   </div>
@@ -28,7 +28,7 @@
         <span>|</span>
       </router-link>
     </div>
-    <slot class="currency_right" v-if="isComponent"></slot>
+    <slot v-if="isComponent"></slot>
     <router-view class="currency_right" v-else></router-view>
   </div>
 </template>
@@ -57,7 +57,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .compute_news{
     background: #eceff8;
     width: 100%;

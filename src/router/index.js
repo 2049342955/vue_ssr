@@ -51,12 +51,12 @@
 // industryInformation
   import pageFrame from '@/components/ComputeNews/pageFrame'
   import Currency from '@/components/ComputeNews/Currency'
-  import NewsFlash from '@/components/ComputeNews/quickNews/index'
+  import NewsFlash from '@/components/ComputeNews/quickNews'
   import Transaction from '@/components/ComputeNews/Transaction'
   import MinerMuseum from '@/components/ComputeNews/MinerMuseum'
-  import EquipmentEvaluate from '@/components/ComputeNews/equipmentEvaluate/index'
-  import Manufacturer from '@/components/ComputeNews/manufacturer/index'
-  import DigitalCurrency from '@/components/ComputeNews/digitalCurrency/index'
+  import EquipmentEvaluate from '@/components/ComputeNews/equipmentEvaluate'
+  import Manufacturer from '@/components/ComputeNews/manufacturer'
+  import DigitalCurrency from '@/components/ComputeNews/digitalCurrency'
   import Chart from '@/components/ComputeNews/Chart'
 // mobile
   import Mobile from '@/views/Mobile'

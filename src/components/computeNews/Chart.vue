@@ -1,6 +1,6 @@
 <template>
   <pageFrame isComponent="true">
-    <div class="chart">
+    <div class="chart currency_right">
       <!-- <div class="text">
         <div class="select_coin">
           <div class="now">

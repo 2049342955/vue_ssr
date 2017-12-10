@@ -43,7 +43,7 @@
       </div>
     </div>
     <div class="cominfor_news">
-      <router-link to="/quickNews/list">
+      <router-link to="/quickNews">
         <img :src="require('@/assets/images/information7.png')"/>
       </router-link>
       <div class="scroll">
