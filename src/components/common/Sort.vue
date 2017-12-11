@@ -97,7 +97,7 @@
     padding-bottom:10px;
     color:$light_text;
     &:not(.one_sort){
-      @include main
+      @include main();
       padding-top:25px;
     }
     .box{
