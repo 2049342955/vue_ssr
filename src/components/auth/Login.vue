@@ -57,7 +57,7 @@
                 location.href = self.callUrl
                 self.$store.commit('SET_URL', '')
               } else {
-                self.$router.push({name: 'home'})
+                self.$router.push({path: '/'})
               }
             })
           }, form.btn)
