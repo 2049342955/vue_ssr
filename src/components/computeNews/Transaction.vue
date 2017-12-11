@@ -255,11 +255,15 @@
               button{
                   width: 266px;
                   height: 38px;
-                  background: #fe5039;
                   font-size: 16px;
-                  color: white;
-                  border:0;
+                  color: #fe5039;
+                  border:1px solid #fe5039;
                   margin-top: 18px;
+                  background:white;
+                  &:hover{
+                    background: #fe5039;
+                    color: white;
+                  }
               }
           }
           &:hover{
