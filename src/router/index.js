@@ -311,6 +311,7 @@
       }]
     }, {
       path: '/industryInformation',
+      name: 'industryInformation',
       component: ComputeHome
     }, {
       path: '/currency',
