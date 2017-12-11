@@ -18,6 +18,9 @@
             <template v-else-if="n.status===1">
               <span>【出售】</span>
             </template>
+            <template v-else-if="n.status===5">
+              <span>【售罄】</span>
+            </template>
             {{n.title}}
           </h2>
           <p class="text" v-html="n.content ? n.content : '暂无简介'"></p>
