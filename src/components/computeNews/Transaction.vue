@@ -36,7 +36,8 @@
             <span><img src="../../assets/images/dian.png"/></span>
             {{n.mobile|format}}
           </div>
-          <button @click="allclick(k)">点击查看完整号码</button>
+          <button @click="allclick(k)" v-if="n.status===5" style="background:#999;color:white;border:0;" disabled>点击查看完整号码</button>
+          <button @click="allclick(k)" v-else>点击查看完整号码</button>
         </div>
       </div>
       <Pager :len="len"  style="padding-top:0;"></Pager>
@@ -247,12 +248,12 @@
                     background: #fe5039;
                     border-right:1px solid #dcdcdc;
                     float: left;
-                    line-height:48px;
-                  }
-                  .icon-dianhua1:before{
-                    color:white;
-                    font-size:24px;
-                    font-weight: 100;
+                    img{
+                      width:30px;
+                      height:30px;
+                      position: relative;
+                      top:-3px;
+                    }
                   }
               }
               button{
