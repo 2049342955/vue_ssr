@@ -247,12 +247,12 @@
                     background: #fe5039;
                     border-right:1px solid #dcdcdc;
                     float: left;
-                    img{
-                      width: 24px;
-                      height: 24px;
-                      position: relative;
-                      top: -8px;
-                    }
+                    line-height:48px;
+                  }
+                  .icon-dianhua1:before{
+                    color:white;
+                    font-size:24px;
+                    font-weight: 100;
                   }
               }
               button{

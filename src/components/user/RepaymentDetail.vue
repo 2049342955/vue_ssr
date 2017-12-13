@@ -134,7 +134,7 @@
         showpa: '',
         status: '',
         repayment_method: 0,
-        close: require('@/assets/images/close1.jpg'),
+        close: '1',
         total: '',
         banlance: '',
         password: '',
