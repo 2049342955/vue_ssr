@@ -2,7 +2,7 @@
   <div class="cominfor">
     <div class="compute_news_nav">
       <div class="compute_news_box">
-        <router-link :to="n.path" v-for="n, k in computationallist" :class="{'active': active === k}">{{n.title}}</router-link>
+        <router-link :class="{'active': active === k}" :to="n.path" v-for="n, k in computationallist" :key="k">{{n.title}}</router-link>
       </div>
     </div>
     <div class="cominfor_header">
@@ -16,7 +16,7 @@
             <div v-for="n, k in headerlist" class="ollist">
               <router-link :to="n.link" class="oltitle">{{n.title}}</router-link>
               <div class="rou">
-                <router-link :to="d.path" v-for="d, m in n.route">{{d.name}}</router-link>
+                <router-link :to="d.path" v-for="d, m in n.route" :key="k">{{d.name}}</router-link>
               </div>
             </div>
           </div>
@@ -48,7 +48,7 @@
         <img src="../../assets/images/information7.png"/>
       </router-link>
       <div class="scroll">
-        <marquee><router-link :to="'/quickNews/detail/' + s.id" v-for="s, m in scroll">{{m + 1}}. {{s.title}}</router-link></marquee>
+        <marquee><router-link :to="'/quickNews/detail/' + s.id" v-for="s, m in scroll" :key="k">{{m + 1}}. {{s.title}}</router-link></marquee>
       </div>
     </div>
     <div class="cominfor_info">
@@ -83,7 +83,7 @@
           <h6>【主流厂商】 <span>全面测评</span></h6>
           <div style="height:290px;">
               <div class="she_ol">
-                <router-link :to="'/manufacturer/detail/' + n.id" class="border" v-for="n, k in sheol1"><span></span>{{n.title}}</router-link>
+                <router-link :to="'/manufacturer/detail/' + n.id" class="border" v-for="n, k in sheol1" :key="k"><span></span>{{n.title}}</router-link>
               </div>
           </div>
           <router-link to="/manufacturer/list">全部厂商介绍 ></router-link>
@@ -105,7 +105,7 @@
         <div class="shebottomright">
           <h6>【矿机博物馆】 <span>全面测评</span></h6>
           <div class="all_ol">
-            <router-link :to="'/equipments/detail/' + n.id" class="she_ol" v-for="n, k in sheol3">
+            <router-link :to="'/equipments/detail/' + n.id" class="she_ol" v-for="n, k in sheol3" :key="k">
               <img :src="n.image"/>
               <p class="title">{{n.title}}</p>
             </router-link>

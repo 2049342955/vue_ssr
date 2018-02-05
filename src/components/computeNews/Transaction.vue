@@ -2,7 +2,7 @@
   <div class="transaction">
     <div class="compute_news_nav">
       <div class="compute_news_box">
-        <router-link :to="n.path" v-for="n, k in computationallist">{{n.title}}</router-link>
+        <router-link :to="n.path" v-for="n, k in computationallist" :key="k">{{n.title}}</router-link>
       </div>
     </div>
     <div class="transaction_img">
