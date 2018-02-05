@@ -47,15 +47,10 @@
     mounted () {
       var self = this
       util.post('/homeDynamic', {sign: 'token=0'}).then(function (data) {
-        console.log(data)
         self.activity = data
-      }).catch(res => {
-        console.log(res)
       })
       util.post('/homeAnnouncoment', {sign: 'token=0'}).then(function (data) {
         self.notice = data
-      }).catch(res => {
-        console.log(res)
       })
     }
   }

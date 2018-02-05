@@ -14,11 +14,11 @@
           </aside>
           <aside>
             <div class="help_support">
-              <nuxt-link :to="l" v-for="l,k in link" :key="k">{{k}}</nuxt-link>
+              <router-link :to="l" v-for="l,k in link" :key="k">{{k}}</router-link>
             </div>
             <div class="service">
               <h4>产品及服务</h4>
-              <nuxt-link :to="s" v-for="s,k in service" :key="k">{{k}}</nuxt-link>
+              <router-link :to="s" v-for="s,k in service" :key="k">{{k}}</router-link>
             </div>
             <div class="copyright">
               <div class="copyright_img"></div>
@@ -30,7 +30,7 @@
           </aside>
           <div class="follow">
             <h4>关注我们</h4>
-            <nuxt-link :to="i" v-for="i,k in info" :key="k">{{k}}</nuxt-link>
+            <router-link :to="i" v-for="i,k in info" :key="k">{{k}}</router-link>
             <div class="outside">
               <div class="qrcode"></div>
             </div>
