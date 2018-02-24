@@ -1,273 +1,272 @@
 <template>
-  <header :class="headerClass" :disabled="$route.name==='notFound'">
-    <section class="box">
-      <div class="nav_left">
-        <router-link class="logo" to="/"></router-link>
-        <nav>
-          <span v-if="$route.path.includes('regist')">用户注册</span>
-          <span v-else-if="$route.path.includes('passwordRetrieval')">找回密码</span>
-          <div :class="['item',{active:$route.path.includes(i.name)}]" v-for="(i,k) in nav" v-else>
-            <router-link :to="i.link">{{ i.text }}</router-link>
-          </div>
-        </nav>
-      </div>
-      <div class="side_nav">
-        <template v-if="$route.path.includes('auth')">
-          <router-link to="/" v-if="$route.path.includes('login')">返回首页</router-link>
-          <div class="text" v-else>
-            <span>已经拥有账号,</span>
-            <router-link to="/auth/login">直接登录</router-link>
-          </div>
-        </template>
-        <template v-else>
-          <router-link to="/webInfo/issues">帮助</router-link>
-          <router-link to="/webInfo/aboutUs">关于</router-link>
-          <template v-if="token===0">
-            <router-link to="/auth/login">登录</router-link>
-            <router-link class="btn" to="/auth/regist">注册</router-link>
+  <header class="header">
+    <PcHeader class="pc_header" v-if="isMobile===0"></PcHeader>
+    <div :class="['mobile_header', headerType, {scroll}]" v-if="isMobile===1&&showTitle()">
+      <div class="mobile_header_box">
+        <nuxt-link to="/" class="logo">
+          <img class="fixed_logo" :src="require('@/assets/images/mobile/logo3.png')">
+          <img class="normal_logo" :src="require('@/assets/images/mobile/logo2.png')">
+        </nuxt-link>
+        <div class="title">{{pages[$route.path]}}</div>
+        <div class="header_right">
+          <template v-if="token === 0">
+            <router-link class="link" to="/auth/regist">注册</router-link>
+            <span class="line">|</span>
+            <router-link class="link" to="/auth/login">登录</router-link>
           </template>
-          <template v-else>
-            <router-link class="tel" to="/user/computeProperty"><span class="iconfont">&#xe63f; </span>{{mobile|format}}</router-link>
-            <a href="javascript:;" @click="logout">退出</a>
-          </template>
-        </template>
+          <span class="header_mobile iconfont" v-else @click="showNavlink('person')">&#xe63f;<i v-if="unread_num"></i></span>
+          <span class="nav_link iconfont icon-more" v-if="showNav !== 'product'" @click="showNavlink('product')"></span>
+          <span class="nav_link iconfont icon-close" v-if="showNav === 'product'" @click="showNavlink('product')"></span>
+        </div>
       </div>
-    </section>
+      <div class="mobile_header_nav" v-if="showNav !== ''" @click="showNavlink">
+        <div class="white_bg">
+          <nuxt-link :to="i" v-for="i,k in navList" :key="k" class="item">
+            <span :class="{active:i==='/minerShop/activity'}">{{pages[i]}}</span>
+            <em></em>
+            <span class="unread_num" v-if="i==='/mobile/message'&&unread_num">您有{{unread_num}}条未读消息</span>
+          </nuxt-link>
+          <div class="item" v-if="token !== 0 && showNav === 'person'">
+            <span>{{mobile}}</span>
+            <span @click="logout()">退出</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </header>
 </template>
 
 <script>
-  import api from '@/util/function'
-  import util from '@/util'
   import { mapState } from 'vuex'
+  import PcHeader from './header/pc'
+  import api from '@/util/function'
   export default {
     name: 'header',
     data () {
       return {
-        // nav: [{name: 'minerShop', text: '矿机商城', link: '/minerShop/list/1/all'}, {name: 'compute', text: '算力转让', link: '/compute/list/1/all'}, {name: 'bdc', text: 'BDC托管', link: '/bdc'}, {name: 'news', text: '产业资讯', link: '/webInfo/list/news'}, {name: 'dataTrade', text: '数据交易', link: ''}, {name: 'computeTrade', text: '算法交易', link: ''}],'/industryInformation'
-        nav: [{name: 'minerShop', text: '矿机商城', link: '/minerShop/list'}, {name: 'bdc', text: 'BDC托管', link: '/bdc'}, {name: 'news', text: '产业资讯', link: '/industryInformation'}],
-        path: {frame_header: ['regist', 'passwordRetrieval', 'user', 'account', '/detail', 'webInfo', 'article/agreement', 'minerShop/miner', '/industryInformation', 'computeNews', 'transaction', 'quickNews', 'digitalCurrency', 'equipments', 'equipmentEvaluate', 'manufacturer'], border: ['login', 'bdc'], shadow: ['regist', 'passwordRetrieval'], web_box: ['webInfo', 'minerShop/miner']},
-        headerClass: ''
+        pages: {
+          '/minerShop/cloudCompute': '云算力',
+          '/minerShop/miner': '算力服务器',
+          '/bdc': 'BDC托管',
+          '/quickNews': '产业资讯',
+          '/computeNews/listm': '产业资讯',
+          '/equipmentEvaluate/list': '产业资讯',
+          '/currency/list': '产业资讯',
+          '/manufacturer/list': '产业资讯',
+          '/mobile/property': '我的资产',
+          '/mobile/order/0': '我的订单',
+          '/mobile/order/3': '我的订单',
+          '/mobile/repayment/0': '我的分期',
+          '/mobile/repayment/1': '我的分期',
+          '/mobile/message': '消息中心',
+          '/mobile/moneyFlow': '账户流水',
+          '/mobile/idVerfication': '个人认证',
+          '/mobile/bankCard': '银行卡管理',
+          '/mobile/assetsAddress': '收益地址管理',
+          '/mobile/administration': '账户设置',
+          '/mobile/address': '邮寄地址',
+          '/mobile/help': '常见问题',
+          '/mobile/advice': '意见反馈',
+          '/mobile/orderDetail': '订单详情',
+          '/mobile/cloudProduct': '云算力列表',
+          '/mobile/recharge': '充值',
+          '/minerShop/activity': '新春优惠购',
+          '/minerShop/hirePurchase': '分期',
+          '/mobile/repaymentDetail': '分期明细'
+        },
+        showNav: '',
+        scroll: false,
+        headerType: '',
+        navList: [],
+        navLink: ['/minerShop/miner', '/minerShop/cloudCompute', '/bdc', '/quickNews', '/minerShop/activity'],
+        navPerson: ['/mobile/property', '/mobile/order/0', '/mobile/repayment/0', '/mobile/message', '/mobile/moneyFlow', '/mobile/idVerfication', '/mobile/bankCard', '/mobile/assetsAddress', '/mobile/administration'
+        ],
+        isBlueHeader: ['bdc', 'mobile-assetDetail', 'mobile-property', 'mobile-personalCenter', 'mobileIndex'],
+        noHeader: ['auth-login', 'auth-regist', 'auth-passwordRetrieval']
       }
     },
-    mounted () {
-      this.updateClass()
-      window.addEventListener('scroll', this.test, false)
-      if (this.token === 0) {
-        this.$store.dispatch('getInfo')
+    methods: {
+      showNavlink(type) {
+        if (typeof type !== 'string') {
+          this.showNav = ''
+          return
+        }
+        this.showNav = this.showNav === type ? '' : type
+        this.navList = type === 'person'? [...this.navPerson] : [...this.navLink]
+      },
+      showTitle() {
+        if (this.noHeader.indexOf(this.$route.name) > -1) {
+          return false;
+        }
+        this.headerType = this.isBlueHeader.indexOf(this.$route.name) > -1 ? 'blue' : ''
+        return true
+      },
+      scrollFunc (e) {
+        // if (!this.headerType) {
+        //   return false
+        // }
+        let scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+        this.scroll = scrollTop > 30
+        if (scrollTop > 5) {
+          this.showNav = ''
+        }
+      },
+      logout () {
+        this.$store.commit('LOGOUT')
+        if (this.isMobile) {
+          this.$router.push({path: '/minerShop/cloudCompute'})
+        } else {
+          this.$router.push({path: '/'})
+        }
       }
-      var self = this
-      util.post('getAll', {sign: api.serialize({token: this.token, user_id: this.user_id})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.$store.commit('SET_INFO', res)
-        })
-      }).catch(res => {
-        console.log(res)
-      })
-      util.post('getCurrencys', {sign: api.serialize({token: this.token})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.$store.commit('SET_HASH_TYPE', res)
-        })
-      }).catch(res => {
-        console.log(res)
-      })
     },
     computed: {
       ...mapState({
+        isMobile: state => state.isMobile,
         token: state => state.info.token,
-        user_id: state => state.info.user_id,
         mobile: state => state.info.mobile,
-        true_name: state => state.info.true_name
+        unread_num: state => state.info.unread_num
       })
-    },
-    methods: {
-      logout () {
-        this.$router.push({name: 'home'})
-        this.$store.commit('LOGOUT')
-      },
-      test (e) {
-        var ele = document.querySelector('.fixed_header')
-        if (!ele) return false
-        var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
-        if (scrollTop > 0 || this.showNav) {
-          ele.className = 'fixed_header bg_opacity'
-          this.scroll = true
-        } else {
-          ele.className = 'fixed_header'
-          this.scroll = false
-        }
-      },
-      updateClass () {
-        var path = this.$route.path
-        this.headerClass = ''
-        for (var i in this.path) {
-          for (var j = 0; j < this.path[i].length; j++) {
-            if (path.includes(this.path[i][j])) {
-              this.headerClass += i + ' '
-              break
-            }
-          }
-        }
-        if (!this.headerClass.includes('frame_header')) {
-          this.headerClass += 'fixed_header' + ' '
-        }
-      }
     },
     filters: {
       format: api.telReadable
     },
-    beforeDestroy: function () {
-      this.$router.push({name: 'home'})
-      this.$store.commit('LOGOUT')
+    components: {
+      PcHeader
     },
-    watch: {
-      '$route': 'updateClass'
+    mounted () {
+      window.addEventListener('scroll', this.scrollFunc, false)
     }
   }
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
-  @import '../../assets/fonts/iconfont.css';
-  header{
-    .box{
-      @include main
-      @include flex(space-between)
-      height:80px;
-      line-height: 80px;
-      .nav_left{
-        width:74%;
-        @include flex
-        .logo{
-          display: inline-block;
-          width: 140px;
-          height: 29px;
-          margin-right:60px;
-        }
-        nav{
-          @include flex
-          .item{
-            height:80px;
-            line-height: 80px;
-            text-align:center;
-            width:100px;
-            a{
-              position: relative;
-              font-size: 16px;
-            }
-            &.active a::after,&:hover a::after{
-              position: absolute;
-              top:-10px;
-              left:29px;
-              content: "●";
-              color: white;
-              font-size: 12px;
-            }
-          }
-          span{
-            color:$light_text;
-            margin-left:-45px;
-            padding-left:15px;
-            border-left:1px solid $border
-          }
-        }
-      }
-      .side_nav{
-        a{
-          @include gap(10,h)
-          &.btn{
-            line-height: 1.8;
-            @include gap(0,h)
-            display: inline-block;
-            width:70px;
-            text-align: center;
-            margin-left:10px;
-            border-radius:3px;
-            background:$blue;
-            color:$white
-          }
-        }
-      }
-    }
-    &[disabled]{
+  @import '~assets/css/style.scss';
+  .mobile_header{
+    height: 0.88rem;
+    background: #fff;
+    &.blue.scroll {
+      position: static;
       display: none;
     }
-    &.fixed_header{
-      @include position(0,0,auto,0)
+    &.blue {
       position: fixed;
-      z-index: 5;
-      &.bg_opacity{
-        background: rgba(0,0,0,.8);
-      }
-      .box .logo{
-        background: url('../../assets/images/css_sprites.png') -10px -364px;
-      }
-      a{
-        color:$white
-      }
-      .tel{
-        color:$white
-      }
-    }
-    &.frame_header{
-      .box{
-        .logo{
-          background: url('../../assets/images/css_sprites.png') -170px -364px;
+      top:0;
+      width: 100%;
+      background: transparent;
+      z-index: 100;
+      display: block;
+      .mobile_header_box {
+        border-bottom: 0;
+        &,a {
+          color: #fff;
         }
-        nav .item{
-          a{
-            color:$text;
+        .logo {
+          .fixed_logo {
+            display: inline;
           }
-          &.active a::after,&:hover a::after{
-            color: balck;
-          }
-        }
-        .side_nav{
-          a{
-            color:$text;
-          }
-          .text{
-            color:$light_text;
-            a{
-              color:$blue
-            }
-          }
-          .tel{
-            color: $blue;
-            font-weight: bold;
-          }
-          .btn{
-            color:$white
+          .normal_logo {
+            display: none;
           }
         }
       }
     }
-    &.web_box{
-      background: #242528;
-      .box .logo{
-        background: url('../../assets/images/css_sprites.png') -10px -364px;
+    .mobile_header_box{
+      width: 100%;
+      height: 100%;
+      @include flex(space-between)
+      padding: 0 0.3rem;
+      line-height: 0.88rem;
+      border-bottom: 1px solid $border;
+      &,a {
+        color: $text;
+        font-size: 12px;
       }
-      .box nav .item a,.box .side_nav a,.box .side_nav a.tel{
-        color:#fff
+      .logo {
+        width: 1.8rem;
+        height: 0.4rem;
+        line-height: 0.4rem;
+        .fixed_logo {
+          display: none;
+        }
+        .normal_logo {
+          display: inline;
+        }
       }
-      nav .item{
-        &.active a::after,&:hover a::after{
-          color:#fff
+      .title{
+        flex:1;
+        font-size: 0.32rem;
+        text-align: center;
+      }
+      .header_right{
+        height: 0.4rem;
+        line-height: 0.4rem;
+        text-align: right;
+        .line {
+          margin: 0 8px;
+        }
+        .header_mobile {
+          position: relative;
+          i {
+            position: absolute;
+            right: -6px;
+            top:0;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ff0000;
+          }
+        }
+        .nav_link{
+          font-size: 18px;
+          margin-left: 15px;
         }
       }
     }
-    &.border{
-      border-bottom:1px solid $light_text;
-    }
-    &.shadow{
-      position: relative;
-      z-index: 2;
-      box-shadow:0px 4px 7px 0px rgba(138, 126, 126, 0.21);
-      &.bg_opacity{
-        background: transparent
-      }
-      nav span{
-        line-height: 1.5;
+    .mobile_header_nav{
+      position: fixed;
+      top: 0.88rem;
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 9999;
+      height: 100%;
+      .white_bg{
+        width: 100%;
+        height: auto;
+        background: #fff;
+        .item{
+          position: relative;
+          width: 100%;
+          height: 0.88rem;
+          background: #fff;
+          @include flex (space-between, center);
+          padding: 0 0.3rem;
+          border-bottom: 1px solid #efefef;
+          text-align: center;
+          line-height: 0.88rem;
+          font-size: 0.32rem;
+          span.active {
+            color: #fe5039
+          }
+          em{
+            @include block(5);
+            @include arrow(right, #c7c7c9);
+            width: 0.1rem;
+            height:0.1rem;
+            border-width: 1px;
+          }
+          .unread_num {
+            position: absolute;
+            right: 25px;
+            font-size: 12px;
+            color: #fff;
+            background: #ff0000;
+            height: 14px;
+            line-height: 14px;
+            padding: 0 3px;
+            border-radius: 20px;
+          }
+        }
       }
     }
   }

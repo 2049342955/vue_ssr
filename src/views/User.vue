@@ -22,7 +22,8 @@
       <div class="box">
         <aside class="con" v-if="!$route.path.includes('accountEvaluate')">
           <router-link :class="['item', {active:$route.path.includes(n.name)}]" :to="n.path" v-for="n,k in nav" :key="k">{{n.title}}</router-link>
-        </aside><router-view class="main_content"></router-view>
+        </aside>
+        <router-view class="main_content"></router-view>
       </div>
     </section>
   </article>
@@ -35,22 +36,13 @@
   export default {
     data () {
       return {
-        nav: [{name: 'computeProperty', title: '算力资产', path: '/user/computeProperty'}, {name: 'account', title: '账户管理', path: '/user/account'}, {name: 'password', title: '密码管理', path: '/user/password'}, {name: 'order', title: '订单管理', path: '/user/order/0/1'}, {name: 'address', title: '地址管理', path: '/user/address'}, {name: 'virtualCurrencyFlow', title: '币流水', path: '/user/virtualCurrencyFlow/default'}, {name: 'moneyFlow', title: '资金流水', path: '/user/moneyFlow/default'}, {name: 'lp', title: '合伙人中心', path: '/user/lpCenter'}, {name: 'message', title: '消息中心', path: '/user/message'}, {name: 'repayment', title: '还款管理', path: '/user/repayment/0'}, {name: 'calculator', title: '挖矿计算器', path: '/user/Calculator'}],
+        nav: [{name: 'computeProperty', title: '算力资产', path: '/user/computeProperty'}, {name: 'account', title: '账户管理', path: '/user/account'}, {name: 'order', title: '订单管理', path: '/user/order/0'}, {name: 'address', title: '地址管理', path: '/user/address'}, {name: 'virtualCurrencyFlow', title: '币流水', path: '/user/virtualCurrencyFlow'}, {name: 'moneyFlow', title: '资金流水', path: '/user/moneyFlow'}, {name: 'lp', title: '合伙人中心', path: '/user/lpCenter'}, {name: 'deposit', title: '托管信息', path: '/user/deposit/list'}, {name: 'message', title: '消息中心', path: '/user/message'}, {name: 'repayment', title: '还款管理', path: '/user/repayment/0'}, {name: 'bitCalculator', title: '收益计算器', path: '/user/bitCalculator'}],
         now: 1
       }
-    },
-    mounted () {
-      var self = this
-      util.post('MessageList', {sign: api.serialize({token: this.token, user_id: this.user_id, page: this.now})}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.$store.commit('SET_INFO', {unread_num: res.unread_num})
-        })
-      })
     },
     computed: {
       ...mapState({
         token: state => state.info.token,
-        user_id: state => state.info.user_id,
         mobile: state => state.info.mobile,
         unread_num: state => state.info.unread_num,
         true_name: state => state.info.true_name,
@@ -79,14 +71,13 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../assets/css/style.scss';
-  @import '../assets/fonts/iconfont.css';
+  @import '~assets/css/style.scss';
   .user{
     overflow:hidden;
     .info{
       width: 100%;
       height: 140px;
-      background: #1d2433 url('../assets/images/user_bg.jpg') repeat-x 50%;
+      background: #1d2433 url('~assets/images/user_bg.jpg') repeat-x 50%;
       .box{
         line-height: 140px;
         @include main
@@ -111,6 +102,7 @@
             .iconfont{
               text-align: center;
               @include block(22,5px)
+              line-height: 28px;
               & + .iconfont{
                 margin-left:10px
               }
@@ -161,6 +153,7 @@
             color: #cec6a6;
             vertical-align: sub;
             padding-right: 5px;
+            line-height: 10px;
             &:before{
               content:'\e653'
             }
@@ -182,7 +175,7 @@
           background: $white;
           margin-right:25px;
           border-radius:5px;
-          overflow: hidden;
+          @include mobile_hide
           a{
             display: block;
             line-height: 48px;
@@ -211,13 +204,12 @@
         }
         .main_content{
           background: $white;
-          width:leave(235);
+          width:calc(100% - 235px);
           min-height: 600px;
           border-radius:5px;
           h2{
             line-height: 52px;
-            padding:0 28px;
-            border-bottom: 1px solid $border;
+            padding:0 15px;
           }
           h3{
             background: #f7f8fa;

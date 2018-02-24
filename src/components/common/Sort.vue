@@ -1,106 +1,97 @@
 <template>
-  <div :class="['sort',{one_sort:page}]">
-    <div class="box" v-if="!page">
+  <div class="sort">
+    <div class="box" v-if="isMobile===0">
       <div class="sort_title">
         <h1>项目列表</h1>
-        <div class="input_box">
+        <!-- <div class="input_box">
           <input type="text">
           <span class="input_btn iconfont">&#xe63e;</span>
+        </div> -->
+      </div>
+      <div class="sort_body" v-if="sortNav">
+        <div class="item" v-for="s,i in sortNav" v-if="sortNav">
+          <span>{{s.title}}</span>
+          <a href="javascript:;" :class="{active:status==n.code}" v-for="n,k in s.options" @click="setStatus(n.code)">{{n.title}}</a>
         </div>
       </div>
-      <div class="sort_body">
-        <div class="item">
-          <span>商品列表</span>
-          <a :class="{active:$route.params.type==='1'}" href="javascript:;" @click="setType(1)">矿机</a>
-          <a :class="{active:$route.params.type==='2'}" href="javascript:;" @click="setType(2)">云矿机</a>
+      <div class="sort_items">
+        <span class="sort_items_title">排序方式</span>
+        <div :class="['item', 'next', {active1: !sort[edit]}]" @click="setSort()">综合排序</div>
+        <div :class="['item', {active: (s.option.indexOf(sortText)>-1)&&edit==k}, {up: (s.option.indexOf(sortText)>-1)&&edit==k&&no==1}]" @click="setSort(k)" v-for="s,k in sort">
+          <span>{{s.title}}</span>
+          <span class="iconfont">&#xe611;</span>
         </div>
-        <div class="item">
-          <span>商品状态</span>
-          <template v-if="$route.params.type==='1'">
-            <a href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav" @click="setStatus(k)">{{n}}</a>
-          </template>
-          <template v-if="$route.params.type==='2'">
-            <a href="javascript:;" :class="{active:$parent.status==k}" v-for="n,k in nav2" @click="setStatus(k)">{{n}}</a>
-          </template>
-        </div>
-      </div>
-      <div class="sort_allitems">
-        <span class="sort_allitems_title">排序方式</span>
-        <div :class="['item', 'next', {active1: activeOne==true}]" @click="setSort('all')">综合排序</div>
-        <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont">&#xe611;</span></div>
       </div>
     </div>
-    <div class="sort_items" v-else>
-      <div :class="['item', 'next', {active1: activeOne==true}]" @click="setSort('all')">默认</div>
-      <div :class="['item', {active: edit==k}, {up: !s.value},{active1: activeOne==false}]" v-for="s,k in sort" @click="setSort(k)">{{s.title}}<span class="iconfont">&#xe611;</span></div>
+    <div class="mobile_sort" v-else-if="isMobile===1">
+      <div class="mobile_sort_items" v-for="s,i in sortNav" v-if="sortNav">
+        <a class="item" href="javascript:;" :class="{active:status==n.code}" v-for="n,k in s.options" @click="setStatus(n.code)">{{n.title}}</a>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     props: {
-      sort: {
+      sortNav: {
         type: Array
       },
-      page: {
-        type: String
+      status: {
+        type: Number
       }
     },
     data () {
       return {
-        nav: {0: '不限', 4: '预热', 1: '热销', 2: '售罄'},
-        nav2: {0: '不限', 4: '预热', 5: '热销', 7: '售罄'},
+        sort: [
+          {title: '价格', option: ['price_asc', 'price_desc']},
+          {title: '算力', option: ['base_asc','base_desc']},
+          {title: '剩余总数', option: ['num_asc', 'num_desc']}
+        ],
         edit: -1,
-        activeOne: true
+        no: -1,
+        sortText: ''
       }
     },
     methods: {
       setSort (n) {
-        this.activeOne = false
-        this.edit = n
-        var obj = this.sort[n]
-        var str = ''
-        for (let ele of this.sort) {
-          if (obj !== ele) {
-            ele.value = 0
+        if (this.edit === n) {
+          if (this.no === 1) {
+            this.no = 0
+          } else {
+            this.no = 1
           }
-        }
-        if (obj) {
-          obj.value = +(!obj.value)
-          str = obj.option[obj.value]
         } else {
-          this.activeOne = true
-          str = n
+          this.no = 0
         }
-        if (this.page) {
-          this.$router.push({path: '/user/' + this.page + '/' + str})
-        } else {
-          this.$router.push({path: '/minerShop/miner/' + this.$route.params.type + '/' + str})
-        }
+        this.edit = (n >= 0) ? n : -1
+        let param = this.sort[n] ? this.sort[n].option[this.no] : ''
+        this.sortText = param
+        this.$emit('fetchData', param)
       },
       setStatus (n) {
-        this.$parent.status = n
-        this.$parent.fetchData()
-      },
-      setType (k) {
-        this.$parent.status = 0
-        this.$router.push({path: '/minerShop/miner/' + k + '/all'})
+        this.sortText = ''
+        this.edit = -1
+        this.no = -1
+        this.$emit('setStatus', n)
       }
+    },
+    computed: {
+      ...mapState({
+        isMobile: state => state.isMobile
+      })
     }
   }
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
+  @import '~assets/css/style.scss';
   .sort{
-    padding-top:10px;
     padding-bottom:10px;
+    padding-top:25px;
     color:$light_text;
-    &:not(.one_sort){
-      @include main
-      padding-top:25px;
-    }
+    @include main
     .box{
       background: $white;
       box-shadow:0px 0px 15px 0px rgba(63, 71, 84, 0.37);
@@ -141,7 +132,7 @@
           }
           a{
             display: inline-block;
-            padding:0 15px;
+            padding:0 5px;
             border-radius:5px;
             line-height: 1.8;
             border:1px solid transparent;
@@ -154,31 +145,41 @@
           }
         }
       }
-      .sort_allitems{
+      .sort_items{
         @include flex
         background: #F5F5F5;
         padding:0 20px;
-        .sort_allitems_title{
+        .sort_items_title{
           color:$light_black;
           margin-right:30px;
         }
         .item{
+          position: relative;
           cursor: pointer;
-          padding-left:20px;
-          line-height: 40px;
+          line-height: 20px;
           color:#999;
-          &:before{
-            content:'|';
-            color:#ddd;
-            margin-right:20px
+          width: 120px;
+          margin: 10px 0;
+          border: solid #ddd;
+          border-width: 0 0 0 1px;
+          text-align: center;
+          .iconfont{
+            position: absolute;
+            top: 2px;
+            font-size: 26px;
+            line-height: 32px;
+            height: 14px;
+            transition: all .3s;
+            transform:rotate(0deg);
           }
-          &:last-child:after{
-            content:'|';
-            color:#ddd;
-            margin-left:15px
+          &.active{
+            color:$blue;
           }
-          &:nth-child(2){
-            padding-left:0
+          &.up .iconfont{
+            transform:rotate(180deg);
+          }
+          &:last-child{
+            border-width: 0 1px 0 1px;
           }
         }
         .next{
@@ -188,43 +189,36 @@
         }
       }
     }
-    .box .item,.sort_items .item{
-      .iconfont{
-        @include block(24)
-        height:16px;
-        line-height: 20px;
-        text-align: center;
-        vertical-align: text-bottom;
-        transition:all .3s;
-        font-size: 26px;
-        transform:rotate(180deg);
+    .mobile_sort{
+      margin-top:-25px;
+      .type_img{
+        @include row(2,3%)
+        padding:0 5px;
+        .item{
+          height:120px;
+          line-height: 120px;
+          text-align: center;
+          color:#fff;
+          background-size: 100% 100%;
+          font-size: 0.6rem;
+        }
       }
-      &.active{
-        color:$blue;
-      }
-      &.up{
-        .iconfont{
-          transform:rotate(0deg);
+      .mobile_sort_items{
+     	  background: #fff;
+        @include flex(space-between)
+        padding:0 0.2rem;
+        border-bottom:1px solid $border;
+        .item{
+          padding:0 0.2rem;
+          font-size: 0.26rem;
+          line-height: 1rem;
+          border-bottom:2px solid transparent;
+          &.active{
+            color:#FE5039;
+            border-color:#FE5039
+          }
         }
       }
     }
-    .sort_items{
-      @include flex
-      .item{
-        cursor: pointer;
-        padding:0 30px;
-        line-height: 40px;
-        color:#999;
-        & + .item{
-          margin-left:50px
-        }
-      }
-      .next{
-        &.active1{
-          color:$blue;
-        }
-      }
-    }
-    @include mobile_hide
   }
 </style>

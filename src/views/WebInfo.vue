@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="web_info_content">
-      <router-view class="swip_content"></router-view>
+      <router-child class="swip_content" />
     </div>
   </article>
 </template>
@@ -15,11 +15,11 @@
   export default {
     data () {
       return {
-        nav: [{name: 'product', title: '产品公告', path: '/webInfo/list/product'}, {name: 'website', title: '网站动态', path: '/webInfo/list/website'}, {name: 'aboutUs', title: '关于我们', path: '/webInfo/aboutUs'}, {name: 'Issues', title: '常见问题', path: '/webInfo/issues'}],
+        nav: [{name: 'product', title: '产品公告', path: '/webInfo/list/product'}, {name: 'website', title: '网站动态', path: '/webInfo/list/website'}, {name: 'aboutUs', title: '关于我们', path: '/webInfo/aboutUs'}, {name: 'Issues', title: '常见问题', path: '/webInfo/issues/list'}],
         no: 0
       }
     },
-    created () {
+    mounted () {
       this.judge()
     },
     watch: {
@@ -38,8 +38,7 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../assets/css/style.scss';
-  @import '../assets/fonts/iconfont.css';
+  @import '~assets/css/style.scss';
   .web_info{
     width: 100%;
     background: #f7f8fa;
@@ -69,3 +68,4 @@
     }
   }
 </style>
+

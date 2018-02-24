@@ -2,6 +2,7 @@
   // 长度
     $main_width:1180px;
     $mobile:768px;
+    $mobile_style:screen and (max-width: $mobile);
   // 颜色
     $white:#fff;
     $light_white:#cbcbcb;
@@ -11,7 +12,7 @@
     $light_black:#999;
     $black:#444;
     $border:#e5e5e5;
-    $blue:#327fff;
+    $blue:#327FFF;
     $light_blue:#75b7f3;
     $blue_border:#b1c4e5;
     $red:#ea2c2c;
@@ -23,18 +24,78 @@
     $fail:#f1624b;
     $fail_border:#fec6ad;
     $fail_bg:#ffedda;
-// 内外边距
-  @mixin gap($value:5,$item:all,$type:padding) {
-    @if $item == all {
-      #{$type}: #{$value}px;
-    } @else if $item == h {
-      #{$type}-left: #{$value}px;
-      #{$type}-right: #{$value}px;
-    } @else if $item == v {
-      #{$type}-top: #{$value}px;
-      #{$type}-bottom: #{$value}px;
+    $purple: #A53ECB;
+// 进度条(横向或圆形)
+  // *$type:1=>'横向';2=>'圆形',noColor=>'初始颜色', yesColor=>'过去的颜色'*
+  @mixin progress($type:2, $height: 5, $noColor: #ccc, $yesColor: #ffb386, $width:76, $top: 0.5, $right: 1, $paddingTop: 6, $border: 20) {
+    @if ($type == 2) {
+      .wrap,.circle,.percent{  
+        position: absolute;  
+        width: #{$width}px;  
+        height: #{$width}px;  
+        border-radius: 50%;  
+      }  
+      .wrap{  
+        top: #{$top}rem;  
+        right: #{$right}rem;
+        background-color: #ffb386;  
+      }  
+      .circle{  
+        box-sizing: border-box;  
+        border:#{$border}px solid #ffb386;  
+        clip:rect(0,#{$width}px,#{$width}px,#{$width / 2}px);  
+      }  
+      .clip-auto{  
+        clip:rect(auto, auto, auto, auto);  
+      }  
+      .percent{  
+        box-sizing: border-box;  
+        top:-#{$border}px;  
+        left:-#{$border}px;  
+      }  
+      .left11{  
+        transition:transform ease;  
+        border:#{$border}px solid #ccc;  
+        clip: rect(0,38px,#{$width}px,0);  
+      }  
+      .right11{  
+        border:#{$border}px solid #ccc;  
+        clip: rect(0,#{$width}px,#{$width}px,#{$width / 2}px);  
+      }  
+      .wth0{  
+        width:0;  
+      }  
+      .num{  
+        position: absolute;
+        box-sizing: border-box;
+        width: #{$width - 10}px;
+        height: #{$width - 10}px;
+        line-height: #{$width - 10}px;
+        text-align: center;
+        font-size: 14px;
+        left: 5px;
+        top: 5px;
+        border-radius: 50%;
+        background-color: #fff;
+        z-index: 1;
+      }
     } @else {
-      #{$type}-#{$item}: #{$value}px;
+      .progress_info1{
+        position: relative;
+        padding:#{$paddingTop}px 0;
+        .progress_box1{
+          position: relative;
+          overflow:hidden;
+          border-radius:#{$height}px;
+          height:#{$height}px;
+          background: #ccc;
+          .box1{
+            @include position;
+            background: linear-gradient(to right, $noColor 20%, $yesColor);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$noColor', endColorstr='$yesColor',GradientType=1 );
+          }
+        }
+      }
     }
   }
 // flex
@@ -61,11 +122,6 @@
       // text-align-last:auto
     }
   }
-// 全部
-  @mixin all($w:100%,$h:100%){
-    width: $w;
-    height: $h;
-  }
 // pos_value
   @mixin position($top:0,$left:0,$bottom:0,$right:0) {
     position: absolute;
@@ -73,15 +129,6 @@
     right: #{$right}px;
     bottom: #{$bottom}px;
     left: #{$left}px;
-  }
-// center
-  @mixin center($value:auto) {
-    @if $value == auto {
-      margin-left: auto;
-      margin-right: auto;
-    } @else {
-      vertical-align: $value;
-    }
   }
 // block
   @mixin block($value:20,$radius:0) {
@@ -91,6 +138,16 @@
     line-height: #{$value}px;
     border-radius: $radius
   }
+// linear_background
+  // @mixin linear_background($color1,$color12$r:h){
+  //   @if $r == h {
+  //     background: linear-gradient(to right, $color1 20%, $color2);
+  //     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=#{$color1}, endColorstr=#{$color2},GradientType=1 );
+  //   } @else {
+  //     background: linear-gradient(to bottom, $color1 20%, $color2);
+  //     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=#{$color1}, endColorstr=#{$color2},GradientType=0 );
+  //   }
+  // }
 // 省略
   @mixin ellipsis($line:0) {
     @if $line != 0 {
@@ -104,33 +161,6 @@
       text-overflow: ellipsis;
       overflow: hidden;
     }
-  }
-// 图片自适应
-  @mixin fitimg($w:70,$h:70,$v:middle,$type:cover) {
-    width: #{$w}px;
-    height: #{$h}px;
-    img{
-      width: 100%;
-      height: 100%;
-      object-fit: $type
-    }
-  }
-// 边框
-  @mixin border($type:bottom,$color:$border,$value:1) {
-    position: absolute;
-    background-color: #{$color};
-    content: '';
-    #{$type}: 0;
-    @if $type == 'left' or $type == 'right'{
-      top: 0;
-      width: #{$value}px;
-      height: 100%;
-    } @else {
-      left: 0;
-      width: 100%;
-      height: #{$value}px;
-    }
-    z-index: -1;
   }
 // 三角形
   @mixin triangle($type:right,$color:#dbdee5,$value:10) {
@@ -183,10 +213,6 @@
       vertical-align:middle;
     }
   }
-// 宽度
-  @function leave($value){
-    @return calc(100% - #{$value}px)
-  }
 // 对号
   @mixin right($w:8,$h:5,$color:$white){
     position: absolute;
@@ -230,28 +256,37 @@
     line-height:2;
     &.disabled{
       background: #f7f8fa;
-      & > span:nth-child(2){
+      span.form_icon{
         color: #ddd
       }
     }
-    & > span{
-      @include position(9,0,5,0)
-      right:auto;
-      &:first-child{
+    span{
+      &.form_title,&.form_icon,&.tips{
+        @include position(9,0,5,0)
+        right:auto;
+      }
+      &.form_title{
         width:70px;
         left:20px;
         @include mobile_hide
       }
-      &:nth-child(2){
+      &.form_icon{
         top:10px;
         bottom:10px;
         left:90px;
-        @include gap(15,h)
+        padding: 0 15px;
         color:$red;
         border-right:1px solid $border;
         @include mobile_hide
       }
-      &:last-child{
+      &.tips{
+        padding-left:25px;
+        font-size: 12px;
+        color:$red;
+        top:13px;
+        left:110%;
+        width:300px;
+        display: none;
         &:before{
           @include position(2,0,auto,auto)
           @include block(20)
@@ -262,16 +297,9 @@
           border-radius:5px;
           content:'!'
         }
-        padding-left:25px;
-        font-size: 12px;
-        color:$red;
-        top:13px;
-        left:110%;
-        width:300px;
         &:after{
           content:attr(tips)
         }
-        @include mobile_hide
       }
     }
     input,.sel,.select{
@@ -286,36 +314,21 @@
       &:focus{
         border-color:$blue
       }
-      &,&[data-status='valid']{
-        & ~ span{
-          display:none
-        }
-      }
       &[data-status='invalid'],&[data-status='null'],&[data-status='error'],&[data-status='success']{
         border-color:$red;
-        & ~ span{
+        & ~ span.tips{
           display:block
         }
       }
+      &[data-status='error'] ~ span.tips:after{
+        content:attr(error)
+      }
+      &[data-status='invalid'] ~ span.tips:after{
+        content:attr(title)
+      }
       &[data-status='success']{
         border-color:$blue_border;
-      }
-      &[data-status='error']{
-        & ~ span{
-          &:after{
-            content:attr(error)
-          }
-        }
-      }
-      &[data-status='invalid']{
-        & ~ span{
-          &:after{
-            content:attr(title)
-          }
-        }
-      }
-      &[data-status='success']{
-        & ~ span{
+        & ~ span.tips{
           color:green;
           &:before{
             background:green;
@@ -327,62 +340,38 @@
         }
       }
       @media screen and (max-width: $mobile) {
-        padding-left:10px;
+        padding:0.3rem;
         border-color:$border;
-        line-height: 25px;
-        height:43px;
-        font-size: 0.5rem;
-        &[data-status='invalid'],&[data-status='null'],&[data-status='error'],&[data-status='success']{
-          & ~ span{
-            display:none
-          }
+        height:48px;
+        font-size: 0.28rem;
+        border-width: 0 0 1px 0;
+        border-radius: 0;
+        &:focus{
+          border-color: #e5e5e5
         }
-      }
-    }
-    .select{
-      @include flex(space-between)
-      select{
-        width:33%;
-        height:32px;
-        line-height: 32px;
-        border:none;
       }
     }
     select{
       height:29px;
       line-height: 29px
     }
-    canvas,.btn{
-      @include position(5,auto,5,5)
-      width:90px;
-      cursor: pointer;
-      @media screen and (max-width: $mobile) {
-        height:34px;
-        line-height: 34px
-      }
-    }
-    .btn{
-      text-align: center;
-      @include button($blue)
-      font-size: 14px;
-      line-height: 38px;
-      @media screen and (max-width: $mobile) {
-        // background: #ececec;
-        // border-color:#ececec;
-        // color:$light_text;
-        line-height: 34px
-      }
-    }
-    &.addon{
-      input{
-        padding-right:100px;
-      }
+    &.addon input{
+      padding-right:100px;
     }
     .tips_info{
       @include position(10,auto,0,10)
       color: $light_black;
       span:last-child{
         font-size: 12px
+      }
+    }
+    @media screen and (max-width: $mobile) {
+      margin-bottom:0;
+      &.disabled{
+        background: #fff;
+      }
+      span.tips {
+        display: none !important;
       }
     }
   }
@@ -409,67 +398,70 @@
     }
   }
 // form
-  @mixin form($type:h){
-    width:420px;
-    h2{
-      font-size: 24px;
-      text-align:center;
-      color:$blue;
-      @include gap(35,v,margin)
-    }
+  @mixin form($type:h,$text:0){
+    width:100%;
     .input{
       @include input
       @if $type == v {
         margin-bottom:35px;
-        & > span:last-child{
+        span.tips{
           top:56px;
           left:10px
         }
       }
-      @media screen and (max-width: $mobile) {
-        margin-bottom:15px;
+      @if $text == 1 {
+        span:nth-child(1),span:nth-child(2){
+          display: none
+        }
+        input{
+          padding-left:15px;
+        }
+        .count_btn.btn {
+          top:0;
+          right: 0;
+          border-top-right-radius: 3px;
+          border-bottom-right-radius: 3px;
+          bottom: 0;
+        }
       }
     }
-    label input{
-      @include checkbox(18,0)
+    label {
+      display: block;
+      margin-top: 10px;
+      input {
+        @include checkbox(18,0)
+      }
+      span {
+        margin-left: 5px;
+      }
     }
     button{
       width:100%;
       font-size: 18px;
       @include button($blue)
       line-height:2.6;
-      @include gap(20,v,margin)
+      margin-top: 20px;
+    }
+    .btn {
+      display: none;
     }
     @media screen and (max-width: $mobile) {
-      width:100%
-    }
-  }
-// good_table
-  @mixin table{
-    width:100%;
-    tr{
-      th{
+      label {
+        padding: 0 0.3rem;
+      }
+      button,.btn {
+        line-height: 35px;
+        width: calc(100% - 0.6rem);
+        margin: 15px 0.3rem 0;
         font-size: 16px;
       }
-      td{
-        line-height: 2.75;
-        color: $light_text;
-        &:nth-child(1){
-          color: $active
-        }
-        &:nth-child(6){
-          color: $red
-        }
-        a{
-          display: inline-block;
-          @include gap(10,h)
-          line-height: 2
-        }
-      }
-      &:hover td:last-child a{
-        background:$red;
-        color: $white;
-        border-radius:15px;
+      .btn {
+        display: block;
+        text-align: center;
+        color: $light_black;
+        border: 1px solid $border;
+        font-size: 14px;
+        border-radius: 5px;
       }
     }
   }
@@ -495,7 +487,7 @@
         background: #f0f7fd;
       }
       .item_value{
-        width:leave(170);
+        width:calc(100% - 170px);
         span{
           float: right;
           font-size: 14px;
@@ -507,149 +499,31 @@
   }
 // icon_close
   @mixin close{
-    color: $white;
-    @include position(16.5,auto,auto,16.5)
+    position: absolute;
+    top:10px;
+    right:10px;
     z-index: 10;
-    .icon{
-      @include block(20,50%)
-      background: $white;
-      vertical-align: sub;
-      &:before,&:after{
-        @include position(10,3)
-        display: inline-block;
-        content:'';
-        width:14px;
-        height:1px;
-        background:$text;
-      }
-      &:before{
-        transform:rotate(45deg)
-      }
-      &:after{
-        transform:rotate(-45deg)
-      }
-    }
+    @include block(20,50%)
+    background: $white;
     cursor: pointer;
-  }
-// mask
-  @mixin mask{
-    @include position
-    background: rgba(0,0,0,.5);
-    z-index: 10;
-    .form_box{
-      position: absolute;
-      top:50%;
-      left:50%;
-      width:680px;
-      margin-left:-340px;
-      margin-top:-323px;
-      background: $white;
-      .close{
-        @include close
-      }
-      h2{
-        text-align: center;
-        background: #f3f9ff;
-      }
-    }
-  }
-// menu
-  @mixin menu{
-    &:not(.address_item){
-      @include flex(space-between)
-      padding:15px;
-      border:1px solid #e5e5e5;
-    }
-    &.success{
-      .icon{
-        position: relative;
-        background: $green;
-        &:before{
-          content:'';
-          @include right
-        }
-      }
-      .con_title{
-        color: $green;
-      }
-    }
-    &.fail{
-      .icon{
-        text-align: center;
-        background: $fail;
-        color: $white;
-        &:before{
-          content:'!'
-        }
-      }
-      .con_title{
-        color: $fail;
-      }
-    }
-    &:not(:last-child){
-      margin-bottom:25px;
-    }
-    &.address_item{
-      .item:not(:last-child){
-        margin-bottom: 0;
-        border-bottom:0
-      }
-      .item:not(:first-child){
-        .val{
-          text-align: left;
-          padding-left:19%;
-          width:80%
-        }
-      }
-    }
-    .icon{
-      @include block(18,50%)
-    }
-    .con_title{
-      width: 13%;
-      font-size: 16px;
-      font-weight: bold;
-    }
-    .desc{
-      width:38%;
-    }
-    .val{
-      width: 22%;
-      color: $light_text;
-      text-align: center;
-      span{
-        color: $text;
-      }
-    }
-    .opr{
-      width: 17%;
-      text-align: right;
-      color: $blue;
-      cursor: pointer;
-    }
-  }
-// navigator
-  @mixin navigator{
-    @include gap(15,top)
-    a{
-      color:$text
-    }
-    span:nth-child(2n){
+    &:before,&:after{
+      @include position(10,3)
       display: inline-block;
-      @include block(5)
-      color: $light_text;
-      vertical-align: middle;
-      @include gap(10,h,margin)
-      @include arrow(right,#CBCBCB,1)
+      content:'';
+      width:14px;
+      height:1px;
+      background:$text;
     }
-    span:last-child{
-      color:$light_text
+    &:before{
+      transform:rotate(45deg)
+    }
+    &:after{
+      transform:rotate(-45deg)
     }
   }
 // pager
   @mixin pager($color:$blue){
     @include flex(flex-end)
-    border-top:1px solid #bfbfbf;
     padding-top:20px;
     span{
       text-align: center;
@@ -659,7 +533,7 @@
       user-select:none;
       @include block(28)
       &:not(:last-child){
-        @include gap(10,right,margin)
+        margin-right: 10px;
       }
       &.pager_item.active,&.pager_item:hover{
         background:$color;
@@ -671,64 +545,20 @@
       }
       &:first-child,&:last-child{
         width:auto;
-        @include gap(20,h)
-      }
-    }
-  }
-// item
-  @mixin item($value:10,$type:solid){
-    &:not(:first-child){
-      @include gap($value,top)
-    }
-    &:not(:last-child){
-      @include gap($value,bottom)
-      border-bottom: 1px $type $border
-    }
-  }
-// btn_block
-  @mixin btnBlock{
-    width:100%;
-    color: $white;
-    background: $active;
-    font-size: 16px;
-    @include gap(10,v)
-    @include gap(15,v,margin)
-  }
-// title
-  @mixin title{
-    h1{
-      position:relative;
-      font-size: 22px;
-      margin-bottom: 15px;
-      padding-left: 15px;
-      &:before{
-        @include position
-        content:'';
-        top:8px;
-        width:4px;
-        height: 20px;
-        background:$active
+        padding: 0 20px;
       }
     }
   }
 // main_width
   @mixin main($w:$main_width){
     width:$w;
-    @include center
+    margin: 0 auto;
     @media screen and (max-width: 1178px) and (min-width: 768px){
       width:100%;
-      @include gap(20,h)
+      padding: 0 20px;
     }
     @media screen and (max-width: 768px){
       width:100%;
-    }
-  }
-// table
-  @mixin table{
-    width:100%;
-    text-align: center;
-    th{
-      font-weight: normal
     }
   }
 // detail_box
@@ -770,42 +600,90 @@
       }
     }
   }
-// data_table
-  @mixin data_table{
-    .sort{
-      background: #f5f8ff;
-      margin-bottom:10px;
-      @include gap(15,h)
-      border:0;
-      .item{
-        background: #f5f8ff;
-        line-height: 30px;
+// table
+  @mixin table($hover_color:#eee){
+    width:100%;
+    text-align: center;
+    tbody tr{
+      border-bottom:1px solid $border;
+      &:hover {
+        background: $hover_color;
       }
     }
+  }
+// data_table
+  @mixin data_table {
     table{
-      @include table
+      @include table(#f7f8fa)
       td{
         line-height: 55px;
-      }
-      tr:first-child{
-        background: #f7f8fa;
-        border-top:1px solid $border;
-        th{
+        button,a {
           font-size: 12px;
-          color: $light_text;
-          line-height: 48px;
+          line-height: 28px;
+          width: 80px;
+        }
+        button{
+          @include button($blue)
+          margin-right:5px;
+          &:disabled{
+            background: #759fe4;
+            border-color:#759fe4;
+          }
+        }
+        a {
+          display: inline-block;
+          @include button($blue,border)
+          border-radius: 5px;
         }
       }
-      tr:not(:first-child){
-        border-bottom:1px solid $border
+      thead{
+        border-top:1px solid $border;
+        background: #f7f8fa;
+        tr{
+          th{
+            font-size: 12px;
+            color: $light_text;
+            line-height: 50px;
+            font-weight: normal
+          }
+        }
       }
     }
     @include nodata
   }
+// button_table
+  @mixin button_table {
+    @include data_table
+    table tbody tr{
+      &:hover td a{
+        background: #327fff;
+        color:white;
+      }
+    }
+  }
+// user_tab
+  @mixin user_tab{
+    nav {
+      a{
+        padding: 0 10px;
+        display: inline-block;
+        padding-bottom:10px;
+        border-bottom: 3px solid transparent;
+        color:#6b7d90;
+        & + a{
+          margin-left:30px
+        }
+        &:hover,&.active,&.nuxt-link-active{
+          border-color:#7e92a8
+        }
+      }
+    }
+    border-bottom: 1px solid $border;
+  }
 // process
   @mixin process{
     padding:25px 30px;
-    @include flex(space-between)
+    @include flex
     .item{
       &:not(:last-child){
         position: relative;
@@ -861,10 +739,10 @@
     }
     .title_content{
       position: relative;
-      width:80px;
+      width:70px;
       border:1px solid $border;
       border-radius:3px;
-      @include gap(10,h)
+      padding: 0 10px;
       .title_now{
         font-weight: bold;
         height: 27px;
@@ -879,10 +757,10 @@
         }
       }
       .title_list{
-        @include position(27)
+        position:absolute;
+        top:27px;
         left:-1px;
         right:-1px;
-        height:100px;
         z-index: 2;
         background: #fff;
         border:1px solid $border;
@@ -891,7 +769,7 @@
         a{
           display: block;
           line-height: 2;
-          @include gap(10,h)
+          padding: 0 10px;
           &:hover{
             background: #eee
           }
@@ -914,91 +792,11 @@
         display: inline-block;
         width: 234px;
         height: 215px;
-        background: url('../../assets/images/css_sprites.png') -335px -10px;
+        background: url('~assets/images/css_sprites.png') -335px -10px;
       }
       p{
         color:$light_black;
         margin-top:15px
-      }
-    }
-  }
-// article
-  @mixin article{
-    @include main
-    background: $white;
-    border-radius:5px;
-    min-height:800px;
-    h2{
-      font-size: 18px;
-      font-weight: bold;
-      text-align: center;
-      padding:18px 0;
-      border-bottom:1px solid $border
-    }
-    .box_content{
-      padding:40px 90px;
-      font-size: 16px;
-      h3{
-        font-weight: bold;
-        margin-bottom:20px;
-      }
-      h4{
-        margin-bottom:30px;
-      }
-      p{
-        margin-bottom:20px;
-        line-height: 2;
-        text-indent: 2em;
-        &.b{
-          font-weight: bold;
-        }
-      }
-      .btn{
-        text-align: center;
-        button,a{
-          padding:10px 50px;
-          @include button($blue)
-          font-size: 16px;
-          border-radius:5px
-        }
-      }
-    }
-  }
-// number_input
-  @mixin number_box{
-    @include flex(space-between)
-    span{
-      width:10%;
-      text-align: center;
-      background: $border;
-      font-size: 18px;
-      font-weight: bold;
-      color: #c5c5c5;
-      cursor: pointer;
-      user-select:none;
-      &:last-child{
-        color: $orange;
-      }
-    }
-    input{
-      width:75%
-    }
-  }
-// accept_label
-  @mixin accept_label{
-    color: #666;
-    input{
-      &:checked{
-        background: #ff721f;
-        border-color: #ff721f;
-      }
-      & ~ span.select_accept{
-        opacity: 0;
-        color: #ff721f;
-        font-size: 12px;
-      }
-      &[data-status='invalid'] ~ span.select_accept{
-        opacity: 1;
       }
     }
   }
@@ -1013,126 +811,6 @@
     display: none;
     @media screen and (max-width: $mobile) {
       display: block;
-    }
-  }
-// mobile data
-  @mixin mobile_data{
-    padding:0 15px;
-    border-top:1px solid $border;
-    border-bottom:1px solid $border;
-    h3{
-      margin-bottom:0;
-      border-bottom:1px solid $border;
-      line-height: 40px;
-      .icon_currency{
-        display: none;
-      }
-      .sell_type{
-        width:45px;
-        border-radius:5px;
-        background: #ff721f;
-        color:$white;
-        &.active{
-          background: $blue;
-          color:$white;
-        }
-      }
-    }
-    .info_box{
-      display: none;
-    }
-    .mobile_info_box{
-      display: block;
-      color:$light_black;
-      line-height: 2;
-      padding:5px 0 10px 0;
-      @include flex(space-between)
-      .mobile_info{
-        width:75%;
-        h4{
-          span{
-            margin-left:10px;
-            color:#ffb386;
-            b{
-              font-weight: normal;
-              font-size: 24px;
-              color:$orange;
-            }
-          }
-        }
-        .mobile_text{
-          @include flex(space-between)
-          .mobile_text_item{
-            b{
-              font-weight: normal;
-              color:$text;
-              margin:0 4px;
-            }
-          }
-        }
-      }
-      .sell_progress{
-        width:70px;
-        height:70px;
-        line-height: 70px;
-        text-align: center;
-        border-radius:50%;
-        border:2px solid $border;
-        color:$orange;
-        // background-image: linear-gradient(0deg, #fff 50%, transparent 50%, transparent), linear-gradient(45deg, #fff 50%, #ff721f 50%, #ff721f);
-      }
-    }
-  }
-// mobile_popup
-  @mixin popup{
-    width:100%;
-    bottom:0 !important;
-    overflow:scroll;
-    height:80%;
-    .close{
-      @include close
-      top:5px;
-      right:12px;
-    }
-    .form{
-      box-sizing:border-box;
-      margin-top:1rem;
-      @include form(v)
-    }
-    .agreement,.form{
-      padding:15px;
-      overflow:auto;
-    }
-    .agreement{
-      height:calc(90vh - 30px);
-    }
-  }
-// data_title
-  @mixin data_title{
-    @include flex(space-between)
-    @include gap(15,v,margin);
-    @include main
-    position: relative;
-    span:nth-child(1){
-      font-size: 24px;
-      font-weight: bold;
-    }
-    span:nth-child(2){
-      width:452px;
-      height:27px;
-      margin-left:20px;
-      font-size: 14px;
-      background: linear-gradient(to right, #b28850, #cfa972);
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b28850', endColorstr='#cfa972',GradientType=1 );
-      color:$white;
-      padding:3px 10px
-    }
-    a{
-      font-size: 16px;
-      color:#999;
-      &:hover{
-        color:$blue
-      }
     }
   }
 // address_data
@@ -1193,6 +871,157 @@
         color:#00BDB6;
         margin-right:3px;
         font-weight: bold;
+      }
+    }
+  }
+// mobile_footer_btn
+  @mixin mobile_footer_btn{
+    position: fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    text-align: center;
+    border-top:1px solid $border;
+    padding:9px 15px;
+    background: #fff;
+    z-index: 999;
+    button {
+      width:100%;
+      border:0;
+      background-color: $blue;
+      color:#fff;
+      font-size: 16px;
+      line-height: 2.4;
+      &:disabled{
+        // opacity: 0.7;
+        background: #b5b0af;
+      }
+      & + button{
+        margin-top:10px;
+      }
+    }
+  }
+// cloud_miner_box
+  @mixin cloud_miner_box{
+    h3{
+      font-size: 18px;
+      margin-bottom:10px;
+      .icon_currency{
+        margin-left:5px;
+      }
+      .sell_type{
+        font-size: 12px;
+        margin-left:8px;
+        width:58px;
+        height: 18px;
+        text-align: center;
+        border-radius:18px;
+        line-height:15px;
+        color:#ff721f;
+        display: inline-block;
+        border:1px solid #ff721f;
+        position: relative;
+        top: -4px;
+        &.gray{
+          border:1px solid #999;
+          color: #999;
+          background: none;
+        }
+        &.active{
+          border-color:$blue;
+          color:$blue;
+        }
+      }
+    }
+    &:not(:last-child){
+      margin-bottom:10px;
+    }
+  }
+// pay_type
+  @mixin pay_type{
+    padding:15px 20px;
+    margin:10px 15px;
+    @include flex(space-between);
+    color: $light_black;
+    .pay_value{
+      input{
+        @include checkbox(18)
+        margin-right:5px;
+        vertical-align: text-top;
+      }
+      span{
+        line-height: 25px;
+        height:25px;
+        &:before{
+          font-family:"iconfont" !important;
+          font-size: 20px;
+          line-height: 25px;
+          position: relative;
+          vertical-align: sub;
+        }
+        &.yue:before{
+          content:'\e60c'
+        }
+        &.zhifubao:before{
+          content:'\e615';
+          color:#00AAF0
+        }
+      }
+    }
+    .pay_info{
+      .money{
+        color:$orange;
+        font-weight: bold;
+      }
+    }
+    a{
+      color: #327fff;
+    }
+    &.active{
+      outline:5px solid $blue_border
+    }
+  }
+// mobile_pay_type
+  @mixin mobile_pay_type{
+    color: $text;
+    padding-bottom:32px;
+    .pay_item{
+      margin:0 15px;
+      line-height: 50px;
+      position: relative;
+      span{
+        .val{
+          color:$light_text;
+          margin-left:15px;
+        }
+        &.zhifubao:before,&.yue:before{
+          font-family:"iconfont" !important;
+          font-size: 20px;
+          line-height: 25px;
+          vertical-align: sub;
+          margin-right:5px;
+        }
+        &.yue:before{
+          content:'\e60c'
+        }
+        &.zhifubao:before{
+          content:'\e615';
+          color:#00AAF0
+        }
+      }
+      a{
+        color:$blue;
+        margin-left: 20px;
+      }
+      &.active:after{
+        position: absolute;
+        content:'\e613';
+        font-family: 'iconfont';
+        color:$blue;
+        right: 0;
+      }
+      &:not(:last-child){
+        border-bottom:1px solid $border;
       }
     }
   }

@@ -1,158 +1,159 @@
 <template>
   <div class="form_field">
-    <div :class="['input', {addon: f.addon}, {disabled: f.edit}]" v-for="f in form">
-      <!-- title -->
-      <span>{{f.title}}</span>
-      <span>*</span>
-      <!-- type -->
-      <template v-if="!f.edit">
-        <!-- input -->
-        <template v-if="f.type!=='select'">
-          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern&&check[f.pattern].code" :value="$parent[f.value]&&$parent[f.value].card_no" v-if="f.value==='bank_card'" :title="f.pattern&&check[f.pattern].tips">
-          <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern&&check[f.pattern].code" @change="f.changeEvent&&$parent.$parent.onChange($event,f.name,f.tipsUnit)" :isChange="f.isChange" :title="f.pattern&&check[f.pattern].tips" :maxlength="f.len" v-else>
-        </template>
-        <!-- select -->
-        <div class="sel" v-else-if="f.option">
-          <select :name="f.name" isChange="f.isChange">
-            <template v-if="f.name==='product_hash_type'">
-              <option :value="v.name" v-for="v,k in hashType">{{v.name}}</option>
-            </template>
-            <template v-else>
-              <option :value="v" v-for="v,k in f.option">{{v}}{{f.unit}}</option>
-            </template>
-          </select>
-        </div>
-        <!-- select city -->
-        <div class="select" v-else>
-          <select name="province_name" id="" @change="changeCity" :isChange="true">
-            <option :value="v.name" v-for="v,k in province" :selected="p===v.name">{{v.name}}</option>
-          </select>
-          <select name="city_name" id="" @change="changeCounty" :isChange="true">
-            <option :value="v.name" v-for="v,k in city" :selected="c===v.name">{{v.name}}</option>
-          </select>
-          <select name="area_name" id="" :isChange="true" @change="changeItem">
-            <option :value="v.name" v-for="v,k in county" :selected="n===v.name">{{v.name}}</option>
-          </select>
-        </div>
-      </template>
-      <template v-else>
-        <input :type="f.type" :name="f.name" :isChange="f.isChange" disabled v-if="f.name==='open_bank'">
-        <input :type="f.type" :name="f.name" :value="$parent[f.name]||$parent.$parent[f.name]" disabled :isChange="f.isChange" v-else>
-      </template>
-      <!-- tips_info -->
-      <div class="tips_info" v-if="f.tipsInfo">
-        <template v-if="f.tipsUnit==='hash'">
-          <span>{{($parent.product_hash_type||$parent.$parent.product_hash_type).toLowerCase()}}</span>
-          <span>{{f.tipsInfo+'：'+($parent[f.name]||$parent.$parent[f.name])+($parent.product_hash_type||$parent.$parent.product_hash_type).toLowerCase()}}</span>
-        </template>
-        <template v-else>
-          <span>{{f.tipsUnit}}</span>
-          <template v-if="f.tipsInfo!=='show'">
-            <span v-if="f.showUse">{{f.tipsInfo+'：'+$parent.$parent.have_use_time+f.tipsUnit}}</span>
-            <span v-else>{{f.tipsInfo+'：'+$parent.$parent[f.name]+f.tipsUnit}}</span>
+    <template v-for="f in form">
+      <div :class="['input', {addon: f.addon}, {disabled: f.edit}]" v-if="f.type!=='radio'">
+        <!-- title -->
+        <span class="form_title">{{f.title}}</span>
+        <span class="form_icon">*</span>
+        <!-- type -->
+        <template v-if="!f.edit">
+          <template v-if="f.type!=='select'">
+            <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern&&check[f.pattern].code" :title="f.pattern&&check[f.pattern].tips" :value="bank_card&&bank_card.card_no" v-if="f.value">
+            <input :type="f.type" :name="f.name" autocomplete="off" :placeholder="f.placeholder" @blur="test" :pattern="f.pattern&&check[f.pattern].code" :title="f.pattern&&check[f.pattern].tips" :isChange="f.isChange" :maxlength="f.len" @change="f.changeEvent&&onChange($event,f.name)" @input="f.focusEvent&&onFocus($event)" v-else>
           </template>
+          <div class="sel" v-else-if="f.option">
+            <select :name="f.name" @change="f.changeEvent&&onChange($event)" :isChange="f.isChange">
+              <template v-if="f.name==='product_hash_type'">
+                <option :value="v.name" v-for="v,k in hashType">{{v.name}}</option>
+              </template>
+              <template v-else>
+                <option :value="v.id" v-for="v,k in f.option">{{v.item}}{{f.unit||''}}</option>
+              </template>
+            </select>
+          </div>
+          <select-city v-else></select-city>
         </template>
+        <input :type="f.type" :name="f.name" :value="f.value===undefined?((f.name==='mobile')?mobile:data[f.name]):f.value" disabled :isChange="f.isChange" v-else>
+        <!-- tips_info -->
+        <div class="tips_info" v-if="f.tipsInfo">
+          <span>{{f.tipsUnit}}</span>
+          <span v-if="f.tipsInfo!=='show'">{{f.tipsInfo+'：'+f.value2+f.tipsUnit}}</span>
+        </div>
+        <!-- addon -->
+        <template v-if="f.addon">
+          <canvas id="code" width="90" height="40" v-if="f.addon===1" @click="changeCode"></canvas>
+          <div class="count_btn" v-if="f.addon===2" @click="getCode(f.value2, f.value3, $event)">{{str}}</div>
+        </template>
+        <!-- tips -->
+        <span class="tips" :title="f.pattern&&check[f.pattern].tips" :error="(f.pattern&&check[f.pattern].error)||f.error" :tips="f.placeholder" :success="f.pattern&&check[f.pattern].success" v-if="!f.edit"></span>
+        <!-- password level -->
+        <div class="password_level" v-if="f.focusEvent">
+          <span class="item" v-for="i in 3"></span>
+        </div>
       </div>
-      <!-- addon -->
-      <template v-if="f.addon">
-        <canvas id="code" width="90" height="40" v-if="f.addon===1" @click="changeCode"></canvas>
-        <div class="count_btn btn" v-if="f.addon===2" @click="getCode">{{str}}</div>
-      </template>
-      <!-- tips -->
-      <span :title="f.pattern&&check[f.pattern].tips" :error="(f.pattern&&check[f.pattern].error)||f.error" :tips="f.placeholder" :success="f.pattern&&check[f.pattern].success" v-if="!f.edit"></span>
-    </div>
+      <label class="checkbox" v-else>
+        <input type="checkbox" :name="f.name">
+        <span>{{f.title}}</span>
+      </label>
+    </template>
   </div>
 </template>
 
 <script>
-  import util from '@/util/index'
+  import util from '@/util'
   import api from '@/util/function'
   import city from '@/util/city'
   import { mapState } from 'vuex'
+  import SelectCity from '@/components/common/SelectCity'
   export default {
     name: 'form_field',
+    components: {
+      SelectCity
+    },
     props: {
       form: {
         type: Array
+      },
+      mode: {
+        type: Number
       }
     },
     data () {
       return {
-        province: [],
-        city: [],
-        county: [],
-        p: '',
-        c: '',
-        n: '',
         str: '获取验证码',
-        check: {tel: {code: '^1[34578][0-9]{9}$', tips: '请输入11位手机号'}, password: {code: '^[0-9a-zA-Z_]{6,16}$', tips: '密码应在6-16位之间的字母数字和下划线'}, imgCode: {code: '^[0-9a-zA-Z]{4}$', tips: '请输入4位字符', error: '图形验证码错误，请重新输入'}, telCode: {code: '^[0-9]{6}$', tips: '请输入6位数字', success: '发送成功'}, idCard: {code: '^([0-9]{15}$|^[0-9]{18}$|^[0-9]{17}([0-9]|X|x))$', tips: '身份证号应是18位'}, bankCard: {code: '^[0-9]{16,21}$', tips: '请输入16至21位的银行卡号'}, computeAddress: {code: '^[0-9a-zA-Z]{34,}$', tips: '请输入至少34位的字符'}, money: {code: '^[2-9][0-9]|[0-9]{3,}$', tips: '请输入至少20的整数'}, coin: {code: '^[1-9][0-9]*|[1-9][0-9]*[.][0-9]{1,8}|0[.][0-9]{2}[1-9][0-9]{0,5}|0[.][1-9]{1}[0-9]{0,7}|0[.]0[1-9]{1}[0-9]{0,6}$', tips: '请输入大于0.001的整数或8位小数'}, float: {code: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'}, int: {code: '^[0-9]+$', tips: '请输入整数'}, bigMoney: {code: '^[1-9][0-9]{2,}$', tips: '请输入至少100的整数'}}
+        check: {
+          tel: {code: '^1[34578][0-9]{9}$', tips: '请输入11位手机号'},
+          password: {code: '^[0-9a-zA-Z_]{6,16}$', tips: '密码应在6-16位之间的字母数字'},
+          imgCode: {code: '^[0-9a-zA-Z]{4}$', tips: '请输入4位字符', error: '图形验证码错误'},
+          telCode: {code: '^[0-9]{6}$', tips: '请输入6位数字', success: '发送成功'},
+          idCard: {code: '^([0-9]{15}$|^[0-9]{18}$|^[0-9]{17}([0-9]|X|x))$', tips: '身份证号应是18位'},
+          bankCard: {code: '^[0-9]{16,21}$', tips: '请输入16至21位的银行卡号'},
+          computeAddress: {code: '^[0-9a-zA-Z]{34,}$', tips: '请输入至少34位的字符'},
+          money: {code: '^[2-9][0-9]|[0-9]{3,}$', tips: '请输入至少20的整数'},
+          coin: {code: '^[1-9][0-9]*|[1-9][0-9]*[.][0-9]{1,8}|0[.][0-9]{2}[1-9][0-9]{0,5}|0[.][1-9]{1}[0-9]{0,7}|0[.]0[1-9]{1}[0-9]{0,6}$', tips: '请输入大于或者等于0.001的有效值'},
+          float: {code: '^[0-9]+(.[0-9]{1,2})?$', tips: '请输入整数或两位小数'},
+          int: {code: '^[0-9]+$', tips: '请输入整数'},
+          bigMoney: {code: '^[1-9][0-9]{2,}$', tips: '请输入至少100的整数'}
+        },
+        data: {card_type: '中国大陆身份证'}
       }
     },
     mounted () {
-      this.province = city
-      this.setCity(this.p)
-      this.setCounty(this.c)
       if (!document.querySelector('#code')) return false
       this.changeCode()
     },
     methods: {
       test (e) {
         var ele = e.target
-        var ff = document.querySelector('.form')
-        api.checkFiled(ele, ff)
+        if (e.target.className) {
+          e.target.className = ''
+        }
+        if (!ele.value) return false
+        var ff = ele.parentNode.parentNode.parentNode
+        if (ele.name === 'password1') {
+          api.checkFiled(ele, this.isMobile || this.mode, ff.password)
+        } else {
+          api.checkFiled(ele, this.isMobile || this.mode)
+        }
       },
       changeCode () {
         var ele = document.querySelector('#code')
-        localStorage.setItem('code', api.createCode(ele))
+        api.setStorge('suanli', {imgCode: api.createCode(ele)})
       },
-      getCode () {
-        var form = document.querySelector('.form')
-        var ele = document.querySelector('.count_btn')
+      getCode (price, num, e) {
+        var ele = e.target
+        var form = ele.parentNode.parentNode.parentNode
         var telEle = form.dep_tel || form.mobile
-        var isTel = api.checkCode(telEle)
-        if (isTel) {
-          telEle.focus()
+        var imgCode = form.imgCode
+        if (telEle && api.checkOne(telEle, this.isMobile || this.mode)) return false
+        if (telEle.getAttribute('data-error') === 'true') {
+          api.setTips(telEle, 'error', this.isMobile || this.mode, '该用户已存在')
           return false
         }
+        if (imgCode && api.checkOne(imgCode, this.isMobile || this.mode)) return false
+        if (price && num) {
+          var money = price * num
+          if (+this.balance < money) {
+            api.tips('余额不足，请先充值')
+            return false
+          }
+        }
         if (ele.getAttribute('disabled') === 'true') return false
-        util.post('send_code', {sign: api.serialize({token: this.token, mobile: form.dep_tel ? form.dep_tel.value : form.mobile.value})}).then(res => {
-          api.setTips(form.code, 'success')
-          api.countDown()
-          ele.setAttribute('disabled', true)
+        api.countDown(e)
+        ele.setAttribute('disabled', true)
+        util.post('send_code', {token: this.token, mobile: form.dep_tel ? form.dep_tel.value : form.mobile.value}).then((res) => {
+          if (!(this.isMobile || this.mode)) {
+            api.setTips(form.code, 'success')
+          } else {
+            api.tips('发送成功')
+          }
         })
       },
-      selectCity (arr, value) {
-        return arr.filter((v) => v.name === value)
+      onChange (e, name, unit) {
+        this.$emit('onChange', {e, name, unit})
       },
-      changeCity (e) {
-        this.setCity(e.target.value)
-        this.setCounty(this.city[0].name)
-      },
-      changeCounty (e) {
-        this.setCounty(e.target.value)
-      },
-      changeItem (e) {
-        this.n = e.target.value
-      },
-      setCity (v) {
-        this.p = v
-        var cities = this.selectCity(city, v)
-        cities = cities.length ? cities[0] : city[0]
-        this.city = cities.city
-      },
-      setCounty (v) {
-        this.c = v
-        var counties = this.selectCity(this.city, v)
-        counties = counties.length ? counties[0] : this.city[0]
-        this.county = counties.county
+      onFocus (e) {
+        this.$emit('onFocus', e)
       }
     },
     computed: {
       ...mapState({
         token: state => state.info.token,
-        user_id: state => state.info.user_id,
+        bank_card: state => state.info.bank_card,
         mobile: state => state.info.mobile,
-        hashType: state => state.hashType
+        hashType: state => state.hashType,
+        isMobile: state => state.isMobile,
+        balance: state => state.info.balance
       })
     },
     filters: {
@@ -161,3 +162,34 @@
     }
   }
 </script>
+
+<style type="text/css" lang="scss">
+  @import '~assets/css/style.scss';
+  .form_field .input{
+    canvas,.count_btn{
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width:90px;
+      height: 34px;
+      line-height: 34px;
+      cursor: pointer;
+    }
+    .count_btn{
+      text-align: center;
+      background: #327fff;
+      color: #fff;
+      font-size: 14px;
+    }
+    @media screen and (max-width: $mobile) {
+      canvas,.count_btn{
+        width: 80px;
+        height: 28px;
+        line-height: 28px;
+        top: 10px;
+        right: 10px;
+        font-size: 12px;
+      }
+    }
+  }
+</style>

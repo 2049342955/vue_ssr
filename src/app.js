@@ -8,14 +8,15 @@ import titleMixin from './util/title'
 import ElementUI from 'element-ui'
 // import { sync } from 'vuex-router-sync'
 
+const router = createRouter()
+const store = createStore()
+
 Vue.config.productionTip = false
 Vue.mixin(titleMixin)
 Vue.use(MintUI)
 Vue.use(ElementUI)
 
 export function createApp () {
-  const router = createRouter()
-  const store = createStore()
   const app = new Vue({
     router,
     store,

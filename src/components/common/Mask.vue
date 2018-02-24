@@ -1,27 +1,44 @@
 <template>
-  <section class="mask_con">
-    <div class="form_box">
-      <div class="close" @click="$parent.closeEdit()">
-        <span class="icon"></span>
+  <div :class="'popup '+position" @click="testMask(maskClose, $event)">
+    <div :class="['popup_con', {buy_box:title==='选择购买数量'}]">
+      <div class="popup_title" v-if="position!=='middle'">
+        <span>{{title}}</span>
+        <span class="icon_close" @click="closeMask"></span>
+        <span class="mobile_close" @click="closeMask"></span>
       </div>
-      <h2>{{title}}</h2>
-      <form :class="['form form_content', {card_form: $parent.edit==='card'}]" @submit.prevent="$parent.submit" novalidate v-if="!contract">
-        <FormField :form="form"></FormField>
-        <p v-if="$parent.fee&&$parent.edit!=='GetIncome'">手续费：{{$parent.total_price * $parent.fee|format}}元<span class="fee">({{$parent.fee*100+'%'}})</span></p>
-        <p v-if="$parent.fee&&$parent.edit==='GetIncome'">手续费：0.0002btc</p>
+      <form class="form" @submit.prevent="submit" novalidate v-if="form&&form.length">
+        <AddressInput :form="form" :val="val" v-if="val"></AddressInput>
+        <template v-else>
+          <FormField :form="form" @onChange="onChange"></FormField>
+          <slot name="fee"></slot>
+        </template>
         <button name="btn">确认提交</button>
+        <div class="btn" @click="closeMask">取消</div>
       </form>
-      <div class="contract" v-html="contract" v-else></div>
+      <template v-else-if="contract">
+        <slot name="selfEdit" v-if="contract==='selfEdit'"></slot>
+        <div class="popup_body" v-html="contract" v-else></div>
+        <div class="popup_foot">
+          <label for="accept1" @click="goOn">
+            <span>同意并继续</span>
+          </label>
+        </div>
+      </template>
+      <slot name="pay_type" v-if="title==='支付方式'"></slot>
+      <slot name="select_opr" v-if="title==='立即认证'||title==='立即绑定'"></slot>
+      <slot name="chart" v-if="title==='收益图表'"></slot>
+      <slot name="buy_box" v-if="title==='选择购买数量'"></slot>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
   import FormField from '@/components/common/FormField'
+  import AddressInput from '@/components/common/AddressInput'
   import api from '@/util/function'
   export default {
     components: {
-      FormField
+      FormField, AddressInput
     },
     props: {
       form: {
@@ -32,50 +49,43 @@
       },
       contract: {
         type: String
+      },
+      val: {
+        type: Object
+      },
+      position: {
+        type: String,
+        default: 'all'
+      },
+      maskClose: {
+        type: Boolean
       }
     },
     filters: {
       format: api.decimal
+    },
+    methods: {
+      goOn () {
+        var accept = document.querySelector('#accept')
+        accept.checked = true
+        this.closeMask()
+      },
+      testMask (i, e) {
+        if (!i) return false
+        var ele = document.querySelector('.popup')
+        if (e.target === ele) {
+          this.closeMask()
+        }
+      },
+      closeMask () {
+        this.$emit('closeMask')
+      },
+      submit (e) {
+        this.$emit('submit', e)
+      },
+      onChange (obj) {
+        this.$emit('onChange', obj)
+      }
     }
   }
 </script>
-
-<style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
-  .mask_con{
-    @include mask
-    .form_box{
-      .form_content{
-        padding:40px 130px;
-        @include form(v)
-        &.card_form .input{
-          span{
-            &:first-child {
-              width: 120px;
-              text-align: right;
-            }
-            &:nth-child(2) {
-              left: 135px
-            }
-          }
-          input,.sel,.select{
-            padding-left:185px
-          }
-        }
-        .fee{
-          font-size: 12px;
-          color: $light_black;
-          margin-left:5px
-        }
-      }
-    }
-    .contract{
-      padding:30px;
-      height:680px;
-      overflow:auto;
-      p, p > *{
-        white-space:wrap !important;
-      }
-    }
-  }
-</style>

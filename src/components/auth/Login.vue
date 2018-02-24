@@ -1,9 +1,9 @@
 <template>
   <div class="login">
     <div class="info">
-      <h1>开启您的挖矿之旅!</h1>
-      <h3>非常简单-您的挖矿设备已经设置并运行了</h3>
-      <h3>登录账号-您即可开始使用我们的运算力挖矿服务开始挖矿</h3>
+      <h1>开启您的收益之旅!</h1>
+      <h3>非常简单-您的算力设备已经设置并运行了</h3>
+      <h3>登录账号-您即可开始使用我们的云算力服务</h3>
     </div>
     <form class="form" action="" @submit.prevent="login" novalidate>
       <h3>
@@ -24,8 +24,8 @@
 </template>
 
 <script>
-  import { Toast } from 'mint-ui'
-  import util from '@/util/index'
+  import util, { fetchApiData } from '@/util'
+  import md5 from 'js-md5'
   import api from '@/util/function'
   import FormField from '@/components/common/FormField'
   import { mapState } from 'vuex'
@@ -36,56 +36,49 @@
     },
     data () {
       return {
-        form: [{name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: 'tel'}, {name: 'password', type: 'password', title: '登录密码', placeholder: '请输入您的登录密码', pattern: 'password'}]
+        form: [
+          {name: 'mobile', type: 'text', title: '手机号码', placeholder: '请输入手机号', pattern: 'tel'},
+          {name: 'password', type: 'password', title: '登录密码', placeholder: '请输入您的登录密码', pattern: 'password'}
+        ]
       }
     },
-    title () {
-      return this.$route.name
-    },
     methods: {
-      login () {
-        var form = document.querySelector('.form')
-        var data = api.checkFrom(form, this, api.checkEquipment())
+      login (e) {
+        var form = e.target
+        var data = api.checkForm(form, this.isMobile)
         if (!data) return false
-        var self = this
+        data.password = md5(data.password)
         form.btn.setAttribute('disabled', true)
-        util.post('login', {sign: api.serialize(Object.assign(data, {token: 0}))}).then(res => {
-          api.checkAjax(self, res, () => {
-            self.$store.commit('SET_TOKEN', Object.assign(res, {mobile: data.mobile}))
-            util.post('getAll', {sign: api.serialize(res)}).then(function (data) {
-              self.$store.commit('SET_INFO', data)
-            })
-            api.tips('欢迎来到算力网！', () => {
-              if (self.callUrl) {
-                location.href = self.callUrl
-                self.$store.commit('SET_URL', '')
-              } else {
-                self.$router.push({name: 'home'})
-              }
-            })
-          }, form.btn)
-        }).catch(res => {
-          api.tips('您的网络情况不太好，请稍后再尝试')
-        })
-      },
-      myToast (str) {
-        Toast({
-          message: str,
-          position: 'middle',
-          duration: 3000
-        })
+        fetchApiData(this, 'login', Object.assign(data, {token: 0}), (res) => {
+          this.$store.commit('SET_TOKEN', Object.assign(res, {mobile: data.mobile}))
+          util.post('getAll', res).then((data) => {
+            this.$store.commit('SET_INFO', data.msg)
+          })
+          if (this.callUrl) {
+            this.$router.push({path: this.callUrl})
+            this.$store.commit('SET_URL', '')
+          } else if (this.isMobile) {
+            this.$router.push({path: '/minerShop/cloudCompute'})
+          } else {
+            this.$router.push({path: '/'})
+          }
+        }, form.btn)
       }
     },
     computed: {
       ...mapState({
+        isMobile: state => state.isMobile,
         callUrl: state => state.callUrl
       })
+    },
+    mounted() {
+      window.scroll(0, 0)
     }
   }
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
+  @import '~assets/css/style.scss';
   .login{
     width:100%;
     @include flex(space-between)
@@ -108,7 +101,8 @@
       color:$light_text;
       background:$white;
       padding:35px;
-      @include form(v)
+      @include form(v,1)
+      width:420px;
       h3{
         overflow:hidden;
         span{
@@ -138,11 +132,8 @@
         }
       }
       .input{
-        input{
-          padding-left:134px;
-        }
         span:nth-child(2){
-          @include gap(10,h)
+          padding: 0 10px;
           top:15px;
           bottom:15px
         }
@@ -154,7 +145,6 @@
     @media screen and (max-width: $mobile) {
       .form .go_regist{
         border-top:0;
-        padding-top:0;
         @include flex(space-between)
         &,a{
           font-size: 14px;

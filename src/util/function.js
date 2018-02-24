@@ -21,6 +21,32 @@ api.date = (d, t) => {
       return year + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + seconds
   }
 }
+api.pastTime = (time) => {
+  var arr = [24 * 3600 * 1000, 3600 * 1000, 60 * 1000, 1000]
+  var now = new Date()
+  var allTime = now.getTime() - new Date(time.replace(/-/g, '/')).getTime()
+  var days = Math.floor(allTime / arr[0])
+  if (days > 0) {
+    if (days >= 28) {
+      return time
+    } else {
+      return days + '天前'
+    }
+  }
+  var leaveDays = allTime % arr[0]
+  var hours = Math.floor(leaveDays / arr[1])
+  if (hours > 0) {
+    return hours + '小时前'
+  }
+  var leaveHours = leaveDays % arr[1]
+  var minutes = Math.floor(leaveHours / arr[2])
+  if (minutes > 0) {
+    return minutes + '分钟前'
+  }
+  var leaveMinutes = leaveHours % arr[2]
+  var seconds = Math.floor(leaveMinutes / arr[3])
+  return seconds + '秒前'
+}
 api.serialize = data => {
   var str = []
   for (let [k, v] of Object.entries(data)) {
@@ -52,19 +78,17 @@ api.telReadable = (tel) => {
 }
 api.cardReadable = (tel) => {
   if (tel) {
-    console.log(tel)
-    return tel.replace(/(\d{4})\d{8,13}(\d{4})/, '$1****$2')
+    return tel.replace(/(\d{12,})(\d{4})/, '**** **** **** $2')
   }
 }
 api.currency = (num, n, i) => {
-  if (i) {
-    var sign = (num + '').includes('-')
-    num = sign ? num.slice(1) : num
+  var sign = num.toString().indexOf('-') > -1
+  if (i || sign) {
+    num = sign ? num.toString().slice(1) : num
   }
-  var result = ''
   num = api.decimal(num, n)
-  result = api.readable(num.slice(0, num.length - 3)) + num.slice(-3)
-  if (i) {
+  var result = api.readable(num.slice(0, num.length - 3)) + num.slice(-3)
+  if (i || sign) {
     result = sign ? '-' + result : '+' + result
   }
   return result
@@ -105,9 +129,9 @@ api.line = () => {
   line.y = Math.floor(Math.random() * 40)
   return line
 }
-api.countDown = () => {
+api.countDown = (e) => {
   var t = 60
-  var ele = document.querySelector('.count_btn') || document.getElementsByClassName('count_btn')[0]
+  var ele = e.target || e
   window.tt = setInterval(() => {
     if (t === 0) {
       ele.innerHTML = '重新获取'
@@ -119,34 +143,38 @@ api.countDown = () => {
     }
   }, 1000)
 }
-api.checkFrom = (form, obj, ismobile) => {
-  var result = api.validityForm(form, obj, ismobile)
+api.checkForm = (form, isMobile) => {
+  var result = api.validityForm(form, isMobile)
   if (!result.status) {
     return result
   }
 }
-api.validityForm = (form, obj, ismobile) => {
+api.validityForm = (form, isMobile) => {
   var data = {}
   var icon = 0
   var n = ''
   for (var i = 0; i <= form.length - 2; i++) {
     var ele = form[i]
     if (ele.value) {
-      if (api.checkFiled(ele, form)) {
+      var result = false
+      if (ele.name === 'password1') {
+        result = api.checkFiled(ele, isMobile, form.password)
+      } else {
+        result = api.checkFiled(ele, isMobile)
+      }
+      if (result) {
         if (ele.getAttribute('isChange')) {
           data[ele.name] = encodeURIComponent(ele.value)
         } else {
           data[ele.name] = ele.value
         }
       } else {
-        api.errorTip(ele, ele.title, ismobile, obj)
         icon = 1
         n = i
         break
       }
     } else {
-      api.errorTip(ele, ele.placeholder, ismobile, obj)
-      api.setTips(ele, 'null')
+      api.setTips(ele, 'null', isMobile, ele.placeholder)
       icon = 2
       n = i
       break
@@ -171,81 +199,59 @@ api.clearForm = (form) => {
     ele.setAttribute('disabled', false)
   }
 }
-api.errorTip = (ele, str, ismobile, obj) => {
-  ele.focus()
-  if (ismobile) {
-    obj.myToast(str)
-  }
-}
-api.checkFiled = (ele, form) => {
-  if (!(ele.checkValidity ? ele.checkValidity() : api.check(ele.pattern || ele.getAttribute('pattern'), ele.value))) {
-    api.setTips(ele, 'invalid')
+api.checkFiled = (ele, isMobile, password) => {
+  if (api.checkEle(ele)) {
+    api.setTips(ele, 'invalid', isMobile, ele.title)
     return false
-  } else if ((ele.name === 'imgCode' && ele.value && (ele.value.toLowerCase() !== localStorage.getItem('code').toLowerCase())) || (ele.name === 'password1' && ele.value !== form.password.value) || (ele.name === 'trade_password1' && ele.value !== form.trade_password.value)) {
-    api.setTips(ele, 'error')
+  }
+  if (ele.name === 'imgCode' && (ele.value.toLowerCase() !== api.getStorge('suanli').imgCode.toLowerCase())) {
+    api.setTips(ele, 'error', isMobile, '图形验证码错误')
+    return false
+  } else if (ele.name === 'password1' && password.value && ele.value !== password.value) {
+    api.setTips(ele, 'error', isMobile, '两次密码不一致')
+    return false
+  }
+  return true
+}
+api.checkEle = (ele) => {
+  if (ele.checkValidity ? ele.checkValidity() : api.check(ele.pattern || ele.getAttribute('pattern'), ele.value)) {
     return false
   } else {
-    api.setTips(ele, 'valid')
     return true
   }
 }
-api.checkCode = (ele) => {
+api.checkOne = (ele, isMobile) => {
   if (ele.value) {
-    if (!api.checkFiled(ele)) {
-      api.setTips(ele, 'invalid')
+    if (!api.checkFiled(ele, isMobile)) {
       return 2
     }
   } else {
-    api.setTips(ele, 'null')
+    api.setTips(ele, 'null', isMobile, ele.placeholder)
     return 1
   }
 }
-api.setTips = (ele, str) => {
-  ele.setAttribute('data-status', str)
-  setTimeout(() => {
-    ele.setAttribute('data-status', '')
-  }, 2000)
+api.setTips = (ele, str, isMobile, text) => {
+  // ele.focus()
+  if (isMobile) {
+    api.tips(text)
+  } else {
+    ele.setAttribute('data-status', str)
+    setTimeout(() => {
+      ele.setAttribute('data-status', '')
+    }, 3000)
+  }
 }
 api.tips = (str, callback) => {
-  var ele = document.querySelector('.web_tips') || document.getElementsByClassName('web_tips')[0]
+  var ele = document.querySelector('.toast') || document.getElementsByClassName('toast')[0]
   ele.innerHTML = str
-  ele.style.height = '50px'
   ele.style.opacity = 1
   setTimeout(() => {
     ele.style.opacity = 0
-    ele.style.height = 0
+    ele.innerHTML = ''
     if (callback) {
       callback()
     }
-  }, 3000)
-}
-api.checkAjax = (obj, res, callback, btn, failback) => {
-  if (res === 'repeatLogin') {
-    api.tips('您的账号在别处登录', () => {
-      obj.$router.push({name: 'login'})
-      obj.$store.commit('LOGOUT')
-    })
-    return false
-  }
-  if (res === 'overtime') {
-    api.tips('账户登录超时，请重新登录', () => {
-      obj.$router.push({name: 'login'})
-      obj.$store.commit('LOGOUT')
-    })
-    return false
-  }
-  if (res && res.code) {
-    api.tips(res.msg, () => {
-      if (btn) {
-        btn.removeAttribute('disabled')
-      }
-      if (failback) {
-        failback()
-      }
-    })
-  } else {
-    callback()
-  }
+  }, 2000)
 }
 api.btoa = (input) => {
   var _keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
@@ -300,5 +306,39 @@ api.check = (pattern, value) => {
   } else {
     return true
   }
+}
+api.randomData = () => {
+  var now = +new Date(2010, 9, 3)
+  var oneDay = 24 * 3600 * 1000
+  var value = Math.random() * 1000
+  now = new Date(+now + oneDay)
+  value = value + Math.random() * 21 - 10
+  return {
+    name: now.toString(),
+    value: [
+      [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+      Math.round(value)
+    ]
+  }
+}
+api.getData = () => {
+  var data = []
+  for (var i = 0; i < 1000; i++) {
+    data.push(api.randomData())
+  }
+  return data
+}
+api.setStorge = (name, value) => {
+  var storge = localStorage.getItem(name) || '{}'
+  var data = JSON.parse(storge)
+  localStorage.setItem(name, JSON.stringify(Object.assign(data, value)))
+}
+api.getStorge = (name) => {
+  var storge = localStorage.getItem(name) || '{}'
+  return JSON.parse(storge)
+}
+api.goPage = (id, type, obj) => {
+  api.setStorge('suanli', {proId: id, proType: type})
+  obj.$router.push({path: '/minerShop/detail/'})
 }
 export default api

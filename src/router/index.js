@@ -6,8 +6,8 @@
   const NotFound = () => import('@/views/NotFound')
   const Bdc = () => import('@/views/Bdc')
   const Auth = () => import('@/views/Auth')
-  const minerShop = () => import('@/views/minerShop')
-  const compute = () => import('@/views/compute')
+  const MinerShop = () => import('@/views/MinerShop')
+  const Compute = () => import('@/views/Compute')
   const User = () => import('@/views/User')
   const WebInfo = () => import('@/views/WebInfo')
   const ComputeNews = () => import('@/views/ComputeNews')
@@ -101,7 +101,7 @@
         component: Bdc
       }, {
         path: '/minerShop',
-        component: minerShop,
+        component: MinerShop,
         children: [{
           path: 'list',
           name: 'minerList',
@@ -125,7 +125,7 @@
         }]
       }, {
         path: '/compute',
-        component: compute,
+        component: Compute,
         children: [{
           path: 'list/:type/:sort',
           name: 'computeList',

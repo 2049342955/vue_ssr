@@ -79,6 +79,7 @@
 
 <script>
   import api from '@/util/function'
+  import util from '@/util'
   import Swiper from '@/components/common/Swipe'
   import Chart from '@/components/home/Chart'
   import MyData from '@/components/home/DataList'
@@ -92,6 +93,11 @@
   export default {
     components: {
       Swiper, Chart, MyData, WebInfo, SideBar, DataChart, DataMap, DataChart2
+    },
+    asyncData ({store, router}) {
+      return util.post('getAll', {sign: api.serialize({token: store.state.info.token, user_id: store.state.info.user_id})}).then((res) => {
+        store.commit('SET_INFO', res)
+      })
     },
     data () {
       return {

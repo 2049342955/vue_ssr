@@ -1,6 +1,6 @@
 <template>
-  <footer class="footer" v-if="!$route.path.includes('auth')" :disabled="$route.name==='notFound'">
-    <div class="pc_box">
+  <footer class="footer">
+    <div class="pc_box" v-if="isMobile === 0">
       <div class="box">
         <div class="box_foot">
           <aside>
@@ -37,7 +37,7 @@
             <!-- <div class="active">最新区块链资讯</div> -->
           </div>
         </div>
-        <div class="partner" v-if="$route.name === 'home'">
+        <div class="partner" v-if="$route.name === 'index'">
           <span>友情<br>链接</span>
           <div>
             <a :href="p.FriendlyLink_address" target="_blank" v-for="p,k in partner" :key="k">{{p.FriendlyLink_name}}</a>
@@ -45,34 +45,25 @@
         </div>
       </div>
     </div>
-    <div class="mobile_box">
-      <mt-tabbar :fixed="true" selected="1">
-        <router-link to="/" id="1" class="mint-tab-item">
-          <i class="iconfont"></i><br>
-          <span>首页</span>
-        </router-link>
-        <router-link to="/mobile/property" id="2" class="mint-tab-item">
-          <i class="iconfont"></i><br>
-          <span>算力资产</span>
-        </router-link>
-        <router-link to="/mobile/personcenter" id="3" class="mint-tab-item">
-          <i class="iconfont"></i><br>
-          <span>个人中心</span>
-        </router-link>
-      </mt-tabbar>
-    </div>
+    <!-- <div class="mobile_tabbar" v-if="isMobile === 1&&$route.name!=='minerShop-detail'&&$route.name!=='mobile-orderDetail'&&$route.name!=='mobileIndex'&&$route.name!=='bdc'">
+      <div class="mobile_tab_item" v-for="item in footList">
+        <a href="javascript:;" @click="goPage(item.linkName)" class="item" :class="{active: $route.name === item.linkName}">
+          <i :class="['iconfont',$route.name === item.linkName ? item.activeIcon : item.icon]"></i>
+          <span class="name">{{item.name}}</span>
+        </a>
+      </div>
+    </div> -->
   </footer>
 </template>
 
 <script>
   import util from '@/util'
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
-        // link: {'关于我们': '/webInfo/aboutUs', '安全保障': '/webInfo/safeGuarantee', '法律声明': '/webInfo/lawyer', '常见问题': '/webInfo/issues'},
-        link: {'关于我们': '/webInfo/aboutUs', '常见问题': '/webInfo/issues'},
-        // service: {'算力商城': '/minerShop/list', '算力转让': '/compute/list/1/all', '算力托管': '/bdc', '算力资讯': '/webInfo/list/news'},
-        service: {'矿机商城': '/minerShop/list', 'BDC托管': '/bdc', '产业资讯': '/industryInformation'},
+        link: {'关于我们': '/webInfo/aboutUs', '常见问题': '/webInfo/issues/list'},
+        service: {'算力服务器': '/minerShop/miner', '云算力': '/minerShop/cloudCompute', 'BDC托管': '/bdc', '产业资讯': '/industryInformation'},
         partner: [],
         info: {'网站动态': '/webInfo/list/website', '产品公告': '/webInfo/list/product'},
         items: [
@@ -82,29 +73,52 @@
           {title: '广东', show: false},
           {title: '广西', show: false}
         ],
+        footList: [
+          {name: '首页', icon: 'icon-shouye', activeIcon: 'icon-shouyetianchong', linkName: 'mobileIndex'},
+          {name: '算力资产', icon: 'icon-qingdan', activeIcon: 'icon-qingdantianchong', linkName: 'mobile-property'},
+          {name: '个人中心', icon: 'icon-yonghu', activeIcon: 'icon-yonghutianchong', linkName: 'mobile-personcenter'}
+        ],
+        showRouter: ['/auth', '/bdc'],
         show: 0
       }
     },
-    mounted () {
-      var self = this
-      util.post('friendlinkList', {sign: 'token=0'}).then(function (res) {
-        self.partner = res
+    computed: {
+      ...mapState({
+        isMobile: state => state.isMobile,
+        token: state => state.info.token
       })
+    },
+    mounted () {
+      this.getFriendLinks()
+    },
+    methods: {
+      getFriendLinks () {
+        util.post('friendlinkList', {token: 0}).then( (res) => {
+          this.partner = res.msg
+        })
+      },
+      goPage (link) {
+        if (this.token || link === 'mobileIndex') {
+          this.$router.push({name: link})
+        } else {
+          this.$router.push({name: 'auth-login'})
+        }
+      }
     }
   }
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
+  @import '~assets/css/style.scss';
   .footer{
     .pc_box{
-      background: $black;
+      background: #F2F6F9;
       color: $light_text;
       padding-bottom:40px;
       .box{
         .box_foot{
           @include flex(space-between,flex-start)
-          @include gap(25,v)
+          padding: 25px 0;
           margin-bottom:10px;
           @include main
           line-height: 2.4;
@@ -118,7 +132,7 @@
                 width: 92px;
                 height: 35px;
                 border-radius:5px;
-                background: url('../../assets/images/css_sprites.png') -10px -413px;
+                background: url('~assets/images/css_sprites.png') -10px -413px;
               }
               .copyright_text{
                 width: 360px;
@@ -129,7 +143,7 @@
                   display: inline-block;
                   width:20px;
                   height:20px;
-                  background: url('../../assets/images/css_sprites.png') -534px -264px;
+                  background: url('~assets/images/css_sprites.png') -534px -264px;
                   vertical-align: bottom;
                 }
               }
@@ -137,7 +151,8 @@
             .help_support{
               margin-bottom:5px;
               a{
-                @include gap(20,h)
+                color:#01215c;
+                padding: 0 20px;
                 border-left:1px solid $light_text;
                 &:first-child{
                   padding-left:0;
@@ -148,7 +163,7 @@
             .service{
               margin-bottom:20px;
               a{
-                @include gap(30,h)
+                padding: 0 30px;
                 &:nth-child(2){
                   padding-left:0
                 }
@@ -169,7 +184,7 @@
               .qrcode{
                 width: 80px;
                 height: 80px;
-                background: url('../../assets/images/css_sprites.png') -10px -264px;
+                background: url('~assets/images/css_sprites.png') -10px -264px;
               }
             }
             .active{
@@ -192,7 +207,7 @@
               font-size:14px;
               cursor: pointer;
               &:hover{
-                color:white;
+                color:$blue;
                 font-size:14px;
               }
               &.active:nth-of-type(1){
@@ -215,14 +230,15 @@
           @include main
           @include flex
           padding:10px;
-          border:1px dashed $light_text;
+          border:1px dashed $border;
           line-height: 1.2;
           span{
             padding-right:10px;
-            border-right:1px solid $light_text
+            border-right:1px solid $light_text;
+            color:#01215c;
           }
           div{
-            @include gap(30,h)
+            padding: 0 30px;
             @include flex
             a{
               width:100px;
@@ -232,87 +248,52 @@
         }
       }
       h4{
-        color:#f5f8fb;
+        color:#01215c;
       }
       h3,a,p,span,.copyright_text{
-        color:#adaeb1;
+        color:$light_text;
       }
       a:hover,.active{
-        color:$white
+        color:$blue
       }
       &[disabled]{
         display: none;
       }
-      @include mobile_hide
     }
-    .mobile_box{
+    .mobile_tabbar{
+      position: fixed;
+      left: 0;
+      right:0;
       width:100%;
-      @include mobile_show
-      a{
+      bottom:0;
+      height: 1.13rem;
+      z-index: 999999;
+      background:white;
+      border-top:1px solid $border;
+      padding: 0.21px 0;
+      .mobile_tab_item{
+        width:33.33%;
         text-align: center;
-        height:60px;
-        span{
-          font-size: 0.5rem;
-        }
-        i{
-          display: inline-block;
-          margin-top:10px;
-          font-size: 18px;
-        }
-        &.router-link-exact-active{
-          color: #26a2ff;
-        }
-        &:nth-child(1){
-          i{
-            width: 20px;
-            height: 21px;
-            &:before{
-              content:'\e62e'
-            }
+        float: left;
+        .item{
+          .name{
+            color: #666;
+            font-size: 0.2rem;
           }
-          &.router-link-exact-active i{
-            &:before{
-              content:'\e692'
-            }
+          .iconfont{
+            font-size: 0.33rem;
+            display: block;
+            margin-top: 0.21rem;
+            height: 0.33rem;
           }
-        }
-        &:nth-child(2){
-          i{
-            width: 20px;
-            height: 20px;
-            &:before{
-              font-size: 16px;
-              content:'\e656'
-            }
-          }
-          &.router-link-active i{
-            &:before{
-              content:'\e6ae'
-            }
-          }
-        }
-        &:nth-child(3){
-          i{
-            width: 20px;
-            height: 22px;
-            &:before{
-              content:'\e633'
-            }
-          }
-          &.router-link-active i{
-            &:before{
-              content:'\e6a2'
+          &.active{
+            color: #327fff;
+            .name{
+              color: #327fff;
             }
           }
         }
       }
-    } 
-  }
-  .mint-tab-item{
-    padding:0 !important;
-  }
-  .mint-tabbar{
-    background:white;
-    border-top:1px solid $border
+    }
   }
 </style>

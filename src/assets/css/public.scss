@@ -1,14 +1,16 @@
 @import './style.scss';
+
 body {
   line-height: 1.5;
   font-size: 14px;
   font-family: "Microsoft Yahei";
   color: $text;
 }
-body,div,aside,section,article,h1,h2,h3,h4,h5,h6,p,span,input,textarea,button,ul,li,a{
+body,div,aside,section,article,h1,h2,h3,h4,h5,h6,p,span,input,textarea,button,ul,li,a,form,label,em{
   margin:0;
   padding:0;
-  box-sizing: border-box
+  box-sizing: border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 h1,h2,h3,h4,h5,h6{
   font-weight:normal
@@ -20,8 +22,9 @@ a {
   text-decoration: none;
   color: $light_text;
   font-style:normal;
+  outline: none;
 }
-i{
+i,em{
   font-style: normal
 }
 input,textarea,button{
@@ -66,12 +69,8 @@ table{
   min-height: calc(100vh - 386px)
 }
 @media screen and (max-width: $mobile) {
-  #app > header{
-    display: none;
-  }
   .body{
-    min-height: 100vh;
-    padding-bottom:61px;
+    min-height: calc(100vh - 0.88rem);
   }
 }
 input::-webkit-input-placeholder {
@@ -84,19 +83,19 @@ input::-webkit-input-placeholder {
       @include block(20)
     }
     &.BTC{
-      background: url('./assets/images/css_sprites.png') -326px -321px;
+      background: url('~assets/images/css_sprites.png') -326px -321px;
     }
     &.BCC{
-      background: url('./assets/images/css_sprites.png') -250px -321px;
+      background: url('~assets/images/css_sprites.png') -250px -321px;
     }
     &.ETH{
-      background: url('./assets/images/css_sprites.png') -288px -321px;
+      background: url('~assets/images/css_sprites.png') -288px -321px;
     }
     &.ETC{
-      background: url('./assets/images/css_sprites.png') -494px -264px;
+      background: url('~assets/images/css_sprites.png') -494px -264px;
     }
     &.LTC{
-      background: url('./assets/images/css_sprites.png') -210px -321px;
+      background: url('~assets/images/css_sprites.png') -210px -321px;
     }
   }
 // 提示
@@ -105,14 +104,181 @@ input::-webkit-input-placeholder {
     position: fixed;
     top:auto;
     line-height:50px;
-    text-align: center;
     background: $blue;
-    color:$white;
-    transition:all .5s;
-    opacity:0;
-    height: 0;
-    z-index: 10000
   }
-.mint-toast{
-  z-index: 10000
-}
+  .toast{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    max-width: 80%;
+    border-radius: 5px;
+    background: rgba(0,0,0,.7);
+    padding:0 10px;
+    line-height: 2;
+    transform: translate(-50%,-50%);
+  }
+  .web_tips,.toast{
+    text-align: center;
+    color:$white;
+    transition: opacity .3s linear;
+    opacity:0;
+    z-index: 1000002
+  }
+// popup
+  .popup{
+    @include position
+    position: fixed;
+    background: rgba(0,0,0,.5);
+    z-index: 1000001;
+    .popup_con{
+      position: fixed;
+      top:50%;
+      left:50%;
+      transform: translate(-50%, -50%);
+      width:680px;
+      background: $white;
+      .popup_title{
+        position: relative;
+        text-align: center;
+        height: 50px;
+        background: #f3f9ff;
+        line-height: 50px;
+        font-size: 18px;
+        color:$text;
+        .icon_close{
+          @include close
+          top:15px;
+        }
+        .mobile_close{
+          @include position(20,18)
+          @include block(12)
+          @include arrow(left, #bababa, 1)
+          display: none
+        }
+        @media screen and (max-width: $mobile) {
+          display: none
+        }
+      }
+      .popup_body{
+        width: 100%;
+        height: 550px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding:15px;
+        p{
+          text-indent: 0.2rem;
+        }
+        .foot{
+          font-size: 16px;
+        }
+      }
+      .popup_foot{
+        text-align: center;
+        border-top:1px solid $border;
+        line-height: 42px;
+        height:50px;
+        color:$blue;
+        &,label{
+          cursor: pointer;
+        }
+      }
+      .form{
+        padding:40px 130px;
+        @include form(v)
+        .fee{
+          font-size: 12px;
+          color: $light_black;
+          margin-left:5px
+        }
+      }
+      .mobile_pay_type{
+        @include mobile_pay_type
+      }
+    }
+    &.bank_card_popup .popup_con .form .input{
+      span{
+        &:first-child {
+          width: 120px;
+          text-align: right;
+        }
+        &:nth-child(2) {
+          left: 135px
+        }
+      }
+      input,.sel,.select{
+        padding-left:185px
+      }
+    }
+    @media screen and (max-width: $mobile) {
+      .popup_con{
+        width:100vw;
+        .popup_title{
+          font-size: 0.36rem;
+          background: #fff;
+          border-bottom:1px solid $border;
+        }
+        .popup_body{
+          padding:0.5rem;
+          font-size: 0.3rem;
+          max-height:64vh;
+          table td{
+            padding:0 !important;
+            p{
+              text-indent: 0 !important;
+            }
+          }
+        }
+        .form{
+          padding:0;
+          overflow: auto;
+          max-height: 70vh;
+          .checkbox input{
+            margin-right: 10px;
+          }
+          p {
+            padding: 0.2rem 0.3rem 0;
+          }
+        }
+      }
+      &.all,&.bottom {
+        .popup_con {
+          top: auto;
+          bottom:0;
+          left:0;
+          transform: translate(0, 0);
+        }
+      }
+      &.all {
+        background: transparent;
+        .popup_con {
+          height: calc(100vh - 1.1rem);
+        }
+      }
+      &.bottom .popup_con .popup_title {
+        &,.mobile_close {
+          display: block;
+        }
+        .icon_close {
+          display: none;
+        }
+      }
+      &.middle .popup_con {
+        width:80%;
+      }
+      &.bank_card_popup .popup_con .form .input{
+        input,.sel,.select{
+          padding-left:10px;
+          button{
+            margin:0.2rem 0;
+            line-height: 2.2;
+            font-size: 0.32rem;
+          }
+        }
+      }
+      &.bank_card_popup .popup_con .form .input{
+        input,.sel,.select{
+          padding-left:10px
+        }
+      }
+    }
+  }

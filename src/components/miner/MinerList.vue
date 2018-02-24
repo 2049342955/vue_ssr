@@ -1,127 +1,86 @@
 <template>
-  <section class="miner_shop">
-    <div class="bg_box">
-      <div class="bg"></div>
-    </div>
-    <div class="miner_pics">
-      <div class="miner_pic pic1">
-        <img :src="require('@/assets/images/miner_shop/bdc.jpg')" alt="">
-        <div class="btn">
-          <router-link to="/bdc">前往申请</router-link>
-          <router-link to="/minerShop/mining">了解挖矿</router-link>
+  <div class="miner_list">
+    <div class="miner_list_box">
+      <slot></slot>
+      <div :class="['box', {mobile_list_box: isMobile}]">
+        <template v-if="isMobile===0">
+          <MinerItem v-for="n,k in minerData" :n="n" :key="k"></MinerItem>
+        </template>
+        <template v-if="isMobile===1">
+          <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10" class="item_box">
+            <MobileMinerItem v-for="n,k in minerData" :n="n" :key="k"></MobileMinerItem>
+          </div>
+          <p v-if="loading"  class="loadmore">加载中······</p>
+        </template>
+        <div class="nodata" v-if="$parent.show">
+          <div class="nodata_img"></div>
+          <p>即将上线，敬请期待</p>
         </div>
-      </div>
-      <div class="miner_pic pic2">
-        <img :src="p.image" alt="" v-for="p,k in pics" :style="{'opacity':picShow===k?1:0}">
-        <!-- <router-link to="/minerShop/activity" class="btn">立即抢购</router-link> -->
-        <div class="swipe_pager">
-          <div :class="['item', {active: picShow===k}]" v-for="p,k in pics" @mouseover="changePic(k)" @mouseout="swipe"></div>
-        </div>
-      </div>
-      <div class="miner_pic pic3">
-        <img :src="require('@/assets/images/miner_shop/miner.jpg')" alt="">
-        <div class="text">
-          <span>矿机</span>
-          <span>品牌矿机，质量保证</span>
-        </div>
-        <router-link to="/minerShop/miner/1/all" class="btn">即刻前往>></router-link>
-      </div>
-      <div class="miner_pic pic4">
-        <img :src="require('@/assets/images/miner_shop/cloud_miner.jpg')" alt="">
-        <div class="text">
-          <span>云矿机</span>
-          <span>专人维护，无忧挖矿</span>
-        </div>
-        <router-link to="/minerShop/miner/2/all" class="btn">即刻前往>></router-link>
       </div>
     </div>
-    <MinerList>
-      <h2>
-        <div>
-          <span>矿机推荐</span>
-          <span>保全网提供全流程区块链存证、保全服务</span>
-        </div>
-        <router-link to="/minerShop/miner/1/all">更多矿机 ></router-link>
-      </h2>
-    </MinerList>
-    <CloudMinerList page="minerShop">
-      <h2>
-        <div>
-          <span>云矿机推荐</span>
-          <span>国家电网 算力保证 无忧挖矿</span>
-        </div>
-        <router-link to="/minerShop/miner/2/all">更多云矿机 ></router-link>
-      </h2>
-    </CloudMinerList>
-    <div class="miner_loan">
-      <img :src="require('@/assets/images/miner_shop/loan.jpg')" alt="">
-    </div>
-    <SideBar></SideBar>
-  </section>
+  </div>
 </template>
 
 <script>
-  import util from '@/util'
-  import api from '@/util/function'
+  import util from '@/util/index'
   import { mapState } from 'vuex'
-  import CloudMinerList from '@/components/common/CloudMinerList'
-  import MinerList from '@/components/common/MinerList'
-  import SideBar from '@/components/home/SideBar'
+  import Vue from 'vue'
+  import { InfiniteScroll } from 'mint-ui'
+  Vue.use(InfiniteScroll)
+  import MinerItem from '@/components/miner/MinerItem'
+  import MobileMinerItem from '@/components/miner/MobileMinerItem'
   export default {
     components: {
-      CloudMinerList, SideBar, MinerList
+      MinerItem, MobileMinerItem
+    },
+    props: {
+      status: {
+        type: Number
+      },
+      minerData: {
+        type: Array
+      },
+      len: {
+        type: Number
+      },
+      now: {
+        type: Number
+      }
     },
     data () {
       return {
-        cloudMinerDate: [],
-        minerData: [],
-        picShow: 0,
-        pics: [],
-        timer: ''
+        loading: false
       }
     },
+    asyncData ({ params }) {
+      return {type: params.type}
+    },
     methods: {
-      fetchData () {
-        var self = this
-        var obj = {token: this.token}
-        var url = 'showMinerList'
-        var url2 = 'showproductList'
-        util.post(url2, {sign: api.serialize(obj)}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            self.cloudMinerDate = res.data
-          })
-        })
-        util.post(url, {sign: api.serialize(obj)}).then(function (res) {
-          api.checkAjax(self, res, () => {
-            self.minerData = res.data
-          })
-        })
-      },
-      swipe () {
-        this.timer = setInterval(() => {
-          this.picShow += 1
-          this.picShow = this.picShow >= this.pics.length ? 0 : this.picShow
-        }, 3000)
-      },
-      changePic (k) {
-        clearInterval(this.timer)
-        this.picShow = k
+      loadMore () {
+        if (this.now < this.len ) {
+          this.loading = true
+          this.$emit('getMobileData', 1)
+          setTimeout(() => {
+            this.loading = false
+          }, 1000)
+        } else {
+          this.loading = false
+        }
       }
     },
     mounted () {
-      this.fetchData()
-      var self = this
-      util.post('banner', {sign: 'token=' + this.token}).then(function (res) {
-        api.checkAjax(self, res, () => {
-          self.pics = res
-        })
-      })
-      this.swipe()
+      this.$emit('getMobileData')
+    },
+    watch: {
+      'status': function () {
+        this.loading = false
+        this.$emit('getMobileData')
+      }
     },
     computed: {
       ...mapState({
         token: state => state.info.token,
-        user_id: state => state.info.user_id
+        isMobile: state => state.isMobile
       })
     }
   }
@@ -129,141 +88,49 @@
 
 <style type="text/css" lang="scss">
   @import '../../assets/css/style.scss';
-  @import '../../assets/fonts/iconfont.css';
-  .miner_shop{
-    .bg_box{
-      @include bg(1920,650px,#070a0f)
-      .bg{
-        background:url(../../assets/images/miner_shop/miner_list.jpg) no-repeat;
+  .miner_list{
+    background: #f6f7f9;
+    padding-top: 50px;
+    .miner_list_box{
+      @include main
+      .loadmore{
+        width: 100%;
+        height: 0.89rem;
+        line-height: 0.89rem;
+        text-align: center;
       }
-      @include mobile_hide
-    }
-    .miner_pics{
-      @include position(130)
-      left: calc(50% - 590px);
-      right: calc(50% - 590px);
-      bottom:auto;
-      .miner_pic{
-        position: relative;
-        float:left;
-        img{
-          position: relative;
-          left:auto;
-          width:100%;
-          height:100%
-        }
-        .btn,.text{
-          @include position
-          top:auto;
-          left:80px;
-          bottom:60px;
-          width:290px;
-          line-height: 2;
-          text-align: center;
-          color:#eee;
-        }
-        .btn{
-          display: block;
-          cursor: pointer;
-        }
-        &.pic1{
-          height:594px;
-          .btn{
-            text-align: center;
-            a{
-              padding:0 20px;
-              color:#eee;
-              &:first-child{
-                padding-right:0;
-                &:after{
-                  color:#999;
-                  margin-left:30px;
-                  content:'/'
-                }
-              }
-            }
-          }
-        }
-        &.pic2{
-          position: relative;
-          width:710px;
-          height:298px;
-          .swipe_pager{
-            @include position(auto,auto,15,30)
-            .item{
-              @include block(16)
-              border:1px solid $orange;
-              border-radius:50%;
-              cursor: pointer;
-              &:hover,&.active{
-                background: $orange;
-              }
-              & + .item{
-                margin-left:10px
-              }
-            }
-          }
-          .btn{
-            left:120px;
-            width:200px;
-            font-size: 18px;
-            font-weight: bold;
-            @include button(#FE5038)
-            border-radius:20px;
-          }
-          img{
-            @include position
-            width:100%;
-            height:100%;
-            object-fit:cover;
-            transition: all 1s;
-          }
-        }
-        &.pic2,&.pic3,&.pic4{
-          margin-left:10px;
-        }
-        &.pic3,&.pic4{
-          width:350px;
-          margin-top:10px;
-          .btn{
-            left:75px;
-            width:200px;
-          }
-          .text{
-            bottom:100px;
-            left:0;
-            width:100%;
-            font-size: 16px;
-            span:first-child{
-              color:#B2884E;
-              &:before,&:after{
-                color:#eee;
-              }
-              &:before{
-                content:'[';
-                padding-right:3px
-              }
-              &:after{
-                content:']';
-                padding-left:3px
-              }
-            }
-          }
-        }
-        @include mobile_hide
+      .box:not(.mobile_list_box){
+        @include row(4, 1%)
       }
-      @include mobile_hide
+      .box.mobile_list_box{
+        padding: 0 0.3rem;
+      }
+      .box.mobile_list_box .item_box{
+        @include row(2)
+      }
+      .nodata{
+        width:100%;
+        background: #fff;
+        min-height:500px;
+        padding-top:100px;
+        text-align: center;
+        .nodata_img{
+          display: inline-block;
+          width: 305px;
+          height: 234px;
+          background: url('../../assets/images/css_sprites.png') -10px -10px;
+        }
+        p{
+          color:$light_black;
+          margin-top:15px
+        }
+      }
     }
-    .miner_loan{
-      @include mobile_hide
-    }
-    .millsList{
-      padding-top: 120px;
-      @include mobile_hide
-    }
-    .product_list{
-      .box h2{
-        @include mobile_hide
+    @media  screen and (max-width: 600px) {
+      padding-top:0;
+      .miner_list_box .box{
+        padding:.5rem .5rem 0 .5rem;
+        background: #fff;
       }
     }
   }
