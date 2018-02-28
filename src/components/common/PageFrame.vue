@@ -37,8 +37,21 @@
     data () {
       return {
         active: '',
-        leftnav: [{big: 'icon-zixun', title: '资讯', path: '/computeNews/list'}, {big: 'icon-zixun1', title: '快报', path: '/quickNews'}, {big: 'icon-zhizaohangye', title: '厂商', path: '/manufacturer/list'}, {big: 'icon-kuangji', title: '测评', path: '/equipmentEvaluate/list'}, {big: 'icon-bowuguan', title: '博物馆', path: '/equipments/list'}, {big: 'icon-bitebi', title: '历史曲线', path: '/computeChart'}],
-        navcompute: [{title: '快讯', path: '/quickNews'}, {title: '资讯', path: '/computeNews/list'}, {title: '测评', path: '/equipmentEvaluate/list'}, {title: '币种', path: '/currency/list'}, {title: '厂商', path: '/manufacturer/list'}]
+        leftnav: [
+          {big: 'icon-zixun', title: '资讯', path: '/news'},
+          {big: 'icon-zixun1', title: '快报', path: '/quickNews'},
+          {big: 'icon-zhizaohangye', title: '厂商', path: '/manufacturer'},
+          {big: 'icon-kuangji', title: '测评', path: '/evaluation'},
+          {big: 'icon-bowuguan', title: '博物馆', path: '/museum'},
+          {big: 'icon-bitebi', title: '历史曲线', path: '/computeChart'}
+        ],
+        navcompute: [
+          {title: '快讯', path: '/quickNews'},
+          {title: '资讯', path: '/news'},
+          {title: '测评', path: '/evaluation'},
+          {title: '币种', path: '/currency'},
+          {title: '厂商', path: '/manufacturer'}
+        ]
       }
     },
     computed: {
@@ -50,7 +63,6 @@
 </script>
 
 <style lang="scss">
-  @import '~assets/css/style.scss';
   .page_frame{
     background: #eceff8;
     .frame_body{
@@ -84,7 +96,7 @@
               padding-top: 10px;
               width: 100%;
               height: 100%;
-              &:hover,&.active,&.nuxt-link-active{
+              &:hover,&.active,&.router-link-active{
                 background: #327fff;
                 span,i{
                   color:#fff;
@@ -154,7 +166,7 @@
           font-size: 0.28rem;
           color:#1b1b1b;
         }
-        &:hover,&.active,&.nuxt-link-active{
+        &:hover,&.active,&.router-link-active{
           em{
             display:inline-block;
             border-bottom:2px solid #fe5039;

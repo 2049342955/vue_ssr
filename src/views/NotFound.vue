@@ -7,12 +7,11 @@
 </template>
 
 <style type="text/css" lang="scss">
-  @import '../assets/css/style.scss';
   .not_found{
     @include bg(1920,100vh)
     .bg{
       @include flex(center)
-      background: url(../assets/images/404.jpg);
+      background: url(~@/assets/images/404.jpg);
       a{
         display: block;
         font-size: 16px;

@@ -82,7 +82,6 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
   .index_data_list{
     overflow: hidden;
     background: #F6F7FB;

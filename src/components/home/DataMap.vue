@@ -29,14 +29,13 @@
       return {
         img: require('@/assets/images/world.png'),
         bdcDots: [{title: '哈萨克斯坦', top: 96, left: 720}, {title: '内蒙古', top: 127, right: 200}, {title: '四川', top: 177, right: 230}, {title: '云南', top: 213, right: 220}, {title: '山西', top: 164, right: 200}, {title: '新疆', top: 137, right: 290}, {title: '俄罗斯', top: 90, right: 193}, {title: '美国', top: 183, left: 200}, {title: '加拿大', top: 120, left: 176}, {title: '欧洲', top: 156, left: 610}, {title: '西藏', top: 195, right: 275}, {title: '贵州', top: 195, right: 206}, {title: '辽宁', top: 130, right: 123}],
-        btcDots: [{title: '', top: 108, left: 190}, {title: '', top: 160, left: 216}, {title: '', top: 220, left: 237}, {title: '', top: 230, left: 252}, {title: '', top: 210, left: 220}, {title: '', top: 420, left: 350}, {title: '', top: 168, left: 610}, {title: '', top: 125, left: 610}, {title: '', top: 135, left: 600}, {title: '', top: 140, left: 620}, {title: '', top: 140, left: 720}, {title: '', top: 210, right: 230}, {title: '', top: 220, right:230}, {title: '', top: 230, right: 374}, {title: '', top: 172, right: 390}, {title: '', top: 200, right: 345}, {title: '', top: 220, right:350}, {title: '', top: 180, right: 225}, {title: '', top: 227, right: 245}]
+        btcDots: [{title: '', top: 108, left: 190}, {title: '', top: 160, left: 216}, {title: '', top: 220, left: 237}, {title: '', top: 230, left: 252}, {title: '', top: 210, left: 220}, {title: '', top: 420, left: 350}, {title: '', top: 168, left: 610}, {title: '', top: 125, left: 610}, {title: '', top: 135, left: 600}, {title: '', top: 140, left: 620}, {title: '', top: 140, left: 720}, {title: '', top: 210, right: 230}, {title: '', top: 220, right: 230}, {title: '', top: 230, right: 374}, {title: '', top: 172, right: 390}, {title: '', top: 200, right: 345}, {title: '', top: 220, right: 350}, {title: '', top: 180, right: 225}, {title: '', top: 227, right: 245}]
       }
     }
   }
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
   .data_map{
     position: relative;
     .point_area {
@@ -60,7 +59,7 @@
           display: inline-block;
           width: 22px;
           height: 32px;
-          background: url('~assets/images/home.png') -122px -129px;
+          background: url('~@/assets/images/home.png') -122px -129px;
           margin-right:5px;
           animation-duration: 5s;
           animation-fill-mode: both;
@@ -108,7 +107,7 @@
       display: inline-block;
       width: 17px;
       height: 15px;
-      background: url('~assets/images/home.png') -186px -10px;
+      background: url('~@/assets/images/home.png') -186px -10px;
       animation-duration: 3s;
       animation-fill-mode: both;
       animation-iteration-count: infinite;
@@ -131,14 +130,14 @@
           .item_img{
             width: 22px;
             height: 32px;
-            background: url('~assets/images/home.png') -122px -129px;
+            background: url('~@/assets/images/home.png') -122px -129px;
           }
         }
         &:nth-child(2){
           .item_img{
             width: 17px;
             height: 15px;
-            background: url('~assets/images/home.png') -186px -10px;
+            background: url('~@/assets/images/home.png') -186px -10px;
           }
         }
         & + .item{

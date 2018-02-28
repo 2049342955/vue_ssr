@@ -17,7 +17,7 @@
       </section>
       <div v-if="showTips" class="none_tips">
         <span>目前没有收益记录</span>
-        <nuxt-link class="button" to="/minerShop/cloudCompute">立即购买云算力</nuxt-link>
+        <router-link class="button" to="/minerShop/cloudCompute">立即购买云算力</router-link>
       </div>
     </div>
     <p v-if="loading" class="load_more">加载中······</p>
@@ -26,7 +26,6 @@
 
 <script>
   import { fetchApiData } from '@/util'
-  import api from '@/util/function'
   import { mapState } from 'vuex'
   import Vue from 'vue'
   import { InfiniteScroll } from 'mint-ui'
@@ -49,7 +48,7 @@
       }
     },
     methods: {
-      getCoinReturns(item) {
+      getCoinReturns (item) {
         this.active = item.active
         this.coinType = item.type
       },
@@ -58,14 +57,14 @@
         let data = {token: this.token, product_hash_type: this.coinType, page: this.page, sort: ''}
         fetchApiData(this, 'userCoinList', (data), res => {
           this.length = res.total_num
-          for (let i = 0, len = res.value_list.length; i < len; i ++) {
+          for (let i = 0, len = res.value_list.length; i < len; i++) {
             this.formData.push(res.value_list[i])
           }
-          this.showTips = this.formData.length ? false : true
+          this.showTips = !!this.formData.length
         })
       },
       loadMore () {
-        if (this.formData.length < this.length ) {
+        if (this.formData.length < this.length) {
           this.loading = true
           this.page ++
           this.fetchData(this.coinType)
@@ -96,7 +95,6 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '~assets/css/style.scss';
   .coin_returns {
     width: 100%;
     font-size: 0.3rem;

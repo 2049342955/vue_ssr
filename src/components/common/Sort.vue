@@ -46,7 +46,7 @@
       return {
         sort: [
           {title: '价格', option: ['price_asc', 'price_desc']},
-          {title: '算力', option: ['base_asc','base_desc']},
+          {title: '算力', option: ['base_asc', 'base_desc']},
           {title: '剩余总数', option: ['num_asc', 'num_desc']}
         ],
         edit: -1,
@@ -86,7 +86,6 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '~assets/css/style.scss';
   .sort{
     padding-bottom:10px;
     padding-top:25px;

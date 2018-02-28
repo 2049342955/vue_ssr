@@ -72,7 +72,6 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '~assets/css/style.scss';
   .select{
     @include flex(space-between)
     select{

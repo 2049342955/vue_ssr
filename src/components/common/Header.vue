@@ -3,10 +3,10 @@
     <PcHeader class="pc_header" v-if="isMobile===0"></PcHeader>
     <div :class="['mobile_header', headerType, {scroll}]" v-if="isMobile===1&&showTitle()">
       <div class="mobile_header_box">
-        <nuxt-link to="/" class="logo">
+        <router-link to="/" class="logo">
           <img class="fixed_logo" :src="require('@/assets/images/mobile/logo3.png')">
           <img class="normal_logo" :src="require('@/assets/images/mobile/logo2.png')">
-        </nuxt-link>
+        </router-link>
         <div class="title">{{pages[$route.path]}}</div>
         <div class="header_right">
           <template v-if="token === 0">
@@ -21,11 +21,11 @@
       </div>
       <div class="mobile_header_nav" v-if="showNav !== ''" @click="showNavlink">
         <div class="white_bg">
-          <nuxt-link :to="i" v-for="i,k in navList" :key="k" class="item">
+          <router-link :to="i" v-for="i,k in navList" :key="k" class="item">
             <span :class="{active:i==='/minerShop/activity'}">{{pages[i]}}</span>
             <em></em>
             <span class="unread_num" v-if="i==='/mobile/message'&&unread_num">您有{{unread_num}}条未读消息</span>
-          </nuxt-link>
+          </router-link>
           <div class="item" v-if="token !== 0 && showNav === 'person'">
             <span>{{mobile}}</span>
             <span @click="logout()">退出</span>
@@ -38,21 +38,21 @@
 
 <script>
   import { mapState } from 'vuex'
-  import PcHeader from './header/pc'
+  import PcHeader from './PcHeader'
   import api from '@/util/function'
   export default {
     name: 'header',
     data () {
       return {
         pages: {
-          '/minerShop/cloudCompute': '云算力',
-          '/minerShop/miner': '算力服务器',
+          '/cloudCompute': '云算力',
+          '/miner': '算力服务器',
           '/bdc': 'BDC托管',
           '/quickNews': '产业资讯',
-          '/computeNews/listm': '产业资讯',
-          '/equipmentEvaluate/list': '产业资讯',
-          '/currency/list': '产业资讯',
-          '/manufacturer/list': '产业资讯',
+          '/news': '产业资讯',
+          '/evaluation': '产业资讯',
+          '/currency': '产业资讯',
+          '/manufacturer': '产业资讯',
           '/mobile/property': '我的资产',
           '/mobile/order/0': '我的订单',
           '/mobile/order/3': '我的订单',
@@ -78,7 +78,7 @@
         scroll: false,
         headerType: '',
         navList: [],
-        navLink: ['/minerShop/miner', '/minerShop/cloudCompute', '/bdc', '/quickNews', '/minerShop/activity'],
+        navLink: ['/miner', '/cloudCompute', '/bdc', '/quickNews', '/minerShop/activity'],
         navPerson: ['/mobile/property', '/mobile/order/0', '/mobile/repayment/0', '/mobile/message', '/mobile/moneyFlow', '/mobile/idVerfication', '/mobile/bankCard', '/mobile/assetsAddress', '/mobile/administration'
         ],
         isBlueHeader: ['bdc', 'mobile-assetDetail', 'mobile-property', 'mobile-personalCenter', 'mobileIndex'],
@@ -86,17 +86,17 @@
       }
     },
     methods: {
-      showNavlink(type) {
+      showNavlink (type) {
         if (typeof type !== 'string') {
           this.showNav = ''
           return
         }
         this.showNav = this.showNav === type ? '' : type
-        this.navList = type === 'person'? [...this.navPerson] : [...this.navLink]
+        this.navList = type === 'person' ? [...this.navPerson] : [...this.navLink]
       },
-      showTitle() {
+      showTitle () {
         if (this.noHeader.indexOf(this.$route.name) > -1) {
-          return false;
+          return false
         }
         this.headerType = this.isBlueHeader.indexOf(this.$route.name) > -1 ? 'blue' : ''
         return true
@@ -141,7 +141,6 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '~assets/css/style.scss';
   .mobile_header{
     height: 0.88rem;
     background: #fff;

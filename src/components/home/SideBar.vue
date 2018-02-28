@@ -72,7 +72,6 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '~assets/css/style.scss';
   .side_bar{
     position: fixed;
     top:calc(50vh - 120px);
@@ -136,10 +135,10 @@
         }
         .qq{
           display: block;
-          background: url('~assets/images/css_sprites.png') -110px -264px;
+          background: url('~@/assets/images/css_sprites.png') -110px -264px;
         }
         .wechat{
-          background: url('~assets/images/css_sprites.png') -10px -264px;
+          background: url('~@/assets/images/css_sprites.png') -10px -264px;
         }
       }
       &:hover{

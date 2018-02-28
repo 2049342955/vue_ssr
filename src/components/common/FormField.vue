@@ -52,7 +52,6 @@
 <script>
   import util from '@/util'
   import api from '@/util/function'
-  import city from '@/util/city'
   import { mapState } from 'vuex'
   import SelectCity from '@/components/common/SelectCity'
   export default {
@@ -164,7 +163,6 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '~assets/css/style.scss';
   .form_field .input{
     canvas,.count_btn{
       position: absolute;

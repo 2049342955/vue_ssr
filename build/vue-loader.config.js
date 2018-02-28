@@ -1,9 +1,17 @@
+'use strict'
+const utils = require('./util')
+const isProduction = process.env.NODE_ENV === 'production'
 module.exports = {
-  extractCSS: process.env.NODE_ENV === 'production',
-  preserveWhitespace: false,
-  postcss: [
-    require('autoprefixer')({
-      browsers: ['last 3 versions']
-    })
-  ]
+  loaders: utils.cssLoaders({
+    sourceMap: true,
+    extract: isProduction
+  }),
+  cssSourceMap: true,
+  cacheBusting: true,
+  transformToRequire: {
+    video: ['src', 'poster'],
+    source: 'src',
+    img: 'src',
+    image: 'xlink:href'
+  }
 }

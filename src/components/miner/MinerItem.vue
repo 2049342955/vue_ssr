@@ -30,7 +30,6 @@
 </template>
 
 <script>
-  import api from '@/util/function'
   export default {
     props: {
       n: {
@@ -49,14 +48,13 @@
     },
     methods: {
       goDetail (id, type) {
-        api.goPage(id, type, this)
+        this.$router.push({path: 'miner/detail/' + id})
       }
     }
   }
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
   .miner_item{
     padding:0;
     margin:0;

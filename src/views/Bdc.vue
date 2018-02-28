@@ -109,15 +109,6 @@
         str: '验证码'
       }
     },
-    head () {
-      return {
-        title: '比特币算力服务器托管-国电输出,持久稳定,电力便宜-算力网',
-        meta: [
-          { hid: 'keywords', name: 'keywords', content: '算力服务器托管,比特币算力服务器托管' },
-          { hid: 'description', name: 'description', content: '算力网算力服务器托管服务，承接各种比特币算力服务器托管业务，20万千瓦国家电网，持久稳定，专业技术24小时维护，保障用户收益' }
-        ]
-      }
-    },
     methods: {
       submit (e) {
         var form = e.target
@@ -159,7 +150,6 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '~assets/css/style.scss';
   .bdc{
     font-size: 18px;
     color: #fff;
@@ -167,7 +157,7 @@
       @include bg(1920,558px,#15121c)
       padding-top:638px;
       .bg{
-        background: url('~assets/images/bdc_bg.jpg') no-repeat;
+        background: url('~@/assets/images/bdc_bg.jpg') no-repeat;
       }
       z-index:-1
     }
@@ -306,7 +296,7 @@
           &:before{
             content: '';
             display: inline-block;
-            background: url('~assets/images/css_sprites.png') -352px -264px;
+            background: url('~@/assets/images/css_sprites.png') -352px -264px;
             width: 122px;
             height: 36px;
             vertical-align: middle;
@@ -315,7 +305,7 @@
           &:after{
             content: '';
             display: inline-block;
-            background: url('~assets/images/css_sprites.png') -210px -264px;
+            background: url('~@/assets/images/css_sprites.png') -210px -264px;
             width: 122px;
             height: 37px;
             vertical-align: middle;
@@ -394,7 +384,7 @@
           left:0;
           width:100%;
           height:400px;
-          background: url('~assets/images/bdc_mobile.jpg') no-repeat 100%;
+          background: url('~@/assets/images/bdc_mobile.jpg') no-repeat 100%;
         }
       }
       .top_box{
@@ -502,7 +492,7 @@
         width: 265px;
         margin: 60px auto;
         display: block;
-        background: url('~assets/images/mobile/button.png') no-repeat;
+        background: url('~@/assets/images/mobile/button.png') no-repeat;
         background-size: 100%;
         a {
           display: inline-block;

@@ -1,4 +1,5 @@
 const path = require('path')
+const utils = require('./util')
 const webpack = require('webpack')
 const vueConfig = require('./vue-loader.config')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
@@ -6,6 +7,7 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 const isProd = process.env.NODE_ENV === 'production'
+const option = isProd ? { sourceMap: true, usePostCSS: true, extract: true} : { sourceMap: true, usePostCSS: true}
 
 module.exports = {
   devtool: isProd
@@ -26,6 +28,7 @@ module.exports = {
   module: {
     noParse: /es6-promise\.js$/, // avoid webpack shimming process
     rules: [
+      ...utils.styleLoaders(option),
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -53,15 +56,6 @@ module.exports = {
           limit: 10000,
           name: '[name].[ext]?[hash]'
         }
-      },
-      {
-        test: /\.css$/,
-        use: isProd
-          ? ExtractTextPlugin.extract({
-              use: 'css-loader?minimize',
-              fallback: 'vue-style-loader'
-            })
-          : ['vue-style-loader', 'css-loader']
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,

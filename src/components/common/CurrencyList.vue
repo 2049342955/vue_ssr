@@ -48,7 +48,7 @@
     box-shadow: #d2d4db 0 0 20px;
     padding:30px 44px 58px;
     margin-bottom: 25px;
-    background: url('~assets/images/table.jpg');
+    background: url('~@/assets/images/table.jpg');
     background-size: 100% 100%;
     h4{
       padding-bottom: 18px;

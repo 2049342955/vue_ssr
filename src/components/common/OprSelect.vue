@@ -1,3 +1,4 @@
+
 <template>
   <div class="opr_select">
     <p>{{text[no]}}</p>
@@ -52,7 +53,6 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '~assets/css/style.scss';
   .opr_select {
     p {
       padding: 40px 0.4rem;

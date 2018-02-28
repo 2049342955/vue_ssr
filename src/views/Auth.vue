@@ -1,5 +1,5 @@
 <template>
-  <section :class="['auth', {login_block:$route.name === 'auth-login'}, {agreement_box: agree}]">
+  <section :class="['auth', {login_block:$route.name === 'login'}, {agreement_box: agree}]">
     <div class="bg_box">
       <div class="bg"></div>
     </div>
@@ -9,7 +9,7 @@
     <div class="box">
       <router-view></router-view>
     </div>
-    <div class="regist_mobile" v-if="$route.name === 'auth-passwordRetrieval'||$route.name === 'auth-regist'">已有账号？<router-link to="/auth/login">立即登录</router-link></div>
+    <div class="regist_mobile" v-if="$route.name === 'passwordRetrieval'||$route.name === 'regist'">已有账号？<router-link to="/auth/login">立即登录</router-link></div>
     <p class="copyright">算力网 版权所有 Copyright © 2013-2017<br>Zhejiang Shuqin Technology Co., Ltd. All Rights Reserved. </p>
   </section>
 </template>
@@ -27,7 +27,6 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '~assets/css/style.scss';
   .auth{
     position: relative;
     padding-top:40px;
@@ -37,7 +36,7 @@
       z-index: -1;
       color:$light_text;
       .bg{
-        background:url(~assets/images/auth_bg.jpg) no-repeat;
+        background:url(~@/assets/images/auth_bg.jpg) no-repeat;
       }
       @include mobile_hide
     }
@@ -49,7 +48,7 @@
         display: inline-block;
         width:140px;
         height:29px;
-        background:url(~assets/images/css_sprites.png) -170px -364px;
+        background:url(~@/assets/images/css_sprites.png) -170px -364px;
       }
     }
     &:not(.login_block){
@@ -95,7 +94,7 @@
         background: #181a1c;
         padding-top:calc(100vh - 1px);
         .bg{
-          background:url(~assets/images/login_bg.jpg) no-repeat;
+          background:url(~@/assets/images/login_bg.jpg) no-repeat;
           height:calc(100vh - 1px)
         }
       }

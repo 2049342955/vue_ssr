@@ -1,34 +1,33 @@
 <template>
-  <div class="mobile_miner_item item" @click="goDetail(n.id, '1')">
+  <div class="mobile_miner_item item" @click="goDetail(data.id, '1')">
     <div class="null">
       <div class="mobile_minerfixed">
-        <p :class="[{red: n.status===1}, {green: n.status===4}, {gray: n.status===2||n.status===3}]">{{status[n.status]}}</p>
+        <p :class="[{red: data.status===1}, {green: data.status===4}, {gray: data.status===2||data.status===3}]">{{status[data.status]}}</p>
       </div>
-      <img :src="n.minerPicture"/>
+      <img :src="data.minerPicture"/>
     </div>
-    <h6>{{n.name}}</h6>
+    <h6>{{data.name}}</h6>
     <div class="progress_info1">
       <div class="progress_box1">
-        <template v-if="n.status===2">
+        <template v-if="data.status===2">
           <div class="box1" :style="{width:100 +'%'}"></div>
         </template>
-        <template v-else-if="n.status===4">
+        <template v-else-if="data.status===4">
           <div class="box1" :style="{width:0 +'%'}"></div>
         </template>
         <template v-else>
-          <div class="box1" :style="{width:((n.buyed_amount/n.amount)*100).toFixed(1)+'%'}"></div>
+          <div class="box1" :style="{width:((data.buyed_amount/data.amount)*100).toFixed(1)+'%'}"></div>
         </template>
       </div>
     </div>
-    <p>算力价： <b>¥{{n.one_amount_value}}</b> <span>{{n.hash}}T</span></p>
+    <p>算力价： <b>¥{{data.one_amount_value}}</b> <span>{{data.hash}}T</span></p>
   </div>
 </template>
 
 <script>
-  import api from '@/util/function'
   export default {
     props: {
-      n: {
+      data: {
         type: Object
       }
     },
@@ -46,14 +45,13 @@
     },
     methods: {
       goDetail (id, type) {
-        api.goPage(id, type, this)
+        this.$router.push({path: 'miner/detail/' + id})
       }
     }
   }
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
   .mobile_miner_item{
     display: block;
     width: 3.27rem;

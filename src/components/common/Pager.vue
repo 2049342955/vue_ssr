@@ -51,7 +51,6 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
   .pager{
     padding-top:80px;
     padding-bottom:50px;

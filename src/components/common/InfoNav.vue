@@ -11,10 +11,10 @@
     data () {
       return {
         navLists: [
-          {title: '算力资讯', path: '/industryInformation', word: ''},
-          {title: '设备之家', path: '/equipments/list', word: ''},
+          {title: '算力资讯', path: '/industryInfo', word: ''},
+          {title: '设备之家', path: '/museum', word: ''},
           {title: '交易信息', path: '/transaction', word: ''},
-          {title: '收益币种', path: '/currency/list', word: ''}
+          {title: '收益币种', path: '/currency', word: ''}
         ]
       }
     }

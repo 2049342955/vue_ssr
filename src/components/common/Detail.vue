@@ -5,9 +5,9 @@
       <span class="button" @click="back">< 返回</span>
     </div>
     <div class="info_detail_content" v-html="content.content" style="padding:0 50px;"></div>
-    <div class="next_prev" v-if="$route.path !== '/currency/detail'">
-      <div class="btn" @click="clickcontent(-1)">上一篇：<span>{{prevTitle}}</span></div>
-      <div class="btn" @click="clickcontent(1)"> 下一篇：<span>{{nextTitle}}</span></div>
+    <div class="next_prev" v-if="$route.name !== 'currencyDetail'">
+      <div class="btn" @click="getContent(prev.id)">上一篇：<span>{{prev.title}}</span></div>
+      <div class="btn" @click="getContent(next.id)"> 下一篇：<span>{{next.title}}</span></div>
     </div>
   </section>
 </template>
@@ -18,73 +18,54 @@
     data () {
       return {
         content: {},
-        params1: '',
-        all_id: '',
-        nextTitle: '',
-        prevTitle: ''
+        next: {},
+        prev: {}
       }
     },
     methods: {
-      contentDetail () {
-        var url = ''
-        var data = ''
-        if (this.$route.path === '/currency/detail') {
+      getDetail () {
+        let url = ''
+        let data = ''
+        if (this.$route.name === 'currencyDetail') {
           url = 'showCoinInfoDetail'
-          data = {token: 0, coin_id: this.params1}
+          data = {token: 0, coin_id: this.$route.params.id}
         } else {
           url = 'content'
-          data = {token: 0, news_id: this.params1}
+          data = {token: 0, news_id: this.$route.params.id}
         }
         fetchApiData(this, url, data, (res) => {
           this.content = res
         })
-      },
-      clickcontent (type) {
-        let id_lists = JSON.parse(localStorage.getItem('all_id'))
-        console.log(id_lists)
-        for (let i = 0; i < id_lists.length; i++) {
-          if (this.params1 === id_lists[i].id) {
-            if (type === 1) {
-              this.params1 = id_lists[i + 1] ? id_lists[i + 1].id : this.params1
-              this.prevTitle = id_lists[i] ? id_lists[i].title : '没有上一篇了'
-              this.nextTitle = id_lists[i + 2] ? id_lists[i + 2].title : '没有下一篇了'
-            } else if (type === -1) {
-              this.params1 = id_lists[i - 1] ? id_lists[i - 1].id : this.params1
-              this.prevTitle = id_lists[i - 2] ? id_lists[i - 2].title : '没有上一篇了'
-              this.nextTitle = id_lists[i] ? id_lists[i].title : '没有下一篇了'
-            }
-            break
-          }
+        if (this.$route.name !== 'currencyDetail') {
+          this.pageInit()
         }
-        this.contentDetail()
+      },
+      getContent (id) {
+        if (id === -1) return false
+        let str = this.$route.path.split('/')[1]
+        this.$router.replace({path: '/' + str + '/detail/' + id})
+        this.getDetail()
       },
       back () {
         window.history.back()
+      },
+      pageInit () {
+        let idLists = JSON.parse(localStorage.getItem('all_id'))
+        idLists.forEach((v, i) => {
+          if (+this.$route.params.id === v.id) {
+            this.next = idLists[i + 1] ? idLists[i + 1] : {id: -1, title: '没有下一篇了'}
+            this.prev = idLists[i - 1] ? idLists[i - 1] : {id: -1, title: '没有上一篇了'}
+          }
+        })
       }
     },
     mounted () {
-      var p = localStorage.getItem('icon_id')
-      var id_lists = JSON.parse(localStorage.getItem('all_id'))
-      if (p) {
-        p = JSON.parse(p)
-        this.params1 = p[0]
-      }
-      this.contentDetail()
-      if (this.$route.path === '/currency/detail') {
-        return false
-      }
-      for (var i = 0; i < id_lists.length; i++) {
-        if (this.params1 === id_lists[i].id) {
-          this.nextTitle = id_lists[i + 1] ? id_lists[i + 1].title : '没有下一篇了'
-          this.prevTitle = id_lists[i - 1] ? id_lists[i - 1].title : '没有上一篇了'
-        }
-      }
+      this.getDetail()
     }
   }
 </script>
 
 <style type="text/css" lang="scss">
-  @import '../../assets/css/style.scss';
   .web_info_detail {
     min-height:500px;
     background: #fff;
@@ -130,6 +111,7 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
+        cursor: pointer;
       }
       :nth-child(2) {
         float: right;

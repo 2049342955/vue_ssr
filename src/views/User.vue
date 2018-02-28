@@ -31,8 +31,7 @@
 
 <script>
   import { mapState } from 'vuex'
-  import util from '@/util'
-  import api from '../util/function'
+  import api from '@/util/function'
   export default {
     data () {
       return {
@@ -71,13 +70,12 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '~assets/css/style.scss';
   .user{
     overflow:hidden;
     .info{
       width: 100%;
       height: 140px;
-      background: #1d2433 url('~assets/images/user_bg.jpg') repeat-x 50%;
+      background: #1d2433 url('~@/assets/images/user_bg.jpg') repeat-x 50%;
       .box{
         line-height: 140px;
         @include main

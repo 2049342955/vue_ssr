@@ -10,7 +10,7 @@
           <span></span>
           <p class="titleserver">{{n.name}}</p>
           <p class="contentserver">{{n.content}}</p>
-          <nuxt-link :to="n.path">查看更多</nuxt-link>
+          <router-link :to="n.path">查看更多</router-link>
         </div>
       </div>
     </div>
@@ -25,12 +25,12 @@
         serverlist: [{
           title: '算力服务器商城',
           name: 'Miner mall',
-          path: '/minerShop/list',
+          path: '/minerShop',
           content: '算力作为区块链分布式网络实现价值传递与信任连接的基础资源，算力网依托自身行业优势，已整合了全球算力产业链资源。着重为客户提供全球顶级厂商的云算力服务器资源，并结合分布在全球的BDC资源推出云算力服务。'
         }, {
           title: '产业资讯',
           name: 'information',
-          path: '/industryInformation',
+          path: '/industryInfo',
           content: '区块链、云计算产业发展、行业推广、应用基础等重要环节的宏观政策环境已经基本具备，未来5-10年间，区块链分布式共享云计算产业将会有爆发性的增长。算力网重点打造产业资讯板块，专注于提供实时的产业资讯、行业数据和行业小工具等服务。'
         }, {
           title: 'BDC托管',

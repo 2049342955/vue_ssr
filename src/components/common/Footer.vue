@@ -93,7 +93,7 @@
     },
     methods: {
       getFriendLinks () {
-        util.post('friendlinkList', {token: 0}).then( (res) => {
+        util.post('friendlinkList', {token: 0}).then((res) => {
           this.partner = res.msg
         })
       },
@@ -109,7 +109,6 @@
 </script>
 
 <style type="text/css" lang="scss">
-  @import '~assets/css/style.scss';
   .footer{
     .pc_box{
       background: #F2F6F9;
@@ -132,7 +131,7 @@
                 width: 92px;
                 height: 35px;
                 border-radius:5px;
-                background: url('~assets/images/css_sprites.png') -10px -413px;
+                background: url('~@/assets/images/css_sprites.png') -10px -413px;
               }
               .copyright_text{
                 width: 360px;
@@ -143,7 +142,7 @@
                   display: inline-block;
                   width:20px;
                   height:20px;
-                  background: url('~assets/images/css_sprites.png') -534px -264px;
+                  background: url('~@/assets/images/css_sprites.png') -534px -264px;
                   vertical-align: bottom;
                 }
               }
@@ -184,7 +183,7 @@
               .qrcode{
                 width: 80px;
                 height: 80px;
-                background: url('~assets/images/css_sprites.png') -10px -264px;
+                background: url('~@/assets/images/css_sprites.png') -10px -264px;
               }
             }
             .active{

@@ -29,43 +29,43 @@
   // *$type:1=>'横向';2=>'圆形',noColor=>'初始颜色', yesColor=>'过去的颜色'*
   @mixin progress($type:2, $height: 5, $noColor: #ccc, $yesColor: #ffb386, $width:76, $top: 0.5, $right: 1, $paddingTop: 6, $border: 20) {
     @if ($type == 2) {
-      .wrap,.circle,.percent{  
-        position: absolute;  
-        width: #{$width}px;  
-        height: #{$width}px;  
-        border-radius: 50%;  
-      }  
-      .wrap{  
-        top: #{$top}rem;  
+      .wrap,.circle,.percent{
+        position: absolute;
+        width: #{$width}px;
+        height: #{$width}px;
+        border-radius: 50%;
+      }
+      .wrap{
+        top: #{$top}rem;
         right: #{$right}rem;
-        background-color: #ffb386;  
-      }  
-      .circle{  
-        box-sizing: border-box;  
-        border:#{$border}px solid #ffb386;  
-        clip:rect(0,#{$width}px,#{$width}px,#{$width / 2}px);  
-      }  
-      .clip-auto{  
-        clip:rect(auto, auto, auto, auto);  
-      }  
-      .percent{  
-        box-sizing: border-box;  
-        top:-#{$border}px;  
-        left:-#{$border}px;  
-      }  
-      .left11{  
-        transition:transform ease;  
-        border:#{$border}px solid #ccc;  
-        clip: rect(0,38px,#{$width}px,0);  
-      }  
-      .right11{  
-        border:#{$border}px solid #ccc;  
-        clip: rect(0,#{$width}px,#{$width}px,#{$width / 2}px);  
-      }  
-      .wth0{  
-        width:0;  
-      }  
-      .num{  
+        background-color: #ffb386;
+      }
+      .circle{
+        box-sizing: border-box;
+        border:#{$border}px solid #ffb386;
+        clip:rect(0,#{$width}px,#{$width}px,#{$width / 2}px);
+      }
+      .clip-auto{
+        clip:rect(auto, auto, auto, auto);
+      }
+      .percent{
+        box-sizing: border-box;
+        top:-#{$border}px;
+        left:-#{$border}px;
+      }
+      .left11{
+        transition:transform ease;
+        border:#{$border}px solid #ccc;
+        clip: rect(0,38px,#{$width}px,0);
+      }
+      .right11{
+        border:#{$border}px solid #ccc;
+        clip: rect(0,#{$width}px,#{$width}px,#{$width / 2}px);
+      }
+      .wth0{
+        width:0;
+      }
+      .num{
         position: absolute;
         box-sizing: border-box;
         width: #{$width - 10}px;
@@ -792,7 +792,7 @@
         display: inline-block;
         width: 234px;
         height: 215px;
-        background: url('~assets/images/css_sprites.png') -335px -10px;
+        background: url('~@/assets/images/css_sprites.png') -335px -10px;
       }
       p{
         color:$light_black;
