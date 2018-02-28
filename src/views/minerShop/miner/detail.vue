@@ -74,7 +74,7 @@
         }
         if (!this.token) {
           this.$store.commit('SET_URL', this.$route.path)
-          this.$router.push({name: 'auth-login'})
+          this.$router.push({name: 'login'})
           this.$store.commit('LOGOUT')
           return false
         }
@@ -122,7 +122,7 @@
           img: this.detail.minerPicture
         }
         api.setStorge('info', data)
-        this.$router.push({path: 'miner/pay'})
+        this.$router.push({path: '/miner/pay'})
       },
       changeNum (n) {
         n = +n

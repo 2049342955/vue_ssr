@@ -24,7 +24,8 @@
 </template>
 
 <script>
-  import { fetchApiData } from '@/util/index'
+  import { fetchApiData } from '@/util'
+  import { paySuccess, alipay, closeMask, openMask } from '@/service/pay'
   import api from '@/util/function'
   import { mapState } from 'vuex'
   import { postAddress } from '@/util/form'
@@ -60,52 +61,26 @@
         let ff = e.target
         let callbackUrl = ''
         let data = {token: this.token}
-        if (this.payNo === 1) {
-          data = Object.assign({code: ff.code.value, mobile: ff.mobile.value}, data)
-        } else {
-          callbackUrl = location.protocol + '//' + location.host
-        }
-        if (this.isMobile) {
-          callbackUrl += '/mobile/'
-        } else {
-          callbackUrl += '/user/'
-        }
+        let newData = {}
         if (!this.addressObject.id) {
           api.tips('请添加地址')
           return false
         }
-        callbackUrl += 'order/3'
-        if (this.payNo === 2) {
-          data = Object.assign({url: callbackUrl, mode: '2'}, data)
+        if (this.payNo === 1) {
+          newData = {code: ff.code.value, mobile: ff.mobile.value}
         }
-        data = Object.assign({post_id: this.addressObject.id, miner_id: this.detail.id, number: this.number}, data)
+        if (this.payNo === 2) {
+          callbackUrl = location.protocol + '//' + location.host + '/user/order/3'
+          newData = {url: callbackUrl, mode: '2'}
+        }
+        data = Object.assign({post_id: this.addressObject.id, miner_id: this.detail.id, number: this.number}, data, newData)
         ff.btn.setAttribute('disabled', true)
         fetchApiData(this, 'saveMiner', data, (res) => {
           this.paySuccess(callbackUrl, res, ff.btn)
         }, ff.btn)
       },
-      alipay (url, data) {
-        if (api.checkWechat()) {
-          api.tips('请在浏览器里打开')
-          return false
-        }
-        data.subject = encodeURIComponent(data.subject)
-        fetchApiData(this, 'alipay_wap', Object.assign({is_mobile: +this.isMobile, url: url, token: this.token}, data), (resData) => {
-          location.href = resData.url
-        })
-      },
-      paySuccess (url, data, btn) {
-        var str = '恭喜您购买成功！'
-        if (this.payNo === 2) {
-          this.alipay(url, data)
-          btn.removeAttribute('disabled')
-        } else {
-          api.tips(str, () => {
-            api.setStorge('info', {addressData: this.addressObject})
-            this.$router.push({path: '/minerShop/paySuccess'})
-          })
-        }
-      },
+      alipay,
+      paySuccess,
       submit (e) {
         var form = e.target
         var data = api.checkForm(form, this.isMobile)
@@ -119,25 +94,14 @@
         }, form.btn)
       },
       openMask (n) {
-        document.body.style.overflow = 'hidden'
-        window.scroll(0, 0)
-        this.edit = n
+        openMask(n)
         this.addressForm = []
-        this.contract = ''
-        if (n === 1) {
-          this.contract = this.content1 ? this.content + '<br>' + this.content1 : this.content
-          this.title = '协议详情'
-        } else if (n === 2) {
+        if (n === 2) {
           this.addressForm = this.address
           this.title = '收货地址'
-        } else if (n === 3) {
-          this.title = '支付方式'
         }
       },
-      closeMask () {
-        document.body.style.overflow = 'auto'
-        this.edit = false
-      },
+      closeMask,
       setPayNo (k) {
         this.payNo = k
         this.closeMask()

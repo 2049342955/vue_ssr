@@ -61,7 +61,7 @@
           let sendData = Object.assign(data, {token: this.token, valid_code: this.valid_code, code_id: this.code_id, mobile: this.mobile})
           fetchApiData(this, 'forgitPwd', sendData, (res) => {
             api.tips('重置密码成功', () => {
-              this.$router.push({name: 'auth-login'})
+              this.$router.push({name: 'login'})
             })
           }, form.btn)
         }

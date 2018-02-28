@@ -25,7 +25,8 @@
 </template>
 
 <script>
-  import util, { fetchApiData } from '@/util/index'
+  import util, { fetchApiData } from '@/util'
+  import { paySuccess, alipay, closeMask, openMask } from '@/service/pay'
   import api from '@/util/function'
   import { mapState } from 'vuex'
   import MyMask from '@/components/common/Mask'
@@ -60,73 +61,28 @@
         let ff = e.target
         let url = ''
         let callbackUrl = ''
-        let data = {token: this.token}
+        let data = {token: this.token, product_id: this.detail.id, num: this.number}
         if (this.payNo === 1) {
           data = Object.assign({code: ff.code.value, mobile: ff.mobile.value}, data)
-        } else {
-          callbackUrl = location.protocol + '//' + location.host
         }
-        if (this.isMobile) {
-          callbackUrl += '/mobile/'
-        } else {
-          callbackUrl += '/user/'
+        if (this.payNo === 2) {
+          url = this.detail.isLoan ? 'productMallLoan' : 'productMall'
+          let newData = this.detail.isLoan ? {mode: '3'} : {mode: '1'}
+          callbackUrl = location.protocol + '//' + location.host + '/user/order/0'
+          data = Object.assign({url: callbackUrl}, data, newData)
         }
-        callbackUrl += 'order/0'
         if (this.detail.isLoan) {
-          url = 'productMallLoan'
-          if (this.payNo === 2) {
-            data = Object.assign({url: callbackUrl, mode: '3'}, data)
-          }
-          data = Object.assign({product_id: this.detail.id, rate_name: this.rate, num: this.number}, data)
-        } else {
-          url = 'productMall'
-          if (this.payNo === 2) {
-            data = Object.assign({url: callbackUrl, mode: '1'}, data)
-          }
-          data = Object.assign({product_id: this.detail.id, num: this.number}, data)
+          data = Object.assign({rate_name: this.rate}, data)
         }
         ff.btn.setAttribute('disabled', true)
         fetchApiData(this, url, data, (res) => {
           this.paySuccess(callbackUrl, res, ff.btn)
         }, ff.btn)
       },
-      paySuccess (url, data, btn) {
-        var str = '恭喜您购买成功！'
-        if (this.payNo === 2) {
-          this.alipay(url, data)
-          btn.removeAttribute('disabled')
-        } else {
-          api.tips(str, () => {
-            this.$router.push({path: '/cloudCompute/paySuccess'})
-          })
-        }
-      },
-      alipay (url, data) {
-        if (api.checkWechat()) {
-          api.tips('请在浏览器里打开')
-          return false
-        }
-        data.subject = encodeURIComponent(data.subject)
-        fetchApiData(this, 'alipay_wap', Object.assign({is_mobile: +this.isMobile, url: url, token: this.token}, data), (resData) => {
-          location.href = resData.url
-        })
-      },
-      openMask (n) {
-        document.body.style.overflow = 'hidden'
-        window.scroll(0, 0)
-        this.edit = n
-        this.contract = ''
-        if (n === 1) {
-          this.contract = this.content1 ? this.content + '<br>' + this.content1 : this.content
-          this.title = '协议详情'
-        } else if (n === 3) {
-          this.title = '支付方式'
-        }
-      },
-      closeMask () {
-        document.body.style.overflow = 'auto'
-        this.edit = false
-      },
+      paySuccess,
+      alipay,
+      openMask,
+      closeMask,
       setRate (n) {
         this.rate = +n
       },
