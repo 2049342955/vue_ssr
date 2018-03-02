@@ -33,15 +33,131 @@
       },
       content: {
         type: Object
+      },
+      type: {
+        type: Object,
+        default: 'down'
       }
     },
+    data () {
+      return {
+        touchYDelta: '',
+        translateVal,
+        firstTouchY: 0,
+        initialScroll: 0,
+        isLoading: false,
+        isMoved: false
+      }
+    }
     methods: {
       loadMore () {
         this.$emit('loadMore')
       },
       back () {
         this.$emit('back')
+      },
+      touchStart (ev) {
+        if (this.isLoading) return;
+        this.isMoved = false
+        this.touchYDelta = ''
+        this.firstTouchY = parseInt(ev.changedTouches[0].clientY)
+        this.initialScroll = this.scrollY()
+      },
+      touchMove (ev) {
+        if (this.isLoading) {
+          ev.preventDefault()
+          return
+        }
+        let ele = document.querySelector('scroll_list')
+        let moving = function() {
+          let touchY = parseInt(ev.changedTouches[0].clientY);
+          this.touchYDelta = touchY - firstTouchY;
+          if ( this.scrollY() === 0 && this.touchYDelta > 0  ) {
+            ev.preventDefault();
+          }
+          if(this.type =="up") {
+            if ( initialScroll < 0 || self.scrollY() >= 0 && touchYDelta > 0) {
+              firstTouchY = touchY;
+              return;
+            }
+            $(".refresh_load").show()
+            translateVal = Math.pow(-touchYDelta, 0.85);
+            $(ele).css({"transform":'translate3d(0, -' + translateVal + 'px, 0)',"transition-duration":"0ms"})
+            isMoved = true;
+            if(touchYDelta < this.triggerDistance){
+              $(ele).addClass("refresh_pull_up").removeClass("refresh_pull_down");
+            }else{
+              $(ele).addClass("refresh_pull_down").removeClass("refresh_pull_up");
+            }
+          }
+          if(this.type =="down"){console.log(touchYDelta < 0)
+            if ( initialScroll > 0 || self.scrollY() >= 0 && touchYDelta < 0) {
+              firstTouchY = touchY;
+              return;
+            }
+            translateVal = Math.pow(touchYDelta, 0.85);
+            $(ele).css({"transform":'translate3d(0, ' + translateVal + 'px, 0)',"transition-duration":"0ms"})
+            isMoved = true;
+            if(touchYDelta > this.triggerDistance){
+              $(ele).addClass("refresh_pull_up").removeClass("refresh_pull_down");
+            }else{
+              $(ele).addClass("refresh_pull_down").removeClass("refresh_pull_up");
+            }
+          }
+        }
+        this.throttle(moving(), 20);
+      },
+      touchEnd (ev,callback) {
+        var ele = this.params.container;
+        if (isLoading|| !isMoved) {
+          isMoved = false;
+          return;
+        }
+        if( touchYDelta <= this.params.triggerDistance && this.params.type =="up") {
+          isLoading = true;
+          ev.preventDefault();
+          $(ele).css({"transform":'translate3d(0,-60px,0)',"transition-duration":"300ms"}).addClass("refreshing");
+          $(".refresh_load").fadeOut(2000)
+          callback();
+        }
+        if( touchYDelta >= this.params.triggerDistance && this.params.type =="down") {
+          isLoading = true;
+          ev.preventDefault();
+          $(ele).css({"transform":'translate3d(0,60px,0)',"transition-duration":"300ms"}).addClass("refreshing");
+          callback();
+        }
+        isMoved = false;
+      },
+      cancelLoading () {
+        var ele = this.params.container;
+        isLoading = false;
+        $(ele).css("transform",'translate3d(0,0,0)').removeClass("refreshing refresh_pull_up");
+      },
+      scrollY () {
+        return window.pageYOffset || window.document.documentElement.scrollTop;
+      },
+      throttle (fn, delay) {
+        var allowSample = true;
+        return function(e) {
+          if (allowSample) {
+            allowSample = false;
+            setTimeout(function() { allowSample = true; }, delay);
+            fn(e);
+          }
+        };
       }
+    },
+    mounted () {
+      // let ele = document.querySelector('scroll_list')
+      // ele.addEventListener('touchstart', function(ev){
+      //   this.touchStart(ev)
+      // });
+      // ele.addEventListener('touchmove', function(ev){
+      //   this.touchMove(ev)
+      // });
+      // ele.addEventListener('touchend', function(ev){
+      //   this.touchEnd(ev,callback);
+      // });
     }
   }
 </script>
