@@ -18,8 +18,8 @@
       </div>
       <Pager :len="len" :now="now" @setPage="setPage"></Pager>
     </div>
-    <scroll-list :content="content" :loading="loading" :noData="!list.length" :showContent="showContent" @loadMore="loadMore" @back="showContent=false" v-else-if="isMobile === 1">
-      <div class="evaluate_item" v-for="item, k in list" :key="k" @click="getContent(item.id)">
+    <scroll-list @loadMore="loadMore" :noData="noData" v-else-if="isMobile === 1">
+      <div class="evaluate_item" v-for="item, k in list" :key="k" @click="$router.push({path: 'evaluation/detail/' + item.id})">
         <h4>{{ item.title}}</h4>
         <p>{{item.resume}}</p>
         <div class="opacity">
@@ -32,9 +32,8 @@
 </template>
 
 <script>
-  import util from '@/util/index'
   import { mapState } from 'vuex'
-  import { getMobileList, loadMore, setPage, getContent } from '@/service/article'
+  import { getList, setPage, loadMore } from '@/service/article'
   import pageFrame from '@/components/common/PageFrame'
   import Pager from '@/components/common/Pager'
   import ScrollList from '@/components/common/ScrollList'
@@ -44,24 +43,19 @@
     },
     data () {
       return {
+        dataUrl: 'NewsReviewList',
+        perNum: 5,
         len: 0,
         now: 1,
         list: [],
         loading: false,
-        showContent: false,
-        content: {},
-        allid: []
+        noData: false
       }
     },
     methods: {
-      getList (more) {
-        util.post('NewsReviewList', {token: 0, page: this.now}).then((res) => {
-          getMobileList(this, more, res.msg, 5)
-        })
-      },
+      getList,
       setPage,
-      loadMore,
-      getContent
+      loadMore
     },
     mounted () {
       this.getList()

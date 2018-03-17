@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <scroll-list :loading="loading" @loadMore="loadMore" v-else-if="isMobile===1">
+    <scroll-list @loadMore="loadMore" v-else-if="isMobile===1">
       <div class="quick_news_item" v-for="item, k in newslists" :key="k">
         <h4> {{item.title}} </h4>
         <p v-html="item.content"></p>
@@ -33,7 +33,6 @@
     data () {
       return {
         newslists: [],
-        len: 0,
         now: 1,
         total: 0,
         loading: false,
@@ -50,14 +49,17 @@
       }
     },
     methods: {
-      getList (more) {
+      getList (more, callback) {
         let url = more ? 'showBrief_h5' : 'NewsBriefList'
         let data = more ? {token: 0, page: this.now} : {token: 0}
         util.post(url, data).then((res) => {
           if (more) {
-            for (let i = 0, len = res.msg.list.length; i < len; i++) {
-              this.newslists.push(res.msg.list[i])
-              this.times.push(api.pastTime(res.msg.list[i].dateline))
+            this.newslists = this.newslists.concat(res.msg.list)
+            const times = res.msg.list.map(item => (api.pastTime(item.dateline)))
+            this.times = this.times.concat(times)
+            if (callback) {
+              this.loading = false
+              callback()
             }
             if (this.now > 1) return false
             this.total = res.msg.total
@@ -66,14 +68,11 @@
           }
         })
       },
-      loadMore () {
+      loadMore (callback) {
         if (this.total > this.newslists.length) {
           this.loading = true
           this.now++
-          this.getList(1)
-          setTimeout(() => {
-            this.loading = false
-          }, 1000)
+          this.getList(1, callback)
         } else {
           this.loading = false
         }

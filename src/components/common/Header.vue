@@ -81,7 +81,7 @@
         navLink: ['/miner', '/cloudCompute', '/bdc', '/quickNews', '/minerShop/activity'],
         navPerson: ['/mobile/property', '/mobile/order/0', '/mobile/repayment/0', '/mobile/message', '/mobile/moneyFlow', '/mobile/idVerfication', '/mobile/bankCard', '/mobile/assetsAddress', '/mobile/administration'
         ],
-        isBlueHeader: ['bdc', 'mobile-assetDetail', 'mobile-property', 'mobile-personalCenter', 'mobileIndex'],
+        isBlueHeader: ['bdc', 'mobile-assetDetail', 'mobile-property', 'mobile-personalCenter', 'mIndex'],
         noHeader: ['auth-login', 'auth-regist', 'auth-passwordRetrieval']
       }
     },

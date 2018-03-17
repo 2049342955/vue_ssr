@@ -1,41 +1,31 @@
-import util from '@/util'
-export function getContent (id) {
-  this.showContent = true
-  util.post('content', {token: 0, news_id: id}).then((res) => {
-    this.content = res.msg
-  })
-}
+import util from '@/util/index'
 
-export function loadMore () {
-  if (this.now < this.len) {
-    this.loading = true
-    this.now++
-    this.getList(1)
-    setTimeout(() => {
+export function getList (more, callback) {
+  util.post(this.dataUrl, {token: 0, page: this.now}).then((res) => {
+    if (more) this.list = this.list.concat(res.msg.list)
+    else this.list = res.msg.list
+    if (callback) {
       this.loading = false
-    }, 1000)
-  } else {
-    this.loading = false
-  }
+      callback()
+    }
+    if (this.now > 1) return false
+    if (!this.list.length) this.noData = true
+    localStorage.setItem('all_id', JSON.stringify(res.msg.id_list))
+    this.len = Math.ceil(res.msg.total / this.perNum)
+  })
 }
 
 export function setPage (n) {
   this.now = n
-  if (!this.isMobile) {
-    this.getList()
-  }
+  this.getList()
 }
 
-export function getMobileList (that, more, res, perNum) {
-  if (more) {
-    for (let i = 0, len = res.list.length; i < len; i++) {
-      that.list.push(res.list[i])
-    }
+export function loadMore (callback) {
+  if (this.now < this.len) {
+    this.loading = true
+    this.now++
+    this.getList(1, callback)
   } else {
-    that.list = res.list
-    that.allid = res.id_list
-    localStorage.setItem('all_id', JSON.stringify(that.allid))
+    this.loading = false
   }
-  if (that.now > 1) return false
-  that.len = Math.ceil(res.total / perNum)
 }

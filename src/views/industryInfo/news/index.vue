@@ -15,8 +15,8 @@
       </router-link>
       <Pager :len="len" :now="now" @setPage="setPage"></Pager>
     </section>
-    <scroll-list :content="content" :loading="loading" :showContent="showContent" @loadMore="loadMore" @back="showContent=false" v-else-if="isMobile===1">
-      <div class="news_item" v-for="item, k in list" :key="k" @click="getContent(item.id)">
+    <scroll-list @loadMore="loadMore" :noData="noData" v-else-if="isMobile===1">
+      <div class="news_item" v-for="item, k in list" :key="k" @click="$router.push({path: 'news/detail/' + item.id})">
         <div class="list_left">
           <h3>{{item.title}}</h3>
           <p>{{item.resume?item.resume: '暂无简介'}}</p>
@@ -35,8 +35,7 @@
 </template>
 
 <script>
-  import util from '@/util/index'
-  import { getMobileList, loadMore, setPage, getContent } from '@/service/article'
+  import { getList, setPage, loadMore } from '@/service/article'
   import pageFrame from '@/components/common/PageFrame'
   import Pager from '@/components/common/Pager'
   import { mapState } from 'vuex'
@@ -47,25 +46,20 @@
     },
     data () {
       return {
-        list: [],
         img1: require('@/assets/images/zx.jpg'),
+        dataUrl: 'suanliMessage',
+        loading: false,
+        perNum: 7,
         len: 0,
         now: 1,
-        allid: [],
-        loading: false,
-        showContent: false,
-        content: {}
+        list: [],
+        noData: false
       }
     },
     methods: {
-      getList (more) {
-        util.post('suanliMessage', {token: 0, page: this.now}).then((res) => {
-          getMobileList(this, more, res.msg, 7)
-        })
-      },
+      getList,
       setPage,
-      loadMore,
-      getContent
+      loadMore
     },
     mounted () {
       this.getList()

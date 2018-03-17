@@ -22,8 +22,8 @@
     </div>
   </div>
   <pageFrame v-else-if="isMobile===1">
-    <scroll-list :content="content" :loading="loading" :showContent="showContent" @loadMore="loadMore" @back="showContent=false">
-      <div class="currency_item" v-for="item, k in list" :key="k" @click="getContent(item.id)">
+    <scroll-list @loadMore="loadMore" :noData="noData">
+      <div class="currency_item" v-for="item, k in list" :key="k" @click="$router.push({path: 'currency/detail/' + item.id})">
         <div class="left">
           <img :src="item.icon"/>
           <p>{{item.coin_name}}</p>
@@ -53,8 +53,7 @@
         total: 0,
         loading: false,
         list: [],
-        showContent: false,
-        content: {}
+        noData: false
       }
     },
     methods: {
@@ -64,25 +63,18 @@
           util.post('showCoinlist_h5', {token: 0, page: this.now}).then((res) => {
             this.loading = false
             this.now++
-            for (let i = 0, len = res.msg.list.length; i < len; i++) {
-              this.list.push(res.msg.list[i])
-            }
+            this.list = this.list.concat(res.msg.list)
             if (this.now > 1) return false
             this.total = res.msg.total
+            if (!this.list.length) this.noData = true
           })
         } else {
           this.loading = false
         }
       },
-      getContent (id) {
-        this.showContent = true
-        util.post('showCoinInfoDetail', {token: 0, coin_id: id}).then((res) => {
-          this.content = res.msg
-        })
-      },
       pageInit () {
         if (this.isMobile !== false) {
-          if (this.isMobile) return false
+          if (this.isMobile) return this.loadMore()
           util.post('showCoinInfo', {token: 0}).then((res) => {
             this.mainCurrency = res.msg.main_coin
             this.otherCurrency = res.msg.other_coin

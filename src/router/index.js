@@ -394,7 +394,7 @@
   const Mobile = () => import('@/views/mobile')
   const MProperty = () => import('@/views/mobile/property')
   const MAssetsDetail = () => import('@/views/mobile/property/assetsDetail')
-  const MCloudCompute = () => import('@/views/mobile/property/cloudCompute')
+  const MCloudProduct = () => import('@/views/mobile/property/cloudProduct')
 
   const MPersonalCenter = () => import('@/views/mobile/user')
   const MAccount = () => import('@/views/mobile/user/account')
@@ -411,6 +411,7 @@
 
   const mobile = {
     path: '/mobile',
+    component: Container,
     children: [{
       path: '/',
       name: 'mIndex',
@@ -432,9 +433,9 @@
       name: 'mAssetsDetail',
       component: MAssetsDetail
     }, {
-      path: 'cloudCompute',
-      name: 'mCloudCompute',
-      component: MCloudCompute
+      path: 'cloudProduct',
+      name: 'mCloudProduct',
+      component: MCloudProduct
     }, {
       path: 'bdcForm',
       name: 'mBdcForm',

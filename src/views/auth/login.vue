@@ -58,7 +58,7 @@
             this.$router.push({path: this.callUrl})
             this.$store.commit('SET_URL', '')
           } else if (this.isMobile) {
-            this.$router.push({path: '/minerShop/cloudCompute'})
+            this.$router.push({path: '/cloudCompute'})
           } else {
             this.$router.push({path: '/'})
           }

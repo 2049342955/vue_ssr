@@ -24,8 +24,7 @@
         str: {website: '网站动态', product: '产品公告'},
         requestUrl: {website: 'webDynamic', product: 'webAnnouncoment'},
         len: 0,
-        now: 1,
-        allid: []
+        now: 1
       }
     },
     methods: {
@@ -34,8 +33,7 @@
         var url = this.requestUrl[n]
         util.post(url, {token: 0, page: this.now}).then((res) => {
           this.lists = res.msg.list
-          this.allid = res.msg.id_list
-          localStorage.setItem('all_id', JSON.stringify(this.allid))
+          localStorage.setItem('all_id', JSON.stringify(res.msg.id_list))
           if (this.now > 1) return false
           this.len = Math.ceil(res.msg.total / 10)
         })

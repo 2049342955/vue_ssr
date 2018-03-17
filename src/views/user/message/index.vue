@@ -19,17 +19,12 @@
     <div class="mobile_box" v-else-if="isMobile===1">
       <div v-show="contentShow" class="message_box">
         <div class="read_num" @click="setRead()" v-if="unread_num"><span></span>全部标为已读</div>
-        <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10" class="message_list">
+        <scroll-list @loadMore="loadMore" :more="len>1" :noData="show">
           <div v-for="d,k in data" :key="k" @click="goDetail(d.id)" :class="['itemlist', {isread: d.is_read}]">
             <span>{{d.title}}</span>
             <i>{{d.created_at.split(" ")[0]}}</i>
           </div>
-        </div>
-        <p v-if="loading" class="load_more">加载中······</p>
-        <div class="nodata" v-if="!data.length">
-          <div class="nodata_img"></div>
-          <p>暂无列表信息</p>
-        </div>
+        </scroll-list>
       </div>
       <div class="message_content" v-show="!contentShow">
         <h3>{{content.title}}</h3>
@@ -45,12 +40,10 @@
   import { fetchApiData } from '@/util'
   import { mapState } from 'vuex'
   import Pager from '@/components/common/Pager'
-  import Vue from 'vue'
-  import { InfiniteScroll } from 'mint-ui'
-  Vue.use(InfiniteScroll)
+  import ScrollList from '@/components/common/ScrollList'
   export default {
     components: {
-      Pager
+      Pager, ScrollList
     },
     data () {
       return {
@@ -95,6 +88,7 @@
             }
             if (this.now > 1) return false
             this.len = Math.ceil(res.total_num / 15)
+            this.show = !this.data.length
           })
         } else {
           setTimeout(() => {

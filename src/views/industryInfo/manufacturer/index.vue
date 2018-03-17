@@ -12,9 +12,9 @@
       </div>
       <Pager :len="len" :now="now" @setPage="setPage"></Pager>
     </div>
-    <scroll-list class="mobile_manufacture" :content="content" :loading="loading" :showContent="showContent" @loadMore="loadMore" @back="showContent=false" v-else-if="isMobile === 1">
-      <h1 v-if="!showContent" slot="title">主流算力服务器制造商</h1>
-      <div class="item" v-for="item, k in list" :key="k" @click="getContent(item.id)">
+    <scroll-list class="mobile_manufacture" :noData="noData" :loading="loading" @loadMore="loadMore" v-else-if="isMobile === 1">
+      <h1 slot="title">主流算力服务器制造商</h1>
+      <div class="item" v-for="item, k in list" :key="k" @click="$router.push({path: 'manufacturer/detail/' + item.id})">
         <img :src="item.image"/>
         <p>{{ item.title}}</p>
       </div>
@@ -23,9 +23,8 @@
 </template>
 
 <script>
-  import util from '@/util/index'
   import { mapState } from 'vuex'
-  import { getMobileList, loadMore, setPage, getContent } from '@/service/article'
+  import { getList, setPage, loadMore } from '@/service/article'
   import Pager from '@/components/common/Pager'
   import pageFrame from '@/components/common/PageFrame'
   import ScrollList from '@/components/common/ScrollList'
@@ -35,24 +34,19 @@
     },
     data () {
       return {
+        dataUrl: 'NewsManfacturerList',
+        loading: false,
+        perNum: 6,
         len: 0,
         now: 1,
         list: [],
-        loading: false,
-        showContent: false,
-        content: {},
-        allid: []
+        noData: false
       }
     },
     methods: {
-      getList (more) {
-        util.post('NewsManfacturerList', {token: 0, page: this.now}).then((res) => {
-          getMobileList(this, more, res.msg, 6)
-        })
-      },
+      getList,
       setPage,
-      loadMore,
-      getContent
+      loadMore
     },
     mounted () {
       this.getList()
@@ -127,6 +121,9 @@
     }
   }
   .scroll_list.mobile_manufacture .list_box{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
     padding: 0;
     .item{
       display: block;

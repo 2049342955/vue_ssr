@@ -3,6 +3,7 @@ import App from './App.vue'
 import { createRouter } from './router'
 import { createStore } from './store'
 import titleMixin from './util/title'
+require('./util/fullpage')
 
 const router = createRouter()
 const store = createStore()

@@ -6,12 +6,11 @@
         <div :class="['box', {mobile_list_box: isMobile}]">
           <template v-if="isMobile===0">
             <MinerItem v-for="n,k in minerData" :n="n" :key="k"></MinerItem>
+            <no-data :product="true" v-if="show"></no-data>
           </template>
-          <ScrollList v-if="isMobile===1" :data="minerData" :len="len" :now="now" @getMobileData="getMobileData"></ScrollList>
-          <div class="nodata" v-if="!minerData.length">
-            <div class="nodata_img"></div>
-            <p>即将上线，敬请期待</p>
-          </div>
+          <scroll-list @loadMore="loadMore" :noData="show" :more="len>1" :product="true" v-else-if="isMobile===1">
+            <MobileMinerItem class="MobileMinerItem" v-for="n,k in minerData" :data="n" :key="k"></MobileMinerItem>
+          </scroll-list>
         </div>
       </div>
     </div>
@@ -23,12 +22,14 @@
   import { fetchApiData } from '@/util'
   import { mapState } from 'vuex'
   import MinerItem from '@/components/miner/MinerItem'
-  import ScrollList from '@/components/product/ScrollList'
+  import MobileMinerItem from '@/components/miner/MobileMinerItem'
+  import ScrollList from '@/components/common/ScrollList'
+  import NoData from '@/components/common/NoData'
   import Pager from '@/components/common/Pager'
   import Sort from '@/components/common/Sort'
   export default {
     components: {
-      Pager, Sort, MinerItem, ScrollList
+      Pager, Sort, MinerItem, MobileMinerItem, ScrollList, NoData
     },
     data () {
       return {
@@ -52,6 +53,17 @@
       }
     },
     methods: {
+      loadMore () {
+        if (this.now < this.len) {
+          this.loading = true
+          this.getMobileData(1)
+          setTimeout(() => {
+            this.loading = false
+          }, 1000)
+        } else {
+          this.loading = false
+        }
+      },
       fetchData (sort, more) {
         var obj = {token: this.token, page: this.now, product_type: '1'}
         if (sort) {
@@ -62,9 +74,9 @@
         }
         fetchApiData(this, 'showList', obj, (res) => {
           this.setData(more, res.data, 'minerData')
-          this.show = !res.data.length
           if (this.now > 1) return false
           this.len = res.page.total_page
+          this.show = !this.minerData.length
         })
       },
       setStatus (n) {
@@ -116,49 +128,33 @@
 <style type="text/css" lang="scss">
   .miner_module {
     background: #f7f8fa;
+    min-height: calc(100vh - 306px);
     .miner_list{
       background: #f6f7f9;
       padding-top: 50px;
       .miner_list_box{
         @include main
-        .loadmore{
-          width: 100%;
-          height: 0.89rem;
-          line-height: 0.89rem;
-          text-align: center;
-        }
         .box:not(.mobile_list_box){
           @include row(4, 1%)
+          .nodata {
+            margin: 0 0 50px;
+          }
         }
         .box.mobile_list_box{
           padding: 0 0.3rem;
         }
-        .box.mobile_list_box .item_box{
+        .box.mobile_list_box .scroll_list .list_box{
           @include row(2)
         }
-        .nodata{
-          width:100%;
-          background: #fff;
-          min-height:500px;
-          padding-top:100px;
-          text-align: center;
-          .nodata_img{
-            display: inline-block;
-            width: 305px;
-            height: 234px;
-            background: url('~@/assets/images/css_sprites.png') -10px -10px;
-          }
-          p{
-            color:$light_black;
-            margin-top:15px
-          }
-        }
       }
-      @media  screen and (max-width: 600px) {
+      @media screen and (max-width: 600px) {
         padding-top:0;
-        .miner_list_box .box{
-          padding:.5rem .5rem 0 .5rem;
+        .miner_list_box .box.mobile_list_box{
+          padding:.3rem .3rem 0 .3rem;
           background: #fff;
+          .list_box {
+            padding: 0
+          }
         }
       }
     }
@@ -172,6 +168,9 @@
         background: #fff;
         padding:30px 15px;
       }
+    }
+    @media screen and (max-width: 600px) {
+      min-height: auto
     }
   }
 </style>

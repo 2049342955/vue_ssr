@@ -1,14 +1,24 @@
 <template>
-  <div class="currency_detail">
+  <div class="currency_detail" v-if="isMobile===0">
     <WebInfoDetail></WebInfoDetail>
   </div>
+  <pageFrame v-else-if="isMobile===1">
+    <WebInfoDetail></WebInfoDetail>
+  </pageFrame>
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   import WebInfoDetail from '@/components/common/Detail'
+  import pageFrame from '@/components/common/PageFrame'
   export default {
     components: {
-      WebInfoDetail
+      WebInfoDetail, pageFrame
+    },
+    computed: {
+      ...mapState({
+        isMobile: state => state.isMobile
+      })
     }
   }
 </script>

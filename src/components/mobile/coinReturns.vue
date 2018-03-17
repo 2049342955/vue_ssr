@@ -6,8 +6,7 @@
         {{item.name}}
       </span>
     </div>
-    <div class="form_content" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading"
-    infinite-scroll-distance="10">
+    <scroll-list class="form_content" @loadMore="loadMore" :more="len>1">
       <section v-for="item in formData" class="form_item" v-if="!showTips">
         <aside class="content_left">
           <span class="name">{{item.product_name}}</span>
@@ -19,20 +18,20 @@
         <span>目前没有收益记录</span>
         <router-link class="button" to="/minerShop/cloudCompute">立即购买云算力</router-link>
       </div>
-    </div>
-    <p v-if="loading" class="load_more">加载中······</p>
+    </scroll-list>
   </div>
 </template>
 
 <script>
   import { fetchApiData } from '@/util'
   import { mapState } from 'vuex'
-  import Vue from 'vue'
-  import { InfiniteScroll } from 'mint-ui'
-  Vue.use(InfiniteScroll)
+  import ScrollList from '@/components/common/ScrollList'
 
   export default {
     name: 'coinReturns',
+    components: {
+      ScrollList
+    },
     data () {
       return {
         active: 'btc',

@@ -94,7 +94,7 @@
       goMobile () {
         if (api.checkEquipment()) {
           this.$store.commit('SET_EQUIPMENT', 1)
-          this.$router.replace({path: '/mobileIndex'})
+          this.$router.replace({path: '/mobile'})
         } else {
           this.$store.commit('SET_EQUIPMENT', 0)
         }
@@ -136,7 +136,7 @@
     },
     mounted () {
       if (api.checkEquipment()) {
-        this.$router.replace({path: '/mobileIndex'})
+        this.$router.replace({path: '/mobile'})
         return false
       }
       if (this.callUrl === 'index') {

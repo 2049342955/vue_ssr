@@ -4,7 +4,7 @@
       <span>{{content.title}}</span>
       <span class="button" @click="back">< 返回</span>
     </div>
-    <div class="info_detail_content" v-html="content.content" style="padding:0 50px;"></div>
+    <div class="info_detail_content" v-html="content.content"></div>
     <div class="next_prev" v-if="$route.name !== 'currencyDetail'">
       <div class="btn" @click="getContent(prev.id)">上一篇：<span>{{prev.title}}</span></div>
       <div class="btn" @click="getContent(next.id)"> 下一篇：<span>{{next.title}}</span></div>
@@ -91,9 +91,13 @@
       }
     }
     .info_detail_content {
+      padding:0 50px;
       img {
         width:auto;
         max-width:100%
+      }
+      @media screen and (max-width: $mobile) {
+        padding:0;
       }
     }
     .next_prev {

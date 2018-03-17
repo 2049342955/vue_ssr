@@ -4,50 +4,53 @@
       <span v-for="item in formTitle">{{item}}</span>
     </div>
     <div class="form_none"></div>
-    <div class="form_content"  v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+    <scroll-list class="form_content" @loadMore="loadMore" :more="len>1" :noData="show">
       <section v-for="item in formData" class="form_item">
         <span class="name">{{item.product_name}}</span>
         <span class="count">{{item.buy_amount}}台</span>
         <span class="count_suanli">{{item.total_hash}}T</span>
       </section>
-    </div>
-    <p v-if="loading" class="load_more">加载中······</p>
+    </scroll-list>
   </div>
 </template>
 
 <script>
   import util from '@/util'
   import { mapState } from 'vuex'
-  import Vue from 'vue'
-  import { InfiniteScroll } from 'mint-ui'
-  Vue.use(InfiniteScroll)
+  import ScrollList from '@/components/common/ScrollList'
 
   export default {
     name: 'cloudProduct',
+    components: {
+      ScrollList
+    },
     data () {
       return {
         formTitle: ['产品名称', '数量', '算力'],
-        page: 1,
+        now: 1,
+        show: false,
         totalNumber: 0,
         formData: [],
-        length: 0,
+        len: 0,
         loading: false
       }
     },
     methods: {
       getData () {
-        util.post('fundOrder', {token: this.token, type: 0, status: 1, page: this.page}).then(res => {
-          this.length = res.msg.total_num
+        util.post('fundOrder', {token: this.token, type: 0, status: 1, page: this.now}).then(res => {
+          this.len = res.msg.total_num
           for (let i = 0, len = res.msg.list.length; i < len; i++) {
             this.formData.push(res.msg.list[i])
           }
           this.totalNumber = res.msg.total_num
+          if (this.now > 1) return false
+          this.show = !this.formData.length
         })
       },
       loadMore () {
-        if (this.formData.length < this.length) {
+        if (this.formData.length < this.len) {
           this.loading = true
-          this.page ++
+          this.now ++
           this.getData()
           setTimeout(() => {
             this.loading = false

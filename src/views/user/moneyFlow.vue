@@ -49,7 +49,7 @@
         <span>资金用途</span>
         <span>金额（元）</span>
       </p>
-      <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+      <scroll-list @loadMore="loadMore" :more="len>1" :noData="show">
         <div class="money_box">
           <div v-for="n, k in list" class="money_list">
             <span class="left">
@@ -59,12 +59,7 @@
             <span :class="['right', {active: n.value<=0}]">{{n.value}}</span>
           </div>
         </div>
-      </div>
-      <p v-if="loading" class="load_more">加载中······</p>
-      <div class="nodata" v-if="!list.length">
-        <div class="nodata_img"></div>
-        <p>暂无列表信息</p>
-      </div>
+      </scroll-list>
     </div>
     <MyMask :form="edit==='auth'?[]:withdrawals" :title="title" v-if="edit" @submit="submit" @closeMask="closeMask" @onChange="onChange">
       <p slot="fee">手续费：{{chargeMoney|format}}元<span class="fee">({{fee*100+'%'}})</span></p>
@@ -79,13 +74,11 @@
   import { mapState } from 'vuex'
   import MyMask from '@/components/common/Mask'
   import Pager from '@/components/common/Pager'
+  import ScrollList from '@/components/common/ScrollList'
   import OprSelect from '@/components/common/OprSelect'
-  import Vue from 'vue'
-  import { InfiniteScroll } from 'mint-ui'
-  Vue.use(InfiniteScroll)
   export default {
     components: {
-      MyMask, Pager, OprSelect
+      MyMask, Pager, OprSelect, ScrollList
     },
     data () {
       return {
@@ -106,7 +99,8 @@
         chargeMoney: 0,
         balance: 0,
         title: '',
-        maskNo: 0
+        maskNo: 0,
+        show: false
       }
     },
     methods: {
@@ -162,6 +156,7 @@
             this.list = res.value_list
           }
           if (this.now > 1) return false
+          this.show = !this.list.length
           this.len = Math.ceil(res.total_num / 15)
         })
       },

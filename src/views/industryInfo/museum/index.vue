@@ -10,6 +10,10 @@
           <router-link class="button" :to="'museum/detail/' + n.id">查看详情</router-link>
         </div>
       </div>
+      <div class="nodata" v-if="noData">
+        <div class="nodata_img"></div>
+        <p>暂无列表信息</p>
+      </div>
       <Pager :len="len" :now="now" @setPage="setPage"></Pager>
     </div>
   </pageFrame>
@@ -30,18 +34,18 @@
         len: 0,
         now: 1,
         museum: [],
-        allid: []
+        noData: false
       }
     },
     methods: {
       getList () {
         util.post('NewsMuseumList', {token: 0, page: this.now}).then((res) => {
           this.museum = res.msg.list
-          this.allid = res.msg.id_list
-          localStorage.setItem('all_id', JSON.stringify(this.allid))
+          localStorage.setItem('all_id', JSON.stringify(res.msg.id_list))
           this.showImg = !res.msg.total
           if (this.now > 1) return false
           this.len = Math.ceil(res.msg.total / 5)
+          if (!this.museum.length) this.noData = true
         })
       },
       setPage (n) {
@@ -116,5 +120,10 @@
         }
       }
     }
+    .nodata {
+      width: 100%;
+      margin-top: 100px !important;
+    }
+    @include nodata
   }
 </style>

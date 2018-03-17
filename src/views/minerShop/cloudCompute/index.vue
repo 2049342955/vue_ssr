@@ -6,12 +6,11 @@
         <div class="data">
           <template v-if="isMobile===0">
             <CloudMinerItem v-for="d,k in cloudMinerData" :d="d" :key="k"></CloudMinerItem>
+            <no-data :product="true" v-if="show"></no-data>
           </template>
-          <ScrollList v-if="isMobile===1" :data="cloudMinerData" :len="len" :now="now" @getMobileData="getMobileData"></ScrollList>
-          <div class="nodata" v-if="$parent.show">
-            <div class="nodata_img"></div>
-            <p>即将上线，敬请期待</p>
-          </div>
+          <scroll-list @loadMore="loadMore" :more="len>1" :noData="show" :product="true" v-else-if="isMobile===1">
+            <MobileCloudMinerItem class="MobileCloudMinerItem" v-for="n,k in cloudMinerData" :data="n" :key="k"></MobileCloudMinerItem>
+          </scroll-list>
         </div>
       </div>
     </section>
@@ -23,12 +22,14 @@
   import { fetchApiData } from '@/util'
   import { mapState } from 'vuex'
   import CloudMinerItem from '@/components/cloudCompute/CloudMinerItem'
-  import ScrollList from '@/components/product/ScrollList'
+  import MobileCloudMinerItem from '@/components/cloudCompute/MobileCloudMinerItem'
+  import ScrollList from '@/components/common/ScrollList'
+  import NoData from '@/components/common/NoData'
   import Pager from '@/components/common/Pager'
   import Sort from '@/components/common/Sort'
   export default {
     components: {
-      CloudMinerItem, ScrollList, Pager, Sort
+      CloudMinerItem, MobileCloudMinerItem, ScrollList, Pager, Sort, NoData
     },
     data () {
       return {
@@ -54,6 +55,17 @@
       }
     },
     methods: {
+      loadMore () {
+        if (this.now < this.len) {
+          this.loading = true
+          this.getMobileData(1)
+          setTimeout(() => {
+            this.loading = false
+          }, 1000)
+        } else {
+          this.loading = false
+        }
+      },
       fetchData (sort, more) {
         var obj = {token: this.token, page: this.now, product_type: '1'}
         if (sort) {
@@ -64,9 +76,9 @@
         }
         fetchApiData(this, 'productList', obj, (res) => {
           this.setData(more, res.data, 'cloudMinerData')
-          this.show = !res.data.length
           if (this.now > 1) return false
           this.len = res.page.total_page
+          this.show = !this.cloudMinerData.length
         })
       },
       setStatus (n) {
@@ -125,39 +137,24 @@
       padding-top:20px;
       padding-bottom:30px;
       background: #f6f7f9;
+      min-height: calc(100vh - 1.88rem - 12px);
       .box{
         @include main
         .data{
-          .item.MobileCloudMinerItem{
+          .item {
             @include cloud_miner_box
           }
-        }
-      }
-      .loadmore{
-        text-align: center;
-      }
-      .nodata{
-        background: #fff;
-        min-height:500px;
-        padding-top:100px;
-        text-align: center;
-        .nodata_img{
-          display: inline-block;
-          width: 305px;
-          height: 234px;
-          background: url('~@/assets/images/css_sprites.png') -10px -10px;
-        }
-        p{
-          color:$light_black;
-          margin-top:15px
         }
       }
       @media screen and (max-width: $mobile) {
         padding-top:0;
         padding-bottom: 0.2rem;
-        .box .data .item{
-          h3{
+        .box .data .scroll_list{
+          .item h3{
             margin-bottom:0;
+          }
+          .nodata.pro{
+            margin-top: 5px
           }
         }
       }
